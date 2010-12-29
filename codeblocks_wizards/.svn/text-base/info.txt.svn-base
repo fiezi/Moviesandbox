@@ -1,7 +1,0 @@
-In order to facilitate adding buttons, actors and nodes to Moviesandbox, 
-just add these folders to your %CodeBlocks%\share\CodeBlocks\templates\wizard\ directory,
-whereas %CodeBlocks% is the main CodeBlocks install dir.
-
-Also, you need to add those in the config.script file. More details to follow...
-
-MSBActor, MSBButton and MSBNode will then show up in the New ->File... menu in Codeblocks
