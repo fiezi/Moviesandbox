@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<Moviesandbox>
+
+    <!--
+      WindowSizeX="2560"
+      WindowSizeY="720"
+      ScreenSizeX="1280"
+      ScreenSizeY="720"
+      bRenderStereo="1"
+
+      WindowSizeX="1024"
+      WindowSizeY="768"
+      ScreenSizeX="1024"
+      ScreenSizeY="768"
+      bRenderStereo="0"
+
+      WindowSizeX="3840"
+      WindowSizeY="1024"
+      ScreenSizeX="1280"
+      ScreenSizeY="1024"
+      bRenderStereo="1"
+
+      WindowSizeX="1280"
+      WindowSizeY="960"
+      ScreenSizeX="1280"
+      ScreenSizeY="960"
+      bRenderStereo="0"
+
+      WindowSizeX="1024"
+      WindowSizeY="700"
+      ScreenSizeX="1024"
+      ScreenSizeY="700"
+
+      WindowSizeX="800"
+      WindowSizeY="600"
+      ScreenSizeX="800"
+      ScreenSizeY="600"
+      -->
+
+    <Rendersettings
+
+
+      WindowSizeX="1024"
+      WindowSizeY="768"
+      ScreenSizeX="1024"
+      ScreenSizeY="768"
+      bRenderStereo="0"
+
+      bFullScreen="0"
+
+      BackgroundTex="sunset"
+
+      bDrawLighting="0"
+      bMultisample="0"
+      numSamples="2"
+
+      ShadowSize="768"
+      SceneSize="768"
+
+      MouseSensitivity="0.04"
+      MoveSpeed="8.0"
+      FOV="45"
+      StartSceneFile="blank.scene">
+    </Rendersettings>
+
+    <Library Library="resources/basic.library" />
+    <Library Library="resources/my.library" />
+
+</Moviesandbox>

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/373/trunk/shaders/post
+END
+post.frag
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/373/trunk/shaders/post/post.frag
+END
+post.vert
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/260/trunk/shaders/post/post.vert
+END
+deferredLight.frag
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/366/trunk/shaders/post/deferredLight.frag
+END

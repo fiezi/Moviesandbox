@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/301/trunk/resources/actions
+END
+std_idle.action
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/301/trunk/resources/actions/std_idle.action
+END
+std_walk.action
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/301/trunk/resources/actions/std_walk.action
+END

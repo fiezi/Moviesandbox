@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/316/trunk/external/oscpack
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/250/trunk/external/oscpack/LICENSE
+END
+TODO
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/250/trunk/external/oscpack/TODO
+END
+make.MinGW32.bat
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/250/trunk/external/oscpack/make.MinGW32.bat
+END
+CHANGES
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/250/trunk/external/oscpack/CHANGES
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/250/trunk/external/oscpack/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/250/trunk/external/oscpack/README
+END

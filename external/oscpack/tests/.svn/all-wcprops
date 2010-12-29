@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/250/trunk/external/oscpack/tests
+END
+OscSendTests.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscSendTests.cpp
+END
+OscSendTests.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscSendTests.h
+END
+OscReceiveTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscReceiveTest.cpp
+END
+OscUnitTests.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscUnitTests.cpp
+END
+OscReceiveTest.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscReceiveTest.h
+END
+OscUnitTests.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/trunk/external/oscpack/tests/OscUnitTests.h
+END

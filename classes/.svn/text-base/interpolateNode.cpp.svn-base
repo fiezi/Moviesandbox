@@ -1,0 +1,92 @@
+
+
+#include <interpolateNode.h>
+#include <control.h>
+#include <input.h>
+
+InterpolateNode::InterpolateNode(){
+
+name="Interpolate";
+
+moveActor=NULL;
+targetActor=NULL;
+moveTime=1.0;
+
+bNeedMover=true;
+
+listType.push_back("15PickWorldButton");
+listName.push_back("moveActor");
+listProp.push_back("MOVEACTOR");
+
+listType.push_back("15PickWorldButton");
+listName.push_back("targetActor");
+listProp.push_back("TARGETACTOR");
+
+listType.push_back("15TextInputButton");
+listName.push_back("moveTime");
+listProp.push_back("MOVETIME");
+
+color=Vector4f(0.5,0.5,0.5,1.0);
+registerProperties();
+}
+
+InterpolateNode::~InterpolateNode(){}
+
+void InterpolateNode::registerProperties(){
+
+Node::registerProperties();
+createMemberID("MOVETIME",&moveTime,this);
+createMemberID("MOVEACTOR",&moveActor,this);
+createMemberID("TARGETACTOR",&targetActor,this);
+}
+
+void InterpolateNode::start(){
+
+
+bNeedMover=true;
+//create interpolationHelper
+//moveActor->movers.push_back(new InterpolationHelper);
+//moveActor->mover->targetActor=targetActor;
+//cout << "executing interpolation: " << moveActor->name << "with target: " << moveActor->mover->targetActor->name << endl;
+}
+
+void InterpolateNode::stop(){
+
+}
+
+void InterpolateNode::execute(){
+
+
+    if (bNeedMover){
+        InterpolationHelper* lerp= new InterpolationHelper;
+        lerp->bInterpolateActor=true;
+        lerp->moveActor=moveActor;
+        lerp->targetActor=targetActor;
+        lerp->moveTime=moveTime * 1000.0;
+        lerp->startTime=renderer->currentTime;
+        lerp->baseLocation=moveActor->location;
+        lerp->baseRotation=moveActor->rotation;
+        lerp->bLooping=false;
+        lerp->bLinear=false;
+        moveActor->movers.push_back(lerp);
+        bNeedMover=false;
+    }else{
+
+        nextNode();
+    }
+    //TODO: if (bWaitForMoveActor && moveActor->mover)
+
+}
+
+
+void InterpolateNode::update(double deltaTime){
+
+Node::update(deltaTime);
+}
+
+void InterpolateNode::trigger(Actor * other){
+
+Node::trigger(other);
+}
+
+void InterpolateNode::create(){renderer->addNode(this);}

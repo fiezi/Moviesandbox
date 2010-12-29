@@ -1,0 +1,174 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Code::Blocks new file wizard script
+//
+// Project: Moviesandbox Button
+// Author:  Friedrich Kirschner (updated empty file template by Yiannis Mandravellos)
+//
+////////////////////////////////////////////////////////////////////////////////
+
+file_contents_h <- @"#ifndef H_GUARD
+#define H_GUARD
+
+#include ''basicButton.h''
+
+class CLASSNAME: public BasicButton{
+
+public:
+
+    CLASSNAME();
+    virtual ~CLASSNAME();
+    
+    virtual void setup();
+    virtual void update(double deltaTime);
+
+    virtual void mouseOver();
+    
+    virtual void mouseDrag();
+    virtual void finishDrag();
+    
+    virtual void clickedLeft();
+    virtual void clickedRight();
+    
+    virtual void focusClick();
+    
+    virtual void deselect(int depth);
+    
+    virtual void create();
+};
+#endif // GUARD
+";
+
+
+file_contents_cpp <- @"
+
+#include ''HFILE''
+#include ''renderer.h''
+#include ''input.h''
+CLASSNAME::CLASSNAME(){
+
+registerProperties();
+}
+CLASSNAME::~CLASSNAME(){}
+
+
+void CLASSNAME::setup(){
+BasicButton::setup();
+
+}
+
+void CLASSNAME::update(double deltaTime){}
+
+void CLASSNAME::mouseOver(){
+
+BasicButton::mouseOver();
+}
+
+void CLASSNAME::mouseDrag(){}
+void CLASSNAME::finishDrag(){}
+void CLASSNAME::clickedLeft(){}
+void CLASSNAME::clickedRight(){}
+void CLASSNAME::focusClick(){
+
+BasicButton::focusClick();
+}
+
+void CLASSNAME::deselect(int depth){
+
+BasicButton::deselect(depth);
+}
+
+void CLASSNAME::create(){renderer->addButton(this);}
+";
+
+
+function BeginWizard()
+{
+    local info_msg = _T("Welcome to the MSB Button wizard!\n" +
+                        "This wizard will guide you to create a new Moviesandbox Button.\n\n" +
+                        "Please don't add a file extension (like '.h', as this Wizard will add one for you." +
+                        "When you 're ready to proceed, please click \"Next\"...");
+
+    // add builtin pages
+    Wizard.AddInfoPage(_T("MSBFileIntro"), info_msg);
+    Wizard.AddFilePathPage(false); // select filename (no header guard)
+}
+
+function CreateFiles()
+{
+    local fname = Wizard.GetFileName();
+    local hname = fname;
+    local ed    = GetEditorManager();
+    if (IsNull(ed))
+    {
+        ShowError(_T("The wizard could not locate the editor manager."));
+    }
+       hname=fname+_T(".h");
+       // succeeded -> find real name
+        local localName=_T("");
+        localName=hname.AfterLast('\\');
+
+        //remove .h
+        local name=localName.BeforeFirst('.');
+
+        local allCaps=_T("");
+        allCaps=name.Upper();
+
+        local className=_T("");
+        className=allCaps.Mid(0,1);
+        className=className + name.Right(name.length()-1)
+
+
+    //for .h
+    local ed_new = ed.New(hname);
+    if (IsNull(ed_new))
+    {
+        ShowError(_T("The wizard could not create a new file.\n" +
+                     "Maybe the target folder is write-protected?"));
+    }
+    else
+    {
+        local text = _T(file_contents_h);
+        text.Replace(_T("CLASSNAME"), className);
+        text.Replace(_T("GUARD"), allCaps);
+        text.Replace(_T("''"), _T("\""));
+        ed_new.SetText(text);
+
+        // succeeded -> add file to project if needed
+        if (Wizard.GetFileAddToProject())
+        {
+            AddFileToTargets(Wizard, hname);
+        }
+    }
+
+    //for .cpp
+
+    local cppfname=fname;
+    cppfname=cppfname+_T(".cpp");
+    
+    local ed_cpp = ed.New(cppfname);
+    if (IsNull(ed_cpp))
+    {
+        ShowError(_T("The wizard could not create a new file.\n" +
+                     "Maybe the target folder is write-protected?"));
+    }
+    else
+    {
+        // succeeded -> find real name
+
+        local text = _T(file_contents_cpp);
+        text.Replace(_T("CLASSNAME"), className);
+        text.Replace(_T("HFILE"), localName);
+        text.Replace(_T("''"), _T("\""));
+        ed_cpp.SetText(text);
+        ed.SaveAll();
+
+        // succeeded -> add file to project if needed
+        if (Wizard.GetFileAddToProject())
+        {
+            AddFileToTargets(Wizard, cppfname);
+        }
+    }
+
+    return hname;
+}

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/251/trunk/external/freeglut/lib
+END
+libglut.a
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/251/trunk/external/freeglut/lib/libglut.a
+END
+libglut.dylib
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/250/trunk/external/freeglut/lib/libglut.dylib
+END
+libglut.3.dylib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/trunk/external/freeglut/lib/libglut.3.dylib
+END
+libglut.3.9.0.dylib
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/250/trunk/external/freeglut/lib/libglut.3.9.0.dylib
+END
+libglut.la
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/251/trunk/external/freeglut/lib/libglut.la
+END

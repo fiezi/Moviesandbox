@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/250/trunk/external/quicktime/Libraries
+END
+qtmlClient.lib
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/250/trunk/external/quicktime/Libraries/qtmlClient.lib
+END
+Rave.lib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/250/trunk/external/quicktime/Libraries/Rave.lib
+END
+qtmlClient.dll
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/250/trunk/external/quicktime/Libraries/qtmlClient.dll
+END
+QTSClient.lib
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/250/trunk/external/quicktime/Libraries/QTSClient.lib
+END

@@ -1,0 +1,30 @@
+K 10
+svn:ignore
+V 370
+.prefab
+baseMouth.prefab
+bi.prefab
+billboard.prefab
+dressSkel.prefab
+four.prefab
+fullDress.prefab
+fullSwansa.prefab
+gionCart.prefab
+gionSkel.prefab
+godRaySetup.prefab
+hui.prefab
+hut.prefab
+mouthSkel.prefab
+newSkel.prefab
+oldManSkel.prefab
+skel.prefab
+skirtPhys.prefab
+teatime.prefab
+test.prefab
+testMe.prefab
+tine_Gesicht.prefab
+tri.prefab
+tri2.prefab
+watchtower.prefab
+
+END
