@@ -1,4 +1,6 @@
-
+/*
+    Inspector Base Class
+*/
 
 #include "inspector.h"
 #include "renderer.h"

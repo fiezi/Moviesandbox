@@ -55,16 +55,16 @@
 	<File name="classes\console.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1770" topLine="0" />
 	</File>
-	<File name="classes\content.cpp" open="1" top="0" tabpos="9">
+	<File name="classes\content.cpp" open="0" top="0" tabpos="9">
 		<Cursor position="8101" topLine="34" />
 	</File>
 	<File name="classes\content.h" open="0" top="0" tabpos="8">
 		<Cursor position="615" topLine="0" />
 	</File>
-	<File name="classes\control.cpp" open="1" top="0" tabpos="7">
+	<File name="classes\control.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="2918" topLine="0" />
 	</File>
-	<File name="classes\control.h" open="1" top="0" tabpos="8">
+	<File name="classes\control.h" open="0" top="0" tabpos="8">
 		<Cursor position="610" topLine="0" />
 	</File>
 	<File name="classes\createActorButton.cpp" open="0" top="0" tabpos="0">
@@ -73,14 +73,14 @@
 	<File name="classes\createPrefabButton.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
 	</File>
-	<File name="classes\drawTool.cpp" open="1" top="0" tabpos="1">
+	<File name="classes\drawTool.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="4020" topLine="12" />
 	</File>
 	<File name="classes\drawTool.h" open="0" top="0" tabpos="4">
 		<Cursor position="964" topLine="0" />
 	</File>
-	<File name="classes\drawingWidget.cpp" open="1" top="1" tabpos="6">
-		<Cursor position="1752" topLine="0" />
+	<File name="classes\drawingWidget.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="508" topLine="0" />
 	</File>
 	<File name="classes\drawingWidget.h" open="0" top="0" tabpos="0">
 		<Cursor position="494" topLine="0" />
@@ -106,8 +106,8 @@
 	<File name="classes\input.h" open="0" top="0" tabpos="2">
 		<Cursor position="474" topLine="18" />
 	</File>
-	<File name="classes\inspector.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1501" topLine="0" />
+	<File name="classes\inspector.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="28" topLine="0" />
 	</File>
 	<File name="classes\inspector.h" open="0" top="0" tabpos="0">
 		<Cursor position="440" topLine="0" />
@@ -148,10 +148,10 @@
 	<File name="classes\navTool.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1481" topLine="1" />
 	</File>
-	<File name="classes\particleSelectTool.cpp" open="1" top="0" tabpos="4">
+	<File name="classes\particleSelectTool.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="1730" topLine="0" />
 	</File>
-	<File name="classes\particleSelectTool.h" open="1" top="0" tabpos="5">
+	<File name="classes\particleSelectTool.h" open="0" top="0" tabpos="5">
 		<Cursor position="468" topLine="0" />
 	</File>
 	<File name="classes\pilot.cpp" open="0" top="0" tabpos="0">
@@ -181,10 +181,10 @@
 	<File name="classes\skeletalDrawing.h" open="0" top="0" tabpos="0">
 		<Cursor position="158" topLine="0" />
 	</File>
-	<File name="classes\skinTool.cpp" open="1" top="0" tabpos="2">
+	<File name="classes\skinTool.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="235" topLine="0" />
 	</File>
-	<File name="classes\skinTool.h" open="1" top="0" tabpos="3">
+	<File name="classes\skinTool.h" open="0" top="0" tabpos="3">
 		<Cursor position="67" topLine="0" />
 	</File>
 	<File name="classes\sliderButton.cpp" open="0" top="0" tabpos="0">
