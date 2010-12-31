@@ -104,7 +104,16 @@
 #include "meshData.h"
 
 #ifdef TARGET_WIN32
-#include <Commdlg.h>
+
+    #include <Commdlg.h>
+    #include <stdio.h>
+    #include <conio.h>
+    #include <tchar.h>
+
+    #define BUF_SIZE 640*480*8
+    TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
+
+
 #endif
 
 //static link
@@ -599,6 +608,10 @@ void Renderer::setup(){
     cout << "finished loading basic stuff" << endl;
 
 
+    //now set up custom actors from content
+
+    content->createActorContent();
+
     //background Color
 
 	if (!GLEE_EXT_framebuffer_multisample){
@@ -907,7 +920,58 @@ void Renderer::checkFBOStatus(){
 }
 
 
+int Renderer::readSharedMemory(){
+
+   HANDLE hMapFile;
+   LPCTSTR pBuf;
+
+   hMapFile = OpenFileMapping(
+                   FILE_MAP_ALL_ACCESS,   // read/write access
+                   FALSE,                 // do not inherit the name
+                   szName);               // name of mapping object
+
+
+   if (hMapFile == NULL)
+   {
+      printf(TEXT("Could not open file mapping object (%d).\n"),
+             GetLastError());
+      return 1;
+   }
+
+   pBuf = (LPTSTR) MapViewOfFile(hMapFile, // handle to map object
+               FILE_MAP_ALL_ACCESS,  // read/write permission
+               0,
+               0,
+               BUF_SIZE);
+
+   if (pBuf != NULL)
+   {
+       for (int i=0;i<320*240;i++){
+           if (pBuf[i] > 0){
+                vboList["kinectTest"]->vData[i].location.z=pBuf[i];
+                vboList["kinectTest"]->vData[i].location.z/=-8.0f;
+                vboList["kinectTest"]->vData[i].color.b=(float)pBuf[i]/32.0f;
+                vboList["kinectTest"]->vData[i].location.w=0.01f;
+           }
+           else
+                vboList["kinectTest"]->vData[i].location.w=0.0f;
+       }
+
+        UnmapViewOfFile((void*)pBuf);
+
+        CloseHandle(hMapFile);
+
+        return 1;
+   }else{
+
+      CloseHandle(hMapFile);
+   }
+   return 0;
+}
+
 void Renderer::update(){
+
+    readSharedMemory();
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 
@@ -953,7 +1017,6 @@ void Renderer::update(){
 	glutPostRedisplay();
 	//draw();
 	#endif
-
 
 }
 

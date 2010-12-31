@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
+	<ActiveTarget name="release" />
 	<File name="classes\actor.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="10302" topLine="37" />
+		<Cursor position="19807" topLine="114" />
 	</File>
 	<File name="classes\actor.h" open="0" top="0" tabpos="2">
 		<Cursor position="4366" topLine="11" />
@@ -22,14 +22,14 @@
 	<File name="classes\boneWidget.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="2050" topLine="0" />
 	</File>
-	<File name="classes\brush.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="2408" topLine="0" />
+	<File name="classes\brush.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="4833" topLine="9" />
 	</File>
 	<File name="classes\brush.h" open="0" top="0" tabpos="6">
 		<Cursor position="936" topLine="9" />
 	</File>
 	<File name="classes\brushFilter.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="1410" topLine="0" />
+		<Cursor position="870" topLine="0" />
 	</File>
 	<File name="classes\brushInspector.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="5757" topLine="20" />
@@ -47,7 +47,7 @@
 		<Cursor position="470" topLine="0" />
 	</File>
 	<File name="classes\colorPickButton.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1318" topLine="4" />
+		<Cursor position="146" topLine="0" />
 	</File>
 	<File name="classes\colorPickButton.h" open="0" top="0" tabpos="0">
 		<Cursor position="329" topLine="0" />
@@ -55,11 +55,11 @@
 	<File name="classes\console.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1770" topLine="0" />
 	</File>
-	<File name="classes\content.cpp" open="0" top="0" tabpos="9">
-		<Cursor position="8101" topLine="34" />
+	<File name="classes\content.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="20425" topLine="127" />
 	</File>
 	<File name="classes\content.h" open="0" top="0" tabpos="8">
-		<Cursor position="615" topLine="0" />
+		<Cursor position="731" topLine="5" />
 	</File>
 	<File name="classes\control.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="2918" topLine="0" />
@@ -73,14 +73,14 @@
 	<File name="classes\createPrefabButton.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="917" topLine="0" />
 	</File>
-	<File name="classes\drawTool.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4020" topLine="12" />
+	<File name="classes\drawTool.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="4688" topLine="27" />
 	</File>
 	<File name="classes\drawTool.h" open="0" top="0" tabpos="4">
 		<Cursor position="964" topLine="0" />
 	</File>
 	<File name="classes\drawingWidget.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="508" topLine="0" />
+		<Cursor position="1265" topLine="0" />
 	</File>
 	<File name="classes\drawingWidget.h" open="0" top="0" tabpos="0">
 		<Cursor position="494" topLine="0" />
@@ -100,13 +100,13 @@
 	<File name="classes\includes.h" open="0" top="0" tabpos="0">
 		<Cursor position="2160" topLine="36" />
 	</File>
-	<File name="classes\input.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="12005" topLine="54" />
+	<File name="classes\input.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="24410" topLine="243" />
 	</File>
 	<File name="classes\input.h" open="0" top="0" tabpos="2">
 		<Cursor position="474" topLine="18" />
 	</File>
-	<File name="classes\inspector.cpp" open="1" top="1" tabpos="0">
+	<File name="classes\inspector.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="28" topLine="0" />
 	</File>
 	<File name="classes\inspector.h" open="0" top="0" tabpos="0">
@@ -122,7 +122,7 @@
 		<Cursor position="209" topLine="0" />
 	</File>
 	<File name="classes\main.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="984" topLine="0" />
+		<Cursor position="2830" topLine="68" />
 	</File>
 	<File name="classes\main.h" open="0" top="0" tabpos="0">
 		<Cursor position="61" topLine="0" />
@@ -143,10 +143,10 @@
 		<Cursor position="1700" topLine="0" />
 	</File>
 	<File name="classes\msbTool.h" open="0" top="0" tabpos="0">
-		<Cursor position="891" topLine="7" />
+		<Cursor position="223" topLine="0" />
 	</File>
 	<File name="classes\navTool.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1481" topLine="1" />
+		<Cursor position="3169" topLine="26" />
 	</File>
 	<File name="classes\particleSelectTool.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="1730" topLine="0" />
@@ -154,17 +154,23 @@
 	<File name="classes\particleSelectTool.h" open="0" top="0" tabpos="5">
 		<Cursor position="468" topLine="0" />
 	</File>
+	<File name="classes\pickWorldButton.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="727" topLine="0" />
+	</File>
 	<File name="classes\pilot.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="514" topLine="0" />
 	</File>
 	<File name="classes\propsWidget.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="668" topLine="0" />
 	</File>
-	<File name="classes\renderer.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="60749" topLine="250" />
+	<File name="classes\ragDoll.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1743" topLine="0" />
 	</File>
-	<File name="classes\renderer.h" open="0" top="0" tabpos="2">
-		<Cursor position="7109" topLine="0" />
+	<File name="classes\renderer.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="27959" topLine="177" />
+	</File>
+	<File name="classes\renderer.h" open="0" top="0" tabpos="3">
+		<Cursor position="10087" topLine="0" />
 	</File>
 	<File name="classes\rotateButton.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="735" topLine="4" />
@@ -172,8 +178,8 @@
 	<File name="classes\selectTool.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="2638" topLine="15" />
 	</File>
-	<File name="classes\skeletalActor.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4047" topLine="71" />
+	<File name="classes\skeletalActor.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="1758" topLine="22" />
 	</File>
 	<File name="classes\skeletalDrawing.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="1458" topLine="0" />
@@ -223,11 +229,14 @@
 	<File name="classes\userPopUp.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="791" topLine="0" />
 	</File>
-	<File name="classes\win32\platformIncludes.h" open="0" top="0" tabpos="0">
-		<Cursor position="116" topLine="0" />
+	<File name="classes\win32\platformIncludes.h" open="0" top="0" tabpos="4">
+		<Cursor position="221" topLine="0" />
 	</File>
 	<File name="config.xml" open="0" top="0" tabpos="0">
 		<Cursor position="910" topLine="18" />
+	</File>
+	<File name="external\freetype\freetype\ftmac.h" open="0" top="0" tabpos="0">
+		<Cursor position="1426" topLine="0" />
 	</File>
 	<File name="external\glee\GLee.c" open="0" top="0" tabpos="0">
 		<Cursor position="3712" topLine="27" />
@@ -274,8 +283,8 @@
 	<File name="shaders\post\deferredLight.frag" open="0" top="0" tabpos="0">
 		<Cursor position="1910" topLine="59" />
 	</File>
-	<File name="shaders\post\post.frag" open="0" top="0" tabpos="1">
-		<Cursor position="1434" topLine="27" />
+	<File name="shaders\post\post.frag" open="1" top="1" tabpos="7">
+		<Cursor position="8246" topLine="83" />
 	</File>
 	<File name="shaders\skeletal.frag" open="0" top="0" tabpos="0">
 		<Cursor position="398" topLine="0" />

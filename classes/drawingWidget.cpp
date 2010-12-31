@@ -62,8 +62,6 @@ void DrawingWidget::closeWidget(){
 ///creates new drawing here!
 void DrawingWidget::trigger(Actor * other){
 
-
-
     if (other->name=="New Drawing" && (input->controller->tool==TOOL_DRAW || input->controller->tool==TOOL_CALLIGRAPHY) ){
         input->makeUserPopUp("Name your new drawing:",this);
     }

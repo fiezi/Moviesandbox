@@ -76,6 +76,8 @@ void SkeletalActor::postLoad(){
     }
     bones.clear();
     */
+    cout << "SkeletalActor Name: " << name << endl;
+
 	if (renderer->vboList[vboMeshID]->boneCount>0){
 		boneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
 		invBoneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
@@ -219,9 +221,9 @@ void SkeletalActor::updateShaders(){
         uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "boneTransforms");
         glUniformMatrix4fv(uniform_location,renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
         }
-	
+
     Actor::updateShaders();
-	
+
 
 }
 

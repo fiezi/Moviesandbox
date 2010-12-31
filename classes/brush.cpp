@@ -167,7 +167,6 @@ void Brush::createBone(){
 
 }
 
-
 void Brush::createNewDrawing(){
 
 	if (drawing){

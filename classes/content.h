@@ -39,5 +39,7 @@ public:
 
     void createInspectors();
 
+    void createActorContent();
+
 };
 #endif
