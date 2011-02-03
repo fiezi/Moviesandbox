@@ -211,7 +211,7 @@ void Content::createSelectButton(int x, int y){
     but->tooltip="select (i)";
     but->setLocation(but->location);
     but->textureID="icon_select";
-    but->color=COLOR_RED;
+    but->color=COLOR_WHITE;
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_SELECT]->myBtn=but;

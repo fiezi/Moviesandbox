@@ -4,8 +4,8 @@
 	<File name="classes\actor.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="19807" topLine="114" />
 	</File>
-	<File name="classes\actor.h" open="0" top="0" tabpos="2">
-		<Cursor position="4366" topLine="11" />
+	<File name="classes\actor.h" open="1" top="1" tabpos="8">
+		<Cursor position="2438" topLine="35" />
 	</File>
 	<File name="classes\basicButton.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1600" topLine="0" />
@@ -23,7 +23,7 @@
 		<Cursor position="2050" topLine="0" />
 	</File>
 	<File name="classes\brush.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="4833" topLine="9" />
+		<Cursor position="4833" topLine="0" />
 	</File>
 	<File name="classes\brush.h" open="0" top="0" tabpos="6">
 		<Cursor position="936" topLine="9" />
@@ -56,7 +56,7 @@
 		<Cursor position="1770" topLine="0" />
 	</File>
 	<File name="classes\content.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="20425" topLine="127" />
+		<Cursor position="20425" topLine="36" />
 	</File>
 	<File name="classes\content.h" open="0" top="0" tabpos="8">
 		<Cursor position="731" topLine="5" />
@@ -74,7 +74,7 @@
 		<Cursor position="917" topLine="0" />
 	</File>
 	<File name="classes\drawTool.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="4688" topLine="27" />
+		<Cursor position="4688" topLine="11" />
 	</File>
 	<File name="classes\drawTool.h" open="0" top="0" tabpos="4">
 		<Cursor position="964" topLine="0" />
@@ -101,7 +101,7 @@
 		<Cursor position="2160" topLine="36" />
 	</File>
 	<File name="classes\input.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="24410" topLine="243" />
+		<Cursor position="24410" topLine="103" />
 	</File>
 	<File name="classes\input.h" open="0" top="0" tabpos="2">
 		<Cursor position="474" topLine="18" />
@@ -170,7 +170,7 @@
 		<Cursor position="27959" topLine="177" />
 	</File>
 	<File name="classes\renderer.h" open="0" top="0" tabpos="3">
-		<Cursor position="10087" topLine="0" />
+		<Cursor position="483" topLine="0" />
 	</File>
 	<File name="classes\rotateButton.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="735" topLine="4" />
@@ -179,7 +179,7 @@
 		<Cursor position="2638" topLine="15" />
 	</File>
 	<File name="classes\skeletalActor.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="1758" topLine="22" />
+		<Cursor position="1758" topLine="0" />
 	</File>
 	<File name="classes\skeletalDrawing.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="1458" topLine="0" />
@@ -283,8 +283,8 @@
 	<File name="shaders\post\deferredLight.frag" open="0" top="0" tabpos="0">
 		<Cursor position="1910" topLine="59" />
 	</File>
-	<File name="shaders\post\post.frag" open="1" top="1" tabpos="7">
-		<Cursor position="8246" topLine="83" />
+	<File name="shaders\post\post.frag" open="1" top="0" tabpos="7">
+		<Cursor position="8246" topLine="53" />
 	</File>
 	<File name="shaders\skeletal.frag" open="0" top="0" tabpos="0">
 		<Cursor position="398" topLine="0" />
