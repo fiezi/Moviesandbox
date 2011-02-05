@@ -474,11 +474,11 @@ void Actor::updateShaders(){
     }
 
     //THESE bind to texture units it seems?
-
+/*
     if (renderer->shaderList[sceneShaderID]->shader){
         glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "tex"), 0);
     }
-
+*/
 
     if ( ( (drawType==DRAW_VBOMESH) && renderer->vboList[vboMeshID] && renderer->vboList[vboMeshID]->vertexInterpretation==GL_POINTS )
             || drawType==DRAW_PARTICLES){

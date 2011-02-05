@@ -1,3 +1,7 @@
+uniform sampler2D tex;
+//uniform sampler2D displacementTex;
+//uniform sampler2D normalTex;
+
 uniform float time;
 uniform mat4 cameraInverse;
 uniform float particleMultiplier;
@@ -37,9 +41,12 @@ void main(){
 
     N =  gl_NormalMatrix * gl_Normal;
 
+    myVertex.z=texture2D(tex,gl_TexCoord[0].st).g;
+    //myVertex.z=1.0;
+
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= pointSize();
+    //gl_PointSize= pointSize();
 
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;

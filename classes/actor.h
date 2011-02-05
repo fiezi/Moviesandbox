@@ -14,6 +14,8 @@
 #define DRAW_SPRITE         7
 #define DRAW_VBOMESH        8
 #define DRAW_SPECIAL        9
+#define DRAW_POINTPATCH     10
+
 
 #define DRAW_NULL           100
 

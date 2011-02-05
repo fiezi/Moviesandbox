@@ -1,4 +1,8 @@
 uniform sampler2D tex;
+//uniform sampler2D displacementTex;
+//uniform sampler2D normalTex;
+
+
 uniform vec4 postColor;
 uniform int bComputeLight;
 uniform int bSelected;
@@ -14,7 +18,7 @@ void main(){
 
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
 
-    gl_FragData[0]=color * gl_Color;
+    gl_FragData[0]= vec4(1.0,1.0,1.0,1.0);
 
     if (bSelected==1){
         gl_FragData[0]*=0.5;

@@ -80,6 +80,7 @@
     <Shader shaderID="color" vertexShaderFilename="shaders/color.vert" fragmentShaderFilename="shaders/color.frag" />
     <Shader shaderID="drawing" vertexShaderFilename="shaders/drawing.vert" fragmentShaderFilename="shaders/drawing.frag" />
     <Shader shaderID="texture" vertexShaderFilename="shaders/texture.vert" fragmentShaderFilename="shaders/texture.frag" />
+    <Shader shaderID="heightfield" vertexShaderFilename="shaders/particleHeightField.vert" fragmentShaderFilename="shaders/particleHeightField.frag" />
     <Shader shaderID="skeletal" vertexShaderFilename="shaders/skeletal.vert" fragmentShaderFilename="shaders/skeletal.frag" />
 
     <Shader shaderID="skinning" vertexShaderFilename="shaders/skinning.vert" fragmentShaderFilename="shaders/skinning.frag" />

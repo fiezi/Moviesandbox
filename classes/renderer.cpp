@@ -977,7 +977,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    readSharedMemory();           //not in stable branch!
+    //readSharedMemory();           //not in stable branch!
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 
@@ -1788,6 +1788,9 @@ void Renderer::drawActor(Actor* a){
     if (a->bTextured)
         setupTexturing(a->textureID, a);
 
+//    if (a->bDisplaced)
+//        setupTexturing(a->textureID, a);
+
     //alpha blending
     glBlendFunc(a->blendModeOne,a->blendModeTwo);
 //	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
@@ -1818,6 +1821,7 @@ void Renderer::drawActor(Actor* a){
         else if (a->drawType==DRAW_CUBE)        drawCube(a->collisionCubeSize, a->scale.x);                 //Mesh
         else if (a->drawType==DRAW_TEA)         a->drawTeapot();
         else if (a->drawType==DRAW_SPECIAL)     a->draw();
+        else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
 
 
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
@@ -1980,6 +1984,76 @@ setupShading("post");
         glEnable(GL_BLEND);
 }
 
+/****************************************
+*
+*   transforms, textures and Shaders
+*
+*****************************************/
+
+
+void Renderer::setupShading(string shaderName){
+
+    if (shaderName!=lastShader && shaderList[shaderName]){
+        glUseProgram(shaderList[shaderName]->shader);
+        lastShader=shaderName;
+        }
+    if (!shaderList[shaderName])
+        cout << "found bad shader: " << shaderName << endl;
+
+}
+
+void Renderer::setupTexturing(string texName, Actor* a, GLenum texChannel){
+
+  glBindTexture(GL_TEXTURE_2D, textureList[texName]->texture);
+
+    if (!a)
+        return;
+
+    //texture animation
+    if (textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > textureList[texName]->frameRate ){
+        a->textTimer += textureList[texName]->frameRate;
+        a->textureID=textureList[texName]->nextTexture;
+        }
+
+    transformTextureMatrix(a);
+
+}
+
+
+
+void Renderer::transformActorMatrix(Actor* a){
+
+
+    glMultMatrixf(a->baseMatrix);
+
+    a->orientation=a->location+a->zAxis;
+}
+
+void Renderer::transformTextureMatrix(Actor* a){
+
+    glActiveTexture(GL_TEXTURE0);
+    glMatrixMode( GL_TEXTURE );
+    glLoadIdentity();
+
+        // make changes to the texture
+        glTranslatef(a->texTranslation.x,a->texTranslation.y,a->texTranslation.z);
+
+        glRotatef(a->texRotation.x,1,0,0);
+        glRotatef(a->texRotation.y,0,1,0);
+        glRotatef(a->texRotation.z,0,0,1);
+
+        glScalef(a->texScale.x,a->texScale.y,a->texScale.z);
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+
+/****************************************
+*
+*   Basic Shape drawing
+*
+*****************************************/
+
 void Renderer::drawBone(float width, float height, float depth){
 
 
@@ -2043,6 +2117,49 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
         glDisableClientState( GL_COLOR_ARRAY);
 
 
+}
+
+void Renderer::drawPatch(float width, float height, float resolution){
+
+    //create a vertex array for a quad patch with "resolution" amount of vertices per side
+    //lets do points for now...
+
+    vector<Vector4f> vertices;
+    vector<GLfloat> texCoords;
+
+    for (int h=0;h<resolution;h++){
+
+        //for every line...
+        for (int l=0;l<resolution;l++){
+            Vector4f myVertex;
+            myVertex.x=float(l) * width/(resolution-1.0) - width/2.0f;            //x-coord
+            myVertex.y=float(h) * height/(resolution-1.0) - height/2.0f;
+            myVertex.z=0.0f;
+            myVertex.w=0.01f;
+
+            vertices.push_back(myVertex);
+
+
+            texCoords.push_back( float(l) /(resolution-1.0) );        //x-texCoord
+            texCoords.push_back( float(h) /(resolution-1.0) );        //y-texCoord
+        }
+    }
+
+    // activate and specify pointer to vertex array
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    GLfloat *verts=&vertices[0].x;
+
+    glVertexPointer(4, GL_FLOAT, 0, verts);
+    glTexCoordPointer(2, GL_FLOAT, 0, &texCoords[0]);
+
+    // draw the patch as points
+    glDrawArrays(GL_POINTS, 0, resolution* resolution );
+
+    // deactivate vertex arrays after drawing
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void Renderer::drawLine(Vector3f start, Vector3f end, Vector4f startColor, Vector4f endColor){
@@ -2223,61 +2340,6 @@ void Renderer::drawSprite(){
     glEnd();
 }
 
-void Renderer::setupShading(string shaderName){
-
-    if (shaderName!=lastShader && shaderList[shaderName]){
-        glUseProgram(shaderList[shaderName]->shader);
-        lastShader=shaderName;
-        }
-    if (!shaderList[shaderName])
-        cout << "found bad shader: " << shaderName << endl;
-
-}
-
-void Renderer::setupTexturing(string texName, Actor* a){
-
-  glBindTexture(GL_TEXTURE_2D, textureList[texName]->texture);
-
-    if (!a)
-        return;
-
-    //texture animation
-    if (textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > textureList[texName]->frameRate ){
-        a->textTimer += textureList[texName]->frameRate;
-        a->textureID=textureList[texName]->nextTexture;
-        }
-
-    transformTextureMatrix(a);
-
-}
-
-
-
-void Renderer::transformActorMatrix(Actor* a){
-
-
-    glMultMatrixf(a->baseMatrix);
-
-    a->orientation=a->location+a->zAxis;
-}
-
-void Renderer::transformTextureMatrix(Actor* a){
-
-    glActiveTexture(GL_TEXTURE0);
-    glMatrixMode( GL_TEXTURE );
-    glLoadIdentity();
-
-        // make changes to the texture
-        glTranslatef(a->texTranslation.x,a->texTranslation.y,a->texTranslation.z);
-
-        glRotatef(a->texRotation.x,1,0,0);
-        glRotatef(a->texRotation.y,0,1,0);
-        glRotatef(a->texRotation.z,0,0,1);
-
-        glScalef(a->texScale.x,a->texScale.y,a->texScale.z);
-
-    glMatrixMode(GL_MODELVIEW);
-}
 
 //************************************************************
 //
