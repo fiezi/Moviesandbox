@@ -977,7 +977,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    readSharedMemory();
+    //readSharedMemory();           //not in stable branch!
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 

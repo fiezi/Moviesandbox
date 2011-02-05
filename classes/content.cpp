@@ -662,6 +662,10 @@ void Content::createInspectors(){
 
 void Content::createActorContent(){
 
+/*
+
+    // not in stable branch!
+
 
     Renderer* renderer=Renderer::getInstance();
     Input* input=Input::getInstance();
@@ -705,7 +709,7 @@ void Content::createActorContent(){
         }
     }
     //drawing->setup();
-
+*/
 }
 
 void Content::reset(){
