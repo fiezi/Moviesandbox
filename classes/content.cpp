@@ -662,7 +662,7 @@ void Content::createInspectors(){
 
 void Content::createActorContent(){
 
-/*
+
 
     // not in stable branch!
 
@@ -709,7 +709,7 @@ void Content::createActorContent(){
         }
     }
     //drawing->setup();
-*/
+
 }
 
 void Content::reset(){
