@@ -1802,10 +1802,10 @@
 1293667239 c:\moviesandbox\classes\basicbutton.h
 	"actor.h"
 
-1293666311 c:\moviesandbox\classes\actor.h
+1296696695 c:\moviesandbox\classes\actor.h
 	"includes.h"
 
-1293666311 c:\moviesandbox\classes\includes.h
+1296700961 c:\moviesandbox\classes\includes.h
 	"platformIncludes.h"
 	<stdlib.h>
 	<stdio.h>
@@ -2308,7 +2308,7 @@
 1293667240 c:\moviesandbox\classes\consolecommandnode.h
 	"node.h"
 
-1293753382 source:c:\moviesandbox\classes\content.cpp
+1296703380 source:c:\moviesandbox\classes\content.cpp
 	"content.h"
 	"input.h"
 	"drawingWidget.h"
@@ -2521,7 +2521,7 @@
 1293666311 c:\moviesandbox\classes\loadbutton.h
 	<listButton.h>
 
-1293666311 source:c:\moviesandbox\classes\input.cpp
+1296705734 source:c:\moviesandbox\classes\input.cpp
 	"input.h"
 	"basicButton.h"
 	"listButton.h"
@@ -3444,7 +3444,7 @@
 1293667204 source:c:\moviesandbox\external\vmath\vmath.cpp
 	"vmath.h"
 
-1293753548 source:c:\moviesandbox\classes\renderer.cpp
+1296778040 source:c:\moviesandbox\classes\renderer.cpp
 	"input.h"
 	"colladaLoader.h"
 	"spriteMeshLoader.h"
