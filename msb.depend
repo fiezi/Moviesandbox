@@ -1,0 +1,3527 @@
+# depslib dependency file v1.0
+1276696574 source:c:\msb20\classes\action.cpp
+	"action.h"
+	"renderer.h"
+	"input.h"
+	"interpolationHelper.h"
+	"performActionNode.h"
+	"timelineButton.h"
+	"rootNode.h"
+
+1267038231 c:\msb20\classes\action.h
+	"listButton.h"
+	"skeletalActor.h"
+	"timelineButton.h"
+
+1267038232 c:\msb20\classes\listbutton.h
+	"basicButton.h"
+	"sliderButton.h"
+
+1276696574 c:\msb20\classes\basicbutton.h
+	"actor.h"
+
+1283878564 c:\msb20\classes\actor.h
+	"includes.h"
+
+1283881707 c:\msb20\classes\includes.h
+	"platformIncludes.h"
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<typeinfo>
+	<string.h>
+	<math.h>
+	<vector>
+	<map>
+	<algorithm>
+	"vmath.h"
+	"tinyxml.h"
+	"tinystr.h"
+	"ode.h"
+	"FreeImage.h"
+
+1267038225 c:\msb20\classes\win32\platformincludes.h
+	"shlobj.h"
+	"windows.h"
+	"glee.h"
+	"freeglut.h"
+
+1277577769 c:\msb20\external\glee\glee.h
+	<windows.h>
+	<GL/gl.h>
+	<OpenGL/gl.h>
+	<GL/gl.h>
+	<GL/glx.h>
+	<stddef.h>
+
+1267038218 c:\msb20\external\freeglut\\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1267038219 c:\msb20\external\freeglut\\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1267038219 c:\msb20\external\freeglut\\freeglut_ext.h
+
+1283625495 c:\msb20\external\vmath\vmath.h
+	<cmath>
+	<cstring>
+	<iostream>
+	<cassert>
+
+1267038197 c:\msb20\external\tinyxml\tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1267038197 c:\msb20\external\tinyxml\tinystr.h
+	<assert.h>
+	<string.h>
+
+1267038197 c:\msb20\external\ode\include\ode\ode.h
+	<ode/odeconfig.h>
+	<ode/compatibility.h>
+	<ode/common.h>
+	<ode/odeinit.h>
+	<ode/contact.h>
+	<ode/error.h>
+	<ode/memory.h>
+	<ode/odemath.h>
+	<ode/matrix.h>
+	<ode/timer.h>
+	<ode/rotation.h>
+	<ode/mass.h>
+	<ode/misc.h>
+	<ode/objects.h>
+	<ode/odecpp.h>
+	<ode/collision_space.h>
+	<ode/collision.h>
+	<ode/odecpp_collision.h>
+	<ode/export-dif.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\odeconfig.h
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<math.h>
+	<string.h>
+	<float.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\compatibility.h
+
+1267038197 c:\msb20\external\ode\include\\ode\common.h
+	<ode/odeconfig.h>
+	<ode/error.h>
+	<math.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\error.h
+	<ode/odeconfig.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\odeinit.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\contact.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\memory.h
+	<ode/odeconfig.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\odemath.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\matrix.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\timer.h
+	<ode/odeconfig.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\rotation.h
+	<ode/common.h>
+	<ode/compatibility.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\mass.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\misc.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\objects.h
+	<ode/common.h>
+	<ode/mass.h>
+	<ode/contact.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\odecpp.h
+
+1267038197 c:\msb20\external\ode\include\\ode\collision_space.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\ode\include\\ode\collision.h
+	<ode/common.h>
+	<ode/collision_space.h>
+	<ode/contact.h>
+	<ode/odeinit.h>
+	"collision_trimesh.h"
+
+1267038197 c:\msb20\external\ode\include\\ode\collision_trimesh.h
+
+1267038197 c:\msb20\external\ode\include\\ode\odecpp_collision.h
+
+1267038197 c:\msb20\external\ode\include\\ode\export-dif.h
+	<ode/common.h>
+
+1267038197 c:\msb20\external\freeimage\freeimage.h
+	<wchar.h>
+	<stdint.h>
+
+1267038231 c:\msb20\classes\sliderbutton.h
+	"basicButton.h"
+
+1278119646 c:\msb20\classes\skeletalactor.h
+	"skeletalDrawing.h"
+
+1276884659 c:\msb20\classes\skeletaldrawing.h
+	"particleSystem.h"
+	"boneActor.h"
+
+1267038231 c:\msb20\classes\particlesystem.h
+	"includes.h"
+	"actor.h"
+	"textfile.h"
+
+1267038231 c:\msb20\classes\textfile.h
+
+1276696574 c:\msb20\classes\boneactor.h
+	"actor.h"
+	"particleSystem.h"
+	"ofxPerlin.h"
+
+1267038197 c:\msb20\external\ofxperlin\ofxperlin.h
+	<stdlib.h>
+
+1276696574 c:\msb20\classes\timelinebutton.h
+	"basicButton.h"
+	"interpolationHelper.h"
+	"skeletalActor.h"
+	"action.h"
+
+1276696574 c:\msb20\classes\interpolationhelper.h
+	"actor.h"
+	"particleSystem.h"
+
+1283879531 c:\msb20\classes\renderer.h
+	"content.h"
+	"brush.h"
+	"layer.h"
+	"brush.h"
+	"particleSystem.h"
+	"basicButton.h"
+	"node.h"
+	"action.h"
+	"textfile.h"
+	"flexGrid.h"
+	"msbLight.h"
+
+1278947857 c:\msb20\classes\content.h
+	"includes.h"
+	"basicButton.h"
+
+1277513182 c:\msb20\classes\navbutton.h
+	"rotateButton.h"
+
+1267038231 c:\msb20\classes\rotatebutton.h
+	"basicButton.h"
+
+1284242396 c:\msb20\classes\brush.h
+	"actor.h"
+	"ragDoll.h"
+
+1267038232 c:\msb20\classes\ragdoll.h
+	"actor.h"
+	"physicsActor.h"
+
+1267038232 c:\msb20\classes\physicsactor.h
+	"actor.h"
+	"particleSystem.h"
+
+1283625492 c:\msb20\classes\layer.h
+	"basicButton.h"
+
+1267038232 c:\msb20\classes\node.h
+	"listButton.h"
+	"nodeIO.h"
+
+1267038231 c:\msb20\classes\nodeio.h
+	"basicButton.h"
+
+1267038231 c:\msb20\classes\flexgrid.h
+	"ParticleSystem.h"
+
+1276696574 c:\msb20\classes\msblight.h
+	"actor.h"
+
+1283972513 c:\msb20\classes\input.h
+	"includes.h"
+	"x1600Renderer.h"
+	"control.h"
+	"inspectorManager.h"
+	"listButton.h"
+	"ofTrueTypeFont.h"
+	"console.h"
+
+1284326541 c:\msb20\classes\control.h
+	"includes.h"
+	"actor.h"
+	"msbTool.h"
+	"selectTool.h"
+	"navTool.h"
+	"gridTool.h"
+	"drawTool.h"
+	"spawnTool.h"
+	"boneTool.h"
+	"skinTool.h"
+	"timelineInspector.h"
+
+1267038219 c:\msb20\external\oftruetypefont\oftruetypefont.h
+	"includes.h"
+
+1267038231 c:\msb20\classes\console.h
+	"textInputButton.h"
+	<functional>
+
+1267038231 c:\msb20\classes\textinputbutton.h
+	"basicButton.h"
+
+1267038231 c:\msb20\classes\performactionnode.h
+	"node.h"
+	"action.h"
+	"interpolationHelper.h"
+
+1267038231 c:\msb20\classes\rootnode.h
+	"node.h"
+
+1276696574 source:c:\msb20\classes\actioninspector.cpp
+	"actionInspector.h"
+	"action.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1267038231 c:\msb20\classes\actioninspector.h
+	"inspector.h"
+
+1283972771 c:\msb20\classes\inspector.h
+	"listButton.h"
+
+1267038232 c:\msb20\classes\assignbutton.h
+	<basicButton.h>
+
+1283879436 source:c:\msb20\classes\actor.cpp
+	<sstream>
+	"actor.h"
+	"control.h"
+	"input.h"
+	"interpolationHelper.h"
+	"renderer.h"
+	"node.h"
+	"action.h"
+	"brush.h"
+	"meshData.h"
+
+1283879778 c:\msb20\classes\meshdata.h
+	"actor.h"
+	"renderer.h"
+
+1276696574 source:c:\msb20\classes\assignbutton.cpp
+	"assignButton.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\attachtonode.cpp
+	"attachToNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038231 c:\msb20\classes\attachtonode.h
+	"node.h"
+
+1276696574 source:c:\msb20\classes\basicbutton.cpp
+	"input.h"
+
+1278983967 source:c:\msb20\classes\boneactor.cpp
+	"boneActor.h"
+	"renderer.h"
+	"input.h"
+	"character.h"
+	"meshData.h"
+
+1284236557 c:\msb20\classes\character.h
+	"skeletalActor.h"
+	"interpolationHelper.h"
+
+1284326325 source:c:\msb20\classes\bonewidget.cpp
+	"boneWidget.h"
+	"renderer.h"
+	"input.h"
+	"skeletalDrawing.h"
+	"brush.h"
+	"spriteMeshLoader.h"
+
+1267038231 c:\msb20\classes\bonewidget.h
+	"widget.h"
+
+1267038231 c:\msb20\classes\widget.h
+	"listButton.h"
+	"particleSystem.h"
+	"brush.h"
+
+1283881892 c:\msb20\classes\spritemeshloader.h
+	"includes.h"
+	"skeletalDrawing.h"
+	"meshData.h"
+
+1284244270 source:c:\msb20\classes\brush.cpp
+	"brush.h"
+	"input.h"
+	"control.h"
+	"boneActor.h"
+	"meshData.h"
+
+1284326255 source:c:\msb20\classes\brushinspector.cpp
+	"brushInspector.h"
+	"renderer.h"
+	"input.h"
+	"colorPickButton.h"
+	"sliderButton.h"
+
+1277405176 c:\msb20\classes\brushinspector.h
+	"inspector.h"
+	"assignButton.h"
+
+1277404508 c:\msb20\classes\colorpickbutton.h
+	"basicButton.h"
+
+1278947857 source:c:\msb20\classes\cameraactor.cpp
+	"cameraActor.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 c:\msb20\classes\cameraactor.h
+	"actor.h"
+	"ofxPerlin.h"
+
+1284236729 source:c:\msb20\classes\character.cpp
+	"control.h"
+	"character.h"
+	"renderer.h"
+	"skeletalHead.h"
+
+1267038232 c:\msb20\classes\skeletalhead.h
+	"skeletalActor.h"
+
+1267038232 source:c:\msb20\classes\charactercontroller.cpp
+	"characterController.h"
+	"renderer.h"
+
+1267038231 c:\msb20\classes\charactercontroller.h
+	"actor.h"
+
+1267038232 source:c:\msb20\classes\colladaloader.cpp
+	"colladaLoader.h"
+
+1267038231 c:\msb20\classes\colladaloader.h
+	"includes.h"
+	"renderer.h"
+	"meshData.h"
+
+1284326255 source:c:\msb20\classes\colorpickbutton.cpp
+	"colorPickButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+
+1278953790 c:\msb20\classes\drawingwidget.h
+	"widget.h"
+	"particleSystem.h"
+	"brush.h"
+
+1278947857 source:c:\msb20\classes\console.cpp
+	"console.h"
+	"renderer.h"
+	"input.h"
+	"physicsActor.h"
+
+1267038232 source:c:\msb20\classes\consolecommandnode.cpp
+	"consoleCommandNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1267038232 c:\msb20\classes\consolecommandnode.h
+	"node.h"
+
+1284326778 source:c:\msb20\classes\content.cpp
+	"content.h"
+	"input.h"
+	"drawingWidget.h"
+	"boneWidget.h"
+	"propsWidget.h"
+	"listButton.h"
+	"sliderButton.h"
+	"rotateButton.h"
+	"moveButton.h"
+	"saveButton.h"
+	"console.h"
+	"particleSystem.h"
+	"physicsActor.h"
+	"ragDoll.h"
+	"flexGrid.h"
+	"interpolationHelper.h"
+	"createActorButton.h"
+	"node.h"
+	"rootNode.h"
+	"waitForTimerNode.h"
+	"textInputButton.h"
+	"createNodeButton.h"
+	"propertyInspector.h"
+	"textureInspector.h"
+	"meshInspector.h"
+	"actionInspector.h"
+	"timelineInspector.h"
+	"prefabInspector.h"
+	"brushInspector.h"
+	"layerInspector.h"
+	"udpInput.h"
+	"pilot.h"
+	"action.h"
+	"spriteCharacter.h"
+
+1267038231 c:\msb20\classes\movebutton.h
+	"rotateButton.h"
+
+1267038232 c:\msb20\classes\savebutton.h
+	<listButton.h>
+
+1267038232 c:\msb20\classes\createactorbutton.h
+	"basicButton.h"
+
+1267038231 c:\msb20\classes\waitfortimernode.h
+	"node.h"
+
+1267038232 c:\msb20\classes\createnodebutton.h
+	"basicButton.h"
+	"node.h"
+
+1267038232 c:\msb20\classes\propertyinspector.h
+	"inspector.h"
+
+1267038231 c:\msb20\classes\textureinspector.h
+	"inspector.h"
+
+1267038232 c:\msb20\classes\meshinspector.h
+	"inspector.h"
+	"meshData.h"
+
+1283625492 c:\msb20\classes\timelineinspector.h
+	"inspector.h"
+	"action.h"
+	"timelineButton.h"
+
+1267038232 c:\msb20\classes\prefabinspector.h
+	"inspector.h"
+
+1276696574 c:\msb20\classes\layerwidget.h
+	"inspector.h"
+	"assignButton.h"
+
+1277586240 c:\msb20\classes\udpinput.h
+	"renderer.h"
+	"inputConnectButton.h"
+	"pilot.h"
+
+1267038232 c:\msb20\classes\inputconnectbutton.h
+	"basicButton.h"
+
+1267038232 c:\msb20\classes\pilot.h
+	"osc/OscReceivedElements.h"
+	"osc/OscPacketListener.h"
+	"osc/OscOutboundPacketStream.h"
+	"ip/UdpSocket.h"
+	"process.h"
+	"actor.h"
+
+1267038193 c:\msb20\external\oscpack\osc\oscreceivedelements.h
+	"OscTypes.h"
+	"OscException.h"
+
+1267038193 c:\msb20\external\oscpack\osc\osctypes.h
+
+1267038193 c:\msb20\external\oscpack\osc\oscexception.h
+	<exception>
+
+1267038193 c:\msb20\external\oscpack\osc\oscpacketlistener.h
+	"OscReceivedElements.h"
+	"../ip/PacketListener.h"
+
+1267038194 c:\msb20\external\oscpack\ip\packetlistener.h
+
+1267038193 c:\msb20\external\oscpack\osc\oscoutboundpacketstream.h
+	"OscTypes.h"
+	"OscException.h"
+
+1267038194 c:\msb20\external\oscpack\ip\udpsocket.h
+	"NetworkingUtils.h"
+	"IpEndpointName.h"
+
+1267038194 c:\msb20\external\oscpack\ip\networkingutils.h
+
+1267038194 c:\msb20\external\oscpack\ip\ipendpointname.h
+
+1267038231 c:\msb20\classes\multitouchpilot.h
+	"pilot.h"
+
+1267038231 c:\msb20\classes\mousepilot.h
+	<basicButton.h>
+	<ragDoll.h>
+
+1267038232 c:\msb20\classes\spritecharacter.h
+	"particleSystem.h"
+
+1284326644 source:c:\msb20\classes\control.cpp
+	"control.h"
+	"input.h"
+	"physicsActor.h"
+	"calligraphyFilter.h"
+	"navTool.h"
+	"particleSelectTool.h"
+
+1267038231 source:c:\msb20\classes\createactionbutton.cpp
+	"createActionButton.h"
+	"renderer.h"
+	"input.h"
+	"timelineButton.h"
+	"timelineInspector.h"
+	"action.h"
+
+1267038231 c:\msb20\classes\createactionbutton.h
+	"textInputButton.h"
+
+1283625492 source:c:\msb20\classes\createactorbutton.cpp
+	"createActorButton.h"
+	"renderer.h"
+	"input.h"
+	"meshData.h"
+
+1267038231 source:c:\msb20\classes\createnodebutton.cpp
+	"createNodeButton.h"
+	"renderer.h"
+	"input.h"
+
+1284326013 source:c:\msb20\classes\createprefabbutton.cpp
+	"createPrefabButton.h"
+	"renderer.h"
+	"input.h"
+	"selectTool.h"
+
+1267038232 c:\msb20\classes\createprefabbutton.h
+	"textInputButton.h"
+
+1284326897 source:c:\msb20\classes\drawingwidget.cpp
+	"drawingWidget.h"
+	"input.h"
+	"renderer.h"
+	"sliderButton.h"
+	"spriteMeshLoader.h"
+	"drawTool.h"
+
+1267038232 source:c:\msb20\classes\flexgrid.cpp
+	"flexGrid.h"
+	"renderer.h"
+	"meshData.h"
+
+1284326325 source:c:\msb20\classes\importbitmapbutton.cpp
+	"importBitmapButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"skeletalDrawing.h"
+	"meshData.h"
+	"drawTool.h"
+
+1267038232 c:\msb20\classes\importbitmapbutton.h
+	"loadButton.h"
+
+1267038232 c:\msb20\classes\loadbutton.h
+	<listButton.h>
+
+1284326325 source:c:\msb20\classes\input.cpp
+	"input.h"
+	"basicButton.h"
+	"listButton.h"
+	"control.h"
+	"interpolationHelper.h"
+	"drawingWidget.h"
+	"boneWidget.h"
+	"skeletalDrawing.h"
+	"brush.h"
+	"moveButton.h"
+	"textInputButton.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+	"spriteMeshLoaderXML.h"
+	"character.h"
+	"boneActor.h"
+	"udpInput.h"
+	"assignButton.h"
+	"userPopUp.h"
+
+1277505158 source:c:\msb20\classes\hitbox.cpp
+	"hitBox.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+
+1267038231 c:\msb20\classes\hitbox.h
+	"actor.h"
+
+1267038231 source:c:\msb20\classes\inputconnectbutton.cpp
+	"inputConnectButton.h"
+	"renderer.h"
+	"udpInput.h"
+
+1283979465 source:c:\msb20\classes\inspector.cpp
+	"inspector.h"
+	"renderer.h"
+	"input.h"
+	"inspectorManager.h"
+
+1267038232 source:c:\msb20\classes\interpolatenode.cpp
+	<interpolateNode.h>
+	<control.h>
+	<input.h>
+
+1267038231 c:\msb20\classes\interpolatenode.h
+	"node.h"
+	"interpolationHelper.h"
+
+1283625492 source:c:\msb20\classes\interpolationhelper.cpp
+	"interpolationHelper.h"
+	"skeletalActor.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\keyinputnode.cpp
+	"keyInputNode.h"
+	"control.h"
+	"input.h"
+
+1267038231 c:\msb20\classes\keyinputnode.h
+	"rootNode.h"
+
+1283625492 source:c:\msb20\classes\layer.cpp
+	"layer.h"
+	"renderer.h"
+	"input.h"
+	"msbLight.h"
+
+1278947857 source:c:\msb20\classes\layerwidget.cpp
+	"layerWidget.h"
+	"renderer.h"
+	"input.h"
+
+1279117368 source:c:\msb20\classes\listbutton.cpp
+	"listButton.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\loadbrushbutton.cpp
+	"loadBrushButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"skeletalDrawing.h"
+
+1267038231 c:\msb20\classes\loadbrushbutton.h
+	"loadButton.h"
+
+1267038231 source:c:\msb20\classes\loadbutton.cpp
+	"loadButton.h"
+	"renderer.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\loaddrawskeletonbutton.cpp
+	"loadDrawSkeletonButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"brush.h"
+	"skeletalDrawing.h"
+
+1267038231 c:\msb20\classes\loaddrawskeletonbutton.h
+	"loadDrawingButton.h"
+
+1267038231 c:\msb20\classes\loaddrawingbutton.h
+	"loadButton.h"
+
+1278119646 source:c:\msb20\classes\loaddrawingbutton.cpp
+	"loadDrawingButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"brush.h"
+
+1267038231 source:c:\msb20\classes\loadnode.cpp
+	"loadNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038232 c:\msb20\classes\loadnode.h
+	"node.h"
+
+1283625492 source:c:\msb20\classes\main.cpp
+	"main.h"
+
+1283625492 c:\msb20\classes\main.h
+	"includes.h"
+	"input.h"
+	"base64Encode.h"
+
+1283625492 source:c:\msb20\classes\meshdata.cpp
+	"meshData.h"
+	"renderer.h"
+
+1283625492 source:c:\msb20\classes\meshinspector.cpp
+	"meshInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+
+1267038231 source:c:\msb20\classes\morphspritemeshnode.cpp
+	"morphSpriteMeshNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038231 c:\msb20\classes\morphspritemeshnode.h
+	"node.h"
+
+1267038232 source:c:\msb20\classes\mousepilot.cpp
+	<mousePilot.h>
+	<renderer.h>
+	<input.h>
+
+1277513158 source:c:\msb20\classes\movebutton.cpp
+	"moveButton.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\msblight.cpp
+	"msbLight.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\multitouchpilot.cpp
+	"multiTouchPilot.h"
+
+1278018880 source:c:\msb20\classes\navbutton.cpp
+	"navButton.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\node.cpp
+	"node.h"
+	"input.h"
+
+1283625492 source:c:\msb20\classes\nodeio.cpp
+	"nodeIO.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\particlespray.cpp
+	"particleSpray.h"
+	"renderer.h"
+	"control.h"
+	"meshData.h"
+
+1267038232 c:\msb20\classes\particlespray.h
+	"particleSystem.h"
+
+1283625492 source:c:\msb20\classes\particlesystem.cpp
+	"particleSystem.h"
+	"control.h"
+	"input.h"
+	"meshData.h"
+
+1267038231 source:c:\msb20\classes\performactionnode.cpp
+	"performActionNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+
+1267038231 source:c:\msb20\classes\physicsactor.cpp
+	"physicsActor.h"
+	"renderer.h"
+	"input.h"
+	"ragDoll.h"
+
+1267038231 source:c:\msb20\classes\pickworldbutton.cpp
+	"pickWorldButton.h"
+	"renderer.h"
+	"input.h"
+
+1267038232 c:\msb20\classes\pickworldbutton.h
+	<basicButton.h>
+
+1276696575 source:c:\msb20\classes\pilot.cpp
+	"pilot.h"
+	"udpInput.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\prefabinspector.cpp
+	"prefabInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1276696574 source:c:\msb20\classes\propertyassignbutton.cpp
+	"propertyAssignButton.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+
+1267038232 c:\msb20\classes\propertyassignbutton.h
+	"basicButton.h"
+
+1267038231 source:c:\msb20\classes\propertyinspector.cpp
+	"propertyInspector.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\ragdoll.cpp
+	"ragDoll.h"
+	"renderer.h"
+	"input.h"
+
+1284326255 source:c:\msb20\classes\renderer.cpp
+	"input.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+	"spriteMeshLoaderXML.h"
+	"particleSystem.h"
+	"physicsActor.h"
+	"ragDoll.h"
+	"skeletalActor.h"
+	"hitBox.h"
+	"cameraActor.h"
+	"spriteCharacter.h"
+	"boneActor.h"
+	"skeletalDrawing.h"
+	"skeletalHead.h"
+	"character.h"
+	"characterController.h"
+	"msbLight.h"
+	"console.h"
+	"createActorButton.h"
+	"createNodeButton.h"
+	"moveButton.h"
+	"rotateButton.h"
+	"setBaseButton.h"
+	"listButton.h"
+	"sliderButton.h"
+	"saveButton.h"
+	"loadButton.h"
+	"userPopUp.h"
+	"drawingWidget.h"
+	"importBitmapButton.h"
+	"loadBrushButton.h"
+	"loadDrawingButton.h"
+	"loadDrawSkeletonButton.h"
+	"assignButton.h"
+	"propertyAssignButton.h"
+	"textInputButton.h"
+	"colorPickButton.h"
+	"pickWorldButton.h"
+	"createPrefabButton.h"
+	"createActionButton.h"
+	"inspector.h"
+	"propertyInspector.h"
+	"textureInspector.h"
+	"actionInspector.h"
+	"timelineInspector.h"
+	"meshInspector.h"
+	"prefabInspector.h"
+	"brushInspector.h"
+	"timelineButton.h"
+	"layerInspector.h"
+	"udpInput.h"
+	"node.h"
+	"rootNode.h"
+	"waitForTimerNode.h"
+	"interpolateNode.h"
+	"keyInputNode.h"
+	"switchCameraNode.h"
+	"performActionNode.h"
+	"setPropertyNode.h"
+	"walkToNode.h"
+	"setAnimationNode.h"
+	"stopAnimNode.h"
+	"waitForEventNode.h"
+	"triggerEventNode.h"
+	"consoleCommandNode.h"
+	"setWalkTargetNode.h"
+	"setHiddenNode.h"
+	"triggerActorNode.h"
+	"attachToNode.h"
+	"setBackgroundNode.h"
+	"morphSpriteMeshNode.h"
+	"layer.h"
+	"action.h"
+	"particleSpray.h"
+	"meshData.h"
+	<Commdlg.h>
+
+1267038231 c:\msb20\classes\setbasebutton.h
+	"basicButton.h"
+
+1278947857 c:\msb20\classes\userpopup.h
+	"textInputButton.h"
+
+1267038231 c:\msb20\classes\switchcameranode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\setpropertynode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\walktonode.h
+	"node.h"
+
+1267038232 c:\msb20\classes\setanimationnode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\stopanimnode.h
+	"node.h"
+
+1267038232 c:\msb20\classes\waitforeventnode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\triggereventnode.h
+	"node.h"
+
+1267038232 c:\msb20\classes\setwalktargetnode.h
+	"node.h"
+
+1276696574 c:\msb20\classes\sethiddennode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\triggeractornode.h
+	"node.h"
+
+1267038231 c:\msb20\classes\setbackgroundnode.h
+	"node.h"
+
+1267038231 source:c:\msb20\classes\rootnode.cpp
+	"rootNode.h"
+	"control.h"
+	"renderer.h"
+
+1278947857 source:c:\msb20\classes\rotatebutton.cpp
+	"rotateButton.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\savebutton.cpp
+	"saveButton.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\setanimationnode.cpp
+	"setAnimationNode.h"
+	"control.h"
+	"character.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\setbackgroundnode.cpp
+	"setBackgroundNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\setbasebutton.cpp
+	"setBaseButton.h"
+	"renderer.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\sethiddennode.cpp
+	"SetHiddenNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\setpropertynode.cpp
+	"setPropertyNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038232 source:c:\msb20\classes\setwalktargetnode.cpp
+	"SetWalkTargetNode.h"
+	"control.h"
+	"renderer.h"
+	"character.h"
+
+1283625492 source:c:\msb20\classes\skeletalactor.cpp
+	"skeletalActor.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+	"physicsActor.h"
+	"meshData.h"
+
+1276884673 source:c:\msb20\classes\skeletaldrawing.cpp
+	"skeletalDrawing.h"
+	"renderer.h"
+	"control.h"
+	"boneActor.h"
+	"skeletalActor.h"
+	"spriteMeshLoader.h"
+	"input.h"
+	"drawingWidget.h"
+
+1267038231 source:c:\msb20\classes\skeletalhead.cpp
+	"skeletalHead.h"
+	"renderer.h"
+
+1277486989 source:c:\msb20\classes\sliderbutton.cpp
+	"sliderButton.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\spritecharacter.cpp
+	"spriteCharacter.h"
+	"renderer.h"
+	"input.h"
+
+1284219339 source:c:\msb20\classes\spritemeshloader.cpp
+	"spriteMeshLoader.h"
+	"renderer.h"
+	"input.h"
+	"base64Encode.h"
+
+1267038232 source:c:\msb20\classes\stopanimnode.cpp
+	"stopAnimNode.h"
+	"control.h"
+	"renderer.h"
+	"character.h"
+
+1284326322 source:c:\msb20\classes\switchcameranode.cpp
+	"switchCameraNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1283625492 source:c:\msb20\classes\textinputbutton.cpp
+	"textInputButton.h"
+	"renderer.h"
+	"input.h"
+	"inputConnectButton.h"
+
+1267038231 source:c:\msb20\classes\textfile.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1283625492 source:c:\msb20\classes\textureinspector.cpp
+	"textureInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1283625492 source:c:\msb20\classes\timelinebutton.cpp
+	"timelineButton.h"
+	"renderer.h"
+	"input.h"
+	"interpolationHelper.h"
+	"timelineInspector.h"
+
+1283625492 source:c:\msb20\classes\timelineinspector.cpp
+	"timelineInspector.h"
+	"assignButton.h"
+	"renderer.h"
+	"input.h"
+	"sliderButton.h"
+	"skeletalActor.h"
+
+1267038231 source:c:\msb20\classes\triggeractornode.cpp
+	"triggerActorNode.h"
+	"control.h"
+	"renderer.h"
+
+1267038231 source:c:\msb20\classes\triggereventnode.cpp
+	"triggerEventNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1276696574 source:c:\msb20\classes\udpinput.cpp
+	"udpInput.h"
+	"input.h"
+
+1279003910 source:c:\msb20\classes\userpopup.cpp
+	"userPopUp.h"
+	"renderer.h"
+	"input.h"
+
+1267038232 source:c:\msb20\classes\videotextureactor.cpp
+	"videoTextureActor.h"
+	"renderer.h"
+
+1267038231 c:\msb20\classes\videotextureactor.h
+	"actor.h"
+	"ofVideoPlayer.h"
+
+1267038199 c:\msb20\external\ofvideo\ofvideoplayer.h
+	"ofVideoConstants.h"
+	"ofQtUtils.h"
+
+1267038199 c:\msb20\external\ofvideo\ofvideoconstants.h
+	<stdio.h>
+	<string>
+	<iostream>
+
+1267038199 c:\msb20\external\ofvideo\ofqtutils.h
+	"ofVideoConstants.h"
+	<QTML.h>
+	<FixMath.h>
+	<QuickTimeComponents.h>
+	<TextUtils.h>
+	<MediaHandlers.h>
+	<MoviesFormat.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\qtml.h
+	<MacTypes.h>
+	<MacMemory.h>
+	<MacWindows.h>
+	<OSUtils.h>
+	<Files.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\mactypes.h
+	<ConditionalMacros.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\conditionalmacros.h
+
+1267038214 c:\msb20\external\quicktime\cincludes\macmemory.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\mixedmode.h
+	<MacTypes.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\macwindows.h
+	<MacTypes.h>
+	<Aliases.h>
+	<AppleEvents.h>
+	<Collections.h>
+	<Drag.h>
+	<Events.h>
+	<Menus.h>
+	<MixedMode.h>
+	<QDOffscreen.h>
+	<Quickdraw.h>
+	<TextCommon.h>
+	<Icons.h>
+	<MacErrors.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\aliases.h
+	<MacTypes.h>
+	<AppleTalk.h>
+	<Files.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\appletalk.h
+	<MacTypes.h>
+	<OSUtils.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\osutils.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<MacMemory.h>
+	<Patches.h>
+	<DateTimeUtils.h>
+	<Endian.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\patches.h
+	<MacTypes.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\datetimeutils.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\endian.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\files.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<OSUtils.h>
+	<TextCommon.h>
+	<UTCUtils.h>
+	<Finder.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\textcommon.h
+	<MacTypes.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\utcutils.h
+	<MacTypes.h>
+	<MacErrors.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\macerrors.h
+	<ConditionalMacros.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\finder.h
+	<MacTypes.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\appleevents.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Notification.h>
+	<Events.h>
+	<AEDataModel.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\notification.h
+	<MacTypes.h>
+	<OSUtils.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\events.h
+	<OSUtils.h>
+	<Quickdraw.h>
+	<MacTypes.h>
+	<Endian.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\quickdraw.h
+	<Components.h>
+	<MacTypes.h>
+	<MixedMode.h>
+	<QuickdrawText.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\components.h
+	<MacErrors.h>
+	<MacTypes.h>
+	<MixedMode.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\quickdrawtext.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\aedatamodel.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\collections.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\drag.h
+	<MacTypes.h>
+	<Events.h>
+	<Files.h>
+	<AppleEvents.h>
+	<Quickdraw.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\menus.h
+	<MacTypes.h>
+	<Events.h>
+	<Quickdraw.h>
+	<Fonts.h>
+	<TextCommon.h>
+	<Processes.h>
+	<AppleEvents.h>
+	<Collections.h>
+	<MacErrors.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\fonts.h
+	<MacTypes.h>
+	<Files.h>
+	<Quickdraw.h>
+	<TextCommon.h>
+	<MacErrors.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\processes.h
+	<MacTypes.h>
+	<Events.h>
+	<Files.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\qdoffscreen.h
+	<MacErrors.h>
+	<Quickdraw.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\icons.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<Files.h>
+	<CodeFragments.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\codefragments.h
+	<MacTypes.h>
+	<Files.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\fixmath.h
+	<MacTypes.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\quicktimecomponents.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Components.h>
+	<ImageCompression.h>
+	<Movies.h>
+	<Quickdraw.h>
+	<Video.h>
+	<Sound.h>
+	<QuickTimeMusic.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\imagecompression.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<QDOffscreen.h>
+	<Components.h>
+	<StandardFile.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\standardfile.h
+	<MacTypes.h>
+	<Dialogs.h>
+	<Files.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\dialogs.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Events.h>
+	<MacWindows.h>
+	<TextEdit.h>
+	<Controls.h>
+	<MacErrors.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\textedit.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<MixedMode.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\controls.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<Menus.h>
+	<TextEdit.h>
+	<Drag.h>
+	<Icons.h>
+	<Collections.h>
+	<MacErrors.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\movies.h
+	<Quickdraw.h>
+	<Aliases.h>
+	<Events.h>
+	<Menus.h>
+	<Components.h>
+	<ImageCompression.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\video.h
+	<Quickdraw.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\sound.h
+	<MacTypes.h>
+	<Dialogs.h>
+	<Components.h>
+	<MixedMode.h>
+	<Movies.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\quicktimemusic.h
+	<Components.h>
+	<ImageCompression.h>
+	<Movies.h>
+	<Quickdraw.h>
+	<Video.h>
+	<MacMemory.h>
+	<Sound.h>
+	<Endian.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\textutils.h
+	<MacTypes.h>
+	<NumberFormatting.h>
+	<StringCompare.h>
+	<DateTimeUtils.h>
+
+1267038215 c:\msb20\external\quicktime\cincludes\numberformatting.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+	<IntlResources.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\intlresources.h
+	<MacTypes.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\stringcompare.h
+	<MacTypes.h>
+	<TextCommon.h>
+	<Script.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\script.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<IntlResources.h>
+	<Events.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\mediahandlers.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+	<Components.h>
+	<Movies.h>
+	<Sound.h>
+
+1267038214 c:\msb20\external\quicktime\cincludes\moviesformat.h
+	<MacTypes.h>
+	<Movies.h>
+
+1267038232 source:c:\msb20\classes\waitforeventnode.cpp
+	"waitForEventNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1267038231 source:c:\msb20\classes\waitfortimernode.cpp
+	"waitForTimerNode.h"
+	<renderer.h>
+
+1267038231 source:c:\msb20\classes\walktonode.cpp
+	"renderer.h"
+	"walkToNode.h"
+	"control.h"
+	"character.h"
+
+1267038232 source:c:\msb20\classes\widget.cpp
+	"widget.h"
+	"renderer.h"
+	"input.h"
+
+1277577767 source:c:\msb20\external\glee\glee.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"GLee.h"
+	<Carbon/Carbon.h>
+
+1283625495 source:c:\msb20\external\oftruetypefont\oftruetypefont.cpp
+	"ofTrueTypeFont.h"
+	"renderer.h"
+	<ft2build.h>
+	<freetype/freetype.h>
+	<freetype/ftglyph.h>
+	<freetype/ftoutln.h>
+	<freetype/fttrigon.h>
+
+1267038193 c:\msb20\external\freetype\ft2build.h
+	<freetype/config/ftheader.h>
+
+1267038189 c:\msb20\external\freetype\freetype\config\ftheader.h
+
+1267038190 c:\msb20\external\freetype\freetype\freetype.h
+	<ft2build.h>
+
+1267038190 c:\msb20\external\freetype\freetype\ftglyph.h
+	<ft2build.h>
+
+1267038190 c:\msb20\external\freetype\freetype\ftoutln.h
+	<ft2build.h>
+
+1267038190 c:\msb20\external\freetype\freetype\fttrigon.h
+
+1276699687 source:c:\msb20\external\ofvideo\ofqtutils.cpp
+	"ofQtUtils.h"
+	"string.h"
+
+1267038197 source:c:\msb20\external\ofxperlin\ofxperlin.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"ofxPerlin.h"
+
+1267038194 source:c:\msb20\external\oscpack\ip\ipendpointname.cpp
+	"IpEndpointName.h"
+	<stdio.h>
+	"NetworkingUtils.h"
+
+1267038194 source:c:\msb20\external\oscpack\ip\win32\networkingutils.cpp
+	"ip/NetworkingUtils.h"
+	<winsock2.h>
+	<windows.h>
+	<stdlib.h>
+	<stdio.h>
+
+1267038194 source:c:\msb20\external\oscpack\ip\win32\udpsocket.cpp
+	"ip/UdpSocket.h"
+	<winsock2.h>
+	<windows.h>
+	<mmsystem.h>
+	<vector>
+	<algorithm>
+	<stdexcept>
+	<assert.h>
+	<signal.h>
+	"ip/NetworkingUtils.h"
+	"ip/PacketListener.h"
+	"ip/TimerListener.h"
+
+1267038194 c:\msb20\external\oscpack\ip\timerlistener.h
+
+1267038193 source:c:\msb20\external\oscpack\osc\oscoutboundpacketstream.cpp
+	"OscOutboundPacketStream.h"
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<malloc.h>
+	"OscHostEndianness.h"
+
+1267038193 c:\msb20\external\oscpack\osc\oschostendianness.h
+
+1276699876 source:c:\msb20\external\ofvideo\ofvideoplayer.cpp
+	"ofVideoPlayer.h"
+	<string.h>
+	<gst/video/video.h>
+	"gst/app/gstappsink.h"
+	<string.h>
+
+1276699899 source:c:\msb20\external\oscpack\osc\oscprintreceivedelements.cpp
+	"OscPrintReceivedElements.h"
+	<string.h>
+	<iostream>
+	<iomanip>
+	<ctime>
+
+1267038193 c:\msb20\external\oscpack\osc\oscprintreceivedelements.h
+	<iosfwd>
+	"OscReceivedElements.h"
+
+1267038193 source:c:\msb20\external\oscpack\osc\oscreceivedelements.cpp
+	"OscReceivedElements.h"
+	<cassert>
+	"OscHostEndianness.h"
+
+1267038193 source:c:\msb20\external\oscpack\osc\osctypes.cpp
+	"OscTypes.h"
+
+1267038197 source:c:\msb20\external\tinyxml\tinystr.cpp
+	"tinystr.h"
+
+1267038197 source:c:\msb20\external\tinyxml\tinyxml.cpp
+	<ctype.h>
+	<sstream>
+	<iostream>
+	"tinyxml.h"
+
+1267038197 source:c:\msb20\external\tinyxml\tinyxmlerror.cpp
+	"tinyxml.h"
+
+1267038197 source:c:\msb20\external\tinyxml\tinyxmlparser.cpp
+	<ctype.h>
+	<stddef.h>
+	"tinyxml.h"
+	<windows.h>
+
+1283876581 source:c:\msb20\external\vmath\vmath.cpp
+	"vmath.h"
+
+1278119645 source:c:\msb20\classes\gridbutton.cpp
+	"gridButton.h"
+	"renderer.h"
+	"input.h"
+
+1278020908 c:\msb20\classes\gridbutton.h
+	"basicButton.h"
+
+1277591692 c:\msb20\classes\msbstructs.h
+
+1279000498 c:\msb20\classes\msbtool.h
+	"basicButton.h"
+
+1278947857 c:\msb20\classes\selecttool.h
+	"msbTool.h"
+
+1278947857 c:\msb20\classes\navtool.h
+	"msbTool.h"
+
+1278998003 c:\msb20\classes\gridtool.h
+	"msbTool.h"
+
+1283625492 c:\msb20\classes\drawtool.h
+	"msbTool.h"
+	"brush.h"
+	"meshData.h"
+	"brushFilter.h"
+
+1283625492 c:\msb20\classes\brushfilter.h
+	"brush.h"
+	"meshData.h"
+
+1278985633 c:\msb20\classes\spawntool.h
+	"skinTool.h"
+
+1279000535 c:\msb20\classes\skintool.h
+	"drawTool.h"
+
+1279000524 c:\msb20\classes\bonetool.h
+	"spawnTool.h"
+
+1284244376 source:c:\msb20\classes\brushfilter.cpp
+	"brushFilter.h"
+	"renderer.h"
+	"input.h"
+	"drawTool.h"
+
+1283625492 source:c:\msb20\classes\calligraphyfilter.cpp
+	"calligraphyFilter.h"
+	"renderer.h"
+	"input.h"
+
+1278947857 c:\msb20\classes\calligraphyfilter.h
+	"brushFilter.h"
+
+1283880626 source:c:\msb20\classes\drawtool.cpp
+	"drawTool.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+	"spriteMeshLoader.h"
+	"drawingWidget.h"
+
+1278998724 source:c:\msb20\classes\gridtool.cpp
+	"gridTool.h"
+	"renderer.h"
+	"input.h"
+
+1279000696 source:c:\msb20\classes\msbtool.cpp
+	"msbTool.h"
+	"input.h"
+	"control.h"
+
+1279044800 source:c:\msb20\classes\navtool.cpp
+	"navTool.h"
+	"renderer.h"
+	"input.h"
+
+1283973232 source:c:\msb20\classes\selecttool.cpp
+	"selectTool.h"
+	"renderer.h"
+	"input.h"
+
+1284326325 source:c:\msb20\classes\skintool.cpp
+	"skinTool.h"
+	"renderer.h"
+	"input.h"
+	"spriteMeshLoader.h"
+	"skeletalActor.h"
+	"brush.h"
+
+1283625492 source:c:\msb20\classes\bonetool.cpp
+	"boneTool.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+	"brush.h"
+	"spriteMeshLoader.h"
+
+1278953775 c:\msb20\classes\propswidget.h
+	"widget.h"
+
+1278986714 source:c:\msb20\classes\spawntool.cpp
+	"spawnTool.h"
+	"renderer.h"
+	"input.h"
+
+1284326325 source:c:\msb20\classes\propswidget.cpp
+	"propsWidget.h"
+	"renderer.h"
+	"input.h"
+
+1283625492 c:\msb20\classes\x1600renderer.h
+	"renderer.h"
+
+1283625492 c:\msb20\classes\base64encode.h
+	"includes.h"
+
+1283625492 source:c:\msb20\classes\x1600renderer.cpp
+	"x1600Renderer.h"
+	"input.h"
+
+1283880323 source:c:\msb20\classes\spritemeshloaderxml.cpp
+	"spriteMeshLoaderXML.h"
+	"renderer.h"
+	"input.h"
+
+1283872292 c:\msb20\classes\spritemeshloaderxml.h
+	"includes.h"
+	"skeletalDrawing.h"
+
+1283979322 c:\msb20\classes\inspectormanager.h
+	"actor.h"
+	"inspector.h"
+
+1283979314 source:c:\msb20\classes\inspectormanager.cpp
+	"inspectorManager.h"
+	"renderer.h"
+
+1283973106 c:\msb20\classes\layerinspector.h
+	"inspector.h"
+	"assignButton.h"
+
+1283973106 source:c:\msb20\classes\layerinspector.cpp
+	"layerInspector.h"
+	"renderer.h"
+	"input.h"
+
+1284327457 c:\msb20\classes\particleselecttool.h
+	"drawTool.h"
+
+1284327719 source:c:\msb20\classes\particleselecttool.cpp
+	"particleSelectTool.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\action.cpp
+	"action.h"
+	"renderer.h"
+	"input.h"
+	"interpolationHelper.h"
+	"performActionNode.h"
+	"timelineButton.h"
+	"rootNode.h"
+
+1293667238 c:\moviesandbox\classes\action.h
+	"listButton.h"
+	"skeletalActor.h"
+	"timelineButton.h"
+
+1293666311 c:\moviesandbox\classes\listbutton.h
+	"basicButton.h"
+	"sliderButton.h"
+
+1293667239 c:\moviesandbox\classes\basicbutton.h
+	"actor.h"
+
+1293666311 c:\moviesandbox\classes\actor.h
+	"includes.h"
+
+1293666311 c:\moviesandbox\classes\includes.h
+	"platformIncludes.h"
+	<stdlib.h>
+	<stdio.h>
+	<iostream>
+	<typeinfo>
+	<string.h>
+	<math.h>
+	<vector>
+	<map>
+	<algorithm>
+	"vmath.h"
+	"tinyxml.h"
+	"tinystr.h"
+	"ode.h"
+	"FreeImage.h"
+
+1293733644 c:\moviesandbox\classes\win32\platformincludes.h
+	"shlobj.h"
+	"windows.h"
+	"glee.h"
+	"freeglut.h"
+
+1293667228 c:\moviesandbox\external\glee\glee.h
+	<windows.h>
+	<GL/gl.h>
+	<OpenGL/gl.h>
+	<GL/gl.h>
+	<GL/glx.h>
+	<stddef.h>
+
+1293667230 c:\moviesandbox\external\freeglut\\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1293667230 c:\moviesandbox\external\freeglut\\freeglut_std.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1293667230 c:\moviesandbox\external\freeglut\\freeglut_ext.h
+
+1293666322 c:\moviesandbox\external\vmath\vmath.h
+	<cmath>
+	<cstring>
+	<iostream>
+	<cassert>
+
+1293667209 c:\moviesandbox\external\tinyxml\tinyxml.h
+	<ctype.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<sstream>
+	"tinystr.h"
+
+1293667209 c:\moviesandbox\external\tinyxml\tinystr.h
+	<assert.h>
+	<string.h>
+
+1293666316 c:\moviesandbox\external\ode\include\ode\ode.h
+	<ode/odeconfig.h>
+	<ode/compatibility.h>
+	<ode/common.h>
+	<ode/odeinit.h>
+	<ode/contact.h>
+	<ode/error.h>
+	<ode/memory.h>
+	<ode/odemath.h>
+	<ode/matrix.h>
+	<ode/timer.h>
+	<ode/rotation.h>
+	<ode/mass.h>
+	<ode/misc.h>
+	<ode/objects.h>
+	<ode/odecpp.h>
+	<ode/collision_space.h>
+	<ode/collision.h>
+	<ode/odecpp_collision.h>
+	<ode/export-dif.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\odeconfig.h
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<math.h>
+	<string.h>
+	<float.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\compatibility.h
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\common.h
+	<ode/odeconfig.h>
+	<ode/error.h>
+	<math.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\error.h
+	<ode/odeconfig.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\odeinit.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\contact.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\memory.h
+	<ode/odeconfig.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\odemath.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\matrix.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\timer.h
+	<ode/odeconfig.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\rotation.h
+	<ode/common.h>
+	<ode/compatibility.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\mass.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\misc.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\objects.h
+	<ode/common.h>
+	<ode/mass.h>
+	<ode/contact.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\odecpp.h
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\collision_space.h
+	<ode/common.h>
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\collision.h
+	<ode/common.h>
+	<ode/collision_space.h>
+	<ode/contact.h>
+	<ode/odeinit.h>
+	"collision_trimesh.h"
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\collision_trimesh.h
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\odecpp_collision.h
+
+1293666316 c:\moviesandbox\external\ode\include\\ode\export-dif.h
+	<ode/common.h>
+
+1293667212 c:\moviesandbox\external\freeimage\freeimage.h
+	<wchar.h>
+	<stdint.h>
+
+1293666312 c:\moviesandbox\classes\sliderbutton.h
+	"basicButton.h"
+
+1293667240 c:\moviesandbox\classes\skeletalactor.h
+	"skeletalDrawing.h"
+
+1293667239 c:\moviesandbox\classes\skeletaldrawing.h
+	"particleSystem.h"
+	"boneActor.h"
+
+1293666312 c:\moviesandbox\classes\particlesystem.h
+	"includes.h"
+	"actor.h"
+	"textfile.h"
+
+1293666312 c:\moviesandbox\classes\textfile.h
+
+1293667239 c:\moviesandbox\classes\boneactor.h
+	"actor.h"
+	"particleSystem.h"
+	"ofxPerlin.h"
+
+1293666318 c:\moviesandbox\external\ofxperlin\ofxperlin.h
+	<stdlib.h>
+
+1293667240 c:\moviesandbox\classes\timelinebutton.h
+	"basicButton.h"
+	"interpolationHelper.h"
+	"skeletalActor.h"
+	"action.h"
+
+1293666311 c:\moviesandbox\classes\interpolationhelper.h
+	"actor.h"
+	"particleSystem.h"
+
+1293733741 c:\moviesandbox\classes\renderer.h
+	"content.h"
+	"brush.h"
+	"layer.h"
+	"brush.h"
+	"particleSystem.h"
+	"basicButton.h"
+	"node.h"
+	"action.h"
+	"textfile.h"
+	"flexGrid.h"
+	"msbLight.h"
+
+1293742319 c:\moviesandbox\classes\content.h
+	"includes.h"
+	"basicButton.h"
+
+1293666311 c:\moviesandbox\classes\brush.h
+	"actor.h"
+	"ragDoll.h"
+
+1293666312 c:\moviesandbox\classes\ragdoll.h
+	"actor.h"
+	"physicsActor.h"
+
+1293666312 c:\moviesandbox\classes\physicsactor.h
+	"actor.h"
+	"particleSystem.h"
+
+1293667240 c:\moviesandbox\classes\layer.h
+	"basicButton.h"
+
+1293666312 c:\moviesandbox\classes\node.h
+	"listButton.h"
+	"nodeIO.h"
+
+1293666312 c:\moviesandbox\classes\nodeio.h
+	"basicButton.h"
+
+1293666311 c:\moviesandbox\classes\flexgrid.h
+	"ParticleSystem.h"
+
+1293667238 c:\moviesandbox\classes\msblight.h
+	"actor.h"
+
+1293666311 c:\moviesandbox\classes\input.h
+	"includes.h"
+	"x1600Renderer.h"
+	"control.h"
+	"inspectorManager.h"
+	"listButton.h"
+	"ofTrueTypeFont.h"
+	"console.h"
+
+1293666312 c:\moviesandbox\classes\x1600renderer.h
+	"renderer.h"
+
+1293666311 c:\moviesandbox\classes\control.h
+	"includes.h"
+	"actor.h"
+	"msbTool.h"
+	"selectTool.h"
+	"navTool.h"
+	"gridTool.h"
+	"drawTool.h"
+	"spawnTool.h"
+	"boneTool.h"
+	"skinTool.h"
+	"timelineInspector.h"
+
+1293667240 c:\moviesandbox\classes\msbtool.h
+	"basicButton.h"
+
+1293667240 c:\moviesandbox\classes\selecttool.h
+	"msbTool.h"
+
+1293667239 c:\moviesandbox\classes\navtool.h
+	"msbTool.h"
+
+1293667240 c:\moviesandbox\classes\gridtool.h
+	"msbTool.h"
+
+1293667240 c:\moviesandbox\classes\drawtool.h
+	"msbTool.h"
+	"brush.h"
+	"meshData.h"
+	"brushFilter.h"
+
+1293667239 c:\moviesandbox\classes\meshdata.h
+	"actor.h"
+	"renderer.h"
+
+1293667238 c:\moviesandbox\classes\brushfilter.h
+	"brush.h"
+	"meshData.h"
+
+1293667238 c:\moviesandbox\classes\spawntool.h
+	"skinTool.h"
+
+1293667238 c:\moviesandbox\classes\skintool.h
+	"drawTool.h"
+
+1293667239 c:\moviesandbox\classes\bonetool.h
+	"spawnTool.h"
+
+1293667238 c:\moviesandbox\classes\timelineinspector.h
+	"inspector.h"
+	"action.h"
+	"timelineButton.h"
+
+1293667240 c:\moviesandbox\classes\inspector.h
+	"listButton.h"
+
+1293667240 c:\moviesandbox\classes\inspectormanager.h
+	"actor.h"
+	"inspector.h"
+
+1293667229 c:\moviesandbox\external\oftruetypefont\oftruetypefont.h
+	"includes.h"
+
+1293667238 c:\moviesandbox\classes\console.h
+	"textInputButton.h"
+	<functional>
+
+1293666312 c:\moviesandbox\classes\textinputbutton.h
+	"basicButton.h"
+
+1293667239 c:\moviesandbox\classes\performactionnode.h
+	"node.h"
+	"action.h"
+	"interpolationHelper.h"
+
+1293666312 c:\moviesandbox\classes\rootnode.h
+	"node.h"
+
+1293667240 source:c:\moviesandbox\classes\actioninspector.cpp
+	"actionInspector.h"
+	"action.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1293667239 c:\moviesandbox\classes\actioninspector.h
+	"inspector.h"
+
+1293666311 c:\moviesandbox\classes\assignbutton.h
+	<basicButton.h>
+
+1293741293 source:c:\moviesandbox\classes\actor.cpp
+	<sstream>
+	"actor.h"
+	"control.h"
+	"input.h"
+	"interpolationHelper.h"
+	"renderer.h"
+	"node.h"
+	"action.h"
+	"brush.h"
+	"meshData.h"
+
+1293666311 source:c:\moviesandbox\classes\assignbutton.cpp
+	"assignButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 source:c:\moviesandbox\classes\attachtonode.cpp
+	"attachToNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667240 c:\moviesandbox\classes\attachtonode.h
+	"node.h"
+
+1293667240 source:c:\moviesandbox\classes\basicbutton.cpp
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\boneactor.cpp
+	"boneActor.h"
+	"renderer.h"
+	"input.h"
+	"character.h"
+	"meshData.h"
+
+1293667240 c:\moviesandbox\classes\character.h
+	"skeletalActor.h"
+	"interpolationHelper.h"
+
+1293667238 source:c:\moviesandbox\classes\bonetool.cpp
+	"boneTool.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+	"brush.h"
+	"spriteMeshLoader.h"
+
+1293667240 c:\moviesandbox\classes\spritemeshloader.h
+	"includes.h"
+	"skeletalDrawing.h"
+	"meshData.h"
+
+1293667239 source:c:\moviesandbox\classes\bonewidget.cpp
+	"boneWidget.h"
+	"renderer.h"
+	"input.h"
+	"skeletalDrawing.h"
+	"brush.h"
+	"spriteMeshLoader.h"
+
+1293667239 c:\moviesandbox\classes\bonewidget.h
+	"widget.h"
+
+1293667240 c:\moviesandbox\classes\widget.h
+	"listButton.h"
+	"particleSystem.h"
+	"brush.h"
+
+1293741926 source:c:\moviesandbox\classes\brush.cpp
+	"brush.h"
+	"input.h"
+	"control.h"
+	"boneActor.h"
+	"meshData.h"
+
+1293667240 source:c:\moviesandbox\classes\brushfilter.cpp
+	"brushFilter.h"
+	"renderer.h"
+	"input.h"
+	"drawTool.h"
+
+1293667240 source:c:\moviesandbox\classes\brushinspector.cpp
+	"brushInspector.h"
+	"renderer.h"
+	"input.h"
+	"colorPickButton.h"
+	"sliderButton.h"
+
+1293667240 c:\moviesandbox\classes\brushinspector.h
+	"inspector.h"
+	"assignButton.h"
+
+1293666311 c:\moviesandbox\classes\colorpickbutton.h
+	"basicButton.h"
+
+1293667240 source:c:\moviesandbox\classes\calligraphyfilter.cpp
+	"calligraphyFilter.h"
+	"renderer.h"
+	"input.h"
+
+1293667238 c:\moviesandbox\classes\calligraphyfilter.h
+	"brushFilter.h"
+
+1293667240 source:c:\moviesandbox\classes\cameraactor.cpp
+	"cameraActor.h"
+	"renderer.h"
+	"input.h"
+
+1293667238 c:\moviesandbox\classes\cameraactor.h
+	"actor.h"
+	"ofxPerlin.h"
+
+1293667240 source:c:\moviesandbox\classes\character.cpp
+	"control.h"
+	"character.h"
+	"renderer.h"
+	"skeletalHead.h"
+
+1293667240 c:\moviesandbox\classes\skeletalhead.h
+	"skeletalActor.h"
+
+1293667240 source:c:\moviesandbox\classes\charactercontroller.cpp
+	"characterController.h"
+	"renderer.h"
+
+1293667239 c:\moviesandbox\classes\charactercontroller.h
+	"actor.h"
+
+1293667240 source:c:\moviesandbox\classes\colladaloader.cpp
+	"colladaLoader.h"
+
+1293667238 c:\moviesandbox\classes\colladaloader.h
+	"includes.h"
+	"renderer.h"
+	"meshData.h"
+
+1293741315 source:c:\moviesandbox\classes\colorpickbutton.cpp
+	"colorPickButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+
+1293666311 c:\moviesandbox\classes\drawingwidget.h
+	"widget.h"
+	"particleSystem.h"
+	"brush.h"
+
+1293667240 source:c:\moviesandbox\classes\console.cpp
+	"console.h"
+	"renderer.h"
+	"input.h"
+	"physicsActor.h"
+
+1293667240 source:c:\moviesandbox\classes\consolecommandnode.cpp
+	"consoleCommandNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 c:\moviesandbox\classes\consolecommandnode.h
+	"node.h"
+
+1293753382 source:c:\moviesandbox\classes\content.cpp
+	"content.h"
+	"input.h"
+	"drawingWidget.h"
+	"boneWidget.h"
+	"propsWidget.h"
+	"listButton.h"
+	"sliderButton.h"
+	"rotateButton.h"
+	"moveButton.h"
+	"saveButton.h"
+	"console.h"
+	"particleSystem.h"
+	"physicsActor.h"
+	"ragDoll.h"
+	"flexGrid.h"
+	"interpolationHelper.h"
+	"createActorButton.h"
+	"node.h"
+	"rootNode.h"
+	"waitForTimerNode.h"
+	"textInputButton.h"
+	"createNodeButton.h"
+	"propertyInspector.h"
+	"textureInspector.h"
+	"meshInspector.h"
+	"actionInspector.h"
+	"timelineInspector.h"
+	"prefabInspector.h"
+	"brushInspector.h"
+	"layerInspector.h"
+	"udpInput.h"
+	"pilot.h"
+	"action.h"
+	"spriteCharacter.h"
+
+1293667238 c:\moviesandbox\classes\propswidget.h
+	"widget.h"
+
+1293666312 c:\moviesandbox\classes\rotatebutton.h
+	"basicButton.h"
+
+1293666311 c:\moviesandbox\classes\movebutton.h
+	"rotateButton.h"
+
+1293666312 c:\moviesandbox\classes\savebutton.h
+	<listButton.h>
+
+1293666311 c:\moviesandbox\classes\createactorbutton.h
+	"basicButton.h"
+
+1293666312 c:\moviesandbox\classes\waitfortimernode.h
+	"node.h"
+
+1293666311 c:\moviesandbox\classes\createnodebutton.h
+	"basicButton.h"
+	"node.h"
+
+1293667240 c:\moviesandbox\classes\propertyinspector.h
+	"inspector.h"
+
+1293667239 c:\moviesandbox\classes\textureinspector.h
+	"inspector.h"
+
+1293667240 c:\moviesandbox\classes\meshinspector.h
+	"inspector.h"
+	"meshData.h"
+
+1293667240 c:\moviesandbox\classes\prefabinspector.h
+	"inspector.h"
+
+1293667238 c:\moviesandbox\classes\layerinspector.h
+	"inspector.h"
+	"assignButton.h"
+
+1293666312 c:\moviesandbox\classes\udpinput.h
+	"renderer.h"
+	"inputConnectButton.h"
+	"pilot.h"
+
+1293667240 c:\moviesandbox\classes\inputconnectbutton.h
+	"basicButton.h"
+
+1293666312 c:\moviesandbox\classes\pilot.h
+	"osc/OscReceivedElements.h"
+	"osc/OscPacketListener.h"
+	"osc/OscOutboundPacketStream.h"
+	"ip/UdpSocket.h"
+	"process.h"
+	"actor.h"
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oscreceivedelements.h
+	"OscTypes.h"
+	"OscException.h"
+
+1293667208 c:\moviesandbox\external\oscpack\osc\osctypes.h
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oscexception.h
+	<exception>
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oscpacketlistener.h
+	"OscReceivedElements.h"
+	"../ip/PacketListener.h"
+
+1293667208 c:\moviesandbox\external\oscpack\ip\packetlistener.h
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oscoutboundpacketstream.h
+	"OscTypes.h"
+	"OscException.h"
+
+1293667208 c:\moviesandbox\external\oscpack\ip\udpsocket.h
+	"NetworkingUtils.h"
+	"IpEndpointName.h"
+
+1293667208 c:\moviesandbox\external\oscpack\ip\networkingutils.h
+
+1293667208 c:\moviesandbox\external\oscpack\ip\ipendpointname.h
+
+1293667240 c:\moviesandbox\classes\spritecharacter.h
+	"particleSystem.h"
+
+1293666311 source:c:\moviesandbox\classes\control.cpp
+	"control.h"
+	"input.h"
+	"physicsActor.h"
+	"calligraphyFilter.h"
+	"navTool.h"
+	"particleSelectTool.h"
+
+1293667239 c:\moviesandbox\classes\particleselecttool.h
+	"drawTool.h"
+
+1293667240 source:c:\moviesandbox\classes\createactionbutton.cpp
+	"createActionButton.h"
+	"renderer.h"
+	"input.h"
+	"timelineButton.h"
+	"timelineInspector.h"
+	"action.h"
+
+1293667238 c:\moviesandbox\classes\createactionbutton.h
+	"textInputButton.h"
+
+1293666311 source:c:\moviesandbox\classes\createactorbutton.cpp
+	"createActorButton.h"
+	"renderer.h"
+	"input.h"
+	"meshData.h"
+
+1293666311 source:c:\moviesandbox\classes\createnodebutton.cpp
+	"createNodeButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\createprefabbutton.cpp
+	"createPrefabButton.h"
+	"renderer.h"
+	"input.h"
+	"selectTool.h"
+
+1293667240 c:\moviesandbox\classes\createprefabbutton.h
+	"textInputButton.h"
+
+1293667240 source:c:\moviesandbox\classes\drawtool.cpp
+	"drawTool.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+	"spriteMeshLoader.h"
+	"drawingWidget.h"
+
+1293741691 source:c:\moviesandbox\classes\drawingwidget.cpp
+	"drawingWidget.h"
+	"input.h"
+	"renderer.h"
+	"sliderButton.h"
+	"spriteMeshLoader.h"
+	"drawTool.h"
+
+1293666311 source:c:\moviesandbox\classes\flexgrid.cpp
+	"flexGrid.h"
+	"renderer.h"
+	"meshData.h"
+
+1293667238 source:c:\moviesandbox\classes\gridtool.cpp
+	"gridTool.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 source:c:\moviesandbox\classes\hitbox.cpp
+	"hitBox.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+
+1293667240 c:\moviesandbox\classes\hitbox.h
+	"actor.h"
+
+1293666311 source:c:\moviesandbox\classes\importbitmapbutton.cpp
+	"importBitmapButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"skeletalDrawing.h"
+	"meshData.h"
+	"drawTool.h"
+
+1293667240 c:\moviesandbox\classes\importbitmapbutton.h
+	"loadButton.h"
+
+1293666311 c:\moviesandbox\classes\loadbutton.h
+	<listButton.h>
+
+1293666311 source:c:\moviesandbox\classes\input.cpp
+	"input.h"
+	"basicButton.h"
+	"listButton.h"
+	"control.h"
+	"interpolationHelper.h"
+	"drawingWidget.h"
+	"boneWidget.h"
+	"skeletalDrawing.h"
+	"brush.h"
+	"moveButton.h"
+	"textInputButton.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+	"spriteMeshLoaderXML.h"
+	"character.h"
+	"boneActor.h"
+	"udpInput.h"
+	"assignButton.h"
+	"userPopUp.h"
+
+1293667240 c:\moviesandbox\classes\spritemeshloaderxml.h
+	"includes.h"
+	"skeletalDrawing.h"
+
+1293667240 c:\moviesandbox\classes\userpopup.h
+	"textInputButton.h"
+
+1293667239 source:c:\moviesandbox\classes\inputconnectbutton.cpp
+	"inputConnectButton.h"
+	"renderer.h"
+	"udpInput.h"
+
+1293667556 source:c:\moviesandbox\classes\inspector.cpp
+	"inspector.h"
+	"renderer.h"
+	"input.h"
+	"inspectorManager.h"
+
+1293667239 source:c:\moviesandbox\classes\inspectormanager.cpp
+	"inspectorManager.h"
+	"renderer.h"
+
+1293666311 source:c:\moviesandbox\classes\interpolatenode.cpp
+	<interpolateNode.h>
+	<control.h>
+	<input.h>
+
+1293666311 c:\moviesandbox\classes\interpolatenode.h
+	"node.h"
+	"interpolationHelper.h"
+
+1293666311 source:c:\moviesandbox\classes\interpolationhelper.cpp
+	"interpolationHelper.h"
+	"skeletalActor.h"
+	"renderer.h"
+
+1293667239 source:c:\moviesandbox\classes\keyinputnode.cpp
+	"keyInputNode.h"
+	"control.h"
+	"input.h"
+
+1293667239 c:\moviesandbox\classes\keyinputnode.h
+	"rootNode.h"
+
+1293667239 source:c:\moviesandbox\classes\layer.cpp
+	"layer.h"
+	"renderer.h"
+	"input.h"
+	"msbLight.h"
+
+1293667238 source:c:\moviesandbox\classes\layerinspector.cpp
+	"layerInspector.h"
+	"renderer.h"
+	"input.h"
+
+1293666311 source:c:\moviesandbox\classes\listbutton.cpp
+	"listButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 source:c:\moviesandbox\classes\loadbrushbutton.cpp
+	"loadBrushButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"skeletalDrawing.h"
+
+1293667239 c:\moviesandbox\classes\loadbrushbutton.h
+	"loadButton.h"
+
+1293666311 source:c:\moviesandbox\classes\loadbutton.cpp
+	"loadButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\loaddrawskeletonbutton.cpp
+	"loadDrawSkeletonButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"brush.h"
+	"skeletalDrawing.h"
+
+1293667240 c:\moviesandbox\classes\loaddrawskeletonbutton.h
+	"loadDrawingButton.h"
+
+1293666311 c:\moviesandbox\classes\loaddrawingbutton.h
+	"loadButton.h"
+
+1293666311 source:c:\moviesandbox\classes\loaddrawingbutton.cpp
+	"loadDrawingButton.h"
+	"renderer.h"
+	"input.h"
+	"drawingWidget.h"
+	"brush.h"
+
+1293667239 source:c:\moviesandbox\classes\loadnode.cpp
+	"loadNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667240 c:\moviesandbox\classes\loadnode.h
+	"node.h"
+
+1293737577 source:c:\moviesandbox\classes\main.cpp
+	"main.h"
+
+1293667239 c:\moviesandbox\classes\main.h
+	"includes.h"
+	"input.h"
+	"base64Encode.h"
+
+1293667240 c:\moviesandbox\classes\base64encode.h
+	"includes.h"
+
+1293667239 source:c:\moviesandbox\classes\meshdata.cpp
+	"meshData.h"
+	"renderer.h"
+
+1293667240 source:c:\moviesandbox\classes\meshinspector.cpp
+	"meshInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+
+1293667238 source:c:\moviesandbox\classes\morphspritemeshnode.cpp
+	"morphSpriteMeshNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667238 c:\moviesandbox\classes\morphspritemeshnode.h
+	"node.h"
+
+1293666311 source:c:\moviesandbox\classes\movebutton.cpp
+	"moveButton.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\msblight.cpp
+	"msbLight.h"
+	"renderer.h"
+
+1293667238 source:c:\moviesandbox\classes\msbtool.cpp
+	"msbTool.h"
+	"input.h"
+	"control.h"
+
+1293667238 source:c:\moviesandbox\classes\navtool.cpp
+	"navTool.h"
+	"renderer.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\node.cpp
+	"node.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\nodeio.cpp
+	"nodeIO.h"
+	"input.h"
+
+1293667238 source:c:\moviesandbox\classes\particleselecttool.cpp
+	"particleSelectTool.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\particlespray.cpp
+	"particleSpray.h"
+	"renderer.h"
+	"control.h"
+	"meshData.h"
+
+1293667240 c:\moviesandbox\classes\particlespray.h
+	"particleSystem.h"
+
+1293666312 source:c:\moviesandbox\classes\particlesystem.cpp
+	"particleSystem.h"
+	"control.h"
+	"input.h"
+	"meshData.h"
+
+1293667239 source:c:\moviesandbox\classes\performactionnode.cpp
+	"performActionNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+	"skeletalActor.h"
+
+1293666312 source:c:\moviesandbox\classes\physicsactor.cpp
+	"physicsActor.h"
+	"renderer.h"
+	"input.h"
+	"ragDoll.h"
+
+1293666312 source:c:\moviesandbox\classes\pickworldbutton.cpp
+	"pickWorldButton.h"
+	"renderer.h"
+	"input.h"
+
+1293666312 c:\moviesandbox\classes\pickworldbutton.h
+	<basicButton.h>
+
+1293666312 source:c:\moviesandbox\classes\pilot.cpp
+	"pilot.h"
+	"udpInput.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\prefabinspector.cpp
+	"prefabInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1293667239 source:c:\moviesandbox\classes\propertyassignbutton.cpp
+	"propertyAssignButton.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+
+1293667240 c:\moviesandbox\classes\propertyassignbutton.h
+	"basicButton.h"
+
+1293667238 source:c:\moviesandbox\classes\propertyinspector.cpp
+	"propertyInspector.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 source:c:\moviesandbox\classes\propswidget.cpp
+	"propsWidget.h"
+	"renderer.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\ragdoll.cpp
+	"ragDoll.h"
+	"renderer.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\rootnode.cpp
+	"rootNode.h"
+	"control.h"
+	"renderer.h"
+
+1293666312 source:c:\moviesandbox\classes\rotatebutton.cpp
+	"rotateButton.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\savebutton.cpp
+	"saveButton.h"
+	"input.h"
+
+1293667239 source:c:\moviesandbox\classes\selecttool.cpp
+	"selectTool.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\setanimationnode.cpp
+	"setAnimationNode.h"
+	"control.h"
+	"character.h"
+	"renderer.h"
+
+1293667240 c:\moviesandbox\classes\setanimationnode.h
+	"node.h"
+
+1293667239 source:c:\moviesandbox\classes\setbackgroundnode.cpp
+	"setBackgroundNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667240 c:\moviesandbox\classes\setbackgroundnode.h
+	"node.h"
+
+1293667239 source:c:\moviesandbox\classes\setbasebutton.cpp
+	"setBaseButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 c:\moviesandbox\classes\setbasebutton.h
+	"basicButton.h"
+
+1293667238 source:c:\moviesandbox\classes\sethiddennode.cpp
+	"SetHiddenNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667239 c:\moviesandbox\classes\sethiddennode.h
+	"node.h"
+
+1293667239 source:c:\moviesandbox\classes\setpropertynode.cpp
+	"setPropertyNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667239 c:\moviesandbox\classes\setpropertynode.h
+	"node.h"
+
+1293667240 source:c:\moviesandbox\classes\setwalktargetnode.cpp
+	"SetWalkTargetNode.h"
+	"control.h"
+	"renderer.h"
+	"character.h"
+
+1293667240 c:\moviesandbox\classes\setwalktargetnode.h
+	"node.h"
+
+1293743241 source:c:\moviesandbox\classes\skeletalactor.cpp
+	"skeletalActor.h"
+	"renderer.h"
+	"input.h"
+	"boneActor.h"
+	"physicsActor.h"
+	"meshData.h"
+
+1293667240 source:c:\moviesandbox\classes\skeletaldrawing.cpp
+	"skeletalDrawing.h"
+	"renderer.h"
+	"control.h"
+	"boneActor.h"
+	"skeletalActor.h"
+	"spriteMeshLoader.h"
+	"input.h"
+	"drawingWidget.h"
+
+1293667240 source:c:\moviesandbox\classes\skeletalhead.cpp
+	"skeletalHead.h"
+	"renderer.h"
+
+1293667240 source:c:\moviesandbox\classes\skintool.cpp
+	"skinTool.h"
+	"renderer.h"
+	"input.h"
+	"spriteMeshLoader.h"
+	"skeletalActor.h"
+	"brush.h"
+
+1293666312 source:c:\moviesandbox\classes\sliderbutton.cpp
+	"sliderButton.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\spawntool.cpp
+	"spawnTool.h"
+	"renderer.h"
+	"input.h"
+
+1293667238 source:c:\moviesandbox\classes\spritecharacter.cpp
+	"spriteCharacter.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\spritemeshloader.cpp
+	"spriteMeshLoader.h"
+	"renderer.h"
+	"input.h"
+	"base64Encode.h"
+
+1293667240 source:c:\moviesandbox\classes\spritemeshloaderxml.cpp
+	"spriteMeshLoaderXML.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\stopanimnode.cpp
+	"stopAnimNode.h"
+	"control.h"
+	"renderer.h"
+	"character.h"
+
+1293667239 c:\moviesandbox\classes\stopanimnode.h
+	"node.h"
+
+1293667240 source:c:\moviesandbox\classes\switchcameranode.cpp
+	"switchCameraNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 c:\moviesandbox\classes\switchcameranode.h
+	"node.h"
+
+1293666312 source:c:\moviesandbox\classes\textinputbutton.cpp
+	"textInputButton.h"
+	"renderer.h"
+	"input.h"
+	"inputConnectButton.h"
+
+1293666312 source:c:\moviesandbox\classes\textfile.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1293667239 source:c:\moviesandbox\classes\textureinspector.cpp
+	"textureInspector.h"
+	"renderer.h"
+	"input.h"
+	"assignButton.h"
+
+1293667240 source:c:\moviesandbox\classes\timelinebutton.cpp
+	"timelineButton.h"
+	"renderer.h"
+	"input.h"
+	"interpolationHelper.h"
+	"timelineInspector.h"
+
+1293666312 source:c:\moviesandbox\classes\timelineinspector.cpp
+	"timelineInspector.h"
+	"assignButton.h"
+	"renderer.h"
+	"input.h"
+	"sliderButton.h"
+	"skeletalActor.h"
+
+1293667238 source:c:\moviesandbox\classes\triggeractornode.cpp
+	"triggerActorNode.h"
+	"control.h"
+	"renderer.h"
+
+1293667239 c:\moviesandbox\classes\triggeractornode.h
+	"node.h"
+
+1293667239 source:c:\moviesandbox\classes\triggereventnode.cpp
+	"triggerEventNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1293667239 c:\moviesandbox\classes\triggereventnode.h
+	"node.h"
+
+1293666312 source:c:\moviesandbox\classes\udpinput.cpp
+	"udpInput.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\userpopup.cpp
+	"userPopUp.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 source:c:\moviesandbox\classes\videotextureactor.cpp
+	"videoTextureActor.h"
+	"renderer.h"
+
+1293667239 c:\moviesandbox\classes\videotextureactor.h
+	"actor.h"
+	"ofVideoPlayer.h"
+
+1293667214 c:\moviesandbox\external\ofvideo\ofvideoplayer.h
+	"ofVideoConstants.h"
+	"ofQtUtils.h"
+
+1293667214 c:\moviesandbox\external\ofvideo\ofvideoconstants.h
+	<stdio.h>
+	<string>
+	<iostream>
+
+1293667214 c:\moviesandbox\external\ofvideo\ofqtutils.h
+	"ofVideoConstants.h"
+	<QTML.h>
+	<FixMath.h>
+	<QuickTimeComponents.h>
+	<TextUtils.h>
+	<MediaHandlers.h>
+	<MoviesFormat.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\qtml.h
+	<MacTypes.h>
+	<MacMemory.h>
+	<MacWindows.h>
+	<OSUtils.h>
+	<Files.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\mactypes.h
+	<ConditionalMacros.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\conditionalmacros.h
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\macmemory.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1293667226 c:\moviesandbox\external\quicktime\cincludes\mixedmode.h
+	<MacTypes.h>
+
+1293667224 c:\moviesandbox\external\quicktime\cincludes\macwindows.h
+	<MacTypes.h>
+	<Aliases.h>
+	<AppleEvents.h>
+	<Collections.h>
+	<Drag.h>
+	<Events.h>
+	<Menus.h>
+	<MixedMode.h>
+	<QDOffscreen.h>
+	<Quickdraw.h>
+	<TextCommon.h>
+	<Icons.h>
+	<MacErrors.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\aliases.h
+	<MacTypes.h>
+	<AppleTalk.h>
+	<Files.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\appletalk.h
+	<MacTypes.h>
+	<OSUtils.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\osutils.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<MacMemory.h>
+	<Patches.h>
+	<DateTimeUtils.h>
+	<Endian.h>
+
+1293667224 c:\moviesandbox\external\quicktime\cincludes\patches.h
+	<MacTypes.h>
+
+1293667224 c:\moviesandbox\external\quicktime\cincludes\datetimeutils.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\endian.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\files.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<OSUtils.h>
+	<TextCommon.h>
+	<UTCUtils.h>
+	<Finder.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\textcommon.h
+	<MacTypes.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\utcutils.h
+	<MacTypes.h>
+	<MacErrors.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\macerrors.h
+	<ConditionalMacros.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\finder.h
+	<MacTypes.h>
+
+1293667226 c:\moviesandbox\external\quicktime\cincludes\appleevents.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Notification.h>
+	<Events.h>
+	<AEDataModel.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\notification.h
+	<MacTypes.h>
+	<OSUtils.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\events.h
+	<OSUtils.h>
+	<Quickdraw.h>
+	<MacTypes.h>
+	<Endian.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\quickdraw.h
+	<Components.h>
+	<MacTypes.h>
+	<MixedMode.h>
+	<QuickdrawText.h>
+
+1293667226 c:\moviesandbox\external\quicktime\cincludes\components.h
+	<MacErrors.h>
+	<MacTypes.h>
+	<MixedMode.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\quickdrawtext.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\aedatamodel.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\collections.h
+	<MacTypes.h>
+	<MixedMode.h>
+
+1293667223 c:\moviesandbox\external\quicktime\cincludes\drag.h
+	<MacTypes.h>
+	<Events.h>
+	<Files.h>
+	<AppleEvents.h>
+	<Quickdraw.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\menus.h
+	<MacTypes.h>
+	<Events.h>
+	<Quickdraw.h>
+	<Fonts.h>
+	<TextCommon.h>
+	<Processes.h>
+	<AppleEvents.h>
+	<Collections.h>
+	<MacErrors.h>
+
+1293667224 c:\moviesandbox\external\quicktime\cincludes\fonts.h
+	<MacTypes.h>
+	<Files.h>
+	<Quickdraw.h>
+	<TextCommon.h>
+	<MacErrors.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\processes.h
+	<MacTypes.h>
+	<Events.h>
+	<Files.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\qdoffscreen.h
+	<MacErrors.h>
+	<Quickdraw.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\icons.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<Files.h>
+	<CodeFragments.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\codefragments.h
+	<MacTypes.h>
+	<Files.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\fixmath.h
+	<MacTypes.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\quicktimecomponents.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Components.h>
+	<ImageCompression.h>
+	<Movies.h>
+	<Quickdraw.h>
+	<Video.h>
+	<Sound.h>
+	<QuickTimeMusic.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\imagecompression.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<QDOffscreen.h>
+	<Components.h>
+	<StandardFile.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\standardfile.h
+	<MacTypes.h>
+	<Dialogs.h>
+	<Files.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\dialogs.h
+	<MacTypes.h>
+	<MixedMode.h>
+	<Events.h>
+	<MacWindows.h>
+	<TextEdit.h>
+	<Controls.h>
+	<MacErrors.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\textedit.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<MixedMode.h>
+
+1293667223 c:\moviesandbox\external\quicktime\cincludes\controls.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<Menus.h>
+	<TextEdit.h>
+	<Drag.h>
+	<Icons.h>
+	<Collections.h>
+	<MacErrors.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\movies.h
+	<Quickdraw.h>
+	<Aliases.h>
+	<Events.h>
+	<Menus.h>
+	<Components.h>
+	<ImageCompression.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\video.h
+	<Quickdraw.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\sound.h
+	<MacTypes.h>
+	<Dialogs.h>
+	<Components.h>
+	<MixedMode.h>
+	<Movies.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\quicktimemusic.h
+	<Components.h>
+	<ImageCompression.h>
+	<Movies.h>
+	<Quickdraw.h>
+	<Video.h>
+	<MacMemory.h>
+	<Sound.h>
+	<Endian.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\textutils.h
+	<MacTypes.h>
+	<NumberFormatting.h>
+	<StringCompare.h>
+	<DateTimeUtils.h>
+
+1293667225 c:\moviesandbox\external\quicktime\cincludes\numberformatting.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+	<IntlResources.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\intlresources.h
+	<MacTypes.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\stringcompare.h
+	<MacTypes.h>
+	<TextCommon.h>
+	<Script.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\script.h
+	<MacTypes.h>
+	<Quickdraw.h>
+	<IntlResources.h>
+	<Events.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\mediahandlers.h
+	<ConditionalMacros.h>
+	<MacTypes.h>
+	<Components.h>
+	<Movies.h>
+	<Sound.h>
+
+1293667222 c:\moviesandbox\external\quicktime\cincludes\moviesformat.h
+	<MacTypes.h>
+	<Movies.h>
+
+1293667240 source:c:\moviesandbox\classes\waitforeventnode.cpp
+	"waitForEventNode.h"
+	"control.h"
+	"renderer.h"
+	"input.h"
+
+1293667240 c:\moviesandbox\classes\waitforeventnode.h
+	"node.h"
+
+1293666312 source:c:\moviesandbox\classes\waitfortimernode.cpp
+	"waitForTimerNode.h"
+	<renderer.h>
+
+1293667240 source:c:\moviesandbox\classes\walktonode.cpp
+	"renderer.h"
+	"walkToNode.h"
+	"control.h"
+	"character.h"
+
+1293667239 c:\moviesandbox\classes\walktonode.h
+	"node.h"
+
+1293667240 source:c:\moviesandbox\classes\widget.cpp
+	"widget.h"
+	"renderer.h"
+	"input.h"
+
+1293666312 source:c:\moviesandbox\classes\x1600renderer.cpp
+	"x1600Renderer.h"
+	"input.h"
+
+1293667228 source:c:\moviesandbox\external\glee\glee.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"GLee.h"
+	<Carbon/Carbon.h>
+
+1293667229 source:c:\moviesandbox\external\oftruetypefont\oftruetypefont.cpp
+	"ofTrueTypeFont.h"
+	"renderer.h"
+	<ft2build.h>
+	<freetype/freetype.h>
+	<freetype/ftglyph.h>
+	<freetype/ftoutln.h>
+	<freetype/fttrigon.h>
+
+1293666313 c:\moviesandbox\external\freetype\ft2build.h
+	<freetype/config/ftheader.h>
+
+1293666313 c:\moviesandbox\external\freetype\freetype\config\ftheader.h
+
+1293666313 c:\moviesandbox\external\freetype\freetype\freetype.h
+	<ft2build.h>
+
+1293666313 c:\moviesandbox\external\freetype\freetype\ftglyph.h
+	<ft2build.h>
+
+1293666313 c:\moviesandbox\external\freetype\freetype\ftoutln.h
+	<ft2build.h>
+
+1293666313 c:\moviesandbox\external\freetype\freetype\fttrigon.h
+
+1293667214 source:c:\moviesandbox\external\ofvideo\ofqtutils.cpp
+	"ofQtUtils.h"
+	"string.h"
+
+1293667214 source:c:\moviesandbox\external\ofvideo\ofvideoplayer.cpp
+	"ofVideoPlayer.h"
+	<string.h>
+	<gst/video/video.h>
+	"gst/app/gstappsink.h"
+	<string.h>
+
+1293666318 source:c:\moviesandbox\external\ofxperlin\ofxperlin.cpp
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+	"ofxPerlin.h"
+
+1293667208 source:c:\moviesandbox\external\oscpack\ip\ipendpointname.cpp
+	"IpEndpointName.h"
+	<stdio.h>
+	"NetworkingUtils.h"
+
+1293667208 source:c:\moviesandbox\external\oscpack\ip\win32\networkingutils.cpp
+	"ip/NetworkingUtils.h"
+	<winsock2.h>
+	<windows.h>
+	<stdlib.h>
+	<stdio.h>
+
+1293667208 source:c:\moviesandbox\external\oscpack\ip\win32\udpsocket.cpp
+	"ip/UdpSocket.h"
+	<winsock2.h>
+	<windows.h>
+	<mmsystem.h>
+	<vector>
+	<algorithm>
+	<stdexcept>
+	<assert.h>
+	<signal.h>
+	"ip/NetworkingUtils.h"
+	"ip/PacketListener.h"
+	"ip/TimerListener.h"
+
+1293667208 c:\moviesandbox\external\oscpack\ip\timerlistener.h
+
+1293667208 source:c:\moviesandbox\external\oscpack\osc\oscoutboundpacketstream.cpp
+	"OscOutboundPacketStream.h"
+	<string.h>
+	<stdlib.h>
+	<assert.h>
+	<malloc.h>
+	"OscHostEndianness.h"
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oschostendianness.h
+
+1293667208 source:c:\moviesandbox\external\oscpack\osc\oscprintreceivedelements.cpp
+	"OscPrintReceivedElements.h"
+	<string.h>
+	<iostream>
+	<iomanip>
+	<ctime>
+
+1293667208 c:\moviesandbox\external\oscpack\osc\oscprintreceivedelements.h
+	<iosfwd>
+	"OscReceivedElements.h"
+
+1293667208 source:c:\moviesandbox\external\oscpack\osc\oscreceivedelements.cpp
+	"OscReceivedElements.h"
+	<cassert>
+	"OscHostEndianness.h"
+
+1293667208 source:c:\moviesandbox\external\oscpack\osc\osctypes.cpp
+	"OscTypes.h"
+
+1293667209 source:c:\moviesandbox\external\tinyxml\tinystr.cpp
+	"tinystr.h"
+
+1293667209 source:c:\moviesandbox\external\tinyxml\tinyxml.cpp
+	<ctype.h>
+	<sstream>
+	<iostream>
+	"tinyxml.h"
+
+1293667209 source:c:\moviesandbox\external\tinyxml\tinyxmlerror.cpp
+	"tinyxml.h"
+
+1293667209 source:c:\moviesandbox\external\tinyxml\tinyxmlparser.cpp
+	<ctype.h>
+	<stddef.h>
+	"tinyxml.h"
+	<windows.h>
+
+1293667204 source:c:\moviesandbox\external\vmath\vmath.cpp
+	"vmath.h"
+
+1293753548 source:c:\moviesandbox\classes\renderer.cpp
+	"input.h"
+	"colladaLoader.h"
+	"spriteMeshLoader.h"
+	"spriteMeshLoaderXML.h"
+	"particleSystem.h"
+	"physicsActor.h"
+	"ragDoll.h"
+	"skeletalActor.h"
+	"hitBox.h"
+	"cameraActor.h"
+	"spriteCharacter.h"
+	"boneActor.h"
+	"skeletalDrawing.h"
+	"skeletalHead.h"
+	"character.h"
+	"characterController.h"
+	"msbLight.h"
+	"console.h"
+	"createActorButton.h"
+	"createNodeButton.h"
+	"moveButton.h"
+	"rotateButton.h"
+	"setBaseButton.h"
+	"listButton.h"
+	"sliderButton.h"
+	"saveButton.h"
+	"loadButton.h"
+	"userPopUp.h"
+	"drawingWidget.h"
+	"importBitmapButton.h"
+	"loadBrushButton.h"
+	"loadDrawingButton.h"
+	"loadDrawSkeletonButton.h"
+	"assignButton.h"
+	"propertyAssignButton.h"
+	"textInputButton.h"
+	"colorPickButton.h"
+	"pickWorldButton.h"
+	"createPrefabButton.h"
+	"createActionButton.h"
+	"inspector.h"
+	"propertyInspector.h"
+	"textureInspector.h"
+	"actionInspector.h"
+	"timelineInspector.h"
+	"meshInspector.h"
+	"prefabInspector.h"
+	"brushInspector.h"
+	"timelineButton.h"
+	"layerInspector.h"
+	"udpInput.h"
+	"node.h"
+	"rootNode.h"
+	"waitForTimerNode.h"
+	"interpolateNode.h"
+	"keyInputNode.h"
+	"switchCameraNode.h"
+	"performActionNode.h"
+	"setPropertyNode.h"
+	"walkToNode.h"
+	"setAnimationNode.h"
+	"stopAnimNode.h"
+	"waitForEventNode.h"
+	"triggerEventNode.h"
+	"consoleCommandNode.h"
+	"setWalkTargetNode.h"
+	"setHiddenNode.h"
+	"triggerActorNode.h"
+	"attachToNode.h"
+	"setBackgroundNode.h"
+	"morphSpriteMeshNode.h"
+	"layer.h"
+	"action.h"
+	"particleSpray.h"
+	"meshData.h"
+	<Commdlg.h>
+	<stdio.h>
+	<conio.h>
+	<tchar.h>
+

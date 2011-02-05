@@ -922,6 +922,8 @@ void Renderer::checkFBOStatus(){
 
 int Renderer::readSharedMemory(){
 
+#ifdef TARGET_WIN32
+
    HANDLE hMapFile;
    LPCTSTR pBuf;
 
@@ -966,7 +968,11 @@ int Renderer::readSharedMemory(){
 
       CloseHandle(hMapFile);
    }
+
+#endif
    return 0;
+
+
 }
 
 void Renderer::update(){
