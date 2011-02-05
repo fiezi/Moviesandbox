@@ -204,7 +204,7 @@
 				<key>PBXProjectModuleGUID</key>
 				<string>18754E4A1214A55300F0FD48</string>
 				<key>PBXProjectModuleLabel</key>
-				<string>skeletalActor.cpp</string>
+				<string>renderer.h</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
 				<dict>
 					<key>Split0</key>
@@ -212,18 +212,20 @@
 						<key>PBXProjectModuleGUID</key>
 						<string>18754E641214AFE500F0FD48</string>
 						<key>PBXProjectModuleLabel</key>
-						<string>skeletalActor.cpp</string>
+						<string>renderer.h</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>18AB6745123FE949006E461E</string>
+						<string>1813ADD612FB7E660039505D</string>
 						<key>history</key>
 						<array>
 							<string>18754E991214B28F00F0FD48</string>
 							<string>18754EFF1214CEED00F0FD48</string>
 							<string>18754F151214D14200F0FD48</string>
 							<string>18531D7A121ACB2600A01D36</string>
-							<string>1811909A123FA7EC00DA63CE</string>
+							<string>1813ADD412FB7E660039505D</string>
+							<string>1813ADD512FB7E660039505D</string>
+							<string>1813ADCE12FB76480039505D</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -314,13 +316,16 @@
 								<string>08FB7794FE84155DC02AAC07</string>
 								<string>181163CF10CB37E2007AE094</string>
 								<string>181163D010CB3815007AE094</string>
+								<string>18B96FBA1112D51D00530AA6</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>5</integer>
+									<integer>21</integer>
+									<integer>17</integer>
+									<integer>13</integer>
 									<integer>4</integer>
 									<integer>0</integer>
 								</array>
@@ -373,7 +378,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>18AB6744123FE949006E461E</string>
+										<string>1813ADD312FB7E660039505D</string>
 										<key>history</key>
 										<array>
 											<string>181165F510CB4295007AE094</string>
@@ -495,7 +500,7 @@
 											<string>18754E611214AFE500F0FD48</string>
 											<string>18754E6B1214B00D00F0FD48</string>
 											<string>18119092123EB16B00DA63CE</string>
-											<string>18119099123FA7EC00DA63CE</string>
+											<string>18AB6744123FE949006E461E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -553,9 +558,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>18AB6740123FE8A4006E461E</string>
+				<string>1813ADC112FB74B70039505D</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>18AB6741123FE8A4006E461E</string>
+				<string>1813ADC212FB74B70039505D</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -695,13 +700,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>18AB674D123FE949006E461E</string>
-		<string>18AB674E123FE949006E461E</string>
+		<string>1813ADD812FB7E660039505D</string>
+		<string>1813ADD912FB7E660039505D</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>181163C710CB37C2007AE094</string>
-		<string>/Applications/msb_mac/MSB_mac.xcodeproj</string>
 		<string>18754E4A1214A55300F0FD48</string>
+		<string>/Volumes/windows/Moviesandbox/MSB_mac.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>37 46 246 832 0 0 1440 878 </string>
@@ -781,7 +786,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>181163C710CB37C2007AE094</string>
-				<string>18AB6743123FE8A4006E461E</string>
+				<string>1813ADC412FB74B70039505D</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -903,13 +908,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>18AB6746123FE949006E461E</string>
+				<string>1813ADC512FB74B70039505D</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>18AB6747123FE949006E461E</string>
-				<string>18AB6748123FE949006E461E</string>
-				<string>18AB6749123FE949006E461E</string>
-				<string>18AB674A123FE949006E461E</string>
-				<string>18AB674B123FE949006E461E</string>
+				<string>1813ADC612FB74B70039505D</string>
+				<string>1813ADC712FB74B70039505D</string>
+				<string>1813ADC812FB74B70039505D</string>
+				<string>1813ADC912FB74B70039505D</string>
+				<string>1813ADCA12FB74B70039505D</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -1063,7 +1068,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>18AB674C123FE949006E461E</string>
+				<string>1813ADD712FB7E660039505D</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

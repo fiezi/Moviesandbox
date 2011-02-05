@@ -55,8 +55,8 @@
 	<File name="classes\console.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1770" topLine="0" />
 	</File>
-	<File name="classes\content.cpp" open="0" top="0" tabpos="9">
-		<Cursor position="8101" topLine="34" />
+	<File name="classes\content.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="4762" topLine="46" />
 	</File>
 	<File name="classes\content.h" open="0" top="0" tabpos="8">
 		<Cursor position="615" topLine="0" />
@@ -106,7 +106,7 @@
 	<File name="classes\input.h" open="0" top="0" tabpos="2">
 		<Cursor position="474" topLine="18" />
 	</File>
-	<File name="classes\inspector.cpp" open="1" top="1" tabpos="0">
+	<File name="classes\inspector.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="28" topLine="0" />
 	</File>
 	<File name="classes\inspector.h" open="0" top="0" tabpos="0">
@@ -160,8 +160,8 @@
 	<File name="classes\propsWidget.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="668" topLine="0" />
 	</File>
-	<File name="classes\renderer.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="60749" topLine="250" />
+	<File name="classes\renderer.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="67649" topLine="165" />
 	</File>
 	<File name="classes\renderer.h" open="0" top="0" tabpos="2">
 		<Cursor position="7109" topLine="0" />
