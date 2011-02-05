@@ -147,7 +147,7 @@ public:
 
        std::string textureID;                         //texture identifier for texture instancing
 
-       int drawType;                                //which draw function to call: e.g. DRAW_CUBE, DRAW_MESH, DRAW_SPRITE, etc...
+       int drawType;                                //which way to draw this actor: e.g. DRAW_CUBE, DRAW_MESH, DRAW_SPRITE, etc...
 
        double elapsedTime;                          //time since scene started
        double birth;                                //time when this actor was created

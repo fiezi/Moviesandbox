@@ -24,7 +24,6 @@ using namespace std;
 
 //external user libraries
 #include "vmath.h"
-//#include "ObjLoader.h"
 
 
 #include "tinyxml.h"
@@ -33,6 +32,7 @@ using namespace std;
 #include "ode.h"
 
 #include "FreeImage.h"
+
 
 ///Structs and global stuff!
 

@@ -280,6 +280,8 @@ public:
        virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name);
        virtual void checkFBOStatus();
 
+       virtual int readSharedMemory();
+
        virtual void update();
        virtual void physicsUpdate();
 

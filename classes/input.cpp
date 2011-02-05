@@ -178,10 +178,9 @@ void Input::pressedMouse(int button,int state,int x, int y){
 
     //don't forget the modifiers!
 
-    if (GLUT_ACTIVE_SHIFT==glutGetModifiers())
-      bShiftDown=true;
-    else
-      bShiftDown=false;
+        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 
 	//some MOUSE INFO
     //boolean flags and
@@ -265,15 +264,9 @@ void Input::moveMouse(int x, int y){
 
 	#ifdef TARGET_WIN32
 
-		if (GLUT_ACTIVE_SHIFT==glutGetModifiers())
-		  bShiftDown=true;
-		else
-		  bShiftDown=false;
-
-		if (GLUT_ACTIVE_CTRL==glutGetModifiers())
-		  bCtrlDown=true;
-		else
-		  bCtrlDown=false;
+        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 
 		mouseVector.x=x-mouseX;
 		mouseVector.y=(y-mouseY)*invertMouse;
@@ -302,15 +295,9 @@ void Input::dragMouse(int x, int y){
 
 	#ifdef TARGET_WIN32
 
-		if (GLUT_ACTIVE_SHIFT==glutGetModifiers())
-			bShiftDown=true;
-		else
-			bShiftDown=false;
-
-		if (GLUT_ACTIVE_CTRL==glutGetModifiers())
-			bCtrlDown=true;
-		else
-			bCtrlDown=false;
+        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 
 	#endif
 
@@ -361,10 +348,9 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
         if (key=='s')
                keyVector.z=1;
 
-        if (GLUT_ACTIVE_SHIFT==glutGetModifiers())
-          bShiftDown=true;
-        else
-          bShiftDown=false;
+        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 
         lastKey=key;
 
@@ -415,10 +401,9 @@ if (key==GLUT_KEY_DOWN)
 if (key==GLUT_KEY_END)
        exit(0);
 
-if (GLUT_ACTIVE_SHIFT==glutGetModifiers())
-  bShiftDown=true;
-else
-  bShiftDown=false;
+        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 }
 
 

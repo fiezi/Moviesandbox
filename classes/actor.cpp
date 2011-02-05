@@ -776,7 +776,6 @@ void Actor::memberFromString(memberID *mID,string value){
     if (setVecPropertyTo (mID,readVecString(cValue)))
         return;
 
-    //TODO:This will leak a bit of memory!
     cValue = new char [value.size()+1];
     strcpy (cValue, value.c_str());
 
@@ -801,7 +800,7 @@ void Actor::memberFromString(memberID *mID,string value){
     if (setVecPropertyTo (mID,readVecVector4f(cValue)))
         return;
 
-
+    delete(cValue);
 }
 
 //gets called from memberFromString! Don't use as standalone function!

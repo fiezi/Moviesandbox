@@ -90,6 +90,7 @@ void Content::setup(){
 
     createInspectors();
 
+
  }
 
 void Content::createConsole(){
@@ -210,7 +211,7 @@ void Content::createSelectButton(int x, int y){
     but->tooltip="select (i)";
     but->setLocation(but->location);
     but->textureID="icon_select";
-    but->color=COLOR_RED;
+    but->color=COLOR_WHITE;
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_SELECT]->myBtn=but;
@@ -656,6 +657,55 @@ void Content::createInspectors(){
     input->controller->timeline=(TimelineInspector*)lbut;
     renderer->buttonList.push_back(lbut);
     lbut->setup();
+}
+
+
+void Content::createActorContent(){
+
+
+    Renderer* renderer=Renderer::getInstance();
+    Input* input=Input::getInstance();
+
+    SkeletalActor* drawing;
+    drawing = (SkeletalActor*)renderer->grid->spawn("13SkeletalActor");
+
+    drawing->name="kinectTest";
+    drawing->drawType=DRAW_PARTICLES;
+    drawing->sceneShaderID="drawing";
+    drawing->setLocation(Vector3f(0,0,0));
+    cout << "New Drawing: " << drawing->location << endl;
+    drawing->controller=input->controller;
+    //drawing->texture=renderer->textureList[1];
+    drawing->vboMeshID="kinectTest";
+    drawing->setRotation(Vector3f(0,180,90));
+    drawing->setLocation(Vector3f(4,12,0));
+   // drawing->myData=new MeshData;
+    renderer->vboList["kinectTest"]=new MeshData;
+    renderer->vboList["kinectTest"]->boneCount=0;
+
+    for (int row=0;row<240;row++){
+        for (int col=0;col<320;col++){
+
+            //next, fill drawing with 640*480 particles
+            vertexData myVData;
+            myVData.location=Vector4f((float)row * 0.04f,(float)col * 0.04f,0.0,0.01f);
+            myVData.color=Vector4f(1.0,0.0,0.0,1.0);
+
+            //standard bone references - nothing (set to -1)
+            myVData.boneReferences=Vector4f(-1.0,-1.0,-1.0,-1.0);
+            myVData.vertexWeights=Vector4f(0.0,0.0,0.0,0.0);;
+
+            myVData.texCoord=Vector3f(0.0,0.0,0.0);     //texCoord holds color
+            myVData.birth=float(glutGet(GLUT_ELAPSED_TIME))/1000.0; //particle creation time in seconds
+
+
+            myVData.normal=Vector3f(0,0,1);
+            myVData.secondaryColor=Vector3f(0,1,0);
+            renderer->vboList[drawing->vboMeshID]->vData.push_back(myVData);
+        }
+    }
+    //drawing->setup();
+
 }
 
 void Content::reset(){

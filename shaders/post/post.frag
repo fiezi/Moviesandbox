@@ -39,7 +39,7 @@ varying vec2 texCoord;
 	float circleRes= 4.0;           //samples per circle
     float stepsize = 4.0;          //distance of next point in pixels
 
-	float aoMultiplier=1.00;        //progressive darkening
+	float aoMultiplier=4.00;        //progressive darkening
 	float falloff =1.25;
 
 	float cutoffNormal=0.00018010100;    //normal difference to take into account
@@ -327,10 +327,11 @@ void main(void){
 
     objectID=ceil(texture2D(pickTex,texCoord).a);
 
+
     ///Ambient Occlusion
 
-	vec4 aoColor=computeAO() ;
-        gl_FragColor=aoColor * gl_FragColor;
+	//vec4 aoColor=computeAO() ;
+    //gl_FragColor=aoColor * gl_FragColor;
 
 
 

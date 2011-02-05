@@ -7,7 +7,6 @@
 
 ColorPickButton::ColorPickButton(){
 
-//TODO: Needs bDragable to make color selection smoother
 scale.x=256;
 scale.y=128;
 textureID="icon_palette";
