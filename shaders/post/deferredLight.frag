@@ -73,7 +73,11 @@ vec4 computeLight(){
     lightPos.w=1.0;
 
     objectPos=texture2D(pickTex, texCoord);
-    objectPos.w=1.0;
+
+    if (objectPos.a<-100.0)
+        return vec4(0.0,0.0,0.0,0.0);
+    else
+        objectPos.w=1.0;
 
     vec4 distVec = lightPos - objectPos;
     float dist=distance(lightPos,objectPos);
@@ -95,7 +99,7 @@ vec4 computeLight(){
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
     //ambient
-    vec4 colorLight=0.0*texture2D(tex, texCoord);
+    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
 
     //diffuse
 	vec3 NL = normalize( distVecEye.xyz );
@@ -108,18 +112,14 @@ vec4 computeLight(){
         colorLight.rgb += 1.0 * lightCol * pow(max(0.0,dot(NN,NH)),specularExp);
 	}
 
-
-    colorLight.w=1.0;
+   // colorLight.a=1.0;
 
     return colorLight * linAtt;
 }
 
 vec4 shadowMapping(){
 
-    //gl_FragColor=texture2D(tex,texCoord);
-    vec4 myLight=vec4(0.0,0.0,0.0,1.0);
-
-
+    vec4 myLight=vec4(0.0,0.0,0.0,0.0);
 
    if (gl_LightSource[0].spotCutoff==0.0){
         myLight+=computeLight( );
@@ -164,8 +164,9 @@ void main(){
     gl_FragColor=texture2D(tex, texCoord);
 	//gl_FragColor=texture2D(shadowTex,texCoord);
 	//return;
-    gl_FragColor+=shadowMapping();
-	
+    gl_FragColor=shadowMapping();
+    gl_FragColor.a=texture2D(tex, texCoord).a;
+
 	//gl_FragColor+=computeLight();
 
 }

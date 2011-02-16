@@ -327,7 +327,7 @@ public:
        void pick(int x, int y);                    //get the 3D coordinates from the mouse and also get the actor we're pointing at
 
        GLuint createNewRenderTarget();
-       GLuint LoadTextureRAW( const char * filename, int size, int wrap );
+       static GLuint LoadTextureRAW( const char * filename, int size, int wrap );
        bool LoadTextureTGA( string filename, bool wrap, bool bAlpha, string texID );
 
 

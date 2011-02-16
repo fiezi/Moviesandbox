@@ -665,7 +665,7 @@ void Content::createActorContent(){
 
 
     // not in stable branch!
-
+    return;
 
     Renderer* renderer=Renderer::getInstance();
     Input* input=Input::getInstance();

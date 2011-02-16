@@ -320,7 +320,6 @@ void main(void){
 
     ///color map
     gl_FragColor=texture2D(tex, texCoord);
-    gl_FragColor.a=1.0;
 
     ///lighting only
     //gl_FragColor=vec4(1.0,1.0,1.0,1.0);
@@ -356,5 +355,4 @@ void main(void){
     //vec3 norm=readNormal(texCoord);
     //gl_FragColor.xyz+=0.10 * norm;
 
-    gl_FragColor.a=1.0;
 }

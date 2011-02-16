@@ -240,7 +240,7 @@ Renderer::Renderer(){
 
 
     backgroundTex="NULL";
-    backgroundColor=Vector4f(0.5,0.5,0.5,1);
+    backgroundColor=Vector4f(0.25,0.5,0.8,1);
 
     lastShader="NULL";
 
@@ -364,8 +364,6 @@ void Renderer::initWindow(int x, int y, string windowName){
 
     //screenX=x;
     //screenY=y;
-    input->screenX=screenX;
-    input->screenY=screenY;
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 //    glutInitDisplayString("rgba double depth>=24 sample=8");
 
@@ -417,6 +415,12 @@ void Renderer::reDrawScreen(int w, int h){
 
 // load render settings
 void Renderer::loadPreferences(){
+
+    //do this first, so we don't get an error when initialising our physicsActor in the global list!
+	physicsSetup();
+
+    //generate Class and Type Lists
+    fillGlobalLists();
 
 
 #ifdef TARGET_MACOSX
@@ -550,6 +554,7 @@ void Renderer::loadPreferences(){
         myLib.SaveFile( "resources/my.library");
     }
 
+
 }
 
 
@@ -560,16 +565,6 @@ void Renderer::loadPreferences(){
 //************************************************************
 
 void Renderer::setup(){
-
-
-
-    //do this first, so we don't get an error when initialising our physicsActor in the global list!
-	physicsSetup();
-
-
-    //generate Class and Type Lists
-    fillGlobalLists();
-
 
    //create base layer
 
@@ -585,28 +580,28 @@ void Renderer::setup(){
     //add one grid - allow for adding more!
     addGrid();
 
+
+    input->screenX=screenX;
+    input->screenY=screenY;
     input->setup();          //controller gets created here!
 
-
-    //setting up menu
-    cout << "setting up menu" << endl;
-    content= new Content;
-    content->setup();               //everything menu gets set up here!
-
-
-    //this is setting up the menu - I don't want to make this xml based now, it's too complicated
     input->getAllPrefabs();
-
     for (int i=0;i<(int)library.size();i++){
         input->loadMeshes(library[i]);
         input->loadTextures(library[i]);
         input->loadShaders(library[i]);
         input->loadActionList(library[i]);
     }
+
     cout << "loading basic stuff..." << endl;
     input->loadAll(startSceneFilename, false);
     cout << "finished loading basic stuff" << endl;
 
+
+    //setting up menu
+    cout << "setting up menu" << endl;
+    content= new Content;
+    content->setup();               //everything menu gets set up here!
 
     //now set up custom actors from content
 
@@ -1230,6 +1225,10 @@ void Renderer::draw(){
     glActiveTexture(GL_TEXTURE0);
 
     glDisable(GL_DEPTH_TEST);
+
+    //clear to color here!
+    glClearColor(backgroundColor.r,backgroundColor.g,backgroundColor.b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
 	/*
 	 *	Draw Final Image
