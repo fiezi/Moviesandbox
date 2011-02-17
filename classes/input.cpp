@@ -348,9 +348,12 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
         if (key=='s')
                keyVector.z=1;
 
+	#ifdef TARGET_WIN32
+
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
+    #endif
 
         lastKey=key;
 
@@ -401,9 +404,12 @@ if (key==GLUT_KEY_DOWN)
 if (key==GLUT_KEY_END)
        exit(0);
 
+	#ifdef TARGET_WIN32
+
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
+    #endif
 }
 
 
