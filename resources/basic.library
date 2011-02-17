@@ -7,6 +7,9 @@
     <SpriteMesh meshID="sticky" meshFilename="resources/meshes/sticky.spriteMesh"/>
     <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh"/>
 
+    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_skeleton.spriteMesh"/>
+
+
  <!-- Textures -->
     <Texture textureID="NULL" filename="resources/icons/error.tga" bAlpha="1" bWrap="1" />
     <Texture textureID="videoTexture" filename="resources/icons/video.tga" bAlpha="0" bWrap="0" />

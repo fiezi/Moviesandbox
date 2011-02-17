@@ -1030,6 +1030,13 @@ void Input::loadMeshes(std::string fileName){
         cout << "loading sprite mesh " << meshID << endl;
       }
 
+      element=hRoot.FirstChild( "SpriteMeshXML" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMeshXML")){
+        string meshID=element->Attribute("meshID");
+        string meshFileName=element->Attribute("meshFilename");
+        renderer->spriteMeshLoaderXML->loadSpriteMesh(meshFileName, meshID);
+        cout << "loading legacy XML sprite mesh " << meshID << endl;
+      }
 
 }
 

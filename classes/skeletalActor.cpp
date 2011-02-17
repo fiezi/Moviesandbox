@@ -77,6 +77,7 @@ void SkeletalActor::postLoad(){
     bones.clear();
     */
     cout << "SkeletalActor Name: " << name << endl;
+    cout << "SkeletalActor vboID: " << vboMeshID << endl;
 
 	if (renderer->vboList[vboMeshID]->boneCount>0){
 		boneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];

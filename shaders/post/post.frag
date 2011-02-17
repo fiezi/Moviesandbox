@@ -329,9 +329,9 @@ void main(void){
 
     ///Ambient Occlusion
 
-	//vec4 aoColor=computeAO() ;
-    //gl_FragColor=aoColor * gl_FragColor;
-
+	vec4 aoColor=computeAO() ;
+    gl_FragColor.rgb=aoColor.rgb * gl_FragColor.rgb;
+    //gl_FragColor.a=.0f;
 
 
 

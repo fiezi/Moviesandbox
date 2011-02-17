@@ -336,7 +336,7 @@ public:
        void printShaderInfoLog(GLuint obj);
        void printProgramInfoLog(GLuint obj);
 
-       void checkOpenGLError();
+       bool checkOpenGLError(bool bPrint=true);
 
     //has to be static from physics!
        static void handleCollisionBetween(void * data, dGeomID o0, dGeomID o1);

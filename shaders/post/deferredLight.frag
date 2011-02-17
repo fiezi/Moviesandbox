@@ -1,7 +1,6 @@
 uniform float time;
 
 uniform sampler2D tex; // rendered scene
-//uniform sampler2DShadow shadowTex; // rendered shadow texture
 uniform sampler2D depthTex; // rendered scene texture
 uniform sampler2D pickTex; //rendered picking texture
 uniform sampler2D shadowTex; // rendered shadow textures
@@ -20,7 +19,7 @@ varying vec2 texCoord;
 
 float lightDistance = 100.0;
 
-const float specularExp = 256.0;
+const float specularExp = 1.0;
 
 vec4 objectPos;
 
@@ -82,7 +81,7 @@ vec4 computeLight(){
     vec4 distVec = lightPos - objectPos;
     float dist=distance(lightPos,objectPos);
     if (abs(dist)>gl_LightSource[0].linearAttenuation)
-        return vec4(0.0,0.0,0.0,1.0);
+        return vec4(0.0,0.0,0.0,0.0);
 
     float linAtt = (gl_LightSource[0].linearAttenuation-abs(dist))/gl_LightSource[0].linearAttenuation;
 
@@ -112,9 +111,8 @@ vec4 computeLight(){
         colorLight.rgb += 1.0 * lightCol * pow(max(0.0,dot(NN,NH)),specularExp);
 	}
 
-   // colorLight.a=1.0;
-
-    return colorLight * linAtt;
+    colorLight= colorLight * linAtt;
+    return colorLight;
 }
 
 vec4 shadowMapping(){
@@ -150,6 +148,7 @@ vec4 shadowMapping(){
 			//myLight +=max(0.0,(1.0 - falloff))	* computeLight();
 			myLight+= ( min (1.0,max( 0.0,(0.25 *shadowColor.a-falloff)/(0.25*shadowColor.a) ) ) ) * computeLight( );
     }
+
   return myLight;
 }
 
@@ -164,9 +163,6 @@ void main(){
     gl_FragColor=texture2D(tex, texCoord);
 	//gl_FragColor=texture2D(shadowTex,texCoord);
 	//return;
-    gl_FragColor=shadowMapping();
-    gl_FragColor.a=texture2D(tex, texCoord).a;
-
-	//gl_FragColor+=computeLight();
+    gl_FragColor+=shadowMapping();
 
 }

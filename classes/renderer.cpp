@@ -1206,6 +1206,7 @@ void Renderer::draw(){
     }
     */
 
+
 	drawSceneTexture();
 
 	/////////////////////////////////////////////////////
@@ -1227,10 +1228,12 @@ void Renderer::draw(){
     glDisable(GL_DEPTH_TEST);
 
     //clear to color here!
+
     glClearColor(backgroundColor.r,backgroundColor.g,backgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	/*
+
+    /*
 	 *	Draw Final Image
 	 */
 
@@ -1348,7 +1351,11 @@ void Renderer::drawSceneTexture(){
     cout << "Max Draw Buffers: " << max_buffers << endl;
 */
 
+
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
+
+
+
 
     glDrawBuffers(4,drawBuffers);
 
@@ -1371,6 +1378,7 @@ void Renderer::drawSceneTexture(){
 
 		 //drawbuffers are set up here!
         draw3D(layerList[i]);
+
 
         //color blitting
 
@@ -1560,7 +1568,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
 
-        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,0);
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
 
         glPushAttrib(GL_VIEWPORT_BIT);
@@ -1574,6 +1582,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
         ///loop from here for every shadowed light!
 
         for (int i=0;i<(int)lightList.size(); i++){
+
 
             if (lightList[i]->bCastShadows)
                 drawShadows(lightList[i]);
@@ -1610,15 +1619,18 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //bind multisample FBO
             glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
 
-            //only clear depth
-            glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+            glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+
             glClear( GL_DEPTH_BUFFER_BIT );
 
             //draw using lighting_tx as base texture!
             drawButton(layer);
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
         }             //repeat for every shadowed light!
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
         glPopAttrib();
 
@@ -1663,6 +1675,7 @@ void Renderer::draw3D(Layer* currentLayer){
     }
 
 
+
     //draw non-pickable actors afterwards!
     //used for drawings while drawing, so they're visible
     for (int i=0;i<(int)currentLayer->actorList.size(); i++){
@@ -1672,6 +1685,8 @@ void Renderer::draw3D(Layer* currentLayer){
             glDrawBuffers(4, drawBuffers);
         }
     }
+
+
 
 	//draw helpers - brush, grid, etc... if we're not running
     if (!input->controller->bRunning){
@@ -1700,19 +1715,21 @@ void Renderer::draw3D(Layer* currentLayer){
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
 
-
+/*
     //this for xyz axis
     if (!Control::bRunning){
 
         //glDepthMask(GL_FALSE);
         setupShading("color");
+
+
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
             drawOrientation(currentLayer->actorList[i]);
         }
 
         //glDepthMask(GL_TRUE);
     }
-
+*/
 
 
 }
@@ -1832,11 +1849,14 @@ void Renderer::drawActor(Actor* a){
 
 void Renderer::drawOrientation(Actor* a){
 
+
+
     //TODO: Plane orientation, yes/no?
     if (a->drawType==DRAW_PLANE)
         return;
 
     glPushMatrix();
+
 
     if (a->base){
         glMultMatrixf(a->base->baseMatrix);
@@ -1848,12 +1868,13 @@ void Renderer::drawOrientation(Actor* a){
         transformActorMatrix(a);
     }
 
-
-
     bool bComputeLight=a->bComputeLight;
     a->bComputeLight=false;
 
+    //TODO: this throws OpenGL errors on skeletal actors!
     a->updateShaders();
+
+    if (checkOpenGLError(false)) cout << "culprit is:" << a->name << endl;
 
     //set color to specialSelected
     glColor4f(1,0,1,1);
@@ -1889,7 +1910,10 @@ void Renderer::drawOrientation(Actor* a){
 
     a->bComputeLight=bComputeLight;
 
+
+
     glPopMatrix();
+
 }
 
 
@@ -2635,38 +2659,38 @@ void Renderer::printProgramInfoLog(GLuint obj){
     }
 }
 
-void Renderer::checkOpenGLError(){
+bool Renderer::checkOpenGLError(bool bPrint){
 
     GLenum err=glGetError();
 
     switch(err){
 
         case GL_INVALID_ENUM:
-            cout << "ERROR: invalid enum" << endl;
-            break;
+            if (bPrint) cout << "ERROR: invalid enum" << endl;
+            return 1;
 
         case GL_INVALID_VALUE:
-            cout << "ERROR: invalid value" << endl;
-            break;
+            if (bPrint) cout << "ERROR: invalid value" << endl;
+            return 1;
 
         case GL_INVALID_OPERATION:
-            cout << "ERROR: invalid operation" << endl;
-            break;
+            if (bPrint) cout << "ERROR: invalid operation" << endl;
+            return 1;
 
         case GL_STACK_OVERFLOW:
-            cout << "ERROR: stack overflow" << endl;
-            break;
+            if (bPrint) cout << "ERROR: stack overflow" << endl;
+            return 1;
 
         case GL_STACK_UNDERFLOW:
-            cout << "ERROR: stack underflow" << endl;
-            break;
+            if (bPrint) cout << "ERROR: stack underflow" << endl;
+            return 1;
 
         case GL_OUT_OF_MEMORY:
-            cout << "ERROR: out of memory" << endl;
-            break;
+            if (bPrint) cout << "ERROR: out of memory" << endl;
+            return 1;
 
         default:
-            cout << "No Error" << endl;
-            break;
+            if (bPrint) cout << "No Error" << endl;
+            return 0;
     }
 }
