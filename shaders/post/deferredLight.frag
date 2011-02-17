@@ -19,7 +19,7 @@ varying vec2 texCoord;
 
 float lightDistance = 100.0;
 
-const float specularExp = 1.0;
+const float specularExp = 32.0;
 
 vec4 objectPos;
 

@@ -1271,6 +1271,8 @@ void Renderer::draw(){
 
 }
 
+
+// this renders the scene from the view of each light
 void Renderer::drawShadows(MsbLight* myLight){
 
 	glPushAttrib(GL_VIEWPORT_BIT);

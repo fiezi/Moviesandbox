@@ -36,13 +36,11 @@ varying vec2 texCoord;
 	float ao = 0.0;                 //ambient AO
 
     float samples = 8.0;            //number of sample circles
-	float circleRes= 4.0;           //samples per circle
-    float stepsize = 4.0;          //distance of next point in pixels
+	float circleRes= 8.0;           //samples per circle
+    float stepsize = 2.0;          //distance of next point in pixels
 
-	float aoMultiplier=4.00;        //progressive darkening
+	float aoMultiplier=10.50;        //progressive darkening
 	float falloff =1.25;
-
-	float cutoffNormal=0.00018010100;    //normal difference to take into account
 
     float minDepth=0.05;           //minimum distance to take into account
     float maxDepth=6.0;            //maximum distance to take into account
@@ -228,9 +226,20 @@ void compareAOSamples(float depth, vec3 n1, int j){
 
     n1=normalize(n1);
     n2=normalize(n2);
+    float cutOff=0.99;
 
-    if (abs(depth-d)< 0.04 && dot(n2,n1)< 0.99)
-               ao+=1.0 * aoMultiplier;
+    //this is done because our normals are not 100% perfect.
+    //so we need to be more lenient when it comes to self-occlusion!
+/*
+    int compareObjectID=ceil(texture2D(pickTex,vec2(texCoord.x + pw,texCoord.y + ph)).a);
+    if (objectID==compareObjectID){
+        cutOff=0.9;
+    }
+*/
+
+    if ( abs(dot(n2,n1))< cutOff && abs(depth-d)<abs(d/depth))
+        ao+=max(1.0 * aoMultiplier * (depth-d)/depth,0.0);
+        //ao+=aoMultiplier;
     return;
 }
 
@@ -253,8 +262,8 @@ vec4 computeAO(){
 
         for (int j=0; j<int(circleRes);j++){
 
-            pw= float(i)* sin(float(j) * (2.0 *PI)/float(circleRes)) * stepsize/screensize.x;
-            ph= float(i)* cos(float(j) * (2.0*PI)/float(circleRes)) * stepsize/screensize.y;
+            pw= cos(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screensize.x;
+            ph= sin(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screensize.y;
 
             compareAOSamples(depth, n1, j);
         }
@@ -328,10 +337,7 @@ void main(void){
 
 
     ///Ambient Occlusion
-
-	vec4 aoColor=computeAO() ;
-    gl_FragColor.rgb=aoColor.rgb * gl_FragColor.rgb;
-    //gl_FragColor.a=.0f;
+    //gl_FragColor.rgb*=computeAO().rgb ;
 
 
 

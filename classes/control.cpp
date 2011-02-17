@@ -125,10 +125,12 @@ void Control::switchTool(int newTool){
 
     //if we switch to the same state for the second time, switch back to the old one!
     //unless it's select. Because that would create headaches...
-    if (tool==newTool)
-        newTool=oldTool;
 
-    //remember last, if tool wants us to
+    if (tool==newTool && newTool!=TOOL_SELECT){
+        newTool=oldTool;
+    }
+
+    //remember last tool, if we are just an intermediate tool, like grid or move
     if (currentTool->bOverrideOldState)
         oldTool=tool;
 
