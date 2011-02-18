@@ -459,27 +459,32 @@ void Actor::updateShaders(){
 
     //these uniforms should always exist, but let's check maybe?
 
-    if (myShader->uniforms["time"])
+    if (myShader->uniforms.find("time") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["time"], renderer->currentTime);
-    if (myShader->uniforms["cameraInverse"])
+
+    if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
         glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
-    if (myShader->uniforms["bComputeLight"])
+
+    if (myShader->uniforms.find("bComputeLight") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["bComputeLight"], (GLuint)bComputeLight);
-    if (myShader->uniforms["bSelected"])
+
+    if (myShader->uniforms.find("bSelected") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["bSelected"], (GLuint)bSelected);
-    if (myShader->uniforms["objectID"])
+
+    if (myShader->uniforms.find("objectID") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["objectID"], objectID);
 
-    if (myShader->uniforms["tex"])
+
+    if (myShader->uniforms.find("tex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["tex"], 0);
 
-    if (myShader->uniforms["particleMultiplier"])
+    if (myShader->uniforms.find("particleMultiplier") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["particleMultiplier"], particleScale);
 
-    if (myShader->uniforms["particleAngleScale"])
+    if (myShader->uniforms.find("particleAngleScale") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["particleAngleScale"], particleAngleScale);
 
-    if (myShader->uniforms["postColor"])
+    if (myShader->uniforms.find("postColor") != myShader->uniforms.end())
         glUniform4fARB(myShader->uniforms["postColor"], color.r, color.g, color.b, color.a );
 
 }

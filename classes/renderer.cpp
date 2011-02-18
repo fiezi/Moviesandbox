@@ -1898,7 +1898,6 @@ void Renderer::drawOrientation(Actor* a){
     a->bComputeLight=false;
 
 
-    //TODO: this throws OpenGL errors on skeletal actors!
     a->updateShaders();
 
     //set color to specialSelected

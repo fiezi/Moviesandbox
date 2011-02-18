@@ -52,6 +52,7 @@ void SkeletalDrawing::updateShaders(){
                 }
             }
         }
+    if (myShader->uniforms.find("boneIndices") != myShader->uniforms.end())
         glUniform1iv(myShader->uniforms["boneIndices"],4,(GLint*)&boneIndices);
     }
 

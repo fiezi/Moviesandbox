@@ -218,7 +218,7 @@ void SkeletalActor::updateShaders(){
     }
 
 
-    if (myShader->uniforms["boneTransforms"])
+    if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["boneTransforms"],renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
 
 

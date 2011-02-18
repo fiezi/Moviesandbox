@@ -46,41 +46,39 @@ void Layer::updateShaders(){
 
     shaderObject* myShader= renderer->shaderList[sceneShaderID];
 
-    map<string,int>::iterator it;
-
     //needs if statements because the compiler throws out stuff if not used!
-    //this first one is set in Actor anyway...
-    if (myShader->uniforms["tex"])
+    if (myShader->uniforms.find("tex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["tex"], 0);
 
-    it=myShader->uniforms.find("depthTex");
-    if (it != myShader->uniforms.end())
+    //TODO: MAP is not the right way to store shader locations!
+    if (myShader->uniforms.find("depthTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["depthTex"], 1);
 
-    if (myShader->uniforms["pickTex"])
+    if (myShader->uniforms.find("pickTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["pickTex"], 2);
-    if (myShader->uniforms["shadowTex"])
+
+    if (myShader->uniforms.find("shadowTex") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["shadowTex"], 3);
-    if (myShader->uniforms["fxTex"])
+
+    if (myShader->uniforms.find("fxTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["fxTex"], 4);
 
-    if (myShader->uniforms["lightViewMatrix"])
+    if (myShader->uniforms.find("lightViewMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightViewMatrix"],1,false,(GLfloat*)renderer->lightViewMatrix);
 
-    if (myShader->uniforms["lightProjectionMatrix"])
+    if (myShader->uniforms.find("lightProjectionMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightProjectionMatrix"],1,false,(GLfloat*)renderer->lightProjectionMatrix);
 
-    //TODO: MAP is not the right way to store shader locations!
-    it=myShader->uniforms.find("cameraMatrix");
-    if (it != myShader->uniforms.end())
+    if (myShader->uniforms.find("cameraMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["cameraMatrix"],1,false,(GLfloat*)renderer->cameraMatrix);
 
-    if (myShader->uniforms["projectionMatrix"])
+    if (myShader->uniforms.find("projectionMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["projectionMatrix"],1,false,(GLfloat*)renderer->projectionMatrix);
-    if (myShader->uniforms["projectionInverse"])
+
+    if (myShader->uniforms.find("projectionInverse") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["projectionInverse"],1,false,(GLfloat*)renderer->inverseProjectionMatrix);
 
-    if (myShader->uniforms["numLights"])
+    if (myShader->uniforms.find("numLights") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["numLights"],renderer->lightList.size());
 
 
