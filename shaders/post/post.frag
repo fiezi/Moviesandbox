@@ -345,7 +345,7 @@ void main(void){
     //gl_FragColor*=blur3(shadowTex,texCoord);
 
     ///smudging
-	gl_FragColor=smudge(texCoord);
+	//gl_FragColor=smudge(texCoord);
 
 
     ///debug stuff
