@@ -34,10 +34,9 @@ void SkeletalDrawing::updateShaders(){
 
     ParticleSystem::updateShaders();
 
+    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
 
     if (sceneShaderID=="skinning"){
-
-        GLint uniform_location=0;
 
         int boneIndices[]={-1,-1,-1,-1};
         int current=0;
@@ -53,9 +52,7 @@ void SkeletalDrawing::updateShaders(){
                 }
             }
         }
-
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "boneIndices");
-        glUniform1iv(uniform_location,4,(GLint*)&boneIndices);
+        glUniform1iv(myShader->uniforms["boneIndices"],4,(GLint*)&boneIndices);
     }
 
 }

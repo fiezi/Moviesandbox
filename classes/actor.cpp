@@ -455,46 +455,31 @@ elapsedTime+=deltaTime;
 // updates shader uniforms
 void Actor::updateShaders(){
 
-     if (!bHidden){
-		GLuint uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "time");
-        glUniform1fARB(uniform_location, renderer->currentTime);
+    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
 
-		uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "cameraInverse");
-        glUniformMatrix4fvARB(uniform_location, 1,false, (GLfloat*)&renderer->inverseCameraMatrix[0]);
+    //these uniforms should always exist, but let's check maybe?
+    if (myShader->uniforms["time"])
+        glUniform1fARB(myShader->uniforms["time"], renderer->currentTime);
+    if (myShader->uniforms["cameraInverse"])
+        glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
+    if (myShader->uniforms["bComputeLight"])
+        glUniform1iARB(myShader->uniforms["bComputeLight"], (GLuint)bComputeLight);
+    if (myShader->uniforms["bSelected"])
+        glUniform1iARB(myShader->uniforms["bSelected"], (GLuint)bSelected);
+    if (myShader->uniforms["objectID"])
+        glUniform1fARB(myShader->uniforms["objectID"], objectID);
 
-		uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "bComputeLight");
-        glUniform1i(uniform_location, (GLuint)bComputeLight);
+    if (myShader->uniforms["tex"])
+        glUniform1iARB(myShader->uniforms["tex"], 0);
 
-		uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "bSelected");
-        glUniform1i(uniform_location, (GLuint)bSelected);
+    if (myShader->uniforms["particleMultiplier"])
+        glUniform1fARB(myShader->uniforms["particleMultiplier"], particleScale);
 
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "objectID");
-        glUniform1f(uniform_location, objectID);
+    if (myShader->uniforms["particleAngleScale"])
+        glUniform1fARB(myShader->uniforms["particleAngleScale"], particleAngleScale);
 
-    }
-
-    //THESE bind to texture units it seems?
-/*
-    if (renderer->shaderList[sceneShaderID]->shader){
-        glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "tex"), 0);
-    }
-*/
-
-    if ( ( (drawType==DRAW_VBOMESH) && renderer->vboList[vboMeshID] && renderer->vboList[vboMeshID]->vertexInterpretation==GL_POINTS )
-            || drawType==DRAW_PARTICLES){
-
-        GLint uniform_location=0;
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "particleMultiplier");
-        glUniform1fARB(uniform_location, particleScale);
-
-        uniform_location=0;
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "particleAngleScale");
-        glUniform1fARB(uniform_location, particleAngleScale);
-
-        uniform_location=0;
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "postColor");
-        glUniform4fARB(uniform_location, color.r, color.g, color.b, color.a );
-    }
+    if (myShader->uniforms["postColor"])
+        glUniform4fARB(myShader->uniforms["postColor"], color.r, color.g, color.b, color.a );
 
 }
 
@@ -551,6 +536,7 @@ glutSolidCube(1/scale.x);
 
 void Actor::drawVBOMesh(){
 
+/*
 if (renderer->vboList[vboMeshID]){
     renderer->drawColladaMesh(renderer->vboList[vboMeshID]);
 
@@ -559,6 +545,7 @@ if (renderer->vboList[vboMeshID]){
         glutSolidCube(1/scale.x);
         }
     }
+*/
 }
 
 void Actor::drawSkeletal(){

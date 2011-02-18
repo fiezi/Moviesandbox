@@ -52,7 +52,7 @@ void ParticleSelectTool::start(){
 
         MeshData* myData=renderer->vboList[brush->drawing->vboMeshID];
 
-        for (int i=0; i<selectedData.size(); i++){
+        for (int i=0; i<(int)selectedData.size(); i++){
             myData->vData[selectedData[i]].color=Vector4f(1,0,0,1);
         }
 
@@ -72,7 +72,7 @@ void ParticleSelectTool::stop(){
 
     MeshData* myData=renderer->vboList[brush->drawing->vboMeshID];
 
-    for (int i=0; i<selectedData.size(); i++){
+    for (int i=0; i<(int)selectedData.size(); i++){
             myData->vData[selectedData[i]].color=selectedOldColors[i];
     }
 

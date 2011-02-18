@@ -73,6 +73,7 @@ struct shaderObject{
     GLuint shader;
     std::string vertexShaderFilename;
     std::string fragmentShaderFilename;
+    map<string,GLuint> uniforms;
 };
 
 

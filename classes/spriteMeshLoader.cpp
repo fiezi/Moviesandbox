@@ -65,31 +65,31 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalDrawing* myDrawi
     TiXmlElement * root = new TiXmlElement( "MSBPointSpriteMesh" );
     doc.LinkEndChild( root );
 
-    saveVertices(root);
-	delete(vertices);
+    if (vertexCount>0){
+        saveVertices(root);
+        delete(vertices);
 
-    saveNormals(root);
-	delete(normals);
+        saveNormals(root);
+        delete(normals);
 
-    saveTexCoords(root);
-	delete(texCoords);
+        saveTexCoords(root);
+        delete(texCoords);
 
-    saveColors(root);
-	delete(colors);
+        saveColors(root);
+        delete(colors);
 
-    saveSecondaryColors(root);
-	delete(secondaryColors);
+        saveSecondaryColors(root);
+        delete(secondaryColors);
 
-    saveBoneReferences(root);
-	delete(boneReference);
+        saveBoneReferences(root);
+        delete(boneReference);
 
-    saveVertexWeights(root);
-	delete(vertexWeights);
-
-    saveBones(root, myDrawing);
+        saveVertexWeights(root);
+        delete(vertexWeights);
+    }
 
     ///Bones
-
+    saveBones(root, myDrawing);
 
     doc.SaveFile( filename );
     doc.Clear();
@@ -524,17 +524,20 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
     myMesh->drawType=DRAW_VBOMESH;
     renderer->vboList[meshID]=myMesh;
 
+    //allow spritemeshes without vertices!
+    if (hRoot.FirstChild("vertices").Element()){
+        loadVertices(meshID, hRoot.FirstChild("vertices").Element());
+        loadNormals(meshID, hRoot.FirstChild("normals").Element());
+        loadTexCoords(meshID, hRoot.FirstChild("texCoords").Element());
 
-    loadVertices(meshID, hRoot.FirstChild("vertices").Element());
-    loadNormals(meshID, hRoot.FirstChild("normals").Element());
-    loadTexCoords(meshID, hRoot.FirstChild("texCoords").Element());
+        loadColors(meshID, hRoot.FirstChild("colors").Element());
+        loadSecondaryColors(meshID, hRoot.FirstChild("secondaryColors").Element());
 
-    loadColors(meshID, hRoot.FirstChild("colors").Element());
-    loadSecondaryColors(meshID, hRoot.FirstChild("secondaryColors").Element());
-
-    loadBoneReferences(meshID, hRoot.FirstChild("boneReferences").Element());
-    loadVertexWeights(meshID, hRoot.FirstChild("vertexWeights").Element());
-
+        loadBoneReferences(meshID, hRoot.FirstChild("boneReferences").Element());
+        loadVertexWeights(meshID, hRoot.FirstChild("vertexWeights").Element());
+    }else{
+        vertexCount=0;
+    }
     cout << "loading bones..." << endl;
 
     loadBones(meshID, hRoot.FirstChild("bone").Element());
@@ -559,20 +562,20 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
 
     cout << "before creating vbos..." << endl;
 
+    if (vertexCount>0){
+        createVBOs(meshID);
 
-    createVBOs(meshID);
+        //now free our resources:
+        delete(vertices);
+        delete(normals);
+        delete(texCoords);
+        delete(colors);
+        delete(secondaryColors);
+        delete(vertexWeights);
+        delete(boneReference);
+    }
 
     cout << "after creating vbos..." << endl;
-
-
-   //now free our resources:
-	delete(vertices);
-	delete(normals);
-	delete(texCoords);
-	delete(colors);
-	delete(secondaryColors);
-	delete(vertexWeights);
-	delete(boneReference);
 
     doc.Clear();
 

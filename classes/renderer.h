@@ -122,6 +122,7 @@ public:
        vector<std::string>  library;       //all libraries
 
        int currentLayer;                    //currently selected renderLayer
+       string currentShader;                //currently bound shader
 
        //lists
        vector <Actor*> actorList;          //all created actors go here

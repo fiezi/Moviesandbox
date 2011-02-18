@@ -186,7 +186,7 @@ void SkeletalActor::update(double deltaTime){
 
 void SkeletalActor::updateShaders(){
 
-    GLint uniform_location=0;
+    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
 
     //remove our own transformations from the bone transforms!
     Matrix4f initialMatrix = baseMatrix.inverse();
@@ -218,13 +218,11 @@ void SkeletalActor::updateShaders(){
     }
 
 
-    if (renderer->vboList[vboMeshID]){
-        uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "boneTransforms");
-        glUniformMatrix4fv(uniform_location,renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
-        }
+    if (myShader->uniforms["boneTransforms"])
+        glUniformMatrix4fv(myShader->uniforms["boneTransforms"],renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
+
 
     Actor::updateShaders();
-
 
 }
 

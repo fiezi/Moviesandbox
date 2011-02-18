@@ -931,7 +931,7 @@ int Renderer::readSharedMemory(){
    if (hMapFile == NULL)
    {
       printf(TEXT("Could not open file mapping object (%d).\n"),
-             GetLastError());
+             (int)GetLastError());
       return 1;
    }
 
@@ -1717,13 +1717,12 @@ void Renderer::draw3D(Layer* currentLayer){
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
 
-/*
+
     //this for xyz axis
-    if (!Control::bRunning){
+    if (!input->controller->bRunning){
 
         //glDepthMask(GL_FALSE);
         setupShading("color");
-
 
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
             drawOrientation(currentLayer->actorList[i]);
@@ -1731,7 +1730,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
         //glDepthMask(GL_TRUE);
     }
-*/
+
 
 
 }
@@ -1873,15 +1872,15 @@ void Renderer::drawOrientation(Actor* a){
     bool bComputeLight=a->bComputeLight;
     a->bComputeLight=false;
 
-    //TODO: this throws OpenGL errors on skeletal actors!
-    a->updateShaders();
 
-    if (checkOpenGLError(false)) cout << "culprit is:" << a->name << endl;
+    //TODO: this throws OpenGL errors on skeletal actors!
+
+    a->updateShaders();
 
     //set color to specialSelected
     glColor4f(1,0,1,1);
 
-    glLineWidth(4);
+    glLineWidth(4.0);
 
     //draw code for lines
     //red
@@ -1908,11 +1907,10 @@ void Renderer::drawOrientation(Actor* a){
     glVertex3f(0,0,1);
     glEnd();
 
-    //draw hirarchy
-
     a->bComputeLight=bComputeLight;
 
 
+    if(checkOpenGLError()) cout << "still erroring!" << endl;
 
     glPopMatrix();
 
@@ -2022,8 +2020,11 @@ void Renderer::setupShading(string shaderName){
         glUseProgram(shaderList[shaderName]->shader);
         lastShader=shaderName;
         }
-    if (!shaderList[shaderName])
+    if (!shaderList[shaderName]){
         cout << "found bad shader: " << shaderName << endl;
+        return;
+    }
+    currentShader=shaderName;
 
 }
 
@@ -2205,7 +2206,7 @@ void Renderer::drawParticles (Actor* a){
 
     MeshData* myMesh=vboList[a->vboMeshID];
 
-    if (!myMesh)
+    if (!myMesh && myMesh->vData.size()==0)
         return;
 
     if (myMesh->bTextured)
@@ -2279,8 +2280,8 @@ void Renderer::drawColladaMesh (Actor* a){
 
     MeshData* myMesh=vboList[a->vboMeshID];
 
-        if (!myMesh)
-            return;
+    if (!myMesh || myMesh->vertexBufferObject.size()==0)
+       return;
 
 	glPushMatrix();
 
@@ -2626,6 +2627,24 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     cout << "registered program!" << shaderProgram << "\n";
 
     cout << "*************************************************************" << endl;
+
+    cout << "building uniform lists" << endl;
+	int maxLen=0;
+	glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen );
+    char uniName[maxLen];
+
+    int listSize;
+    glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORMS, &listSize );
+
+    int uniNameLength;
+    int uniSize;
+    GLenum uniType;
+    for (int i=0;i<listSize;i++){
+        glGetActiveUniform(shaderProgram, i , maxLen, &uniNameLength , &uniSize , &uniType , &uniName[0] );
+        shaderList[shaderProgramName]->uniforms[uniName]=glGetUniformLocation(shaderProgram,(const GLchar*) (&uniName));
+    }
+
+
     return true;
 }
 
@@ -2692,7 +2711,7 @@ bool Renderer::checkOpenGLError(bool bPrint){
             return 1;
 
         default:
-            if (bPrint) cout << "No Error" << endl;
+            //if (bPrint) cout << "No Error" << endl;
             return 0;
     }
 }
