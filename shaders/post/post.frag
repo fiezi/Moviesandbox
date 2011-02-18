@@ -1,9 +1,9 @@
 uniform float time;
 
-uniform sampler2D tex; // rendered scene
+uniform sampler2D tex;
+uniform sampler2D depthTex;
+uniform sampler2D pickTex;
 uniform sampler2D shadowTex; // rendered shadow texture
-uniform sampler2D depthTex; // rendered scene texture
-uniform sampler2D pickTex; //rendered picking texture
 uniform sampler2D fxTex; //rendered picking texture
 
 uniform mat4 lightViewMatrix;
@@ -39,8 +39,8 @@ varying vec2 texCoord;
 	float circleRes= 8.0;           //samples per circle
     float stepsize = 2.0;          //distance of next point in pixels
 
-	float aoMultiplier=10.50;        //progressive darkening
-	float falloff =1.25;
+	float aoMultiplier=10.0;        //progressive darkening
+	float falloff =1.15;
 
     float minDepth=0.05;           //minimum distance to take into account
     float maxDepth=6.0;            //maximum distance to take into account
@@ -335,30 +335,31 @@ void main(void){
 
     objectID=ceil(texture2D(pickTex,texCoord).a);
 
-
     ///Ambient Occlusion
-    //gl_FragColor.rgb*=computeAO().rgb ;
+    gl_FragColor.rgb*=computeAO().rgb ;
 
-
+    ///regular shadows
+    gl_FragColor*=texture2D(shadowTex,texCoord);
 
     ///blurred shadows
     //gl_FragColor*=blur3(shadowTex,texCoord);
-    gl_FragColor*=texture2D(shadowTex,texCoord);
-    ///regular shadows
 
+    ///smudging
 	//gl_FragColor=smudge(texCoord);
 
 
     ///debug stuff
     //gl_FragColor/=3.0;
-    //gl_FragColor=texture2D(shadowTex, texCoord);
-    //gl_FragColor=texture2D(pickTex, texCoord);
-    //gl_FragColor=texture2D(depthTex, texCoord);
+    //gl_FragColor.rgb=texture2D(shadowTex, texCoord).rgb;
+    //gl_FragColor.g+=0.0001 * texture2D(pickTex, texCoord).g;
+    //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).b;
     //gl_FragColor.a=1.0;
-    //gl_FragColor.r=texture2D(depthTex, texCoord).a/100.0;
+    //gl_FragColor.rgb=texture2D(depthTex, texCoord).rgb;
     //gl_FragColor.g=texture2D(depthTex, texCoord).a/100.0;
     //gl_FragColor.b=texture2D(depthTex, texCoord).a/100.0;
     //vec3 norm=readNormal(texCoord);
     //gl_FragColor.xyz+=0.10 * norm;
 
+    //gl_FragColor.r=1.0;
+    //gl_FragColor.a=1.0;
 }

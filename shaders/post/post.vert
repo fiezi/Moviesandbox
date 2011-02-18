@@ -1,9 +1,4 @@
-uniform float time;
 varying vec2 texCoord;
-
-/*
-*   Main
-*/
 
 void main(void) {
 

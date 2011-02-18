@@ -50,7 +50,7 @@
 
       BackgroundTex="sunset"
 
-      bDrawLighting="0"
+      bDrawLighting="1"
       bMultisample="0"
       numSamples="2"
 

@@ -1213,8 +1213,9 @@ void Input::loadShaders(string fileName){
         string shaderID=element->Attribute("shaderID");
         string vertexFileName=element->Attribute("vertexShaderFilename");
         string fragmentFileName=element->Attribute("fragmentShaderFilename");
-        renderer->loadShader(vertexFileName,fragmentFileName, shaderID);
         cout << "loading shader " << shaderID << endl;
+        renderer->loadShader(vertexFileName,fragmentFileName, shaderID);
+        cout << "finished loading shader " << shaderID << "-------------------------------------------------- " << endl;
       }
 }
 

@@ -1,7 +1,7 @@
 uniform float time;
 
 uniform sampler2D tex; // rendered scene
-uniform sampler2D depthTex; // rendered scene texture
+uniform sampler2D depthTex; // rendered normals and depth texture
 uniform sampler2D pickTex; //rendered picking texture
 uniform sampler2D shadowTex; // rendered shadow textures
 
@@ -160,9 +160,14 @@ void main(){
             tc_offset[i]=vec2(0.0,0.0);
 
 
+    //load old lighting data
     gl_FragColor=texture2D(tex, texCoord);
-	//gl_FragColor=texture2D(shadowTex,texCoord);
-	//return;
+    //gl_FragColor.g+=0.0001 * texture2D(pickTex, texCoord).r;
+    //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).g;
+    //gl_FragColor.b+=0.0001 *texture2D(shadowTex,texCoord).b;
+    //gl_FragColor+=computeLight();
     gl_FragColor+=shadowMapping();
-
+    //gl_FragColor.r+=texture2D(depthTex, texCoord).a/100.0;
+    //gl_FragColor.r=1.0;
+    //gl_FragColor.a=1.0;
 }

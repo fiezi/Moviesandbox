@@ -566,20 +566,17 @@ void Renderer::loadPreferences(){
 
 void Renderer::setup(){
 
-   //create base layer
 
+   //create base layer
     addLayer("baseLayer");
 
-
     FreeImage_Initialise();
-
 
     //add Brush
     addBrush();
 
     //add one grid - allow for adding more!
     addGrid();
-
 
     input->screenX=screenX;
     input->screenY=screenY;
@@ -1209,6 +1206,7 @@ void Renderer::draw(){
 
 	drawSceneTexture();
 
+    checkOpenGLError("post-drawSceneTexture");
 	/////////////////////////////////////////////////////
     /// 2D Elements from here
     /////////////////////////////////////////////////////
@@ -1237,6 +1235,8 @@ void Renderer::draw(){
 	 *	Draw Final Image
 	 */
 
+    checkOpenGLError("pre-Lighting");
+
     for (int i=0;i<(int)layerList.size();i++){
 
 		if (bDrawLighting){
@@ -1245,6 +1245,27 @@ void Renderer::draw(){
         else
             layerList[i]->sceneShaderID="texture";
         //then, draw our final composite
+
+        checkOpenGLError("post-Lighting");
+
+
+
+           //bind depth
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, layerList[i]->depthTex);
+
+            //and pick Textures
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, layerList[i]->pickTex);
+
+        //set shadowTexture (might not have one)
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, lighting_tx);
+
+        //what is this one? - crazy VFX
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, layerList[i]->lightDataTex);
+
 
         drawButton(layerList[i]);
     }
@@ -1263,6 +1284,7 @@ void Renderer::draw(){
 
 	draw2D();
 
+    checkOpenGLError("post-draw2D");
 
     glutSwapBuffers();
     frames++;
@@ -1548,17 +1570,6 @@ void Renderer::drawStereoscopic(){
 
 void Renderer::drawDeferredLighting(Layer* layer){
 
-       //bind depth and pick Textures
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, layer->pickTex);
-
-		//bind fxTexture
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
-
         //preserve our unlit color content
         string oldTextureID=layer->textureID;
 
@@ -1589,6 +1600,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
             if (lightList[i]->bCastShadows)
                 drawShadows(lightList[i]);
 
+            checkOpenGLError("post-drawShadow");
+
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             glOrtho(0,screenX,screenY,0,-1,1);
@@ -1603,36 +1616,48 @@ void Renderer::drawDeferredLighting(Layer* layer){
             glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&lightList[i]->lightDistance);
             glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
 
-            //just to make sure...
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, lighting_tx);
+           //bind depth
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, layer->depthTex);
 
-            //set shadowTexture
+            //and pick Textures
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, layer->pickTex);
+
+            //set shadowTexture (might not have one)
             glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, shadow_tx);
 
-			//set shadowTexture
-            glActiveTexture(GL_TEXTURE5);
-            glBindTexture(GL_TEXTURE_2D, textureList[backgroundTex]->texture);
+            //what is this one? - crazy VFX
+            glActiveTexture(GL_TEXTURE4);
+            glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
+
+			//set background
+            //glActiveTexture(GL_TEXTURE5);
+            //glBindTexture(GL_TEXTURE_2D, textureList[backgroundTex]->texture);
 
             ///light&shadow rendering
 
-            //render lighting pass into multisampled (TODO: make non-multisampled!) lighting FBO
-            //bind multisample FBO
+            //render lighting pass into lighting FBO
             glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
 
             glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
             glClear( GL_DEPTH_BUFFER_BIT );
 
+            checkOpenGLError("pre-drawButton lightFBO");
+
             //draw using lighting_tx as base texture!
             drawButton(layer);
+
+            checkOpenGLError("post-drawButton lightFBO");
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
         }             //repeat for every shadowed light!
 
-        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+        checkOpenGLError("post-loop lightFBO");
+
 
         glPopAttrib();
 
@@ -1641,9 +1666,6 @@ void Renderer::drawDeferredLighting(Layer* layer){
         //set our shader to
         layer->sceneShaderID="post";
 
-        //light as 3rd texture!
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, lighting_tx);
 
 }
 
@@ -1731,8 +1753,6 @@ void Renderer::draw3D(Layer* currentLayer){
         //glDepthMask(GL_TRUE);
     }
 
-
-
 }
 
 void Renderer::draw2D(){
@@ -1779,7 +1799,12 @@ void Renderer::drawButton(BasicButton* b){
 
     //set Shader
     setupShading(b->sceneShaderID);
+
+    checkOpenGLError("pre-updateShaders drawButton");
+
     b->updateShaders();
+
+    checkOpenGLError("post-updateShaders drawButton");
 
     //set Texture
     glActiveTexture(GL_TEXTURE0);
@@ -1874,7 +1899,6 @@ void Renderer::drawOrientation(Actor* a){
 
 
     //TODO: this throws OpenGL errors on skeletal actors!
-
     a->updateShaders();
 
     //set color to specialSelected
@@ -1908,9 +1932,6 @@ void Renderer::drawOrientation(Actor* a){
     glEnd();
 
     a->bComputeLight=bComputeLight;
-
-
-    if(checkOpenGLError()) cout << "still erroring!" << endl;
 
     glPopMatrix();
 
@@ -2628,12 +2649,13 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
 
     cout << "*************************************************************" << endl;
 
-    cout << "building uniform lists" << endl;
+    cout << "building uniform lists for "<< shaderProgramName << endl;
+
 	int maxLen=0;
 	glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen );
     char uniName[maxLen];
 
-    int listSize;
+    GLint listSize=0;
     glGetProgramiv(shaderProgram, GL_ACTIVE_UNIFORMS, &listSize );
 
     int uniNameLength;
@@ -2641,10 +2663,13 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     GLenum uniType;
     for (int i=0;i<listSize;i++){
         glGetActiveUniform(shaderProgram, i , maxLen, &uniNameLength , &uniSize , &uniType , &uniName[0] );
-        shaderList[shaderProgramName]->uniforms[uniName]=glGetUniformLocation(shaderProgram,(const GLchar*) (&uniName));
+        shaderList[shaderProgramName]->uniforms[uniName]=glGetUniformLocation(shaderProgram,(const GLchar*) (&uniName)) ;
+        cout << "has Uniform: " << uniName << " in Location " << shaderList[shaderProgramName]->uniforms[uniName] << endl;
     }
 
+    cout << "*************************************************************" << endl;
 
+    checkOpenGLError();
     return true;
 }
 
@@ -2680,34 +2705,34 @@ void Renderer::printProgramInfoLog(GLuint obj){
     }
 }
 
-bool Renderer::checkOpenGLError(bool bPrint){
+bool Renderer::checkOpenGLError(string preText, bool bPrint){
 
     GLenum err=glGetError();
 
     switch(err){
 
         case GL_INVALID_ENUM:
-            if (bPrint) cout << "ERROR: invalid enum" << endl;
+            if (bPrint) cout << preText << " ERROR: invalid enum" << endl;
             return 1;
 
         case GL_INVALID_VALUE:
-            if (bPrint) cout << "ERROR: invalid value" << endl;
+            if (bPrint) cout << preText << " ERROR: invalid value" << endl;
             return 1;
 
         case GL_INVALID_OPERATION:
-            if (bPrint) cout << "ERROR: invalid operation" << endl;
+            if (bPrint) cout << preText << " ERROR: invalid operation" << endl;
             return 1;
 
         case GL_STACK_OVERFLOW:
-            if (bPrint) cout << "ERROR: stack overflow" << endl;
+            if (bPrint) cout << preText << " ERROR: stack overflow" << endl;
             return 1;
 
         case GL_STACK_UNDERFLOW:
-            if (bPrint) cout << "ERROR: stack underflow" << endl;
+            if (bPrint) cout << preText << " ERROR: stack underflow" << endl;
             return 1;
 
         case GL_OUT_OF_MEMORY:
-            if (bPrint) cout << "ERROR: out of memory" << endl;
+            if (bPrint) cout << preText << " ERROR: out of memory" << endl;
             return 1;
 
         default:

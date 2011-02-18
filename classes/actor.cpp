@@ -458,6 +458,7 @@ void Actor::updateShaders(){
     shaderObject* myShader= renderer->shaderList[renderer->currentShader];
 
     //these uniforms should always exist, but let's check maybe?
+
     if (myShader->uniforms["time"])
         glUniform1fARB(myShader->uniforms["time"], renderer->currentTime);
     if (myShader->uniforms["cameraInverse"])
