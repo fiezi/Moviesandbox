@@ -18,7 +18,7 @@ vertexCount=0;
 SpriteMeshLoaderXML::~SpriteMeshLoaderXML(){
 }
 
-bool SpriteMeshLoaderXML::saveSpriteMesh( string filename, SkeletalDrawing* myDrawing){
+bool SpriteMeshLoaderXML::saveSpriteMesh( string filename, SkeletalActor* myDrawing){
 
     //generate arrays from location
 

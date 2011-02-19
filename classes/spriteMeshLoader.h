@@ -3,7 +3,6 @@
 
 
 #include "includes.h"
-#include "skeletalDrawing.h"
 #include "meshData.h"
 
 using namespace std;
@@ -32,7 +31,7 @@ class SpriteMeshLoader{
         SpriteMeshLoader();
         virtual ~SpriteMeshLoader();
 
-        bool saveSpriteMesh ( string filename, SkeletalDrawing* myDrawing );
+        bool saveSpriteMesh ( string filename, SkeletalActor* myDrawing );
 
         void saveVertices(TiXmlElement* root);
         void saveNormals(TiXmlElement* root);
@@ -41,7 +40,7 @@ class SpriteMeshLoader{
         void saveSecondaryColors(TiXmlElement* root);
         void saveBoneReferences(TiXmlElement* root);
         void saveVertexWeights(TiXmlElement* root);
-        void saveBones(TiXmlElement* root, SkeletalDrawing* myDrawing);
+        void saveBones(TiXmlElement* root, SkeletalActor* myDrawing);
 
         bool loadSpriteMesh ( string filename, string meshID );
 

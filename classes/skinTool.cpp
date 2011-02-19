@@ -214,7 +214,7 @@ void SkinTool::paint(){
 
     input->bKeepSelection=true;
 
-    SkeletalDrawing* skel =dynamic_cast<SkeletalDrawing*>(brush->drawing);
+    SkeletalActor* skel =dynamic_cast<SkeletalActor*>(brush->drawing);
     if (!skel){
         cout << "drawing cannot be skinned" << endl;
         return;

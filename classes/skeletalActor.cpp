@@ -15,10 +15,9 @@ bUseShader=true;
 
 vboMeshID="teapot";
 
-
 boneTransforms=NULL;
 invBoneTransforms=NULL;
-
+skeletonName="NULL";
 
 bPhysicsBones=false;
 bDelayedConvert=false;
@@ -46,7 +45,8 @@ void SkeletalActor::registerProperties(){
 
 createMemberID("BONES",&bones,this);
 createMemberID("BPHYSICSBONES",&bPhysicsBones,this);
-Actor::registerProperties();
+createMemberID("SKELETONNAME",&skeletonName,this);
+ParticleSystem::registerProperties();
 }
 
 
@@ -150,7 +150,7 @@ void SkeletalActor::postLoad(){
 
 void SkeletalActor::setup(){
 
-    Actor::setup();
+    ParticleSystem::setup();
 
     if (!bInit)
         postLoad();
@@ -186,19 +186,39 @@ void SkeletalActor::update(double deltaTime){
 
 void SkeletalActor::updateShaders(){
 
+    ParticleSystem::updateShaders();
+
     shaderObject* myShader= renderer->shaderList[renderer->currentShader];
+
+    //if we're being drawn into
+    if (drawType==DRAW_PARTICLES){
+
+        if (renderer->currentShader=="skinning"){
+            int boneIndices[]={-1,-1,-1,-1};
+            int current=0;
+
+            //determine the bones we've got selected
+            for (int i=0;i<(int)input->selectedActors.size();i++){
+                for (int j=0;j<(int)bones.size();j++){
+                    if (input->selectedActors[i]==bones[j]){
+                        if (current<4){
+                            boneIndices[current]=j;
+                            current++;
+                        }else cout << "too many bones selected!" << endl;
+                    }
+                }
+            }
+        if (myShader->uniforms.find("boneIndices") != myShader->uniforms.end())
+            glUniform1iv(myShader->uniforms["boneIndices"],4,(GLint*)&boneIndices);
+        }
+        return;
+    }
 
     //remove our own transformations from the bone transforms!
     Matrix4f initialMatrix = baseMatrix.inverse();
 
-    //make sure we only update stuff if we actually have bones running!
-    if (drawType==DRAW_PARTICLES || !renderer->vboList[vboMeshID]->bIsSkeletal){
-        SkeletalDrawing::updateShaders();
-        return;
-    }
-
     if (bPhysicsBones){
-        for (uint i=0;i<bones.size();i++){
+        for (int i=0;i<(int)bones.size();i++){
 
             PhysicsActor* phys=(PhysicsActor*)bones[i];
             if (!renderer->bUpdatePhysics){
@@ -210,9 +230,7 @@ void SkeletalActor::updateShaders(){
             }
         }
     }else{
-
-        for (uint i=0;i<bones.size();i++){
-
+        for (int i=0;i<(int)bones.size();i++){
             boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix * *renderer->vboList[vboMeshID]->bindShapeMatrix;
         }
     }
@@ -220,9 +238,6 @@ void SkeletalActor::updateShaders(){
 
     if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["boneTransforms"],renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
-
-
-    Actor::updateShaders();
 
 }
 

@@ -1,27 +1,21 @@
 #ifndef H_SKELETALACTOR
 #define H_SKELETALACTOR
 
-#include "skeletalDrawing.h"
+#include "particleSystem.h"
+#include "boneActor.h"
 
-
-class SkeletalActor: public SkeletalDrawing{
+class SkeletalActor: public ParticleSystem{
 
 public:
 
-    //these are defined in skeletalDrawing.h
-    /*
     vector<Actor*>  bones;           //bone Actors
     Matrix4f*       boneTransforms;
     Matrix4f*       invBoneTransforms;
-    */
 
     bool    bPhysicsBones;
     bool    bDelayedConvert;
 
-
-
-
-
+    std::string     skeletonName;               //reference to Prefab that is used as skeleton
 
 
     SkeletalActor();

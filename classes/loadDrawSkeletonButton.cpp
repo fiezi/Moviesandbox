@@ -3,7 +3,6 @@
 #include "input.h"
 #include "drawingWidget.h"
 #include "brush.h"
-#include "skeletalDrawing.h"
 
 LoadDrawSkeletonButton::LoadDrawSkeletonButton(){
 
@@ -59,7 +58,7 @@ void LoadDrawSkeletonButton::trigger(Actor * other){
         return;
 
     if (renderer->brush && renderer->brush->drawing){
-        SkeletalDrawing* mySkel= dynamic_cast<SkeletalDrawing*>(renderer->brush->drawing);
+        SkeletalActor* mySkel= dynamic_cast<SkeletalActor*>(renderer->brush->drawing);
         if (mySkel){
             input->loadPrefab("resources/prefabs/"+other->name);            //load prefab
             for (uint i=0;i<input->selectedActors.size();i++){

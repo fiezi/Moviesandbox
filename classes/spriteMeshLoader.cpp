@@ -23,7 +23,7 @@ SpriteMeshLoader::~SpriteMeshLoader(){
 
 
 
-bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalDrawing* myDrawing){
+bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing){
 
     //generate arrays from location
 
@@ -313,7 +313,7 @@ void SpriteMeshLoader::saveVertexWeights(TiXmlElement* root){
 	delete(byteWeights);
 }
 
-void SpriteMeshLoader::saveBones(TiXmlElement* root, SkeletalDrawing* myDrawing){
+void SpriteMeshLoader::saveBones(TiXmlElement* root, SkeletalActor* myDrawing){
 
 	cout << "saving bones..." << endl;
 

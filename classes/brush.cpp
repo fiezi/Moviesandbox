@@ -99,7 +99,7 @@ void Brush::select(){
 
 void Brush::skin(){
 
-    SkeletalDrawing* skel =dynamic_cast<SkeletalDrawing*>(drawing);
+    SkeletalActor* skel =dynamic_cast<SkeletalActor*>(drawing);
     if (!skel){
         cout << "drawing cannot be skinned" << endl;
         return;
@@ -184,10 +184,8 @@ void Brush::createNewDrawing(){
         drawing->update(0.0);
         cout << "New Drawing: " << drawing->location << endl;
         drawing->controller=input->controller;
-        //drawing->texture=renderer->textureList[1];
         drawing->name=input->inputText;
         drawing->vboMeshID=input->inputText;
-       // drawing->myData=new MeshData;
         renderer->vboList[input->inputText]=new MeshData;
 
         drawing->setup();

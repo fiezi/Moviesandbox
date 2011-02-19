@@ -63,14 +63,12 @@ void main(){
 
 	gl_FragData[2]=picking;
 
-
+    //per-vertex ID
         int vIDOneInt=int(vID/65536.0);
         float vIDOne=float(vIDOneInt);
 
         float vIDTwo=mod(vID,65536.0);
 		gl_FragData[3]=vec4(smudge.x,smudge.y,vIDOne,vIDTwo);
-
-    //gl_FragData[3]=vec4(1.0,1.0,1.0,1.0);
 
 }
 

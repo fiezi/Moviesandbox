@@ -3,7 +3,6 @@
 #include "boneWidget.h"
 #include "renderer.h"
 #include "input.h"
-#include "skeletalDrawing.h"
 #include "brush.h"
 #include "spriteMeshLoader.h"
 
@@ -115,7 +114,7 @@ void BoneWidget::trigger(Actor* other){
 
     if (other->name=="save As..."){
         cout << "creating VBO..." << endl;
-        renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalDrawing*)(renderer->brush->drawing));
+        renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(renderer->brush->drawing));
         renderer->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
 
 		renderer->brush->drawing->name=input->inputText;

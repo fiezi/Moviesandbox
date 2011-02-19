@@ -3,7 +3,7 @@
 
 
 #include "includes.h"
-#include "skeletalDrawing.h"
+#include "skeletalActor.h"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ class SpriteMeshLoaderXML{
         SpriteMeshLoaderXML();
         virtual ~SpriteMeshLoaderXML();
 
-        bool saveSpriteMesh ( string filename, SkeletalDrawing* myDrawing );
+        bool saveSpriteMesh ( string filename, SkeletalActor* myDrawing );
 
         bool loadSpriteMesh ( string filename, string meshID );
 

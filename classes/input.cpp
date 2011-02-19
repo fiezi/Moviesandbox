@@ -5,7 +5,6 @@
 #include "interpolationHelper.h"
 #include "drawingWidget.h"
 #include "boneWidget.h"
-#include "skeletalDrawing.h"
 #include "brush.h"
 #include "moveButton.h"
 #include "textInputButton.h"

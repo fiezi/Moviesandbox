@@ -4,7 +4,6 @@
 #include "renderer.h"
 #include "input.h"
 #include "drawingWidget.h"
-#include "skeletalDrawing.h"
 
 LoadBrushButton::LoadBrushButton(){
 

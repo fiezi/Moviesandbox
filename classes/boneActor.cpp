@@ -372,7 +372,7 @@ void BoneActor::remove(){
     //TODO: very Hacky!
     //clear parent!
     if (base){
-        SkeletalDrawing* myChar=dynamic_cast<SkeletalDrawing*>(base);
+        SkeletalActor* myChar=dynamic_cast<SkeletalActor*>(base);
         if (myChar){
             for (int i=0;i<(int)myChar->bones.size();i++){
                 if (myChar->bones[i]==this){

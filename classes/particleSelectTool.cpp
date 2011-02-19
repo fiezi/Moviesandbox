@@ -90,7 +90,7 @@ void ParticleSelectTool::paint(){
 
     input->bKeepSelection=true;
 
-    SkeletalDrawing* drawing =dynamic_cast<SkeletalDrawing*>(brush->drawing);
+    SkeletalActor* drawing =dynamic_cast<SkeletalActor*>(brush->drawing);
     if (!drawing){
         cout << "drawing cannot be selected" << endl;
         return;

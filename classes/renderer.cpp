@@ -14,7 +14,6 @@
 #include "cameraActor.h"
 #include "spriteCharacter.h"
 #include "boneActor.h"
-#include "skeletalDrawing.h"
 #include "skeletalHead.h"
 
 #include "character.h"
@@ -139,7 +138,6 @@ void Renderer::fillGlobalLists(){
     createActorID(new PhysicsActor);
     createActorID(new RagDoll);
     createActorID(new SkeletalActor);
-    createActorID(new SkeletalDrawing);
     createActorID(new SkeletalHead);
     createActorID(new Brush);
     createActorID(new CameraActor);
@@ -607,20 +605,20 @@ void Renderer::setup(){
     //now set up custom actors from content
     content->createActorContent();
 
-    //background Color
 
+    checkOpenGLError("loading Error check...");
+
+    //background Color
+    //will go here soon...
+
+    #ifdef TARGET_WIN32
 	if (!GLEE_EXT_framebuffer_multisample){
 		bMultisample=false;
 		cout << "Multisampling not supported for FBOs, switching them off..." << endl;
 	}
+    #endif
 
-
-    //picking!
-
-
-    cout << "Setup Error check: ";
-    checkOpenGLError();
-
+    //setup picking texture!
     glGenTextures(1, &pickTexture);
     glBindTexture(GL_TEXTURE_2D, pickTexture);
 
@@ -630,6 +628,7 @@ void Renderer::setup(){
 
     glBindTexture (GL_TEXTURE_2D, 0);
 
+    //check how many color buffers we have
 	int maxColorBuffers;
 	glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS_EXT, &maxColorBuffers);
 	cout << "max colorbuffers: " << maxColorBuffers << endl;
@@ -644,6 +643,7 @@ void Renderer::setup(){
     createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting");
     createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
 
+    checkOpenGLError("FBO Error check...");
 
     //3D stereo renderTargets
 /*
@@ -654,15 +654,6 @@ void Renderer::setup(){
         createFBO(&rightEyeDepth_fb, &rightEyeDepth_tx, NULL, scene_size, false, "rightEyeDepthTexture");
 */
 
-    //throws OGL error
-/*
-    if (GLEE_ARB_multitexture){
-        glEnable(GL_ARB_multitexture);
-        cout << "supporting multitexture" << endl;
-        }
-*/
-    cout << "Setup Error check: ";
-    checkOpenGLError();
 
     //enable Blending for everyone!
     glEnable(GL_BLEND);
@@ -689,8 +680,7 @@ void Renderer::setup(){
 
     glEnable(GL_NORMALIZE);
 
-    cout << "Setup Error check: ";
-    checkOpenGLError();
+    checkOpenGLError("glEnables Error check...");
 
 }
 
@@ -1242,34 +1232,17 @@ void Renderer::draw(){
 
 		if (bDrawLighting){
             drawDeferredLighting(layerList[i]);
+            checkOpenGLError("post-Lighting");
         }
         else
             layerList[i]->sceneShaderID="texture";
         //then, draw our final composite
 
-        checkOpenGLError("post-Lighting");
-
-
-
-           //bind depth
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, layerList[i]->depthTex);
-
-            //and pick Textures
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, layerList[i]->pickTex);
-
-        //set shadowTexture (might not have one)
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, lighting_tx);
-
-        //what is this one? - crazy VFX
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, layerList[i]->lightDataTex);
-
 
         drawButton(layerList[i]);
     }
+
+    checkOpenGLError("post draw Final Frame");
 
 
     /*
@@ -1648,19 +1621,12 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
             glClear( GL_DEPTH_BUFFER_BIT );
 
-            checkOpenGLError("pre-drawButton lightFBO");
-
             //draw using lighting_tx as base texture!
             drawButton(layer);
-
-            checkOpenGLError("post-drawButton lightFBO");
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
         }             //repeat for every shadowed light!
-
-        checkOpenGLError("post-loop lightFBO");
-
 
         glPopAttrib();
 
@@ -1669,12 +1635,30 @@ void Renderer::drawDeferredLighting(Layer* layer){
         //set our shader to
         layer->sceneShaderID="post";
 
+        //do texture binds for post-shader!
+
+        //bind depth
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, layer->depthTex);
+
+            //and pick Textures
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, layer->pickTex);
+
+        //set shadowTexture (might not have one)
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, lighting_tx);
+
+        //what is this one? - crazy VFX
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
 
 }
 
 
 
 void Renderer::draw3D(Layer* currentLayer){
+
 
 
     glActiveTexture(GL_TEXTURE0);
@@ -1701,6 +1685,7 @@ void Renderer::draw3D(Layer* currentLayer){
         }
     }
 
+    checkOpenGLError("draw3D draw regular...");
 
 
     //draw non-pickable actors afterwards!
@@ -1714,6 +1699,7 @@ void Renderer::draw3D(Layer* currentLayer){
     }
 
 
+    checkOpenGLError("draw3D draw non-pickable...");
 
 	//draw helpers - brush, grid, etc... if we're not running
     if (!input->controller->bRunning){
@@ -1736,25 +1722,25 @@ void Renderer::draw3D(Layer* currentLayer){
 
     }
 
+    checkOpenGLError("draw3D draw helpers...");
 
     //reset texture Matrix transform
     glMatrixMode(GL_TEXTURE);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
 
-
     //this for xyz axis
     if (!input->controller->bRunning){
 
-        //glDepthMask(GL_FALSE);
         setupShading("color");
 
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
             drawOrientation(currentLayer->actorList[i]);
         }
 
-        //glDepthMask(GL_TRUE);
     }
+
+    checkOpenGLError("draw3D draw Orientation...");
 
 }
 
@@ -1803,11 +1789,7 @@ void Renderer::drawButton(BasicButton* b){
     //set Shader
     setupShading(b->sceneShaderID);
 
-    checkOpenGLError("pre-updateShaders drawButton");
-
     b->updateShaders();
-
-    checkOpenGLError("post-updateShaders drawButton");
 
     //set Texture
     glActiveTexture(GL_TEXTURE0);
@@ -1833,14 +1815,16 @@ void Renderer::drawActor(Actor* a){
     if (a->bTextured)
         setupTexturing(a->textureID, a);
 
-//    if (a->bDisplaced)
-//        setupTexturing(a->textureID, a);
+    checkOpenGLError("drawActor Texturing...");
 
     //alpha blending
     glBlendFunc(a->blendModeOne,a->blendModeTwo);
-//	glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-	glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    //glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
+	//glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendFuncSeparate(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+    checkOpenGLError("drawActor Blending Setup...");
 
     //start translating
     glPushMatrix();
@@ -1851,6 +1835,9 @@ void Renderer::drawActor(Actor* a){
     //shader
     setupShading(a->sceneShaderID);
     a->updateShaders();
+
+
+    checkOpenGLError("drawActor Shader Update...");
 
     if (!a->bZTest)  glDisable(GL_DEPTH_TEST);
     if (!a->bZWrite) glDepthMask(GL_FALSE);
@@ -1871,6 +1858,9 @@ void Renderer::drawActor(Actor* a){
 
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
     if (!a->bZWrite) glDepthMask(GL_TRUE);
+
+    checkOpenGLError("drawActor actual draw...");
+
 
     //end translation
     glPopMatrix();
@@ -1899,7 +1889,6 @@ void Renderer::drawOrientation(Actor* a){
 
     bool bComputeLight=a->bComputeLight;
     a->bComputeLight=false;
-
 
     a->updateShaders();
 
@@ -2258,26 +2247,36 @@ void Renderer::drawParticles (Actor* a){
 		  glColorPointer(4, GL_FLOAT,sizeof(myMesh->vData[0]),colors);
 		  glSecondaryColorPointer(3, GL_FLOAT,sizeof(myMesh->vData[0]),secondaryColors);
 
+          checkOpenGLError("drawParticles Array Pointers...");
 
 
-			//vertexID from here
+			//vertexID from here - if we're using a shader on a drawing that does not support vertexID
+            //TODO: load attribs in shaders so no repeating lookup necessary!
             GLint indexThree;
-            indexThree=glGetAttribLocation(shaderList[a->sceneShaderID]->shader,"vertexID");
-            glEnableVertexAttribArray(indexThree);
-            glVertexAttribPointer(indexThree,1,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexIDs);
+            indexThree=glGetAttribLocation(shaderList[currentShader]->shader,"vertexID");
+            if (indexThree>-1){
+                glEnableVertexAttribArray(indexThree);
+                glVertexAttribPointer(indexThree,1,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexIDs);
+
+                checkOpenGLError("drawParticles vertexID...");
+            }
+
             GLint indexOne,indexTwo;
 
             //skeletal Stuff from here
 
-            if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN){
+            if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN && currentShader=="skinning"){
                 indexOne=glGetAttribLocation(shaderList["skinning"]->shader,"boneReferences");
                 glEnableVertexAttribArray(indexOne);
                 glVertexAttribPointer(indexOne,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),boneReferences);
-
                 indexTwo=glGetAttribLocation(shaderList["skinning"]->shader,"vertexWeights");
                 glEnableVertexAttribArray(indexTwo);
                 glVertexAttribPointer(indexTwo,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexWeights);
+
+                checkOpenGLError("drawParticles Skinning...");
             }
+
+
 
           glDrawArrays(GL_POINTS,0,myMesh->vData.size());
 
@@ -2286,7 +2285,8 @@ void Renderer::drawParticles (Actor* a){
           glDisableClientState(GL_COLOR_ARRAY);
           glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
 
-          glDisableVertexAttribArray(indexThree);
+          if (indexThree>-1)
+            glDisableVertexAttribArray(indexThree);
 
           if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN){
 
