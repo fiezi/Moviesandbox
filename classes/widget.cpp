@@ -33,17 +33,19 @@ void Widget::clickedLeft(){
 
         ListButton::clickedLeft();
 
+        color=COLOR_YELLOW;
         openWidget();
     }
     else{
         bWidgetOpen=false;
-        closeWidget();
         for (int i=0;i<(int)listButton.size();i++){
             listButton[i]->bPermanent=false;
             listButton[i]->level=100;
         }
+        closeWidget();
         input->deselectButtons(level);
         listButton.clear();
+        color=COLOR_WHITE;
     }
 }
 
@@ -52,9 +54,21 @@ void Widget::trigger(Actor* other){
     ListButton::trigger(other);
 }
 
-void Widget::openWidget(){}
+void Widget::openWidget(){
 
-void Widget::closeWidget(){}
+    widgetLocation=Vector3f(location.x,location.y,0);
+    input->deselectButtons(level);
+    if (listButton.size()==0){
+        cout << "clicked!" << endl;
+    assembleList();
+    }
+}
+
+void Widget::closeWidget(){
+
+    ListButton::deselect(1);
+
+}
 
 void Widget::deselect(int depth){}
 

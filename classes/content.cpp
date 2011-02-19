@@ -211,7 +211,7 @@ void Content::createSelectButton(int x, int y){
     but->tooltip="select (i)";
     but->setLocation(but->location);
     but->textureID="icon_select";
-    but->color=COLOR_WHITE;
+    but->color=COLOR_RED;
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_SELECT]->myBtn=but;
@@ -438,11 +438,13 @@ void Content::createNodeList(int x, int y){
 
     ListButton* lbut;
     //NODELIST
-    lbut= new ListButton;
+    lbut= new Widget;
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
     lbut->listWidth=100;
+    lbut->maxListItems=10;
+    lbut->bDrawListNames=true;
     lbut->textureID="icon_nodeMenu";
     lbut->name="nodeMenu";
 

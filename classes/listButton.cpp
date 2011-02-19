@@ -18,6 +18,7 @@ beginListItem=0;
 scrollBar=NULL;
 
 bPermanentList=false;
+bDrawListNames=false;
 
 listColor=Vector4f(1,1,1,1);
 listShader="texture";
@@ -37,7 +38,7 @@ void ListButton::clickedLeft(){
   input->deselectButtons(level);
 
   if (listButton.size()==0){
-  cout << "clicked!" << endl;
+    cout << "clicked!" << endl;
   assembleList();
   }
 
@@ -67,7 +68,7 @@ void ListButton::assembleList(){
       else
         listButton[i]->parent=this;
       listButton[i]->level=level+1;
-      listButton[i]->bDrawName=bDrawName;
+      listButton[i]->bDrawName=bDrawListNames;
       listButton[i]->color=listColor;
       listButton[i]->sceneShaderID=listShader;
 

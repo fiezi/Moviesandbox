@@ -34,10 +34,6 @@ void PropertyInspector::refreshList(){
         if (parent!=oldParent){
 
             assembleList();
-
-            //clickedLeft();
-            //clickedLeft();
-
             oldParent=parent;
         }
 

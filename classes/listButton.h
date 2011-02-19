@@ -35,6 +35,8 @@ public:
     bool bPermanentList;                           //make listButtons permanent = undeletable
                                                    //you must manually clean them up then!
 
+    bool bDrawListNames;                           //draws names for listbuttons
+
     Vector4f listColor;                            //color of the buttons in the list
     string listShader;                             //shader to use (usually color or texture)
 

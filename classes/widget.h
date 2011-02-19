@@ -5,6 +5,15 @@
 #include "particleSystem.h"
 #include "brush.h"
 
+
+/************************************************
+*   Widgets are used for the left side menus    *
+*                                               *
+*   Base Class simulates ListButton             *
+*                                               *
+************************************************/
+
+
 class Widget: public ListButton{
 
 public:
