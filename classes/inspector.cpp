@@ -192,7 +192,7 @@ void Inspector::placeButton(int buttonNumber, int drawPosition){
 
 void Inspector::placeScrollBar(){
 
-    scrollBar->setLocation(Vector3f(renderer->screenX-50, location.y+scale.y +2, 0) );
+    scrollBar->setLocation(Vector3f(renderer->screenX - tabWidth - scrollBar->scale.x - 2, location.y+scale.y +2, 0) );
 }
 
 void Inspector::deselect(int depth){

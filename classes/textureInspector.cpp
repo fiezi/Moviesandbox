@@ -17,7 +17,7 @@ TextureInspector::TextureInspector(){
     listColumns=8;
     level=0;
     maxListItems=50;
-    }
+}
 
 TextureInspector::~TextureInspector(){}
 
@@ -85,7 +85,7 @@ void TextureInspector::clickedRight(){
 
 
 void TextureInspector::trigger(Actor* other){
-	
+
     if (other->name=="import"){
         string filename=input->openFileDialog();
 

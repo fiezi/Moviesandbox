@@ -88,7 +88,7 @@ BasicButton::drawPlane();
 
 scale.y-=addedScale;
 
-glColor3f(0.6,0.6,0.6);
+glColor3f(0.9,0.9,0.9);
 if (bVertical)
     {
      float slidePoint=sliderValue*scale.y;

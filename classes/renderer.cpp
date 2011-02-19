@@ -582,6 +582,13 @@ void Renderer::setup(){
     input->screenY=screenY;
     input->setup();          //controller gets created here!
 
+
+    //setting up menu
+    cout << "setting up menu" << endl;
+    content= new Content;
+    content->setup();
+
+    //load library stuff
     input->getAllPrefabs();
     for (int i=0;i<(int)library.size();i++){
         input->loadMeshes(library[i]);
@@ -590,18 +597,14 @@ void Renderer::setup(){
         input->loadActionList(library[i]);
     }
 
+
+    //then load scene
     cout << "loading basic stuff..." << endl;
     input->loadAll(startSceneFilename, false);
     cout << "finished loading basic stuff" << endl;
 
 
-    //setting up menu
-    cout << "setting up menu" << endl;
-    content= new Content;
-    content->setup();               //everything menu gets set up here!
-
     //now set up custom actors from content
-
     content->createActorContent();
 
     //background Color

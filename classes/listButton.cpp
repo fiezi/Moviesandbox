@@ -93,10 +93,10 @@ void ListButton::createScrollBar(){
       renderer->buttonList.push_back(scrollBar);
       scrollBar->sceneShaderID="color";
       scrollBar->parent=this;
-      scrollBar->scale.x=15;
+      scrollBar->scale.x=8;
       scrollBar->scale.y=listButton[0]->scale.y*min(maxListItems,(int)listButton.size())/listColumns;
       scrollBar->level=level+1;
-      scrollBar->color=Vector4f(0.2,0.2,0.2,1.0);
+      scrollBar->color=Vector4f(0.7,0.7,0.7,1.0);
       scrollBar->bPermanent=true;
       placeScrollBar();
 

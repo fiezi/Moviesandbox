@@ -442,7 +442,10 @@ void Content::createNodeList(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
-    lbut->listWidth=100;
+    lbut->listWidth=110;
+    lbut->listHeight=20;
+    lbut->listColor=Vector4f(0.7,0.7,0.7,1.0);
+
     lbut->maxListItems=10;
     lbut->bDrawListNames=true;
     lbut->textureID="icon_nodeMenu";
@@ -513,26 +516,26 @@ void Content::createNodeList(int x, int y){
     lbut->listProp.push_back("8UdpInput");
 
 
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
-    lbut->listIcon.push_back("icon_base");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
+    lbut->listIcon.push_back("icon_flat");
 
     renderer->buttonList.push_back(lbut);
 }
@@ -541,7 +544,7 @@ void Content::createSysMenu(int x, int y){
 
     ListButton* lbut;
     //SYSTEM
-    lbut= new ListButton;
+    lbut= new Widget;
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);

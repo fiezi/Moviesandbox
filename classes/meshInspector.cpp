@@ -60,7 +60,7 @@ void MeshInspector::assembleList(){
                 listButton[i]->buttonProperty="VBOMESHID";
                 listButton[i]->textureID="icon_base";
                 listButton[i]->level=level+1;
-                listButton[i]->bDrawName=false;
+                listButton[i]->bDrawName=true;
                 listButton[i]->color=Vector4f(1,1,1,1.0);
                 listButton[i]->bPermanent=true;
                 listButton[i]->bDragable=true;
