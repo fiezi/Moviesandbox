@@ -169,7 +169,7 @@ void Inspector::clickedLeft(){
         myManager->inspectorClosed(this);
     }
 
-    cout << "clicked on Inspecta!" << endl;
+    cout << "clicked on Inspector!" << endl;
 }
 
 void Inspector::assembleList(){

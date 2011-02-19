@@ -594,13 +594,9 @@ cout << "deselecting!" << endl;
 
 void Input::deselectActors(){
 
-    for (int i=0;i<(int)selectionMarkers.size();i++){
-        delete(selectionMarkers[i]);
-    }
     for (int i=0;i<(int)selectedActors.size();i++){
         selectedActors[i]->bSelected=false;
     }
-    selectionMarkers.clear();
     selectedActors.clear();
 
     cout << "clearing Actor selection stack..." << endl;
