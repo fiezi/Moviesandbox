@@ -75,16 +75,17 @@ void Inspector::update(double deltaTime){
 		if ((int)listButton.size()>maxListItems){
 			trigger(scrollBar);
 			placeScrollBar();
-			scrollBar->bHidden=!bOpen;
 		}else {
 			scrollBar->remove();
 			scrollBar=NULL;
 		}
-
+        scrollBar->bHidden=!bOpen;
 	}
 	else{
-		if ((int)listButton.size()>maxListItems)
+		if ((int)listButton.size()>maxListItems){
 			createScrollBar();
+            scrollBar->bHidden=!bOpen;
+		}
 	}
 }
 
@@ -188,11 +189,13 @@ void Inspector::placeButton(int buttonNumber, int drawPosition){
 
     ListButton::placeButton(buttonNumber,drawPosition);
     listButton[buttonNumber]->setLocation(listButton[buttonNumber]->location + Vector3f( 0, listOffset, 0 ) );
+    if (scrollBar)
+        placeScrollBar();
 }
 
 void Inspector::placeScrollBar(){
 
-    scrollBar->setLocation(Vector3f(renderer->screenX - tabWidth - scrollBar->scale.x - 2, location.y+scale.y +2, 0) );
+    scrollBar->setLocation(Vector3f(location.x + scale.x - scrollBar->scale.x - 2, location.y+scale.y +2, 0) );
 }
 
 void Inspector::deselect(int depth){
