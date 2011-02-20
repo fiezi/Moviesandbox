@@ -49,6 +49,11 @@ void PropertyInspector::assembleList(){
     }
     listButton.clear();
 
+    if (scrollBar){
+        scrollBar->remove();
+        scrollBar=NULL;
+    }
+
     if (input->selectedActors.size()>0){
 
         cout << "assembling property list..." << endl;

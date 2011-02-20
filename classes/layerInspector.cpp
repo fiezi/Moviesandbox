@@ -66,6 +66,10 @@ void LayerInspector::assembleList(){
         layerButtons[i]->remove();
     }
 
+    if (scrollBar){
+        scrollBar->remove();
+        scrollBar=NULL;
+    }
     listButton.clear();
     actorButtons.clear();
     layerButtons.clear();
