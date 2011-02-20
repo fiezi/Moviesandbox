@@ -61,10 +61,15 @@ void main(){
 	vec3 tubeNormal= flip * (sin(pixelDist.x * PI/4.0) * NcrossS + sin(pixelDist.y * PI/4.0)  * -N);
 
 	//gl_FragData[0].rgb=tubeNormal;
-	gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
+	if (bTubeNormal>0.0)
+		gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
+	else {
+		gl_FragData[1]=vec4(1.0 ,0.0 , 0.0,zPos);
+	}
+
     gl_FragData[2]=picking;
 
-    gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,1.0);
+    gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,vID);
 
 }
 

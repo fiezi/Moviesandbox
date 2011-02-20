@@ -2,7 +2,6 @@
 #include "input.h"
 #include "renderer.h"
 #include "drawingWidget.h"
-#include "skeletalDrawing.h"
 
 SaveDrawingButton::SaveDrawingButton(){
 

@@ -533,12 +533,6 @@
 		<Unit filename="classes\skeletalActor.h">
 			<Option virtualFolder="Actors\" />
 		</Unit>
-		<Unit filename="classes\skeletalDrawing.cpp">
-			<Option virtualFolder="Actors\" />
-		</Unit>
-		<Unit filename="classes\skeletalDrawing.h">
-			<Option virtualFolder="Actors\" />
-		</Unit>
 		<Unit filename="classes\skeletalHead.cpp">
 			<Option virtualFolder="Actors\" />
 		</Unit>

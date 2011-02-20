@@ -86,7 +86,6 @@
 		185F451F1116213C007024FB /* setPropertyNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647010CB3816007AE094 /* setPropertyNode.cpp */; };
 		185F45201116213C007024FB /* setWalkTargetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647110CB3816007AE094 /* setWalkTargetNode.cpp */; };
 		185F45211116213C007024FB /* skeletalActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647310CB3816007AE094 /* skeletalActor.cpp */; };
-		185F45221116213C007024FB /* skeletalDrawing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647510CB3816007AE094 /* skeletalDrawing.cpp */; };
 		185F45231116213C007024FB /* skeletalHead.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647710CB3816007AE094 /* skeletalHead.cpp */; };
 		185F45241116213C007024FB /* sliderButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647910CB3816007AE094 /* sliderButton.cpp */; };
 		185F45251116213C007024FB /* spriteCharacter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647B10CB3816007AE094 /* spriteCharacter.cpp */; };
@@ -302,8 +301,6 @@
 		1811647210CB3816007AE094 /* setWalkTargetNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = setWalkTargetNode.h; path = classes/setWalkTargetNode.h; sourceTree = "<group>"; };
 		1811647310CB3816007AE094 /* skeletalActor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skeletalActor.cpp; path = classes/skeletalActor.cpp; sourceTree = "<group>"; };
 		1811647410CB3816007AE094 /* skeletalActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skeletalActor.h; path = classes/skeletalActor.h; sourceTree = "<group>"; };
-		1811647510CB3816007AE094 /* skeletalDrawing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skeletalDrawing.cpp; path = classes/skeletalDrawing.cpp; sourceTree = "<group>"; };
-		1811647610CB3816007AE094 /* skeletalDrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skeletalDrawing.h; path = classes/skeletalDrawing.h; sourceTree = "<group>"; };
 		1811647710CB3816007AE094 /* skeletalHead.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = skeletalHead.cpp; path = classes/skeletalHead.cpp; sourceTree = "<group>"; };
 		1811647810CB3816007AE094 /* skeletalHead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skeletalHead.h; path = classes/skeletalHead.h; sourceTree = "<group>"; };
 		1811647910CB3816007AE094 /* sliderButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sliderButton.cpp; path = classes/sliderButton.cpp; sourceTree = "<group>"; };
@@ -755,8 +752,6 @@
 				1811647C10CB3816007AE094 /* spriteCharacter.h */,
 				1811647310CB3816007AE094 /* skeletalActor.cpp */,
 				1811647410CB3816007AE094 /* skeletalActor.h */,
-				1811647510CB3816007AE094 /* skeletalDrawing.cpp */,
-				1811647610CB3816007AE094 /* skeletalDrawing.h */,
 				1811647710CB3816007AE094 /* skeletalHead.cpp */,
 				1811647810CB3816007AE094 /* skeletalHead.h */,
 				1811644E10CB3816007AE094 /* physicsActor.cpp */,
@@ -1509,7 +1504,6 @@
 				185F451F1116213C007024FB /* setPropertyNode.cpp in Sources */,
 				185F45201116213C007024FB /* setWalkTargetNode.cpp in Sources */,
 				185F45211116213C007024FB /* skeletalActor.cpp in Sources */,
-				185F45221116213C007024FB /* skeletalDrawing.cpp in Sources */,
 				185F45231116213C007024FB /* skeletalHead.cpp in Sources */,
 				185F45241116213C007024FB /* sliderButton.cpp in Sources */,
 				185F45251116213C007024FB /* spriteCharacter.cpp in Sources */,

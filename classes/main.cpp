@@ -80,6 +80,8 @@ void drawSplashScreen(){
     glutSwapBuffers();
     glDeleteTextures(1,&myTex);
     //delete(renderManager);
+	
+	glutPostRedisplay();
 }
 
 
@@ -120,7 +122,7 @@ int main(int argc, char** argv)
     }
 #endif
 
-    drawSplashScreen();
+    glutDisplayFunc(drawSplashScreen);
 
 	//checking for extensions and shaders:
     if (!GLEE_ARB_point_sprite){

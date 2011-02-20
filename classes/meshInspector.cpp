@@ -45,7 +45,7 @@ void MeshInspector::assembleList(){
             listButton[i]->bPermanent=false;
             listButton[i]->deselect(0);
         }
-        cout << listButton.size() << endl;
+        cout << "old mesh list size : " << listButton.size() << endl;
 
         listButton.clear();
 
@@ -69,13 +69,14 @@ void MeshInspector::assembleList(){
                 placeButton(i,i);
                 //set this because we want to drag buttons around!
                 listButton[i]->initialLocation=listButton[i]->location;
-
+				
+				cout << "create new mesh list button: " << listButton[i]->name << endl;
                 i++;
             }
         }
 
 
-    //cout << "our Button list is: "<< listButton.size() <<" elements long..." << endl;
+    cout << "our Button list is: "<< listButton.size() <<" elements long..." << endl;
 }
 
 

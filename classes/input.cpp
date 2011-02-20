@@ -177,10 +177,11 @@ void Input::pressedMouse(int button,int state,int x, int y){
 
     //don't forget the modifiers!
 
+#ifdef TARGET_WIN32	
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
-
+#endif
 	//some MOUSE INFO
     //boolean flags and
     //counting the frames we pressed the button - makes it easy to check against!
