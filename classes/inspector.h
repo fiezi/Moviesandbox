@@ -10,12 +10,14 @@ class Inspector: public ListButton{
 public:
 
     bool bOpen;
+    bool bToggleInspector;                      //close inspector when new one opens?
+
     float tabWidth;
     float tabHeight;
 
     float listOffset;                           //y-offset for listButtons
 
-    vector<BasicButton*> inspectorButtons;           //inspector functionalities
+    vector<BasicButton*> inspectorButtons;      //special inspector buttons, like "import", etc...
 
     BasicButton* backgroundButton;
     InspectorManager* myManager;

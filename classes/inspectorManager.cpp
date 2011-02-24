@@ -33,6 +33,10 @@ void InspectorManager::trigger(Actor * other){}
 
 void InspectorManager::inspectorOpened(Inspector * other){
 
+    //ignore non-toggle Inspectors
+    if (!other->bToggleInspector)
+        return;
+
     if (lastOpenInspector)
         lastOpenInspector->clickedLeft();
 
@@ -40,6 +44,10 @@ void InspectorManager::inspectorOpened(Inspector * other){
 }
 
 void InspectorManager::inspectorClosed(Inspector * other){
+
+    //ignore non-toggle Inspectors
+    if (!other->bToggleInspector)
+        return;
 
     lastOpenInspector=NULL;
 

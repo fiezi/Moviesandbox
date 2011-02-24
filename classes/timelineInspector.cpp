@@ -10,6 +10,7 @@
 TimelineInspector::TimelineInspector(){
 
     bOpen=false;
+    bToggleInspector=false;
     initialLocation=location;
     tabWidth= 0.0;
     tabHeight=(renderer->screenY * 0.3f);
@@ -30,6 +31,7 @@ TimelineInspector::TimelineInspector(){
     listOffset=70;
 
     bDrawName=true;
+
 }
 
 TimelineInspector::~TimelineInspector(){}

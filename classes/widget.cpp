@@ -6,6 +6,7 @@
 Widget::Widget(){
 
 bWidgetOpen=false;
+bToggleWidget=true;
 bPermanentList=true;
 
 widgetLocation=Vector3f(0,0,0);
@@ -26,7 +27,7 @@ void Widget::clickedLeft(){
         //close all other widgets
         for (int i=0;i<(int)renderer->buttonList.size();i++){
             Widget* widge=dynamic_cast<Widget*>(renderer->buttonList[i]);
-            if (widge && widge!=this && widge->bWidgetOpen){
+            if (widge && widge!=this && widge->bWidgetOpen && widge->bToggleWidget){
                 widge->clickedLeft();
             }
         }

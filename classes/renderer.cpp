@@ -624,6 +624,7 @@ void Renderer::setup(){
 
     //framebuffer and texture to store global lighting and shadow information
     createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting");
+    createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
 
     checkOpenGLError("FBO Error check...");
 
@@ -953,7 +954,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    readSharedMemory();           //not in stable branch!
+    readSharedMemory();           //convert shared memory to a texture...
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 

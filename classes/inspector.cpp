@@ -10,6 +10,7 @@
 Inspector::Inspector(){
 
     bOpen=false;
+    bToggleInspector=true;
     bPermanent=true;
     initialLocation=location;
     tabWidth=350;

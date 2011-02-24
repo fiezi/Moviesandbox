@@ -138,7 +138,7 @@ void SkeletalActor::postLoad(){
         bones[i]->baseMatrix=calcMatrix(bones[i]);
         bones[i]->matrixToVectors();
         bones[i]->parent=this;
-        ((BoneActor*)bones[i])->bDoIK=true;
+        //((BoneActor*)bones[i])->bDoIK=true;
     }
 
     if (bPhysicsBones){

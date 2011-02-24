@@ -19,8 +19,8 @@ class Widget: public ListButton{
 public:
 
     Vector3f    widgetLocation;
-    bool        bWidgetOpen;
-
+    bool        bWidgetOpen;            //is this widget open?
+    bool        bToggleWidget;          //does this widget close when another widget opens?
 
     Widget();
     virtual ~Widget();

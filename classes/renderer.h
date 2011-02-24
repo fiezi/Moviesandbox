@@ -201,8 +201,8 @@ public:
         GLuint lighting_tx;                 // the lightTexture we read from
         GLuint lighting_fb;                 // the lightFBO we bind
 
-        GLuint shadow_tx;                   // the lightTexture we read from
-        GLuint shadow_fb;                   // the lightFBO we bind
+        GLuint shadow_tx;                   // the shadowTexture we read from
+        GLuint shadow_fb;                   // the shadowFBO we bind
 
         int shadow_size;
         //Frame Buffer Object for Depth Rendering

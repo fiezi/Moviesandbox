@@ -1,12 +1,5 @@
 <?xml version="1.0" ?>
 <MSBPointSpriteMesh>
-    <vertices vertexInterpretation="0" count="1">AAAA&#x0D;&#x0A;AAAAAAAAAAAAzczMPQ==</vertices>
-    <normals count="1">AAAA&#x0D;&#x0A;</normals>
-    <texCoords count="1">AAAA&#x0D;&#x0A;AAAAAAAAAAAA</texCoords>
-    <colors count="1">////&#x0D;&#x0A;/w==</colors>
-    <secondaryColors count="1">////&#x0D;&#x0A;</secondaryColors>
-    <boneReferences count="1">AAAA&#x0D;&#x0A;AA==</boneReferences>
-    <vertexWeights count="1">fxcA&#x0D;&#x0A;ANvbAAAAAACAAAAAAA==</vertexWeights>
     <bone boneName="skelBase" parent="-1">
         <transformMatrix>mat4f 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.000000 0.000000 1.000000 0.000000 -0.003906 0.013687 0.000000 1.000000</transformMatrix>
         <inverseTransformMatrix>mat4f 1.000010 0.000000 0.000000 0.000000 0.000000 1.000010 0.000000 0.000000 -0.000000 0.000000 1.000010 0.000000 0.003868 -0.013687 0.000546 1.000010</inverseTransformMatrix>
