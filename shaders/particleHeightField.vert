@@ -47,7 +47,7 @@ void main(){
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
     //gl_PointSize= pointSize();
-
+    gl_PointSize= 3;
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;
     zPos=gl_Position.z;

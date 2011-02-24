@@ -111,64 +111,6 @@ void Content::createMonitors(){
 
         BasicButton* monitor;
 
-    if (renderer->bRenderStereo){
-
-        monitor=new BasicButton;
-        monitor->location.x=0.0f;
-        monitor->location.y=renderer->screenY;
-        monitor->scale.x=renderer->screenX;// * renderer->zoom3D;
-        monitor->scale.y=-renderer->screenY;// * 1.2 * renderer->zoom3D;
-        monitor->textureID="rightEyeTexture";
-        monitor->name="rightEye";
-        //monitor->sceneShaderID="3DRightEye";
-        //monitor->sceneShaderID="texture";
-        monitor->sceneShaderID="post";
-        monitor->bScreenOverlay=true;
-        renderer->rightEyeFBO=monitor;
-
-
-        monitor=new BasicButton;
-        monitor->location.x=0.0f;
-        monitor->location.y=renderer->screenY;
-        monitor->scale.x=renderer->screenX;// * renderer->zoom3D;
-        monitor->scale.y=-renderer->screenY;// * 1.2 *renderer->zoom3D;
-        //monitor->textureID="leftEyeTexture";
-        monitor->textureID="leftEyeTexture";
-        monitor->name="leftEye";
-        //monitor->sceneShaderID="3DLeftEye";
-        monitor->sceneShaderID="post";
-        monitor->bScreenOverlay=true;
-        //monitor->sceneShaderID="texture";
-        renderer->leftEyeFBO=monitor;
-
-
-
-        monitor=new BasicButton;
-        monitor->location.x=10.0f;
-        monitor->location.y=300.0f;
-        monitor->scale.x=160.0;
-        monitor->scale.y=-120.0;
-        monitor->textureID="leftEyeDepthTexture";
-        monitor->name="leftEyeDepth";
-        //renderer->buttonList.push_back(monitor);
-        monitor->bScreenOverlay=true;
-        monitor->sceneShaderID="textureHDR";
-
-        //To watch the different Ambient Occlusion Passes...
-
-        monitor=new BasicButton;
-        monitor->location.x=180.0f;
-        monitor->location.y=300.0f;
-        monitor->scale.x=160.0;
-        monitor->scale.y=-120.0;
-        monitor->textureID="rightEyeDepthTexture";
-        monitor->name="rightEyeDepth";
-        //renderer->buttonList.push_back(monitor);
-        monitor->bScreenOverlay=true;
-        monitor->sceneShaderID="textureHDR";
-
-        }
-
     //*************************************************
     // Shader Test
     //*************************************************

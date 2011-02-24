@@ -7,7 +7,9 @@
 LoadButton::LoadButton(){
 
 listHeight=20;
-listWidth=20;
+listWidth=100;
+bDrawListNames=true;
+listColor=Vector4f(0.8,0.2,0.2,1.0);
 }
 
 LoadButton::~LoadButton(){}
@@ -36,7 +38,7 @@ void LoadButton::assembleLoadList(){
         listType.push_back("12AssignButton");
         listName.push_back(input->savedScenes[i]);
         listProp.push_back("NULL");
-        listIcon.push_back("icon_base");
+        listIcon.push_back("icon_flat");
       }
 }
 

@@ -80,7 +80,7 @@ void drawSplashScreen(){
     glutSwapBuffers();
     glDeleteTextures(1,&myTex);
     //delete(renderManager);
-	
+
 	glutPostRedisplay();
 }
 
@@ -120,7 +120,10 @@ int main(int argc, char** argv)
     {
         SetPopUp(hwnd);
     }
+    //for windows, we need to call this once!
+    drawSplashScreen();
 #endif
+
 
     glutDisplayFunc(drawSplashScreen);
 

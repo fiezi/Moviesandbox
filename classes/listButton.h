@@ -39,7 +39,6 @@ public:
 
     Vector4f listColor;                            //color of the buttons in the list
     string listShader;                             //shader to use (usually color or texture)
-
     ListButton();
     virtual ~ListButton();
 

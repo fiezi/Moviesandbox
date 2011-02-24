@@ -63,6 +63,7 @@ void ListButton::assembleList(){
       if (listIcon.size()>i && listIcon[i]!="")
         listButton[i]->textureID=listIcon[i];
 
+
       if (parent)
         listButton[i]->parent=parent;
       else

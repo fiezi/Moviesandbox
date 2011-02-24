@@ -283,8 +283,6 @@ Renderer::Renderer(){
     depth_fb = 0;
     depth_size = 512;
 
-    scene_tx = 0;
-    scene_fb = 0;
     scene_size = 512;
 
     multiSample_fb = 0;
@@ -292,21 +290,7 @@ Renderer::Renderer(){
     multiSample_depth = 0;
     multiSample_color = 0;
 
-
-    leftEye_tx = 0;
-    leftEye_fb = 0;
-    leftEyeDepth_tx = 0;
-    leftEyeDepth_fb = 0;
-
-    rightEye_tx = 0;
-    rightEye_fb = 0;
-    rightEyeDepth_tx = 0;
-    rightEyeDepth_fb = 0;
-
-    rightEyeFBO=NULL;
-    leftEyeFBO=NULL;
     postOverlay=NULL;
-
 
 	deltaTime=0.0;
 
@@ -323,20 +307,13 @@ Renderer::~Renderer(){
             glDeleteFramebuffersEXT(1, &shadow_fb);
 
 
-            glDeleteFramebuffersEXT(1, &depth_fb);
-            glDeleteFramebuffersEXT(1, &scene_fb);
-
-            glDeleteRenderbuffersEXT(1, &multiSample_db);
+            glDeleteRenderbuffersEXT(1, &multiSample_pick);
+            glDeleteRenderbuffersEXT(1, &multiSample_lightData);
             glDeleteRenderbuffersEXT(1, &multiSample_depth);
             glDeleteRenderbuffersEXT(1, &multiSample_color);
+            glDeleteRenderbuffersEXT(1, &multiSample_db);
             glDeleteFramebuffersEXT(1, &multiSample_fb);
-/*
-            glDeleteFramebuffersEXT(1, &leftEye_fb);
-            glDeleteFramebuffersEXT(1, &rightEye_fb);
 
-            glDeleteFramebuffersEXT(1, &rightEyeDepth_fb);
-            glDeleteFramebuffersEXT(1, &leftEyeDepth_fb);
-*/
     dSpaceDestroy(collisionSpace);
     dWorldDestroy(physicsWorld);
     dCloseODE();
@@ -606,6 +583,11 @@ void Renderer::setup(){
     content->createActorContent();
 
 
+    textureList["sharedMemory"]= new textureObject;
+    textureList["sharedMemory"]->bAlpha=false;
+    textureList["sharedMemory"]->bWrap=false;
+    textureList["sharedMemory"]->texFilename="sharedMem";
+
     checkOpenGLError("loading Error check...");
 
     //background Color
@@ -640,19 +622,10 @@ void Renderer::setup(){
 	//buffer to copy from for FSAA multisampling in FBOs
 	createFBO(&multiSample_fb, NULL, &multiSample_db, scene_size, false, "multisampleBuffer");
 
+    //framebuffer and texture to store global lighting and shadow information
     createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting");
-    createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
 
     checkOpenGLError("FBO Error check...");
-
-    //3D stereo renderTargets
-/*
-        createFBO(&leftEye_fb, &leftEye_tx, NULL, scene_size, false, "leftEyeTexture");
-        createFBO(&leftEyeDepth_fb, &leftEyeDepth_tx, NULL, scene_size, false, "leftEyeDepthTexture");
-
-        createFBO(&rightEye_fb, &rightEye_tx, NULL, scene_size, false, "rightEyeTexture");
-        createFBO(&rightEyeDepth_fb, &rightEyeDepth_tx, NULL, scene_size, false, "rightEyeDepthTexture");
-*/
 
 
     //enable Blending for everyone!
@@ -920,8 +893,7 @@ int Renderer::readSharedMemory(){
 
    if (hMapFile == NULL)
    {
-      printf(TEXT("Could not open file mapping object (%d).\n"),
-             (int)GetLastError());
+     // printf(TEXT("Could not open file mapping object (%d).\n"),(int)GetLastError());
       return 1;
    }
 
@@ -933,16 +905,35 @@ int Renderer::readSharedMemory(){
 
    if (pBuf != NULL)
    {
-       for (int i=0;i<320*240;i++){
-           if (pBuf[i] > 0){
-                vboList["kinectTest"]->vData[i].location.z=pBuf[i];
-                vboList["kinectTest"]->vData[i].location.z/=-8.0f;
-                vboList["kinectTest"]->vData[i].color.b=(float)pBuf[i]/32.0f;
-                vboList["kinectTest"]->vData[i].location.w=0.01f;
-           }
-           else
-                vboList["kinectTest"]->vData[i].location.w=0.0f;
-       }
+        //create texture from raw data:
+        glGenTextures( 1, &textureList["sharedMemory"]->texture );
+
+        // select our current texture
+        glBindTexture( GL_TEXTURE_2D, smTexture );
+
+        // select modulate to mix texture with color for shading
+        glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+
+        // when texture area is small, bilinear filter the closest mipmap
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                         GL_LINEAR_MIPMAP_NEAREST );
+        // when texture area is large, bilinear filter the first mipmap
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+        // if wrap is true, the texture wraps over at the edges (repeat)
+        //       ... false, the texture ends at the edges (clamp)
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                         GL_CLAMP );
+        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
+                         GL_CLAMP );
+
+        // build our texture mipmaps
+        gluBuild2DMipmaps( GL_TEXTURE_2D, 3, 320, 240,
+                           GL_RGB, GL_UNSIGNED_BYTE, pBuf );
+
+        textureList["sharedMemory"]->texture=smTexture;
+        // free buffer
+        //free( pBuf );
 
         UnmapViewOfFile((void*)pBuf);
 
@@ -962,7 +953,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    //readSharedMemory();           //not in stable branch!
+    readSharedMemory();           //not in stable branch!
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 
@@ -1433,115 +1424,6 @@ void Renderer::drawSceneTexture(){
     //now draw the resulting image into a quad!
 }
 
-void Renderer::drawStereoscopic(){
-
-    float right, left;
-
-    right=screenX/screenY * frustumTop;
-    left=screenX/screenY * frustumBottom;
-
-    float nleft, nright;
-
-    nright=right - (-0.0075 * right);                   //Thanks to Flocki for the magic numbers
-    nleft =left  - (-0.0075 * right);
-
-  glPushAttrib(GL_VIEWPORT_BIT);
-
-    /***********************************************************
-    Left Eye
-    ************************************************************/
-
-  glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-  glDrawBuffers(2, drawBuffers);
-
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-    glClear( GL_COLOR_BUFFER_BIT |
-			 GL_DEPTH_BUFFER_BIT );
-
-    glViewport (0, 0, scene_size, scene_size);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glFrustum(nleft, nright, frustumBottom, frustumTop, nearClip, farClip);
-    glTranslatef(eyeDistance,0,0);
-
-    //drawBackground(-eyeDistance);
-    glMatrixMode(GL_MODELVIEW);
-
-    draw3D(layerList[0]);
-
-    //color blitting
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
-    glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, leftEye_fb );
-    glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBlitFramebufferEXT( 0, 0, scene_size-1, scene_size-1, 0, 0, scene_size-1, scene_size-1, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-    //depth blitting
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
-    glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, leftEyeDepth_fb );
-    glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBlitFramebufferEXT( 0, 0, scene_size-1, scene_size-1, 0, 0, scene_size-1, scene_size-1, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-    //cleanup
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
-
-    /***********************************************************
-    Right Eye
-    ************************************************************/
-
-    nright=right - (-0.0075 * right);                   //Thanks to Flocki for the magic numbers
-    nleft =left  - (-0.0075 * right);
-
-
-  glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-    glClear( GL_COLOR_BUFFER_BIT |
-			 GL_DEPTH_BUFFER_BIT );
-
-    glViewport (0, 0, scene_size, scene_size);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    glFrustum(nleft, nright, frustumBottom, frustumTop, nearClip, farClip);
-    glTranslatef(-eyeDistance,0,0);
-
-   // drawBackground(eyeDistance);
-    glMatrixMode(GL_MODELVIEW);
-
-    draw3D(layerList[0]);
-
-  glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
-    //color blit
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
-    glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, rightEye_fb );
-    glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBlitFramebufferEXT( 0, 0, scene_size-1, scene_size-1, 0, 0, scene_size-1, scene_size-1, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-    //depth blit
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
-    glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, rightEyeDepth_fb );
-    glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-    glBlitFramebufferEXT( 0, 0, scene_size-1, scene_size-1, 0, 0, scene_size-1, scene_size-1, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-    //cleanup
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
-  glPopAttrib (); // restore the viewport
-}
 
 
 void Renderer::drawDeferredLighting(Layer* layer){
@@ -2560,9 +2442,9 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
 
     // build our texture and mipmaps
     if (bAlpha)
-      glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
+      glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
     else
-      glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGR, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
+      glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGR, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
 
     FreeImage_Unload(myBitmap);
 

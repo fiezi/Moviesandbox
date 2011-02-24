@@ -210,12 +210,10 @@ public:
         GLuint depth_fb;
         int depth_size;
 
-        //Frame Buffer Object for Color Rendering
-        GLuint scene_tx;
-        GLuint scene_fb;
         int scene_size;
 
         //Frame Buffer Object for Right Eye Rendering
+
         GLuint leftEye_tx;
         GLuint leftEye_fb;
 
@@ -228,12 +226,15 @@ public:
         GLuint rightEyeDepth_tx;
         GLuint rightEyeDepth_fb;
 
-        GLuint multiSample_fb;
-        GLuint multiSample_db;
-        GLuint multiSample_color;
-        GLuint multiSample_depth;
-        GLuint multiSample_pick;
-		GLuint multiSample_lightData;
+        GLuint multiSample_fb;                      //multisample framebuffer - this is the main FBO we render into
+        GLuint multiSample_db;                      //multisample depthbuffer
+        GLuint multiSample_color;                   //multisample color texture - the main scene color tex we blit from
+        GLuint multiSample_depth;                   //multisample depth texture - normals and depth we blit from
+        GLuint multiSample_pick;                    //multisample pick texture - absolute coordinates and objectID we blit from
+		GLuint multiSample_lightData;               //multisample fx texture - used for vertexID and other stuff
+
+        //shared memory
+        GLuint smTexture;                           //texture written from shared memory
 
 		GLenum drawBuffers[3];
 
@@ -293,7 +294,6 @@ public:
        virtual void draw();
 
        virtual void drawSceneTexture();
-       virtual void drawStereoscopic();
 
        virtual void draw3D(Layer* currentLayer);
        virtual void draw2D();
