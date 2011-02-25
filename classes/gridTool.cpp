@@ -22,6 +22,7 @@ void GridTool::start(){
 
     MsbTool::start();
     renderer->grid->bPickable=false;
+    renderer->grid->bHidden=false;
     myBtn->color=Vector4f(1.0,0.0,0.0,1.0);
 
 }

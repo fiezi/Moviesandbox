@@ -1096,7 +1096,8 @@ void Renderer::addGrid(){
 
     grid->bTextured=true;
     grid->bUseShader=true;
-    grid->bComputeLight=true;
+    grid->bComputeLight=false;
+    grid->bHidden=true;
     grid->color=Vector4f(0.5,0.5,0.5,0.8);
     grid->textureID="grid_solid";
     grid->name="grid";
