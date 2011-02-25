@@ -955,7 +955,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    readSharedMemory();           //convert shared memory to a texture...
+    //readSharedMemory();           //convert shared memory to a texture...
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 
@@ -1213,7 +1213,8 @@ void Renderer::draw(){
 
     glClearColor(backgroundColor.r,backgroundColor.g,backgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    drawBackground();
+    glClear(GL_DEPTH_BUFFER_BIT);
 
     /*
 	 *	Draw Final Image
@@ -1261,6 +1262,21 @@ void Renderer::draw(){
     currentTime=glutGet(GLUT_ELAPSED_TIME);
 }
 
+
+void Renderer::drawBackground(){
+
+    //only draw Background Texture if we're having one
+    if (backgroundTex=="NULL")
+        return;
+
+
+    setupShading("texture");
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureList[backgroundTex]->texture);
+
+    drawPlane(0,0,screenX,screenY);
+
+}
 
 // this renders the scene from the view of each light
 void Renderer::drawShadows(MsbLight* myLight){

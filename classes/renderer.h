@@ -293,6 +293,8 @@ public:
 
        virtual void draw();
 
+       virtual void drawBackground();
+
        virtual void drawSceneTexture();
 
        virtual void draw3D(Layer* currentLayer);
