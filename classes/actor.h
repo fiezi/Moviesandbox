@@ -168,7 +168,8 @@ public:
             bZWrite,                                //writes to Depth Buffer
             bUseShader,                             //uses Shader for drawing
             bComputeLight,                            //lighting disabled
-            bDrawOrientation;                       //draws RGB Lines for XYZ Orientation
+            bDrawOrientation,                       //draws RGB Lines for XYZ Orientation
+            bDebug;                                 //prints out debug information
 
        bool bLight;                                 //counts as light
 
@@ -223,14 +224,11 @@ public:
        virtual void draw();                         // sets up rendering flags and transformations
 
        //drawType functions - the actual glBegin() stuff is in here
-       virtual void drawMesh();
        virtual void drawSprite();
        virtual void drawPlane();
        virtual void drawParticles();
        virtual void drawTeapot();
        virtual void drawCube();
-       virtual void drawVBOMesh();
-       virtual void drawSkeletal();
 
        //get back to initial state when scene started
        virtual void reset();

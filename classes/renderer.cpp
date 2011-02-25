@@ -293,6 +293,7 @@ Renderer::Renderer(){
     postOverlay=NULL;
 
 	deltaTime=0.0;
+	frames=0;
 
 	drawBuffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 	drawBuffers[1] = GL_COLOR_ATTACHMENT1_EXT;
@@ -1258,7 +1259,6 @@ void Renderer::draw(){
     frames++;
     deltaTime=glutGet(GLUT_ELAPSED_TIME)-currentTime;
     currentTime=glutGet(GLUT_ELAPSED_TIME);
-
 }
 
 

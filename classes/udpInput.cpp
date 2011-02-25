@@ -179,6 +179,8 @@ void UdpInput::update(double deltaTime){
                     //otherwise interpret as matrix!
                     else{
                         targetActors[i]->transformMatrix.setRotation(readMatrix3f((char*)targetValues[i].c_str()));
+                        if (targetActors[i]->bDebug && input->controller->bRunning)
+                            cout << "setting UDPInput rotation now..." << renderer->frames <<endl;
                     }
                 }
                 //this is the standard way of assigning properties

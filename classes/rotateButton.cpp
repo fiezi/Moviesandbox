@@ -71,11 +71,12 @@ void RotateButton::focusClick(){
     BasicButton::focusClick();
     //we're now connecting to a inputConnectButton!!!
     if (!bActive){
-     if (input->hudTarget && input->hudTarget->isA("inputConnectButton")){
-        cout << "connecting with: " << input->hudTarget << endl;
-        input->hudTarget->buttonProperty=name;                //which property do we want to connect?
-        input->hudTarget->trigger(parent);                          //which actor do we want to connect
+        if (input->hudTarget && input->hudTarget->isA("inputConnectButton")){   //connecting to UdpInput
+            cout << "connecting with: " << input->hudTarget << endl;
+            input->hudTarget->buttonProperty=name;                //which property do we want to connect?
+            input->hudTarget->trigger(parent);                          //which actor do we want to connect
         }
+
      }
     //we've just moved the Actor
     if (bActive)

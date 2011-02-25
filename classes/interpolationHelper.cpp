@@ -52,10 +52,10 @@ void InterpolationHelper::interpolate(){
 				bFinishMatrix=true;
 				bFinished=false;
 			}
-			
+
             if (bInterpolateVectors)
                 interpolateVectors();
-			
+
 			if (bFinishMatrix)
 				bFinished=true;
 
@@ -287,7 +287,6 @@ void InterpolationHelper::interpolateMatrix(){
 
         //apply rotation
         skel->bones[i]->transformMatrix.setRotation(resultingRotation);
-
     }
 
 }

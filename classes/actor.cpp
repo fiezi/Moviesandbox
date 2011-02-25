@@ -68,6 +68,7 @@ bPickable=true;
 bHidden=false;
 bRemoveable=true;
 bSelected=false;
+bDebug=false;
 
 drawType=DRAW_TEA;                     //teapot
 
@@ -179,13 +180,12 @@ createMemberID("BZTEST",&bZTest,this);
 createMemberID("BZWRITE",&bZWrite,this);
 createMemberID("BUSESHADER",&bUseShader,this);
 createMemberID("BPICKABLE",&bPickable,this);
+createMemberID("BDEBUG",&bDebug,this);
 
 createMemberID("BLIGHT",&bLight,this);
 
 
 createMemberID("TEXTIMER",&textTimer,this);
-
-
 
 createMemberID("MENUTYPE", &menuType, this);
 
@@ -431,7 +431,11 @@ void Actor::matrixToVectors(){
 
 void Actor::update(double deltaTime){
 
-elapsedTime+=deltaTime;
+
+    elapsedTime+=deltaTime;
+
+    if (bDebug)
+        cout << "setting Mover stuff now..." << renderer->frames <<endl;
 
     for (int i=0;i<(int)movers.size();i++){
         if (movers[i]!=NULL && !movers[i]->bFinished){  //if we have a mover and it hasn't finished moving yet...
@@ -448,8 +452,16 @@ elapsedTime+=deltaTime;
         }
     }
 
-   baseMatrix=calcMatrix(this);
-   matrixToVectors();
+
+    if (bDebug)
+        cout << "after Mover stuff..." << renderer->frames <<endl;
+
+    baseMatrix=calcMatrix(this);
+    matrixToVectors();
+
+    if (bDebug)
+        cout << "after updating bases..." << renderer->frames <<endl;
+
 }
 
 // updates shader uniforms
@@ -494,16 +506,6 @@ void Actor::draw(){
 }
 
 
-void Actor::drawMesh(){
-
-/*
-glScalef(scale.x,scale.y,scale.z);
-if (renderer->meshList[mesh])
-    DrawOBJ(renderer->meshList[mesh]);
-
-*/
-}
-
 void Actor::drawSprite(){
 
     if (bTextured){
@@ -540,22 +542,7 @@ glColor4f(color.r,color.g,color.b,color.a);
 glutSolidCube(1/scale.x);
 }
 
-void Actor::drawVBOMesh(){
 
-/*
-if (renderer->vboList[vboMeshID]){
-    renderer->drawColladaMesh(renderer->vboList[vboMeshID]);
-
-    if (renderer->vboList[vboMeshID]->vertexInterpretation==GL_POINTS && !input->controller->bRunning){
-        renderer->setupShading("color");
-        glutSolidCube(1/scale.x);
-        }
-    }
-*/
-}
-
-void Actor::drawSkeletal(){
-}
 
 
 void Actor::reset(){}
