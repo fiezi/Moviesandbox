@@ -62,6 +62,7 @@
     <Texture textureID="grid_solid" filename="resources/icons/grid_solid.tga" bAlpha="1" bWrap="1"/>
 
     <Texture textureID="sunset" filename="resources/icons/sunset.tga" bAlpha="0" bWrap="1"/>
+    <Texture textureID="background" filename="resources/icons/background.tga" bAlpha="0" bWrap="0"/>
 
     <Texture textureID="normals_up" filename="resources/icons/normals_up.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="normals_left" filename="resources/icons/normals_left.tga" bAlpha="1" bWrap="1"/>

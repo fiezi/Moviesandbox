@@ -163,6 +163,7 @@ public:
        dJointGroupID jointGroup;           // a joint group
        dGeomID groundPlane;                // our ground plane
        bool bUpdatePhysics;                // call physicsUpdate or not
+       bool bDebug;                        //Debug mode, will check for OpenGL Errors
 
        //al and Screen stuff
        bool bFullscreen;

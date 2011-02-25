@@ -589,7 +589,9 @@ void Renderer::setup(){
     textureList["sharedMemory"]->bWrap=false;
     textureList["sharedMemory"]->texFilename="sharedMem";
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("loading Error check...");
+    #endif
 
     //background Color
     //will go here soon...
@@ -627,7 +629,9 @@ void Renderer::setup(){
     createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting");
     createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("FBO Error check...");
+    #endif
 
 
     //enable Blending for everyone!
@@ -655,7 +659,9 @@ void Renderer::setup(){
 
     glEnable(GL_NORMALIZE);
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("glEnables Error check...");
+    #endif
 
 }
 
@@ -1192,7 +1198,9 @@ void Renderer::draw(){
 
 	drawSceneTexture();
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("post-drawSceneTexture");
+    #endif
 	/////////////////////////////////////////////////////
     /// 2D Elements from here
     /////////////////////////////////////////////////////
@@ -1220,13 +1228,17 @@ void Renderer::draw(){
 	 *	Draw Final Image
 	 */
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("pre-Lighting");
+    #endif
 
     for (int i=0;i<(int)layerList.size();i++){
 
 		if (bDrawLighting){
             drawDeferredLighting(layerList[i]);
+            #ifdef BDEBUGRENDERER
             checkOpenGLError("post-Lighting");
+            #endif
         }
         else
             layerList[i]->sceneShaderID="texture";
@@ -1236,7 +1248,9 @@ void Renderer::draw(){
         drawButton(layerList[i]);
     }
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("post draw Final Frame");
+    #endif
 
 
     /*
@@ -1254,7 +1268,9 @@ void Renderer::draw(){
 
 	draw2D();
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("post-draw2D");
+    #endif
 
     glutSwapBuffers();
     frames++;
@@ -1353,12 +1369,6 @@ void Renderer::drawSceneTexture(){
     glMatrixMode(GL_MODELVIEW);
 
 	float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
-/*
-    int max_buffers;
-    glGetIntegerv(GL_MAX_DRAW_BUFFERS, &max_buffers);
-    cout << "Max Draw Buffers: " << max_buffers << endl;
-*/
-
 
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 
@@ -1397,6 +1407,7 @@ void Renderer::drawSceneTexture(){
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+
 
         //depth blitting
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
@@ -1475,7 +1486,9 @@ void Renderer::drawDeferredLighting(Layer* layer){
             if (lightList[i]->bCastShadows)
                 drawShadows(lightList[i]);
 
+            #ifdef BDEBUGRENDERER
             checkOpenGLError("post-drawShadow");
+            #endif
 
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
@@ -1584,7 +1597,9 @@ void Renderer::draw3D(Layer* currentLayer){
         }
     }
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw regular...");
+    #endif
 
 
     //draw non-pickable actors afterwards!
@@ -1598,7 +1613,9 @@ void Renderer::draw3D(Layer* currentLayer){
     }
 
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw non-pickable...");
+    #endif
 
 	//draw helpers - brush, grid, etc... if we're not running
     if (!input->controller->bRunning){
@@ -1621,7 +1638,9 @@ void Renderer::draw3D(Layer* currentLayer){
 
     }
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw helpers...");
+    #endif
 
     //reset texture Matrix transform
     glMatrixMode(GL_TEXTURE);
@@ -1639,7 +1658,9 @@ void Renderer::draw3D(Layer* currentLayer){
 
     }
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw Orientation...");
+    #endif
 
 }
 
@@ -1714,7 +1735,9 @@ void Renderer::drawActor(Actor* a){
     if (a->bTextured)
         setupTexturing(a->textureID, a);
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor Texturing...");
+    #endif
 
     //alpha blending
     glBlendFunc(a->blendModeOne,a->blendModeTwo);
@@ -1723,7 +1746,9 @@ void Renderer::drawActor(Actor* a){
 	//glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	glBlendFuncSeparate(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor Blending Setup...");
+    #endif
 
     //start translating
     glPushMatrix();
@@ -1736,7 +1761,9 @@ void Renderer::drawActor(Actor* a){
     a->updateShaders();
 
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor Shader Update...");
+    #endif
 
     if (!a->bZTest)  glDisable(GL_DEPTH_TEST);
     if (!a->bZWrite) glDepthMask(GL_FALSE);
@@ -1758,7 +1785,10 @@ void Renderer::drawActor(Actor* a){
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
     if (!a->bZWrite) glDepthMask(GL_TRUE);
 
+    #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor actual draw...");
+    cout << "yay!"<<endl;
+    #endif
 
 
     //end translation
@@ -2146,7 +2176,9 @@ void Renderer::drawParticles (Actor* a){
 		  glColorPointer(4, GL_FLOAT,sizeof(myMesh->vData[0]),colors);
 		  glSecondaryColorPointer(3, GL_FLOAT,sizeof(myMesh->vData[0]),secondaryColors);
 
+          #ifdef BDEBUGRENDERER
           checkOpenGLError("drawParticles Array Pointers...");
+          #endif
 
 
 			//vertexID from here - if we're using a shader on a drawing that does not support vertexID
@@ -2157,7 +2189,9 @@ void Renderer::drawParticles (Actor* a){
                 glEnableVertexAttribArray(indexThree);
                 glVertexAttribPointer(indexThree,1,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexIDs);
 
+                #ifdef BDEBUGRENDERER
                 checkOpenGLError("drawParticles vertexID...");
+                #endif
             }
 
             GLint indexOne,indexTwo;
@@ -2172,7 +2206,9 @@ void Renderer::drawParticles (Actor* a){
                 glEnableVertexAttribArray(indexTwo);
                 glVertexAttribPointer(indexTwo,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexWeights);
 
+                #ifdef BDEBUGRENDERER
                 checkOpenGLError("drawParticles Skinning...");
+                #endif
             }
 
 
@@ -2570,7 +2606,9 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
 
     cout << "*************************************************************" << endl;
 
-    checkOpenGLError();
+    #ifdef BDEBUGRENDERER
+        checkOpenGLError("shader import ");
+    #endif
     return true;
 }
 
