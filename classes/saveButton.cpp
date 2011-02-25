@@ -58,7 +58,7 @@ void SaveButton::trigger(Actor * other){
         return;
 
    //clicked on the last button
-    if (other==listButton[listButton.size()-1])
+    if (other==listButton[0])
       other->name=((BasicButton*)other)->tooltip;
 
     //append extension in case the user doesn't want to...

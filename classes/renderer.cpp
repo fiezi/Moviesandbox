@@ -946,7 +946,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
-    //readSharedMemory();           //convert shared memory to a texture...
+    readSharedMemory();           //convert shared memory to a texture...
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
 
