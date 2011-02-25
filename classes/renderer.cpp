@@ -1096,13 +1096,12 @@ void Renderer::addGrid(){
 
     grid->bTextured=true;
     grid->bUseShader=true;
-    grid->bComputeLight=false;
+    grid->bComputeLight=true;
     grid->bHidden=true;
     grid->color=Vector4f(0.5,0.5,0.5,0.8);
     grid->textureID="grid_solid";
     grid->name="grid";
 
-    grid->bHidden=false;
     grid->drawType=DRAW_PLANE;
     grid->objectID=-2.0f;
 	grid->bRemoveable=false;

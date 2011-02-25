@@ -129,9 +129,12 @@ void Character::setup(){
 ///updates idleAction to reflect possible change in name!
 void Character::trigger(Actor * other){
 
-    idleAction=renderer->actionList[idleActionName];
 
-    cout << "IdleAction: " << idleAction->name << endl;
+    idleAction=renderer->actionList[idleActionName];
+    if (!idleAction)
+        cout << "idle Action not found in library!" << endl;
+    else
+        cout << "switching idle Action to " << idleActionName << endl;
 
     SkeletalActor::trigger(other);
 }
@@ -210,7 +213,7 @@ void Character::updateShaders(){
 void Character::idle(double deltaTime){
 
 
-    if (!idleMover){
+    if (!idleMover && idleAction){
         createIdleMover();
     }
 
