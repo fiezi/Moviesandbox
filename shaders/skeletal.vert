@@ -90,7 +90,6 @@ void main(){
     gl_Position=myPosition;
 
     //Point Size
-
     gl_PointSize=pointSize();
 
     //make unskinned particles go away!
@@ -124,6 +123,7 @@ void main(){
 		myNormal.xyz= gl_NormalMatrix * vec3(0.0,1.0,0.0);
 		bTubeNormal=100.0;
 		}
+
     myNormal.w=1.0;
     myNormal=  myNormal * myMat ;
 

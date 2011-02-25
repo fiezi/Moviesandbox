@@ -236,11 +236,10 @@ void SkeletalActor::updateShaders(){
     }
 
 
-    //This depends on driver implementation!s
+    //This depends on driver implementation
     if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end() || myShader->uniforms.find("boneTransforms[0]") != myShader->uniforms.end()){
         glUniformMatrix4fv(myShader->uniforms["boneTransforms"],renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
 	}
-
 }
 
 

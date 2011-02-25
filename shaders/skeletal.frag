@@ -21,6 +21,16 @@ float PI = 3.14159265358979323846264;
 
 void main(){
 
+    gl_FragData[0]=gl_Color;
+    //gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
+
+    if (bSelected==1){
+        gl_FragData[0]*=0.5;
+        gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
+    }
+	gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
+
+/*
 	vec2 myPixelPos=pixelPos.xy * 768.0;
 	vec2 pixelDist=myPixelPos-gl_FragCoord.xy;
 	pixelDist=pixelDist/(pSize);
@@ -42,6 +52,8 @@ void main(){
         gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
     }
 
+
+
 	//Normal calculation, as in a tube...
 	//normal on top of our tube points up -> is our N
 	//normal to the right points to N cross smudge
@@ -49,7 +61,7 @@ void main(){
 	//normal downwards points negative N
 
 	//also: depending on smudge going in or out, it's all different!
-
+/*
 	vec3 biNormal= smudge;
 	vec3 NcrossS = cross( -N, biNormal );
 
@@ -66,10 +78,12 @@ void main(){
 	else {
 		gl_FragData[1]=vec4(1.0 ,0.0 , 0.0,zPos);
 	}
+*/
 
     gl_FragData[2]=picking;
 
-    gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,vID);
+    //gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,vID);
+    gl_FragData[3]=vec4(0.0,0.0,0.0,vID);
 
 }
 
