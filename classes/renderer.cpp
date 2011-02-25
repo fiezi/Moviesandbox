@@ -252,6 +252,8 @@ Renderer::Renderer(){
     bDrawNodes=true;
     bUseBlending=true;
     bMultisample=true;
+    bSSAO=true;
+    bDrawColor=true;
 
     bFullscreen=false;
     bUpdatePhysics=false;
@@ -697,6 +699,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
 
 	GLenum sampleType=GL_RGBA16F_ARB;
+	//GLenum sampleType=GL_RGBA;
 	//GLenum sampleType=GL_RGBA32F_ARB;
 
     if (!bDepth){
@@ -767,16 +770,8 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 		}
 
         else{
-            //glGenRenderbuffersEXT(1, fbDepth);
-            //glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, *fbDepth);
-            //glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, fbSize, fbSize);
-            //glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-
             glGenFramebuffersEXT (1, fbObject);
             glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, *fbObject);
-
-            // attach renderbuffer
-            //glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, *fbDepth);
         }
     }
     // create the texture we'll use for the shadow map
@@ -797,16 +792,6 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            //float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-            //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR,borderColor);
-                // set up hardware shadow mapping
-                //this is needed to get good results for shadow2DProj
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_COMPARE_R_TO_TEXTURE_ARB);
-
-                //this is needed to read a texture2D from a DepthMap!
-                //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE_ARB, GL_NONE);
-
-            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC_ARB, GL_LEQUAL);
             glFramebufferTexture2DEXT (GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, *fbTexture, 0);
         }
         else{
@@ -1787,7 +1772,6 @@ void Renderer::drawActor(Actor* a){
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor actual draw...");
-    cout << "yay!"<<endl;
     #endif
 
 

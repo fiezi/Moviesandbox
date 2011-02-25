@@ -81,32 +81,14 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("numLights") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["numLights"],renderer->lightList.size());
 
+    if (myShader->uniforms.find("bLighting") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bLighting"],renderer->bDrawLighting);
 
+    if (myShader->uniforms.find("bSSAO") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bSSAO"],renderer->bSSAO);
 
-/*
-  glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "tex"), 0);
-    glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "depthTex"), 1);
-    glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "pickTex"), 2);
-    glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "shadowTex"), 3);
-    glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "fxTex"), 4);
-    glUniform1iARB(glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "bkgTex"), 5);
-
-    uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "lightViewMatrix");
-    glUniformMatrix4fv(uniform_location,1,false,(GLfloat*)renderer->lightViewMatrix);
-
-    uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "lightProjectionMatrix");
-    glUniformMatrix4fv(uniform_location,1,false,(GLfloat*)renderer->lightProjectionMatrix);
-
-    uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "projectionMatrix");
-    glUniformMatrix4fv(uniform_location,1,false,(GLfloat*)renderer->projectionMatrix);
-
-    uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "projectionInverse");
-    glUniformMatrix4fv(uniform_location,1,false,(GLfloat*)renderer->inverseProjectionMatrix);
-
-   uniform_location = glGetUniformLocation(renderer->shaderList[sceneShaderID]->shader, "numLights");
-   glUniform1i(uniform_location,renderer->lightList.size());
-
-*/
+    if (myShader->uniforms.find("bDrawColor") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bDrawColor"],renderer->bDrawColor);
 
    BasicButton::updateShaders();
 

@@ -1,5 +1,9 @@
 uniform float time;
 
+uniform bool bSSAO;
+uniform bool bLighting;
+uniform bool bDrawColor;
+
 uniform sampler2D tex;
 uniform sampler2D depthTex;
 uniform sampler2D pickTex;
@@ -328,18 +332,21 @@ void main(void){
 
 
     ///color map
-    gl_FragColor=texture2D(tex, texCoord);
-
+    if (bDrawColor)
+        gl_FragColor=texture2D(tex, texCoord);
+    else
     ///lighting only
-    //gl_FragColor=vec4(1.0,1.0,1.0,1.0);
+        gl_FragColor=vec4(1.0,1.0,1.0,1.0);
 
     objectID=ceil(texture2D(pickTex,texCoord).a);
 
     ///Ambient Occlusion
-    gl_FragColor.rgb*=computeAO().rgb ;
+    if (bSSAO)
+        gl_FragColor.rgb*=computeAO().rgb ;
 
     ///regular shadows
-    gl_FragColor*=texture2D(shadowTex,texCoord);
+    if (bLighting)
+        gl_FragColor*=texture2D(shadowTex,texCoord);
 
     ///blurred shadows
     //gl_FragColor*=blur3(shadowTex,texCoord);

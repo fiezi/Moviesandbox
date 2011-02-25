@@ -48,14 +48,14 @@
 
       bFullScreen="0"
 
-      BackgroundTex="sunset"
+      BackgroundTex="background"
 
       bDrawLighting="1"
       bMultisample="0"
       numSamples="2"
 
-      ShadowSize="768"
-      SceneSize="768"
+      ShadowSize="512"
+      SceneSize="1024"
 
       MouseSensitivity="0.04"
       MoveSpeed="8.0"

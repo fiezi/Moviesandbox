@@ -2,20 +2,20 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="msb2.0" />
+		<Option title="Moviesandbox" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Option virtualFolders="core\;dataHandlers\;Actors\;Actors\;classes\;Actors\;classes\;Buttons\Special\;Buttons\Inspectors\;Buttons\BasicInterface\;Nodes\;Tools\;Buttons\BoneWidget\;Tools\brushFilters\;Buttons\MainMenu\;Buttons\DrawingWidget\;Buttons\ActorMenu\;Buttons\PropsWidget\;Buttons\timeline\;" />
 		<Build>
 			<Target title="debug">
-				<Option output="Moviesandbox_debug" prefix_auto="1" extension_auto="1" />
+				<Option output="Moviesandbox" prefix_auto="1" extension_auto="1" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wno-multichar" />
-					<Add option="-DFREEGLUT_STATIC" />
+					<Add option="-DBDEBUGRENDERER" />
 				</Compiler>
 			</Target>
 			<Target title="release">

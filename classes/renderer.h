@@ -148,12 +148,14 @@ public:
        Actor* grid;                        //direct pointer to Grid
        Brush* brush;                       //direct pointer to Brush
 
-       bool bRenderStereo,                 //render stereoscpic into Framebuffers
-            bDrawLighting,               //include Shadows in Rendering
-            bDrawNodes,                    //draw nodes
+       bool bRenderStereo,                  //render stereoscpic into Framebuffers
+            bDrawLighting,                  //include Lights and Shadows in Rendering
+            bDrawNodes,                     //draw nodes
             bDrawMenu,                      //show menu in 3D renderer
             bUseBlending,
-            bMultisample;                   //Multisample FBOs
+            bMultisample,                   //Multisample FBOs
+            bSSAO,                          //draw screen-space ambient occlusion
+            bDrawColor;                     //draw basic Color image (would be lighting only if false)
 
        int numSamples;                      //number of multisamples
 

@@ -177,7 +177,7 @@ void Input::pressedMouse(int button,int state,int x, int y){
 
     //don't forget the modifiers!
 
-#ifdef TARGET_WIN32	
+#ifdef TARGET_WIN32
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
@@ -561,6 +561,16 @@ void Input::specialKeyUp (int key,int x, int y){
 
     if (key==GLUT_KEY_F3){
         renderer->bDrawLighting=!renderer->bDrawLighting;
+        return;
+    }
+
+    if (key==GLUT_KEY_F4){
+        renderer->bSSAO=!renderer->bSSAO;
+        return;
+    }
+
+    if (key==GLUT_KEY_F5){
+        renderer->bDrawColor=!renderer->bDrawColor;
         return;
     }
 
