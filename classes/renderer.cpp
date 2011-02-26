@@ -109,7 +109,7 @@
     #include <conio.h>
     #include <tchar.h>
 
-    #define BUF_SIZE 640*480*8
+    #define BUF_SIZE 640*480*32
     TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
 
 
@@ -665,6 +665,9 @@ void Renderer::setup(){
     checkOpenGLError("glEnables Error check...");
     #endif
 
+    //shared memory texture
+    createEmptyTexture("sharedMemory",GL_LUMINANCE,GL_FLOAT,1024,1024);
+
 }
 
 void Renderer::physicsSetup(){
@@ -891,45 +894,19 @@ int Renderer::readSharedMemory(){
    }
 
    pBuf = (LPTSTR) MapViewOfFile(hMapFile, // handle to map object
-               FILE_MAP_ALL_ACCESS,  // read/write permission
+               FILE_MAP_READ,  // read/write permission
                0,
                0,
                BUF_SIZE);
 
    if (pBuf != NULL)
    {
-        //create texture from raw data:
-        glGenTextures( 1, &textureList["sharedMemory"]->texture );
 
-        // select our current texture
-        glBindTexture( GL_TEXTURE_2D, smTexture );
-
-        // select modulate to mix texture with color for shading
-        glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-
-        // when texture area is small, bilinear filter the closest mipmap
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                         GL_LINEAR_MIPMAP_NEAREST );
-        // when texture area is large, bilinear filter the first mipmap
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-
-        // if wrap is true, the texture wraps over at the edges (repeat)
-        //       ... false, the texture ends at the edges (clamp)
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                         GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                         GL_CLAMP );
-
-        // build our texture mipmaps
-        gluBuild2DMipmaps( GL_TEXTURE_2D, 3, 320, 240,
-                           GL_RGB, GL_UNSIGNED_BYTE, pBuf );
-
-        textureList["sharedMemory"]->texture=smTexture;
-        // free buffer
-        //free( pBuf );
+        glBindTexture(GL_TEXTURE_2D,textureList["sharedMemory"]->texture);
+        glTexSubImage2D(GL_TEXTURE_2D,0,(1024.0 - 640.0)/2.0,(1024.0 - 480.0)/2.0,640,480,GL_LUMINANCE, GL_FLOAT,(float*)pBuf);
+        glBindTexture(GL_TEXTURE_2D,0);
 
         UnmapViewOfFile((void*)pBuf);
-
         CloseHandle(hMapFile);
 
         return 1;
@@ -1955,16 +1932,18 @@ void Renderer::setupShading(string shaderName){
 
 void Renderer::setupTexturing(string texName, Actor* a, GLenum texChannel){
 
-  glBindTexture(GL_TEXTURE_2D, textureList[texName]->texture);
-
-    if (!a)
+    if (!a )
         return;
+
+    if (textureList[texName])
+        glBindTexture(GL_TEXTURE_2D, textureList[texName]->texture);
+
 
     //texture animation
     if (textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > textureList[texName]->frameRate ){
         a->textTimer += textureList[texName]->frameRate;
         a->textureID=textureList[texName]->nextTexture;
-        }
+    }
 
     transformTextureMatrix(a);
 
@@ -2490,10 +2469,69 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
     textureList[texID]->bAlpha=bAlpha;
     textureList[texID]->bWrap=wrap;
     textureList[texID]->texFilename=filename;
+    textureList[texID]->nextTexture="NULL";
 
     return true;
 }
 
+bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint dataType, int width, int height){
+
+    GLuint tex;
+
+    int channels=0;
+    if (colorFormat==GL_RGB)
+        channels=3;
+    else if (colorFormat==GL_RGBA)
+        channels=4;
+    else if (colorFormat==GL_LUMINANCE)
+        channels=1;
+    else{
+        cout << "ERROR: format not supported, only GL_RGB, GL_RGBA and GL_LUMINANCE are supported right now!" << endl;
+        return 0;
+    }
+
+    unsigned char texBuff[width*height*channels];
+    static float floatTexBuff[1024*1024];
+
+    //create gradient
+    for (int i=0;i<width*height*channels;i++){
+        //texBuff[i]=(char)( (int) ( (float)(i*255.0) / (float)(width*height*channels) ));
+        texBuff[i]=0;
+        floatTexBuff[i]=0.0;
+    }
+    //create texture from raw data:
+    glGenTextures( 1, &tex );
+
+    // select our current texture
+    glBindTexture( GL_TEXTURE_2D, tex );
+
+    // when texture area is small, bilinear filter the closest mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    // when texture area is large, bilinear filter the first mipmap
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+    //the texture ends at the edges (clamp)
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,GL_CLAMP );
+
+    //build the texture
+    if (dataType==GL_UNSIGNED_BYTE)
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, texBuff );
+    else if (dataType==GL_FLOAT)
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, &floatTexBuff );
+    else{
+        cout << "ERROR: datatype not supported, must be GL_UNSIGNED_BYTE or GL_FLOAT" << endl;
+        return 0;
+    }
+
+    textureList[texID]= new textureObject;
+    textureList[texID]->texture=tex;
+    textureList[texID]->texFilename="memory";
+    textureList[texID]->nextTexture="NULL";
+
+    cout << "created new empty texture with name:" << texID << " and number:" << tex << endl;
+    return true;
+}
 
 bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName){
 

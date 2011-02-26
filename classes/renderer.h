@@ -335,7 +335,7 @@ public:
        GLuint createNewRenderTarget();
        static GLuint LoadTextureRAW( const char * filename, int size, int wrap );
        bool LoadTextureTGA( string filename, bool wrap, bool bAlpha, string texID );
-
+       bool createEmptyTexture( string texID, GLuint colorFormat, GLuint type, int width, int height);
 
        bool loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName);
 

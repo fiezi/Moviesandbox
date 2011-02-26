@@ -41,12 +41,19 @@ void main(){
 
     N =  gl_NormalMatrix * gl_Normal;
 
-    myVertex.z=texture2D(tex,gl_TexCoord[0].st).g;
-    //myVertex.z=1.0;
+    myVertex.z=texture2D(tex,gl_TexCoord[0].st).r *10.0;
+
+    myVertex.x=myVertex.x*myVertex.z;
+    myVertex.y=myVertex.y*myVertex.z;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= pointSize();
+    //gl_PointSize= pointSize();
+    if (myVertex.z>0.0)
+        gl_PointSize= 1.0;
+    else
+        gl_PointSize= 0.0;
+
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;
     zPos=gl_Position.z;

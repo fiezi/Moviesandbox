@@ -60,7 +60,7 @@
       MouseSensitivity="0.04"
       MoveSpeed="8.0"
       FOV="45"
-      StartSceneFile="blank.scene">
+      StartSceneFile="kinectTest.scene">
     </Rendersettings>
 
     <Library Library="resources/basic.library" />

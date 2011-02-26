@@ -260,7 +260,9 @@
 		<Unit filename="classes\importBitmapButton.h">
 			<Option virtualFolder="Buttons\DrawingWidget\" />
 		</Unit>
-		<Unit filename="classes\includes.h" />
+		<Unit filename="classes\includes.h">
+			<Option virtualFolder="core\" />
+		</Unit>
 		<Unit filename="classes\input.cpp">
 			<Option virtualFolder="core\" />
 		</Unit>
