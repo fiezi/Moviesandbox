@@ -903,6 +903,7 @@ int Renderer::readSharedMemory(){
    {
 
         glBindTexture(GL_TEXTURE_2D,textureList["sharedMemory"]->texture);
+        //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
         glTexSubImage2D(GL_TEXTURE_2D,0,(1024.0 - 640.0)/2.0,(1024.0 - 480.0)/2.0,640,480,GL_LUMINANCE, GL_FLOAT,(float*)pBuf);
         glBindTexture(GL_TEXTURE_2D,0);
 

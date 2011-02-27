@@ -41,7 +41,7 @@ void main(){
 
     N =  gl_NormalMatrix * gl_Normal;
 
-    myVertex.z=texture2D(tex,gl_TexCoord[0].st).r *10.0;
+    myVertex.z=texture2D(tex,gl_TexCoord[0].st).r * 10.0;
 
     myVertex.x=myVertex.x*myVertex.z;
     myVertex.y=myVertex.y*myVertex.z;
@@ -50,7 +50,7 @@ void main(){
 
     //gl_PointSize= pointSize();
     if (myVertex.z>0.0)
-        gl_PointSize= 1.0;
+        gl_PointSize= 4.0;
     else
         gl_PointSize= 0.0;
 

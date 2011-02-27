@@ -7,10 +7,10 @@ LayerInspector::LayerInspector(){
     level=0;
     listColumns=1;
     newLayer=NULL;
-    listHeight=24;
-    listWidth=64;
-    maxListItems=15;
-registerProperties();
+    listHeight=12;
+    listWidth=120;
+    maxListItems=40;
+    registerProperties();
 }
 
 LayerInspector::~LayerInspector(){}
