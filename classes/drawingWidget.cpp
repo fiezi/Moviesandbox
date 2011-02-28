@@ -161,6 +161,44 @@ void DrawingWidget::trigger(Actor * other){
             renderer->brush->drawing->textureID="sharedMemory";
             renderer->brush->drawing->sceneShaderID="heightfield";
             renderer->brush->drawing->particleScale=100;
+
+            #ifdef TARGET_WIN32
+            //call msbKinect
+            //CreateProcess(,,,false,NORMAL_PRIORITY_CLASS,,"tools//msbKinect//");
+            char* exePath="tools\\msbKinect\\msbKinect.exe";
+            char* workingDir="tools\\msbKinect";
+
+                        STARTUPINFO si;
+                        PROCESS_INFORMATION pi;
+
+                        ZeroMemory( &si, sizeof(si) );
+                        si.cb = sizeof(si);
+                        ZeroMemory( &pi, sizeof(pi) );
+
+                        // Start the child process.
+                        if( !CreateProcess( NULL,   // No module name (use command line)
+                            exePath,        // Command line
+                            NULL,           // Process handle not inheritable
+                            NULL,           // Thread handle not inheritable
+                            FALSE,          // Set handle inheritance to FALSE
+                            0,              // No creation flags
+                            NULL,           // Use parent's environment block
+                            workingDir,           // Use working directory
+                            &si,            // Pointer to STARTUPINFO structure
+                            &pi )           // Pointer to PROCESS_INFORMATION structure
+                        )
+                        {
+                            printf( "CreateProcess failed (%d).\n", GetLastError() );
+                            return;
+                        }
+
+                        // Wait until child process exits.
+                        //WaitForSingleObject( pi.hProcess, INFINITE );
+
+                        // Close process and thread handles.
+                        //CloseHandle( pi.hProcess );
+                        //CloseHandle( pi.hThread );
+            #endif
         }
     }
 
