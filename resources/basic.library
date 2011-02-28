@@ -7,7 +7,7 @@
     <SpriteMesh meshID="sticky" meshFilename="resources/meshes/sticky.spriteMesh"/>
     <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh"/>
 
-    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_skeleton.spriteMesh"/> 
+    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_skeleton.spriteMesh"/>
 
 
  <!-- Textures -->
@@ -71,6 +71,12 @@
     <Texture textureID="normals_front" filename="resources/icons/normals_front.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="normals_back" filename="resources/icons/normals_back.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="normals_follow_drawing" filename="resources/icons/normals_follow_drawing.tga" bAlpha="1" bWrap="1"/>
+
+    <Texture textureID="icon_kinect" filename="resources/icons/icon_kinect.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_importBitmap" filename="resources/icons/icon_importBitmap.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_mergeDrawings" filename="resources/icons/icon_mergeDrawings.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_paintWeights" filename="resources/icons/icon_paintWeights.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_addBones" filename="resources/icons/icon_addBones.tga" bAlpha="1" bWrap="1"/>
 
 
 

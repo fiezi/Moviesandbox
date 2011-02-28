@@ -293,15 +293,20 @@ void Content::createDrawWidget(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_selectDrawing");
 
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Import Kinect");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_kinect");
+
     lbut->listType.push_back("18ImportBitmapButton");
     lbut->listName.push_back("Import Bitmap");
     lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_load");
+    lbut->listIcon.push_back("icon_importBitmap");
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("merge Drawings");
     lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_advanced");
+    lbut->listIcon.push_back("icon_mergeDrawings");
 
 
     lbut->listType.push_back("12AssignButton");
@@ -344,13 +349,13 @@ void Content::createBoneWidget(int x, int y){
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Create Bone (b)");
     lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_base");
+    lbut->listIcon.push_back("icon_addBones");
 
     //here, we skin bones
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Paint Weights");
     lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_base");
+    lbut->listIcon.push_back("icon_paintWeights");
 
     //here we load a bone set
     lbut->listType.push_back("12AssignButton");

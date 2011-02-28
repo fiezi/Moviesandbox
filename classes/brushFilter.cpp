@@ -61,7 +61,7 @@ void BrushFilter::filter(vertexData* myVData){
 
             if (brush->bNormalFollowDrawing){
                     myVData->normal=renderer->grid->zAxis.crossProduct(pDist3);
-                    cout << "normal: " << myVData->normal << endl;
+                    //cout << "normal: " << myVData->normal << endl;
             }else{
                 myVData->normal=renderer->grid->yAxis;
             }

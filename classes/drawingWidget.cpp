@@ -117,6 +117,53 @@ void DrawingWidget::trigger(Actor * other){
         drawTool->scaleZ(0.5);
     }
 
+    if (other->name=="Import Kinect"){
+
+        if (other->color==Vector4f(1,1,0,1)){
+
+            static float kinectContent[1024*1024];
+            glBindTexture(GL_TEXTURE_2D,renderer->textureList["sharedMemory"]->texture);
+            glGetTexImage(GL_TEXTURE_2D,0,GL_LUMINANCE,GL_FLOAT,&kinectContent);
+            glBindTexture(GL_TEXTURE_2D,0);
+            other->color=COLOR_WHITE;
+            renderer->brush->drawing->drawType=DRAW_PARTICLES;
+            renderer->brush->drawing->bTextured=false;
+            renderer->brush->drawing->textureID="NULL";
+            renderer->brush->drawing->sceneShaderID="color";
+            renderer->brush->drawing->bPickable=true;
+            renderer->brush->drawing->particleScale=2;
+            for (int i=0;i<1024*1024;i++){
+                Vector3f myLoc;
+                myLoc.z=kinectContent[i] * 10.0f;
+                if (myLoc.z==0.0f)
+                    continue;
+                myLoc.x= i%1024;
+                myLoc.y= (int)(i/1024);
+
+                myLoc.x=myLoc.x/1024.0f - 0.5f;
+                myLoc.y=myLoc.y/1024.0f - 0.5f;
+
+                myLoc.x*=myLoc.z;
+                myLoc.y*=myLoc.z;
+
+                renderer->brush->setLocation(myLoc);
+                renderer->brush->normalMode=NORMAL_FRONT;
+                input->mouseVector.x=1.0f;
+
+                drawTool->paint();
+            }
+
+        }
+        else{
+            other->color=COLOR_YELLOW;
+            renderer->brush->drawing->drawType=DRAW_POINTPATCH;
+            renderer->brush->drawing->bTextured=true;
+            renderer->brush->drawing->textureID="sharedMemory";
+            renderer->brush->drawing->sceneShaderID="heightfield";
+            renderer->brush->drawing->particleScale=100;
+        }
+    }
+
 
 }
 

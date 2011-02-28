@@ -49,6 +49,7 @@ void drawSplashScreen(){
 
     GLuint myTex=Renderer::LoadTextureRAW("splash.raw",512,1);
 
+    glClear(GL_COLOR | GL_DEPTH);
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0,256,256,0,-1,1);
