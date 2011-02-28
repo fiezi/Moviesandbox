@@ -109,6 +109,7 @@ int main(int argc, char** argv)
    // height
    screenY = GetSystemMetrics(SM_CYSCREEN);
 
+
 #endif
 
 	glutInitWindowPosition(screenX/2-256,screenY/2-120);

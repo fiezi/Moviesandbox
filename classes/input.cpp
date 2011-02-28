@@ -49,6 +49,7 @@ Input::Input(){
     bModifierPressed=false,
     bTextInput=false,
     bKeepSelection=false;
+    bPressedMovementKeys=false;
 
     inputText="";
     tooltip="";
@@ -152,6 +153,11 @@ void Input::update(double deltaTime){
 
     //update controller after assigning all hudTargets, staticButtons, etc...
     controller->update(deltaTime);
+
+    //always enable moving around
+    if (bPressedMovementKeys && controller->tool!=TOOL_NAV)
+        controller->myTools[TOOL_NAV]->update(deltaTime);
+
 
     //reset last pressed key after controller update!
     lastKey=0;
@@ -332,21 +338,33 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
 
     if (!bTextInput){
 
-        if (key=='d')
+        if (key=='d'){
                keyVector.x=1;
-        if (key=='a')
+               bPressedMovementKeys=true;
+        }
+        if (key=='a'){
                keyVector.x=-1;
+               bPressedMovementKeys=true;
+        }
 
-        if (key=='q')
+        if (key=='q'){
                keyVector.y=1;
-        if (key=='e')
+               bPressedMovementKeys=true;
+        }
+        if (key=='e'){
                keyVector.y=-1;
+               bPressedMovementKeys=true;
+        }
 
 
-        if (key=='w')
+        if (key=='w'){
                keyVector.z=-1;
-        if (key=='s')
+               bPressedMovementKeys=true;
+        }
+        if (key=='s'){
                keyVector.z=1;
+               bPressedMovementKeys=true;
+        }
 
 	#ifdef TARGET_WIN32
 
@@ -385,24 +403,38 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
 void Input::specialKeyDown(int key, int x, int y){
 
 //make this relative to where we look at!
-if (key==GLUT_KEY_RIGHT)
-       keyVector.x=1;
-if (key==GLUT_KEY_LEFT)
-       keyVector.x=-1;
+    if (key==GLUT_KEY_RIGHT){
+        keyVector.x=1;
+        bPressedMovementKeys=true;
+    }
 
-if (key==GLUT_KEY_PAGE_UP)
-       keyVector.y=1;
-if (key==GLUT_KEY_PAGE_DOWN)
-       keyVector.y=-1;
+    if (key==GLUT_KEY_LEFT){
+        keyVector.x=-1;
+        bPressedMovementKeys=true;
+    }
+
+    if (key==GLUT_KEY_PAGE_UP){
+        keyVector.y=1;
+        bPressedMovementKeys=true;
+    }
+
+    if (key==GLUT_KEY_PAGE_DOWN){
+        keyVector.y=-1;
+        bPressedMovementKeys=true;
+    }
 
 
-if (key==GLUT_KEY_UP)
-       keyVector.z=-1;
-if (key==GLUT_KEY_DOWN)
-       keyVector.z=1;
+    if (key==GLUT_KEY_UP){
+        keyVector.z=-1;
+        bPressedMovementKeys=true;
+    }
+    if (key==GLUT_KEY_DOWN){
+        keyVector.z=1;
+        bPressedMovementKeys=true;
+    }
 
-if (key==GLUT_KEY_END)
-       exit(0);
+    if (key==GLUT_KEY_END)
+           exit(0);
 
 	#ifdef TARGET_WIN32
 
@@ -427,20 +459,33 @@ void Input::keyUp(unsigned char key,int x,int y){
 
     ///W,A,S,D movement Q,E for up/down
 
-        if (key=='a' && keyVector.x==-1)
+        if (key=='a' && keyVector.x==-1){
                keyVector.x=0;
-        if (key=='d' && keyVector.x==1)
+               bPressedMovementKeys=false;
+        }
+        if (key=='d' && keyVector.x==1){
                keyVector.x=0;
+               bPressedMovementKeys=false;
+        }
 
-        if (key=='q')
+        if (key=='q'){
                keyVector.y=0;
-        if (key=='e')
+               bPressedMovementKeys=false;
+        }
+        if (key=='e'){
                keyVector.y=0;
+               bPressedMovementKeys=false;
+        }
 
-        if (key=='w')
+        if (key=='w'){
                Input::keyVector.z=0;
-        if (key=='s')
+               bPressedMovementKeys=false;
+        }
+
+        if (key=='s'){
                keyVector.z=0;
+               bPressedMovementKeys=false;
+        }
 
     ///System stuff
 
@@ -538,21 +583,33 @@ void Input::keyUp(unsigned char key,int x,int y){
 
 void Input::specialKeyUp (int key,int x, int y){
 
-    if (key==GLUT_KEY_LEFT && keyVector.x==-1)
-           keyVector.x=0;
-    if (key==GLUT_KEY_RIGHT && keyVector.x==1)
-           keyVector.x=0;
+    if (key==GLUT_KEY_LEFT && keyVector.x==-1){
+        keyVector.x=0;
+        bPressedMovementKeys=false;
+    }
+    if (key==GLUT_KEY_RIGHT && keyVector.x==1){
+        keyVector.x=0;
+        bPressedMovementKeys=false;
+    }
 
-    if (key==GLUT_KEY_PAGE_UP)
-           keyVector.y=0;
-    if (key==GLUT_KEY_PAGE_DOWN)
-           keyVector.y=0;
+    if (key==GLUT_KEY_PAGE_UP){
+        keyVector.y=0;
+        bPressedMovementKeys=false;
+    }
+    if (key==GLUT_KEY_PAGE_DOWN){
+        keyVector.y=0;
+        bPressedMovementKeys=false;
+    }
 
 
-    if (key==GLUT_KEY_UP)
-           Input::keyVector.z=0;
-    if (key==GLUT_KEY_DOWN)
-           keyVector.z=0;
+    if (key==GLUT_KEY_UP){
+        Input::keyVector.z=0;
+        bPressedMovementKeys=false;
+    }
+    if (key==GLUT_KEY_DOWN){
+        keyVector.z=0;
+        bPressedMovementKeys=false;
+    }
 
     if (key==GLUT_KEY_F2){
         renderer->bDrawNodes=!renderer->bDrawNodes;

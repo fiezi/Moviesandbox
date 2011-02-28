@@ -89,7 +89,8 @@ public:
                 bAltDown,
                 bModifierPressed,
                 bTextInput,
-                bKeepSelection;
+                bKeepSelection,
+                bPressedMovementKeys;
 
     std::string tooltip;
     std::string inputText;
