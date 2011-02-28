@@ -298,6 +298,8 @@ vec4 smudge(vec2 coord){
 
 		vec2 smudge=texture2D(fxTex,coord).xy;
 
+//        if (length(smudge)<0.1)
+//            smudge=vec2(0.2,0.1);
 
 
 		vec4 smudgeColor=gl_FragColor * texture2D(shadowTex,texCoord);
@@ -352,7 +354,7 @@ void main(void){
     //gl_FragColor*=blur3(shadowTex,texCoord);
 
     ///smudging
-	//gl_FragColor=smudge(texCoord);
+	gl_FragColor=smudge(texCoord);
 
 
     ///debug stuff
@@ -362,7 +364,7 @@ void main(void){
     //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).b;
     //gl_FragColor.a=1.0;
     //gl_FragColor.rgb=texture2D(depthTex, texCoord).rgb;
-    //gl_FragColor.g=texture2D(depthTex, texCoord).a/100.0;
+    //gl_FragColor.rgb=texture2D(depthTex, texCoord).a/100.0;
     //gl_FragColor.b=texture2D(depthTex, texCoord).a/100.0;
     //vec3 norm=readNormal(texCoord);
     //gl_FragColor.xyz+=0.10 * norm;

@@ -1,6 +1,7 @@
 uniform vec4 postColor;
 uniform int bComputeLight;
 uniform int bSelected;
+uniform int screensize;
 
 varying vec3 N;
 varying vec3 smudge;
@@ -21,12 +22,11 @@ float PI = 3.14159265358979323846264;
 
 void main(){
 
-	vec2 myPixelPos=pixelPos.xy * 768.0;
+	vec2 myPixelPos=pixelPos.xy * screensize;
 	vec2 pixelDist=myPixelPos-gl_FragCoord.xy;
 	pixelDist=pixelDist/(pSize);
 
 	float myDist=length(pixelDist * 2.0);
-
 
 	if (myDist>1.0){
 		gl_FragDepth=1.0;
@@ -51,11 +51,11 @@ void main(){
 	//also: depending on smudge going in or out, it's all different!
 
 
-	if (bTubeNormal>0.5){
+	if (bTubeNormal>0.0){
 		vec3 biNormal= smudge;
 		vec3 NcrossS = cross( biNormal, N );
 
-		vec3 tubeNormal=(sin(pixelDist.x * PI/4.0) *  -NcrossS + sin(pixelDist.y * PI/4.0) * -N);
+		vec3 tubeNormal=    (sin(pixelDist.x * PI/4.0) *  -NcrossS + sin(pixelDist.y * PI/4.0) * -N);
 		gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
 		}
 	else
@@ -68,7 +68,14 @@ void main(){
         float vIDOne=float(vIDOneInt);
 
         float vIDTwo=mod(vID,65536.0);
-		gl_FragData[3]=vec4(smudge.x,smudge.y,vIDOne,vIDTwo);
+
+/*
+        if (length(smudge)<0.1){
+            smudge.xy=vec2(0.1,0.1);
+            smudge.xy=N.xy;
+        }
+*/
+        gl_FragData[3]=vec4(smudge.x,smudge.y,vIDOne,vIDTwo);
 
 }
 

@@ -499,6 +499,14 @@ void Actor::updateShaders(){
     if (myShader->uniforms.find("postColor") != myShader->uniforms.end())
         glUniform4fARB(myShader->uniforms["postColor"], color.r, color.g, color.b, color.a );
 
+    //transmit scene width/height
+    if (myShader->uniforms.find("screensize") != myShader->uniforms.end()){
+        GLint screenSize[4];
+        glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
+        glUniform1iARB(myShader->uniforms["screensize"], screenSize[3]);
+    }
+
+
 }
 
 //translates, rotates, sets up shaders and textures, then calls a more specifc draw function depending on the drawtype

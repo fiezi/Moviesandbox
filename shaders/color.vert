@@ -18,7 +18,13 @@ float pointSize(){
   float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w ;
   particleScale+=  particleAngleScale * (1.0 - abs(gl_Normal.z));
   particleScale+=  particleAngleScale * (abs(gl_Normal.y ));
-  return ( (particleScale * 1000.0  ) / (gl_Position.z * gl_Position.z) );
+  if (gl_Position.z>0.3){
+      if (gl_Position.z<1.0 )
+        return ( (particleScale * 1000.0  ) / (gl_Position.z) );
+
+      return ( (particleScale * 1000.0  ) / (gl_Position.z * gl_Position.z) );
+  }else
+  return 1.0;
 
 }
 
