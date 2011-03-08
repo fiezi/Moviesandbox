@@ -2,17 +2,19 @@
 #include <renderer.h>
 
 WaitForTimerNode::WaitForTimerNode(){
-name="WaitTimer";
-passedTime=0;
-waitTime=0;
-bIsCounting=false;
+    name="WaitTimer";
+    passedTime=0;
+    waitTime=0;
+    bIsCounting=false;
 
-listType.push_back("15TextInputButton");
-listProp.push_back("WAITTIME");
+    listType.push_back("15TextInputButton");
+    listName.push_back("WaitTime");
+    listProp.push_back("WAITTIME");
+    listIcon.push_back("icon_flat");
 
-color=Vector4f(0.5,0.5,0.5,1.0);
+    color=Vector4f(0.5,0.5,0.5,1.0);
 
-registerProperties();
+    registerProperties();
 }
 
 

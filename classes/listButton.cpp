@@ -73,6 +73,11 @@ void ListButton::assembleList(){
       listButton[i]->color=listColor;
       listButton[i]->sceneShaderID=listShader;
 
+        if (listWidth>0)
+            listButton[i]->scale.x=listWidth;
+        if (listHeight>0)
+            listButton[i]->scale.y=listHeight;
+
       listButton[i]->setup();
 
       if (bPermanentList)
@@ -127,10 +132,6 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
     maxRadius=1.1*scale.y;
 
 
-    if (listWidth>0)
-        listButton[buttonNumber]->scale.x=listWidth;
-    if (listHeight>0)
-        listButton[buttonNumber]->scale.y=listHeight;
 
     Vector3f loc;
     switch(listDisplayMode){

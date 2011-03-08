@@ -15,14 +15,17 @@ SetHiddenNode::SetHiddenNode(){
     listType.push_back("15PickWorldButton");
     listName.push_back("applyTo");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("setHidden");
     listProp.push_back("SETHIDDEN");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("hideGroup");
     listProp.push_back("BHIDEGROUP");
+    listIcon.push_back("icon_flat");
 
     registerProperties();
 }

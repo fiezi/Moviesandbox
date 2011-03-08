@@ -3,21 +3,27 @@
 
 Node::Node(){
 
-name="Node";
-bKeyInputBranch=false;
-bPermanent=true;
-bDragable=true;
-childNode=NULL;
-nodeIn=NULL;
-nodeOut=NULL;
-treeStart=NULL;
+    name="Node";
+    bKeyInputBranch=false;
+    bPermanent=true;
+    bDragable=true;
+    childNode=NULL;
+    nodeIn=NULL;
+    nodeOut=NULL;
+    treeStart=NULL;
+    bDrawName=true;
+    bDrawListNames=true;
+    listWidth=100;
+    listHeight=12;
+    listColor=Vector4f(0.8,0.0,0.2,1.0);
 
-nodeBranch=0;
 
-scale.x=74;
-scale.y=16;
+    nodeBranch=0;
 
-textureID="icon_flat";
+    scale.x=74;
+    scale.y=16;
+
+    textureID="icon_flat";
 
 //this is a bit hacky, as it creates NodeIO for all the "sleeping" nodes for our actor references...
 //but is needed so we can connect nodes when loading...
@@ -28,7 +34,7 @@ textureID="icon_flat";
     nodeIn->parent=this;
     nodeOut->parent=this;
 
-registerProperties();
+    registerProperties();
 }
 
 Node::~Node(){
@@ -63,16 +69,6 @@ if (nodeOut){
   }
 }
 
-void Node::drawPlane(){
-
-BasicButton::drawPlane();
-
-glColor3f( 1.0f,1.0f,1.0f);
-input->drawText((char*)name.c_str(),2,scale.y/2+2);
-
-//location.x/input->screenX
-//location.y/input->screenY
-}
 
 
 void Node::connectChild(Node* connectNode){

@@ -16,9 +16,8 @@ varying vec4 picking;
 
 void main(){
 
-    vec4 color = texture2D(tex,gl_TexCoord[0].st);
-
-    gl_FragData[0]= vec4(1.0,1.0,1.0,1.0);
+    gl_FragData[0]=gl_Color;
+    gl_FragData[0].a=1.0;
 
     if (bSelected==1){
         gl_FragData[0]*=0.5;

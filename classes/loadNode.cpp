@@ -8,6 +8,7 @@ LoadNode::LoadNode(){
 
 fileName="NULL";
 registerProperties();
+
 }
 
 LoadNode::~LoadNode(){}

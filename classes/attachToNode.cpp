@@ -14,19 +14,23 @@ AttachToNode::AttachToNode(){
     listType.push_back("15PickWorldButton");
     listName.push_back("applyTo");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15PickWorldButton");
     listName.push_back("target");
     listProp.push_back("TARGET");
+    listIcon.push_back("icon_flat");
 
 
     listType.push_back("15TextInputButton");
     listName.push_back("offset");
     listProp.push_back("OFFSET");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("rotation");
     listProp.push_back("NEWROT");
+    listIcon.push_back("icon_flat");
 
 
     registerProperties();}

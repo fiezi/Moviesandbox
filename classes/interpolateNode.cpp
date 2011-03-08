@@ -17,14 +17,17 @@ bNeedMover=true;
 listType.push_back("15PickWorldButton");
 listName.push_back("moveActor");
 listProp.push_back("MOVEACTOR");
+listIcon.push_back("icon_flat");
 
 listType.push_back("15PickWorldButton");
 listName.push_back("targetActor");
 listProp.push_back("TARGETACTOR");
+listIcon.push_back("icon_flat");
 
 listType.push_back("15TextInputButton");
 listName.push_back("moveTime");
 listProp.push_back("MOVETIME");
+listIcon.push_back("icon_flat");
 
 color=Vector4f(0.5,0.5,0.5,1.0);
 registerProperties();

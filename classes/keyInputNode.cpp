@@ -9,6 +9,7 @@ KeyInputNode::KeyInputNode(){
     treeStart=this;
     listType.push_back("15TextInputButton");
     listProp.push_back("KEYINPUT");
+    listIcon.push_back("icon_flat");
 
     registerProperties();
     }

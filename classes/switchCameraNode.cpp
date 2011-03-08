@@ -6,12 +6,14 @@
 #include "input.h"
 
 SwitchCameraNode::SwitchCameraNode(){
-    name="SwitchCameraNode";
+
+    name="SwitchCam";
     cameraActor=NULL;
 
     listType.push_back("15PickWorldButton");
     listName.push_back("cameraActor");
-    listProp.push_back("NULL");
+    listProp.push_back("CAMERAACTOR");
+    listIcon.push_back("icon_flat");
 
     color=Vector4f(0.5,0.5,0.5,1.0);
     registerProperties();

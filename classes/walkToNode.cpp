@@ -12,13 +12,15 @@ WalkToNode::WalkToNode(){
     listType.push_back("15PickWorldButton");
     listName.push_back("apply To");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15PickWorldButton");
     listName.push_back("walk target");
     listProp.push_back("TARGET");
+    listIcon.push_back("icon_flat");
 
 
-registerProperties();
+    registerProperties();
 }
 
 WalkToNode::~WalkToNode(){}

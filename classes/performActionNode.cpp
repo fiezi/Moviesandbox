@@ -17,14 +17,17 @@ PerformActionNode::PerformActionNode(){
     listType.push_back("15PickWorldButton");
     listName.push_back("APPLYTO");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("seamless");
     listProp.push_back("BWAITTOBEFINISHED");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("Action Name");
     listProp.push_back("MYACTION");
+    listIcon.push_back("icon_flat");
 
 
     color=Vector4f(0.5,0.5,0.5,1.0);

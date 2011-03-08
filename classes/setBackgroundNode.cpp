@@ -5,15 +5,16 @@
 #include "renderer.h"
 
 SetBackgroundNode::SetBackgroundNode(){
-name="setBackground";
-texName="NULL";
+    name="setBackground";
+    texName="NULL";
 
-listType.push_back("15TextInputButton");
-listName.push_back("texName");
-listProp.push_back("TEXNAME");
+    listType.push_back("15TextInputButton");
+    listName.push_back("texName");
+    listProp.push_back("TEXNAME");
+    listIcon.push_back("icon_flat");
 
-color=Vector4f(0.5,0.5,0.5,1.0);
-registerProperties();
+    color=Vector4f(0.5,0.5,0.5,1.0);
+    registerProperties();
 }
 
 SetBackgroundNode::~SetBackgroundNode(){}

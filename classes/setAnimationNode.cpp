@@ -17,18 +17,22 @@ inPoint=0.0f;
     listType.push_back("15PickWorldButton");
     listName.push_back("apply To");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("animName");
     listProp.push_back("ANIMNAME");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("inPoint");
     listProp.push_back("INPOINT");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("bLoop");
     listProp.push_back("BLOOP");
+    listIcon.push_back("icon_flat");
 
 registerProperties();
 }

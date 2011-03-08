@@ -109,7 +109,7 @@
     #include <conio.h>
     #include <tchar.h>
 
-    #define BUF_SIZE 640*480*32
+    #define BUF_SIZE 640*480*4*32
     TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
 
 
@@ -666,7 +666,7 @@ void Renderer::setup(){
     #endif
 
     //shared memory texture
-    createEmptyTexture("sharedMemory",GL_LUMINANCE,GL_FLOAT,1024,1024);
+    createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
 }
 
@@ -904,7 +904,7 @@ int Renderer::readSharedMemory(){
 
         glBindTexture(GL_TEXTURE_2D,textureList["sharedMemory"]->texture);
         //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
-        glTexSubImage2D(GL_TEXTURE_2D,0,(1024.0 - 640.0)/2.0,(1024.0 - 480.0)/2.0,640,480,GL_LUMINANCE, GL_FLOAT,(float*)pBuf);
+        glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - 640.0)/2.0 ,(screenY - 480.0)/2.0 ,640,480,GL_RGBA, GL_FLOAT,(float*)pBuf);
         glBindTexture(GL_TEXTURE_2D,0);
 
         UnmapViewOfFile((void*)pBuf);
@@ -2491,8 +2491,13 @@ bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint data
         return 0;
     }
 
-    unsigned char texBuff[width*height*channels];
-    static float floatTexBuff[1024*1024];
+    if (width>1024 || height> 1024){
+        cout << "texture too big, not creating..." << endl;
+    }
+
+    //generate buffer up to 1024x1024x4
+    static unsigned char texBuff[1024*1024*4];
+    static float floatTexBuff[1024*1024*4];
 
     //create gradient
     for (int i=0;i<width*height*channels;i++){

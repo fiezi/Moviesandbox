@@ -7,14 +7,15 @@
 TriggerEventNode::TriggerEventNode(){
 
 
-name="Trigger Event";
-eventName="NULL";
+    name="Trigger Event";
+    eventName="NULL";
 
    listType.push_back("15TextInputButton");
    listName.push_back("eventName");
    listProp.push_back("EVENTNAME");
+   listIcon.push_back("icon_flat");
 
-registerProperties();
+    registerProperties();
 }
 
 TriggerEventNode::~TriggerEventNode(){}

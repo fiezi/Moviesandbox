@@ -26,7 +26,6 @@ class Node: public ListButton{
 
     virtual void setup();
     virtual void update(double deltaTime);
-    virtual void drawPlane();
 
     virtual void connectChild(Node* connectNode);
 

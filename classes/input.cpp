@@ -505,7 +505,10 @@ void Input::keyUp(unsigned char key,int x,int y){
         if (key==127 || key==8){
             if (hudTarget){
                 Node* n=dynamic_cast<Node*>(hudTarget);
-                if (n)  n->remove();
+                if (n)  {
+                    deselectButtons(0);
+                    n->remove();
+                }
             }
         }
 

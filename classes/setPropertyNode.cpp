@@ -12,10 +12,12 @@ SetPropertyNode::SetPropertyNode(){
 
     listType.push_back("15PickWorldButton");
     listName.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
     listName.push_back("PROPERTYTOSET");
     listProp.push_back("PROPERTYTOSET");
+    listIcon.push_back("icon_flat");
 
 //    listType.push_back("15TextInputButton");
 //    listName.push_back("PROPVALUE");

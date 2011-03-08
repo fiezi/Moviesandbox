@@ -12,6 +12,7 @@ consoleCommand="NULL";
     listType.push_back("15TextInputButton");
     listName.push_back("command");
     listProp.push_back("CONSOLECOMMAND");
+    listIcon.push_back("icon_flat");
 
 
 registerProperties();

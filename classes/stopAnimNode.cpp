@@ -7,15 +7,16 @@
 
 StopAnimNode::StopAnimNode(){
 
-color=Vector4f(0.1,0.1,0.4,1.0);
-name="stopAnim";
-applyTo=NULL;
+    color=Vector4f(0.1,0.1,0.4,1.0);
+    name="stopAnim";
+    applyTo=NULL;
 
     listType.push_back("15PickWorldButton");
     listName.push_back("apply To");
     listProp.push_back("APPLYTO");
+    listIcon.push_back("icon_flat");
 
-registerProperties();
+    registerProperties();
 }
 
 StopAnimNode::~StopAnimNode(){}
