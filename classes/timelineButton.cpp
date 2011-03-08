@@ -52,7 +52,7 @@ void TimelineButton::update(double deltaTime){
                 selectedKey->boneMatrices[skeleton->bones[i]->name]=skeleton->bones[i]->transformMatrix;
                 }
 		}
-	
+
 		selectedKey->locationKey=connectedActor->location;
 		selectedKey->rotationKey=connectedActor->rotation;
 
@@ -207,7 +207,7 @@ void TimelineButton::clickedLeft(){
 			}
 			connectedActor->setLocation(selectedKey->locationKey);
 			connectedActor->setRotation(selectedKey->rotationKey);
-			
+
 		}
 	}
     else
@@ -310,7 +310,7 @@ void TimelineButton::playTimeline(){
 		}
 
 		interpolator.bInterpolateVectors=true;
-        
+
 		interpolator.startTime=renderer->currentTime;
         interpolator.keyFrames=keyFrames;
         interpolator.currentKey=0;
@@ -388,6 +388,11 @@ void TimelineButton::connectAction(Action* newAction)
 
     newAction->bSkeletal=bSkeletalTrack;
     newAction->color = Vector4f(1,0,0,1);
+
+    //add connected Action to my.library
+    TiXmlElement* myElement = new TiXmlElement("Action");
+	myElement->SetAttribute("actionFilename",newAction->name+".action");
+	input->addToLibrary(myElement);
 
     connectedAction = newAction;
 

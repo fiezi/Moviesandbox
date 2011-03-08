@@ -1360,7 +1360,12 @@ void Input::addToLibrary(TiXmlElement* myElement){
     }
     //append our element to that - or just dump it in here.
     element=hDoc.FirstChildElement().Element();
-    element->LinkEndChild(myElement);
+    TiXmlElement* lastElementOfSameType=element->FirstChildElement(myElement->Value());
+    if (lastElementOfSameType)
+        element->InsertBeforeChild(lastElementOfSameType,*myElement);
+    else
+        element->LinkEndChild(myElement);
+
     doc.SaveFile("resources/my.library");
 }
 
