@@ -65,11 +65,16 @@ void MeshInspector::assembleList(){
                 listButton[i]->bPermanent=true;
                 listButton[i]->bDragable=true;
                 listButton[i]->parent=this;
+                if (listWidth>0)
+                    listButton[i]->scale.x=listWidth;
+                if (listHeight>0)
+                    listButton[i]->scale.y=listHeight;
+
                 listButton[i]->setup();
                 placeButton(i,i);
                 //set this because we want to drag buttons around!
                 listButton[i]->initialLocation=listButton[i]->location;
-				
+
 				cout << "create new mesh list button: " << listButton[i]->name << endl;
                 i++;
             }

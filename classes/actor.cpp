@@ -569,11 +569,18 @@ void Actor::stop(){
 
 void Actor::setBase(Actor* newBase){
 
-    Vector3f absLoc=baseMatrix.getTranslation();
-    Vector3f newBaseAbsLoc=newBase->baseMatrix.getTranslation();
-    Vector3f newLocation=absLoc-newBaseAbsLoc;
-    base=newBase;
-    setLocation(newLocation);
+
+    if (!newBase || newBase->name=="ground" || newBase->name=="grid"){
+        Vector3f absLoc=baseMatrix.getTranslation();
+        base=NULL;
+        setLocation(absLoc);
+    }else{  //removing base connection
+        Vector3f absLoc=baseMatrix.getTranslation();
+        Vector3f newBaseAbsLoc=newBase->baseMatrix.getTranslation();
+        Vector3f newLocation=absLoc-newBaseAbsLoc;
+        base=newBase;
+        setLocation(newLocation);
+    }
 }
 
 /* saving/loading stuff */

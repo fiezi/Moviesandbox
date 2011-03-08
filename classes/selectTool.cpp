@@ -122,7 +122,7 @@ void SelectTool::selectActors(int btn, Actor* other){
         for (int i=0;i<(int)input->selectedActors.size();i++){
             if (other==input->selectedActors[i])
                 foundInSelection=true;                                              //only add if we're not already in selection
-            }
+        }
         if (!foundInSelection){
             if (other->groupID!="NULL" && !input->bCtrlDown){                        //if we're part of a group, add the whole group
                 for (int i=0;i<(int)renderer->actorList.size();i++){                //unless we hold down ctrl, then only add this one!

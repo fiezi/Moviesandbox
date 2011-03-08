@@ -69,6 +69,11 @@ void TextureInspector::assembleList(){
             listButton[i]->textureID=it->first;
             listButton[i]->bPermanent=true;
             listButton[i]->bDragable=true;
+            if (listWidth>0)
+                listButton[i]->scale.x=listWidth;
+            if (listHeight>0)
+                listButton[i]->scale.y=listHeight;
+
             listButton[i]->setup();
             placeButton(i,i);
             //set this because we want to drag buttons around!

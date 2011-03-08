@@ -24,7 +24,7 @@ void PropsWidget::openWidget(){
 void PropsWidget::closeWidget(){
 
     //input->deselectActors();
-    //input->controller->switchTool(TOOL_SELECT);
+    input->controller->switchTool(input->controller->oldTool);
 }
 
 void PropsWidget::trigger(Actor* other){

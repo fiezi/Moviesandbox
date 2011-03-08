@@ -19,6 +19,8 @@ public:
     int brushMove,
         brushRot;
 
+    bool bKeepSelection;
+
     Vector3f brushX,brushY,brushZ;
 
     string  spawnType;
@@ -31,7 +33,7 @@ public:
     virtual void stop();
     virtual void update(double deltaTime);
 
-    virtual void selectActors();
+    virtual void selectActors(int btn, Actor* other);
 
     virtual void keyReleased(int key);
     virtual void mouseReleased(int btn);

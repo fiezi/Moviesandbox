@@ -91,6 +91,11 @@ void PropertyInspector::assembleList(){
 
             listButton[i]->bPermanent=true;
 
+            if (listWidth>0)
+                listButton[i]->scale.x=listWidth;
+            if (listHeight>0)
+                listButton[i]->scale.y=listHeight;
+
             //if (!bOpen)
             //    listButton[i]->bHidden=true;
             placeButton(i,i);

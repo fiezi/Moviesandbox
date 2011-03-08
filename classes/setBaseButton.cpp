@@ -26,18 +26,18 @@ void SetBaseButton::mouseDrag(){}
 void SetBaseButton::finishDrag(){}
 void SetBaseButton::clickedLeft(){
 
-input->focusButton=this;
+    input->focusButton=this;
 }
 
 void SetBaseButton::clickedRight(){}
 void SetBaseButton::focusClick(){
 
-BasicButton::focusClick();
+    BasicButton::focusClick();
 
-if (!parent || !input->worldTarget || input->worldTarget->name=="ground" || input->worldTarget->name=="grid")
-    return;
+    if (!parent)
+        return;
 
-parent->setBase(input->worldTarget);
+    parent->setBase(input->worldTarget);
 }
 
 void SetBaseButton::deselect(int depth){

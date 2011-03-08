@@ -94,6 +94,11 @@ void LayerInspector::assembleList(){
         l->scale=Vector3f(40,30,1);
         l->sceneShaderID="color";
 
+        if (listWidth>0)
+            l->scale.x=listWidth;
+        if (listHeight>0)
+            l->scale.y=listHeight;
+
         //l->textureID=renderer->layerList[i]->textureID;
         listButton.push_back(l);
         placeButton(listButton.size()-1,listButton.size()-1);

@@ -55,6 +55,11 @@ void ActionInspector::assembleList(){
                 listButton[i]->bHidden=false;
                 listButton[i]->bDragable=true;
 
+                if (listWidth>0)
+                    listButton[i]->scale.x=listWidth;
+                if (listHeight>0)
+                    listButton[i]->scale.y=listHeight;
+
                 placeButton(i,i);
                 //set this because we want to drag buttons around!
                 listButton[i]->initialLocation=listButton[i]->location;
