@@ -29,7 +29,7 @@ void main(){
 	float myDist=length(pixelDist * 2.0);
 
 	if (myDist>1.0){
-		gl_FragDepth=1.0;
+		discard;
 		}
 	else{
 		gl_FragDepth=gl_FragCoord.z;

@@ -1283,6 +1283,10 @@ void Actor::remove(){
     //go through all actors
     for (int i=0;i<(int)renderer->actorList.size();i++){
         Actor* myActor=renderer->actorList[i];
+
+        //remove base without location change
+        if (myActor->base==this)
+            myActor->setBase(NULL);
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){

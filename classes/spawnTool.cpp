@@ -84,7 +84,7 @@ void SpawnTool::mouseReleased(int btn){
         if (input->worldTarget){
 
 			//right Button creates menu if on selected actor
-			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground"){
+			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
 			    for (int i=0;i<(int)input->selectedActors.size();i++)
                     if (input->worldTarget==input->selectedActors[i])
                         input->createActorMenu();
