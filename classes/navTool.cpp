@@ -84,11 +84,14 @@ void NavTool::mouseDragged(int btn){
 
 void NavTool::update(double deltaTime){
 
+
+
   MsbTool::update(deltaTime);
+
+
 
   if (bPressLeft && input->hudTarget==NULL){
     processRotation(deltaTime);
-    input->confineMouse();
   }
   if (bPressRight && input->hudTarget==NULL){
     input->keyVector=input->mouseVector * 0.5;
@@ -96,24 +99,25 @@ void NavTool::update(double deltaTime){
         input->keyVector.z=-input->keyVector.y;
         input->keyVector.y=0.0;
     }
-    input->confineMouse();
   }
 
   processMove(deltaTime);
-
 }
 
 void NavTool::processRotation(double deltaTime){
 
     Vector3f axis;
 
-    float amount=input->mouseVector.x * renderer->mouseSensitivity;
-
+    float amount=0.0f;
     amount=-input->mouseVector.x * renderer->mouseSensitivity;
     controller->controlledActor->addRotation(amount, Vector3f(0,1,0));
 
+
     amount=-input->mouseVector.y * renderer->mouseSensitivity;
     controller->controlledActor->addRotation(amount, controller->controlledActor->xAxis);
+
+    input->bConfineMouse=true;
+
 
 }
 

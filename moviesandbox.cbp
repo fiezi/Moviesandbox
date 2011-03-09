@@ -61,7 +61,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="external/quicktime/Libraries/qtmlClient.lib" />
-			<Add library="external\freeglut\libfreeglut.a" />
+			<Add library="external\freeglut\libfreeglut_static.a" />
 			<Add library="glu32" />
 			<Add library="opengl32" />
 			<Add library="winmm" />

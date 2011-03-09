@@ -32,7 +32,7 @@ void RotateButton::update(double deltaTime){
 
             parent->addRotation(amount, axis);
 
-        input->confineMouse();
+        input->bConfineMouse=true;
         return;
     }
 }

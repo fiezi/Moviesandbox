@@ -90,7 +90,8 @@ public:
                 bModifierPressed,
                 bTextInput,
                 bKeepSelection,
-                bPressedMovementKeys;
+                bPressedMovementKeys,
+                bConfineMouse;
 
     std::string tooltip;
     std::string inputText;

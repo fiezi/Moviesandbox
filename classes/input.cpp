@@ -50,7 +50,7 @@ Input::Input(){
     bTextInput=false,
     bKeepSelection=false;
     bPressedMovementKeys=false;
-
+    bConfineMouse=false;
     inputText="";
     tooltip="";
     //eventTrigger="NULL";
@@ -121,6 +121,7 @@ void Input::setup(){
 //Here we check all buttons and see if the mouse is hovering over them!
 void Input::update(double deltaTime){
 
+
     BasicButton *myButton;
     hudTarget=NULL;
     worldTarget=NULL;
@@ -164,6 +165,7 @@ void Input::update(double deltaTime){
     controller->update(deltaTime);
 
     //always enable moving around
+
     if (bPressedMovementKeys && controller->tool!=TOOL_NAV)
         controller->myTools[TOOL_NAV]->update(deltaTime);
 
@@ -177,8 +179,9 @@ void Input::update(double deltaTime){
     if (pressedRight)
         startPressRightBtn++;
 
-    Input::mouseVector*=0;
 
+
+    mouseVector*=0;
 }
 
 void Input::pressedMouse(int button,int state,int x, int y){
@@ -277,14 +280,13 @@ void Input::pressedMouse(int button,int state,int x, int y){
 
 void Input::moveMouse(int x, int y){
 
+
 	#ifdef TARGET_WIN32
 
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 
-		mouseVector.x=x-mouseX;
-		mouseVector.y=(y-mouseY)*invertMouse;
 
 	#endif
 
@@ -292,17 +294,25 @@ void Input::moveMouse(int x, int y){
 
 		bShiftDown=CGEventSourceKeyState(0,(CGKeyCode)56);
 		bCtrlDown=CGEventSourceKeyState(0,(CGKeyCode)59);
-
-		mouseVector.x=x-mouseX;
-		mouseVector.y=(y-mouseY)*invertMouse;
-
 	#endif
 
+	mouseVector.x=x-mouseX;
+	mouseVector.y=(y-mouseY)*invertMouse;
 
 	mouseX=x;
 	mouseY=y;
 
 
+	if (bConfineMouse){
+
+       if (mouseX>screenX/2+200 || mouseX < screenX/2-200)
+                confineMouse();
+
+       if (mouseY>screenY/2+200 || mouseY < screenY/2-200)
+                confineMouse();
+
+        bConfineMouse=false;
+    }
 
 }
 
@@ -335,6 +345,19 @@ void Input::dragMouse(int x, int y){
 
 	mouseX=x;
 	mouseY=y;
+
+
+
+	if (bConfineMouse){
+
+       if (mouseX>screenX/2+200 || mouseX < screenX/2-200)
+                confineMouse();
+
+       if (mouseY>screenY/2+200 || mouseY < screenY/2-200)
+                confineMouse();
+
+        bConfineMouse=false;
+    }
 }
 
 
@@ -738,14 +761,12 @@ void Input::createActorMenu(){
 void Input::confineMouse(){
 
 
-	mouseX=screenX/2;
-	mouseY=screenY/2;
 
     int centerX=windowX+screenX/2;
     int centerY=windowY+screenY/2;
 
 #ifdef TARGET_WIN32
-	SetCursorPos(centerX,centerY);
+    glutWarpPointer(screenX/2,screenY/2);
 #endif
 
 #ifdef TARGET_MACOSX
@@ -754,6 +775,10 @@ void Input::confineMouse(){
 		myPoint.y=centerY;
 		CGDisplayMoveCursorToPoint(	CGMainDisplayID (),myPoint);
 #endif
+
+	mouseX=screenX/2;
+	mouseY=screenY/2;
+
 }
 
 

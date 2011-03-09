@@ -924,6 +924,7 @@ int Renderer::readSharedMemory(){
 
 void Renderer::update(){
 
+
     readSharedMemory();           //convert shared memory to a texture...
 
 	float updateTime=glutGet(GLUT_ELAPSED_TIME);
@@ -962,20 +963,12 @@ void Renderer::update(){
 	updateTime=glutGet(GLUT_ELAPSED_TIME) - updateTime;
 	input->updateTime=updateTime;
 
-	//then draw!
-	#ifdef TARGET_WIN32
+
+
+	//cout << "called update" << " in frame: "<< frames<< endl;
+
+
     glutPostRedisplay();
-    draw();
-    #endif
-
-
-    #ifdef TARGET_MACOSX
-	glutPostRedisplay();
-	draw();
-	#endif
-
-
-
 }
 
 
@@ -1142,6 +1135,9 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 
 void Renderer::draw(){
 
+	//cout << "MouseVector in draw: " << input->mouseVector << " in frame: " << frames << endl;
+    //cout << "draw!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
 
@@ -1241,10 +1237,14 @@ void Renderer::draw(){
     #endif
 
     glutSwapBuffers();
-    frames++;
     deltaTime=glutGet(GLUT_ELAPSED_TIME)-currentTime;
     currentTime=glutGet(GLUT_ELAPSED_TIME);
 
+    //cout << "called draw" << " in frame: "<< frames<< endl;
+
+
+
+    frames++;
 }
 
 

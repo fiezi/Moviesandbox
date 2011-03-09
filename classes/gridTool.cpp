@@ -154,7 +154,7 @@ void GridTool::rotateGrid(double deltaTime){
         gridY=renderer->grid->yAxis;
         gridZ=renderer->grid->zAxis;
 
-        input->confineMouse();
+        input->bConfineMouse=true;
 
 }
 

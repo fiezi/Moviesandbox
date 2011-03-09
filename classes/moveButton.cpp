@@ -29,7 +29,7 @@ void MoveButton::update(double deltaTime){
           //don't do it twice!
         input->selectedActors[i]->setLocation(loc);
     }
-		  input->confineMouse();
+		  input->bConfineMouse=true;
 
       }
 
