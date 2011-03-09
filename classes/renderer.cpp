@@ -964,14 +964,17 @@ void Renderer::update(){
 
 	//then draw!
 	#ifdef TARGET_WIN32
-        draw();
+    glutPostRedisplay();
+    draw();
     #endif
 
 
     #ifdef TARGET_MACOSX
 	glutPostRedisplay();
-	//draw();
+	draw();
 	#endif
+
+
 
 }
 
@@ -1241,6 +1244,7 @@ void Renderer::draw(){
     frames++;
     deltaTime=glutGet(GLUT_ELAPSED_TIME)-currentTime;
     currentTime=glutGet(GLUT_ELAPSED_TIME);
+
 }
 
 

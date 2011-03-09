@@ -89,8 +89,9 @@ void drawSplashScreen(){
 int main(int argc, char** argv)
 {
 
-#ifdef TARGET_MACOSX
 	glutInit(&argc, argv);
+
+#ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
 #endif
 
