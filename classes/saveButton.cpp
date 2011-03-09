@@ -30,7 +30,7 @@ void SaveButton::clickedLeft(){
     listType.push_back("15TextInputButton");
     listName.push_back("create new");
     listProp.push_back("NULL");
-    listIcon.push_back("icon_base");
+    listIcon.push_back("icon_flat");
 
     assembleSaveList();
 

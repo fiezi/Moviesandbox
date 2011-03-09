@@ -121,9 +121,9 @@ void DrawingWidget::trigger(Actor * other){
 
         if (other->color==Vector4f(1,1,0,1)){
 
-            static float kinectContent[1024*1024];
+            static float kinectContent[1024*1024*4];
             glBindTexture(GL_TEXTURE_2D,renderer->textureList["sharedMemory"]->texture);
-            glGetTexImage(GL_TEXTURE_2D,0,GL_LUMINANCE,GL_FLOAT,&kinectContent);
+            glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&kinectContent);
             glBindTexture(GL_TEXTURE_2D,0);
             other->color=COLOR_WHITE;
             renderer->brush->drawing->drawType=DRAW_PARTICLES;
@@ -132,13 +132,13 @@ void DrawingWidget::trigger(Actor * other){
             renderer->brush->drawing->sceneShaderID="color";
             renderer->brush->drawing->bPickable=true;
             renderer->brush->drawing->particleScale=2;
-            for (int i=0;i<1024*1024;i++){
+            for (int i=0;i<1024*1024*4;i+=4){
                 Vector3f myLoc;
-                myLoc.z=kinectContent[i] * 10.0f;
+                myLoc.z=kinectContent[i+3] * 10.0f;
                 if (myLoc.z==0.0f)
                     continue;
-                myLoc.x= i%1024;
-                myLoc.y= (int)(i/1024);
+                myLoc.x= (i/4)%1024;
+                myLoc.y= (int)((i/4)/1024 );
 
                 myLoc.x=myLoc.x/1024.0f - 0.5f;
                 myLoc.y=myLoc.y/1024.0f - 0.5f;
@@ -147,6 +147,7 @@ void DrawingWidget::trigger(Actor * other){
                 myLoc.y*=myLoc.z;
 
                 renderer->brush->setLocation(myLoc);
+                renderer->brush->color=Vector4f(kinectContent[i],kinectContent[i+1],kinectContent[i+2],1.0);
                 renderer->brush->normalMode=NORMAL_FRONT;
                 input->mouseVector.x=1.0f;
 

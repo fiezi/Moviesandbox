@@ -932,12 +932,14 @@ void Renderer::update(){
 	for (unsigned int i=0;i<buttonList.size();i++){
 		Node* myNode=dynamic_cast<Node*>(buttonList[i]);
 		NodeIO* myNodeIO=dynamic_cast<NodeIO*>(buttonList[i]);
-		if (myNode && bDrawNodes)
-			buttonList[i]->update(deltaTime);
-		if (myNodeIO && bDrawNodes)
-			buttonList[i]->update(deltaTime);
-		if (!myNode && !myNodeIO)
-			buttonList[i]->update(deltaTime);
+		if (myNode || myNodeIO){
+            if (bDrawNodes){
+                buttonList[i]->update(deltaTime);
+            }
+		}
+		//else{
+		//	buttonList[i]->update(deltaTime);
+		//}
 	}
 
 	//then update Actors!
@@ -951,7 +953,7 @@ void Renderer::update(){
         helperList[i]->update(deltaTime);
 	}
 
-	//then input!
+	//then input! buttons get updated here actually...
 	input->update(deltaTime);
 
 	if (bUpdatePhysics)

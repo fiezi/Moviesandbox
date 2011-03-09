@@ -130,26 +130,35 @@ void Input::update(double deltaTime){
         focusButton=staticButton;
     }
 
-    for (unsigned int i=0; i<renderer->buttonList.size();i++)
-      {
-      myButton=renderer->buttonList[i];
-      if (myButton->bAlwaysUpdate)
-        myButton->update(deltaTime);
+    for (unsigned int i=0; i<renderer->buttonList.size();i++){
 
-      if (myButton->bHidden)
-        continue;
+        //exclude nodes from mouse over and stuff! they have been updated in renderer already
+        myButton=renderer->buttonList[i];
+        Node* myNode=dynamic_cast<Node*>(myButton);
+		NodeIO* myNodeIO=dynamic_cast<NodeIO*>(myButton);
+		if (myNode || myNodeIO){
+            if (!renderer->bDrawNodes){
+                continue;
+            }
+		}
 
-      if (mouseX > myButton->location.x && mouseX < myButton->location.x + myButton->scale.x)
-         if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y)
-           {
-           hudTarget=myButton;
-           hudTarget->mouseOver();
-           }
-      }
+        if (myButton->bAlwaysUpdate)
+            myButton->update(deltaTime);
+
+        if (myButton->bHidden)
+            continue;
+
+        if (mouseX > myButton->location.x && mouseX < myButton->location.x + myButton->scale.x){
+            if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y){
+                hudTarget=myButton;
+                hudTarget->mouseOver();
+            }
+        }
+    }
 
     //for actor menu animation
     if (actorMenu)
-		actorMenu->update(deltaTime);
+        actorMenu->update(deltaTime);
 
     //update controller after assigning all hudTargets, staticButtons, etc...
     controller->update(deltaTime);
@@ -164,9 +173,9 @@ void Input::update(double deltaTime){
 
 
     if (pressedLeft)
-		startPressLeftBtn++;
+        startPressLeftBtn++;
     if (pressedRight)
-		startPressRightBtn++;
+        startPressRightBtn++;
 
     Input::mouseVector*=0;
 
