@@ -937,9 +937,9 @@ void Renderer::update(){
                 buttonList[i]->update(deltaTime);
             }
 		}
-		//else{
-		//	buttonList[i]->update(deltaTime);
-		//}
+		else{
+			buttonList[i]->update(deltaTime);
+		}
 	}
 
 	//then update Actors!
