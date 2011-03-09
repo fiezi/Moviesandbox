@@ -39,7 +39,13 @@ void SelectTool::keyReleased(int key){
 
     //delete or backspace
     if (key==127 || key==8){
-        if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->bRemoveable){
+        if (hudTarget){
+                Node* n=dynamic_cast<Node*>(hudTarget);
+                if (n)  {
+                    deselectButtons(0);
+                    n->remove();
+                }
+        }else if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->bRemoveable){
             input->worldTarget->remove();
         }
     }
