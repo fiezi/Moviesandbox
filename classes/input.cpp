@@ -124,7 +124,6 @@ void Input::update(double deltaTime){
 
     BasicButton *myButton;
     hudTarget=NULL;
-    worldTarget=NULL;
 
     if (staticButton){
         staticButton->update(deltaTime);

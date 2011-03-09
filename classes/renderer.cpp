@@ -2306,6 +2306,9 @@ void Renderer::drawSprite(){
 //picking needs mouse coordinates
 void Renderer::pick(int x, int y){
 
+    //set worldTarget to NULL
+    input->worldTarget=NULL;
+
     ///World Position and object ID
     //draw pickTex of current layer, just on mouse coordinate, one pixel wide
     //read pixel color at mouse coordinate
