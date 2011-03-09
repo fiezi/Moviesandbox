@@ -8,8 +8,11 @@ MsbLight::MsbLight(){
 bLight=true;
 name="Light";
 bCastShadows=true;
-drawType=DRAW_CUBE;
-scale=Vector3f(0.25,0.25,0.25);
+bTextured=true;
+textureID="sprite_light";
+sceneShaderID="texture";
+drawType=DRAW_SPRITE;
+scale=Vector3f(2.0,2.0,2.0);
 shadow_fb=0;
 shadow_tx=0;
 shadow_size=renderer->shadow_size;

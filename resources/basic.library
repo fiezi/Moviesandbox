@@ -79,6 +79,9 @@
     <Texture textureID="icon_addBones" filename="resources/icons/icon_addBones.tga" bAlpha="1" bWrap="1"/>
 
 
+    <Texture textureID="sprite_light" filename="resources/icons/sprite_light.tga" bAlpha="1" bWrap="1"/>
+
+
 
  <!-- Actions -->
 
