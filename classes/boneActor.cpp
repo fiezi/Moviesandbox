@@ -9,7 +9,12 @@
 BoneActor::BoneActor(){
 
 name="Bone";
-drawType=DRAW_CUBE;
+drawType=DRAW_SPRITE;
+bTextured=true;
+bComputeLight=false;
+particleScale=5;
+sceneShaderID="texture";
+textureID="sprite_bone";
 scale=Vector3f(1, 1, 1);
 mySystem=NULL;
 influence=10;
@@ -66,12 +71,6 @@ void BoneActor::update(double deltaTime){
 
     Actor::update(deltaTime);
 
-/*
-    if (Control::bRunning)
-      drawType=DRAW_NULL;
-    else
-      drawType=DRAW_CUBE;
-*/
 }
 
 

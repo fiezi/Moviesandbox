@@ -104,7 +104,6 @@ void SkeletalActor::postLoad(){
                 bones.push_back(spawn("9BoneActor"));
                 bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
             bones[i]->bRemoveable=false;
-            bones[i]->drawType=DRAW_CUBE;
             //bones[i]->scale=bones[i]->scale*0.25;
             bones[i]->base=this;
 
@@ -262,6 +261,8 @@ void SkeletalActor::stop(){
     if (!bPhysicsBones)
       return;
 
+    //all this is just for physicsbones! And deprecated!
+
         if (bones.size()>0){
             for (int i=0; i<(int)bones.size();i++){
                 if (bones[i]){
@@ -297,7 +298,7 @@ void SkeletalActor::stop(){
                 renderer->actorList.push_back(bones[i]);
             bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
-            bones[i]->drawType=DRAW_CUBE;
+            bones[i]->drawType=DRAW_SPRITE;
             bones[i]->scale=bones[i]->scale*0.25;
             bones[i]->base=this;
             }

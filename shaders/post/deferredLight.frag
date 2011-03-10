@@ -66,6 +66,14 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 vec4 computeLight(){
 
 
+    //do Light calculations
+	vec3 normal = texture2D(depthTex,texCoord).xyz;
+
+    //if our normal indicates that we do not want light calculations to happen,
+    //then pass this indication on to post-shader
+    if (normal.x==-100.0)
+        return vec4(-1.0,0.0,0.0,1.0);
+
 
     //calculate distance
     vec4 lightPos=gl_LightSource[0].position;
@@ -90,8 +98,6 @@ vec4 computeLight(){
     vec4 objectPosEye = cameraMatrix * objectPos;
     vec4 distVecEye = lightPosEye - objectPosEye;
 
-    //do Light calculations
-	vec3 normal = texture2D(depthTex,texCoord).xyz;
 
 	vec3 NN = normalize (normal);
 

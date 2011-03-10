@@ -5,22 +5,24 @@
 
 MsbLight::MsbLight(){
 
-bLight=true;
-name="Light";
-bCastShadows=true;
-bTextured=true;
-textureID="sprite_light";
-sceneShaderID="texture";
-drawType=DRAW_SPRITE;
-scale=Vector3f(2.0,2.0,2.0);
-shadow_fb=0;
-shadow_tx=0;
-shadow_size=renderer->shadow_size;
+    bLight=true;
+    name="Light";
+    bCastShadows=true;
+    bComputeLight=false;
+    bTextured=true;
+    textureID="sprite_light";
+    sceneShaderID="texture";
+    drawType=DRAW_SPRITE;
+    scale=Vector3f(1.0,1.0,1.0);
+    particleScale=2.5;
+    shadow_fb=0;
+    shadow_tx=0;
+    shadow_size=renderer->shadow_size;
 
-fov=110;
-lightDistance = 32;
+    fov=110;
+    lightDistance = 32;
 
-registerProperties();
+    registerProperties();
 }
 
 MsbLight::~MsbLight(){
@@ -78,7 +80,7 @@ void MsbLight::start(){
 void MsbLight::stop(){
 
     Actor::stop();
-    drawType=DRAW_CUBE;
+    drawType=DRAW_SPRITE;
 }
 
 

@@ -347,14 +347,18 @@ void main(void){
         gl_FragColor.rgb*=computeAO().rgb ;
 
     ///regular shadows
-    if (bLighting)
-        gl_FragColor*=texture2D(shadowTex,texCoord);
+    //if we have negative values in our first channel, we are unlit!
+    if (bLighting){
+        vec4 lightData=texture2D(shadowTex,texCoord);
+        if (lightData.r>=0.0)
+            gl_FragColor*=lightData;
+    }
 
     ///blurred shadows
     //gl_FragColor*=blur3(shadowTex,texCoord);
 
     ///smudging
-	gl_FragColor=smudge(texCoord);
+	//gl_FragColor=smudge(texCoord);
 
 
     ///debug stuff

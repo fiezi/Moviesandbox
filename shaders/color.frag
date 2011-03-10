@@ -23,8 +23,10 @@ void main(){
         gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
     }
 
-
 	gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
+    if (!bComputeLight)
+        gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
+
 	gl_FragData[2]=picking;
     gl_FragData[3]=vec4(0.0,0.0,0.0,1.0);
 
