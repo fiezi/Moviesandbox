@@ -2,7 +2,7 @@ uniform sampler2D sceneTex;
 
 uniform vec4 postColor;
 uniform int bSelected;
-uniform int bComputeLight;
+uniform bool bComputeLight;
 varying vec3 N;
 varying float zPos;
 varying vec4 picking;

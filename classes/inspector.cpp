@@ -39,6 +39,7 @@ void Inspector::setup(){
     backgroundButton=new BasicButton;
     renderer->buttonList.push_back(backgroundButton);
     backgroundButton->sceneShaderID="color";
+	backgroundButton->textureID="icon_flat";
 
     if (tabHeight==0){
         backgroundButton->scale.x=350;

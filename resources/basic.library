@@ -7,7 +7,7 @@
     <SpriteMesh meshID="sticky" meshFilename="resources/meshes/sticky.spriteMesh"/>
     <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh"/>
 
-    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_skeleton.spriteMesh"/>
+    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_Skeleton.spriteMesh"/>
 
 
  <!-- Textures -->

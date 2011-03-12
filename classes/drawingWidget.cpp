@@ -156,6 +156,7 @@ void DrawingWidget::trigger(Actor * other){
 
         }
         else{
+
             other->color=COLOR_YELLOW;
             renderer->brush->drawing->drawType=DRAW_POINTPATCH;
             renderer->brush->drawing->bTextured=true;
@@ -163,8 +164,9 @@ void DrawingWidget::trigger(Actor * other){
             renderer->brush->drawing->sceneShaderID="heightfield";
             renderer->brush->drawing->particleScale=100;
 
-            #ifdef TARGET_WIN32
-            //call msbKinect
+		#ifdef TARGET_WIN32
+        
+			//call msbKinect
             //CreateProcess(,,,false,NORMAL_PRIORITY_CLASS,,"tools//msbKinect//");
             char* exePath="tools\\msbKinect\\msbKinect.exe";
             char* workingDir="tools\\msbKinect";
@@ -199,7 +201,21 @@ void DrawingWidget::trigger(Actor * other){
                         // Close process and thread handles.
                         //CloseHandle( pi.hProcess );
                         //CloseHandle( pi.hThread );
-            #endif
+		#else
+
+				pid_t processId;
+				if ((processId = fork()) == 0) {
+					char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
+					char * const argv[] = { app, NULL };
+					if (execve(app, argv, NULL) < 0) {
+						perror("execv error:");
+					}
+				} else if (processId < 0) {
+					perror("fork error");
+				}
+				return;
+
+		#endif
         }
     }
 

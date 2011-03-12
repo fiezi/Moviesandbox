@@ -1,5 +1,5 @@
 uniform vec4 postColor;
-uniform int bComputeLight;
+uniform bool bComputeLight;
 uniform int bSelected;
 
 varying vec3 N;

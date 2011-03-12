@@ -4,7 +4,7 @@ uniform sampler2D tex;
 
 
 uniform vec4 postColor;
-uniform int bComputeLight;
+uniform bool bComputeLight;
 uniform int bSelected;
 uniform float objectID;
 
