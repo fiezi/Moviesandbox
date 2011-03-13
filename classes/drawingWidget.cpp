@@ -11,6 +11,7 @@ name="drawWidget";
 tooltip="draw";
 
 bWidgetOpen=false;
+bKinectToolOpen=false;
 
 color=Vector4f(0.8,0.8,0.8,1.0);
 listDisplayMode=0;
@@ -31,7 +32,11 @@ void DrawingWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
     input->controller->switchTool(TOOL_DRAW);
-//    listButton[1]->color=COLOR_RED;
+
+    if (bKinectToolOpen){
+        listButton[4]->color=COLOR_YELLOW;
+    }
+
 
 
 }
@@ -120,12 +125,113 @@ void DrawingWidget::trigger(Actor * other){
     if (other->name=="Import Kinect"){
 
         if (other->color==Vector4f(1,1,0,1)){
+            //TODO: move these functions to drawTool!
+            importKinect();
+            other->color=COLOR_WHITE;
+            closeKinectTool();
+            bKinectToolOpen=false;
+        }
+        else{
+            openKinectTool();
+            other->color=COLOR_YELLOW;
+            bKinectToolOpen=true;
+        }
+    }
+
+}
+
+void DrawingWidget::closeKinectTool(){
+
+#ifdef TARGET_WIN32
+    cout << "closing Kinect stuff..." << endl;
+
+    TerminateProcess(pi.hProcess,0);
+    CloseHandle( pi.hProcess );
+    CloseHandle( pi.hThread );
+#else
+
+    //taken from: http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html
+
+    int  killReturn = killpg( pID_t, SIGKILL);  // Kill child process group
+
+    if( killReturn == ESRCH)      // pid does not exist
+    {
+       cout << "Group does not exist!" << endl;
+    }
+    else if( killReturn == EPERM) // No permission to send signal
+    {
+       cout << "No permission to send signal!" << endl;
+    }
+    else
+       cout << "Signal sent. All Ok!" << endl;
+
+#endif
+
+}
+
+void DrawingWidget::openKinectTool(){
+
+    renderer->brush->drawing->drawType=DRAW_POINTPATCH;
+    renderer->brush->drawing->bTextured=true;
+    renderer->brush->drawing->textureID="sharedMemory";
+    renderer->brush->drawing->sceneShaderID="heightfield";
+    renderer->brush->drawing->particleScale=100;
+
+#ifdef TARGET_WIN32
+
+    //call msbKinect
+    //CreateProcess(,,,false,NORMAL_PRIORITY_CLASS,,"tools//msbKinect//");
+    char* exePath="tools\\msbKinect\\msbKinect.exe";
+    char* workingDir="tools\\msbKinect";
+
+
+                ZeroMemory( &si, sizeof(si) );
+                si.cb = sizeof(si);
+                ZeroMemory( &pi, sizeof(pi) );
+
+                // Start the child process.
+                if( !CreateProcess( NULL,   // No module name (use command line)
+                    exePath,        // Command line
+                    NULL,           // Process handle not inheritable
+                    NULL,           // Thread handle not inheritable
+                    FALSE,          // Set handle inheritance to FALSE
+                    0,              // No creation flags
+                    NULL,           // Use parent's environment block
+                    workingDir,           // Use working directory
+                    &si,            // Pointer to STARTUPINFO structure
+                    &pi )           // Pointer to PROCESS_INFORMATION structure
+                )
+                {
+                    printf( "CreateProcess failed (%d).\n", GetLastError() );
+                    return;
+                }
+
+                // Wait until child process exits.
+                //WaitForSingleObject( pi.hProcess, INFINITE );
+
+                // Close process and thread handles.
+#else
+
+        if ((processId = fork()) == 0) {
+            char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
+            char * const argv[] = { app, NULL };
+            if (execve(app, argv, NULL) < 0) {
+                perror("execv error:");
+            }
+        } else if (processId < 0) {
+            perror("fork error");
+        }
+        return;
+
+#endif
+}
+
+void DrawingWidget::importKinect(){
 
             static float kinectContent[1024*1024*4];
             glBindTexture(GL_TEXTURE_2D,renderer->textureList["sharedMemory"]->texture);
             glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&kinectContent);
             glBindTexture(GL_TEXTURE_2D,0);
-            other->color=COLOR_WHITE;
             renderer->brush->drawing->drawType=DRAW_PARTICLES;
             renderer->brush->drawing->bTextured=false;
             renderer->brush->drawing->textureID="NULL";
@@ -153,75 +259,7 @@ void DrawingWidget::trigger(Actor * other){
 
                 drawTool->paint();
             }
-
-        }
-        else{
-
-            other->color=COLOR_YELLOW;
-            renderer->brush->drawing->drawType=DRAW_POINTPATCH;
-            renderer->brush->drawing->bTextured=true;
-            renderer->brush->drawing->textureID="sharedMemory";
-            renderer->brush->drawing->sceneShaderID="heightfield";
-            renderer->brush->drawing->particleScale=100;
-
-		#ifdef TARGET_WIN32
-        
-			//call msbKinect
-            //CreateProcess(,,,false,NORMAL_PRIORITY_CLASS,,"tools//msbKinect//");
-            char* exePath="tools\\msbKinect\\msbKinect.exe";
-            char* workingDir="tools\\msbKinect";
-
-                        STARTUPINFO si;
-                        PROCESS_INFORMATION pi;
-
-                        ZeroMemory( &si, sizeof(si) );
-                        si.cb = sizeof(si);
-                        ZeroMemory( &pi, sizeof(pi) );
-
-                        // Start the child process.
-                        if( !CreateProcess( NULL,   // No module name (use command line)
-                            exePath,        // Command line
-                            NULL,           // Process handle not inheritable
-                            NULL,           // Thread handle not inheritable
-                            FALSE,          // Set handle inheritance to FALSE
-                            0,              // No creation flags
-                            NULL,           // Use parent's environment block
-                            workingDir,           // Use working directory
-                            &si,            // Pointer to STARTUPINFO structure
-                            &pi )           // Pointer to PROCESS_INFORMATION structure
-                        )
-                        {
-                            printf( "CreateProcess failed (%d).\n", GetLastError() );
-                            return;
-                        }
-
-                        // Wait until child process exits.
-                        //WaitForSingleObject( pi.hProcess, INFINITE );
-
-                        // Close process and thread handles.
-                        //CloseHandle( pi.hProcess );
-                        //CloseHandle( pi.hThread );
-		#else
-
-				pid_t processId;
-				if ((processId = fork()) == 0) {
-					char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
-					char * const argv[] = { app, NULL };
-					if (execve(app, argv, NULL) < 0) {
-						perror("execv error:");
-					}
-				} else if (processId < 0) {
-					perror("fork error");
-				}
-				return;
-
-		#endif
-        }
-    }
-
-
 }
-
 
 void DrawingWidget::create(){renderer->addButton(this);}
 

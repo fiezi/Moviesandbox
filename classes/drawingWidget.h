@@ -4,6 +4,7 @@
 #include "widget.h"
 #include "particleSystem.h"
 #include "brush.h"
+#include "windows.h"
 
 class DrawTool;
 
@@ -15,6 +16,15 @@ public:
 
         float brushScale;
 
+        bool bKinectToolOpen;
+
+        #ifdef TARGET_WIN32
+                STARTUPINFO si;
+                PROCESS_INFORMATION pi;
+        #else
+                pid_t processId;
+        #endif
+
         DrawingWidget();
         ~DrawingWidget();
 
@@ -24,6 +34,10 @@ public:
         virtual void closeWidget();
 
         virtual void trigger(Actor * other);
+
+        virtual void openKinectTool();
+        virtual void closeKinectTool();
+        virtual void importKinect();
 
         virtual void create();
 };

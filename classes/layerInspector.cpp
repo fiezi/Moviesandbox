@@ -8,8 +8,8 @@ LayerInspector::LayerInspector(){
     listColumns=1;
     newLayer=NULL;
     listHeight=12;
-    listWidth=120;
-    maxListItems=40;
+    listWidth=200;
+    maxListItems=38;
     registerProperties();
 }
 
@@ -90,8 +90,6 @@ void LayerInspector::assembleList(){
         l->bHidden=true;
         l->bDragable=true;
         l->bPermanent=true;
-
-        l->scale=Vector3f(40,30,1);
         l->sceneShaderID="color";
 
         if (listWidth>0)
@@ -120,7 +118,15 @@ void LayerInspector::assembleList(){
             a->bHidden=true;
             a->bPermanent=true;
 
-            a->scale=Vector3f(tabWidth, 30.0f, 1.0f);
+            //a->scale=Vector3f(tabWidth, 30.0f, 1.0f);
+
+
+            if (listWidth>0)
+                a->scale.x=listWidth;
+            if (listHeight>0)
+                a->scale.y=listHeight;
+
+
             a->sceneShaderID="color";
             a->color=Vector4f(0.6,0.6,0.6,1);
             listButton.push_back(a);
