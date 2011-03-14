@@ -283,4 +283,4 @@ Vector3f ImportBitmapButton::genNormal(FIBITMAP* myBitmap, int w, int h, int wid
         return myNormal;
 }
 
-void ImportBitmapButton::create(){renderer->addButton(this);}
+void ImportBitmapButton::create(){sceneData->addButton(this);}

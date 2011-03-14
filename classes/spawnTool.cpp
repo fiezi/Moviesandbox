@@ -70,9 +70,9 @@ void SpawnTool::mouseReleased(int btn){
     MsbTool::mouseReleased(btn);
 
     if (btn==MOUSEBTNLEFT){
-        renderer->actorInfo[spawnType].actorReference->create();
+        sceneData->actorInfo[spawnType].actorReference->create();
 
-        Actor* myActor=renderer->actorList.back();
+        Actor* myActor=sceneData->actorList.back();
 
 
         myActor->setAbsoluteLocation(input->mouse3D);
@@ -120,10 +120,10 @@ void SpawnTool::selectActors(int btn, Actor* other){
             }
         if (!foundInSelection){
             if (other->groupID!="NULL" && !input->bCtrlDown){                        //if we're part of a group, add the whole group
-                for (int i=0;i<(int)renderer->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
-                    if (renderer->actorList[i]->groupID==other->groupID){
-                        renderer->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(renderer->actorList[i]);
+                for (int i=0;i<(int)sceneData->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
+                    if (sceneData->actorList[i]->groupID==other->groupID){
+                        sceneData->actorList[i]->bSelected=true;
+                        input->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }

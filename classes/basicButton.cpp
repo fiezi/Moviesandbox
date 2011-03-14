@@ -116,9 +116,9 @@ void BasicButton::clickedRight(){
 
 void BasicButton::remove(){
 
-    for (uint i=0;i<renderer->buttonList.size();i++){
-        if (renderer->buttonList[i]==this)
-          renderer->buttonList.erase(renderer->buttonList.begin()+i);
+    for (uint i=0;i<sceneData->buttonList.size();i++){
+        if (sceneData->buttonList[i]==this)
+          sceneData->buttonList.erase(sceneData->buttonList.begin()+i);
     }
     if (bPermanent){
         for (uint i=0;i<renderer->saveableButtonList.size();i++){
@@ -139,7 +139,7 @@ if (level>depth && !bPermanent)
 
 void BasicButton::create(){
 
-renderer->addButton(this);
+sceneData->addButton(this);
 std::cout << "creating a button!";
 }
 

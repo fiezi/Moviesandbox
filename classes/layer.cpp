@@ -113,4 +113,4 @@ void Layer::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void Layer::create(){renderer->addButton(this);}
+void Layer::create(){sceneData->addButton(this);}

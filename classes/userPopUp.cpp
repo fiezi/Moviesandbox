@@ -58,7 +58,7 @@ void UserPopUp::focusClick(){
 
     //cleanUp
     //we need to pop back before adding the action!
-    renderer->buttonList.pop_back();
+    sceneData->buttonList.pop_back();
     input->staticButton=NULL;
 
     //clean up
@@ -71,4 +71,4 @@ void UserPopUp::deselect(int depth){
 TextInputButton::deselect(depth);
 }
 
-void UserPopUp::create(){renderer->addButton(this);}
+void UserPopUp::create(){sceneData->addButton(this);}

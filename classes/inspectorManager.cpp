@@ -22,8 +22,8 @@ void InspectorManager::setup(){
   Actor::setup();
   //automatically find all inspectors and generate a list
 
-  for (int i=0;i<(int)renderer->buttonList.size();i++){
-    Inspector* myInspector = dynamic_cast<Inspector*>(renderer->buttonList[i]);
+  for (int i=0;i<(int)sceneData->buttonList.size();i++){
+    Inspector* myInspector = dynamic_cast<Inspector*>(sceneData->buttonList[i]);
     if (myInspector)
         inspectors.push_back(myInspector);
   }

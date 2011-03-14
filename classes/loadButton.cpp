@@ -56,4 +56,4 @@ void LoadButton::loadFile(string filename){
 input->loadAll(filename);
 }
 
-void LoadButton::create(){renderer->addButton(this);}
+void LoadButton::create(){sceneData->addButton(this);}

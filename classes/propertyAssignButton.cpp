@@ -56,4 +56,4 @@ void PropertyAssignButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void PropertyAssignButton::create(){renderer->addButton(this);}
+void PropertyAssignButton::create(){sceneData->addButton(this);}

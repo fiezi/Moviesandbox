@@ -52,7 +52,7 @@ void CreatePrefabButton::focusClick(){
 ((SelectTool*)input->controller->myTools[TOOL_SELECT])->makePrefab(input->inputText);                              //set Prefab name to Text
 
 //cleanUp
-renderer->buttonList.pop_back();
+sceneData->buttonList.pop_back();
 input->staticButton=NULL;
 
 TextInputButton::focusClick();
@@ -64,4 +64,4 @@ void CreatePrefabButton::deselect(int depth){
 TextInputButton::deselect(depth);
 }
 
-void CreatePrefabButton::create(){renderer->addButton(this);}
+void CreatePrefabButton::create(){sceneData->addButton(this);}

@@ -9,6 +9,12 @@
 
 MsbObject::MsbObject(){
 
+if (Renderer::rendererInstance!=this)
+    renderer=Renderer::getInstance();
+if (Input::inputInstance!=this)
+    input=Input::getInstance();
+if (sceneData::sceneDataInstance!=this)
+    sceneData=sceneData::getInstance();
 
 parent=NULL;
 color=COLOR_WHITE;
@@ -31,8 +37,6 @@ createMemberID("NAME",&name,this);
 
 void MsbObject::setup(){
 
-    renderer=Renderer::getInstance();
-    input=Input::getInstance();
 }
 
 void MsbObject::trigger(MsbObject * other){
@@ -411,8 +415,8 @@ string MsbObject::writeNode(memberID* mID){
     n=*p;                                //so we need to dereference twice!
 
     if (n){                                   //save actor position in actorList!
-        for (uint i=0; i<renderer->nodeList.size();i++){
-            if (renderer->nodeList[i]==n) sprintf(value,"node* %i",i);
+        for (uint i=0; i<sceneData->nodeList.size();i++){
+            if (sceneData->nodeList[i]==n) sprintf(value,"node* %i",i);
         }
     } else sprintf(value,"node* -1");
 
@@ -429,8 +433,8 @@ string MsbObject::writeActor(memberID* mID){
         a=*p;                                //so we need to dereference twice!
 
     if (a){                                   //save actor position in actorList!
-        for (uint i=0; i<renderer->actorList.size();i++){
-            if (renderer->actorList[i]==a) sprintf(value,"actor* %i",i);
+        for (uint i=0; i<sceneData->actorList.size();i++){
+            if (sceneData->actorList[i]==a) sprintf(value,"actor* %i",i);
         }
     } else sprintf(value,"actor* -1");
 
@@ -574,8 +578,8 @@ Actor* MsbObject::readActor(char* cValue){
         sscanf((cValue+7),"%i",&i);
 
     //no actorOffset, as we won't be doing prefeb stuff here!
-    if (i >= 0 && i < (int)renderer->actorList.size()){
-        return renderer->actorList[i];
+    if (i >= 0 && i < (int)sceneData->actorList.size()){
+        return sceneData->actorList[i];
         }
 
     return NULL;
@@ -588,9 +592,9 @@ Node* MsbObject::readNode(char* cValue){
         sscanf((cValue+6),"%i",&i);
 
     //no nodeOffset, as we won't be doing prefeb stuff here!
-    if (i >= 0 && i < (int)renderer->nodeList.size()){
+    if (i >= 0 && i < (int)sceneData->nodeList.size()){
         cout << "found a node list reference!" << endl;
-        return renderer->nodeList[i];
+        return sceneData->nodeList[i];
         }
 
     return NULL;

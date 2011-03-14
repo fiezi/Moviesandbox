@@ -137,4 +137,4 @@ void BoneWidget::highlight(Actor* other){
         other->color=highlightColor;
 }
 
-void BoneWidget::create(){renderer->addButton(this);}
+void BoneWidget::create(){sceneData->addButton(this);}

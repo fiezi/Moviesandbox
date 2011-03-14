@@ -53,7 +53,7 @@ void CreateActionButton::focusClick(){
 
     if (!parent){
         cout << "wrong parent!" << endl;
-        renderer->buttonList.pop_back();
+        sceneData->buttonList.pop_back();
         input->staticButton=NULL;
         return;
         }
@@ -81,10 +81,10 @@ void CreateActionButton::focusClick(){
 
     //cleanUp
     //we need to pop back before adding the action!
-    renderer->buttonList.pop_back();
+    sceneData->buttonList.pop_back();
     input->staticButton=NULL;
 
-    renderer->buttonList.push_back(newAction);
+    sceneData->buttonList.push_back(newAction);
 
     //clean up
     input->inputText="";
@@ -96,4 +96,4 @@ void CreateActionButton::deselect(int depth){
 TextInputButton::deselect(depth);
 }
 
-void CreateActionButton::create(){renderer->addButton(this);}
+void CreateActionButton::create(){sceneData->addButton(this);}

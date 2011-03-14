@@ -369,7 +369,7 @@ cout << "timelineDeselect!" << endl;
 BasicButton::deselect(depth);
 }
 
-void TimelineButton::create(){renderer->addButton(this);}
+void TimelineButton::create(){sceneData->addButton(this);}
 
 float TimelineButton::convertToTimeGrid( float val )
 {

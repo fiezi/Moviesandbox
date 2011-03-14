@@ -43,7 +43,7 @@ void BrushInspector::assembleList(){
     colorPick->initialLocation=colorPick->location;
     colorPick->parent=this;
 
-    renderer->buttonList.push_back(colorPick);
+    sceneData->buttonList.push_back(colorPick);
     listButton.push_back(colorPick);
 
     for (int i=0;i<numSwatches;i++){
@@ -59,7 +59,7 @@ void BrushInspector::assembleList(){
         showColor->color=Vector4f(1,1,1,1);
 
 
-        renderer->buttonList.push_back(showColor);
+        sceneData->buttonList.push_back(showColor);
         listButton.push_back(showColor);
         colorSwatches.push_back(showColor);
     }
@@ -78,7 +78,7 @@ void BrushInspector::assembleList(){
     brushScaleBtn->textureID="icon_flat";
     brushScaleBtn->bVertical=false;
 
-    renderer->buttonList.push_back(brushScaleBtn);
+    sceneData->buttonList.push_back(brushScaleBtn);
     listButton.push_back(brushScaleBtn);
 
     SliderButton* brushIntensityBtn= new SliderButton;
@@ -93,7 +93,7 @@ void BrushInspector::assembleList(){
     brushIntensityBtn->textureID="icon_flat";
     brushIntensityBtn->bVertical=false;
 
-    renderer->buttonList.push_back(brushIntensityBtn);
+    sceneData->buttonList.push_back(brushIntensityBtn);
     listButton.push_back(brushIntensityBtn);
 
     ///Normal alignment buttons!
@@ -109,7 +109,7 @@ void BrushInspector::assembleList(){
         normalAssign->textureID="normals_up";
         normalAssign->color=Vector4f(1,1,0,1);
 
-        renderer->buttonList.push_back(normalAssign);
+        sceneData->buttonList.push_back(normalAssign);
         listButton.push_back(normalAssign);
 
         normalAssign = new AssignButton;
@@ -123,7 +123,7 @@ void BrushInspector::assembleList(){
         normalAssign->textureID="normals_front";
         normalAssign->color=Vector4f(1,1,1,1);
 
-        renderer->buttonList.push_back(normalAssign);
+        sceneData->buttonList.push_back(normalAssign);
         listButton.push_back(normalAssign);
 
         normalAssign = new AssignButton;
@@ -137,7 +137,7 @@ void BrushInspector::assembleList(){
         normalAssign->textureID="normals_follow_drawing";
         normalAssign->color=Vector4f(1,1,0,1);
 
-        renderer->buttonList.push_back(normalAssign);
+        sceneData->buttonList.push_back(normalAssign);
         listButton.push_back(normalAssign);
 
 }
@@ -208,4 +208,4 @@ void BrushInspector::trigger(MsbObject* other){
 
 }
 
-void BrushInspector::create(){renderer->addButton(this);}
+void BrushInspector::create(){sceneData->addButton(this);}

@@ -51,8 +51,8 @@ void Node::registerProperties(){
 
 void Node::setup(){
 
-    renderer->buttonList.push_back(nodeIn);
-    renderer->buttonList.push_back(nodeOut);
+    sceneData->buttonList.push_back(nodeIn);
+    sceneData->buttonList.push_back(nodeOut);
 
     connectChild(childNode);
 }
@@ -178,8 +178,8 @@ void Node::remove(){
 
     //remove references in nodes
     //go through all nodes
-    for (unsigned int i=0;i<renderer->nodeList.size();i++){
-        Node* myNode=renderer->nodeList[i];
+    for (unsigned int i=0;i<sceneData->nodeList.size();i++){
+        Node* myNode=sceneData->nodeList[i];
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myNode->property.begin() ; it != myNode->property.end(); it++ ){
@@ -199,8 +199,8 @@ void Node::remove(){
         }
     //remove references in Actors
     //go through all Actors
-    for (unsigned int i=0;i<renderer->actorList.size();i++){
-        Actor* myActor=renderer->actorList[i];
+    for (unsigned int i=0;i<sceneData->actorList.size();i++){
+        Actor* myActor=sceneData->actorList[i];
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
@@ -220,14 +220,14 @@ void Node::remove(){
         }
 
 
-    for (uint i=0;i<renderer->buttonList.size();i++){
-        if (renderer->buttonList[i]==this)
-          renderer->buttonList.erase(renderer->buttonList.begin()+i);
+    for (uint i=0;i<sceneData->buttonList.size();i++){
+        if (sceneData->buttonList[i]==this)
+          sceneData->buttonList.erase(sceneData->buttonList.begin()+i);
     }
 
-    for (uint i=0;i<renderer->nodeList.size();i++){
-        if (renderer->nodeList[i]==this)
-          renderer->nodeList.erase(renderer->nodeList.begin()+i);
+    for (uint i=0;i<sceneData->nodeList.size();i++){
+        if (sceneData->nodeList[i]==this)
+          sceneData->nodeList.erase(sceneData->nodeList.begin()+i);
     }
 
     if (nodeIn)

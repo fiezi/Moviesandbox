@@ -25,7 +25,7 @@ void LayerInspector::createInspectorButtons(){
 
     newLayer= new AssignButton;
     newLayer->parent=this;
-    renderer->buttonList.push_back(newLayer);
+    sceneData->buttonList.push_back(newLayer);
     newLayer->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     newLayer->name="new Layer";
     newLayer->color=Vector4f(1,0,0,1);
@@ -35,7 +35,7 @@ void LayerInspector::createInspectorButtons(){
 void LayerInspector::refreshList(){
 
     int laySize=renderer->layerList.size();
-    int actSize=renderer->actorList.size();
+    int actSize=sceneData->actorList.size();
     int listSize=listButton.size();
 
     if ( listSize !=laySize + actSize ){
@@ -77,7 +77,7 @@ void LayerInspector::assembleList(){
 
     for (int i=0;i<(int)renderer->layerList.size();i++){
         AssignButton* l= new AssignButton;
-        renderer->buttonList.push_back(l);
+        sceneData->buttonList.push_back(l);
         layerButtons.push_back(l);
 
         l->parent=this;
@@ -104,7 +104,7 @@ void LayerInspector::assembleList(){
         for (int j=0;j<(int)renderer->layerList[i]->actorList.size();j++){
 
             AssignButton* a= new AssignButton;
-            renderer->buttonList.push_back(a);
+            sceneData->buttonList.push_back(a);
             actorButtons.push_back(a);
             actorReferences.push_back(renderer->layerList[i]->actorList[j]);
 
@@ -149,4 +149,4 @@ void LayerInspector::trigger(MsbObject* other){
         }
     }
 }
-void LayerInspector::create(){renderer->addButton(this);}
+void LayerInspector::create(){sceneData->addButton(this);}

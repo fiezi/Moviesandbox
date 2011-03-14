@@ -75,4 +75,4 @@ void SaveButton::saveFile(string filename){
 input->saveAll(filename);
 }
 
-void SaveButton::create(){renderer->addButton(this);}
+void SaveButton::create(){sceneData->addButton(this);}

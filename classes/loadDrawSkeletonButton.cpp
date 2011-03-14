@@ -70,4 +70,4 @@ void LoadDrawSkeletonButton::trigger(MsbObject* other){
     }
 }
 
-void LoadDrawSkeletonButton::create(){renderer->addButton(this);}
+void LoadDrawSkeletonButton::create(){sceneData->addButton(this);}

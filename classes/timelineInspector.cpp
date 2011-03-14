@@ -56,15 +56,15 @@ void TimelineInspector::createInspectorButtons(){
 
     ///ADD
     //is picking, so do it differently
-    renderer->actorInfo["15PickWorldButton"].actorReference->create();
-    inspectorButtons.push_back(renderer->buttonList.back());
+    sceneData->actorInfo["15PickWorldButton"].actorReference->create();
+    inspectorButtons.push_back(sceneData->buttonList.back());
 
     /// Zoom, focus
     //6 assign buttons
     for( int i = 1; i < 7; i++){
         AssignButton * myButton = new AssignButton;
         inspectorButtons.push_back(myButton);
-        renderer->buttonList.push_back(myButton);
+        sceneData->buttonList.push_back(myButton);
     }
 
     //setup all buttons
@@ -144,7 +144,7 @@ void TimelineInspector::createInspectorButtons(){
     mySlider->bDrawName=false;
     mySlider->buttonProperty="timePos";
     inspectorButtons.push_back(mySlider);
-    renderer->buttonList.push_back(mySlider);
+    sceneData->buttonList.push_back(mySlider);
 
 }
 
@@ -156,7 +156,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     /** NAME **/
     //Button for displaying the actor's name
     BasicButton*  nameButton = new BasicButton;
-    renderer->buttonList.push_back(nameButton);
+    sceneData->buttonList.push_back(nameButton);
     listButton.push_back(nameButton);
 
     if (bSkeletal){
@@ -178,7 +178,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     /** MAKE ACTION **/
 
     BasicButton*  makeAction = new AssignButton;
-    renderer->buttonList.push_back(makeAction);
+    sceneData->buttonList.push_back(makeAction);
     listButton.push_back(makeAction);
 
     makeAction->name="make";
@@ -196,7 +196,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
 
     TimelineButton* tlBtn= new TimelineButton;
     listButton.push_back(tlBtn);
-    renderer->buttonList.push_back(tlBtn);
+    sceneData->buttonList.push_back(tlBtn);
 
     tlBtn->tooltip="Timeline for" + timelineActors[pos]->name;
     tlBtn->parent=this;
@@ -329,13 +329,13 @@ void TimelineInspector::trigger(MsbObject* other){
                 tlBtn=(TimelineButton*)listButton[i+1];
         }
         //use MAKEUSERPOPUP here!!!
-        input->staticButton=(BasicButton*)renderer->actorInfo["18CreateActionButton"].actorReference;
+        input->staticButton=(BasicButton*)sceneData->actorInfo["18CreateActionButton"].actorReference;
         input->staticButton->setLocation(Vector3f(input->screenX/2-200,input->screenY/2-50,0));
         input->staticButton->color=Vector4f(1.0,1.0,0.0,1.0);
         input->staticButton->name="name your action";
         input->staticButton->parent=tlBtn;
         input->staticButton->clickedLeft();
-        renderer->buttonList.push_back(input->staticButton);
+        sceneData->buttonList.push_back(input->staticButton);
 
         other->color = Vector4f(1.0,0.0,0.0,1.0);
         other->name="connect";
@@ -387,7 +387,7 @@ void TimelineInspector::playTimelines(){
     cout << "playing!" << endl;
 }
 
-void TimelineInspector::create(){renderer->addButton(this);}
+void TimelineInspector::create(){sceneData->addButton(this);}
 
 
 void TimelineInspector::drawPlane(){

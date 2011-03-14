@@ -75,4 +75,4 @@ renderer->brush->textureID=filename;
 }
 
 
-void LoadBrushButton::create(){renderer->addButton(this);}
+void LoadBrushButton::create(){sceneData->addButton(this);}

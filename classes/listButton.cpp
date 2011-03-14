@@ -49,8 +49,8 @@ void ListButton::assembleList(){
   for (unsigned int i=0;i<listType.size();i++){
       cout << "creating list..." << endl;
 
-      renderer->actorInfo[listType[i]].actorReference->create();
-      listButton.push_back(renderer->buttonList.back());
+      sceneData->actorInfo[listType[i]].actorReference->create();
+      listButton.push_back(sceneData->buttonList.back());
 
       cout << "made button " << listButton[i]->name << endl;
 
@@ -96,7 +96,7 @@ void ListButton::createScrollBar(){
   if ((int)listButton.size()>maxListItems){
     //scrollButton
       scrollBar=new SliderButton;
-      renderer->buttonList.push_back(scrollBar);
+      sceneData->buttonList.push_back(scrollBar);
       scrollBar->sceneShaderID="color";
       scrollBar->parent=this;
       scrollBar->scale.x=8;
@@ -237,6 +237,6 @@ void ListButton::trigger(MsbObject* other){
 }
 
 void ListButton::create(){
-renderer->addButton(this);
+sceneData->addButton(this);
 std::cout << "creating a listButton!";
 }

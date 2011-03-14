@@ -102,8 +102,8 @@ void Action::finishDrag(){
                 myRoot=myRoot->childNode;
                 }
 
-        renderer->actorInfo["17PerformActionNode"].actorReference->create();
-        myNode=renderer->nodeList.back();
+        sceneData->actorInfo["17PerformActionNode"].actorReference->create();
+        myNode=sceneData->nodeList.back();
 
         myNode->setLocation(Vector3f( myRoot->location.x, myRoot->location.y+50, 0 ));
         myRoot->connectChild(myNode);

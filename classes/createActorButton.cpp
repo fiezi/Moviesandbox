@@ -23,18 +23,18 @@ void CreateActorButton::finishDrag(){
 
     cout << "prop is: " << buttonProperty << endl;
 
-    int myActorSize=renderer->actorList.size();
-    int myButtonSize=renderer->buttonList.size();
+    int myActorSize=sceneData->actorList.size();
+    int myButtonSize=sceneData->buttonList.size();
 
-    renderer->actorInfo[buttonProperty].actorReference->create();
- 
-	if (myActorSize<(int)renderer->actorList.size()){
-        newActor=renderer->actorList.back();
+    sceneData->actorInfo[buttonProperty].actorReference->create();
+
+	if (myActorSize<(int)sceneData->actorList.size()){
+        newActor=sceneData->actorList.back();
 		newActor->setup();
 	}
-    else if (myButtonSize<(int)renderer->buttonList.size()){
+    else if (myButtonSize<(int)sceneData->buttonList.size()){
         cout << "creating a new BasicButton too!" << endl;
-        newActor=renderer->buttonList.back();
+        newActor=sceneData->buttonList.back();
         newActor->setup();
         newActor->setLocation(Vector3f(input->mouseX,input->mouseY,0.0));
         setLocation(initialLocation);
@@ -63,7 +63,7 @@ void CreateActorButton::finishDrag(){
 		newActor->setLocation(Vector3f(0,0,0));
 	else
 		newActor->setLocation(input->mouse3D);
-    
+
 
     cout << "set up new Actor at ..." << input->mouse3D << endl;
 
@@ -74,16 +74,16 @@ void CreateActorButton::clickedLeft(){
 
     input->focusButton=this;
 
-    int myActorSize=renderer->actorList.size();
-    int myButtonSize=renderer->buttonList.size();
+    int myActorSize=sceneData->actorList.size();
+    int myButtonSize=sceneData->buttonList.size();
 
-    renderer->actorInfo[buttonProperty].actorReference->create();
-    if (myActorSize < (int)renderer->actorList.size()){
-        newActor=renderer->actorList.back();
+    sceneData->actorInfo[buttonProperty].actorReference->create();
+    if (myActorSize < (int)sceneData->actorList.size()){
+        newActor=sceneData->actorList.back();
         }
 
-    else if (myButtonSize < (int) renderer->buttonList.size()){
-        newActor=renderer->buttonList.back();
+    else if (myButtonSize < (int) sceneData->buttonList.size()){
+        newActor=sceneData->buttonList.back();
         newActor->setup();
         setLocation(initialLocation);
         //newActor=NULL;
@@ -99,7 +99,7 @@ void CreateActorButton::clickedLeft(){
 		else{
             newActor->sceneShaderID="color";
 		}
-		
+
         newActor->drawType=renderer->vboList[vboMeshID]->drawType;
     }
     cout << "created new actor..." << endl;
@@ -149,6 +149,6 @@ if (newActor)
 }
 
 void CreateActorButton::create(){
-renderer->addButton(this);
+sceneData->addButton(this);
 //std::cout << "creating a createActorButton!";
 }

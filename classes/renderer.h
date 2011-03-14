@@ -2,6 +2,7 @@
 #define H_RENDERER
 
 #include "msbObject.h"
+#include "sceneData.h"
 #include "content.h"
 #include "brush.h"
 #include "layer.h"
@@ -23,130 +24,23 @@
 using namespace std;
 
 class MeshData;
-class ColladaLoader;
-class SpriteMeshLoader;
-class SpriteMeshLoaderXML;
 
 class Renderer: public MsbObject{
 
 public:
 
-
-        //*****************************************
-        //Template for creating Actor IDs
-        //*****************************************
-        template<typename myType>
-        void createActorID(myType *ref ){
-            actorID *act;
-            act=new actorID;
-            //Actor
-            act->actorReference=ref;
-            act->actorType=&(typeid(*ref));
-            act->actorSize=sizeof(*ref);
-            actorInfo[typeid(*ref).name()]=*act;
-            std::cout << "created a reference for " << typeid(*ref).name() << "\n";
-            std::cout << "created a reference for " << act->actorType->name() << "\n";
-        }
-
-        //*****************************************
-        //Template for creating an Actor
-        //*****************************************
-        template <typename myType>
-        void addActor (myType *a){
-
-            a = new myType;
-            a->renderLayer=currentLayer;
-            actorList.push_back(a);
-            char newName[8];
-            sprintf(newName,"%d",(int)actorList.size()-1);
-            a->name+=newName;
-            layerList[currentLayer]->actorList.push_back(a);
-        }
-
-        //*****************************************
-        //Template for creating an Actor
-        //*****************************************
-        template <typename myType>
-        void addButton (myType *b){
-            Actor *ac;
-            ac = new myType;
-            BasicButton *basePtr;
-            basePtr = dynamic_cast<BasicButton*>(ac);
-
-            buttonList.push_back(basePtr);
-
-            //add to save list if we are a saveable button!
-            if (basePtr->bPermanent)
-                saveableButtonList.push_back(basePtr);
-        }
-
-        //*****************************************
-        //Template for creating a Node
-        // Nodes are also represented in the buttonList!
-        //*****************************************
-        template <typename myType>
-        void addNode (myType *n){
-            Actor *ac;
-            ac = new myType;
-            Node *basePtr;
-            basePtr = (Node*)ac;
-            nodeList.push_back(basePtr);
-            buttonList.push_back(basePtr);
-        }
-
-        //*****************************************
-        //Template for creating an Action
-        // Actions are also represented in the buttonList!
-        //*****************************************
-        template <typename myType>
-        void addAction (myType *b){
-            Actor *ac;
-            ac = new myType;
-            Action *basePtr;
-            basePtr = dynamic_cast<Action*>(ac);
-            buttonList.push_back(basePtr);
-
-        }
-
         //verion debug
 
        static Renderer* rendererInstance;
        Input*           input;
-
-       map <string, actorID> actorInfo;    //for RTTY - all types of actors this program has
-                                           //and type/size information for them
-
+       SceneData*       sceneData;
        GLuint selectBuf[BUFSIZE];          //for picking
 
        std::string  startSceneFilename;    //basic scene
        vector<std::string>  library;       //all libraries
 
-       int currentLayer;                    //currently selected renderLayer
        string currentShader;                //currently bound shader
-
-       //lists
-       vector <Actor*> actorList;          //all created actors go here
-       vector <Actor*> helperList;         //brush and grid go here
-       vector <MsbLight*> lightList;         //brush and grid go here
-
-       vector <BasicButton*> buttonList;        //all created buttons go here
-       vector <BasicButton*> saveableButtonList;    //all saveable Buttons go here
-       vector <Node*> nodeList;            //all created nodes go here
-       vector <Layer*> layerList;              //all Layers
-       map <string, Action*> actionList;    //all actions
-       map <string, externalInputData*> externalInputList;    //all external programs for data input
-
-       //map <string, ObjFile> meshList;     //old Mesh List
-       map <string, MeshData*> vboList;  //new Vertex Buffer Object List
-       map <string, textureObject*> textureList;   //all loaded textures go here
-       map <string, shaderObject*> shaderList;    //all loaded shaders go here
-
-       string backgroundTex;
-       Vector4f backgroundColor;
        string lastShader;
-
-       Actor* grid;                        //direct pointer to Grid
-       Brush* brush;                       //direct pointer to Brush
 
        bool bRenderStereo,                  //render stereoscpic into Framebuffers
             bDrawLighting,                  //include Lights and Shadows in Rendering
@@ -169,8 +63,6 @@ public:
 
        //al and Screen stuff
        bool bFullscreen;
-       int screenX,screenY;                //rendered screen width, height - maybe rename..
-       int windowX,windowY;                //window width and height
        float nearClip, farClip;            //clipping planes
 
        float frustumTop,frustumBottom;      //viewFrustum for 3D stuff
@@ -182,19 +74,8 @@ public:
               deltaTime,                   //time since last frame
               physicsTime;                 //time for physics step (sometimes deltaTime is too small to advance physics...)
 
-       //Control stuff
-       float mouseSensitivity;             //mouse sensitivity and general turn speed
-       float moveSpeed;                    //general move speed
-
-       float fov;                          //field of view
-
        Vector3f lightLoc;                  //light Location
        Vector3f ambient;                   //ambient Light
-
-       Content *content;                   //the list of things we create at program start
-       ColladaLoader* colladaLoader;       //helper object for loading meshes and animations
-       SpriteMeshLoader* spriteMeshLoader; //helper Object for loading sprite meshes from Base64
-       SpriteMeshLoaderXML* spriteMeshLoaderXML; //helper Object for loading old sprite meshes from XML
 
         //picking
         GLuint pickTexture;
@@ -206,8 +87,8 @@ public:
 
         GLuint shadow_tx;                   // the shadowTexture we read from
         GLuint shadow_fb;                   // the shadowFBO we bind
-
         int shadow_size;
+
         //Frame Buffer Object for Depth Rendering
         GLuint depth_tx;
         GLuint depth_fb;
@@ -270,7 +151,6 @@ public:
        //***************************************
        //this is stuff we can update easily
        //***************************************
-       virtual void fillGlobalLists();                  //for RTTY - generate actorInfo
        virtual void initWindow(int x, int y, string windowName);  //
        virtual void reDrawScreen(int w, int h);
 
@@ -280,36 +160,25 @@ public:
        virtual void setup();                      //first thing called when program starts
        virtual void physicsSetup();                      //setup ODE
 
-       virtual void loadPreferences();
-
        virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name);
        virtual void checkFBOStatus();
 
-       virtual int readSharedMemory();
-
-       virtual void update();
+       virtual void update(float deltaTime);
        virtual void physicsUpdate();
 
-       virtual void addLayer(string layerName);
-       virtual void addGrid();
-       virtual void addBrush();
-
        virtual void draw();
-
        virtual void drawBackground();
-
        virtual void drawSceneTexture();
-
        virtual void draw3D(Layer* currentLayer);
        virtual void draw2D();
+       virtual void draw3DOverlay();
 
        virtual void drawActor(Actor* a);
        virtual void drawButton(BasicButton* b);
 
-       virtual void draw3DOverlay();
-
        virtual void drawShadows(MsbLight* myLight);
        virtual void drawDeferredLighting(Layer* layer);
+
 
        virtual void drawBone(float width, float height, float depth);
        virtual void drawCube(float scale, float cubeSize);
@@ -332,7 +201,6 @@ public:
 
        void pick(int x, int y);                    //get the 3D coordinates from the mouse and also get the actor we're pointing at
 
-       GLuint createNewRenderTarget();
        static GLuint LoadTextureRAW( const char * filename, int size, int wrap );
        bool LoadTextureTGA( string filename, bool wrap, bool bAlpha, string texID );
        bool createEmptyTexture( string texID, GLuint colorFormat, GLuint type, int width, int height);

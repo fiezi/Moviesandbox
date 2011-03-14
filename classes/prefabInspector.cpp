@@ -27,7 +27,7 @@ void PrefabInspector::createInspectorButtons(){
 
     AssignButton* importButton= new AssignButton;
     importButton->parent=this;
-    renderer->buttonList.push_back(importButton);
+    sceneData->buttonList.push_back(importButton);
     importButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     importButton->name="import";
     importButton->color=Vector4f(0.8,0.8,0.8,1.0);
@@ -55,8 +55,8 @@ void PrefabInspector::assembleList(){
         cout << "creating list..." << endl;
 
         for (int i=0;i<(int)input->prefabs.size();i++){
-            renderer->actorInfo["12AssignButton"].actorReference->create();
-            listButton.push_back(renderer->buttonList.back());
+            sceneData->actorInfo["12AssignButton"].actorReference->create();
+            listButton.push_back(sceneData->buttonList.back());
 
             listButton[i]->name=input->prefabs[i];
             listButton[i]->textureID="icon_base";
@@ -120,4 +120,4 @@ void PrefabInspector::trigger(MsbObject* other){
 }
 
 
-void PrefabInspector::create(){renderer->addButton(this);}
+void PrefabInspector::create(){sceneData->addButton(this);}

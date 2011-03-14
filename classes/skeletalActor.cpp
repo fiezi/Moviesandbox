@@ -86,8 +86,8 @@ void SkeletalActor::postLoad(){
     int myPos=0;
 
     //find my position in actorList
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        if (renderer->actorList[i]==this){
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        if (sceneData->actorList[i]==this){
             myPos=i;
         }
     }
@@ -100,7 +100,7 @@ void SkeletalActor::postLoad(){
         invBoneTransforms[i]=*renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
         if ((int)bones.size()==i){
             //insert before character?
-            //renderer->actorList.insert(renderer->actorList.begin()+ myPos+i, bones[i]);
+            //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
                 bones.push_back(spawn("9BoneActor"));
                 bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
             bones[i]->bRemoveable=false;
@@ -279,8 +279,8 @@ void SkeletalActor::stop(){
     invBoneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
     int myPos=0;
 
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        if (renderer->actorList[i]==this){
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        if (sceneData->actorList[i]==this){
             myPos=i;
         }
     }
@@ -292,10 +292,10 @@ void SkeletalActor::stop(){
         invBoneTransforms[i]=*renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
         if ((int)bones.size()==i){
             //insert before character?
-            //renderer->actorList.insert(renderer->actorList.begin()+ myPos+i, bones[i]);
+            //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
                 bones.push_back(new BoneActor);
                 bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
-                renderer->actorList.push_back(bones[i]);
+                sceneData->actorList.push_back(bones[i]);
             bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
             bones[i]->drawType=DRAW_SPRITE;
@@ -370,8 +370,8 @@ void SkeletalActor::convertToPhysicsBones(){
 
     int myPos=0;
 
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        if (renderer->actorList[i]==this){
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        if (sceneData->actorList[i]==this){
             myPos=i;
         }
     }
@@ -383,8 +383,8 @@ void SkeletalActor::convertToPhysicsBones(){
         if ((int)bones.size()==i){
             bones.push_back(new PhysicsActor);
             bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
-            //renderer->actorList.insert(renderer->actorList.begin()+ myPos+i, bones[i]);
-            renderer->actorList.push_back(bones[i]);
+            //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
+            sceneData->actorList.push_back(bones[i]);
             bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
             bones[i]->drawType=DRAW_CUBE;

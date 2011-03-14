@@ -94,6 +94,6 @@ void RotateButton::focusClick(){
 
 void RotateButton::create(){
 
-renderer->addButton(this);
+sceneData->addButton(this);
 cout << "creating a RotateButton!" << endl;
 }

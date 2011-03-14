@@ -59,12 +59,12 @@ void SelectTool::keyReleased(int key){
 
         //create Prefab
     if (key=='P'){
-        input->staticButton=(BasicButton*)renderer->actorInfo["18CreatePrefabButton"].actorReference;
+        input->staticButton=(BasicButton*)sceneData->actorInfo["18CreatePrefabButton"].actorReference;
         input->staticButton->setLocation(Vector3f(input->screenX/2-200,input->screenY/2-50,0));
         input->staticButton->color=COLOR_BLUE;
         input->staticButton->name="name your prefab";
         input->staticButton->clickedLeft();
-        renderer->buttonList.push_back(input->staticButton);
+        sceneData->buttonList.push_back(input->staticButton);
     }
 
     //create Group
@@ -133,10 +133,10 @@ void SelectTool::selectActors(int btn, Actor* other){
         }
         if (!foundInSelection){
             if (other->groupID!="NULL" && !input->bCtrlDown){                        //if we're part of a group, add the whole group
-                for (int i=0;i<(int)renderer->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
-                    if (renderer->actorList[i]->groupID==other->groupID){
-                        renderer->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(renderer->actorList[i]);
+                for (int i=0;i<(int)sceneData->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
+                    if (sceneData->actorList[i]->groupID==other->groupID){
+                        sceneData->actorList[i]->bSelected=true;
+                        input->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }
@@ -155,10 +155,10 @@ void SelectTool::selectActors(int btn, Actor* other){
         if (!foundInSelection && btn==MOUSEBTNLEFT){                                                     //if we're clicking on a actor not already in selection, you can go ahead
             input->deselectActors();
             if (other->groupID!="NULL" && !input->bCtrlDown){                            //if we're part of a group, select the whole group
-                for (int i=0;i<(int)renderer->actorList.size();i++){                    //unless we hold down CTRL, then only select me
-                    if (renderer->actorList[i]->groupID==other->groupID){
-                        renderer->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(renderer->actorList[i]);
+                for (int i=0;i<(int)sceneData->actorList.size();i++){                    //unless we hold down CTRL, then only select me
+                    if (sceneData->actorList[i]->groupID==other->groupID){
+                        sceneData->actorList[i]->bSelected=true;
+                        input->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }
@@ -189,7 +189,7 @@ void SelectTool::makeGroup(){
         messageWindow->setup();
         messageWindow->bDrawName=true;
         messageWindow->color=COLOR_GREEN;
-        renderer->buttonList.push_back(messageWindow);
+        sceneData->buttonList.push_back(messageWindow);
         messageWindow->clickedLeft();
 }
 
@@ -231,11 +231,11 @@ void SelectTool::copySelected(){
     cout << "copying..." << endl;
     for (int i=0;i<(int)input->selectedActors.size();i++){
         const std::type_info* myType=&(typeid(*(input->selectedActors[i])));
-        Actor * A=renderer->actorInfo[myType->name()].actorReference;
+        Actor * A=sceneData->actorInfo[myType->name()].actorReference;
         A->create();
 
         TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
-        A=renderer->actorList[renderer->actorList.size()-1];
+        A=sceneData->actorList[sceneData->actorList.size()-1];
         A->load(input->selectedActors[i]->save(root));
         delete root;
         A->bSelected=false;                                             //flip selection when copying!

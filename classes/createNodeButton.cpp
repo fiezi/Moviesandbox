@@ -37,7 +37,7 @@ void CreateNodeButton::clickedLeft(){
     createNewActor(buttonProperty);
 
     //we need to do this to make it possible to generate ScriptNodes (with only one NodeIO)!!!!
-    myNode=(Node*) renderer->nodeList.back();
+    myNode=(Node*) sceneData->nodeList.back();
 
     cout << "referencing node: " << myNode->name << endl;
 
@@ -56,4 +56,4 @@ void CreateNodeButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void CreateNodeButton::create(){renderer->addButton(this);}
+void CreateNodeButton::create(){sceneData->addButton(this);}

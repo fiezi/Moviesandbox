@@ -118,4 +118,4 @@ return myColor;
 }
 
 
-void ColorPickButton::create(){renderer->addButton(this);}
+void ColorPickButton::create(){sceneData->addButton(this);}

@@ -158,9 +158,9 @@ void NodeIO::remove(){
       connector->connector=NULL;
     }
 
-    for (uint i=0;i<renderer->buttonList.size();i++){
-        if (renderer->buttonList[i]==this)
-          renderer->buttonList.erase(renderer->buttonList.begin()+i);
+    for (uint i=0;i<sceneData->buttonList.size();i++){
+        if (sceneData->buttonList[i]==this)
+          sceneData->buttonList.erase(sceneData->buttonList.begin()+i);
     }
     delete(this);
 }

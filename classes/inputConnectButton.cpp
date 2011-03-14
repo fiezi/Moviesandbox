@@ -52,5 +52,5 @@ void InputConnectButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void InputConnectButton::create(){renderer->addButton(this);}
+void InputConnectButton::create(){sceneData->addButton(this);}
 

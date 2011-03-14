@@ -52,9 +52,9 @@ void SetHiddenNode::stop(){
 
     if (applyTo){
             if (bHideGroup){
-                for (int i=0;i<(int)renderer->actorList.size();i++){
-                    if (renderer->actorList[i]->groupID==applyTo->groupID)
-                        renderer->actorList[i]->bHidden=originalHidden;
+                for (int i=0;i<(int)sceneData->actorList.size();i++){
+                    if (sceneData->actorList[i]->groupID==applyTo->groupID)
+                        sceneData->actorList[i]->bHidden=originalHidden;
                 }
             }else{
                 applyTo->bHidden=originalHidden;
@@ -67,9 +67,9 @@ void SetHiddenNode::execute(){
 
         if (applyTo){
             if (bHideGroup){
-                for (int i=0;i<(int)renderer->actorList.size();i++){
-                    if (renderer->actorList[i]->groupID==applyTo->groupID)
-                        renderer->actorList[i]->bHidden=setHidden;
+                for (int i=0;i<(int)sceneData->actorList.size();i++){
+                    if (sceneData->actorList[i]->groupID==applyTo->groupID)
+                        sceneData->actorList[i]->bHidden=setHidden;
                 }
             }else{
                 applyTo->bHidden=setHidden;

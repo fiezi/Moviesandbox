@@ -130,10 +130,10 @@ void Input::update(double deltaTime){
         focusButton=staticButton;
     }
 
-    for (unsigned int i=0; i<renderer->buttonList.size();i++){
+    for (unsigned int i=0; i<sceneData->buttonList.size();i++){
 
         //exclude nodes from mouse over and stuff! they have been updated in renderer already
-        myButton=renderer->buttonList[i];
+        myButton=sceneData->buttonList[i];
         Node* myNode=dynamic_cast<Node*>(myButton);
 		NodeIO* myNodeIO=dynamic_cast<NodeIO*>(myButton);
 		if (myNode || myNodeIO){
@@ -601,7 +601,7 @@ void Input::keyUp(unsigned char key,int x,int y){
             BoneActor* bone = new BoneActor;
             bone->setLocation(controller->controlledActor->location);
             bone->setRotation(controller->controlledActor->rotation);
-            renderer->actorList.push_back(bone);
+            sceneData->actorList.push_back(bone);
         }
 
     ///debug:
@@ -688,8 +688,8 @@ cout << "deselecting!" << endl;
     vector<BasicButton*>::iterator it;
     //make sure all Buttons are cleaned up!
 
-	for (int i=renderer->buttonList.size()-1;i>=0;i--){
-		renderer->buttonList[i]->deselect(depth);
+	for (int i=sceneData->buttonList.size()-1;i>=0;i--){
+		sceneData->buttonList[i]->deselect(depth);
 	}
 }
 
@@ -707,7 +707,7 @@ void Input::deselectActors(){
 
 void Input::makeUserPopUp(string text, Actor* parent){
 
-    staticButton=(BasicButton*)renderer->actorInfo["9UserPopUp"].actorReference;
+    staticButton=(BasicButton*)sceneData->actorInfo["9UserPopUp"].actorReference;
     ((UserPopUp*)staticButton)->bWaitForInput=true;
     staticButton->setLocation(Vector3f(screenX/2-200,screenY/2-50,0));
     staticButton->color=Vector4f(0.0,0.0,1.0,1.0);
@@ -715,20 +715,20 @@ void Input::makeUserPopUp(string text, Actor* parent){
     staticButton->parent=parent;
     cout << "UserInput->parent is: " << parent->name << endl;
     staticButton->clickedLeft();
-    renderer->buttonList.push_back(staticButton);
+    sceneData->buttonList.push_back(staticButton);
     lastMouse3D=mouse3D;
 }
 
 void Input::makeWarningPopUp(string message, Actor* parent){
 
-    staticButton=(BasicButton*)renderer->actorInfo["9UserPopUp"].actorReference;
+    staticButton=(BasicButton*)sceneData->actorInfo["9UserPopUp"].actorReference;
     staticButton->setLocation(Vector3f(screenX/2-200,screenY/2-50,0));
     staticButton->color=Vector4f(1.0,0.0,0.0,1.0);
     staticButton->name=message;
     staticButton->parent=parent;
     cout << "UserInput->parent is: " << parent->name << endl;
     staticButton->clickedLeft();
-    renderer->buttonList.push_back(staticButton);
+    sceneData->buttonList.push_back(staticButton);
 }
 
 
@@ -875,9 +875,9 @@ void Input::saveAll(std::string filename){
     root->LinkEndChild(controlElement);
 
     //first Actors
-    for (unsigned int i=0;i<renderer->actorList.size();i++)
+    for (unsigned int i=0;i<sceneData->actorList.size();i++)
       {
-      TiXmlElement * actorElement=renderer->actorList[i]->save(root);
+      TiXmlElement * actorElement=sceneData->actorList[i]->save(root);
       root->LinkEndChild(actorElement);
       }
 
@@ -888,9 +888,9 @@ void Input::saveAll(std::string filename){
       root->LinkEndChild(buttonElement);
       }
     //then nodes
-    for (unsigned int i=0;i<renderer->nodeList.size();i++)
+    for (unsigned int i=0;i<sceneData->nodeList.size();i++)
       {
-      TiXmlElement * nodeElement=renderer->nodeList[i]->save(root);
+      TiXmlElement * nodeElement=sceneData->nodeList[i]->save(root);
       root->LinkEndChild(nodeElement);
       }
 
@@ -914,25 +914,25 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
         //Button first because of udpInput and threading
 
         //remove udpInputs
-        if (renderer->buttonList.size()>0){
-            for (int i=(int)renderer->buttonList.size()-1;i>=0;i--){
+        if (sceneData->buttonList.size()>0){
+            for (int i=(int)sceneData->buttonList.size()-1;i>=0;i--){
                 //Action * act=NULL;
-                //act=dynamic_cast<Action*>(renderer->buttonList[i]);
+                //act=dynamic_cast<Action*>(sceneData->buttonList[i]);
                 UdpInput* udp=NULL;
-                udp=dynamic_cast<UdpInput*>(renderer->buttonList[i]);
-                if (renderer->buttonList[i]->level>0 && udp)
-                    renderer->buttonList[i]->remove();
+                udp=dynamic_cast<UdpInput*>(sceneData->buttonList[i]);
+                if (sceneData->buttonList[i]->level>0 && udp)
+                    sceneData->buttonList[i]->remove();
             }
         }
 
-        if (renderer->actorList.size()>0){
-            for (int i=(int)renderer->actorList.size()-1;i>=0;i--)
-                renderer->actorList[i]->remove();
+        if (sceneData->actorList.size()>0){
+            for (int i=(int)sceneData->actorList.size()-1;i>=0;i--)
+                sceneData->actorList[i]->remove();
         }
 
-        if (renderer->nodeList.size()>0){
-            for (int i=(int)renderer->nodeList.size()-1;i>=0;i--)
-                renderer->nodeList[i]->remove();
+        if (sceneData->nodeList.size()>0){
+            for (int i=(int)sceneData->nodeList.size()-1;i>=0;i--)
+                sceneData->nodeList[i]->remove();
         }
     }
 
@@ -988,7 +988,7 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
         {
         cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
         myType=element->GetText();
-        Actor * A=renderer->actorInfo[myType].actorReference;
+        Actor * A=sceneData->actorInfo[myType].actorReference;
         A->create();
         }
 
@@ -997,7 +997,7 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
       element=hRoot.FirstChild( "Actor" ).Element();
       for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
         {
-        Actor* A=renderer->actorList[listPos];
+        Actor* A=sceneData->actorList[listPos];
         myType=element->GetText();
         cout << "Loading property type: " << myType << endl;
         //***********************************************************************
@@ -1019,14 +1019,14 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
         {
         cout << element->Value() << " " << element->GetText() <<endl;
         myType=element->GetText();
-        Node* N=(Node*)renderer->actorInfo[myType].actorReference;
+        Node* N=(Node*)sceneData->actorInfo[myType].actorReference;
         N->create();
         }
 
       element=hRoot.FirstChild( "Node" ).Element();
       for( ; element!=NULL; element=element->NextSiblingElement("Node"))
         {
-        Node* N=renderer->nodeList[listPos];
+        Node* N=sceneData->nodeList[listPos];
         myType=element->GetText();
         //***********************************************************************
         //Fill up Properties
@@ -1034,20 +1034,20 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
         N->load(element);
         listPos++;
         }
-      for (uint i=0; i< renderer->nodeList.size();i++){
-        renderer->nodeList[i]->setup();
+      for (uint i=0; i< sceneData->nodeList.size();i++){
+        sceneData->nodeList[i]->setup();
         }
 
 
     //***********************************************************************
     //Setup Actor List
     //***********************************************************************
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        renderer->actorList[i]->postLoad();
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        sceneData->actorList[i]->postLoad();
     }
     //then setup all actors, so properties are already present!
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-            renderer->actorList[i]->setup();
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+            sceneData->actorList[i]->setup();
     }
 
     //***********************************************************************
@@ -1062,7 +1062,7 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
         {
         cout << element->Value() << " " << element->GetText() <<endl;
         myType=element->GetText();
-        BasicButton* B=(BasicButton*)renderer->actorInfo[myType].actorReference;
+        BasicButton* B=(BasicButton*)sceneData->actorInfo[myType].actorReference;
         B->create();
         }
 
@@ -1148,7 +1148,7 @@ void Input::loadMeshes(std::string fileName){
 void Input::loadPrefab(std::string fileName){
 
     //loading is a two step process
-    int listPos=renderer->actorList.size();
+    int listPos=sceneData->actorList.size();
 
 
     cout << "loading Prefab from... "<< fileName << endl;
@@ -1169,7 +1169,7 @@ void Input::loadPrefab(std::string fileName){
         {
         cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
         myType=element->GetText();
-        Actor * A=renderer->actorInfo[myType].actorReference;
+        Actor * A=sceneData->actorInfo[myType].actorReference;
         A->create();
         }
 
@@ -1183,7 +1183,7 @@ void Input::loadPrefab(std::string fileName){
 
       for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
         {
-        Actor* A=renderer->actorList[listPos];
+        Actor* A=sceneData->actorList[listPos];
 
         //***********************************************************************
         //Fill up Properties
@@ -1226,10 +1226,10 @@ void Input::loadAction(std::string fileName){
     element=hDoc.FirstChildElement().Element();
     element= element->FirstChildElement("Action");
     std::string myType=element->GetText();
-    Action* AC=(Action*)renderer->actorInfo[myType].actorReference;
+    Action* AC=(Action*)sceneData->actorInfo[myType].actorReference;
     AC->create();
 
-    AC=(Action*)renderer->buttonList.back();
+    AC=(Action*)sceneData->buttonList.back();
     AC->load(element);
     renderer->actionList[AC->name]=AC;
     AC->setup();

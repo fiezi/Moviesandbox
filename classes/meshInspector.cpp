@@ -20,7 +20,7 @@ void MeshInspector::createInspectorButtons(){
 
     AssignButton* importButton= new AssignButton;
     importButton->parent=this;
-    renderer->buttonList.push_back(importButton);
+    sceneData->buttonList.push_back(importButton);
     importButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     importButton->name="import";
     importButton->color=Vector4f(0.8,0.8,0.8,1.0);
@@ -53,8 +53,8 @@ void MeshInspector::assembleList(){
 
             if (it->second && it->first!="NULL"){
 
-                renderer->actorInfo["12AssignButton"].actorReference->create();
-                listButton.push_back(renderer->buttonList.back());
+                sceneData->actorInfo["12AssignButton"].actorReference->create();
+                listButton.push_back(sceneData->buttonList.back());
 
                 listButton[i]->name="string " + it->first;
                 listButton[i]->buttonProperty="VBOMESHID";
@@ -162,4 +162,4 @@ void MeshInspector::trigger(MsbObject* other){
     }
 }
 
-void MeshInspector::create(){renderer->addButton(this);}
+void MeshInspector::create(){sceneData->addButton(this);}

@@ -21,7 +21,7 @@ void ActionInspector::createInspectorButtons(){
 
     AssignButton* importButton= new AssignButton;
     importButton->parent=this;
-    renderer->buttonList.push_back(importButton);
+    sceneData->buttonList.push_back(importButton);
     importButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     importButton->name="import";
     importButton->color=Vector4f(0.8,0.8,0.8,1);
@@ -71,8 +71,8 @@ void ActionInspector::assembleList(){
 
     cout << "ActionInspector! our Button list is: "<< listButton.size() <<" elements long..." << endl;
 /*
-    for (int i=0;i<(int)renderer->buttonList.size();i++){
-            cout << "list has: " << renderer->buttonList[i]->name << endl;
+    for (int i=0;i<(int)sceneData->buttonList.size();i++){
+            cout << "list has: " << sceneData->buttonList[i]->name << endl;
         }
     for (int i=0;i<(int)listButton.size();i++){
             cout << "button has: " << listButton[i]->name << endl;
@@ -88,4 +88,4 @@ void ActionInspector::trigger(MsbObject* other){
     }
 }
 
-void ActionInspector::create(){renderer->addButton(this);}
+void ActionInspector::create(){sceneData->addButton(this);}

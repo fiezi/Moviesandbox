@@ -25,8 +25,8 @@ void Widget::clickedLeft(){
         bWidgetOpen=true;
 
         //close all other widgets
-        for (int i=0;i<(int)renderer->buttonList.size();i++){
-            Widget* widge=dynamic_cast<Widget*>(renderer->buttonList[i]);
+        for (int i=0;i<(int)sceneData->buttonList.size();i++){
+            Widget* widge=dynamic_cast<Widget*>(sceneData->buttonList[i]);
             if (widge && widge!=this && widge->bWidgetOpen && widge->bToggleWidget){
                 widge->clickedLeft();
             }
@@ -73,4 +73,4 @@ void Widget::closeWidget(){
 
 void Widget::deselect(int depth){}
 
-void Widget::create(){renderer->addButton(this);}
+void Widget::create(){sceneData->addButton(this);}

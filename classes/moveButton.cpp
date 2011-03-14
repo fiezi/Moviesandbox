@@ -38,6 +38,6 @@ void MoveButton::update(double deltaTime){
 
 void MoveButton::create()
 {
-	renderer->addButton(this);
+	sceneData->addButton(this);
 	cout << "creating a MoveButton!" << endl;
 }

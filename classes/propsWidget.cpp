@@ -34,4 +34,4 @@ void PropsWidget::trigger(MsbObject* other){
     }
 }
 
-void PropsWidget::create(){renderer->addButton(this);}
+void PropsWidget::create(){sceneData->addButton(this);}

@@ -73,7 +73,7 @@ void Console::callFunction(string command){
 tooltip="";
 }
 
-void Console::create(){renderer->addButton(this);}
+void Console::create(){sceneData->addButton(this);}
 
 void Console::randomSize(string args){
 

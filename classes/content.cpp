@@ -104,7 +104,7 @@ void Content::createConsole(){
     but->sceneShaderID="color";
     but->setup();
     input->console=(Console*)but;
-    renderer->buttonList.push_back(but);
+    sceneData->buttonList.push_back(but);
 }
 
 void Content::createMonitors(){
@@ -157,7 +157,7 @@ void Content::createSelectButton(int x, int y){
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_SELECT]->myBtn=but;
-    renderer->buttonList.push_back(but);
+    sceneData->buttonList.push_back(but);
 }
 
 void Content::createNavButton(int x, int y){
@@ -174,7 +174,7 @@ void Content::createNavButton(int x, int y){
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_NAV]->myBtn=but;
-    renderer->buttonList.push_back(but);
+    sceneData->buttonList.push_back(but);
 
 }
 
@@ -194,7 +194,7 @@ void Content::createGridButton(int x, int y){
     but->setup();
     but->parent=input->controller;
     input->controller->myTools[TOOL_GRID]->myBtn=but;
-    renderer->buttonList.push_back(but);
+    sceneData->buttonList.push_back(but);
 
 }
 
@@ -252,7 +252,7 @@ void Content::createPropList(int x, int y){
     lbut->listIcon.push_back("icon_light");
 
     lbut->setup();
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
 }
 
 void Content::createDrawWidget(int x, int y){
@@ -270,7 +270,7 @@ void Content::createDrawWidget(int x, int y){
     input->controller->myTools[TOOL_CALLIGRAPHY]->myBtn=lbut;
     input->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
     lbut->setup();
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
 
 
     lbut->listType.push_back("15PickWorldButton");
@@ -343,7 +343,7 @@ void Content::createBoneWidget(int x, int y){
     input->controller->myTools[TOOL_SKIN]->myBtn=lbut;
     input->controller->myTools[TOOL_BONE]->myBtn=lbut;
     lbut->setup();
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
 
     //this way, we create new bones by clicking!
     lbut->listType.push_back("12AssignButton");
@@ -484,7 +484,7 @@ void Content::createNodeList(int x, int y){
     lbut->listIcon.push_back("icon_flat");
     lbut->listIcon.push_back("icon_flat");
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
 }
 
 void Content::createSysMenu(int x, int y){
@@ -513,7 +513,7 @@ void Content::createSysMenu(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_exit");
     lbut->setup();
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
 }
 
 void Content::createInspectors(){
@@ -527,7 +527,7 @@ void Content::createInspectors(){
     lbut->location.y=0;
     lbut->name="propertyInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
     lbut= new BrushInspector;
@@ -538,7 +538,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_brush";
     lbut->name="brushInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
     lbut= new TextureInspector;
@@ -549,7 +549,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_texture";
     lbut->name="textureInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
     lbut= new MeshInspector;
@@ -560,7 +560,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_props";
     lbut->name="meshInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
 
@@ -572,7 +572,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_ball";
     lbut->name="actionInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
     lbut= new PrefabInspector;
@@ -583,7 +583,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_prefab";
     lbut->name="prefabInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
     lbut= new LayerInspector;
@@ -594,7 +594,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_layers";
     lbut->name="layerInspector";
 
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
 
@@ -607,7 +607,7 @@ void Content::createInspectors(){
     lbut->name="TimelineInspector";
 
     input->controller->timeline=(TimelineInspector*)lbut;
-    renderer->buttonList.push_back(lbut);
+    sceneData->buttonList.push_back(lbut);
     lbut->setup();
 }
 
@@ -666,7 +666,7 @@ void Content::createActorContent(){
 
 void Content::reset(){
 
-renderer->actorList.clear();
-renderer->buttonList.clear();
+sceneData->actorList.clear();
+sceneData->buttonList.clear();
 setup();
 }

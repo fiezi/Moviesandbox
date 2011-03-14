@@ -124,4 +124,4 @@ else
     }
 }
 
-void SliderButton::create(){renderer->addButton(this);}
+void SliderButton::create(){sceneData->addButton(this);}

@@ -28,6 +28,7 @@
 class Control;
 class Input;
 class Renderer;
+class SceneData;
 class InterpolationHelper;
 class Node;
 class Action;

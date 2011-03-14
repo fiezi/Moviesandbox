@@ -198,7 +198,7 @@ addHingeJoint(parts["leftForeArm"]->body, parts["leftHand"]->body, L_WRIST_POS, 
 
 //*****************************************************************************************************
 
-// these have to be individual Actors (with a place of their own in renderer->actorList!!!
+// these have to be individual Actors (with a place of their own in sceneData->actorList!!!
 //left Hand
 addString(L_FINGERS_POS+Vector3f(0,0.15,0), L_FINGERS_POS+Vector3f(0,0.3,0), 0.015,"leftString");  //original!
 addBallJoint(parts["leftHand"]->body, myStrings["leftString"]->body,L_FINGERS_POS+Vector3f(0,0.1,0),"leftStringConnect");

@@ -53,4 +53,4 @@ void PickWorldButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void PickWorldButton::create(){renderer->addButton(this);}
+void PickWorldButton::create(){sceneData->addButton(this);}

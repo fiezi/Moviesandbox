@@ -154,20 +154,20 @@ void Control::start(){
 cout << "starting simulation..." << endl;
 
     //setup Actors
-    for (uint i=0;i<renderer->actorList.size();i++){
-      renderer->actorList[i]->initialTransform=renderer->actorList[i]->transformMatrix;
-      renderer->actorList[i]->start();
+    for (uint i=0;i<sceneData->actorList.size();i++){
+      sceneData->actorList[i]->initialTransform=sceneData->actorList[i]->transformMatrix;
+      sceneData->actorList[i]->start();
     }
 
 
     //play Timeline when no nodes are present
-    if (renderer->nodeList.size()==0){
+    if (sceneData->nodeList.size()==0){
         timeline->playTimelines();
     }
 
     //- setup nodes
-    for (uint i=0;i<renderer->nodeList.size();i++)
-      renderer->nodeList[i]->start();
+    for (uint i=0;i<sceneData->nodeList.size();i++)
+      sceneData->nodeList[i]->start();
 
     //start node script
     cout << "number of trees: " << nodeTree.size() << endl;
@@ -188,19 +188,19 @@ cout << "stopping simulation..." << endl;
     renderer->bUpdatePhysics=false;
 
     //- clean up nodes
-    for (unsigned int i=0;i<renderer->nodeList.size();i++)
-      renderer->nodeList[i]->stop();
+    for (unsigned int i=0;i<sceneData->nodeList.size();i++)
+      sceneData->nodeList[i]->stop();
 
     nodeTree.clear();
 
-    for (uint i=0;i<renderer->actorList.size();i++){
-      PhysicsActor * phys = dynamic_cast<PhysicsActor*>(renderer->actorList[i]);
+    for (uint i=0;i<sceneData->actorList.size();i++){
+      PhysicsActor * phys = dynamic_cast<PhysicsActor*>(sceneData->actorList[i]);
       if (!phys){
-        renderer->actorList[i]->transformMatrix=renderer->actorList[i]->initialTransform;
-        renderer->actorList[i]->baseMatrix=calcMatrix(renderer->actorList[i]);
-        renderer->actorList[i]->matrixToVectors();
+        sceneData->actorList[i]->transformMatrix=sceneData->actorList[i]->initialTransform;
+        sceneData->actorList[i]->baseMatrix=calcMatrix(sceneData->actorList[i]);
+        sceneData->actorList[i]->matrixToVectors();
 
-        renderer->actorList[i]->stop();
+        sceneData->actorList[i]->stop();
       }
     }
 

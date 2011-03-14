@@ -57,6 +57,7 @@ void createMemberID(const char* memberName, MyType *memberRef, ActorClass* base)
 
 class Input;
 class Renderer;
+class SceneData;
 class Node;
 
 typedef int ListID;                             //convenient way of making clear what those mean...
@@ -74,6 +75,7 @@ public:
 
        Renderer* renderer;                          //connections to renderer and input classes...
        Input* input;
+       SceneData* sceneData;
 
        std::map <std::string, memberID> property;   //actor variables as string representations for easy property passing
 

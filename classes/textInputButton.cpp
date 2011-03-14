@@ -156,4 +156,4 @@ void TextInputButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void TextInputButton::create(){renderer->addButton(this);}
+void TextInputButton::create(){sceneData->addButton(this);}

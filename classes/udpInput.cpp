@@ -106,9 +106,9 @@ void UdpInput::setup(){
     //kinda fake, but will work. Should find a better way of knowing if port is bound...
     bool bChannelFree=true;
 
-    for (int i=0;i<(int)renderer->buttonList.size();i++){
-        if (renderer->buttonList[i]->isA("UdpInput")){
-            UdpInput* myUdpInput=(UdpInput*)renderer->buttonList[i];
+    for (int i=0;i<(int)sceneData->buttonList.size();i++){
+        if (sceneData->buttonList[i]->isA("UdpInput")){
+            UdpInput* myUdpInput=(UdpInput*)sceneData->buttonList[i];
             if (myUdpInput->channel==channel && myUdpInput!=this)
                 bChannelFree=false;
             }
@@ -240,7 +240,7 @@ void UdpInput::createNewInputConnect(Vector4f btnColor, std::string btnName, uns
     //connect directly to UDPInput - but why?
     myBtn->parent=this;
     myBtn->listPosition=numInputs;
-    renderer->buttonList.push_back(myBtn);
+    sceneData->buttonList.push_back(myBtn);
     inputConnectButtons.push_back(myBtn);
     myBtn->setup();
 
@@ -262,7 +262,7 @@ void UdpInput::createNewInputConnect(Vector4f btnColor, std::string btnName, uns
 
 }
 
-void UdpInput::create(){renderer->addButton(this);}
+void UdpInput::create(){sceneData->addButton(this);}
 
 
 

@@ -72,12 +72,12 @@ void PropertyInspector::assembleList(){
             mType=&(typeid(Actor*));
 
             if (mID->memberType->name()==mType->name()){
-                renderer->actorInfo["15PickWorldButton"].actorReference->create();
-                listButton.push_back(renderer->buttonList.back());
+                sceneData->actorInfo["15PickWorldButton"].actorReference->create();
+                listButton.push_back(sceneData->buttonList.back());
                 }
             else{
-                renderer->actorInfo["15TextInputButton"].actorReference->create();
-                listButton.push_back(renderer->buttonList.back());
+                sceneData->actorInfo["15TextInputButton"].actorReference->create();
+                listButton.push_back(sceneData->buttonList.back());
                 }
 
             listButton[i]->name=it->first;
@@ -111,4 +111,4 @@ void PropertyInspector::assembleList(){
 
 
 
-void PropertyInspector::create(){renderer->addButton(this);}
+void PropertyInspector::create(){sceneData->addButton(this);}

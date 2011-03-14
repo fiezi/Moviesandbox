@@ -125,9 +125,9 @@ hRoot=TiXmlHandle(myInfo);
 	{
     //cout << element->Value() << " " << element->GetText() <<endl;
 	myType=element->GetText();
-	Actor * A=renderer->actorInfo[myType].actorReference;
+	Actor * A=sceneData->actorInfo[myType].actorReference;
 	A->create();
-    A=renderer->actorList.back();
+    A=sceneData->actorList.back();
     //***********************************************************************
     //Fill up Properties
     //***********************************************************************
@@ -138,4 +138,4 @@ hRoot=TiXmlHandle(myInfo);
     }
 }
 
-void LoadDrawingButton::create(){renderer->addButton(this);}
+void LoadDrawingButton::create(){sceneData->addButton(this);}

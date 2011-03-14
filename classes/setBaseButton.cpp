@@ -45,4 +45,4 @@ void SetBaseButton::deselect(int depth){
 BasicButton::deselect(depth);
 }
 
-void SetBaseButton::create(){renderer->addButton(this);}
+void SetBaseButton::create(){sceneData->addButton(this);}

@@ -192,5 +192,5 @@ void DrawingWidget::importKinect(){
             }
 }
 
-void DrawingWidget::create(){renderer->addButton(this);}
+void DrawingWidget::create(){sceneData->addButton(this);}
 

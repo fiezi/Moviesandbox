@@ -37,7 +37,7 @@ void Inspector::setup(){
 
     ListButton::setup();
     backgroundButton=new BasicButton;
-    renderer->buttonList.push_back(backgroundButton);
+    sceneData->buttonList.push_back(backgroundButton);
     backgroundButton->sceneShaderID="color";
 	backgroundButton->textureID="icon_flat";
 
@@ -205,4 +205,4 @@ void Inspector::deselect(int depth){
 //Button::deselect(depth);
 }
 
-void Inspector::create(){renderer->addButton(this);}
+void Inspector::create(){sceneData->addButton(this);}

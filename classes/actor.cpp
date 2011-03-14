@@ -1,10 +1,11 @@
 #include <sstream>
 
 #include "actor.h"
-#include "control.h"
 #include "input.h"
-#include "interpolationHelper.h"
 #include "renderer.h"
+#include "sceneData.h"
+#include "control.h"
+#include "interpolationHelper.h"
 #include "node.h"
 #include "action.h"
 #include "brush.h"
@@ -659,8 +660,8 @@ Actor* Actor::readActor(char* cValue){
     if( strncmp("actor* ",cValue,7) == 0 )
         sscanf((cValue+7),"%i",&i);
 
-    if (i >= 0 && i < (int)renderer->actorList.size()){
-        return renderer->actorList[i+actorOffset];
+    if (i >= 0 && i < (int)sceneData->actorList.size()){
+        return sceneData->actorList[i+actorOffset];
         }
 
     return NULL;
@@ -672,9 +673,9 @@ Node* Actor::readNode(char* cValue){
     if( strncmp("node* ",cValue,6) == 0 )
         sscanf((cValue+6),"%i",&i);
 
-    if (i >= 0 && i < (int)renderer->nodeList.size()){
+    if (i >= 0 && i < (int)sceneData->nodeList.size()){
         cout << "found a node list reference!" << endl;
-        return renderer->nodeList[i+nodeOffset];
+        return sceneData->nodeList[i+nodeOffset];
         }
 
     return NULL;
@@ -689,8 +690,8 @@ void Actor::remove(){
 
     //remove references in other actors
     //go through all actors
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        Actor* myActor=renderer->actorList[i];
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        Actor* myActor=sceneData->actorList[i];
 
         //remove base without location change
         if (myActor->base==this)
@@ -714,8 +715,8 @@ void Actor::remove(){
         }
 
     //do the same for actor vectors!
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        Actor* myActor=renderer->actorList[i];
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        Actor* myActor=sceneData->actorList[i];
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
@@ -736,8 +737,8 @@ void Actor::remove(){
     }
     //remove references in buttons
     //go through all buttons
-    for (unsigned int i=0;i<renderer->buttonList.size();i++){
-        BasicButton* myButton=renderer->buttonList[i];
+    for (unsigned int i=0;i<sceneData->buttonList.size();i++){
+        BasicButton* myButton=sceneData->buttonList[i];
 
         //go through all properties
         std::map <std::string, memberID>::iterator it;
@@ -758,8 +759,8 @@ void Actor::remove(){
             }
         }
     //and the same in all buttons with Actor Vectors
-    for (int i=0;i<(int)renderer->buttonList.size();i++){
-        Actor* myActor=renderer->buttonList[i];
+    for (int i=0;i<(int)sceneData->buttonList.size();i++){
+        Actor* myActor=sceneData->buttonList[i];
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
@@ -781,8 +782,8 @@ void Actor::remove(){
 
     //remove references in nodes
     //go through all nodes
-    for (unsigned int i=0;i<renderer->nodeList.size();i++){
-        Node* myNode=renderer->nodeList[i];
+    for (unsigned int i=0;i<sceneData->nodeList.size();i++){
+        Node* myNode=sceneData->nodeList[i];
         //go through all properties
         std::map <std::string, memberID>::iterator it;
         for ( it=myNode->property.begin() ; it != myNode->property.end(); it++ ){
@@ -819,9 +820,9 @@ void Actor::remove(){
           renderer->layerList[renderLayer]->actorList.erase(renderer->layerList[renderLayer]->actorList.begin()+i);
     }
     //remove from actorList
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        if (renderer->actorList[i]==this)
-          renderer->actorList.erase(renderer->actorList.begin()+i);
+    for (int i=0;i<(int)sceneData->actorList.size();i++){
+        if (sceneData->actorList[i]==this)
+          sceneData->actorList.erase(sceneData->actorList.begin()+i);
     }
 
     delete(this);
@@ -832,9 +833,9 @@ void Actor::create(){ renderer->addActor(this); }
 
 bool Actor::createNewActor(string actorIDName){
 
-if (renderer->actorInfo[actorIDName].actorReference)
+if (sceneData->actorInfo[actorIDName].actorReference)
   {
-  renderer->actorInfo[actorIDName].actorReference->create();
+  sceneData->actorInfo[actorIDName].actorReference->create();
   return true;
   }
 else
@@ -843,10 +844,10 @@ else
 
 Actor* Actor::spawn(string actorIDName){
 
-if (renderer->actorInfo[actorIDName].actorReference)
+if (sceneData->actorInfo[actorIDName].actorReference)
   {
-  renderer->actorInfo[actorIDName].actorReference->create();
-  return renderer->actorList.back();
+  sceneData->actorInfo[actorIDName].actorReference->create();
+  return sceneData->actorList.back();
   }
 else
   return NULL;
