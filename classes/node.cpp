@@ -111,7 +111,7 @@ ListButton::clickedLeft();
 }
 
 
-void Node::trigger(Actor * other){
+void Node::trigger(MsbObject* other){
 
 //callback function for Propertybuttons
 }

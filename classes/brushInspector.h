@@ -19,7 +19,7 @@ public:
 
     virtual void refreshList();
     virtual void assembleList();
-    virtual void trigger(Actor* other);
+    virtual void trigger(MsbObject* other);
 
     virtual void create();
 };

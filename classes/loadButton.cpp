@@ -42,7 +42,7 @@ void LoadButton::assembleLoadList(){
       }
 }
 
-void LoadButton::trigger(Actor * other){
+void LoadButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

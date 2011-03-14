@@ -27,7 +27,7 @@ public:
 
     virtual void update(double deltaTime);
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void create();
 };

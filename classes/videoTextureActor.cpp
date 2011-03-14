@@ -39,7 +39,7 @@ Actor::setup();
 //player->setLoopState(OF_LOOP_NONE);
 }
 
-void VideoTextureActor::trigger(Actor * other)
+void VideoTextureActor::trigger(MsbObject* other)
 {
 
     cout << "triggered video!" << endl;

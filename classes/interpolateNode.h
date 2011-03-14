@@ -23,7 +23,7 @@ public:
     virtual void stop();
     virtual void execute();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void update(double deltaTime);
 

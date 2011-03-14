@@ -142,7 +142,7 @@ void BrushInspector::assembleList(){
 
 }
 
-void BrushInspector::trigger(Actor* other){
+void BrushInspector::trigger(MsbObject* other){
 
     if (other->name=="brush scale"){
         renderer->brush->scale.x= pow(0.4+ ((SliderButton*)other)->sliderValue,2.0) ;
@@ -177,7 +177,7 @@ void BrushInspector::trigger(Actor* other){
             if (other==colorSwatches[i])
                 currentSwatch=i;
         }
-        other->textureID="icon_base";
+        ((Actor*)other)->textureID="icon_base";
     }
 
     if (other->name=="normals up"){

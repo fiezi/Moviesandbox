@@ -14,7 +14,7 @@ public:
 
     virtual void assembleLoadList();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void placeScrollBar();
 

@@ -66,7 +66,7 @@ public:
     void setup();
     void update(double deltaTime);
 
-    void trigger(Actor* other);
+    void trigger(MsbObject* other);
     void startMovie();
 
     void switchTool(int newTool);

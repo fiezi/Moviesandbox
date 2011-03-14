@@ -22,7 +22,7 @@ void CharacterController::setup(){
 Actor::setup();
 }
 
-void CharacterController::trigger(Actor * other){
+void CharacterController::trigger(MsbObject* other){
 
         Actor::trigger(other);
 }

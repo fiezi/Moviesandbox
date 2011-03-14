@@ -14,7 +14,7 @@ public:
     virtual void mouseDrag();
     virtual void assembleLoadList();
     virtual void placeScrollBar();
-    virtual void trigger(Actor *other);
+    virtual void trigger(MsbObject*other);
     virtual void loadFile(string filename);
 
     virtual void assembleImage(FIBITMAP* myBitmap, int imageWidth, int imageHeight, float flip);

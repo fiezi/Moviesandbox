@@ -32,7 +32,7 @@ public:
     //virtual void placeTimelineButtons();
 
 
-    virtual void trigger(Actor* other);
+    virtual void trigger(MsbObject* other);
 
     virtual void playTimelines();
 

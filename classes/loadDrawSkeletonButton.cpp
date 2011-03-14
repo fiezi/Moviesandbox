@@ -20,7 +20,7 @@ void LoadDrawSkeletonButton::clickedLeft(){
 
     //input->deselectButtons(0);
     input->getAllDrawings();
-    Actor * myParent=parent;
+    MsbObject * myParent=parent;
     listDisplayMode=3;
 
     LoadButton::clickedLeft();
@@ -51,7 +51,7 @@ void LoadDrawSkeletonButton::assembleLoadList(){
         }
 }
 
-void LoadDrawSkeletonButton::trigger(Actor * other){
+void LoadDrawSkeletonButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

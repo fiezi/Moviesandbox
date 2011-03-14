@@ -52,7 +52,7 @@ void SwitchCameraNode::execute(){
 }
 
 
-void SwitchCameraNode::trigger(Actor * other){
+void SwitchCameraNode::trigger(MsbObject* other){
 
     if (other==listButton[0] && input->worldTarget){
         cameraActor=input->worldTarget;

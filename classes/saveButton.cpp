@@ -51,7 +51,7 @@ void SaveButton::assembleSaveList(){
       }
 }
 
-void SaveButton::trigger(Actor * other){
+void SaveButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

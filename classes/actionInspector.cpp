@@ -80,7 +80,7 @@ void ActionInspector::assembleList(){
 */
 }
 
-void ActionInspector::trigger(Actor* other){
+void ActionInspector::trigger(MsbObject* other){
 
     if (other->name=="import"){
         string fileName=input->openFileDialog();

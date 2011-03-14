@@ -14,7 +14,7 @@ public:
 
     virtual void openWidget();
     virtual void closeWidget();
-    virtual void trigger(Actor* other);
+    virtual void trigger(MsbObject* other);
 
     virtual void highlight(Actor* other);
 

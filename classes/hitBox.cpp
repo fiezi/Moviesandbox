@@ -85,7 +85,7 @@ Actor::setup();
 */
 }
 
-void HitBox::trigger(Actor * other){
+void HitBox::trigger(MsbObject* other){
 
     if (other->name=="collisionActor"){
         collisionActor=input->worldTarget;

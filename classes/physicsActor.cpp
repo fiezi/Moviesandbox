@@ -190,7 +190,7 @@ void PhysicsActor::update(double deltaTime){
 }
 
 
-void PhysicsActor::trigger(Actor* other){
+void PhysicsActor::trigger(MsbObject* other){
 
     Actor::trigger(other);
 

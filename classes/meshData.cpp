@@ -3,8 +3,8 @@
 #include "meshData.h"
 #include "renderer.h"
 
-MeshData::MeshData(){	
-	
+MeshData::MeshData(){
+
 bIsSkeletal=false;
 bIsHead=false;
 bVertexColor=true;
@@ -32,7 +32,7 @@ void MeshData::setup(){
 Actor::setup();
 }
 
-void MeshData::trigger(Actor * other){}
+void MeshData::trigger(MsbObject* other){}
 
 void MeshData::update(double deltaTime){}
 

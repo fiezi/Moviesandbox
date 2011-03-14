@@ -45,7 +45,7 @@ void MsbLight::setup(){
     renderer->lightList.push_back(this);
 }
 
-void MsbLight::trigger(Actor * other){}
+void MsbLight::trigger(MsbObject* other){}
 
 void MsbLight::update(double deltaTime){
     Actor::update(deltaTime);

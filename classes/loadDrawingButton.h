@@ -16,7 +16,7 @@ public:
 
     virtual void placeScrollBar();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void loadFile(string filename);
 

@@ -52,7 +52,7 @@ void BoneWidget::closeWidget(){
 
 }
 
-void BoneWidget::trigger(Actor* other){
+void BoneWidget::trigger(MsbObject* other){
 
 
 	SkeletalActor* skel=renderer->brush->drawing;

@@ -85,7 +85,7 @@ void MeshInspector::assembleList(){
 }
 
 
-void MeshInspector::trigger(Actor* other){
+void MeshInspector::trigger(MsbObject* other){
 
 
     for (int i=0;i<(int)listButton.size();i++){
@@ -97,7 +97,7 @@ void MeshInspector::trigger(Actor* other){
                 //special case for bones! Assign to parent character if present...
                 BoneActor* b = dynamic_cast<BoneActor*>(a);
                 if (b && b->parent)
-                    a=b->parent;
+                    a=(Actor*)b->parent;
 
                 ///setting the vboMesh
                 a->memberFromString(&a->property["VBOMESHID"], listButton[i]->name);

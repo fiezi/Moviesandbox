@@ -14,7 +14,7 @@ drawType=DRAW_PLANE;
 void FlexGrid::setup(){
 }
 
-void FlexGrid::trigger(Actor * other){
+void FlexGrid::trigger(MsbObject* other){
 
 cout << "triggered!" << endl;
 ParticleSystem * p=dynamic_cast<ParticleSystem *>(other);

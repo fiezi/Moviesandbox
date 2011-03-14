@@ -110,7 +110,7 @@ class RagDoll: public Actor
         void addString(Vector3f p1, Vector3f p2, float radius, string name);
         void createStringJoint(string stringName);
 
-        void trigger(Actor * other);
+        void trigger(MsbObject* other);
 
         //moving the controllable joints
         virtual void updateString(string stringName, Vector3f loc);

@@ -52,7 +52,7 @@ void SkeletalHead::setup(){
     }
 }
 
-void SkeletalHead::trigger(Actor * other){}
+void SkeletalHead::trigger(MsbObject* other){}
 
 void SkeletalHead::update(double deltaTime){
 

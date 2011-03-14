@@ -21,12 +21,12 @@ BasicButton::setup();
 
 void InputConnectButton::update(double deltaTime){}
 
-void InputConnectButton::trigger(Actor* other){
+void InputConnectButton::trigger(MsbObject* other){
 
 //cast for parent
 UdpInput* p=(UdpInput*)parent;
 
-p->targetActors[listPosition]=other;
+p->targetActors[listPosition]=(Actor*)other;
 p->targetProperties[listPosition]=buttonProperty;
 
 cout << "connected " << p->targetActors[listPosition]-> name << " at " << p->targetProperties[listPosition] << endl;

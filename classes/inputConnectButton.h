@@ -25,7 +25,7 @@ public:
     virtual void deselect(int depth);
     virtual void create();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     //Position in the inputConnectButtons list of UDPInput
     int     listPosition;

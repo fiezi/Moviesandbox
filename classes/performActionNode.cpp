@@ -111,7 +111,7 @@ void PerformActionNode::update(double deltaTime){
     Node::update(deltaTime);
 }
 
-void PerformActionNode::trigger(Actor * other){
+void PerformActionNode::trigger(MsbObject* other){
 
     cout << "trigger!" << other->name << endl;
 

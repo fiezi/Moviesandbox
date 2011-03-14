@@ -35,7 +35,7 @@ void ParticleSpray::setup(){
 ParticleSystem::setup();
 }
 
-void ParticleSpray::trigger(Actor * other){
+void ParticleSpray::trigger(MsbObject* other){
 
     bSpray=!bSpray;
 

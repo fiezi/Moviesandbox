@@ -127,7 +127,7 @@ void Character::setup(){
 
 
 ///updates idleAction to reflect possible change in name!
-void Character::trigger(Actor * other){
+void Character::trigger(MsbObject* other){
 
 
     idleAction=renderer->actionList[idleActionName];

@@ -51,7 +51,7 @@ Actor::setup();
 
 }
 
-void BoneActor::trigger(Actor * other){
+void BoneActor::trigger(MsbObject* other){
 
 }
 
@@ -123,6 +123,7 @@ void BoneActor::doIK(Vector3f loc, bool bAbsolute){
 
     *********************************************************************************/
 
+    Actor* actorParent=(Actor*)parent;
 
     //leave if we don't have two parents
     if (!base || !base->base ){
@@ -151,7 +152,7 @@ void BoneActor::doIK(Vector3f loc, bool bAbsolute){
 
     Vector3f currentUpperVec, currentLowerVec, initialUpperVec, initialLowerVec;
 
-    MeshData* myMesh=renderer->vboList[parent->vboMeshID];
+    MeshData* myMesh=renderer->vboList[actorParent->vboMeshID];
     //find original angles for non-aligned bones - from mesh data!
     for (int i=0;i<(int)myMesh->bones.size();i++){
         if (myMesh->bones[i]->name==base->name)
@@ -189,7 +190,7 @@ void BoneActor::doIK(Vector3f loc, bool bAbsolute){
     targetFull.normalize();
 
     ///rotating into IK plane
-    Matrix4f parentMatrix=parent->baseMatrix;
+    Matrix4f parentMatrix=actorParent->baseMatrix;
     parentMatrix.setTranslation(Vector3f(0,0,0));
 
     Vector3f rotAxis = currentFull.crossProduct(targetFull);

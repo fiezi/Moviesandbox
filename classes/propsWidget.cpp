@@ -27,7 +27,7 @@ void PropsWidget::closeWidget(){
     input->controller->switchTool(input->controller->oldTool);
 }
 
-void PropsWidget::trigger(Actor* other){
+void PropsWidget::trigger(MsbObject* other){
 
     if (other->name=="Spawn Meshes"){
         input->controller->switchTool(TOOL_SPAWN);

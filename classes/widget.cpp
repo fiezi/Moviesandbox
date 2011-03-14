@@ -50,7 +50,7 @@ void Widget::clickedLeft(){
     }
 }
 
-void Widget::trigger(Actor* other){
+void Widget::trigger(MsbObject* other){
 
     ListButton::trigger(other);
 }

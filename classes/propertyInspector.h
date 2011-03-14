@@ -7,7 +7,7 @@ class PropertyInspector: public Inspector{
 
 public:
 
-    Actor*  oldParent;
+    MsbObject*  oldParent;
 
     PropertyInspector();
     virtual ~PropertyInspector();

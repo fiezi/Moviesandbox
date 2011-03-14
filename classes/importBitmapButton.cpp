@@ -28,7 +28,7 @@ void ImportBitmapButton::clickedLeft(){
 
     input->getAllImages();
 
-    Actor * myParent=parent;
+    MsbObject * myParent=parent;
 
     LoadButton::clickedLeft();
 
@@ -37,7 +37,7 @@ void ImportBitmapButton::clickedLeft(){
     bDrawName=false;
 }
 
-void ImportBitmapButton::trigger(Actor *other){
+void ImportBitmapButton::trigger(MsbObject*other){
 
 ListButton::trigger(other);
 if (other==scrollBar)

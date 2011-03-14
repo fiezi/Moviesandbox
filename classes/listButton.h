@@ -52,7 +52,7 @@ public:
     virtual void createScrollBar();                                 //create slider to scroll through listButtons
     virtual void placeScrollBar();                                  //where it should appear
 
-    virtual void trigger(Actor* other);                             //callback from Scrollbar
+    virtual void trigger(MsbObject* other);                             //callback from Scrollbar
 
     virtual void deselect(int depth);
 

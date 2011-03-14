@@ -11,7 +11,7 @@ public:
 
         virtual void clickedLeft();
         virtual void assembleSaveList();
-        virtual void trigger(Actor * other);
+        virtual void trigger(MsbObject* other);
         virtual void saveFile(string filename);
         virtual void create();
 };

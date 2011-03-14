@@ -24,7 +24,7 @@ void LoadDrawingButton::clickedLeft(){
 
     //input->deselectButtons(0);
     input->getAllDrawings();
-    Actor * myParent=parent;
+    MsbObject * myParent=parent;
     listDisplayMode=3;
 
     LoadButton::clickedLeft();
@@ -78,7 +78,7 @@ void LoadDrawingButton::placeScrollBar(){
 
 }
 
-void LoadDrawingButton::trigger(Actor * other){
+void LoadDrawingButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

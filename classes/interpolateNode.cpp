@@ -87,7 +87,7 @@ void InterpolateNode::update(double deltaTime){
 Node::update(deltaTime);
 }
 
-void InterpolateNode::trigger(Actor * other){
+void InterpolateNode::trigger(MsbObject* other){
 
 Node::trigger(other);
 }

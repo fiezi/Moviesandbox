@@ -231,7 +231,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     tlBtn->setLocation(loc);
 }
 
-void TimelineInspector::trigger(Actor* other){
+void TimelineInspector::trigger(MsbObject* other){
 
     //is a callback from the buttons from our list!
 
@@ -252,9 +252,9 @@ void TimelineInspector::trigger(Actor* other){
 
         float myTime;
         //calculate time from scrubber position
-        myTime=other->location.x - 2* (listWidth +2) - location.x;
+        myTime=((Actor*)other)->location.x - 2* (listWidth +2) - location.x;
         if (myTime<0.0){
-            other->setLocation( Vector3f( location.x + 2* (listWidth +2), other->location.y, 0.0) );
+            ((Actor*)other)->setLocation( Vector3f( location.x + 2* (listWidth +2), ((Actor*)other)->location.y, 0.0) );
             return;
         }
 

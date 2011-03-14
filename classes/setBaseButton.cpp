@@ -37,7 +37,7 @@ void SetBaseButton::focusClick(){
     if (!parent)
         return;
 
-    parent->setBase(input->worldTarget);
+    ((Actor*)parent)->setBase(input->worldTarget);
 }
 
 void SetBaseButton::deselect(int depth){

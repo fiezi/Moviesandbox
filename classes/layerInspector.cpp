@@ -135,7 +135,7 @@ void LayerInspector::assembleList(){
     }
 }
 
-void LayerInspector::trigger(Actor* other){
+void LayerInspector::trigger(MsbObject* other){
     Inspector::trigger(other);
 
     if (other==newLayer){

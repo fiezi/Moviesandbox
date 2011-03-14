@@ -81,7 +81,7 @@ void PrefabInspector::assembleList(){
 }
 
 
-void PrefabInspector::trigger(Actor* other){
+void PrefabInspector::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

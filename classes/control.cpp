@@ -84,7 +84,7 @@ void Control::update(double deltaTime){
 }
 
 //for Tool-Button Callbacks
-void Control::trigger(Actor* other){
+void Control::trigger(MsbObject* other){
 
     cout << "triggered controller!" << endl;
 

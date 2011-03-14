@@ -16,12 +16,13 @@ void RotateButton::update(double deltaTime){
 
     if (bActive && parent){
 
+        Actor* actorParent=(Actor*)parent;
         Vector3f axis;
 
         float amount=input->mouseVector.x * renderer->mouseSensitivity;
 
             Vector3f xA,yA,zA;
-            parent->getAxis(&xA,&yA,&zA,parent->transformMatrix);
+            actorParent->getAxis(&xA,&yA,&zA,actorParent->transformMatrix);
 
             if (input->bCtrlDown)
                 axis=zA;
@@ -30,7 +31,7 @@ void RotateButton::update(double deltaTime){
             else
                 axis=yA;
 
-            parent->addRotation(amount, axis);
+            actorParent->addRotation(amount, axis);
 
         input->bConfineMouse=true;
         return;
@@ -43,9 +44,11 @@ void RotateButton::clickedLeft(){
     bActive=true;
     input->focusButton=this;
 
-    if (parent==input->controller){
-        fineRotation.push_back(parent->rotation);
-        fineLocation.push_back(parent->location);
+    Actor* actorParent=(Actor*)parent;
+
+    if (actorParent==input->controller){
+        fineRotation.push_back(actorParent->rotation);
+        fineLocation.push_back(actorParent->location);
     }
     else{
         for (int i=0;i<(int)input->selectedActors.size();i++){

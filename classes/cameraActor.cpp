@@ -38,7 +38,7 @@ noise.setup(4,2.0,1.0,1);
 Actor::setup();
 }
 
-void CameraActor::trigger(Actor * other){
+void CameraActor::trigger(MsbObject* other){
 
     if (other->name=="possess"){
         cout << "possessing!" << endl;

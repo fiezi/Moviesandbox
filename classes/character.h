@@ -67,7 +67,7 @@ public:
 
     virtual void setup();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void update(double deltaTime);
     virtual void stop();

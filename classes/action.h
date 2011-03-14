@@ -33,7 +33,7 @@ public:
     virtual void mouseDrag();
     virtual void finishDrag();
 
-    virtual void trigger(Actor* other);
+    virtual void trigger(MsbObject* other);
 
     virtual void clickedLeft();
     virtual void clickedRight();

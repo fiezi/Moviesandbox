@@ -51,7 +51,7 @@ public:
       virtual void postLoad();                     //gets called immediately after all variables have been loaded, but before setup
       virtual void setup();
       virtual void update(double deltaTime);
-      virtual void trigger(Actor* other);
+      virtual void trigger(MsbObject* other);
 
       virtual void makeJoint();
 

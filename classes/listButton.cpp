@@ -208,7 +208,7 @@ void ListButton::deselect(int depth){
     BasicButton::deselect(depth);
 }
 
-void ListButton::trigger(Actor* other){
+void ListButton::trigger(MsbObject* other){
 
     if (scrollBar && other==scrollBar){
         //if sliderValue is 1, begin is size()-maxDraw

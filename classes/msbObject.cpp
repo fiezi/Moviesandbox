@@ -1,592 +1,68 @@
 #include <sstream>
 
-#include "actor.h"
-#include "control.h"
+#include "msbObject.h"
 #include "input.h"
-#include "interpolationHelper.h"
 #include "renderer.h"
 #include "node.h"
 #include "action.h"
-#include "brush.h"
 #include "meshData.h"
 
-Actor::Actor(){
+MsbObject::MsbObject(){
 
 
 renderer=Renderer::getInstance();
 input=Input::getInstance();
 
-renderLayer=0;
-
-location=Vector3f(0,0,0);
-rotation=Vector3f(0,0,0);
-scale=Vector3f(1,1,1);
-orientation=Vector3f(0,0,1);
-
-xAxis=Vector3f(0,0,0);
-yAxis=Vector3f(0,0,0);
-zAxis=Vector3f(0,0,0);
-
-
-pivotLocation=Vector3f(0,0,0);
-
-transformMatrix.identity();
-originalMatrix.identity();
-bUseTransformMatrix=true;
-
-collisionCubeSize=1.0f;
-
-particleScale=2.0f;
-particleAngleScale = 0.0f;
-
-transitionTime=0.5f;
-
-base=NULL;
-baseMatrix.identity();
-baseNode=NULL;
-
 parent=NULL;
-groupID="NULL";
-
-initialLocation=Vector3f(0,0,0);
-initialRotation=Vector3f(0,0,0);
-
-color=Vector4f(1,1,1,1);
-
-sceneShaderID="color";
-
-//soundFileName="NULL";
-
+color=COLOR_WHITE;
 elapsedTime=0.0;
-birth=0.0;
 
-name="Actor";
+name="MsbObject";
 
-bInit=false;
-
-bPickable=true;
-bHidden=false;
-bRemoveable=true;
-bSelected=false;
-bDebug=false;
-
-drawType=DRAW_TEA;                     //teapot
-
-blendModeOne=GL_SRC_ALPHA;
-blendModeTwo=GL_ONE_MINUS_SRC_ALPHA;
-
-vboMeshID="NULL";
-textureID="NULL";
-
-controller=NULL;
 
 registerProperties();
-
-//Actor Menu
-menuType.push_back("10MoveButton");
-menuType.push_back("12RotateButton");
-menuType.push_back("13SetBaseButton");
-
-menuProp.push_back("NULL");
-menuProp.push_back("NULL");
-menuProp.push_back("NULL");
-
-menuIcon.push_back("icon_move");
-menuIcon.push_back("icon_rotate");
-menuIcon.push_back("icon_base");
-
-menuName.push_back("LOCATION");
-menuName.push_back("ROTATION");
-menuName.push_back("Set Base");
-
-//Render properties
-bTextured=false;
-bShadowTextured=false;
-bZTest=true;
-bZWrite=true;
-bUseShader=true;
-bComputeLight=true;
-bDrawOrientation=true;
-
-bLight=false;
-
-textTimer=renderer->currentTime;
-
-texScale        = Vector3f(1,1,1);
-texRotation     = Vector3f(0,0,0);
-texTranslation  = Vector3f(0,0,0);
-
-//for actor loading
-actorOffset=0;
-nodeOffset=0;
-
-//for actor picking
-objectID=-1.0;
 }
 
-Actor::~Actor(){
+MsbObject::~MsbObject(){
 }
 
-void Actor::registerProperties(){
-//register all properties for saving
-createMemberID("RENDERLAYER",&renderLayer,this);
+void MsbObject::registerProperties(){
 
 createMemberID("NAME",&name,this);
-
-createMemberID("LOCATION", &location, this);
-createMemberID("ROTATION", &rotation, this);
-createMemberID("SCALE", &scale, this);
-createMemberID("ORIENTATION", &orientation, this);
-
-createMemberID("TRANSFORMMATRIX",&transformMatrix,this);
-createMemberID("SCALEMATRIX",&scaleMatrix,this);
-
-createMemberID("BASE",&base,this);
-createMemberID("BASEMATRIX",&baseMatrix,this);
-createMemberID("PIVOTLOCATION", &pivotLocation, this);
-createMemberID("BASENODE",&baseNode, this);
-
-createMemberID("GROUPID",&groupID, this);
-
-createMemberID("CUBESIZE",&collisionCubeSize, this);
-createMemberID("PARTICLESCALE",&particleScale, this);
-createMemberID("PARTICLEANGLESCALE",&particleAngleScale, this);
-
-createMemberID("COLOR", &color, this);
-
-createMemberID("VBOMESHID", &vboMeshID, this);
-
-createMemberID("TEXTUREID", &textureID, this);
-createMemberID("TEXTRANSLATION",&texTranslation,this);
-createMemberID("TEXROTATION",&texRotation,this);
-createMemberID("TEXSCALE",&texScale,this);
-
-createMemberID("DRAWTYPE",&drawType,this);
-createMemberID("BLENDMODEONE",&blendModeOne,this);
-createMemberID("BLENDMODETWO",&blendModeTwo,this);
-
-createMemberID("SCENESHADERID",&sceneShaderID,this);
-
-createMemberID("BHIDDEN",&bHidden,this);
-createMemberID("BUSETRANSFORMMATRIX",&bUseTransformMatrix,this);
-
-//createMemberID("SOUNDFILENAME",&soundFileName,this);
-
-createMemberID("BSHADOWTEXTURED",&bShadowTextured,this);
-createMemberID("BCOMPUTELIGHT",&bComputeLight,this);
-
-createMemberID("BTEXTURED",&bTextured,this);
-createMemberID("BZTEST",&bZTest,this);
-createMemberID("BZWRITE",&bZWrite,this);
-createMemberID("BUSESHADER",&bUseShader,this);
-createMemberID("BPICKABLE",&bPickable,this);
-createMemberID("BDEBUG",&bDebug,this);
-
-createMemberID("BLIGHT",&bLight,this);
-
-
-createMemberID("TEXTIMER",&textTimer,this);
-
-createMemberID("MENUTYPE", &menuType, this);
-
 }
 
 
-void Actor::postLoad(){
+void MsbObject::setup(){
 
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-    bInit=true;
 }
 
-void Actor::setup(){
-
- //   baseMatrix=calcMatrix(this);
- //   matrixToVectors();
-}
-
-void Actor::trigger(Actor * other){
+void MsbObject::trigger(MsbObject * other){
 
 
 
 }
 
-void Actor::setLocation(Vector3f loc){
-
-    transformMatrix.setTranslation(loc);
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-}
-
-void Actor::setRotation(Vector3f rot){
-
-    Vector3f relTranslation=transformMatrix.getTranslation();
-    transformMatrix=Matrix4f::createRotationAroundAxis(rot.x*M_PI/180,rot.y*M_PI/180,rot.z*M_PI/180);
-    transformMatrix.setTranslation(relTranslation);
-
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-}
-
-void Actor::setRotation(Vector3f xA, Vector3f yA, Vector3f zA){
-
-    Matrix3f rotationMatrix;
-
-    rotationMatrix[0]=xA.x;
-    rotationMatrix[1]=xA.y;
-    rotationMatrix[2]=xA.z;
-
-    rotationMatrix[3]=yA.x;
-    rotationMatrix[4]=yA.y;
-    rotationMatrix[5]=yA.z;
-
-    rotationMatrix[6]=zA.x;
-    rotationMatrix[7]=zA.y;
-    rotationMatrix[8]=zA.z;
-
-    transformMatrix.setRotation(rotationMatrix);
-
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-}
-
-void Actor::addRotation(float amount, Vector3f Axis){
-
-    //using OpenGL to generate rotationMatrix
-    Matrix4f fullMat;
-
-    //push Matrix in before old transform.
-            Matrix4f oldRotation=transformMatrix;
-            Matrix4f thisMat;
-
-            //construct new full rotation Matrix
-            glMatrixMode(GL_MODELVIEW);
-            glPushMatrix();
-            glLoadIdentity();
-            //glMultMatrixf(baseMatrix);
-            glRotatef(amount,Axis.x,Axis.y,Axis.z);
-            glGetFloatv(GL_MODELVIEW_MATRIX,thisMat.data);
-            glPopMatrix();
-
-            thisMat.setTranslation(oldRotation.getTranslation());
-            oldRotation.setTranslation(Vector3f(0,0,0));
-
-            transformMatrix= thisMat * oldRotation;
-
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-}
-
-void Actor::setScale(Vector3f newScale){
-
-    scale=newScale;
-
-    scaleMatrix.identity();
-    scaleMatrix[0]=scale.x;
-    scaleMatrix[5]=scale.y;
-    scaleMatrix[10]=scale.z;
-
-    setRotationFromAxis(xAxis,yAxis,zAxis);
-}
-
-void Actor::setAbsoluteLocation(Vector3f loc){
-
-    if (base){
-        //find relative location
-        Vector3f locDiff = loc - base->baseMatrix.getTranslation();
-        //project on base's axis
-        Vector3f xA,yA,zA;
-        getAxis(&xA,&yA,&zA, base->baseMatrix);
-
-        Vector3f relLoc;
-        relLoc.x= locDiff.dotProduct(xA);
-        relLoc.y= locDiff.dotProduct(yA);
-        relLoc.z= locDiff.dotProduct(zA);
-        setLocation(relLoc);
-    }
-    else
-        setLocation(loc);
-}
-
-void Actor::getAxis(Vector3f* xA, Vector3f* yA, Vector3f* zA, Matrix4f myMatrix){
-
-    xA->x=myMatrix[0];
-    xA->y=myMatrix[1];
-    xA->z=myMatrix[2];
-
-    yA->x=myMatrix[4];
-    yA->y=myMatrix[5];
-    yA->z=myMatrix[6];
-
-    zA->x=myMatrix[8];
-    zA->y=myMatrix[9];
-    zA->z=myMatrix[10];
-
-}
-void Actor::setRotationFromAxis(Vector3f xA, Vector3f yA, Vector3f zA){
-
-    xA.normalize();
-    yA.normalize();
-    zA.normalize();
-
-/*
-    xA=xA* scale.x;
-    yA=yA* scale.y;
-    zA=zA* scale.z;
-*/
-    transformMatrix[0]=xA.x;
-    transformMatrix[1]=xA.y;
-    transformMatrix[2]=xA.z;
-
-    transformMatrix[4]=yA.x;
-    transformMatrix[5]=yA.y;
-    transformMatrix[6]=yA.z;
-
-    transformMatrix[8]=zA.x;
-    transformMatrix[9]=zA.y;
-    transformMatrix[10]=zA.z;
-
-
-
-   // finalMatrix.setTranslation(translation);
-
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-
-}
-
-Matrix4f Actor::calcMatrix(Actor* myActor){
-
-    Matrix4f myMatrix;
-    if (myActor->base){
-        myMatrix=  calcMatrix(myActor->base) * myActor->originalMatrix * myActor->transformMatrix * myActor->scaleMatrix;
-        return myMatrix;
-    }
-    else
-        return myMatrix * myActor->originalMatrix * myActor->transformMatrix * myActor->scaleMatrix;
-}
-
-Vector3f Actor::calcEuler(Matrix4f myMatrix){
-
-//calculate rotation in euler angles - maybe put this into a separate function?
-// from MATRIX and QUATERNION FAQ - http://www.flipcode.com/documents/matrfaq.html#Q37
-
-    float trx, trY, angle_y, angle_x, angle_z, C;
-
-    #define RADIANS 180/M_PI
-
-    angle_y =  -asin( myMatrix[2]);        /* Calculate Y-axis angle */
-    C           =  cos( angle_y );
-    angle_y    *= RADIANS;
-
-
-
-    if ( fabs( C ) > 0.005 )             /* Gimball lock? */
-      {
-      trx      =  myMatrix[10] / C;           /* No, so get X-axis angle */
-      trY      = -myMatrix[6]  / C;
-
-      angle_x  = atan2( trY, trx ) * RADIANS;
-
-      trx      =  myMatrix[0] / C;            /* Get Z-axis angle */
-      trY      = -myMatrix[1] / C;
-
-      angle_z  = atan2( trY, trx ) * RADIANS;
-      }
-    else                                 /* Gimball lock has occurred */
-      {
-      angle_x  = 0;                      /* Set X-axis angle to zero */
-
-      trx      = myMatrix[5];                 /* And calculate Z-axis angle */
-      trY      = myMatrix[4];
-
-      angle_z  = atan2( trY, trx ) * RADIANS;
-      }
-
-    return(Vector3f(angle_x,-angle_y,-angle_z));
-}
-
-void Actor::matrixToVectors(){
-
-    //updating axis
-    xAxis=Vector3f(baseMatrix[0],baseMatrix[1],baseMatrix[2]);
-    yAxis=Vector3f(baseMatrix[4],baseMatrix[5],baseMatrix[6]);
-    zAxis=Vector3f(baseMatrix[8],baseMatrix[9],baseMatrix[10]);
-
-    //update location
-    location=transformMatrix.getTranslation();
-
-    //update rotation
-    rotation=calcEuler(transformMatrix);
-
-}
-
-/* update and draw */
-
-
-void Actor::update(double deltaTime){
+void MsbObject::update(double deltaTime){
 
 
     elapsedTime+=deltaTime;
 
-    if (bDebug)
-        cout << "setting Mover stuff now..." << renderer->frames <<endl;
-
-    for (int i=0;i<(int)movers.size();i++){
-        if (movers[i]!=NULL && !movers[i]->bFinished){  //if we have a mover and it hasn't finished moving yet...
-            //update the mover
-            movers[i]->interpolate();
-            //update our mover buffers
-        }
-    }
-
-    for (int i=0;i<(int)movers.size();i++){
-    if (movers[i]->bFinished){
-            delete(movers[i]);
-            movers.erase(movers.begin()+i);
-        }
-    }
-
-
-    if (bDebug)
-        cout << "after Mover stuff..." << renderer->frames <<endl;
-
-    baseMatrix=calcMatrix(this);
-    matrixToVectors();
-
-    if (bDebug)
-        cout << "after updating bases..." << renderer->frames <<endl;
-
-}
-
-// updates shader uniforms
-void Actor::updateShaders(){
-
-    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
-
-    //these uniforms should always exist, but let's check maybe?
-
-    if (myShader->uniforms.find("time") != myShader->uniforms.end())
-        glUniform1fARB(myShader->uniforms["time"], renderer->currentTime);
-
-    if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
-        glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
-
-    if (myShader->uniforms.find("bComputeLight") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["bComputeLight"], (GLuint)bComputeLight);
-
-    if (myShader->uniforms.find("bSelected") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["bSelected"], (GLuint)bSelected);
-
-    if (myShader->uniforms.find("objectID") != myShader->uniforms.end())
-        glUniform1fARB(myShader->uniforms["objectID"], objectID);
-
-
-    if (myShader->uniforms.find("tex") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["tex"], 0);
-
-    if (myShader->uniforms.find("particleMultiplier") != myShader->uniforms.end())
-        glUniform1fARB(myShader->uniforms["particleMultiplier"], particleScale);
-
-    if (myShader->uniforms.find("particleAngleScale") != myShader->uniforms.end())
-        glUniform1fARB(myShader->uniforms["particleAngleScale"], particleAngleScale);
-
-    if (myShader->uniforms.find("postColor") != myShader->uniforms.end())
-        glUniform4fARB(myShader->uniforms["postColor"], color.r, color.g, color.b, color.a );
-
-    //transmit scene width/height
-    if (myShader->uniforms.find("screensize") != myShader->uniforms.end()){
-        GLint screenSize[4];
-        glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
-        glUniform1iARB(myShader->uniforms["screensize"], screenSize[3]);
-    }
-
-
-}
-
-//translates, rotates, sets up shaders and textures, then calls a more specifc draw function depending on the drawtype
-void Actor::draw(){
-}
-
-
-void Actor::drawSprite(){
-
-    if (bTextured){
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_POINT_SPRITE_ARB);
-        }
-    glBegin(GL_POINTS);
-        glVertex4f(0,0,0,scale.x*0.1);
-    glEnd();
-    if (bTextured){
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_POINT_SPRITE_ARB);
-        }
-
-}
-
-//Plane is aligned at Top Left corner
-void Actor::drawPlane(){
-}
-
-void Actor::drawParticles(){}
-
-void Actor::drawTeapot(){
-
-glColor4f(color.r,color.g,color.b,color.a);
-glFrontFace(GL_CW);
-glutSolidTeapot(scale.x/2);
-glFrontFace(GL_CCW);
-}
-
-void Actor::drawCube(){
-
-glColor4f(color.r,color.g,color.b,color.a);
-glutSolidCube(1/scale.x);
 }
 
 
 
-
-void Actor::reset(){}
+void MsbObject::reset(){}
 
 /* control start/stop */
 
-void Actor::start(){}
-void Actor::stop(){
+void MsbObject::start(){}
+void MsbObject::stop(){}
 
-    for (int i=0;i<(int)movers.size();i++){
-                delete(movers[i]);
-                movers.erase(movers.begin()+i);
-    }
-}
-
-
-void Actor::setBase(Actor* newBase){
-
-
-    if (!newBase || newBase->name=="ground" || newBase->name=="grid"){
-        Vector3f absLoc=baseMatrix.getTranslation();
-        base=NULL;
-        setLocation(absLoc);
-    }else{  //removing base connection
-        Vector3f absLoc=baseMatrix.getTranslation();
-        Vector3f newBaseAbsLoc=newBase->baseMatrix.getTranslation();
-        Vector3f newLocation=absLoc-newBaseAbsLoc;
-        base=newBase;
-        setLocation(newLocation);
-    }
-}
 
 /* saving/loading stuff */
 
 //saves all properties as defined in registerProperties
-TiXmlElement* Actor::save(TiXmlElement *root){
+TiXmlElement* MsbObject::save(TiXmlElement *root){
 
 TiXmlElement * element = new TiXmlElement( "Actor" );
 element->SetAttribute("name", name);
@@ -606,34 +82,14 @@ for ( it=property.begin() ; it != property.end(); it++ )
 return element;
 }
 
-TiXmlElement* Actor::saveAsPrefab(TiXmlElement *root){
+//msbObjects don't belong in prefabs!
+TiXmlElement* MsbObject::saveAsPrefab(TiXmlElement *root){
 
-    TiXmlElement* regularSave = save(root);
-
-    //find base
-    TiXmlElement* baseElement = regularSave->FirstChildElement("BASE");
-    baseElement->Clear();
-    char newBaseText[50];
-
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        if (base == input->selectedActors[i]){
-            sprintf(newBaseText,"actor* %i",i);
-            break;
-        }else{
-            sprintf(newBaseText,"actor* -1");
-        }
-
-    }
-    //sprintf
-    baseElement->Clear();
-    baseElement->LinkEndChild ( new TiXmlText( newBaseText));
-    //baseElement->LinkEndChild ( new TiXmlText( value));
-    return regularSave;
-    //make it relative to selectActors and not actorList!
+    return NULL;
 }
 
 //loads all properties as defined in registerProperties
-void Actor::load(TiXmlElement *myInfo){
+void MsbObject::load(TiXmlElement *myInfo){
 
     std::map <std::string, memberID>::iterator it;
 
@@ -654,7 +110,7 @@ void Actor::load(TiXmlElement *myInfo){
 }
 
 //reads out a property value as a string
-string Actor::memberToString(memberID *mID){
+string MsbObject::memberToString(memberID *mID){
 
     //Vector3f
     if (mID->memberType->name()==typeid(Vector3f).name() )
@@ -731,7 +187,7 @@ string Actor::memberToString(memberID *mID){
 }
 
 //sets a property as defined through registerProperties to a value passed in a string
-void Actor::memberFromString(memberID *mID,string value){
+void MsbObject::memberFromString(memberID *mID,string value){
 
     char * cValue;
     cValue = new char [value.size()+1];
@@ -799,7 +255,7 @@ void Actor::memberFromString(memberID *mID,string value){
 }
 
 //gets called from memberFromString! Don't use as standalone function!
-bool Actor::setStringPropertyTo(memberID * mID,string s){
+bool MsbObject::setStringPropertyTo(memberID * mID,string s){
 
     if (mID->memberType->name()==typeid(s).name())
       {
@@ -812,7 +268,7 @@ bool Actor::setStringPropertyTo(memberID * mID,string s){
 
 
 //gets called from memberFromString! Don't use as standalone function!
-bool Actor::setActorPropertyTo(memberID * mID,Actor* a){
+bool MsbObject::setActorPropertyTo(memberID * mID,Actor* a){
 
 
     const std::type_info* mType;
@@ -833,7 +289,7 @@ bool Actor::setActorPropertyTo(memberID * mID,Actor* a){
     return false;
 }
 
-bool Actor::setNodePropertyTo(memberID * mID,Node* n){
+bool MsbObject::setNodePropertyTo(memberID * mID,Node* n){
 
 
     const std::type_info* mType;
@@ -856,7 +312,7 @@ bool Actor::setNodePropertyTo(memberID * mID,Node* n){
 
 /* xml parsing */
 
-string Actor::writeVector3f(memberID* mID){
+string MsbObject::writeVector3f(memberID* mID){
     char value[512];
     Vector3f * p;
     p=(Vector3f*)mID->memberReference;
@@ -864,7 +320,7 @@ string Actor::writeVector3f(memberID* mID){
     return value;
 }
 
-string Actor::writeFloat(memberID* mID){
+string MsbObject::writeFloat(memberID* mID){
     char value[512];
     float * p;
     p=(float*)mID->memberReference;
@@ -872,7 +328,7 @@ string Actor::writeFloat(memberID* mID){
     return value;
 }
 
-string Actor::writeDouble(memberID* mID){
+string MsbObject::writeDouble(memberID* mID){
     char value[512];
     double * p;
     p=(double*)mID->memberReference;
@@ -880,7 +336,7 @@ string Actor::writeDouble(memberID* mID){
     return value;
 }
 
-string Actor::writeVector4f(memberID* mID){
+string MsbObject::writeVector4f(memberID* mID){
     char value[512];
     Vector4f * p;
     p=(Vector4f*)mID->memberReference;
@@ -888,7 +344,7 @@ string Actor::writeVector4f(memberID* mID){
     return value;
 }
 
-string Actor::writeBool(memberID* mID){
+string MsbObject::writeBool(memberID* mID){
     char value[512];
     bool * p;
     p=(bool*)mID->memberReference;
@@ -896,7 +352,7 @@ string Actor::writeBool(memberID* mID){
     return value;
 }
 
-string Actor::writeGLuint(memberID* mID){
+string MsbObject::writeGLuint(memberID* mID){
     char value[512];
     GLuint * p;
     p=(GLuint*)mID->memberReference;
@@ -904,7 +360,7 @@ string Actor::writeGLuint(memberID* mID){
     return value;
 }
 
-string Actor::writeMatrix4f(memberID* mID){
+string MsbObject::writeMatrix4f(memberID* mID){
     char value[512];
     Matrix4f mat4f;
     Matrix4f * p;
@@ -918,7 +374,7 @@ string Actor::writeMatrix4f(memberID* mID){
     return value;
 }
 
-string Actor::writeInt(memberID* mID){
+string MsbObject::writeInt(memberID* mID){
     char value[512];
     int * p;
     p=(int*)mID->memberReference;
@@ -926,7 +382,7 @@ string Actor::writeInt(memberID* mID){
     return value;
 }
 
-string Actor::writeMatrix3f(memberID* mID){
+string MsbObject::writeMatrix3f(memberID* mID){
        char value[512];
        Matrix3f * p;
        Matrix3f mat3f;
@@ -939,7 +395,7 @@ string Actor::writeMatrix3f(memberID* mID){
        return value;
 }
 
-string Actor::writeString(memberID* mID){
+string MsbObject::writeString(memberID* mID){
     string* me=(string*) mID->memberReference;
     string s="string ";
     if (me)
@@ -947,7 +403,7 @@ string Actor::writeString(memberID* mID){
     return s;
 }
 
-string Actor::writeNode(memberID* mID){
+string MsbObject::writeNode(memberID* mID){
 
     char value[512];
     Node* n;
@@ -964,7 +420,7 @@ string Actor::writeNode(memberID* mID){
     return value;
 }
 
-string Actor::writeActor(memberID* mID){
+string MsbObject::writeActor(memberID* mID){
 
     char value[512];
     Actor* a=NULL;
@@ -983,7 +439,7 @@ string Actor::writeActor(memberID* mID){
 }
 
 
-string Actor::writeVecActor(memberID* mID){
+string MsbObject::writeVecActor(memberID* mID){
 
         string fullString="vector";
         vector<Actor*> * myVec = (vector<Actor*> *)mID->memberReference;
@@ -1000,7 +456,7 @@ string Actor::writeVecActor(memberID* mID){
         return fullString;
 }
 
-string Actor::writeVecNode(memberID* mID){
+string MsbObject::writeVecNode(memberID* mID){
 
         string fullString="vector";
         vector<Node*> * myVec = (vector<Node*> *)mID->memberReference;
@@ -1014,7 +470,7 @@ string Actor::writeVecNode(memberID* mID){
         return fullString;
 }
 
-string Actor::writeVecString(memberID* mID){
+string MsbObject::writeVecString(memberID* mID){
        string fullString="vector";
         vector<string> * myVec = (vector<string> *)mID->memberReference;
         for (int i=0; i< (int)myVec->size(); i++){
@@ -1027,7 +483,7 @@ string Actor::writeVecString(memberID* mID){
         return fullString;
 }
 
-string Actor::writeVecVector3f(memberID* mID){
+string MsbObject::writeVecVector3f(memberID* mID){
        string fullString="vector";
         vector<Vector3f> * myVec = (vector<Vector3f> *)mID->memberReference;
         for (int i=0; i< (int)myVec->size(); i++){
@@ -1040,7 +496,7 @@ string Actor::writeVecVector3f(memberID* mID){
         return fullString;
 }
 
-string Actor::writeVecVector4f(memberID* mID){
+string MsbObject::writeVecVector4f(memberID* mID){
        string fullString="vector";
         vector<Vector4f> * myVec = (vector<Vector4f> *)mID->memberReference;
         for (int i=0; i< (int)myVec->size(); i++){
@@ -1055,21 +511,21 @@ string Actor::writeVecVector4f(memberID* mID){
 
 
 
-Vector3f Actor::readVector3f(char* cValue){
+Vector3f MsbObject::readVector3f(char* cValue){
 Vector3f vec3f;
 if( strncmp("vec3f ",cValue,6) == 0 )
     sscanf((cValue+6),"%f%f%f",&vec3f.x,&vec3f.y,&vec3f.z);
 return vec3f;
 }
 
-Vector4f Actor::readVector4f(char* cValue){
+Vector4f MsbObject::readVector4f(char* cValue){
 Vector4f vec4f;
 if( strncmp("vec4f ",cValue,6) == 0 )
     sscanf((cValue+6),"%f%f%f%f",&vec4f.r,&vec4f.g,&vec4f.b,&vec4f.a);
 return vec4f;
 }
 
-Matrix4f Actor::readMatrix4f(char* cValue){
+Matrix4f MsbObject::readMatrix4f(char* cValue){
 Matrix4f mat4f;
 if( strncmp("mat4f ",cValue,6) == 0 )
     sscanf((cValue+6),"%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f",&mat4f.data[0],&mat4f.data[1],&mat4f.data[2],&mat4f.data[3]
@@ -1079,7 +535,7 @@ if( strncmp("mat4f ",cValue,6) == 0 )
 return mat4f;
 }
 
-Matrix3f Actor::readMatrix3f(char* cValue){
+Matrix3f MsbObject::readMatrix3f(char* cValue){
 Matrix3f mat3f;
 if( strncmp("mat3f ",cValue,6) == 0 )
     sscanf((cValue+6),"%f%f%f%f%f%f%f%f%f", &mat3f.data[0],&mat3f.data[1],&mat3f.data[2],
@@ -1088,7 +544,7 @@ if( strncmp("mat3f ",cValue,6) == 0 )
 return mat3f;
 }
 
-bool Actor::readBool(char* cValue){
+bool MsbObject::readBool(char* cValue){
 bool b=false;
 int convBuffer;
 if( strncmp("bool ",cValue,5) == 0 )
@@ -1098,48 +554,50 @@ if (convBuffer>0)
 return (bool)b;
 }
 
-GLuint Actor::readGLuint(char* cValue){
+GLuint MsbObject::readGLuint(char* cValue){
 GLuint glui;
 if( strncmp("GLuint ",cValue,7) == 0 )
     sscanf((cValue+7),"%u",&glui);
 return glui;
 }
 
-int Actor::readInt(char* cValue){
+int MsbObject::readInt(char* cValue){
 int i;
 if( strncmp("int ",cValue,4) == 0 )
     sscanf((cValue+4),"%i",&i);
 return i;
 }
 
-Actor* Actor::readActor(char* cValue){
+Actor* MsbObject::readActor(char* cValue){
 
     int i=-1;
     if( strncmp("actor* ",cValue,7) == 0 )
         sscanf((cValue+7),"%i",&i);
 
+    //no actorOffset, as we won't be doing prefeb stuff here!
     if (i >= 0 && i < (int)renderer->actorList.size()){
-        return renderer->actorList[i+actorOffset];
+        return renderer->actorList[i];
         }
 
     return NULL;
 }
 
-Node* Actor::readNode(char* cValue){
+Node* MsbObject::readNode(char* cValue){
 
     int i=-1;
     if( strncmp("node* ",cValue,6) == 0 )
         sscanf((cValue+6),"%i",&i);
 
+    //no nodeOffset, as we won't be doing prefeb stuff here!
     if (i >= 0 && i < (int)renderer->nodeList.size()){
         cout << "found a node list reference!" << endl;
-        return renderer->nodeList[i+nodeOffset];
+        return renderer->nodeList[i];
         }
 
     return NULL;
 }
 
-float Actor::readFloat(char* cValue){
+float MsbObject::readFloat(char* cValue){
 float f;
 if( strncmp("float ",cValue,6) == 0 )
     sscanf((cValue+6),"%f",&f);
@@ -1147,14 +605,14 @@ return f;
 }
 
 //sscanf only reads float!
-double Actor::readDouble(char* cValue){
+double MsbObject::readDouble(char* cValue){
 double d;
 if( strncmp("double ",cValue,7) == 0 )
     sscanf((cValue+7),"%lf",&d);
 return d;
 }
 
-string Actor::readString(char* cValue){
+string MsbObject::readString(char* cValue){
 string s="NULL";
 if( strncmp("string ",cValue,7) == 0 )
     {
@@ -1166,7 +624,7 @@ return s;
 }
 
 
-vector<string> Actor::readVecString(char* cValue){
+vector<string> MsbObject::readVecString(char* cValue){
 
     vector<string> myVec;
 
@@ -1188,7 +646,7 @@ vector<string> Actor::readVecString(char* cValue){
     return myVec;
 }
 
-vector<Actor*> Actor::readVecActor(char* cValue){
+vector<Actor*> MsbObject::readVecActor(char* cValue){
 
     vector<Actor*> myVec;
 
@@ -1208,7 +666,7 @@ vector<Actor*> Actor::readVecActor(char* cValue){
     return myVec;
 }
 
-vector<Node*> Actor::readVecNode(char* cValue){
+vector<Node*> MsbObject::readVecNode(char* cValue){
 
     vector<Node*> myVec;
 
@@ -1229,7 +687,7 @@ vector<Node*> Actor::readVecNode(char* cValue){
     return myVec;
 }
 
-vector<Vector4f> Actor::readVecVector4f(char* cValue){
+vector<Vector4f> MsbObject::readVecVector4f(char* cValue){
 
     vector<Vector4f> myVec;
 
@@ -1250,7 +708,7 @@ vector<Vector4f> Actor::readVecVector4f(char* cValue){
     return myVec;
 }
 
-vector<Vector3f> Actor::readVecVector3f(char* cValue){
+vector<Vector3f> MsbObject::readVecVector3f(char* cValue){
 
     vector<Vector3f> myVec;
 
@@ -1277,175 +735,12 @@ vector<Vector3f> Actor::readVecVector3f(char* cValue){
     Life or Death Functions
 ****************************************/
 
-void Actor::remove(){
-
-    //remove references in other actors
-    //go through all actors
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        Actor* myActor=renderer->actorList[i];
-
-        //remove base without location change
-        if (myActor->base==this)
-            myActor->setBase(NULL);
-        //go through all properties
-        std::map <std::string, memberID>::iterator it;
-        for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
-            //find Actor* properties
-            memberID mID=it->second;
-            const std::type_info* mType;
-            mType=&(typeid(Actor*));
-            if (mID.memberType->name()==mType->name()){
-                //found an actor property!
-                Actor** pa=(Actor**)mID.memberReference;
-                //see if it references the Actor we want to delete!
-                if (*pa==this){
-                    *pa=NULL;   //and set the reference to NULL!
-                    }
-                }
-            }
-        }
-
-    //do the same for actor vectors!
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        Actor* myActor=renderer->actorList[i];
-        //go through all properties
-        std::map <std::string, memberID>::iterator it;
-        for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
-            //find Actor* properties
-            memberID mID=it->second;
-            const std::type_info* mType;
-            mType=&(typeid(vector<Actor*>));
-            if (mID.memberType->name()==mType->name()){
-                //found an actor property!
-                vector<Actor*>* pa=(vector<Actor*>*)mID.memberReference;
-                //see if it references the Actor we want to delete!
-                for (int j=0;j<(int)(*pa).size(); j++){
-                    if ((*pa)[j]==this)
-                        (*pa)[j]=NULL;   //and set the reference to NULL!
-                }
-            }
-        }
-    }
-    //remove references in buttons
-    //go through all buttons
-    for (unsigned int i=0;i<renderer->buttonList.size();i++){
-        BasicButton* myButton=renderer->buttonList[i];
-
-        //go through all properties
-        std::map <std::string, memberID>::iterator it;
-
-        for ( it=myButton->property.begin() ; it != myButton->property.end(); it++ ){
-            //find Actor* properties
-            memberID mID=it->second;
-            const std::type_info* mType;
-            mType=&(typeid(Actor*));
-            if (mID.memberType->name()==mType->name()){
-                //found an actor property!
-                Actor** pa=(Actor**)mID.memberReference;
-                //see if it references the Actor we want to delete!
-                if (*pa==this){
-                    *pa=NULL;   //and set the reference to NULL!
-                    }
-                }
-            }
-        }
-    //and the same in all buttons with Actor Vectors
-    for (int i=0;i<(int)renderer->buttonList.size();i++){
-        Actor* myActor=renderer->buttonList[i];
-        //go through all properties
-        std::map <std::string, memberID>::iterator it;
-        for ( it=myActor->property.begin() ; it != myActor->property.end(); it++ ){
-            //find Actor* properties
-            memberID mID=it->second;
-            const std::type_info* mType;
-            mType=&(typeid(vector<Actor*>));
-            if (mID.memberType->name()==mType->name()){
-                //found an actor property!
-                vector<Actor*>* pa=(vector<Actor*>*)mID.memberReference;
-                //see if it references the Actor we want to delete!
-                for (int j=0;j<(int)(*pa).size(); j++){
-                    if ((*pa)[j]==this)
-                        (*pa)[j]=NULL;   //and set the reference to NULL!
-                }
-            }
-        }
-    }
-
-    //remove references in nodes
-    //go through all nodes
-    for (unsigned int i=0;i<renderer->nodeList.size();i++){
-        Node* myNode=renderer->nodeList[i];
-        //go through all properties
-        std::map <std::string, memberID>::iterator it;
-        for ( it=myNode->property.begin() ; it != myNode->property.end(); it++ ){
-            //find Actor* properties
-            memberID mID=it->second;
-            const std::type_info* mType;
-            mType=&(typeid(Actor*));
-            if (mID.memberType->name()==mType->name()){
-                //found an actor property!
-                Actor** pa=(Actor**)mID.memberReference;
-                //see if it references the Actor we want to delete!
-                if (*pa==this){
-                    *pa=NULL;   //and set the reference to NULL!
-                    }
-                }
-            }
-        }
-
-    //remove us from selectedActors
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        if(input->selectedActors[i]==this){
-            //input->selectedActors[i]->remove();
-            input->selectedActors.erase(input->selectedActors.begin()+i);
-            }
-    }
-
-    //check if we're the current drawing!
-    if (renderer->brush->drawing && (Actor*)renderer->brush->drawing == this)
-        renderer->brush->drawing=NULL;
-
-    //remove from renderLayer list
-    for (int i=0;i<(int)renderer->layerList[renderLayer]->actorList.size();i++){
-        if (renderer->layerList[renderLayer]->actorList[i]==this)
-          renderer->layerList[renderLayer]->actorList.erase(renderer->layerList[renderLayer]->actorList.begin()+i);
-    }
-    //remove from actorList
-    for (int i=0;i<(int)renderer->actorList.size();i++){
-        if (renderer->actorList[i]==this)
-          renderer->actorList.erase(renderer->actorList.begin()+i);
-    }
+void MsbObject::remove(){
 
     delete(this);
 }
 
-//for runtime Actor creation
-void Actor::create(){ renderer->addActor(this); }
-
-bool Actor::createNewActor(string actorIDName){
-
-if (renderer->actorInfo[actorIDName].actorReference)
-  {
-  renderer->actorInfo[actorIDName].actorReference->create();
-  return true;
-  }
-else
-  return false;
-}
-
-Actor* Actor::spawn(string actorIDName){
-
-if (renderer->actorInfo[actorIDName].actorReference)
-  {
-  renderer->actorInfo[actorIDName].actorReference->create();
-  return renderer->actorList.back();
-  }
-else
-  return NULL;
-
-}
-
-bool Actor::isA(string className){
+bool MsbObject::isA(string className){
 
 //create internal class name
 int nameCount=className.length();

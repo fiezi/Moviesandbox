@@ -266,7 +266,7 @@ void UdpInput::create(){renderer->addButton(this);}
 
 
 
-void UdpInput::trigger(Actor * other){
+void UdpInput::trigger(MsbObject* other){
 
 
     if (listenSocket){

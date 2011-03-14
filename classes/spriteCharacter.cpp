@@ -40,7 +40,7 @@ ParticleSystem::setup();
 addRandomParticles(50000,1);
 }
 
-void SpriteCharacter::trigger(Actor * other){}
+void SpriteCharacter::trigger(MsbObject* other){}
 
 void SpriteCharacter::update(double deltaTime){
 

@@ -146,7 +146,7 @@ ListButton::deselect(depth);
 }
 
 
-void Action::trigger(Actor* other){
+void Action::trigger(MsbObject* other){
 
     if(other->name=="import"){
         importAction(input->inputText);

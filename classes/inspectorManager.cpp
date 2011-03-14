@@ -29,7 +29,7 @@ void InspectorManager::setup(){
   }
 }
 
-void InspectorManager::trigger(Actor * other){}
+void InspectorManager::trigger(MsbObject* other){}
 
 void InspectorManager::inspectorOpened(Inspector * other){
 

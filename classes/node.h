@@ -35,7 +35,7 @@ class Node: public ListButton{
     virtual void clickedLeft();
     virtual void clickedRight();
 
-    virtual void trigger(Actor * other);
+    virtual void trigger(MsbObject* other);
 
     virtual void start();
     virtual void stop();

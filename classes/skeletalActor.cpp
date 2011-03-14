@@ -158,7 +158,7 @@ void SkeletalActor::setup(){
 }
 
 
-void SkeletalActor::trigger(Actor * other){
+void SkeletalActor::trigger(MsbObject* other){
 
     if (other && other->name=="make Physics")
         convertToPhysicsBones();

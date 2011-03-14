@@ -456,7 +456,7 @@ void RagDoll::addUniversalJoint(dBodyID body1,dBodyID body2,Vector3f anchor,Vect
 
 
 
-void RagDoll::trigger(Actor * other){
+void RagDoll::trigger(MsbObject* other){
 
 }
 

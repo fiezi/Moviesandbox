@@ -23,7 +23,7 @@ void LoadBrushButton::clickedLeft(){
 
     input->getAllBrushes();
 
-    Actor * myParent=parent;
+    MsbObject * myParent=parent;
 
     LoadButton::clickedLeft();
 
@@ -32,7 +32,7 @@ void LoadBrushButton::clickedLeft(){
     bDrawName=false;
 }
 
-void LoadBrushButton::trigger(Actor *other){
+void LoadBrushButton::trigger(MsbObject*other){
 
     ListButton::trigger(other);
     if (other==scrollBar)

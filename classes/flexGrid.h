@@ -15,7 +15,7 @@ public:
 
     void setup();
 
-    void trigger(Actor * other);
+    void trigger(MsbObject* other);
 
     void makeGridFromParticles(ParticleSystem * p);
     void drawQuadstrip();

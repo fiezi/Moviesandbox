@@ -76,7 +76,7 @@ public:
     virtual void finishDrag();
     virtual void clickedLeft();
 
-    virtual void trigger(Actor* other);
+    virtual void trigger(MsbObject* other);
 
     virtual void registerProperties();
 

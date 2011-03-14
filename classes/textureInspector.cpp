@@ -89,7 +89,7 @@ void TextureInspector::clickedRight(){
 }
 
 
-void TextureInspector::trigger(Actor* other){
+void TextureInspector::trigger(MsbObject* other){
 
     if (other->name=="import"){
         string filename=input->openFileDialog();
