@@ -1,7 +1,7 @@
 #ifndef _INPUT_H_
 #define _INPUT_H_
 
-#include "includes.h"
+#include "msbObject.h"
 #include "x1600Renderer.h"
 #include "control.h"
 #include "inspectorManager.h"
@@ -26,7 +26,7 @@
 
 
 
-class Input{
+class Input: public MsbObject{
 
 public:
 

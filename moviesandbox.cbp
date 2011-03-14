@@ -379,6 +379,8 @@
 		<Unit filename="classes\msbLight.h">
 			<Option virtualFolder="Actors\" />
 		</Unit>
+		<Unit filename="classes\msbObject.cpp" />
+		<Unit filename="classes\msbObject.h" />
 		<Unit filename="classes\msbTool.cpp">
 			<Option virtualFolder="Tools\" />
 		</Unit>

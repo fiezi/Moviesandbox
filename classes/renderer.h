@@ -1,6 +1,7 @@
 #ifndef H_RENDERER
 #define H_RENDERER
 
+#include "msbObject.h"
 #include "content.h"
 #include "brush.h"
 #include "layer.h"
@@ -21,13 +22,12 @@
 
 using namespace std;
 
-class Input;
 class MeshData;
 class ColladaLoader;
 class SpriteMeshLoader;
 class SpriteMeshLoaderXML;
 
-class Renderer{
+class Renderer: public MsbObject{
 
 public:
 

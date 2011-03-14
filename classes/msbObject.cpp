@@ -10,9 +10,6 @@
 MsbObject::MsbObject(){
 
 
-renderer=Renderer::getInstance();
-input=Input::getInstance();
-
 parent=NULL;
 color=COLOR_WHITE;
 elapsedTime=0.0;
@@ -34,6 +31,8 @@ createMemberID("NAME",&name,this);
 
 void MsbObject::setup(){
 
+    renderer=Renderer::getInstance();
+    input=Input::getInstance();
 }
 
 void MsbObject::trigger(MsbObject * other){
