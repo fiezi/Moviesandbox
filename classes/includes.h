@@ -99,6 +99,97 @@ struct vertexData{
 
 };
 
+//handles starting and stopping of external processes
+struct externalInputData{
+
+        std::string taskName;
+        std::string filename;
+
+#ifdef TARGET_WIN32
+
+        PROCESS_INFORMATION processId;
+
+        void startProgram(){
+
+            STARTUPINFO si;
+
+            char* exePath=(char*)filename.c_str();
+            size_t pos;
+            pos=filename.find_last_of("/\\");
+            string workDir=filename.substr (0,pos);
+            //TODO - create workingDir
+            char* workingDir=(char*)workDir.c_str();
+
+
+            ZeroMemory( &si, sizeof(si) );
+            si.cb = sizeof(si);
+            ZeroMemory( &processId, sizeof(processId) );
+
+            // Start the child process.
+            if( !CreateProcess( NULL,   // No module name (use command line)
+                exePath,        // Command line
+                NULL,           // Process handle not inheritable
+                NULL,           // Thread handle not inheritable
+                FALSE,          // Set handle inheritance to FALSE
+                0,              // No creation flags
+                NULL,           // Use parent's environment block
+                workingDir,           // Use working directory
+                &si,            // Pointer to STARTUPINFO structure
+                &processId )           // Pointer to PROCESS_INFORMATION structure
+            )
+            {
+                printf( "CreateProcess failed (%d).\n", (int)GetLastError() );
+                return;
+            }
+
+            cout << "started task "<<taskName<<endl;
+        }
+
+        void stopProgram(){
+            cout << "closing task "<< taskName << endl;
+
+            TerminateProcess(processId.hProcess,0);
+            CloseHandle( processId.hProcess );
+            CloseHandle( processId.hThread );
+        }
+
+#else
+
+        pid_t processId;
+
+        void startProgram(){
+
+            if ((processId = fork()) == 0) {
+                char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
+                char * const argv[] = { app, NULL };
+                if (execve(app, argv, NULL) < 0) {
+                    perror("execv error:");
+                }
+            } else if (processId < 0) {
+                perror("fork error");
+            }
+            cout << "started task "<<taskName<<endl;
+        }
+
+        void stopProgram(){
+            //taken from: http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html
+
+            int  killReturn = killpg( processId, SIGKILL);  // Kill child process group
+
+            if( killReturn == ESRCH)      // pid does not exist
+            {
+               cout << "Group does not exist!" << endl;
+            }
+            else if( killReturn == EPERM) // No permission to send signal
+            {
+               cout << "No permission to send signal!" << endl;
+            }
+            else
+               cout << "closing task " << taskName << endl;
+        }
+#endif
+
+};
 //for keyframing and stuff...
 
 struct key{

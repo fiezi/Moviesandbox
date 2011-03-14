@@ -134,7 +134,7 @@ public:
        vector <Node*> nodeList;            //all created nodes go here
        vector <Layer*> layerList;              //all Layers
        map <string, Action*> actionList;    //all actions
-
+       map <string, externalInputData*> externalInputList;    //all external programs for data input
 
        //map <string, ObjFile> meshList;     //old Mesh List
        map <string, MeshData*> vboList;  //new Vertex Buffer Object List

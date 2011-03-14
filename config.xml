@@ -1,45 +1,7 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
 
-    <!--
-      WindowSizeX="2560"
-      WindowSizeY="720"
-      ScreenSizeX="1280"
-      ScreenSizeY="720"
-      bRenderStereo="1"
-
-      WindowSizeX="1024"
-      WindowSizeY="768"
-      ScreenSizeX="1024"
-      ScreenSizeY="768"
-      bRenderStereo="0"
-
-      WindowSizeX="3840"
-      WindowSizeY="1024"
-      ScreenSizeX="1280"
-      ScreenSizeY="1024"
-      bRenderStereo="1"
-
-      WindowSizeX="1280"
-      WindowSizeY="960"
-      ScreenSizeX="1280"
-      ScreenSizeY="960"
-      bRenderStereo="0"
-
-      WindowSizeX="1024"
-      WindowSizeY="700"
-      ScreenSizeX="1024"
-      ScreenSizeY="700"
-
-      WindowSizeX="800"
-      WindowSizeY="600"
-      ScreenSizeX="800"
-      ScreenSizeY="600"
-      -->
-
-    <Rendersettings
-
-
+     <Rendersettings
       WindowSizeX="1024"
       WindowSizeY="768"
       ScreenSizeX="1024"
@@ -62,6 +24,10 @@
       FOV="45"
       StartSceneFile="blank.scene">
     </Rendersettings>
+
+    <ExternalInput taskName="kinectInput" filenameWin32="tools/msbKinect/msbKinect.exe" filenameOSX="tools/msbKinect/msbKinect.app/" />
+    <ExternalInput taskName="audioInput" filenameWin32="tools/AudioTool.exe" filenameOSX="NULL" />
+    <ExternalInput taskName="joystickInput" filenameWin32="tools/Multi HID Input.exe" filenameOSX="NULL" />
 
     <Library Library="resources/basic.library" />
     <Library Library="resources/my.library" />

@@ -19,8 +19,7 @@ public:
         bool bKinectToolOpen;
 
         #ifdef TARGET_WIN32
-                STARTUPINFO si;
-                PROCESS_INFORMATION pi;
+                PROCESS_INFORMATION processId;
         #else
                 pid_t processId;
         #endif

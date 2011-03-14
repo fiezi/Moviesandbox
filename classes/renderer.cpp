@@ -516,6 +516,25 @@ void Renderer::loadPreferences(){
     //setting start scene
     startSceneFilename=element->Attribute("StartSceneFile");
 
+    //setting external Program connections
+    element=hRoot.FirstChild( "ExternalInput" ).Element();
+    while(element){
+        string myTaskName=element->Attribute("taskName");
+
+        //for now, just windows and OSX
+#ifdef TARGET_WIN32
+        string myTaskLocation=element->Attribute("filenameWin32");
+#else
+        string myTaskLocation=element->Attribute("filenameOSX");
+#endif
+
+        externalInputList[myTaskName]=new externalInputData;
+        externalInputList[myTaskName]->taskName=myTaskName;
+        externalInputList[myTaskName]->filename=myTaskLocation;
+        element=element->NextSiblingElement("ExternalInput");
+    }
+
+
     //setting libraries
     element=hRoot.FirstChild( "Library" ).Element();
 
@@ -912,7 +931,7 @@ int Renderer::readSharedMemory(){
         glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - 640.0)/2.0 ,(screenX - 480.0)/2.0 ,640,480,GL_RGBA, GL_FLOAT,(float*)pBuf);
         glBindTexture(GL_TEXTURE_2D,0);
 
-	   
+
         UnmapViewOfFile((void*)pBuf);
         CloseHandle(hMapFile);
 
@@ -922,25 +941,25 @@ int Renderer::readSharedMemory(){
       CloseHandle(hMapFile);
    }
 #else
-	
+
 	//attach shared memory file
 	int fd = open("/tmp/msbRamFile", O_RDWR);
 	if(fd<0){
 		cout << "Could not open '/tmp/msbRamFile'"<<endl;
 		return 0;
 	}
-	
+
 	// load the file into memory, shared, read & write access
 	void* sourcebuffer = mmap( 0, BUF_SIZE, PROT_READ|PROT_WRITE, MAP_FILE|MAP_SHARED, fd, 0);
 	if(!sourcebuffer){
 		cout << "Could not mmap '%s.vga'"<< endl;
 		return 0;
 	}
-	
+
 	// once the file is mapped, we can dispose of the filehandle
 	close(fd);
-	
-	
+
+
 	glBindTexture(GL_TEXTURE_2D,textureList["sharedMemory"]->texture);
 	//glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
 	glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - 640.0)/2.0 ,(screenX - 480.0)/2.0 ,640,480,GL_RGBA, GL_FLOAT,(float*)sourcebuffer);
