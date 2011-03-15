@@ -1,5 +1,6 @@
 #include "brush.h"
 #include "input.h"
+#include "sceneData.h"
 #include "control.h"
 #include "boneActor.h"
 #include "meshData.h"
@@ -188,6 +189,7 @@ void Brush::createNewDrawing(){
         drawing->vboMeshID=input->inputText;
         sceneData->vboList[input->inputText]=new MeshData;
 
+        cout << "new drawing name: " << input->inputText << endl;
         drawing->setup();
 }
 

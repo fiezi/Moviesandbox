@@ -20,7 +20,7 @@ void TextInputButton::setup(){
 BasicButton::setup();
 
 if (parent && buttonProperty!="NULL"){
-    memberID * mID=&parent->property[buttonProperty];
+    memberID * mID=&((Actor*)parent)->property[buttonProperty];
     if (mID)
         tooltip=memberToString(mID);
     }

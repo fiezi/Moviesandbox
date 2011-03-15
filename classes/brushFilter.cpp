@@ -3,6 +3,7 @@
 #include "brushFilter.h"
 #include "renderer.h"
 #include "input.h"
+#include "sceneData.h"
 #include "drawTool.h"
 
 
@@ -22,6 +23,7 @@ void BrushFilter::setup(){
 
     input=Input::getInstance();
     renderer=Renderer::getInstance();
+    sceneData=SceneData::getInstance();
     brush=parent->brush;
 }
 

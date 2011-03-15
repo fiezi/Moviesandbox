@@ -269,12 +269,17 @@ void Renderer::reDrawScreen(int w, int h){
 
 void Renderer::setup(){
 
+    input=Input::getInstance();
+    sceneData=SceneData::getInstance();
+
 	for (int i=0;i<FPSBUFFERSIZE;i++){
 		fpsBuffer[i]=0.0;
 	}
 
-    input=Input::getInstance();
-    sceneData=SceneData::getInstance();
+    verdana= new ofTrueTypeFont;
+	verdana->loadFont("./resources/verdana.ttf",8);
+	verdana->setLineHeight(20.0f);
+
 
 
     #ifdef TARGET_WIN32
@@ -753,7 +758,7 @@ void Renderer::draw(){
     glDisable(GL_DEPTH_TEST);
 
     setupShading("font");
-    //displayDebug();
+    displayDebug();
 
     /*
 	 *	Draw all Buttons
@@ -1184,6 +1189,7 @@ void Renderer::draw2D(){
     //finally font rendering
     setupShading("font");
 
+
     for (unsigned int i=0;i<sceneData->buttonList.size();i++){
         if (    (!Control::bRunning || sceneData->buttonList[i]->bScreenOverlay)
                 && !sceneData->buttonList[i]->bHidden){
@@ -1448,7 +1454,7 @@ setupShading("post");
 
 void Renderer::displayDebug(){
 
-    double deltaTime=0.0;
+    double allDeltaTime=0.0;
 
     //shift buffer
     for (int i=FPSBUFFERSIZE-1;i>0;i--)
@@ -1459,17 +1465,16 @@ void Renderer::displayDebug(){
 
     //calculate buffer
     for (int i=0;i<FPSBUFFERSIZE;i++)
-      deltaTime+=fpsBuffer[i];
+      allDeltaTime+=fpsBuffer[i];
 
-    deltaTime=deltaTime/FPSBUFFERSIZE;
-    setupShading("font");
+    allDeltaTime=allDeltaTime/FPSBUFFERSIZE;
 
     char writestring[30];
 
-    for (int i=0;i<30;i++){
+/*    for (int i=0;i<30;i++){
         writestring[i]=' ';
     }
-
+*/
     sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
     drawText(writestring,screenX-screenX*0.75,20 );
 
@@ -1858,8 +1863,11 @@ void Renderer::drawSprite(){
 //Display and Textdrawing
 void Renderer::drawText(string str, float x, float y){
 
- //glColor4f(1.0,1.0,1.0,1.0);
- //sceneData->verdana.drawString(str, x, y);
+    glColor4f(1.0,1.0,1.0,1.0);
+    verdana->drawString(str, x, y);
+    #ifdef BDEBUGRENDERER
+    checkOpenGLError("post-Font:", false);
+    #endif
 }
 
 

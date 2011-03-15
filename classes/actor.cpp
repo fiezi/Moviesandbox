@@ -82,8 +82,6 @@ textureID="NULL";
 
 controller=NULL;
 
-registerProperties();
-
 //Actor Menu
 menuType.push_back("10MoveButton");
 menuType.push_back("12RotateButton");
@@ -124,6 +122,8 @@ nodeOffset=0;
 
 //for actor picking
 objectID=-1.0;
+
+registerProperties();
 }
 
 Actor::~Actor(){
@@ -170,11 +170,8 @@ createMemberID("BLENDMODETWO",&blendModeTwo,this);
 createMemberID("SCENESHADERID",&sceneShaderID,this);
 
 createMemberID("BHIDDEN",&bHidden,this);
-createMemberID("BUSETRANSFORMMATRIX",&bUseTransformMatrix,this);
 
-//createMemberID("SOUNDFILENAME",&soundFileName,this);
 
-createMemberID("BSHADOWTEXTURED",&bShadowTextured,this);
 createMemberID("BCOMPUTELIGHT",&bComputeLight,this);
 
 createMemberID("BTEXTURED",&bTextured,this);
@@ -185,8 +182,6 @@ createMemberID("BPICKABLE",&bPickable,this);
 createMemberID("BDEBUG",&bDebug,this);
 
 createMemberID("BLIGHT",&bLight,this);
-
-
 createMemberID("TEXTIMER",&textTimer,this);
 
 createMemberID("MENUTYPE", &menuType, this);

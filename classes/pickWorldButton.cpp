@@ -17,7 +17,7 @@ void PickWorldButton::update(double deltaTime){
 
 if (parent && buttonProperty!="NULL"){
     bOver=true;
-    tooltip=memberToString(&parent->property[buttonProperty]);
+    tooltip=memberToString(&((Actor*)parent)->property[buttonProperty]);
     }
 }
 

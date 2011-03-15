@@ -1,8 +1,7 @@
 #include <sstream>
 
 #include "msbObject.h"
-#include "input.h"
-#include "renderer.h"
+#include "sceneData.h"
 #include "node.h"
 #include "action.h"
 #include "meshData.h"

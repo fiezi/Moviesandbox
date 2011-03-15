@@ -247,34 +247,48 @@ SceneData::SceneData(){
 
     name="SceneManager";
 
-    backgroundTex="NULL";
-    backgroundColor=Vector4f(0.25,0.5,0.8,1);
-
-    currentLayer=0;
-    startSceneFilename="";
-
-
-    mouseSensitivity=0.005;
-    moveSpeed=0.1;
-
-	deltaTime=0.0;
-	frames=0;
-
-    invertMouse=-1,
-
-    numParticles=0;
-
     savedDrawingDirName="resources/drawings/",
     savedSceneDirName="resources/scenes/",
     savedActionsDirName="resources/actions/";
 
-    gridSize=0.00010f;                      //grid!
+    currentLayer=0;
+    startSceneFilename="";
+    currentShader="color";                //currently bound shader
+
+    backgroundTex="NULL";
+    backgroundColor=Vector4f(0.25,0.5,0.8,1);
+
+    grid=NULL;                        //direct pointer to Grid
+    brush=NULL;                       //direct pointer to Brush
+
+	frames=0;
+    currentTime=0.0;
+	deltaTime=0.0;
+    physicsTime=0.0;                 //time for physics step (sometimes deltaTime is too small to advance physics...)
+
+        //Control stuff
+    mouseSensitivity=0.005;
+    moveSpeed=0.1;
+
+    content=NULL;                   //the list of things we create at program start
+    colladaLoader=NULL;       //helper object for loading meshes and animations
+    spriteMeshLoader=NULL; //helper Object for loading sprite meshes from Base64
+    spriteMeshLoaderXML=NULL; //helper Object for loading old sprite meshes from XML
 
     controller=NULL;
-    staticButton=NULL;    //in case we want to access Button functionality without actually displaying a Button
-    debugText="Moviesandbox 2.0";
+    console=NULL;
 
+    inspectorManager=NULL;
     actorMenu=NULL;
+    staticButton=NULL;    //in case we want to access Button functionality without actually displaying a Button
+
+    specialSelected=NULL;
+
+    gridSize=0.00010f;                      //grid!
+    debugText="Moviesandbox 2.0";
+    numParticles=0;
+    invertMouse=-1;
+
 
 }
 
@@ -309,9 +323,10 @@ void SceneData::setup(){
     inspectorManager=new InspectorManager;
 	controller=new Control;
 
-	verdana.loadFont("./resources/verdana.ttf",8);
-	verdana.setLineHeight(20.0f);
-
+	if (specialSelected){
+        cout << "how??????????" << endl;
+        exit(0);
+	}
 }
 
 // load render settings

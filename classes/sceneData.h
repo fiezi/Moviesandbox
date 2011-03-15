@@ -18,7 +18,6 @@
 #include "control.h"
 #include "inspectorManager.h"
 #include "listButton.h"
-#include "ofTrueTypeFont.h"
 #include "console.h"
 
 
@@ -200,8 +199,10 @@ public:
         int         numParticles;               //for debugging
 
         int         invertMouse;
-        ofTrueTypeFont   verdana;
 
+    ////////////////////////////////////////////////////////////////////////
+    // FUNCTIONS
+    ////////////////////////////////////////////////////////////////////////
 
         SceneData();
         virtual ~SceneData();

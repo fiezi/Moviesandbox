@@ -16,6 +16,9 @@
 
 #include "msbLight.h"
 
+#include "ofTrueTypeFont.h"
+
+
 
 #define BUFSIZE 512
 #define FPSBUFFERSIZE 10
@@ -149,6 +152,7 @@ public:
         Matrix4f lightProjectionMatrix;
         Matrix4f lightViewProjMatrix;
 
+        ofTrueTypeFont*   verdana;
 
 
        Renderer();
