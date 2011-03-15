@@ -3,6 +3,7 @@
 #include "loadDrawingButton.h"
 #include "renderer.h"
 #include "input.h"
+#include "sceneData.h"
 #include "drawingWidget.h"
 #include "brush.h"
 
@@ -23,7 +24,7 @@ LoadDrawingButton::~LoadDrawingButton(){}
 void LoadDrawingButton::clickedLeft(){
 
     //input->deselectButtons(0);
-    input->getAllDrawings();
+    sceneData->getAllDrawings();
     MsbObject * myParent=parent;
     listDisplayMode=3;
 
@@ -40,10 +41,10 @@ void LoadDrawingButton::assembleLoadList(){
     if (parent->isA("DrawingWidget"))
       {
       parent=NULL;
-      for (unsigned int i=0;i<input->savedDrawings.size();i++)
+      for (unsigned int i=0;i<sceneData->savedDrawings.size();i++)
         {
         listType.push_back("12AssignButton");
-        listName.push_back(input->savedDrawings[i]);
+        listName.push_back(sceneData->savedDrawings[i]);
         listProp.push_back("NULL");
         listIcon.push_back("icon_base");
         }
@@ -52,19 +53,19 @@ void LoadDrawingButton::assembleLoadList(){
       {
       listDisplayMode=0;
       parent=NULL;
-        if (buttonProperty==input->savedDrawingDirName)
-          for (unsigned int i=0;i<input->savedDrawings.size();i++)
+        if (buttonProperty==sceneData->savedDrawingDirName)
+          for (unsigned int i=0;i<sceneData->savedDrawings.size();i++)
             {
             listType.push_back("19CreateDrawingButton");
-            listName.push_back(input->savedDrawings[i]);
+            listName.push_back(sceneData->savedDrawings[i]);
             listProp.push_back(buttonProperty);
             listIcon.push_back("icon_props");
             }
         else
-          for (unsigned int i=0;i<input->savedCharacters.size();i++)
+          for (unsigned int i=0;i<sceneData->savedCharacters.size();i++)
             {
             listType.push_back("19CreateDrawingButton");
-            listName.push_back(input->savedCharacters[i]);
+            listName.push_back(sceneData->savedCharacters[i]);
             listProp.push_back(buttonProperty);
             listIcon.push_back("icon_character");
             }
@@ -91,51 +92,51 @@ void LoadDrawingButton::trigger(MsbObject* other){
 
 void LoadDrawingButton::loadFile(string filename){
 
-//todo: clear previous drawing!
-//if (DrawingWidget::brush)
-//  DrawingWidget::brush->setLocation(newLocation);
-std::string stringName=input->savedDrawingDirName;
-stringName.append(filename);
+    //todo: clear previous drawing!
+    //if (DrawingWidget::brush)
+    //  DrawingWidget::brush->setLocation(newLocation);
+    std::string stringName=sceneData->savedDrawingDirName;
+    stringName.append(filename);
 
-TiXmlDocument doc( stringName );
+    TiXmlDocument doc( stringName );
 
-if (!doc.LoadFile()) return;
+    if (!doc.LoadFile()) return;
 
-cout << "Loading Drawing..." <<endl;
+    cout << "Loading Drawing..." <<endl;
 
-TiXmlHandle hDoc(&doc);
-TiXmlElement * myInfo;
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * myInfo;
 
-myInfo=hDoc.FirstChildElement().Element();
-// should always have a valid root but handle gracefully if it doesn't
-if (!myInfo) return;
+    myInfo=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!myInfo) return;
 
-TiXmlHandle hRoot(0);
-// save this for later
-hRoot=TiXmlHandle(myInfo);
+    TiXmlHandle hRoot(0);
+    // save this for later
+    hRoot=TiXmlHandle(myInfo);
 
-//***********************************************************************
-//Assemble Actor List
-//***********************************************************************
-
-
-  TiXmlElement* element=hRoot.FirstChild( "Actor" ).Element();
-  string myType;
-  for( ; element!=NULL; element=element->NextSiblingElement())
-	{
-    //cout << element->Value() << " " << element->GetText() <<endl;
-	myType=element->GetText();
-	Actor * A=sceneData->actorInfo[myType].actorReference;
-	A->create();
-    A=sceneData->actorList.back();
     //***********************************************************************
-    //Fill up Properties
+    //Assemble Actor List
     //***********************************************************************
-    A->load(element);
-    A->setup();
-    if (sceneData->brush)
-      sceneData->brush->drawing=(SkeletalActor*) A;
-    }
+
+
+      TiXmlElement* element=hRoot.FirstChild( "Actor" ).Element();
+      string myType;
+      for( ; element!=NULL; element=element->NextSiblingElement())
+        {
+        //cout << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        Actor * A=sceneData->actorInfo[myType].actorReference;
+        A->create();
+        A=sceneData->actorList.back();
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        A->load(element);
+        A->setup();
+        if (sceneData->brush)
+          sceneData->brush->drawing=(SkeletalActor*) A;
+        }
 }
 
 void LoadDrawingButton::create(){sceneData->addButton(this);}

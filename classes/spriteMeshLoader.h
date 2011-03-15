@@ -4,6 +4,7 @@
 
 #include "msbObject.h"
 #include "meshData.h"
+#include "skeletalActor.h"
 
 using namespace std;
 

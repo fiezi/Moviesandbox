@@ -59,7 +59,7 @@ void UserPopUp::focusClick(){
     //cleanUp
     //we need to pop back before adding the action!
     sceneData->buttonList.pop_back();
-    input->staticButton=NULL;
+    sceneData->staticButton=NULL;
 
     //clean up
     input->inputText="";

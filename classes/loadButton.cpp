@@ -1,6 +1,6 @@
 #include "loadButton.h"
 #include "renderer.h"
-#include "input.h"
+#include "sceneData.h"
 
 
 
@@ -22,7 +22,7 @@ void LoadButton::clickedLeft(){
     listIcon.clear();
 
     bDrawName=true;
-    input->getAllScenes();
+    sceneData->getAllScenes();
 
     assembleLoadList();
 
@@ -33,10 +33,10 @@ void LoadButton::clickedLeft(){
 void LoadButton::assembleLoadList(){
 
     parent=NULL;
-    for (unsigned int i=0;i<input->savedScenes.size();i++)
+    for (unsigned int i=0;i<sceneData->savedScenes.size();i++)
       {
         listType.push_back("12AssignButton");
-        listName.push_back(input->savedScenes[i]);
+        listName.push_back(sceneData->savedScenes[i]);
         listProp.push_back("NULL");
         listIcon.push_back("icon_flat");
       }
@@ -53,7 +53,7 @@ void LoadButton::trigger(MsbObject* other){
 
 void LoadButton::loadFile(string filename){
 
-input->loadAll(filename);
+    sceneData->loadAll(filename);
 }
 
 void LoadButton::create(){sceneData->addButton(this);}

@@ -38,8 +38,8 @@ Node::stop();
 
 void ConsoleCommandNode::execute(){
 
-    if (input->console->functionList[consoleCommand])
-        input->console->callFunction(consoleCommand);
+    if (sceneData->console->functionList[consoleCommand])
+        sceneData->console->callFunction(consoleCommand);
     else
         cout <<"Command not found!" << endl;
 

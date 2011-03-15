@@ -160,7 +160,7 @@ void X1600Renderer::drawColor3D(Layer* currentLayer){
     }
 
 	//draw helpers - brush, grid, etc... if we're not running
-    if (!input->controller->bRunning){
+    if (!sceneData->controller->bRunning){
 
         for (int i=0;i<(int)sceneData->helperList.size();i++){
             if (!sceneData->helperList[i]->bHidden){
@@ -209,7 +209,7 @@ void X1600Renderer::drawData3D(Layer* currentLayer){
 
 
 	//draw helpers - brush, grid, etc... if we're not running
-    if (!input->controller->bRunning){
+    if (!sceneData->controller->bRunning){
 
         for (int i=0;i<(int)sceneData->helperList.size();i++){
             if (!sceneData->helperList[i]->bHidden && sceneData->helperList[i]->bPickable){

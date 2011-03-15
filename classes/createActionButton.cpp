@@ -54,7 +54,7 @@ void CreateActionButton::focusClick(){
     if (!parent){
         cout << "wrong parent!" << endl;
         sceneData->buttonList.pop_back();
-        input->staticButton=NULL;
+        sceneData->staticButton=NULL;
         return;
         }
 
@@ -82,7 +82,7 @@ void CreateActionButton::focusClick(){
     //cleanUp
     //we need to pop back before adding the action!
     sceneData->buttonList.pop_back();
-    input->staticButton=NULL;
+    sceneData->staticButton=NULL;
 
     sceneData->buttonList.push_back(newAction);
 

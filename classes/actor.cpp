@@ -616,8 +616,8 @@ TiXmlElement* Actor::saveAsPrefab(TiXmlElement *root){
     baseElement->Clear();
     char newBaseText[50];
 
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        if (base == input->selectedActors[i]){
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+        if (base == sceneData->selectedActors[i]){
             sprintf(newBaseText,"actor* %i",i);
             break;
         }else{
@@ -804,10 +804,10 @@ void Actor::remove(){
         }
 
     //remove us from selectedActors
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        if(input->selectedActors[i]==this){
-            //input->selectedActors[i]->remove();
-            input->selectedActors.erase(input->selectedActors.begin()+i);
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+        if(sceneData->selectedActors[i]==this){
+            //sceneData->selectedActors[i]->remove();
+            sceneData->selectedActors.erase(sceneData->selectedActors.begin()+i);
             }
     }
 

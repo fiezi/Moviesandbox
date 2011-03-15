@@ -51,7 +51,7 @@ Brush::~Brush(){
 void Brush::update(double deltaTime){
 
 	Actor::update(deltaTime);
-//    controller =input->controller;
+//    controller =sceneData->controller;
 
     return;
 }
@@ -119,10 +119,10 @@ void Brush::skin(){
         if (scale.x * 0.1>distance.length()){
 
             ///single bone skinning
-            if (input->selectedActors.size()==1){
+            if (sceneData->selectedActors.size()==1){
                 //find bone
                 for (int boneID=0; boneID<(int)skel->bones.size();boneID++)
-                    if (skel->bones[boneID]==input->selectedActors[0]){
+                    if (skel->bones[boneID]==sceneData->selectedActors[0]){
                         if (input->pressedRight)
                             eraseSingleSkin(pID,boneID);                       //erase weights with this bone
                         else
@@ -183,7 +183,7 @@ void Brush::createNewDrawing(){
 		drawing->setLocation(input->lastMouse3D);
         drawing->update(0.0);
         cout << "New Drawing: " << drawing->location << endl;
-        drawing->controller=input->controller;
+        drawing->controller=sceneData->controller;
         drawing->name=input->inputText;
         drawing->vboMeshID=input->inputText;
         sceneData->vboList[input->inputText]=new MeshData;

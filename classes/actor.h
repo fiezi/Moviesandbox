@@ -1,7 +1,6 @@
 #ifndef H_ACTOR
 #define H_ACTOR
 
-#include "includes.h"
 #include "msbObject.h"
 
 #define DRAW_PLANE          0
@@ -105,7 +104,7 @@ public:
        bool bHidden;                                //is rendered
        bool bPickable;                              //can be clicked on (mouse)
        bool bRemoveable;                            //cannot be removed...
-       bool bSelected;                              //is in input->selectedActors
+       bool bSelected;                              //is in sceneData->selectedActors
 
        //Render options
        bool bTextured,                              //uses Texture Map in TextureUnit 0

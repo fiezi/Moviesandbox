@@ -26,10 +26,10 @@ void BoneTool::start(){
     brush=sceneData->brush;
     brush->bHidden=false;
 	//use selectedActor as drawing
-	if (input->selectedActors.size()>0){
-		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(input->selectedActors[0]);
+	if (sceneData->selectedActors.size()>0){
+		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
 		if (skel){
-			input->specialSelected=skel;
+			sceneData->specialSelected=skel;
 			brush->drawing=skel;
 		}
 	}
@@ -41,14 +41,14 @@ void BoneTool::start(){
 		brush->drawing->drawType=DRAW_PARTICLES;
 
 		//if we already have bones, reset transforms
-        if (sceneData->vboList[input->specialSelected->vboMeshID]->bIsSkeletal){
+        if (sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal){
 
         //if we have an original Matrix, then reset our transformMatrices!
             Matrix4f identityMatrix;
             identityMatrix.identity();
 
             //reset Matrices...
-            for (int i=0;i<(int)sceneData->vboList[input->specialSelected->vboMeshID]->bones.size();i++){
+            for (int i=0;i<(int)sceneData->vboList[sceneData->specialSelected->vboMeshID]->bones.size();i++){
                 if (sceneData->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
                     sceneData->brush->drawing->bones[i]->transformMatrix=sceneData->brush->drawing->bones[i]->originalMatrix;
                     sceneData->brush->drawing->bones[i]->originalMatrix.identity();
@@ -58,7 +58,7 @@ void BoneTool::start(){
     }
 	//no useable drawing found
     else{
-        input->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
+        sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
 //TODO: make WidgetHandler!
 //        boneWidget->closeWidget();
@@ -143,6 +143,6 @@ void BoneTool::save(){
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
 		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
-		input->addToLibrary(myElement);
+		sceneData->addToLibrary(myElement);
 		free(myElement);
 }

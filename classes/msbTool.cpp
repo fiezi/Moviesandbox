@@ -22,7 +22,7 @@ void MsbTool::setup(){
     input=Input::getInstance();
     sceneData=SceneData::getInstance();
 
-    controller=input->controller;
+    controller=sceneData->controller;
 }
 
 

@@ -1,8 +1,6 @@
 #ifndef H_CONTROL
 #define H_CONTROL
 
-
-#include "includes.h"
 #include "actor.h"
 
 #include "msbTool.h"
@@ -31,6 +29,7 @@
 #define WALKINGCAMERA 1
 
 class Input;
+class SceneData;
 class Node;
 
 

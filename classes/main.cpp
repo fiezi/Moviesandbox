@@ -179,6 +179,7 @@ int main(int argc, char** argv){
 #ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
 #endif
+
     createSplashScreen();
     selectRenderer();
 
@@ -202,6 +203,8 @@ int main(int argc, char** argv){
 
     //focus back on our window
     glutShowWindow();
+
+	glutIgnoreKeyRepeat(1);
 
     //window stuff
 	glutIdleFunc(idle);

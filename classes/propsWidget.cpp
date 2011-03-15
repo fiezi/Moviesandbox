@@ -17,20 +17,20 @@ void PropsWidget::setup(){
 void PropsWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
-    //input->controller->switchTool(TOOL_SPAWN);
+    //sceneData->controller->switchTool(TOOL_SPAWN);
     //listButton[1]->color=COLOR_RED;
 }
 
 void PropsWidget::closeWidget(){
 
     //input->deselectActors();
-    input->controller->switchTool(input->controller->oldTool);
+    sceneData->controller->switchTool(sceneData->controller->oldTool);
 }
 
 void PropsWidget::trigger(MsbObject* other){
 
     if (other->name=="Spawn Meshes"){
-        input->controller->switchTool(TOOL_SPAWN);
+        sceneData->controller->switchTool(TOOL_SPAWN);
     }
 }
 

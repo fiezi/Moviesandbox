@@ -70,13 +70,13 @@ void BasicButton::drawTooltip(){
 if (bOver)
   {
   if(tooltip=="" && !bDrawName)
-    input->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+    renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
   else
-    input->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+    renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
   }
 //drawname is not a tooltip! So no tooltipOffset here!
 if (bDrawName)
-    input->drawText((char*)name.c_str(), location.x+2,location.y+scale.y/2+2.0);
+    renderer->drawText((char*)name.c_str(), location.x+2,location.y+scale.y/2+2.0);
 bOver=false;
 }
 

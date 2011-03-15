@@ -27,10 +27,10 @@ void SkinTool::start(){
 
 
 	//use selectedActor as drawing
-	if (input->selectedActors.size()>0){
-		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(input->selectedActors[0]);
+	if (sceneData->selectedActors.size()>0){
+		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
 		if (skel){
-			input->specialSelected=skel;
+			sceneData->specialSelected=skel;
 			brush->drawing=skel;
 		}
 	}
@@ -52,9 +52,9 @@ void SkinTool::start(){
     }
 	//no useable drawing found
     else{
-        input->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
+        sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
-        //input->controller->switchTool(TOOL_SELECT);
+        //sceneData->controller->switchTool(TOOL_SELECT);
         input->bTextInput=false;
     }
 
@@ -92,7 +92,7 @@ void SkinTool::stop(){
     TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
     myElement->SetAttribute("meshID",skel->vboMeshID);
     myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
-    input->addToLibrary(myElement);
+    sceneData->addToLibrary(myElement);
 
 	skel->drawType=DRAW_VBOMESH;
 
@@ -145,15 +145,15 @@ void SkinTool::selectActors(int btn, Actor* other){
 
 
     //don't do anything to selection if we're just finishing a move or rotate
-    if (input->actorMenu && input->actorMenu->listButton.size()>0)
+    if (sceneData->actorMenu && sceneData->actorMenu->listButton.size()>0)
         return;
 
 
     SkeletalActor* skel=dynamic_cast<SkeletalActor*>(other);
        //clicked on an already existing drawing:
-    if (skel && skel!=input->specialSelected){
+    if (skel && skel!=sceneData->specialSelected){
         input->deselectActors();
-        input->specialSelected=skel;
+        sceneData->specialSelected=skel;
 
         //if we had a previous drawing, make sure all of its bones are pickable!
         if (brush->drawing){
@@ -182,7 +182,7 @@ void SkinTool::selectActors(int btn, Actor* other){
         for (int i=0;i<(int)brush->drawing->bones.size();i++){
             if (input->worldTarget==brush->drawing->bones[i]){
                 input->deselectActors();
-                input->selectedActors.push_back(input->worldTarget);
+                sceneData->selectedActors.push_back(input->worldTarget);
                 input->worldTarget->bSelected=true;
             }
         }
@@ -194,9 +194,9 @@ void SkinTool::selectActors(int btn, Actor* other){
 
     //right Button creates menu if on selected actor
     if (btn==MOUSEBTNRIGHT && input->worldTarget && input->worldTarget->bSelected){
-        for (int i=0;i<(int)input->selectedActors.size();i++)
-            if (input->worldTarget==input->selectedActors[i])
-                input->createActorMenu();
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++)
+            if (input->worldTarget==sceneData->selectedActors[i])
+                sceneData->createActorMenu();
     }
 
 }
@@ -237,10 +237,10 @@ void SkinTool::paint(){
         if (brush->scale.x * 0.1>distance.length()){
 
             ///single bone skinning
-            if (input->selectedActors.size()==1){
+            if (sceneData->selectedActors.size()==1){
                 //find bone
                 for (int boneID=0; boneID<(int)skel->bones.size();boneID++)
-                    if (skel->bones[boneID]==input->selectedActors[0]){
+                    if (skel->bones[boneID]==sceneData->selectedActors[0]){
                         if (input->pressedRight)
                             eraseSingleSkin(pID,boneID);                       //erase weights with this bone
                         else
@@ -261,7 +261,7 @@ void SkinTool::save(){
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
 		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
-		input->addToLibrary(myElement);
+		sceneData->addToLibrary(myElement);
 		free(myElement);
 }
 

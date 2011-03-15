@@ -46,14 +46,14 @@ void RotateButton::clickedLeft(){
 
     Actor* actorParent=(Actor*)parent;
 
-    if (actorParent==input->controller){
+    if (actorParent==sceneData->controller){
         fineRotation.push_back(actorParent->rotation);
         fineLocation.push_back(actorParent->location);
     }
     else{
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            fineRotation.push_back(input->selectedActors[i]->rotation);
-            fineLocation.push_back(input->selectedActors[i]->location);
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            fineRotation.push_back(sceneData->selectedActors[i]->rotation);
+            fineLocation.push_back(sceneData->selectedActors[i]->location);
         }
     }
 

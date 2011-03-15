@@ -2,6 +2,7 @@
 
 #include "navTool.h"
 #include "renderer.h"
+#include "sceneData.h"
 #include "input.h"
 
 NavTool::NavTool(){
@@ -37,7 +38,7 @@ void NavTool::stop(){
 
     #ifdef TARGET_WIN32
 
-	SetCursorPos((int)(input->windowX+oldMousePos.x), (int)(input->windowY+oldMousePos.y));
+	SetCursorPos((int)(renderer->windowX+oldMousePos.x), (int)(renderer->windowY+oldMousePos.y));
     #endif
 
 }
@@ -71,7 +72,7 @@ void NavTool::mouseReleased(int btn){
 
     #ifdef TARGET_WIN32
 
-	SetCursorPos((int)(input->windowX+oldMousePos.x), (int)(input->windowY+oldMousePos.y));
+	SetCursorPos((int)(renderer->windowX+oldMousePos.x), (int)(renderer->windowY+oldMousePos.y));
     #endif
 
 }
@@ -127,7 +128,7 @@ void NavTool::processMove(double deltaTime){
 
 
     ///moving
-    Actor* controlledActor = input->controller->controlledActor;
+    Actor* controlledActor = sceneData->controller->controlledActor;
 
     Vector3f myTranslation=controlledActor->baseMatrix.getTranslation();
 
@@ -142,13 +143,13 @@ void NavTool::processMove(double deltaTime){
     controlledActor->setLocation(myTranslation);
     controlledActor->orientation=controlledActor->zAxis;
 
-    input->controller->lookPoint=myTranslation+controlledActor->zAxis;
+    sceneData->controller->lookPoint=myTranslation+controlledActor->zAxis;
     //up Point is absolute!
-    input->controller->upPoint=controlledActor->yAxis;
+    sceneData->controller->upPoint=controlledActor->yAxis;
 
     //TODO: why is this necessary?
-    if (controlledActor==input->controller)
-        input->controller->upPoint=Vector3f(0,1,0);
+    if (controlledActor==sceneData->controller)
+        sceneData->controller->upPoint=Vector3f(0,1,0);
 
 
 }

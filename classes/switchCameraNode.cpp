@@ -17,7 +17,7 @@ SwitchCameraNode::SwitchCameraNode(){
 
     color=Vector4f(0.5,0.5,0.5,1.0);
     registerProperties();
-    controller=input->controller;
+    controller=sceneData->controller;
     }
 
 SwitchCameraNode::~SwitchCameraNode(){}
@@ -42,12 +42,12 @@ void SwitchCameraNode::stop(){
         controller->switchTool(TOOL_SELECT);
         cameraActor->drawType=DRAW_VBOMESH;
         Node::stop();
-        input->controller->controlledActor=input->controller;
+        sceneData->controller->controlledActor=sceneData->controller;
     }
 }
 
 void SwitchCameraNode::execute(){
-    input->controller->controlledActor=cameraActor;
+    sceneData->controller->controlledActor=cameraActor;
     nextNode();
 }
 

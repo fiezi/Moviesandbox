@@ -89,6 +89,6 @@ void Console::setZero(string args){
 
 
     cout << "setting to zero..." << endl;
-    input->controller->controlledActor->setRotation(Vector3f(0,0,0));
-//    input->controller->navBtn->processMove(0);
+    sceneData->controller->controlledActor->setRotation(Vector3f(0,0,0));
+//    sceneData->controller->navBtn->processMove(0);
 }

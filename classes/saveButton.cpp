@@ -1,5 +1,6 @@
 #include "saveButton.h"
 #include "input.h"
+#include "sceneData.h"
 
 
 
@@ -16,7 +17,7 @@ SaveButton::~SaveButton(){
 
 void SaveButton::clickedLeft(){
 
-    input->getAllScenes();
+    sceneData->getAllScenes();
 
 
     listType.clear();
@@ -42,10 +43,10 @@ void SaveButton::clickedLeft(){
 
 void SaveButton::assembleSaveList(){
 
-    for (unsigned int i=0;i<input->savedScenes.size();i++)
+    for (unsigned int i=0;i<sceneData->savedScenes.size();i++)
       {
         listType.push_back("12AssignButton");
-        listName.push_back(input->savedScenes[i]);
+        listName.push_back(sceneData->savedScenes[i]);
         listProp.push_back("NULL");
         listIcon.push_back("icon_flat");
       }
@@ -72,7 +73,7 @@ void SaveButton::trigger(MsbObject* other){
 
 void SaveButton::saveFile(string filename){
 
-input->saveAll(filename);
+    sceneData->saveAll(filename);
 }
 
 void SaveButton::create(){sceneData->addButton(this);}

@@ -40,7 +40,7 @@ Node::stop();
 void TriggerEventNode::execute(){
 
         if (eventName!="NULL")
-            input->eventTrigger.push_back(eventName);
+            sceneData->eventTrigger.push_back(eventName);
         nextNode();
 }
 

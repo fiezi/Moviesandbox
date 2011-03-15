@@ -1,10 +1,12 @@
 #include "pilot.h"
 #include "udpInput.h"
 #include "input.h"
+#include "sceneData.h"
 
 Pilot::Pilot(){
 
 input=Input::getInstance();
+sceneData=SceneData::getInstance();
 parent=NULL;
 mutex=NULL;
 
@@ -44,7 +46,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 #ifdef TARGET_MACOSX
 				 pthread_mutex_lock(mutex);
 #endif
-                input->eventTrigger.push_back(event);
+                sceneData->eventTrigger.push_back(event);
 
 #ifdef TARGET_WIN32
                 ReleaseMutex( *mutex );
@@ -69,7 +71,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 #endif
 				 char str[16];
                 sprintf(str,"%i", parent->channel);
-                input->eventTrigger.push_back(str);
+                sceneData->eventTrigger.push_back(str);
 
 #ifdef TARGET_WIN32
                 ReleaseMutex( *mutex );
@@ -210,9 +212,9 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                             //map values
                             if (parent->targetMin.size()>numInputs && parent->targetMin[numInputs]!=NULL){
 
-                                vectorContainer.x=input->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x, x);
-                                vectorContainer.y=input->setToRange(parent->targetMin[numInputs].y,parent->targetMax[numInputs].y, y);
-                                vectorContainer.z=input->setToRange(parent->targetMin[numInputs].z,parent->targetMax[numInputs].z, z);
+                                vectorContainer.x=sceneData->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x, x);
+                                vectorContainer.y=sceneData->setToRange(parent->targetMin[numInputs].y,parent->targetMax[numInputs].y, y);
+                                vectorContainer.z=sceneData->setToRange(parent->targetMin[numInputs].z,parent->targetMax[numInputs].z, z);
                                 //cout << "mapping the values to " << parent->targetRange[numInputs] << endl;
                             }
                             else
@@ -243,7 +245,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                           parent->inputConnectButtons[numInputs]->color=Vector4f(number,number,number,1.0);
 
                           //map values
-                          number=input->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x,number);
+                          number=sceneData->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x,number);
 
                           //update value
                           //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.

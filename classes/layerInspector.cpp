@@ -145,7 +145,7 @@ void LayerInspector::trigger(MsbObject* other){
         if (other==actorButtons[i]){
             input->worldTarget=actorReferences[i];
 
-            input->controller->currentTool->selectActors(MOUSEBTNLEFT,input->worldTarget);
+            sceneData->controller->currentTool->selectActors(MOUSEBTNLEFT,input->worldTarget);
         }
     }
 }

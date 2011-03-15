@@ -100,11 +100,11 @@ void Content::createConsole(){
 
     //console
     but= new Console;
-    but->setLocation(Vector3f( 0, input->screenY-but->scale.y, 0));
+    but->setLocation(Vector3f( 0, renderer->screenY-but->scale.y, 0));
     but->bTextured=false;
     but->sceneShaderID="color";
     but->setup();
-    input->console=(Console*)but;
+    sceneData->console=(Console*)but;
     sceneData->buttonList.push_back(but);
 }
 
@@ -156,8 +156,8 @@ void Content::createSelectButton(int x, int y){
     but->textureID="icon_select";
     but->color=COLOR_RED;
     but->setup();
-    but->parent=input->controller;
-    input->controller->myTools[TOOL_SELECT]->myBtn=but;
+    but->parent=sceneData->controller;
+    sceneData->controller->myTools[TOOL_SELECT]->myBtn=but;
     sceneData->buttonList.push_back(but);
 }
 
@@ -173,8 +173,8 @@ void Content::createNavButton(int x, int y){
     but->setLocation(but->location);
     but->textureID="icon_fly";
     but->setup();
-    but->parent=input->controller;
-    input->controller->myTools[TOOL_NAV]->myBtn=but;
+    but->parent=sceneData->controller;
+    sceneData->controller->myTools[TOOL_NAV]->myBtn=but;
     sceneData->buttonList.push_back(but);
 
 }
@@ -193,8 +193,8 @@ void Content::createGridButton(int x, int y){
     but->setLocation(but->location);
     but->textureID="icon_grid";
     but->setup();
-    but->parent=input->controller;
-    input->controller->myTools[TOOL_GRID]->myBtn=but;
+    but->parent=sceneData->controller;
+    sceneData->controller->myTools[TOOL_GRID]->myBtn=but;
     sceneData->buttonList.push_back(but);
 
 }
@@ -213,8 +213,8 @@ void Content::createPropList(int x, int y){
     lbut->textureID="icon_props";
     lbut->name="propsMenu";
 
-    input->controller->myTools[TOOL_SPAWN]->myBtn=lbut;
-    input->controller->myTools[TOOL_SPAWN]->highlightBtn="Spawn Meshes";
+    sceneData->controller->myTools[TOOL_SPAWN]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_SPAWN]->highlightBtn="Spawn Meshes";
     //populate propList
 
     lbut->listType.push_back("17CreateActorButton");
@@ -267,9 +267,9 @@ void Content::createDrawWidget(int x, int y){
     lbut->textureID="icon_brush";
 
     //assign Widget to corresponding tools
-    input->controller->myTools[TOOL_DRAW]->myBtn=lbut;
-    input->controller->myTools[TOOL_CALLIGRAPHY]->myBtn=lbut;
-    input->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_DRAW]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_CALLIGRAPHY]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
     lbut->setup();
     sceneData->buttonList.push_back(lbut);
 
@@ -341,8 +341,8 @@ void Content::createBoneWidget(int x, int y){
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
     lbut->textureID="icon_character";
-    input->controller->myTools[TOOL_SKIN]->myBtn=lbut;
-    input->controller->myTools[TOOL_BONE]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_SKIN]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_BONE]->myBtn=lbut;
     lbut->setup();
     sceneData->buttonList.push_back(lbut);
 
@@ -607,7 +607,7 @@ void Content::createInspectors(){
     lbut->textureID="icon_timeline";
     lbut->name="TimelineInspector";
 
-    input->controller->timeline=(TimelineInspector*)lbut;
+    sceneData->controller->timeline=(TimelineInspector*)lbut;
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
 }

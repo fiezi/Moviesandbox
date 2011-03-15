@@ -4,7 +4,7 @@
 
 #include "inspector.h"
 #include "renderer.h"
-#include "input.h"
+#include "sceneData.h"
 #include "inspectorManager.h"
 
 Inspector::Inspector(){
@@ -43,12 +43,12 @@ void Inspector::setup(){
 
     if (tabHeight==0){
         backgroundButton->scale.x=350;
-        backgroundButton->scale.y=input->screenY-location.y;
+        backgroundButton->scale.y=renderer->screenY-location.y;
         backgroundButton->location.x=location.x+scale.x;
         backgroundButton->location.y=location.y;
     }else{
-        backgroundButton->scale.x=input->screenX;
-        backgroundButton->scale.y=input->screenY;
+        backgroundButton->scale.x=renderer->screenX;
+        backgroundButton->scale.y=renderer->screenY;
         backgroundButton->location.x=location.x;
         backgroundButton->location.y=location.y+scale.y;
     }
@@ -64,7 +64,7 @@ void Inspector::setup(){
     //create inspectorButtons
     createInspectorButtons();
 
-    myManager=input->inspectorManager;
+    myManager=sceneData->inspectorManager;
 
 }
 

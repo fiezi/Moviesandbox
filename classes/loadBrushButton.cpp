@@ -3,6 +3,7 @@
 #include "loadBrushButton.h"
 #include "renderer.h"
 #include "input.h"
+#include "sceneData.h"
 #include "drawingWidget.h"
 
 LoadBrushButton::LoadBrushButton(){
@@ -21,7 +22,7 @@ void LoadBrushButton::clickedLeft(){
     input->deselectButtons(0);
     bDrawName=true;
 
-    input->getAllBrushes();
+    sceneData->getAllBrushes();
 
     MsbObject * myParent=parent;
 
@@ -46,16 +47,16 @@ void LoadBrushButton::trigger(MsbObject*other){
 void LoadBrushButton::assembleLoadList(){
 
     parent=NULL;
-    for (unsigned int i=0;i<input->userBrushes.size();i++)
+    for (unsigned int i=0;i<sceneData->userBrushes.size();i++)
       {
         listType.push_back("12AssignButton");
-        listName.push_back(input->userBrushes[i]);
+        listName.push_back(sceneData->userBrushes[i]);
         listProp.push_back("NULL");
 
         string filename="resources/brushes/";
-        filename.append(input->userBrushes[i]);
-        renderer->LoadTextureTGA(filename,false, true, input->userBrushes[i]);
-        listIcon.push_back(input->userBrushes[i]);
+        filename.append(sceneData->userBrushes[i]);
+        renderer->LoadTextureTGA(filename,false, true, sceneData->userBrushes[i]);
+        listIcon.push_back(sceneData->userBrushes[i]);
       }
 }
 

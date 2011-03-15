@@ -51,7 +51,7 @@ ParticleSystem::update(deltaTime);
 
 //project orientation of camera
 
-Vector3f camOrient=input->controller->controlledActor->orientation;
+Vector3f camOrient=sceneData->controller->controlledActor->orientation;
 
 float dotProduct= camOrient.dotProduct(orientation);
 

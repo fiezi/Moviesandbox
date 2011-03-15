@@ -172,13 +172,13 @@ void SkeletalActor::update(double deltaTime){
     Actor::update(deltaTime);
 
         if (bDelayedConvert && bPhysicsBones){
-            Vector3f oldRotation= input->controller->controlledActor->rotation;
-            input->console->setZero("NULL");
+            Vector3f oldRotation= sceneData->controller->controlledActor->rotation;
+            sceneData->console->setZero("NULL");
             bDelayedConvert=false;
             sceneData->update(0.0f);                 //TODO:skip one whole frame
             convertToPhysicsBones();
-            input->controller->controlledActor->setRotation(oldRotation);
-            //input->controller->navBtn->processMove(0);
+            sceneData->controller->controlledActor->setRotation(oldRotation);
+            //sceneData->controller->navBtn->processMove(0);
         }
 
 }
@@ -197,9 +197,9 @@ void SkeletalActor::updateShaders(){
             int current=0;
 
             //determine the bones we've got selected
-            for (int i=0;i<(int)input->selectedActors.size();i++){
+            for (int i=0;i<(int)sceneData->selectedActors.size();i++){
                 for (int j=0;j<(int)bones.size();j++){
-                    if (input->selectedActors[i]==bones[j]){
+                    if (sceneData->selectedActors[i]==bones[j]){
                         if (current<4){
                             boneIndices[current]=j;
                             current++;

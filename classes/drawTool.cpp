@@ -1,11 +1,12 @@
-
-
 #include "drawTool.h"
 #include "renderer.h"
 #include "input.h"
+#include "sceneData.h"
 #include "skeletalActor.h"
 #include "spriteMeshLoader.h"
 #include "drawingWidget.h"
+#include "brushFilter.h"
+
 
 DrawTool::DrawTool(){
 
@@ -35,18 +36,18 @@ void DrawTool::start(){
     highlightButton(highlightBtn);
 
     //if we have an actor selcted that is a drawing, use that as our new drawing
-    if (input->selectedActors.size()>0 && !input->specialSelected){
-        SkeletalActor* skel = dynamic_cast<SkeletalActor*>(input->selectedActors[0]);
+    if (sceneData->selectedActors.size()>0 && !sceneData->specialSelected){
+        SkeletalActor* skel = dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
         if (skel){
             brush->drawing=skel;
-            input->specialSelected=skel;
+            sceneData->specialSelected=skel;
         }
     }
 
     //switch drawing to particleMode
-	if (input->specialSelected){
-		input->specialSelected->drawType=DRAW_PARTICLES; //important!
-		input->specialSelected->sceneShaderID="drawing";   //also important!
+	if (sceneData->specialSelected){
+		sceneData->specialSelected->drawType=DRAW_PARTICLES; //important!
+		sceneData->specialSelected->sceneShaderID="drawing";   //also important!
 		cout << "already have drawing and switched to Particle draw mode!!!!!" << endl;
 	}
 
@@ -146,7 +147,7 @@ void DrawTool::selectActors(int btn, Actor* other){
     //figure out if we released on a drawing
     if (skel){
         input->deselectActors();
-        input->specialSelected=skel;
+        sceneData->specialSelected=skel;
         brush->drawing=skel;
         skel->drawType=DRAW_PARTICLES;
         skel->sceneShaderID="drawing";   //also important!
@@ -156,7 +157,7 @@ void DrawTool::selectActors(int btn, Actor* other){
         //if no drawing present
         //means that we want to create a new drawing!
         if (!brush->drawing){
-            input->makeUserPopUp("Name your new drawing:", myBtn);
+            sceneData->makeUserPopUp("Name your new drawing:", myBtn);
         }
     }
 
@@ -213,7 +214,7 @@ void DrawTool::paint(){
     sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
 
     //count particles
-    input->numParticles++;
+    sceneData->numParticles++;
 }
 
 void DrawTool::erase(){
@@ -229,9 +230,8 @@ void DrawTool::erase(){
       if (brush->scale.x * 0.1>distance.length())
           brush->drawing->deleteParticle(i);
       }
-    input->numParticles--;
+    sceneData->numParticles--;
 }
-
 
 void DrawTool::save(){
 
@@ -242,7 +242,7 @@ void DrawTool::save(){
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
 		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
-		input->addToLibrary(myElement);
+		sceneData->addToLibrary(myElement);
 }
 
 void DrawTool::scaleZ(float factor){
@@ -314,8 +314,8 @@ void DrawTool::mergeDrawings(){
     cout << "merging selected drawings..." << endl;
 
     //check if we have only particleSystems selected!
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        ParticleSystem* myPS=dynamic_cast<ParticleSystem*>(input->selectedActors[i]);
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+        ParticleSystem* myPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
         if (!myPS){
             cout << "wrong actors selected! Couldn't merge, sorry." << endl;
             return;
@@ -325,10 +325,10 @@ void DrawTool::mergeDrawings(){
     //copy particles over
     ParticleSystem* receivePS;
     ParticleSystem* readPS;
-    receivePS=dynamic_cast<ParticleSystem*>(input->selectedActors[0]);
+    receivePS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[0]);
 
-    for (int i=1;i<(int)input->selectedActors.size();i++){
-        readPS=dynamic_cast<ParticleSystem*>(input->selectedActors[i]);
+    for (int i=1;i<(int)sceneData->selectedActors.size();i++){
+        readPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
         //copy values
         MeshData * readMesh = sceneData->vboList[readPS->vboMeshID];
         MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];

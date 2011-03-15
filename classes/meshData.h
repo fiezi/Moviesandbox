@@ -2,8 +2,6 @@
 #define H_MESHDATA
 
 #include "actor.h"
-#include "renderer.h"
-
 
 class MeshData: public Actor{
 

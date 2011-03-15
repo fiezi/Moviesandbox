@@ -216,7 +216,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     ///scaling
     nameButton->scale=Vector3f( listWidth, listHeight, 0);
     makeAction->scale=Vector3f( listWidth, listHeight, 0);
-    tlBtn->scale=Vector3f( input->screenX - location.x, listHeight, 0);
+    tlBtn->scale=Vector3f( renderer->screenX - location.x, listHeight, 0);
 
     ///locations
     Vector3f loc;
@@ -329,13 +329,13 @@ void TimelineInspector::trigger(MsbObject* other){
                 tlBtn=(TimelineButton*)listButton[i+1];
         }
         //use MAKEUSERPOPUP here!!!
-        input->staticButton=(BasicButton*)sceneData->actorInfo["18CreateActionButton"].actorReference;
-        input->staticButton->setLocation(Vector3f(input->screenX/2-200,input->screenY/2-50,0));
-        input->staticButton->color=Vector4f(1.0,1.0,0.0,1.0);
-        input->staticButton->name="name your action";
-        input->staticButton->parent=tlBtn;
-        input->staticButton->clickedLeft();
-        sceneData->buttonList.push_back(input->staticButton);
+        sceneData->staticButton=(BasicButton*)sceneData->actorInfo["18CreateActionButton"].actorReference;
+        sceneData->staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+        sceneData->staticButton->color=Vector4f(1.0,1.0,0.0,1.0);
+        sceneData->staticButton->name="name your action";
+        sceneData->staticButton->parent=tlBtn;
+        sceneData->staticButton->clickedLeft();
+        sceneData->buttonList.push_back(sceneData->staticButton);
 
         other->color = Vector4f(1.0,0.0,0.0,1.0);
         other->name="connect";
@@ -485,11 +485,11 @@ void TimelineInspector::drawTimeScale(){
                 char secTxt[8];
                 if (i%2==0){
                     sprintf(secTxt,"%i",i/2);
-                    input->drawText(secTxt,i*zoomedSecond * 0.5,0);
+                    renderer->drawText(secTxt,i*zoomedSecond * 0.5,0);
                 }
                 else{
                     sprintf(secTxt,"%1.1f",(float)i/2.0);
-                    input->drawText(secTxt,i*zoomedSecond * 0.5,0);
+                    renderer->drawText(secTxt,i*zoomedSecond * 0.5,0);
                 }
             }
         }

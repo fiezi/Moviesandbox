@@ -41,9 +41,9 @@ Node::stop();
 void WaitForEventNode::execute(){
 
 
-        if (input->controller->eventTrigger.size()>0){
-            for (int i=0;i<(int)input->controller->eventTrigger.size();i++){
-                if (input->controller->eventTrigger[i]==eventName){
+        if (sceneData->controller->eventTrigger.size()>0){
+            for (int i=0;i<(int)sceneData->controller->eventTrigger.size();i++){
+                if (sceneData->controller->eventTrigger[i]==eventName){
                     cout << "triggered Event: " << eventName << endl;
                     nextNode();
                 }

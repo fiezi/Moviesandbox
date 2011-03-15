@@ -25,8 +25,8 @@ PropertyInspector::~PropertyInspector(){}
 
 void PropertyInspector::refreshList(){
 
-        if (input->selectedActors.size()>0){
-            parent=input->selectedActors[0];
+        if (sceneData->selectedActors.size()>0){
+            parent=sceneData->selectedActors[0];
         }else{
             parent=NULL;
         }
@@ -54,16 +54,16 @@ void PropertyInspector::assembleList(){
         scrollBar=NULL;
     }
 
-    if (input->selectedActors.size()>0){
+    if (sceneData->selectedActors.size()>0){
 
         cout << "assembling property list..." << endl;
 
         std::map <std::string, memberID>::iterator it;
         int i=0;
 
-        cout << "selected actor name: " << input->selectedActors[0]->name << endl;
+        cout << "selected actor name: " << sceneData->selectedActors[0]->name << endl;
 
-        for ( it=input->selectedActors[0]->property.begin() ; it != input->selectedActors[0]->property.end(); it++ ){
+        for ( it=sceneData->selectedActors[0]->property.begin() ; it != sceneData->selectedActors[0]->property.end(); it++ ){
 
             //find Actor* properties
             memberID * mID=&it->second;
@@ -83,7 +83,7 @@ void PropertyInspector::assembleList(){
             listButton[i]->name=it->first;
             listButton[i]->buttonProperty=it->first;
             listButton[i]->textureID="icon_base";
-            listButton[i]->parent=input->selectedActors[0];
+            listButton[i]->parent=sceneData->selectedActors[0];
             listButton[i]->level=level+1;
             listButton[i]->bDrawName=true;
             listButton[i]->color=Vector4f(0.2,0.2,0.2,1.0);

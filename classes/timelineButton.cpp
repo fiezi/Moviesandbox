@@ -392,7 +392,7 @@ void TimelineButton::connectAction(Action* newAction)
     //add connected Action to my.library
     TiXmlElement* myElement = new TiXmlElement("Action");
 	myElement->SetAttribute("actionFilename",newAction->name+".action");
-	input->addToLibrary(myElement);
+	sceneData->addToLibrary(myElement);
 
     connectedAction = newAction;
 

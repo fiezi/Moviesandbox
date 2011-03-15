@@ -26,7 +26,7 @@ void ImportBitmapButton::clickedLeft(){
     input->deselectButtons(0);
     bDrawName=true;
 
-    input->getAllImages();
+    sceneData->getAllImages();
 
     MsbObject * myParent=parent;
 
@@ -57,10 +57,10 @@ input->deselectButtons(0);
 void ImportBitmapButton::assembleLoadList(){
 
     parent=NULL;
-    for (unsigned int i=0;i<input->userImages.size();i++)
+    for (unsigned int i=0;i<sceneData->userImages.size();i++)
       {
         listType.push_back("12AssignButton");
-        listName.push_back(input->userImages[i]);
+        listName.push_back(sceneData->userImages[i]);
         listProp.push_back("NULL");
         listIcon.push_back("icon_flat");
       }
@@ -84,8 +84,8 @@ int imageWidth=FreeImage_GetWidth(myBitmap);
 int imageHeight=FreeImage_GetHeight(myBitmap);
 //never used:
 //int channels=FreeImage_GetBPP(myBitmap)/8;
-if (input->controller->tool!=TOOL_DRAW)
-	input->controller->switchTool(TOOL_DRAW);
+if (sceneData->controller->tool!=TOOL_DRAW)
+	sceneData->controller->switchTool(TOOL_DRAW);
 //aquire brush if existing
 assembleImage(myBitmap,imageWidth, imageHeight, 1.0f);
 FreeImage_Unload(myBitmap);
@@ -153,7 +153,7 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 xyzNormal.normalize();
                 sceneData->brush->pNormal=xyzNormal;
 
-                ((DrawTool*)input->controller->currentTool)->paint();
+                ((DrawTool*)sceneData->controller->currentTool)->paint();
 
             ///fill holes
 /*
@@ -184,7 +184,7 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                     while (fillDepth<myDepth){
                         sceneData->brush->setLocation(sceneData->brush->location+ Vector3f(0,0,fillStep/32.0f));
                         input->mouse3D=sceneData->brush->location;
-						 ((DrawTool*)input->controller->currentTool)->paint();
+						 ((DrawTool*)sceneData->controller->currentTool)->paint();
                         fillDepth+=fillStep;
                         i++;
                     }

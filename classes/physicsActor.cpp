@@ -124,7 +124,7 @@ void PhysicsActor::setup(){
 void PhysicsActor::update(double deltaTime){
 
     if (drawType==DRAW_CUBE){
-        if (input->controller->bRunning)
+        if (sceneData->controller->bRunning)
             drawType=DRAW_NULL;
         else
             drawType=DRAW_CUBE;

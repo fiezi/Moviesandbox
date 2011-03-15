@@ -25,13 +25,13 @@ DrawingWidget::~DrawingWidget(){
 void DrawingWidget::setup(){
 
     Widget::setup();
-    drawTool=(DrawTool*)input->controller->myTools[TOOL_DRAW];
+    drawTool=(DrawTool*)sceneData->controller->myTools[TOOL_DRAW];
 }
 
 void DrawingWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
-    input->controller->switchTool(TOOL_DRAW);
+    sceneData->controller->switchTool(TOOL_DRAW);
 
     if (bKinectToolOpen){
         listButton[4]->color=COLOR_YELLOW;
@@ -47,17 +47,17 @@ void DrawingWidget::closeWidget(){
 
 
     if (sceneData->brush->drawing){
-        input->makeWarningPopUp("saving drawing...",this);
+        sceneData->makeWarningPopUp("saving drawing...",this);
         renderer->draw();
-        input->controller->myTools[TOOL_DRAW]->save();
+        sceneData->controller->myTools[TOOL_DRAW]->save();
         sceneData->brush->drawing->drawType=DRAW_VBOMESH;
         sceneData->brush->drawing->reset();
-        input->staticButton->focusClick();
+        sceneData->staticButton->focusClick();
         input->bTextInput=false;
     }
 
 
-    input->controller->switchTool(TOOL_SELECT);
+    sceneData->controller->switchTool(TOOL_SELECT);
     color=COLOR_WHITE;
 
 }
@@ -67,30 +67,30 @@ void DrawingWidget::closeWidget(){
 ///creates new drawing here!
 void DrawingWidget::trigger(MsbObject* other){
 
-    if (other->name=="New Drawing" && (input->controller->tool==TOOL_DRAW || input->controller->tool==TOOL_CALLIGRAPHY) ){
-        input->makeUserPopUp("Name your new drawing:",this);
+    if (other->name=="New Drawing" && (sceneData->controller->tool==TOOL_DRAW || sceneData->controller->tool==TOOL_CALLIGRAPHY) ){
+        sceneData->makeUserPopUp("Name your new drawing:",this);
     }
 
     //from staticButton
     if (other->name=="Name your new drawing:"){
         sceneData->brush->createNewDrawing();
-        input->specialSelected=sceneData->brush->drawing;
+        sceneData->specialSelected=sceneData->brush->drawing;
     }
 
     if (other->name=="Draw Particles (p)"){
-        input->controller->switchTool(TOOL_DRAW);
+        sceneData->controller->switchTool(TOOL_DRAW);
     }
 
     if (other->name=="Draw Calligraphy"){
-        input->controller->switchTool(TOOL_CALLIGRAPHY);
+        sceneData->controller->switchTool(TOOL_CALLIGRAPHY);
     }
 
     if (other->name=="Select Particles"){
-        input->controller->switchTool(TOOL_PARTICLESELECT);
+        sceneData->controller->switchTool(TOOL_PARTICLESELECT);
     }
 
 	if (other->name=="save"){
-        input->controller->currentTool->save();
+        sceneData->controller->currentTool->save();
 	}
 
     if (other->name=="save As..."){
@@ -104,7 +104,7 @@ void DrawingWidget::trigger(MsbObject* other){
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);
         newMesh->SetAttribute("meshFilename","resources/meshes/"+input->inputText+".spriteMesh");
-        input->addToLibrary(newMesh);
+        sceneData->addToLibrary(newMesh);
         free(newMesh);
     }
 

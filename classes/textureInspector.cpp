@@ -92,7 +92,7 @@ void TextureInspector::clickedRight(){
 void TextureInspector::trigger(MsbObject* other){
 
     if (other->name=="import"){
-        string filename=input->openFileDialog();
+        string filename=sceneData->openFileDialog();
 
         cout <<"importing..." << filename << endl;
 
@@ -117,7 +117,7 @@ void TextureInspector::trigger(MsbObject* other){
         texElement->SetAttribute("filename",filename);
         texElement->SetAttribute("bAlpha",1);
         texElement->SetAttribute("bWrap",1);
-        input->addToLibrary(texElement);
+        sceneData->addToLibrary(texElement);
         free(texElement);
     }
 }

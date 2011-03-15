@@ -83,7 +83,7 @@ void ActionInspector::assembleList(){
 void ActionInspector::trigger(MsbObject* other){
 
     if (other->name=="import"){
-        string fileName=input->openFileDialog();
+        string fileName=sceneData->openFileDialog();
         cout <<"importing..." << fileName << endl;
     }
 }

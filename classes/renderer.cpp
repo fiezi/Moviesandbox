@@ -255,9 +255,9 @@ void Renderer::reDrawScreen(int w, int h){
 	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
     glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(input->controller->controlledActor->location.x, input->controller->controlledActor->location.y,input->controller->controlledActor->location.z,
-		      input->controller->lookPoint.x,input->controller->lookPoint.y,input->controller->lookPoint.z,
-			  input->controller->upPoint.x, input->controller->upPoint.y,input->controller->upPoint.z);
+	gluLookAt(sceneData->controller->controlledActor->location.x, sceneData->controller->controlledActor->location.y,sceneData->controller->controlledActor->location.z,
+		      sceneData->controller->lookPoint.x,sceneData->controller->lookPoint.y,sceneData->controller->lookPoint.z,
+			  sceneData->controller->upPoint.x, sceneData->controller->upPoint.y,sceneData->controller->upPoint.z);
 }
 
 
@@ -269,6 +269,9 @@ void Renderer::reDrawScreen(int w, int h){
 
 void Renderer::setup(){
 
+	for (int i=0;i<FPSBUFFERSIZE;i++){
+		fpsBuffer[i]=0.0;
+	}
 
     input=Input::getInstance();
     sceneData=SceneData::getInstance();
@@ -643,9 +646,9 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 //setup camera
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(  input->controller->controlledActor->location.x, input->controller->controlledActor->location.y, input->controller->controlledActor->location.z,
-                input->controller->lookPoint.x, input->controller->lookPoint.y, input->controller->lookPoint.z,
-                input->controller->upPoint.x, input->controller->upPoint.y,input->controller->upPoint.z);
+    gluLookAt(  sceneData->controller->controlledActor->location.x, sceneData->controller->controlledActor->location.y, sceneData->controller->controlledActor->location.z,
+                sceneData->controller->lookPoint.x, sceneData->controller->lookPoint.y, sceneData->controller->lookPoint.z,
+                sceneData->controller->upPoint.x, sceneData->controller->upPoint.y,sceneData->controller->upPoint.z);
 
     if (bCalculateMatrices){
         glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
@@ -750,7 +753,7 @@ void Renderer::draw(){
     glDisable(GL_DEPTH_TEST);
 
     setupShading("font");
-    input->displayDebug();
+    //displayDebug();
 
     /*
 	 *	Draw all Buttons
@@ -939,7 +942,6 @@ void Renderer::drawSceneTexture(){
 	pick(input->mouseX,input->mouseY);
 
 	draw3DTime=glutGet(GLUT_ELAPSED_TIME) - draw3DTime;
-	input->draw3DTime=draw3DTime;
 
     //TODO:draw brush here?
 
@@ -1113,7 +1115,7 @@ void Renderer::draw3D(Layer* currentLayer){
     #endif
 
 	//draw helpers - brush, grid, etc... if we're not running
-    if (!input->controller->bRunning){
+    if (!sceneData->controller->bRunning){
 
         for (int i=0;i<(int)sceneData->helperList.size();i++){
             if (!sceneData->helperList[i]->bHidden){
@@ -1143,7 +1145,7 @@ void Renderer::draw3D(Layer* currentLayer){
     glMatrixMode(GL_MODELVIEW);
 
     //this for xyz axis
-    if (!input->controller->bRunning){
+    if (!sceneData->controller->bRunning){
 
         setupShading("color");
 
@@ -1322,7 +1324,7 @@ void Renderer::drawOrientation(Actor* a){
 
     //draw code for lines
     //red
-    if (input->specialSelected!=a)
+    if (sceneData->specialSelected!=a)
         glColor4f(1,0,0,1);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
@@ -1330,7 +1332,7 @@ void Renderer::drawOrientation(Actor* a){
     glEnd();
 
     //green
-    if (input->specialSelected!=a)
+    if (sceneData->specialSelected!=a)
         glColor4f(0.0,1.0,0.0,1);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
@@ -1338,7 +1340,7 @@ void Renderer::drawOrientation(Actor* a){
     glEnd();
 
     //blue
-    if (input->specialSelected!=a)
+    if (sceneData->specialSelected!=a)
         glColor4f(0,0,1,1);
     glBegin(GL_LINES);
     glVertex3f(0,0,0);
@@ -1441,6 +1443,39 @@ setupShading("post");
         //reset blending
         glEnable(GL_BLEND);
 }
+
+
+
+void Renderer::displayDebug(){
+
+    double deltaTime=0.0;
+
+    //shift buffer
+    for (int i=FPSBUFFERSIZE-1;i>0;i--)
+        fpsBuffer[i]=fpsBuffer[i-1];
+
+    //update buffer
+    fpsBuffer[0]=deltaTime;
+
+    //calculate buffer
+    for (int i=0;i<FPSBUFFERSIZE;i++)
+      deltaTime+=fpsBuffer[i];
+
+    deltaTime=deltaTime/FPSBUFFERSIZE;
+    setupShading("font");
+
+    char writestring[30];
+
+    for (int i=0;i<30;i++){
+        writestring[i]=' ';
+    }
+
+    sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
+    drawText(writestring,screenX-screenX*0.75,20 );
+
+    return;
+}
+
 
 /****************************************
 *
@@ -1694,7 +1729,7 @@ void Renderer::drawParticles (Actor* a){
 
             //skeletal Stuff from here
 
-            if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN && currentShader=="skinning"){
+            if (myMesh->bIsSkeletal && sceneData->controller->tool==TOOL_SKIN && currentShader=="skinning"){
                 indexOne=glGetAttribLocation(sceneData->shaderList["skinning"]->shader,"boneReferences");
                 glEnableVertexAttribArray(indexOne);
                 glVertexAttribPointer(indexOne,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),boneReferences);
@@ -1719,7 +1754,7 @@ void Renderer::drawParticles (Actor* a){
           if (indexThree>-1)
             glDisableVertexAttribArray(indexThree);
 
-          if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN){
+          if (myMesh->bIsSkeletal && sceneData->controller->tool==TOOL_SKIN){
 
                 glDisableVertexAttribArray(indexOne);
                 glDisableVertexAttribArray(indexTwo);
@@ -1819,6 +1854,15 @@ void Renderer::drawSprite(){
     glVertex3f(0,0,0);
     glEnd();
 }
+
+//Display and Textdrawing
+void Renderer::drawText(string str, float x, float y){
+
+ //glColor4f(1.0,1.0,1.0,1.0);
+ //sceneData->verdana.drawString(str, x, y);
+}
+
+
 
 
 //************************************************************

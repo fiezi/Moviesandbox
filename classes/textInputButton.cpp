@@ -98,25 +98,25 @@ void TextInputButton::focusClick(){
         if (parent && buttonProperty!="NULL"){
 
             bool bParentSelected=false;
-            for (int i=0;i<(int)input->selectedActors.size();i++ )
-                if (input->selectedActors[i]==parent)
+            for (int i=0;i<(int)sceneData->selectedActors.size();i++ )
+                if (sceneData->selectedActors[i]==parent)
                     bParentSelected=true;
 
            if (bParentSelected){
 
-                for (int i=0;i<(int)input->selectedActors.size();i++){
+                for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 
-                    memberID * mID = &(input->selectedActors[i]->property[buttonProperty]);        //look for the property we should set
+                    memberID * mID = &(sceneData->selectedActors[i]->property[buttonProperty]);        //look for the property we should set
                     cout << "we found the following memberID: " << mID->memberName << " with the following member type: " << mID->memberType->name() << endl;
                     if (buttonProperty=="ROTATION"){
                         Vector3f rot = readVector3f((char*)input->inputText.c_str());
-                        input->selectedActors[i]->setRotation(rot);
+                        sceneData->selectedActors[i]->setRotation(rot);
                     }else if (buttonProperty=="LOCATION"){
                         Vector3f loc = readVector3f((char*)input->inputText.c_str());
-                        input->selectedActors[i]->setLocation(loc);
+                        sceneData->selectedActors[i]->setLocation(loc);
                     }else if (buttonProperty=="SCALE"){
                         Vector3f loc = readVector3f((char*)input->inputText.c_str());
-                        input->selectedActors[i]->setScale(loc);
+                        sceneData->selectedActors[i]->setScale(loc);
                     }else if (mID){
                         memberFromString(mID,input->inputText);
                     }else

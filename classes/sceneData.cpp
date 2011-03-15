@@ -260,6 +260,22 @@ SceneData::SceneData(){
 	deltaTime=0.0;
 	frames=0;
 
+    invertMouse=-1,
+
+    numParticles=0;
+
+    savedDrawingDirName="resources/drawings/",
+    savedSceneDirName="resources/scenes/",
+    savedActionsDirName="resources/actions/";
+
+    gridSize=0.00010f;                      //grid!
+
+    controller=NULL;
+    staticButton=NULL;    //in case we want to access Button functionality without actually displaying a Button
+    debugText="Moviesandbox 2.0";
+
+    actorMenu=NULL;
+
 }
 
 SceneData::~SceneData(){}
@@ -290,6 +306,11 @@ void SceneData::setup(){
     spriteMeshLoader=new SpriteMeshLoader();
     spriteMeshLoaderXML=new SpriteMeshLoaderXML();
 
+    inspectorManager=new InspectorManager;
+	controller=new Control;
+
+	verdana.loadFont("./resources/verdana.ttf",8);
+	verdana.setLineHeight(20.0f);
 
 }
 
@@ -359,9 +380,6 @@ void SceneData::loadPreferences(){
     renderer->screenX=val;
     element->Attribute("ScreenSizeY", &val);
     renderer->screenY=val;
-
-    input->screenX=renderer->screenX;
-    input->screenY=renderer->screenY;
 
     //fullscreen on/off
     element->Attribute("bFullScreen", &val);
@@ -469,6 +487,7 @@ void SceneData::createScene(){
     addGrid();
 
     input->setup();          //controller gets created here!
+    controller->setup();
 
 
     //setting up menu
@@ -477,18 +496,18 @@ void SceneData::createScene(){
     content->setup();
 
     //load library stuff
-    input->getAllPrefabs();
+    getAllPrefabs();
     for (int i=0;i<(int)library.size();i++){
-        input->loadMeshes(library[i]);
-        input->loadTextures(library[i]);
-        input->loadShaders(library[i]);
-        input->loadActionList(library[i]);
+        loadMeshes(library[i]);
+        loadTextures(library[i]);
+        loadShaders(library[i]);
+        loadActionList(library[i]);
     }
 
 
     //then load scene
     cout << "loading basic stuff..." << endl;
-    input->loadAll(startSceneFilename, false);
+    loadAll(startSceneFilename, false);
     cout << "finished loading basic stuff" << endl;
 
 
@@ -529,8 +548,23 @@ void SceneData::update(float deltaTime){
         helperList[i]->update(deltaTime);
 	}
 
+    //for actor menu animation
+    if (actorMenu)
+        actorMenu->update(deltaTime);
+
 	input->update(deltaTime);
+
+    //always enable moving around
+    if (input->bPressedMovementKeys && controller->tool!=TOOL_NAV)
+        controller->myTools[TOOL_NAV]->update(deltaTime);
+
+    //update controller after assigning all hudTargets, staticButtons, etc...
+    controller->update(deltaTime);
+
     renderer->update(deltaTime);
+
+	input->resetInputVectors();
+
 
     glutPostRedisplay();
 }
@@ -591,7 +625,7 @@ void SceneData::addGrid(){
     brush->drawing=NULL;
     brush->bPickable=false;
     brush->name="brush";
-    brush->controller=input->controller;
+    brush->controller=controller;
     brush->bHidden=true;
 
     brush->menuType.empty();
@@ -667,4 +701,952 @@ int SceneData::readSharedMemory(){
 
 
 }
+
+
+
+void SceneData::createActorMenu(){
+
+	cout << "Creating radial menu for: " << input->worldTarget->name << endl;
+
+    Actor* myActor=input->worldTarget;
+
+	//make actor menu if we don't have one, else clean it up
+	if (actorMenu)
+		actorMenu->deselect(0);
+	else
+		actorMenu=new ListButton;
+
+	actorMenu->setLocation( Vector3f( input->mouseX, input->mouseY, 0.0 ) );
+	actorMenu->listDisplayMode=2;
+	actorMenu->listType.assign(myActor->menuType.begin(),myActor->menuType.end());
+	actorMenu->listName.assign(myActor->menuName.begin(),myActor->menuName.end());
+	actorMenu->listIcon.assign(myActor->menuIcon.begin(),myActor->menuIcon.end());
+	actorMenu->listProp.assign(myActor->menuProp.begin(),myActor->menuProp.end());
+	actorMenu->parent=myActor;
+	actorMenu->clickedLeft();
+}
+
+
+
+void SceneData::makeUserPopUp(string text, Actor* parent){
+
+    staticButton=(BasicButton*)actorInfo["9UserPopUp"].actorReference;
+    ((UserPopUp*)staticButton)->bWaitForInput=true;
+    staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+    staticButton->color=Vector4f(0.0,0.0,1.0,1.0);
+    staticButton->name=text;
+    staticButton->parent=parent;
+    cout << "UserInput->parent is: " << parent->name << endl;
+    staticButton->clickedLeft();
+    buttonList.push_back(staticButton);
+    input->lastMouse3D=input->mouse3D;
+}
+
+void SceneData::makeWarningPopUp(string message, Actor* parent){
+
+    staticButton=(BasicButton*)actorInfo["9UserPopUp"].actorReference;
+    staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+    staticButton->color=Vector4f(1.0,0.0,0.0,1.0);
+    staticButton->name=message;
+    staticButton->parent=parent;
+    cout << "UserInput->parent is: " << parent->name << endl;
+    staticButton->clickedLeft();
+    buttonList.push_back(staticButton);
+}
+
+//**************************************************************************************
+// loading
+
+//TODO: load textures/meshes/stuff seperately or save it always too!
+void SceneData::saveAll(std::string filename){
+
+    TiXmlDocument doc;
+    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+    doc.LinkEndChild( decl );
+    TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
+    doc.LinkEndChild( root );
+
+    //save controller location and rotation
+    TiXmlElement * controlElement=new TiXmlElement("Controller");
+    controlElement->SetAttribute("TransformMatrix",controller->memberToString(&controller->property["TRANSFORMMATRIX"]));
+    root->LinkEndChild(controlElement);
+
+    //first Actors
+    for (unsigned int i=0;i<actorList.size();i++)
+      {
+      TiXmlElement * actorElement=actorList[i]->save(root);
+      root->LinkEndChild(actorElement);
+      }
+
+    //then saveable Buttons
+    for (unsigned int i=0;i<saveableButtonList.size();i++)
+      {
+      TiXmlElement * buttonElement=saveableButtonList[i]->save(root);
+      root->LinkEndChild(buttonElement);
+      }
+    //then nodes
+    for (unsigned int i=0;i<nodeList.size();i++)
+      {
+      TiXmlElement * nodeElement=nodeList[i]->save(root);
+      root->LinkEndChild(nodeElement);
+      }
+
+    string saveString=savedSceneDirName;
+    saveString.append(filename);
+
+    cout << "saving filename: " << saveString << endl;
+
+    doc.SaveFile( saveString );
+}
+
+void SceneData::loadAll(std::string fileName, bool bCleanUp){
+
+
+    renderer->bUpdatePhysics=false;
+
+    if (bCleanUp){
+        //clean Up
+        //let's not remove actions, okay?
+        //let's not remove buttons? unless they are nodes?
+        //Button first because of udpInput and threading
+
+        //remove udpInputs
+        if (buttonList.size()>0){
+            for (int i=(int)buttonList.size()-1;i>=0;i--){
+                //Action * act=NULL;
+                //act=dynamic_cast<Action*>(buttonList[i]);
+                UdpInput* udp=NULL;
+                udp=dynamic_cast<UdpInput*>(buttonList[i]);
+                if (buttonList[i]->level>0 && udp)
+                    buttonList[i]->remove();
+            }
+        }
+
+        if (actorList.size()>0){
+            for (int i=(int)actorList.size()-1;i>=0;i--)
+                actorList[i]->remove();
+        }
+
+        if (nodeList.size()>0){
+            for (int i=(int)nodeList.size()-1;i>=0;i--)
+                nodeList[i]->remove();
+        }
+    }
+
+
+    string stringName=savedSceneDirName;
+    stringName.append(fileName);
+
+    cout << "Loading file..." << stringName <<endl;
+
+
+    TiXmlDocument doc( stringName );
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    //***********************************************************************
+    //Make sure this is a Moviesandbox file!
+    //***********************************************************************
+
+    element=hDoc.FirstChildElement().Element();
+    if (!element) return;
+
+    hRoot=TiXmlHandle(element);
+
+    //***********************************************************************
+    //Load Actor List
+    //***********************************************************************
+
+    //loading is a two step process
+    int listPos=0;
+
+    //load controller locations
+    cout << "loading camera Position..." << endl;
+    element=hRoot.FirstChild("Controller").Element();
+    if (element){
+        string cLoc=element->Attribute("TransformMatrix");
+        controller->memberFromString(&controller->property["TRANSFORMMATRIX"], cLoc);
+        controller->postLoad();
+        //controller->processMove(0.0);
+    }
+    else cout << "no position info found... skipping..." << endl;
+
+		cout << "loading actors..." << endl;
+
+    //first create all Actors
+
+      element=hRoot.FirstChild( "Actor" ).Element();
+      string myType;
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        Actor * A=actorInfo[myType].actorReference;
+        A->create();
+        }
+
+
+    //then load all properties - for referencing reasons
+      element=hRoot.FirstChild( "Actor" ).Element();
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        Actor* A=actorList[listPos];
+        myType=element->GetText();
+        cout << "Loading property type: " << myType << endl;
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        A->load(element);
+        listPos++;
+        }
+
+    //***********************************************************************
+    //Load Node List
+    //***********************************************************************
+    listPos=0;
+
+    cout << "loading nodes..." << endl;
+
+      element=hRoot.FirstChild( "Node" ).Element();
+      for( ; element!=NULL; element=element->NextSiblingElement("Node"))
+        {
+        cout << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        Node* N=(Node*)actorInfo[myType].actorReference;
+        N->create();
+        }
+
+      element=hRoot.FirstChild( "Node" ).Element();
+      for( ; element!=NULL; element=element->NextSiblingElement("Node"))
+        {
+        Node* N=nodeList[listPos];
+        myType=element->GetText();
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        N->load(element);
+        listPos++;
+        }
+      for (uint i=0; i< nodeList.size();i++){
+        nodeList[i]->setup();
+        }
+
+
+    //***********************************************************************
+    //Setup Actor List
+    //***********************************************************************
+    for (int i=0;i<(int)actorList.size();i++){
+        actorList[i]->postLoad();
+    }
+    //then setup all actors, so properties are already present!
+    for (int i=0;i<(int)actorList.size();i++){
+            actorList[i]->setup();
+    }
+
+    //***********************************************************************
+    //Load Button List
+    //***********************************************************************
+    listPos=0;
+
+    cout << "loading buttons..." << endl;
+
+      element=hRoot.FirstChild( "Button" ).Element();
+      for( ; element!=NULL; element=element->NextSiblingElement("Button"))
+        {
+        cout << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        BasicButton* B=(BasicButton*)actorInfo[myType].actorReference;
+        B->create();
+        }
+
+      element=hRoot.FirstChild( "Button" ).Element();
+      for( ; element!=NULL; element=element->NextSiblingElement("Button"))
+        {
+        BasicButton* B=saveableButtonList[listPos];
+        myType=element->GetText();
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        B->load(element);
+        B->setup();
+        listPos++;
+        }
+
+    inspectorManager->setup();
+}
+
+void SceneData::loadMeshes(std::string fileName){
+
+    TiXmlDocument doc(fileName);
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+    //***********************************************************************
+    //Load OBJs
+    //***********************************************************************
+
+
+	  element=hRoot.FirstChild( "Mesh" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("Mesh")){
+    /*
+		  string meshID=element->Attribute("meshID");
+        string meshFileName=element->Attribute("meshFilename");
+        renderer->meshList[meshID]=LoadOBJ(meshFileName.c_str());
+        cout << "loading mesh " << meshID << endl;
+     */
+
+	 }
+
+    //***********************************************************************
+    //Load complex Meshes
+    //***********************************************************************
+      element=hRoot.FirstChild( "ColladaMesh" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("ColladaMesh")){
+        string meshID=element->Attribute("meshID");
+        string meshFileName=element->Attribute("meshFilename");
+        colladaLoader->loadColladaMesh(meshFileName, meshID);
+        cout << "loading mesh " << meshID << endl;
+      }
+
+    //***********************************************************************
+    //Load sprite Meshes
+    //***********************************************************************
+      element=hRoot.FirstChild( "SpriteMesh" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMesh")){
+        string meshID=element->Attribute("meshID");
+        string meshFileName=element->Attribute("meshFilename");
+        spriteMeshLoader->loadSpriteMesh(meshFileName, meshID);
+        cout << "loading sprite mesh " << meshID << endl;
+      }
+
+      element=hRoot.FirstChild( "SpriteMeshXML" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMeshXML")){
+        string meshID=element->Attribute("meshID");
+        string meshFileName=element->Attribute("meshFilename");
+        spriteMeshLoaderXML->loadSpriteMesh(meshFileName, meshID);
+        cout << "loading legacy XML sprite mesh " << meshID << endl;
+      }
+
+}
+
+void SceneData::loadPrefab(std::string fileName){
+
+    //loading is a two step process
+    int listPos=actorList.size();
+
+
+    cout << "loading Prefab from... "<< fileName << endl;
+    //first create all Actors
+    TiXmlDocument doc(fileName);
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    element=hDoc.FirstChildElement().Element();
+    element= element->FirstChildElement("Actor");
+
+      string myType;
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        Actor * A=actorInfo[myType].actorReference;
+        A->create();
+        }
+
+
+    //then load all properties - for referencing reasons
+    element=hDoc.FirstChildElement().Element();
+    element= element->FirstChildElement("Actor");
+
+    //for relative loading
+    int loadPos=listPos;
+
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        Actor* A=actorList[listPos];
+
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        A->actorOffset=loadPos;         //for relative actor references
+
+        A->load(element);
+
+//        if (A->base)
+//            A->baseMatrix=A->baseMatrix;
+            //cout << A->base->name << endl;
+
+
+        A->actorOffset=0;               //set back to zero
+        A->setup();
+        selectedActors.push_back(A);                                         //push newly created buttons in selection stack
+        listPos++;
+        }
+
+ //   makeGroup();
+}
+
+void SceneData::loadAction(std::string fileName){
+
+
+    TiXmlDocument doc(fileName);
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    //***********************************************************************
+    //Load Action
+    //***********************************************************************
+    cout << "loading actions..." << endl;
+
+    element=hDoc.FirstChildElement().Element();
+    element= element->FirstChildElement("Action");
+    std::string myType=element->GetText();
+    Action* AC=(Action*)actorInfo[myType].actorReference;
+    AC->create();
+
+    AC=(Action*)buttonList.back();
+    AC->load(element);
+    actionList[AC->name]=AC;
+    AC->setup();
+}
+
+void SceneData::loadTextures(string fileName){
+
+    TiXmlDocument doc( fileName );
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+
+    //***********************************************************************
+    //Load textures
+    //***********************************************************************
+      element=hRoot.FirstChild( "Texture" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("Texture")){
+        int val=0;
+
+        string texID=element->Attribute("textureID");
+        string texFileName=element->Attribute("filename");
+        string nextFrame="NULL";
+        if (element->Attribute("nextFrame"))
+            nextFrame=element->Attribute("nextFrame");
+
+        float frameRate = 0.0f;
+        if (element->Attribute("frameRate"))
+        {
+            element->Attribute("frameRate",&val);
+            frameRate=float(val);
+        }
+
+        element->Attribute("bAlpha", &val);
+        bool bAlpha=bool(val);
+
+        element->Attribute("bWrap", &val);
+        bool bWrap=bool(val);
+
+        renderer->LoadTextureTGA(texFileName,bWrap,bAlpha, texID);
+        textureList[texID]->nextTexture=nextFrame;
+        textureList[texID]->frameRate=frameRate;
+        cout << "loading texture " << texID << endl;
+      }
+}
+
+void SceneData::loadShaders(string fileName){
+
+    TiXmlDocument doc( fileName );
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+
+    //***********************************************************************
+    //Load shaders
+    //***********************************************************************
+      element=hRoot.FirstChild( "Shader" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("Shader")){
+        string shaderID=element->Attribute("shaderID");
+        string vertexFileName=element->Attribute("vertexShaderFilename");
+        string fragmentFileName=element->Attribute("fragmentShaderFilename");
+        cout << "loading shader " << shaderID << endl;
+        renderer->loadShader(vertexFileName,fragmentFileName, shaderID);
+        cout << "finished loading shader " << shaderID << "-------------------------------------------------- " << endl;
+      }
+}
+
+void SceneData::loadActionList(string fileName){
+
+    TiXmlDocument doc( fileName );
+    if (!doc.LoadFile()) return;
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+
+    //***********************************************************************
+    //Load Actions
+    //***********************************************************************
+      element=hRoot.FirstChild( "Action" ).Element();
+      for ( ; element!=NULL ;element=element->NextSiblingElement("Action")){
+        string actionFileName=element->Attribute("actionFilename");
+        loadAction("resources/actions/"+actionFileName);
+        cout << "loading action " << actionFileName << endl;
+      }
+
+}
+
+
+void SceneData::addToLibrary(TiXmlElement* myElement){
+
+    TiXmlDocument doc( "resources/my.library" );
+    if (!doc.LoadFile()){
+        cout << "could not find my.library!" << endl;
+        return;
+    }
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    //***********************************************************************
+    //Make sure this is a Moviesandbox file!
+    //***********************************************************************
+
+    element=hDoc.FirstChildElement().Element();
+    if (!element) return;
+
+    hRoot=TiXmlHandle(element);
+
+    //check for duplicates!!
+    element=element->FirstChildElement(myElement->Value());
+    string myName=myElement->FirstAttribute()->Name();
+
+    while (element && element->Attribute(myName)){
+        string myAttribContent;
+        string existingAttribContent;
+        myAttribContent=*myElement->Attribute(myName);
+        existingAttribContent=*(element->Attribute(myName));
+        if (myAttribContent==existingAttribContent){
+            TiXmlElement* yesNo = (TiXmlElement*)hRoot.Element()->ReplaceChild(element,*myElement);
+            if (yesNo){
+                doc.SaveFile("resources/my.library");
+                cout << "replaced in my.library!!" << endl;
+            }
+            else
+                exit(0);
+            return;
+        }
+        element=element->NextSiblingElement();
+    }
+    //append our element to that - or just dump it in here.
+    element=hDoc.FirstChildElement().Element();
+    TiXmlElement* lastElementOfSameType=element->FirstChildElement(myElement->Value());
+    if (lastElementOfSameType)
+        element->InsertBeforeChild(lastElementOfSameType,*myElement);
+    else
+        element->LinkEndChild(myElement);
+
+    doc.SaveFile("resources/my.library");
+}
+
+void SceneData::getAllDrawings(){
+
+    cout << "getting drawings..." << endl;
+
+    savedDrawings.clear();
+
+#ifdef TARGET_WIN32
+
+    //not used?
+    //char path[MAX_PATH];
+	WIN32_FIND_DATA fd;
+	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
+	HANDLE hFind = FindFirstFile( "resources\\drawings\\*", &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+	    do{
+		if( !(fd.dwFileAttributes & dwAttr))
+          {
+		  cout << fd.cFileName << endl;
+		  savedDrawings.push_back(fd.cFileName);
+          }
+        }while (FindNextFile( hFind, &fd));
+
+		FindClose( hFind);
+	}
+#endif
+
+#ifdef TARGET_MACOSX
+	string dir="resources/drawings";
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+        savedDrawings.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+
+}
+
+void SceneData::getAllScenes(){
+
+    cout << "getting scenes..." << endl;
+
+    savedScenes.clear();
+
+#ifdef TARGET_WIN32
+
+    //never used?
+    //char path[MAX_PATH];
+	WIN32_FIND_DATA fd;
+	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
+	HANDLE hFind = FindFirstFile( "resources\\scenes\\*", &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+	    do{
+		if( !(fd.dwFileAttributes & dwAttr))
+		  savedScenes.push_back(fd.cFileName);
+        }while (FindNextFile( hFind, &fd));
+
+		FindClose( hFind);
+	}
+
+#endif
+
+#ifdef TARGET_MACOSX
+	string dir="resources/scenes";
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+        savedScenes.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+}
+
+void SceneData::getAllImages(){
+
+    cout << "getting Images..." << endl;
+
+    userImages.clear();
+
+#ifdef TARGET_WIN32
+
+    //char path[MAX_PATH];
+	WIN32_FIND_DATA fd;
+	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
+	HANDLE hFind = FindFirstFile( "resources\\images\\*.tga", &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+	    do{
+		if( !(fd.dwFileAttributes & dwAttr))
+		  userImages.push_back(fd.cFileName);
+        }while (FindNextFile( hFind, &fd));
+
+		FindClose( hFind);
+	}
+#endif
+
+#ifdef TARGET_MACOSX
+	string dir="resources/images";
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+        userImages.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+
+}
+
+void SceneData::getAllBrushes(){
+
+
+    cout << "getting Brushes..." << endl;
+
+    userBrushes.clear();
+
+#ifdef TARGET_WIN32
+
+    //char path[MAX_PATH];
+	WIN32_FIND_DATA fd;
+	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
+	HANDLE hFind = FindFirstFile( "resources\\brushes\\*", &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+	    do{
+		if( !(fd.dwFileAttributes & dwAttr))
+		  userBrushes.push_back(fd.cFileName);
+        }while (FindNextFile( hFind, &fd));
+
+		FindClose( hFind);
+	}
+#endif
+#ifdef TARGET_MACOSX
+	string dir="resources/brushes";
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+        userBrushes.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+}
+
+void SceneData::getAllPrefabs(){
+
+#ifdef TARGET_WIN32
+
+    //char path[MAX_PATH];
+	WIN32_FIND_DATA fd;
+	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
+	HANDLE hFind = FindFirstFile( "resources\\prefabs\\*", &fd);
+	if(hFind != INVALID_HANDLE_VALUE)
+	{
+	    do{
+		if( !(fd.dwFileAttributes & dwAttr))
+		  prefabs.push_back(fd.cFileName);
+        }while (FindNextFile( hFind, &fd));
+
+		FindClose( hFind);
+	}
+#endif
+#ifdef TARGET_MACOSX
+	string dir="resources/prefabs";
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+        prefabs.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+}
+
+
+//************************************************************
+//
+//       3D and general Helper functions
+//
+//
+//************************************************************
+
+float SceneData::convertToGrid(float nonGrid){
+
+    return (gridSize*(int)(nonGrid/gridSize));// - nonGridRounded%gridSizeRounded)*0.001);
+}
+
+float SceneData::setToRange(float min, float max, float value){
+    //multiply by difference of max and min     //and add minimum
+    return( value   *   (max-min)     +   min);
+}
+
+
+#ifdef TARGET_WIN32
+string SceneData::openFileDialog(){
+
+
+    string myFileName;
+
+    typedef BOOL ( WINAPI *GetFileNameFromBrowse )( HWND hwnd,
+                                                    LPWSTR pszFilePath,
+                                                    UINT cchFilePath,
+                                                    LPCWSTR pszWorkingDir,
+                                                    LPCWSTR pszDefExt,
+                                                    LPCWSTR pszFilters,
+                                                    LPCWSTR szTitle );
+
+    // Path buffer, specifies starting directory and on successful return
+    // from open dialog also holds the selected file name
+    wchar_t wszPath[MAX_PATH] = L".";
+
+    // Load shell32 dll
+    HMODULE hModule = LoadLibrary( "Shell32.dll" );
+    if( !hModule ){
+       return "NULL";
+    }
+
+    // Get procedure address
+    GetFileNameFromBrowse GetFileNameFromBrowsePtr = ( GetFileNameFromBrowse )GetProcAddress( hModule, "GetFileNameFromBrowse" );
+
+    // Show browse dialog
+    if( GetFileNameFromBrowsePtr && GetFileNameFromBrowsePtr( 0, wszPath, MAX_PATH, 0, 0, L"", L"Nibu Open" )){
+
+        int i = 0;
+        while (wszPath[i] != 0)
+        {
+            myFileName += wszPath[i];
+            i++;
+        }
+
+    }else
+		myFileName="NULL";
+
+    // Free loaded library
+    FreeLibrary( hModule );
+
+    return myFileName;
+}
+#endif
+
+#ifdef TARGET_MACOSX
+string SceneData::openFileDialog(){
+
+	NavDialogCreationOptions dialogOptions;
+	NavDialogRef dialog;
+	NavReplyRecord replyRecord;
+	CFURLRef cfURL = NULL;
+	FSRef fileAsFSRef;
+	OSStatus status;
+
+	// Get the standard set of defaults
+	status = NavGetDefaultDialogCreationOptions(&dialogOptions);
+	require_noerr( status, CantGetNavOptions );
+
+	// Make the window app-wide modal
+	dialogOptions.modality = kWindowModalityAppModal;
+
+	// Create the dialog
+	status = NavCreateGetFileDialog(&dialogOptions, NULL, NULL, NULL, NULL, NULL, &dialog);
+	require_noerr( status, CantCreateDialog );
+
+	// Show it
+	status = NavDialogRun(dialog);
+	require_noerr( status, CantRunDialog );
+
+	// Get the reply
+	status = NavDialogGetReply(dialog, &replyRecord);
+	require( ((status == noErr) || (status == userCanceledErr)), CantGetReply );
+
+	// If the user clicked "Cancel", just bail
+	if ( status == userCanceledErr ) goto UserCanceled;
+
+	// Get the file
+	status = AEGetNthPtr(&(replyRecord.selection), 1, typeFSRef, NULL, NULL, &fileAsFSRef, sizeof(FSRef), NULL);
+	require_noerr( status, CantExtractFSRef );
+
+	// Convert it to a CFURL
+	cfURL = CFURLCreateFromFSRef(NULL, &fileAsFSRef);
+
+
+   // cleanup dialog
+
+
+	// Cleanup
+	CantExtractFSRef:
+	UserCanceled:
+		verify_noerr( NavDisposeReply(&replyRecord) );
+	CantGetReply:
+	CantRunDialog:
+		NavDialogDispose(dialog);
+	CantCreateDialog:
+	CantGetNavOptions:
+
+	CFStringRef cfString = NULL;
+	if ( cfURL != NULL )
+	{
+		cfString = CFURLCopyFileSystemPath( cfURL, kCFURLPOSIXPathStyle );
+		CFRelease( cfURL );
+	}
+
+    // copy from a CFString into a local c string (http://www.carbondev.com/site/?page=CStrings+)
+	const int kBufferSize = 255;
+
+	char folderURL[kBufferSize];
+	Boolean bool1 = CFStringGetCString(cfString,folderURL,kBufferSize,kCFStringEncodingMacRoman);
+
+	// append strings together
+
+	string url1 = folderURL;
+	string finalURL = url1;
+
+	//printf("url %s\n", finalURL.c_str());
+
+	return finalURL;
+}
+#endif
+
 

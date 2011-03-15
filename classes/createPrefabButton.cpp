@@ -49,11 +49,11 @@ void CreatePrefabButton::focusClick(){
 
 
 //TODO: hacky!
-((SelectTool*)input->controller->myTools[TOOL_SELECT])->makePrefab(input->inputText);                              //set Prefab name to Text
+((SelectTool*)sceneData->controller->myTools[TOOL_SELECT])->makePrefab(input->inputText);                              //set Prefab name to Text
 
 //cleanUp
 sceneData->buttonList.pop_back();
-input->staticButton=NULL;
+sceneData->staticButton=NULL;
 
 TextInputButton::focusClick();
 

@@ -85,9 +85,9 @@ void SpawnTool::mouseReleased(int btn){
 
 			//right Button creates menu if on selected actor
 			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
-			    for (int i=0;i<(int)input->selectedActors.size();i++)
-                    if (input->worldTarget==input->selectedActors[i])
-                        input->createActorMenu();
+			    for (int i=0;i<(int)sceneData->selectedActors.size();i++)
+                    if (input->worldTarget==sceneData->selectedActors[i])
+                        sceneData->createActorMenu();
 			}
 						//any Button selects!
 
@@ -103,7 +103,7 @@ void SpawnTool::mouseReleased(int btn){
 void SpawnTool::selectActors(int btn, Actor* other){
 
     //don't do anything to selection if we're just finishing a move or rotate
-    if (input->actorMenu && input->actorMenu->listButton.size()>0)
+    if (sceneData->actorMenu && sceneData->actorMenu->listButton.size()>0)
         return;
 
     //can select ground from layerInspector!
@@ -114,8 +114,8 @@ void SpawnTool::selectActors(int btn, Actor* other){
 
     if (input->bShiftDown){                                                                //adding to selection
         bool foundInSelection=false;
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            if (other==input->selectedActors[i])
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            if (other==sceneData->selectedActors[i])
                 foundInSelection=true;                                              //only add if we're not already in selection
             }
         if (!foundInSelection){
@@ -123,25 +123,25 @@ void SpawnTool::selectActors(int btn, Actor* other){
                 for (int i=0;i<(int)sceneData->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
                     if (sceneData->actorList[i]->groupID==other->groupID){
                         sceneData->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(sceneData->actorList[i]);
+                        sceneData->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }
             else{
                 other->bSelected=true;
-                input->selectedActors.push_back(other);                              //no CTRL or no group, but SHIFT down, so should add
+                sceneData->selectedActors.push_back(other);                              //no CTRL or no group, but SHIFT down, so should add
                 }
             }
     }else{
         bool foundInSelection=false;
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            if (other==input->selectedActors[i])
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            if (other==sceneData->selectedActors[i])
                 foundInSelection=true;                                              //check if we're not already in selection
         }
         if (!foundInSelection && btn==MOUSEBTNRIGHT){                           //not in selection and clicked right
             input->deselectActors();
             other->bSelected=true;
-            input->selectedActors.push_back(other);
+            sceneData->selectedActors.push_back(other);
         }
     }
 }

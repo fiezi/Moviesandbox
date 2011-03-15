@@ -27,10 +27,10 @@ void ParticleSelectTool::start(){
     cout << "now selecting particles!" << endl;
 
 	//use selectedActor as drawing
-	if (input->selectedActors.size()>0){
-		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(input->selectedActors[0]);
+	if (sceneData->selectedActors.size()>0){
+		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
 		if (skel){
-			input->specialSelected=skel;
+			sceneData->specialSelected=skel;
 			brush->drawing=skel;
 		}
 	}
@@ -42,9 +42,9 @@ void ParticleSelectTool::start(){
     }
 	//no useable drawing found
     else{
-        input->makeWarningPopUp("OOPS! \n \nNo Drawing to Select Particles in. Create or Select a Drawing first!", myBtn);
+        sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Select Particles in. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
-        //input->controller->switchTool(TOOL_SELECT);
+        //sceneData->controller->switchTool(TOOL_SELECT);
         input->bTextInput=false;
     }
 

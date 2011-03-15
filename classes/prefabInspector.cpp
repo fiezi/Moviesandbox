@@ -3,6 +3,7 @@
 #include "prefabInspector.h"
 #include "renderer.h"
 #include "input.h"
+#include "sceneData.h"
 #include "assignButton.h"
 
 PrefabInspector::PrefabInspector(){
@@ -37,7 +38,7 @@ void PrefabInspector::createInspectorButtons(){
 
 void PrefabInspector::refreshList(){
 
-        if (listButton.size()!=input->prefabs.size()){
+        if (listButton.size()!=sceneData->prefabs.size()){
             ListButton::deselect(level);
             listButton.clear();
             assembleList();
@@ -54,11 +55,11 @@ void PrefabInspector::assembleList(){
 
         cout << "creating list..." << endl;
 
-        for (int i=0;i<(int)input->prefabs.size();i++){
+        for (int i=0;i<(int)sceneData->prefabs.size();i++){
             sceneData->actorInfo["12AssignButton"].actorReference->create();
             listButton.push_back(sceneData->buttonList.back());
 
-            listButton[i]->name=input->prefabs[i];
+            listButton[i]->name=sceneData->prefabs[i];
             listButton[i]->textureID="icon_base";
             listButton[i]->level=level+1;
             listButton[i]->bDrawName=true;
@@ -88,7 +89,7 @@ void PrefabInspector::trigger(MsbObject* other){
         return;
 
     if (other->name=="import"){
-        string fileName=input->openFileDialog();
+        string fileName=sceneData->openFileDialog();
         cout <<"importing..." << fileName << endl;
         //renderer->LoadTextureTGA(filename,true,true,filename);
         return;
@@ -99,21 +100,21 @@ void PrefabInspector::trigger(MsbObject* other){
 
     int prefNo=0;
 
-    //clean up input->selectedActors
+    //clean up sceneData->selectedActors
     input->deselectActors();
     //determine which button called us back
     for (int i=0;i<(int)listButton.size();i++)
         if (other==listButton[i])
             prefNo=i;
 
-     input->loadPrefab("resources/prefabs/"+input->prefabs[prefNo]);
+     sceneData->loadPrefab("resources/prefabs/"+sceneData->prefabs[prefNo]);
 
 
     //this should only be called when we drag'n'dropped the prefab somewhere
     if (!input->hudTarget){
-        for (int i=0;i< (int)input->selectedActors.size();i++){
-            if (input->selectedActors[i]->base==NULL)
-                input->selectedActors[i]->setLocation(input->selectedActors[i]->location+ input->mouse3D);
+        for (int i=0;i< (int)sceneData->selectedActors.size();i++){
+            if (sceneData->selectedActors[i]->base==NULL)
+                sceneData->selectedActors[i]->setLocation(sceneData->selectedActors[i]->location+ input->mouse3D);
             }
         }
 

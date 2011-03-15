@@ -42,11 +42,11 @@ void CameraActor::trigger(MsbObject* other){
 
     if (other->name=="possess"){
         cout << "possessing!" << endl;
-        input->controller->controlledActor=this;
-//        input->controller->navBtn->processMove(0);
+        sceneData->controller->controlledActor=this;
+//        sceneData->controller->navBtn->processMove(0);
         drawType=DRAW_NULL;
         bPossessed=true;
-        //input->controller->toggleFlyMode();
+        //sceneData->controller->toggleFlyMode();
     }
     else{
         bCameraShake=!bCameraShake;
@@ -57,9 +57,9 @@ void CameraActor::update(double deltaTime){
 
     if (bPossessed && input->startPressLeftBtn>0){
         bPossessed=false;
-        input->controller->controlledActor=input->controller;
+        sceneData->controller->controlledActor=sceneData->controller;
         drawType=DRAW_VBOMESH;
-//        input->controller->navBtn->processMove(0);
+//        sceneData->controller->navBtn->processMove(0);
     }
 
     if (Control::bRunning && bCameraShake){

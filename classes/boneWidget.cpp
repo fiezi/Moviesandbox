@@ -26,10 +26,10 @@ void BoneWidget::openWidget(){
     widgetLocation=Vector3f(location.x,location.y,0);
 
     //switch to create bone mode
-    input->controller->switchTool(TOOL_BONE);
+    sceneData->controller->switchTool(TOOL_BONE);
     //unless our drawing is already boned (tee-he-he), then we might want to switch to skinning mode!
-    if (input->specialSelected && sceneData->vboList[input->specialSelected->vboMeshID]->bIsSkeletal)
-        input->controller->switchTool(TOOL_SKIN);
+    if (sceneData->specialSelected && sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal)
+        sceneData->controller->switchTool(TOOL_SKIN);
 }
 
 void BoneWidget::closeWidget(){
@@ -37,17 +37,17 @@ void BoneWidget::closeWidget(){
     input->deselectActors();
 
     if (sceneData->brush->drawing){
-        input->makeWarningPopUp("saving drawing...",this);
+        sceneData->makeWarningPopUp("saving drawing...",this);
         renderer->draw();
-        input->controller->myTools[TOOL_BONE]->save();
+        sceneData->controller->myTools[TOOL_BONE]->save();
         sceneData->brush->drawing->drawType=DRAW_VBOMESH;
         sceneData->brush->drawing->reset();
-        input->staticButton->focusClick();
+        sceneData->staticButton->focusClick();
         input->bTextInput=false;
     }
 
 
-    input->controller->switchTool(TOOL_SELECT);
+    sceneData->controller->switchTool(TOOL_SELECT);
     color=COLOR_WHITE;
 
 }
@@ -60,20 +60,20 @@ void BoneWidget::trigger(MsbObject* other){
 
 
     if (other->name=="Create Bone (b)"){
-        input->controller->switchTool(TOOL_BONE);
+        sceneData->controller->switchTool(TOOL_BONE);
     }
 
     if (other->name=="Paint Weights"){
         if (sceneData->brush->drawing){
-            input->makeWarningPopUp("saving drawing...",this);
+            sceneData->makeWarningPopUp("saving drawing...",this);
             renderer->draw();
-            input->controller->myTools[TOOL_BONE]->save();
+            sceneData->controller->myTools[TOOL_BONE]->save();
             sceneData->brush->drawing->drawType=DRAW_VBOMESH;
             sceneData->brush->drawing->reset();
-            input->staticButton->focusClick();
+            sceneData->staticButton->focusClick();
             input->bTextInput=false;
         }
-        input->controller->switchTool(TOOL_SKIN);
+        sceneData->controller->switchTool(TOOL_SKIN);
     }
 
 
@@ -82,7 +82,7 @@ void BoneWidget::trigger(MsbObject* other){
 		cout << "loading bones..." << endl;
 
 		string meshID;
-		string filename=input->openFileDialog();
+		string filename=sceneData->openFileDialog();
 		//check for file ending
 		size_t found, appendix;
 		appendix=filename.find(".spriteMesh");
@@ -109,7 +109,7 @@ void BoneWidget::trigger(MsbObject* other){
 	}
 
    if (other->name=="save"){
-        input->controller->currentTool->save();
+        sceneData->controller->currentTool->save();
     }
 
     if (other->name=="save As..."){
@@ -123,7 +123,7 @@ void BoneWidget::trigger(MsbObject* other){
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);
         newMesh->SetAttribute("meshFilename","resources/meshes/"+input->inputText+".spriteMesh");
-        input->addToLibrary(newMesh);
+        sceneData->addToLibrary(newMesh);
         free(newMesh);
     }
 }

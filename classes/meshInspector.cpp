@@ -115,7 +115,7 @@ void MeshInspector::trigger(MsbObject* other){
     }
 
     if (other->name=="import"){
-        string filename=input->openFileDialog();
+        string filename=sceneData->openFileDialog();
         //check for file ending
         size_t found;
         found=filename.find(".dae");
@@ -129,7 +129,7 @@ void MeshInspector::trigger(MsbObject* other){
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            input->addToLibrary(myElement);
+            sceneData->addToLibrary(myElement);
 
         }
         found=filename.find(".DAE");
@@ -144,7 +144,7 @@ void MeshInspector::trigger(MsbObject* other){
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            input->addToLibrary(myElement);
+            sceneData->addToLibrary(myElement);
         }
         found=filename.find(".spriteMesh");
         if (found!=string::npos){
@@ -157,7 +157,7 @@ void MeshInspector::trigger(MsbObject* other){
             TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            input->addToLibrary(myElement);
+            sceneData->addToLibrary(myElement);
         }
     }
 }

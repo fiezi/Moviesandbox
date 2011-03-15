@@ -18,7 +18,7 @@
 
 
 #define BUFSIZE 512
-
+#define FPSBUFFERSIZE 10
 
 
 using namespace std;
@@ -76,6 +76,9 @@ public:
                 fov;
 
        int frames;                         //amount of frames rendered
+
+       double      fpsBuffer[FPSBUFFERSIZE];
+
        double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
               physicsTime;                 //time for physics step (sometimes deltaTime is too small to advance physics...)
@@ -186,6 +189,7 @@ public:
        virtual void drawShadows(MsbLight* myLight);
        virtual void drawDeferredLighting(Layer* layer);
 
+       virtual void displayDebug();
 
        virtual void drawBone(float width, float height, float depth);
        virtual void drawCube(float scale, float cubeSize);
@@ -194,6 +198,7 @@ public:
        virtual void drawPatch(float width, float height, float resolution);
        virtual void drawOrientation(Actor* a);
        virtual void drawSprite();
+       virtual void drawText(string str, float x, float y);
 
        virtual void drawParticles (Actor* a);
        virtual void drawColladaMesh (Actor* a);

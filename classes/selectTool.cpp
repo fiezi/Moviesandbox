@@ -53,22 +53,22 @@ void SelectTool::keyReleased(int key){
     }
 
     //copy selected ctrl-d
-    if (key==4 && input->selectedActors.size()>0){
+    if (key==4 && sceneData->selectedActors.size()>0){
         copySelected();
     }
 
         //create Prefab
     if (key=='P'){
-        input->staticButton=(BasicButton*)sceneData->actorInfo["18CreatePrefabButton"].actorReference;
-        input->staticButton->setLocation(Vector3f(input->screenX/2-200,input->screenY/2-50,0));
-        input->staticButton->color=COLOR_BLUE;
-        input->staticButton->name="name your prefab";
-        input->staticButton->clickedLeft();
-        sceneData->buttonList.push_back(input->staticButton);
+        sceneData->staticButton=(BasicButton*)sceneData->actorInfo["18CreatePrefabButton"].actorReference;
+        sceneData->staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+        sceneData->staticButton->color=COLOR_BLUE;
+        sceneData->staticButton->name="name your prefab";
+        sceneData->staticButton->clickedLeft();
+        sceneData->buttonList.push_back(sceneData->staticButton);
     }
 
     //create Group
-    if (key=='G' && input->selectedActors.size()>1){            //shift-g
+    if (key=='G' && sceneData->selectedActors.size()>1){            //shift-g
         makeGroup();
     }
 }
@@ -89,9 +89,9 @@ void SelectTool::mouseReleased(int btn){
 
 			//right Button creates menu if on selected actor
 			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground"){
-			    for (int i=0;i<(int)input->selectedActors.size();i++)
-                    if (input->worldTarget==input->selectedActors[i])
-                        input->createActorMenu();
+			    for (int i=0;i<(int)sceneData->selectedActors.size();i++)
+                    if (input->worldTarget==sceneData->selectedActors[i])
+                        sceneData->createActorMenu();
 			}
 
 			//any Button selects!
@@ -116,7 +116,7 @@ void SelectTool::update(double deltaTime){
 void SelectTool::selectActors(int btn, Actor* other){
 
     //don't do anything to selection if we're just finishing a move or rotate
-    if (input->actorMenu && input->actorMenu->listButton.size()>0)
+    if (sceneData->actorMenu && sceneData->actorMenu->listButton.size()>0)
         return;
 
     //can select ground from layerInspector!
@@ -127,8 +127,8 @@ void SelectTool::selectActors(int btn, Actor* other){
 
     if (input->bShiftDown){                                                                //adding to selection
         bool foundInSelection=false;
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            if (other==input->selectedActors[i])
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            if (other==sceneData->selectedActors[i])
                 foundInSelection=true;                                              //only add if we're not already in selection
         }
         if (!foundInSelection){
@@ -136,20 +136,20 @@ void SelectTool::selectActors(int btn, Actor* other){
                 for (int i=0;i<(int)sceneData->actorList.size();i++){                //unless we hold down ctrl, then only add this one!
                     if (sceneData->actorList[i]->groupID==other->groupID){
                         sceneData->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(sceneData->actorList[i]);
+                        sceneData->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }
             else{
                 other->bSelected=true;
-                input->selectedActors.push_back(other);                              //no CTRL or no group, but SHIFT down, so should add
+                sceneData->selectedActors.push_back(other);                              //no CTRL or no group, but SHIFT down, so should add
                 }
             }
         }
     else{
         bool foundInSelection=false;
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            if (other==input->selectedActors[i])
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            if (other==sceneData->selectedActors[i])
                 foundInSelection=true;                                              //check if we're not already in selection
             }
         if (!foundInSelection && btn==MOUSEBTNLEFT){                                                     //if we're clicking on a actor not already in selection, you can go ahead
@@ -158,18 +158,18 @@ void SelectTool::selectActors(int btn, Actor* other){
                 for (int i=0;i<(int)sceneData->actorList.size();i++){                    //unless we hold down CTRL, then only select me
                     if (sceneData->actorList[i]->groupID==other->groupID){
                         sceneData->actorList[i]->bSelected=true;
-                        input->selectedActors.push_back(sceneData->actorList[i]);
+                        sceneData->selectedActors.push_back(sceneData->actorList[i]);
                         }
                     }
                 }
             else{
                 other->bSelected=true;
-                input->selectedActors.push_back(other);                                  //no CTRL or no Group
+                sceneData->selectedActors.push_back(other);                                  //no CTRL or no Group
                 }
             }
         else if (!foundInSelection && btn==MOUSEBTNRIGHT){                           //not in selection and clicked right
                 other->bSelected=true;
-                input->selectedActors.push_back(other);
+                sceneData->selectedActors.push_back(other);
                 }
         }
 }
@@ -179,9 +179,9 @@ void SelectTool::makeGroup(){
         TextInputButton* messageWindow=new TextInputButton;
         messageWindow->name="GroupName:";
         messageWindow->bMessageWindow=true;
-        messageWindow->parent=input->selectedActors[0];
+        messageWindow->parent=sceneData->selectedActors[0];
         messageWindow->buttonProperty="GROUPID";
-        messageWindow->setLocation(Vector3f(input->screenX/2-200,input->screenY/2-50,0));
+        messageWindow->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
         messageWindow->scale=Vector3f(100,50,1);
         messageWindow->sceneShaderID="color";
         input->focusButton=messageWindow;
@@ -206,8 +206,8 @@ void SelectTool::makePrefab(std::string prefabName){
 
 
         //finally, save
-        for (int i=0;i<(int)input->selectedActors.size();i++){
-            myPrefab->LinkEndChild(input->selectedActors[i]->saveAsPrefab(myPrefab));
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            myPrefab->LinkEndChild(sceneData->selectedActors[i]->saveAsPrefab(myPrefab));
         }
 
         //save to disk
@@ -218,25 +218,25 @@ void SelectTool::makePrefab(std::string prefabName){
         string stringName="resources/prefabs/"+prefabName+".prefab";
         doc.SaveFile(stringName);
 
-        for (int i=0;i<(int)input->prefabs.size();i++){
-            if (input->prefabs[i]==prefabName+".prefab");
+        for (int i=0;i<(int)sceneData->prefabs.size();i++){
+            if (sceneData->prefabs[i]==prefabName+".prefab");
                 return;
         }
-        input->prefabs.push_back(prefabName+".prefab");
+        sceneData->prefabs.push_back(prefabName+".prefab");
 
 }
 
 void SelectTool::copySelected(){
 
     cout << "copying..." << endl;
-    for (int i=0;i<(int)input->selectedActors.size();i++){
-        const std::type_info* myType=&(typeid(*(input->selectedActors[i])));
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+        const std::type_info* myType=&(typeid(*(sceneData->selectedActors[i])));
         Actor * A=sceneData->actorInfo[myType->name()].actorReference;
         A->create();
 
         TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
         A=sceneData->actorList[sceneData->actorList.size()-1];
-        A->load(input->selectedActors[i]->save(root));
+        A->load(sceneData->selectedActors[i]->save(root));
         delete root;
         A->bSelected=false;                                             //flip selection when copying!
         A->setup();

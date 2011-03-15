@@ -162,13 +162,13 @@ void BrushInspector::trigger(MsbObject* other){
 
     if (other->name=="show color"){
 
-        if (input->controller->tool==TOOL_SELECT){
-            if (input->selectedActors.size()>0){
-                    for (int i=0;i<(int)input->selectedActors.size();i++){
-                        input->selectedActors[i]->color=other->color;
+        if (sceneData->controller->tool==TOOL_SELECT){
+            if (sceneData->selectedActors.size()>0){
+                    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+                        sceneData->selectedActors[i]->color=other->color;
                     }
             }
-        }else if (input->controller->tool==TOOL_DRAW){
+        }else if (sceneData->controller->tool==TOOL_DRAW){
             sceneData->brush->color=other->color;
         }
 

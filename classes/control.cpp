@@ -1,5 +1,6 @@
 #include "control.h"
 #include "input.h"
+#include "sceneData.h"
 #include "physicsActor.h"
 #include "calligraphyFilter.h"
 #include "navTool.h"
@@ -64,10 +65,10 @@ void Control::update(double deltaTime){
     currentTool->update(deltaTime);
 
 	//handle event triggering!
-    for (int i=0;i<(int)input->eventTrigger.size();i++){
-        eventTrigger.push_back(input->eventTrigger[i]);
+    for (int i=0;i<(int)sceneData->eventTrigger.size();i++){
+        eventTrigger.push_back(sceneData->eventTrigger[i]);
     }
-    input->eventTrigger.clear();
+    sceneData->eventTrigger.clear();
 
     //do the run thing
     if (bRunning){

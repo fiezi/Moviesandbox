@@ -22,13 +22,13 @@ void ColorPickButton::mouseDrag(){
 
     input->dragButton=this;
 
-    if (input->controller->tool==TOOL_SELECT){
-        if (input->selectedActors.size()>0){
-                for (int i=0;i<(int)input->selectedActors.size();i++){
-                    input->selectedActors[i]->color=pickColor();
+    if (sceneData->controller->tool==TOOL_SELECT){
+        if (sceneData->selectedActors.size()>0){
+                for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+                    sceneData->selectedActors[i]->color=pickColor();
                 }
         }
-    }else if (input->controller->tool==TOOL_DRAW){
+    }else if (sceneData->controller->tool==TOOL_DRAW){
         sceneData->brush->color=pickColor();
     }
     cout << "picked color: "<< pickColor() << endl;
@@ -50,13 +50,13 @@ void ColorPickButton::clickedLeft(){
 
     Actor* actorParent=(Actor*)parent;
 
-    if (input->controller->tool==TOOL_SELECT){
-        if (input->selectedActors.size()>0){
-                for (int i=0;i<(int)input->selectedActors.size();i++){
-                    input->selectedActors[i]->color=pickColor();
+    if (sceneData->controller->tool==TOOL_SELECT){
+        if (sceneData->selectedActors.size()>0){
+                for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+                    sceneData->selectedActors[i]->color=pickColor();
                 }
         }
-    }else if (input->controller->tool==TOOL_DRAW){
+    }else if (sceneData->controller->tool==TOOL_DRAW){
         sceneData->brush->color=pickColor();
     }
     cout << "picked color: "<< pickColor() << endl;

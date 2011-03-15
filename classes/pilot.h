@@ -12,6 +12,7 @@
 #endif
 
 #include "actor.h"
+#include "msbObject.h"
 
 
 class UdpInput;
@@ -29,7 +30,7 @@ class Input;
 //
 //***************************************************************************************
 
-class Pilot : public osc::OscPacketListener {
+class Pilot : public osc::OscPacketListener, public MsbObject{
 public:
 
     Input*          input;
@@ -43,7 +44,7 @@ public:
 #ifdef TARGET_MACOSX
 	pthread_mutex_t * mutex;
 #endif
-	
+
     std::string     name;               //simple identifier
 
     Pilot();
