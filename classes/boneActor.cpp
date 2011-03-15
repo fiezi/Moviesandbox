@@ -152,7 +152,7 @@ void BoneActor::doIK(Vector3f loc, bool bAbsolute){
 
     Vector3f currentUpperVec, currentLowerVec, initialUpperVec, initialLowerVec;
 
-    MeshData* myMesh=renderer->vboList[actorParent->vboMeshID];
+    MeshData* myMesh=sceneData->vboList[actorParent->vboMeshID];
     //find original angles for non-aligned bones - from mesh data!
     for (int i=0;i<(int)myMesh->bones.size();i++){
         if (myMesh->bones[i]->name==base->name)
@@ -384,4 +384,4 @@ void BoneActor::remove(){
     Actor::remove();
 }
 
-void BoneActor::create(){renderer->addActor(this);}
+void BoneActor::create(){sceneData->addActor(this);}

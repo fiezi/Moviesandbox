@@ -84,24 +84,21 @@ void NavTool::mouseDragged(int btn){
 
 void NavTool::update(double deltaTime){
 
-
-
   MsbTool::update(deltaTime);
 
 
-
-  if (bPressLeft && input->hudTarget==NULL){
-    processRotation(deltaTime);
-  }
-  if (bPressRight && input->hudTarget==NULL){
-    input->keyVector=input->mouseVector * 0.5;
-    if (!input->bShiftDown){
-        input->keyVector.z=-input->keyVector.y;
-        input->keyVector.y=0.0;
+    if (bPressLeft && input->hudTarget==NULL){
+        processRotation(deltaTime);
     }
-  }
+    if (bPressRight && input->hudTarget==NULL){
+        input->keyVector=input->mouseVector * 0.5;
+        if (!input->bShiftDown){
+            input->keyVector.z=-input->keyVector.y;
+            input->keyVector.y=0.0;
+        }
+    }
 
-  processMove(deltaTime);
+    processMove(deltaTime);
 }
 
 void NavTool::processRotation(double deltaTime){
@@ -109,11 +106,11 @@ void NavTool::processRotation(double deltaTime){
     Vector3f axis;
 
     float amount=0.0f;
-    amount=-input->mouseVector.x * renderer->mouseSensitivity;
+    amount=-input->mouseVector.x * sceneData->mouseSensitivity;
     controller->controlledActor->addRotation(amount, Vector3f(0,1,0));
 
 
-    amount=-input->mouseVector.y * renderer->mouseSensitivity;
+    amount=-input->mouseVector.y * sceneData->mouseSensitivity;
     controller->controlledActor->addRotation(amount, controller->controlledActor->xAxis);
 
     input->bConfineMouse=true;
@@ -130,18 +127,17 @@ void NavTool::processMove(double deltaTime){
 
 
     ///moving
-    //ha! that would be too easy
-
     Actor* controlledActor = input->controller->controlledActor;
 
     Vector3f myTranslation=controlledActor->baseMatrix.getTranslation();
 
     //move forwards
-    myTranslation-=controlledActor->zAxis*input->keyVector.z*renderer->moveSpeed*deltaTime;
+    myTranslation-=controlledActor->zAxis*input->keyVector.z*sceneData->moveSpeed*deltaTime;
     //move sideways
-    myTranslation-=controlledActor->xAxis*input->keyVector.x*renderer->moveSpeed*deltaTime;
+    myTranslation-=controlledActor->xAxis*input->keyVector.x*sceneData->moveSpeed*deltaTime;
     //move up/down
-    myTranslation.y+=input->keyVector.y*renderer->moveSpeed*deltaTime;
+    myTranslation.y+=input->keyVector.y*sceneData->moveSpeed*deltaTime;
+
 
     controlledActor->setLocation(myTranslation);
     controlledActor->orientation=controlledActor->zAxis;

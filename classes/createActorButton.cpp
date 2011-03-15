@@ -43,15 +43,15 @@ void CreateActorButton::finishDrag(){
 	}
 
     //draw new actor as VBOMESH if we have one assigned to us and we find it in the vboMeshList
-    if (vboMeshID!="NULL" && renderer->vboList[vboMeshID]){
+    if (vboMeshID!="NULL" && sceneData->vboList[vboMeshID]){
         newActor->vboMeshID=vboMeshID;
-        if (renderer->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
+        if (sceneData->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
             newActor->sceneShaderID="skeletal";
 		}
         else{
             newActor->sceneShaderID="color";
 		}
-        newActor->drawType=renderer->vboList[vboMeshID]->drawType;
+        newActor->drawType=sceneData->vboList[vboMeshID]->drawType;
     }
 
 //	newActor->bPickable=true;
@@ -91,16 +91,16 @@ void CreateActorButton::clickedLeft(){
         }
 
 
-    if (vboMeshID!="NULL" && renderer->vboList[vboMeshID]){
+    if (vboMeshID!="NULL" && sceneData->vboList[vboMeshID]){
         newActor->vboMeshID=vboMeshID;
-        if (renderer->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
+        if (sceneData->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
             newActor->sceneShaderID="skeletal";
 		}
 		else{
             newActor->sceneShaderID="color";
 		}
 
-        newActor->drawType=renderer->vboList[vboMeshID]->drawType;
+        newActor->drawType=sceneData->vboList[vboMeshID]->drawType;
     }
     cout << "created new actor..." << endl;
 

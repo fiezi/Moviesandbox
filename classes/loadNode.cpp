@@ -37,4 +37,4 @@ void LoadNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void LoadNode::create(){renderer->addNode(this);}
+void LoadNode::create(){sceneData->addNode(this);}

@@ -66,4 +66,4 @@ if (dotProduct>0.5)
 }
 
 
-void SpriteCharacter::create(){renderer->addActor(this);}
+void SpriteCharacter::create(){sceneData->addActor(this);}

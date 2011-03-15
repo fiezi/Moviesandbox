@@ -75,4 +75,4 @@ void ParticleSpray::sprayParticles(double deltaTime){
 */
 };
 
-void ParticleSpray::create(){renderer->addActor(this);}
+void ParticleSpray::create(){sceneData->addActor(this);}

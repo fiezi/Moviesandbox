@@ -57,4 +57,4 @@ void SetPropertyNode::update(double deltaTime){
 Node::update(deltaTime);
 }
 
-void SetPropertyNode::create(){renderer->addNode(this);}
+void SetPropertyNode::create(){sceneData->addNode(this);}

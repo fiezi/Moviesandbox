@@ -44,7 +44,7 @@ void Layer::update(double deltaTime){
 
 void Layer::updateShaders(){
 
-    shaderObject* myShader= renderer->shaderList[sceneShaderID];
+    shaderObject* myShader= sceneData->shaderList[sceneShaderID];
 
     //needs if statements because the compiler throws out stuff if not used!
     if (myShader->uniforms.find("tex") != myShader->uniforms.end())
@@ -79,7 +79,7 @@ void Layer::updateShaders(){
         glUniformMatrix4fv(myShader->uniforms["projectionInverse"],1,false,(GLfloat*)renderer->inverseProjectionMatrix);
 
     if (myShader->uniforms.find("numLights") != myShader->uniforms.end())
-        glUniform1i(myShader->uniforms["numLights"],renderer->lightList.size());
+        glUniform1i(myShader->uniforms["numLights"],sceneData->lightList.size());
 
     if (myShader->uniforms.find("bLighting") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bLighting"],renderer->bDrawLighting);

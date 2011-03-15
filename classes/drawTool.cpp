@@ -23,7 +23,7 @@ DrawTool::~DrawTool(){}
 void DrawTool::setup(){
 
     MsbTool::setup();
-    brush=renderer->brush;
+    brush=sceneData->brush;
     filters.push_back(new BrushFilter(this));
 }
 
@@ -194,9 +194,9 @@ void DrawTool::paint(){
     vertexData myVData;
 	vertexData oldVData;
 
-	int mySize=renderer->vboList[brush->drawing->vboMeshID]->vData.size();
+	int mySize=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
 	if (mySize>0)
-		oldVData=renderer->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
+		oldVData=sceneData->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
 
     brush->drawing->bPickable=false;
     brush->drawing->bZTest=false;
@@ -205,12 +205,12 @@ void DrawTool::paint(){
     for (int i=0;i<(int)filters.size();i++){
         filters[i]->filter(&myVData);
     }
-	if (!renderer->brush->bMouseControlled)
-		myVData.normal=renderer->brush->pNormal;
+	if (!sceneData->brush->bMouseControlled)
+		myVData.normal=sceneData->brush->pNormal;
 
-    myVData.vertexID=renderer->vboList[brush->drawing->vboMeshID]->vData.size();
+    myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
 
-    renderer->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
+    sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
 
     //count particles
     input->numParticles++;
@@ -222,9 +222,9 @@ void DrawTool::erase(){
 
     calcLoc=brush->location-brush->drawing->location;
 
-    for (unsigned int i=0;i<renderer->vboList[brush->drawing->vboMeshID]->vData.size();i++)
+    for (unsigned int i=0;i<sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++)
       {
-      Vector4f loc=renderer->vboList[brush->drawing->vboMeshID]->vData[i].location;
+      Vector4f loc=sceneData->vboList[brush->drawing->vboMeshID]->vData[i].location;
       Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
       if (brush->scale.x * 0.1>distance.length())
           brush->drawing->deleteParticle(i);
@@ -236,7 +236,7 @@ void DrawTool::erase(){
 void DrawTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
@@ -249,7 +249,7 @@ void DrawTool::scaleZ(float factor){
 
     MeshData* myMesh;
     if (brush->drawing)
-        myMesh=renderer->vboList[brush->drawing->vboMeshID];
+        myMesh=sceneData->vboList[brush->drawing->vboMeshID];
 
     if (brush->drawing){
         for (int i=0;i<(int)myMesh->vData.size();i++){
@@ -263,7 +263,7 @@ void DrawTool::selectParticles(){
 
     calcLoc=brush->location-brush->drawing->location;
 
-    MeshData* myData=renderer->vboList[brush->drawing->vboMeshID];
+    MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 //go through all particles and see
     for (int i=0;i<(int)myData->vData.size();i++){
         //compute the distance to brush
@@ -302,7 +302,7 @@ void DrawTool::deselectAllParticles(){
 
  //deselect!
     for (int i=0;i<(int)brush->selectedData.size();i++){
-        renderer->vboList[brush->drawing->vboMeshID]->vData[brush->selectedData[i]].color=brush->selectedOldColors[i];
+        sceneData->vboList[brush->drawing->vboMeshID]->vData[brush->selectedData[i]].color=brush->selectedOldColors[i];
     }
     brush->selectedData.clear();
     brush->selectedOldColors.clear();
@@ -330,8 +330,8 @@ void DrawTool::mergeDrawings(){
     for (int i=1;i<(int)input->selectedActors.size();i++){
         readPS=dynamic_cast<ParticleSystem*>(input->selectedActors[i]);
         //copy values
-        MeshData * readMesh = renderer->vboList[readPS->vboMeshID];
-        MeshData * receiveMesh = renderer->vboList[receivePS->vboMeshID];
+        MeshData * readMesh = sceneData->vboList[readPS->vboMeshID];
+        MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
         for (int i=0;i<(int)readMesh->vData.size();i++){
             receiveMesh->vData.push_back(readMesh->vData[i]);
 

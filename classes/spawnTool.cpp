@@ -18,7 +18,7 @@ void SpawnTool::start(){
 
     MsbTool::start();
 
-    brush=renderer->brush;
+    brush=sceneData->brush;
     brush->bHidden=false;
     brush->drawType=DRAW_VBOMESH;
     brush->color.a=0.5;
@@ -48,11 +48,11 @@ void SpawnTool::keyReleased(int key){
             brushRot=BRUSH_X;
 
         if (brushRot==BRUSH_X)
-            renderer->brush->setRotation(brushX,brushY,brushZ);
+            sceneData->brush->setRotation(brushX,brushY,brushZ);
         if (brushRot==BRUSH_Y)
-            renderer->brush->setRotation(brushZ,brushY,brushX);
+            sceneData->brush->setRotation(brushZ,brushY,brushX);
         if (brushRot==BRUSH_Z)
-            renderer->brush->setRotation(brushX,brushZ,brushY);
+            sceneData->brush->setRotation(brushX,brushZ,brushY);
 
     }
     if (key=='n'){
@@ -150,7 +150,7 @@ void SpawnTool::update(double deltaTime){
 
     MsbTool::update(deltaTime);
 
-    renderer->brush->setLocation(input->mouse3D);
+    sceneData->brush->setLocation(input->mouse3D);
 
     if (brushMove==BRUSH_ABSOLUTE){
         brushX=Vector3f(1,0,0);
@@ -186,11 +186,11 @@ void SpawnTool::update(double deltaTime){
     }
 
     if (brushRot==BRUSH_X)
-        renderer->brush->setRotation(brushX,brushY,brushZ);
+        sceneData->brush->setRotation(brushX,brushY,brushZ);
     if (brushRot==BRUSH_Y)
-        renderer->brush->setRotation(brushZ,brushY,brushX);
+        sceneData->brush->setRotation(brushZ,brushY,brushX);
     if (brushRot==BRUSH_Z)
-        renderer->brush->setRotation(brushX,brushZ,brushY);
+        sceneData->brush->setRotation(brushX,brushZ,brushY);
 
 }
 
@@ -201,7 +201,7 @@ void SpawnTool::postSpawn(Actor* myActor){
     cout << "Spawning..." << brush->vboMeshID << endl;
     //assign vboMeshID from Brush to new Actor
     myActor->vboMeshID=brush->vboMeshID;
-    if (renderer->vboList[brush->vboMeshID]->bIsSkeletal)
+    if (sceneData->vboList[brush->vboMeshID]->bIsSkeletal)
         myActor->sceneShaderID="skeletal";
 
     myActor->setRotation(brush->rotation);

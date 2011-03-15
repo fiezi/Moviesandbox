@@ -4,15 +4,19 @@
 
 SpriteMeshLoaderXML::SpriteMeshLoaderXML(){
 
-vertexWeights=NULL; //4 weights per vertex, we select the 4 most influential
-boneReference=NULL; //4 bone References per vertex, we select the 4 most influential
+    vertexWeights=NULL; //4 weights per vertex, we select the 4 most influential
+    boneReference=NULL; //4 bone References per vertex, we select the 4 most influential
 
-normals=NULL;                               //normal array pointer
-vertices=NULL;                              //vertex array pointer
-texCoords=NULL;                              //vertex array pointer
-renderer=Renderer::getInstance();
+    normals=NULL;                               //normal array pointer
+    vertices=NULL;                              //vertex array pointer
+    texCoords=NULL;                              //vertex array pointer
+    renderer=Renderer::getInstance();
 
-vertexCount=0;
+    vertexCount=0;
+
+    input=Input::getInstance();
+    renderer=Renderer::getInstance();
+    sceneData=SceneData::getInstance();
 }
 
 SpriteMeshLoaderXML::~SpriteMeshLoaderXML(){
@@ -22,7 +26,7 @@ bool SpriteMeshLoaderXML::saveSpriteMesh( string filename, SkeletalActor* myDraw
 
     //generate arrays from location
 
-	MeshData* myMesh=renderer->vboList[myDrawing->vboMeshID];
+	MeshData* myMesh=sceneData->vboList[myDrawing->vboMeshID];
 
 	vertexCount=myMesh->vData.size();
 
@@ -255,18 +259,18 @@ bool SpriteMeshLoaderXML::createVBOs(string meshID){
     GLuint vertexWeightsBuffer=0;
     GLuint boneReferenceBuffer=0;
 
-	MeshData* myMesh = renderer->vboList[meshID];
+	MeshData* myMesh = sceneData->vboList[meshID];
 	vertexCount= myMesh->vData.size();
 
 	//clear any previous stuff...
-	renderer->vboList[meshID]->vertexCount.clear();
-    renderer->vboList[meshID]->vertexBufferObject.clear();
-	renderer->vboList[meshID]->vertexWeightsObject.clear();
-	renderer->vboList[meshID]->boneReferenceObject.clear();
-    renderer->vboList[meshID]->colorBufferObject.clear();
-    renderer->vboList[meshID]->secondaryColorBufferObject.clear();
-    renderer->vboList[meshID]->normalBufferObject.clear();
-    renderer->vboList[meshID]->texCoordBufferObject.clear();
+	sceneData->vboList[meshID]->vertexCount.clear();
+    sceneData->vboList[meshID]->vertexBufferObject.clear();
+	sceneData->vboList[meshID]->vertexWeightsObject.clear();
+	sceneData->vboList[meshID]->boneReferenceObject.clear();
+    sceneData->vboList[meshID]->colorBufferObject.clear();
+    sceneData->vboList[meshID]->secondaryColorBufferObject.clear();
+    sceneData->vboList[meshID]->normalBufferObject.clear();
+    sceneData->vboList[meshID]->texCoordBufferObject.clear();
 
 	//vertex buffer
     glGenBuffersARB(1, &vertexBuffer);
@@ -274,11 +278,11 @@ bool SpriteMeshLoaderXML::createVBOs(string meshID){
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector4f), &vertices[0].x , GL_STATIC_DRAW_ARB);
 
 
-    renderer->vboList[meshID]->vertexBufferObject.push_back(vertexBuffer);
-	renderer->vboList[meshID]->vertexCount.push_back(vertexCount);
+    sceneData->vboList[meshID]->vertexBufferObject.push_back(vertexBuffer);
+	sceneData->vboList[meshID]->vertexCount.push_back(vertexCount);
 
     //bind bone References
-    if ( renderer->vboList[meshID]->bIsSkeletal){
+    if ( sceneData->vboList[meshID]->bIsSkeletal){
 
 		//bind weights 1 to 4
         glGenBuffersARB(1, &vertexWeightsBuffer);
@@ -289,35 +293,35 @@ bool SpriteMeshLoaderXML::createVBOs(string meshID){
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, boneReferenceBuffer);
         glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector4f), &boneReference[0].x , GL_STATIC_DRAW_ARB);
 
-        renderer->vboList[meshID]->vertexWeightsObject.push_back(vertexWeightsBuffer);
-        renderer->vboList[meshID]->boneReferenceObject.push_back(boneReferenceBuffer);
+        sceneData->vboList[meshID]->vertexWeightsObject.push_back(vertexWeightsBuffer);
+        sceneData->vboList[meshID]->boneReferenceObject.push_back(boneReferenceBuffer);
 	}
 
     glGenBuffersARB(1, &colorBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, colorBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector4f), &colors[0].r , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->colorBufferObject.push_back(colorBuffer);
+    sceneData->vboList[meshID]->colorBufferObject.push_back(colorBuffer);
 
 	glGenBuffersARB(1, &secondaryColorBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, secondaryColorBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &secondaryColors[0].r , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->secondaryColorBufferObject.push_back(secondaryColorBuffer);
+    sceneData->vboList[meshID]->secondaryColorBufferObject.push_back(secondaryColorBuffer);
 
     //normal Buffer
     glGenBuffersARB(1, &normalBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, normalBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &normals[0].x , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->normalBufferObject.push_back(normalBuffer);
+    sceneData->vboList[meshID]->normalBufferObject.push_back(normalBuffer);
 
     //texCoord Buffer
     glGenBuffersARB(1, &texCoordBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, texCoordBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &texCoords[0].x , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->texCoordBufferObject.push_back(texCoordBuffer);
+    sceneData->vboList[meshID]->texCoordBufferObject.push_back(texCoordBuffer);
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 
@@ -331,8 +335,8 @@ bool SpriteMeshLoaderXML::loadSpriteMesh( string filename, string meshID ){
     cout << "yay!" << meshID << endl;
 
     //check if meshID already exists!
-    if (renderer->vboList[meshID]){
-        renderer->vboList.erase(meshID);
+    if (sceneData->vboList[meshID]){
+        sceneData->vboList.erase(meshID);
         }
 
     // XML File Open
@@ -367,7 +371,7 @@ bool SpriteMeshLoaderXML::loadSpriteMesh( string filename, string meshID ){
     myMesh->verticesPerShapeCount=4;
     myMesh->vertexInterpretation=GL_POINTS;
     myMesh->drawType=DRAW_VBOMESH;
-    renderer->vboList[meshID]=myMesh;
+    sceneData->vboList[meshID]=myMesh;
 
 
     loadVertices(meshID, hRoot.FirstChild("vertices").Element());
@@ -384,8 +388,8 @@ bool SpriteMeshLoaderXML::loadSpriteMesh( string filename, string meshID ){
 
 
 	//fill vertex data for editing
-	if (!renderer->vboList[meshID]->vData.empty())
-		renderer->vboList[meshID]->vData.clear();
+	if (!sceneData->vboList[meshID]->vData.empty())
+		sceneData->vboList[meshID]->vData.clear();
 
 	for (int i=0;i<vertexCount;i++){
         vertexData myVData;
@@ -397,7 +401,7 @@ bool SpriteMeshLoaderXML::loadSpriteMesh( string filename, string meshID ){
         myVData.texCoord=texCoords[i];
         myVData.vertexWeights=vertexWeights[i];
         myVData.boneReferences=boneReference[i];
-        renderer->vboList[meshID]->vData.push_back(myVData);
+        sceneData->vboList[meshID]->vData.push_back(myVData);
     }
 
 
@@ -424,11 +428,11 @@ void SpriteMeshLoaderXML::loadBones(string meshID, TiXmlElement * sourceElement)
     for (TiXmlElement * boneElement=sourceElement;boneElement!=NULL;boneElement=boneElement->NextSiblingElement()){
         //create new bone in MeshData object
         bone * myBone=new bone;
-        renderer->vboList[meshID]->bones.push_back(myBone);
+        sceneData->vboList[meshID]->bones.push_back(myBone);
 
         myBone->name=boneElement->Attribute("boneName");
         if (myBone->name=="mouthUp")
-            renderer->vboList[meshID]->bIsHead=true;
+            sceneData->vboList[meshID]->bIsHead=true;
 
         //fill the MeshData object with all our DATA
         myBone->invBoneMatrix=new Matrix4f;
@@ -455,21 +459,21 @@ void SpriteMeshLoaderXML::loadBones(string meshID, TiXmlElement * sourceElement)
         boneParentElement->Attribute("parent", &parentBone);
 
         if (parentBone>=0){
-            renderer->vboList[meshID]->bones[currentBone]->parentBone=renderer->vboList[meshID]->bones[parentBone];
+            sceneData->vboList[meshID]->bones[currentBone]->parentBone=sceneData->vboList[meshID]->bones[parentBone];
             //cout << "set Parent bone!" << endl;
             }
         else
-            renderer->vboList[meshID]->bones[currentBone]->parentBone=NULL;
+            sceneData->vboList[meshID]->bones[currentBone]->parentBone=NULL;
 
         currentBone++;
     }
 
     if (currentBone>1){
 
-        renderer->vboList[meshID]->bIsSkeletal=true;
-        //renderer->vboList[meshID]->bVertexColor=false;
-        renderer->vboList[meshID]->bindShapeMatrix=new Matrix4f;
-        renderer->vboList[meshID]->boneCount=currentBone;
+        sceneData->vboList[meshID]->bIsSkeletal=true;
+        //sceneData->vboList[meshID]->bVertexColor=false;
+        sceneData->vboList[meshID]->bindShapeMatrix=new Matrix4f;
+        sceneData->vboList[meshID]->boneCount=currentBone;
 
     }
 
@@ -514,7 +518,7 @@ void SpriteMeshLoaderXML::loadVertices(string meshID, TiXmlElement * sourceEleme
         vertexPart = strtok(NULL, " "); //advance
         }
 
-	renderer->vboList[meshID]->vertexCount.push_back(vertexCount);
+	sceneData->vboList[meshID]->vertexCount.push_back(vertexCount);
 }
 
 void SpriteMeshLoaderXML::loadNormals(string meshID, TiXmlElement * sourceElement){

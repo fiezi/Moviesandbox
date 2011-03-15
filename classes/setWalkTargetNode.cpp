@@ -62,4 +62,4 @@ void SetWalkTargetNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void SetWalkTargetNode::create(){renderer->addNode(this);}
+void SetWalkTargetNode::create(){sceneData->addNode(this);}

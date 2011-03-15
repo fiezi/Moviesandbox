@@ -43,8 +43,8 @@ void BrushFilter::filter(vertexData* myVData){
     oldData.normal=Vector3f(0,0,0);
     oldData.location=Vector4f(0,0,0,brush->scale.x*0.1);
 
-    if (renderer->vboList[brush->drawing->vboMeshID]->vData.size()>0)
-        oldData=renderer->vboList[brush->drawing->vboMeshID]->vData.back();
+    if (sceneData->vboList[brush->drawing->vboMeshID]->vData.size()>0)
+        oldData=sceneData->vboList[brush->drawing->vboMeshID]->vData.back();
 
     Vector4f pDistance=myVData->location - oldData.location;
     //this is the drawing vector
@@ -60,10 +60,10 @@ void BrushFilter::filter(vertexData* myVData){
         case NORMAL_UP:
 
             if (brush->bNormalFollowDrawing){
-                    myVData->normal=renderer->grid->zAxis.crossProduct(pDist3);
+                    myVData->normal=sceneData->grid->zAxis.crossProduct(pDist3);
                     //cout << "normal: " << myVData->normal << endl;
             }else{
-                myVData->normal=renderer->grid->yAxis;
+                myVData->normal=sceneData->grid->yAxis;
             }
             break;
 
@@ -71,9 +71,9 @@ void BrushFilter::filter(vertexData* myVData){
         case NORMAL_FRONT:
 
 //            if (brush->bNormalFollowDrawing){
-//                myVData->normal=pDist3.crossProduct(renderer->grid->yAxis);
+//                myVData->normal=pDist3.crossProduct(sceneData->grid->yAxis);
 //            }else{
-                myVData->normal=renderer->grid->zAxis;
+                myVData->normal=sceneData->grid->zAxis;
 //            }
             break;
 

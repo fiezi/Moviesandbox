@@ -618,7 +618,7 @@ cout << "done!" << endl;
 }
 
 void RagDoll::create(){
-renderer->addActor(this);
+sceneData->addActor(this);
 std::cout << "creating a ragdoll! \n";
 }
 

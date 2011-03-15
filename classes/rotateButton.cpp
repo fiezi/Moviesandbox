@@ -19,7 +19,7 @@ void RotateButton::update(double deltaTime){
         Actor* actorParent=(Actor*)parent;
         Vector3f axis;
 
-        float amount=input->mouseVector.x * renderer->mouseSensitivity;
+        float amount=input->mouseVector.x * sceneData->mouseSensitivity;
 
             Vector3f xA,yA,zA;
             actorParent->getAxis(&xA,&yA,&zA,actorParent->transformMatrix);

@@ -101,4 +101,4 @@ void MorphSpriteMeshNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void MorphSpriteMeshNode::create(){renderer->addNode(this);}
+void MorphSpriteMeshNode::create(){sceneData->addNode(this);}

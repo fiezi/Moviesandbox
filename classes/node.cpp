@@ -240,7 +240,7 @@ void Node::remove(){
 
 void Node::create(){
 
-renderer->addNode(this);
+sceneData->addNode(this);
 std::cout << "creating a Node!";
 }
 

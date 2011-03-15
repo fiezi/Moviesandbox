@@ -43,13 +43,13 @@ ListButton::trigger(other);
 if (other==scrollBar)
     return;
 
-if (renderer->brush->drawing){
+if (sceneData->brush->drawing){
     //clean up particleSystem
-    renderer->brush->drawing->drawType=4;
-    for (int i=renderer->vboList[renderer->brush->drawing->vboMeshID]->vData.size()-1;i>-1;i--)
-        renderer->brush->drawing->deleteParticle(i);
+    sceneData->brush->drawing->drawType=4;
+    for (int i=sceneData->vboList[sceneData->brush->drawing->vboMeshID]->vData.size()-1;i>-1;i--)
+        sceneData->brush->drawing->deleteParticle(i);
     loadFile(other->name);
-    renderer->brush->drawing->sceneShaderID="drawing";
+    sceneData->brush->drawing->sceneShaderID="drawing";
     }
 input->deselectButtons(0);
 }
@@ -113,7 +113,7 @@ FreeImage_Unload(myBitmap);
 void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int imageHeight, float flip){
 
 
-    renderer->brush->bMouseControlled=false;
+    sceneData->brush->bMouseControlled=false;
     //go through all of the image
     for (int h=0;h<imageHeight;h++){
     //reset after every line
@@ -122,20 +122,20 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
             RGBQUAD *myColor=new RGBQUAD;
 
             FreeImage_GetPixelColor(myBitmap,w,h,myColor);
-            renderer->brush->color.r=(float)myColor->rgbRed/255.0f;
-            renderer->brush->color.g=(float)myColor->rgbGreen/255.0f;
-            renderer->brush->color.b=(float)myColor->rgbBlue/255.0f;
+            sceneData->brush->color.r=(float)myColor->rgbRed/255.0f;
+            sceneData->brush->color.g=(float)myColor->rgbGreen/255.0f;
+            sceneData->brush->color.b=(float)myColor->rgbBlue/255.0f;
 
             Vector3f bLoc;
-            bLoc.x=renderer->brush->drawing->location.x- 10 * (float) ((float)imageWidth/2.0 - (float)w)/(float)imageWidth;
-            bLoc.y=renderer->brush->drawing->location.y+ 10 *  (float)h/(float)imageHeight;
-            bLoc.z=renderer->brush->drawing->location.z- flip * (float)myColor->rgbReserved/32.0f;
-            renderer->brush->setLocation(bLoc);
+            bLoc.x=sceneData->brush->drawing->location.x- 10 * (float) ((float)imageWidth/2.0 - (float)w)/(float)imageWidth;
+            bLoc.y=sceneData->brush->drawing->location.y+ 10 *  (float)h/(float)imageHeight;
+            bLoc.z=sceneData->brush->drawing->location.z- flip * (float)myColor->rgbReserved/32.0f;
+            sceneData->brush->setLocation(bLoc);
             //flip y and z when shift down
             if (input->bShiftDown){
-                bLoc.z=renderer->brush->drawing->location.z+ 10 *  (float)h/(float)imageHeight;
-                bLoc.y=renderer->brush->drawing->location.y+ flip * (float)myColor->rgbReserved/32.0f;
-                renderer->brush->setLocation(bLoc);
+                bLoc.z=sceneData->brush->drawing->location.z+ 10 *  (float)h/(float)imageHeight;
+                bLoc.y=sceneData->brush->drawing->location.y+ flip * (float)myColor->rgbReserved/32.0f;
+                sceneData->brush->setLocation(bLoc);
             }
 
             Vector3f xyzNormal;
@@ -143,15 +143,15 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
             if ((int)myColor->rgbReserved>0){
 
                 input->mouseVector=Vector3f(0.1,0.1,0.1);   //HACK so that we actually paint something!
-                renderer->brush->setLocation(renderer->brush->location*renderer->brush->drawing->scale);
-				input->mouse3D=renderer->brush->location;
+                sceneData->brush->setLocation(sceneData->brush->location*sceneData->brush->drawing->scale);
+				input->mouse3D=sceneData->brush->location;
                 xyzNormal=genNormal(myBitmap,w,h,imageWidth,imageHeight,flip);
                 xyzNormal+=genNormal(myBitmap,w+1,h,imageWidth,imageHeight,flip);
                 xyzNormal+=genNormal(myBitmap,w-1,h,imageWidth,imageHeight,flip);
                 xyzNormal+=genNormal(myBitmap,w,h+1,imageWidth,imageHeight,flip);
                 xyzNormal+=genNormal(myBitmap,w,h-1,imageWidth,imageHeight,flip);
                 xyzNormal.normalize();
-                renderer->brush->pNormal=xyzNormal;
+                sceneData->brush->pNormal=xyzNormal;
 
                 ((DrawTool*)input->controller->currentTool)->paint();
 
@@ -182,8 +182,8 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 if (fillDepth + fillStep/32.0f <myDepth){
                     int i=1;
                     while (fillDepth<myDepth){
-                        renderer->brush->setLocation(renderer->brush->location+ Vector3f(0,0,fillStep/32.0f));
-                        input->mouse3D=renderer->brush->location;
+                        sceneData->brush->setLocation(sceneData->brush->location+ Vector3f(0,0,fillStep/32.0f));
+                        input->mouse3D=sceneData->brush->location;
 						 ((DrawTool*)input->controller->currentTool)->paint();
                         fillDepth+=fillStep;
                         i++;
@@ -199,13 +199,13 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                     xyzNormal.z=interim;
                 }
 
-            renderer->brush->pNormal=xyzNormal;
+            sceneData->brush->pNormal=xyzNormal;
 
             }//filling holes
         }//inner for loop
     }//outer for loop
 
-    renderer->brush->bMouseControlled=true;
+    sceneData->brush->bMouseControlled=true;
 }
 
 Vector3f ImportBitmapButton::genNormal(FIBITMAP* myBitmap, int w, int h, int width, int height, float flip){

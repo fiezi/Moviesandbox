@@ -34,4 +34,4 @@ void KeyInputNode::execute(){
 
 }
 
-void KeyInputNode::create(){renderer->addNode(this);}
+void KeyInputNode::create(){sceneData->addNode(this);}

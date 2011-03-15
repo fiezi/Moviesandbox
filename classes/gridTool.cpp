@@ -21,8 +21,8 @@ void GridTool::setup(){
 void GridTool::start(){
 
     MsbTool::start();
-    renderer->grid->bPickable=false;
-    renderer->grid->bHidden=false;
+    sceneData->grid->bPickable=false;
+    sceneData->grid->bHidden=false;
     myBtn->color=Vector4f(1.0,0.0,0.0,1.0);
 
 }
@@ -31,7 +31,7 @@ void GridTool::stop(){
 
     MsbTool::stop();
     gridMove=GRID_ABSOLUTE;
-    renderer->grid->bPickable=true;
+    sceneData->grid->bPickable=true;
     myBtn->color=Vector4f(1.0,1.0,1.0,1.0);
 }
 
@@ -54,11 +54,11 @@ void GridTool::keyReleased(int key){
             gridRot=0;
 
         if (gridRot==GRID_X)
-            renderer->grid->setRotation(gridX,gridY,gridZ);
+            sceneData->grid->setRotation(gridX,gridY,gridZ);
         if (gridRot==GRID_Y)
-            renderer->grid->setRotation(gridZ,gridY,gridX);
+            sceneData->grid->setRotation(gridZ,gridY,gridX);
         if (gridRot==GRID_Z)
-            renderer->grid->setRotation(gridX,gridZ,gridY);
+            sceneData->grid->setRotation(gridX,gridZ,gridY);
 
     }
 
@@ -94,17 +94,17 @@ void GridTool::update(double deltaTime){
         return;
     }
 
-    renderer->grid->bPickable=false;
+    sceneData->grid->bPickable=false;
 
     if (gridMove==GRID_ABSOLUTE){
-        renderer->grid->setLocation(input->mouse3D);
+        sceneData->grid->setLocation(input->mouse3D);
         gridX=Vector3f(-1,0,0);
         gridY=Vector3f(0,1,0);
         gridZ=Vector3f(0,0,-1);
     }
 
     if (gridMove==GRID_NORMAL){
-        renderer->grid->setLocation(input->mouse3D);
+        sceneData->grid->setLocation(input->mouse3D);
         if (input->worldNormal!=Vector3f(0,1,0)){
             gridZ=input->worldNormal;
             gridZ.normalize();
@@ -137,10 +137,10 @@ void GridTool::rotateGrid(double deltaTime){
 
         Vector3f axis;
 
-        float amount=input->mouseVector.x * renderer->mouseSensitivity;
+        float amount=input->mouseVector.x * sceneData->mouseSensitivity;
 
         Vector3f xA,yA,zA;
-        renderer->grid->getAxis(&xA,&yA,&zA,renderer->grid->transformMatrix);
+        sceneData->grid->getAxis(&xA,&yA,&zA,sceneData->grid->transformMatrix);
 
         if (input->bCtrlDown)
             axis=zA;
@@ -149,10 +149,10 @@ void GridTool::rotateGrid(double deltaTime){
         else
             axis=yA;
 
-        renderer->grid->addRotation(amount, axis);
-        gridX=renderer->grid->xAxis;
-        gridY=renderer->grid->yAxis;
-        gridZ=renderer->grid->zAxis;
+        sceneData->grid->addRotation(amount, axis);
+        gridX=sceneData->grid->xAxis;
+        gridY=sceneData->grid->yAxis;
+        gridZ=sceneData->grid->zAxis;
 
         input->bConfineMouse=true;
 

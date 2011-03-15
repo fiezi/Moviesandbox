@@ -42,7 +42,7 @@ Actor::registerProperties();
 void MsbLight::setup(){
 
     Actor::setup();
-    renderer->lightList.push_back(this);
+    sceneData->lightList.push_back(this);
 }
 
 void MsbLight::trigger(MsbObject* other){}
@@ -86,10 +86,10 @@ void MsbLight::stop(){
 
 void MsbLight::remove(){
 
-    for (int i=0;i<(int)renderer->lightList.size();i++){
-        if (renderer->lightList[i]==this)
-            renderer->lightList.erase(renderer->lightList.begin()+i);
+    for (int i=0;i<(int)sceneData->lightList.size();i++){
+        if (sceneData->lightList[i]==this)
+            sceneData->lightList.erase(sceneData->lightList.begin()+i);
     }
     Actor::remove();
 }
-void MsbLight::create(){renderer->addActor(this);}
+void MsbLight::create(){sceneData->addActor(this);}

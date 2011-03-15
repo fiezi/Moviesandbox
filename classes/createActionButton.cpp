@@ -63,7 +63,7 @@ void CreateActionButton::focusClick(){
 
     tlBtn->connectAction(newAction);
 
-    renderer->actionList[newAction->name]=newAction;
+    sceneData->actionList[newAction->name]=newAction;
 
     //cout << "created new action: " << newAction->name << endl;
 

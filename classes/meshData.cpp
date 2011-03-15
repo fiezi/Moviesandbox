@@ -36,4 +36,4 @@ void MeshData::trigger(MsbObject* other){}
 
 void MeshData::update(double deltaTime){}
 
-void MeshData::create(){renderer->addActor(this);}
+void MeshData::create(){sceneData->addActor(this);}

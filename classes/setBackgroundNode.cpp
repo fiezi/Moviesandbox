@@ -37,8 +37,8 @@ Node::stop();
 
 void SetBackgroundNode::execute(){
 
-    if (texName!="NULL" && renderer->textureList[texName])
-        renderer->backgroundTex=texName;
+    if (texName!="NULL" && sceneData->textureList[texName])
+        sceneData->backgroundTex=texName;
 
     nextNode();
 }
@@ -49,4 +49,4 @@ void SetBackgroundNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void SetBackgroundNode::create(){renderer->addNode(this);}
+void SetBackgroundNode::create(){sceneData->addNode(this);}

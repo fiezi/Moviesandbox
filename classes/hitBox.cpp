@@ -141,4 +141,4 @@ void HitBox::update(double deltaTime){
 }
 
 
-void HitBox::create(){renderer->addActor(this);}
+void HitBox::create(){sceneData->addActor(this);}

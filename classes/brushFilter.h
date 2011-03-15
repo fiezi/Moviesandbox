@@ -1,22 +1,21 @@
 #ifndef H_BRUSHFILTER
 #define H_BRUSHFILTER
 
+#include "msbObject.h"
 #include "brush.h"
 #include "meshData.h"
 
 class DrawTool;
 
-class BrushFilter{
+class BrushFilter: public MsbObject{
 
 public:
 
-    Input*      input;
-    Renderer*   renderer;
     DrawTool*   parent;
     Brush*      brush;
 
 	Vector3f	oldMouse3D;
-	
+
     BrushFilter();
     BrushFilter(DrawTool* myTool);
 

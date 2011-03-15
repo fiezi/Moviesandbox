@@ -48,4 +48,4 @@ void TriggerActorNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void TriggerActorNode::create(){renderer->addNode(this);}
+void TriggerActorNode::create(){sceneData->addNode(this);}

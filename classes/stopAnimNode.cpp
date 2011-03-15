@@ -58,4 +58,4 @@ void StopAnimNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void StopAnimNode::create(){renderer->addNode(this);}
+void StopAnimNode::create(){sceneData->addNode(this);}

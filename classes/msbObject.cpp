@@ -9,13 +9,6 @@
 
 MsbObject::MsbObject(){
 
-if (Renderer::rendererInstance!=this)
-    renderer=Renderer::getInstance();
-if (Input::inputInstance!=this)
-    input=Input::getInstance();
-if (sceneData::sceneDataInstance!=this)
-    sceneData=sceneData::getInstance();
-
 parent=NULL;
 color=COLOR_WHITE;
 elapsedTime=0.0;

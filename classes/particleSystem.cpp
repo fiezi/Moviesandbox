@@ -25,7 +25,7 @@ void ParticleSystem::addParticles(int amount){
         myVData.normal=Vector3f(0,0,1);
         myVData.texCoord=Vector3f(1,1,1);
 
-        renderer->vboList[vboMeshID]->vData.push_back(myVData);
+        sceneData->vboList[vboMeshID]->vData.push_back(myVData);
     }
 
 }
@@ -33,7 +33,7 @@ void ParticleSystem::addParticles(int amount){
 void ParticleSystem::deleteParticle(int particleNumber){
 
       //delete the particle
-      renderer->vboList[vboMeshID]->vData.erase(renderer->vboList[vboMeshID]->vData.begin()+particleNumber);
+      sceneData->vboList[vboMeshID]->vData.erase(sceneData->vboList[vboMeshID]->vData.begin()+particleNumber);
 }
 
 void ParticleSystem::addRandomParticles(int amount, float diameter){
@@ -57,7 +57,7 @@ void ParticleSystem::addRandomParticles(int amount, float diameter){
         myVData.secondaryColor=Vector3f((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,1);
         myVData.birth=i;
 
-        renderer->vboList[vboMeshID]->vData.push_back(myVData);
+        sceneData->vboList[vboMeshID]->vData.push_back(myVData);
     }
 
 }
@@ -80,7 +80,7 @@ void ParticleSystem::updateShaders(){
 
 void ParticleSystem::create(){
 
-renderer->addActor(this);
+sceneData->addActor(this);
 std::cout << "created a ParticleSystem! \n";
 }
 

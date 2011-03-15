@@ -34,7 +34,7 @@ void LayerInspector::createInspectorButtons(){
 
 void LayerInspector::refreshList(){
 
-    int laySize=renderer->layerList.size();
+    int laySize=sceneData->layerList.size();
     int actSize=sceneData->actorList.size();
     int listSize=listButton.size();
 
@@ -75,13 +75,13 @@ void LayerInspector::assembleList(){
     layerButtons.clear();
     actorReferences.clear();
 
-    for (int i=0;i<(int)renderer->layerList.size();i++){
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
         AssignButton* l= new AssignButton;
         sceneData->buttonList.push_back(l);
         layerButtons.push_back(l);
 
         l->parent=this;
-        l->name=renderer->layerList[i]->name;
+        l->name=sceneData->layerList[i]->name;
         l->level=level+1;
         l->bDrawName=true;
         l->color=Vector4f(0.8,0.6,0.6,1.0);
@@ -97,20 +97,20 @@ void LayerInspector::assembleList(){
         if (listHeight>0)
             l->scale.y=listHeight;
 
-        //l->textureID=renderer->layerList[i]->textureID;
+        //l->textureID=sceneData->layerList[i]->textureID;
         listButton.push_back(l);
         placeButton(listButton.size()-1,listButton.size()-1);
 
-        for (int j=0;j<(int)renderer->layerList[i]->actorList.size();j++){
+        for (int j=0;j<(int)sceneData->layerList[i]->actorList.size();j++){
 
             AssignButton* a= new AssignButton;
             sceneData->buttonList.push_back(a);
             actorButtons.push_back(a);
-            actorReferences.push_back(renderer->layerList[i]->actorList[j]);
+            actorReferences.push_back(sceneData->layerList[i]->actorList[j]);
 
             a->parent=this;
 
-            a->name=renderer->layerList[i]->actorList[j]->name;
+            a->name=sceneData->layerList[i]->actorList[j]->name;
             a->color=Vector4f(0.4,0.4,0.4,1.0);
 
             a->level=level+1;
@@ -139,7 +139,7 @@ void LayerInspector::trigger(MsbObject* other){
     Inspector::trigger(other);
 
     if (other==newLayer){
-        renderer->addLayer("newLayer"+layerButtons.size());
+        sceneData->addLayer("newLayer"+layerButtons.size());
     }
     for (int i=0;i<(int)actorButtons.size();i++){
         if (other==actorButtons[i]){

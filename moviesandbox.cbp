@@ -489,6 +489,12 @@
 		<Unit filename="classes\saveButton.h">
 			<Option virtualFolder="Buttons\MainMenu\" />
 		</Unit>
+		<Unit filename="classes\sceneData.cpp">
+			<Option virtualFolder="core\" />
+		</Unit>
+		<Unit filename="classes\sceneData.h">
+			<Option virtualFolder="core\" />
+		</Unit>
 		<Unit filename="classes\selectTool.cpp">
 			<Option virtualFolder="Tools\" />
 		</Unit>

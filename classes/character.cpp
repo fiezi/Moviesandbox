@@ -7,7 +7,7 @@
 Character::Character(){
 
     walkTarget=NULL;
-    idleAction=renderer->actionList["std_idle"];
+    idleAction=NULL;
     idleActionName="std_idle";
 
     lookTarget=NULL;
@@ -97,7 +97,7 @@ void Character::setup(){
 
     SkeletalActor::setup();
 
-    idleAction=renderer->actionList[idleActionName];
+    idleAction=sceneData->actionList[idleActionName];
 
     //find feet and hands!
 
@@ -130,7 +130,7 @@ void Character::setup(){
 void Character::trigger(MsbObject* other){
 
 
-    idleAction=renderer->actionList[idleActionName];
+    idleAction=sceneData->actionList[idleActionName];
     if (!idleAction)
         cout << "idle Action not found in library!" << endl;
     else
@@ -535,4 +535,4 @@ void Character::stopAnim(){
     }
 }
 
-void Character::create(){renderer->addActor(this);}
+void Character::create(){sceneData->addActor(this);}

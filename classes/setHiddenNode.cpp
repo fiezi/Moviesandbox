@@ -88,4 +88,4 @@ void SetHiddenNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void SetHiddenNode::create(){renderer->addNode(this);}
+void SetHiddenNode::create(){sceneData->addNode(this);}

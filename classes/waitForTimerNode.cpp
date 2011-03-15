@@ -60,6 +60,6 @@ if (bIsCounting)
 
 void WaitForTimerNode::create(){
 
-renderer->addNode(this);
+sceneData->addNode(this);
 cout << "created new WaitForTimerButton!" << endl;
 }

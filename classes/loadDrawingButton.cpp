@@ -133,8 +133,8 @@ hRoot=TiXmlHandle(myInfo);
     //***********************************************************************
     A->load(element);
     A->setup();
-    if (renderer->brush)
-      renderer->brush->drawing=(SkeletalActor*) A;
+    if (sceneData->brush)
+      sceneData->brush->drawing=(SkeletalActor*) A;
     }
 }
 

@@ -20,6 +20,8 @@ void MsbTool::setup(){
 
 	renderer=Renderer::getInstance();
     input=Input::getInstance();
+    sceneData=SceneData::getInstance();
+
     controller=input->controller;
 }
 

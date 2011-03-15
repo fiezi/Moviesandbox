@@ -50,7 +50,7 @@ void ParticleSelectTool::start(){
 
     if (selectedData.size()>0){
 
-        MeshData* myData=renderer->vboList[brush->drawing->vboMeshID];
+        MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 
         for (int i=0; i<(int)selectedData.size(); i++){
             myData->vData[selectedData[i]].color=Vector4f(1,0,0,1);
@@ -70,7 +70,7 @@ void ParticleSelectTool::stop(){
     brush->bHidden=true;
     lowlightButton();
 
-    MeshData* myData=renderer->vboList[brush->drawing->vboMeshID];
+    MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 
     for (int i=0; i<(int)selectedData.size(); i++){
             myData->vData[selectedData[i]].color=selectedOldColors[i];
@@ -98,7 +98,7 @@ void ParticleSelectTool::paint(){
 
 
     calcLoc=brush->location-drawing->location;
-    MeshData* myData=renderer->vboList[drawing->vboMeshID];
+    MeshData* myData=sceneData->vboList[drawing->vboMeshID];
 
 //go through all particles and see
     for (int i=0;i<(int)myData->vData.size();i++){

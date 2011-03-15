@@ -57,8 +57,8 @@ void LoadDrawSkeletonButton::trigger(MsbObject* other){
     if (other==scrollBar)
         return;
 
-    if (renderer->brush && renderer->brush->drawing){
-        SkeletalActor* mySkel= dynamic_cast<SkeletalActor*>(renderer->brush->drawing);
+    if (sceneData->brush && sceneData->brush->drawing){
+        SkeletalActor* mySkel= dynamic_cast<SkeletalActor*>(sceneData->brush->drawing);
         if (mySkel){
             input->loadPrefab("resources/prefabs/"+other->name);            //load prefab
             for (uint i=0;i<input->selectedActors.size();i++){

@@ -33,7 +33,7 @@ static bool SetPopUp(HWND hWnd)
 
 
 void draw(){renderManager->draw();}
-void idle(){renderManager->update();}
+void idle(){sceneDataManager->update(renderManager->deltaTime);}
 void reDrawScreen(int w, int h){renderManager->reDrawScreen(renderManager->screenX, renderManager->screenY);}
 
 void mouseButton(int button,int state,int x, int y){inputManager->pressedMouse(button,state,x,y);}
@@ -86,16 +86,7 @@ void drawSplashScreen(){
 }
 
 
-int main(int argc, char** argv)
-{
-
-	glutInit(&argc, argv);
-
-#ifdef TARGET_MACOSX
-	CGSetLocalEventsSuppressionInterval(0);
-#endif
-
-	bool bGLCompatibilityShader=false;
+void createSplashScreen(){
 
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(256,256);
@@ -115,7 +106,7 @@ int main(int argc, char** argv)
 
 	glutInitWindowPosition(screenX/2-256,screenY/2-120);
 
-	int myWindow=glutCreateWindow("loading");
+	splashWindow=glutCreateWindow("loading");
 
 #ifdef WIN32
     HWND hwnd = ::FindWindowA(0, "loading"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
@@ -129,6 +120,12 @@ int main(int argc, char** argv)
 
 
     glutDisplayFunc(drawSplashScreen);
+}
+
+
+void selectRenderer(){
+
+	bool bGLCompatibilityShader=false;
 
 	//checking for extensions and shaders:
     if (!GLEE_ARB_point_sprite){
@@ -173,18 +170,35 @@ int main(int argc, char** argv)
 		cout << "################## Using GL 2.1 renderer ###############" << endl;
 	}
 
+}
 
+int main(int argc, char** argv){
+
+	glutInit(&argc, argv);
+
+#ifdef TARGET_MACOSX
+	CGSetLocalEventsSuppressionInterval(0);
+#endif
+    createSplashScreen();
+    selectRenderer();
+
+    sceneDataManager=SceneData::getInstance();
 	inputManager=Input::getInstance();
 
-    //loading...
+    //loading preferences
+    sceneDataManager->setup();
+    sceneDataManager->loadPreferences();
 
-    renderManager->loadPreferences();
-    renderManager->initWindow(renderManager->windowX,renderManager->windowY,"Moviesandbox");
+    //init renderer
+    renderManager->initWindow(0,0,"Moviesandbox");
     glutHideWindow();
     renderManager->setup();
 
+    //do scene stuff
+    sceneDataManager->createScene();
+
     //destroy splash screen
-    glutDestroyWindow(myWindow);
+    glutDestroyWindow(splashWindow);
 
     //focus back on our window
     glutShowWindow();

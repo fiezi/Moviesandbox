@@ -34,6 +34,6 @@ Node::nextNode();
 
 void RootNode::create(){
 
-renderer->addNode(this);
+sceneData->addNode(this);
 std::cout << "creating a RootNode!" << endl;
 }

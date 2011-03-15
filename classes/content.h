@@ -1,18 +1,14 @@
 #ifndef H_CONTENT
 #define H_CONTENT
 
-#include "includes.h"
+#include "msbObject.h"
 #include "basicButton.h"
 
 class ParticleSystem;
 class Renderer;
 
-class Content
-{
+class Content: public MsbObject{
 public:
-
-    Renderer* renderer;
-    Input* input;
 
     virtual void setup();
     virtual void reset();

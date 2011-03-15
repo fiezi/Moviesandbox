@@ -30,7 +30,7 @@ void MeshInspector::createInspectorButtons(){
 
 void MeshInspector::refreshList(){
 
-    if (listButton.size()<renderer->vboList.size()){
+    if (listButton.size()<sceneData->vboList.size()){
         assembleList();
     }
 }
@@ -49,7 +49,7 @@ void MeshInspector::assembleList(){
 
         listButton.clear();
 
-        for ( it=renderer->vboList.begin() ; it != renderer->vboList.end(); it++ ){
+        for ( it=sceneData->vboList.begin() ; it != sceneData->vboList.end(); it++ ){
 
             if (it->second && it->first!="NULL"){
 
@@ -92,7 +92,7 @@ void MeshInspector::trigger(MsbObject* other){
 		listButton[i]->color=COLOR_WHITE;
         if (other==listButton[i]){
             ///set vboMeshID of worldTarget to
-            if (input->worldTarget && input->worldTarget!=renderer->grid && input->worldTarget->name!="ground"){
+            if (input->worldTarget && input->worldTarget!=sceneData->grid && input->worldTarget->name!="ground"){
                 Actor* a=input->worldTarget;
                 //special case for bones! Assign to parent character if present...
                 BoneActor* b = dynamic_cast<BoneActor*>(a);
@@ -103,13 +103,13 @@ void MeshInspector::trigger(MsbObject* other){
                 a->memberFromString(&a->property["VBOMESHID"], listButton[i]->name);
 
 				//figure out if we should change the shader too!
-				if (renderer->vboList[a->vboMeshID]->bIsSkeletal)
+				if (sceneData->vboList[a->vboMeshID]->bIsSkeletal)
 					a->sceneShaderID="skeletal";
                 //now, also reset the actor
                 a->reset();
             }
             ///but always set the brushes mesh id!
-            renderer->brush->memberFromString(&renderer->brush->property["VBOMESHID"], listButton[i]->name);
+            sceneData->brush->memberFromString(&sceneData->brush->property["VBOMESHID"], listButton[i]->name);
 			other->color=COLOR_RED;
 		}
     }
@@ -123,7 +123,7 @@ void MeshInspector::trigger(MsbObject* other){
             //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
             string meshID=filename.substr(found+1);
-            renderer->colladaLoader->loadColladaMesh(filename, meshID);
+            sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
@@ -138,7 +138,7 @@ void MeshInspector::trigger(MsbObject* other){
            //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
             string meshID=filename.substr(found+1);
-            renderer->colladaLoader->loadColladaMesh(filename, meshID);
+            sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
@@ -151,7 +151,7 @@ void MeshInspector::trigger(MsbObject* other){
             //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
             string meshID=filename.substr(found+1);
-            renderer->spriteMeshLoader->loadSpriteMesh(filename, meshID);
+            sceneData->spriteMeshLoader->loadSpriteMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("SpriteMesh");

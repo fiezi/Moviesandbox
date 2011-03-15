@@ -60,7 +60,7 @@ void PerformActionNode::execute(){
 
 
     if (!bPlaying){
-        if (renderer->actionList[myAction] && applyTo){
+        if (sceneData->actionList[myAction] && applyTo){
             InterpolationHelper * interpolator=new InterpolationHelper;
 
             if (dynamic_cast<SkeletalActor*>(applyTo))
@@ -69,14 +69,14 @@ void PerformActionNode::execute(){
                 interpolator->bInterpolateVectors=true;
 
             interpolator->startTime=renderer->currentTime;
-            interpolator->keyFrames=renderer->actionList[myAction]->keyFrames;
+            interpolator->keyFrames=sceneData->actionList[myAction]->keyFrames;
             interpolator->bRelative=bRelative;
 
              //apply current Location/rotation if we want our action to be performed relative
             if (bRelative){
                 //starts new ation from the position/rotation the actor is currently in
-                interpolator->baseLocation=applyTo->location - renderer->actionList[myAction]->keyFrames[0]->locationKey;
-                interpolator->baseRotation=applyTo->rotation - renderer->actionList[myAction]->keyFrames[0]->rotationKey;
+                interpolator->baseLocation=applyTo->location - sceneData->actionList[myAction]->keyFrames[0]->locationKey;
+                interpolator->baseRotation=applyTo->rotation - sceneData->actionList[myAction]->keyFrames[0]->rotationKey;
                 interpolator->baseMatrix=applyTo->transformMatrix;
 
                 //apply current bone matrices if we want our action to be performed relative
@@ -84,7 +84,7 @@ void PerformActionNode::execute(){
                     SkeletalActor* skeleton=(SkeletalActor*)applyTo;
                     for (uint i=0;i<skeleton->bones.size();i++){
                         //starts new ation from the position/rotation the bone is currently in
-                        interpolator->baseBoneMatrices[skeleton->bones[i]->name]=skeleton->bones[i]->transformMatrix - renderer->actionList[myAction]->keyFrames[0]->boneMatrices[skeleton->bones[i]->name];
+                        interpolator->baseBoneMatrices[skeleton->bones[i]->name]=skeleton->bones[i]->transformMatrix - sceneData->actionList[myAction]->keyFrames[0]->boneMatrices[skeleton->bones[i]->name];
                         }
                     }
                 }
@@ -120,4 +120,4 @@ void PerformActionNode::trigger(MsbObject* other){
     }
 }
 
-void PerformActionNode::create(){renderer->addNode(this);}
+void PerformActionNode::create(){sceneData->addNode(this);}

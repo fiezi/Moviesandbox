@@ -79,9 +79,9 @@ void SkeletalActor::postLoad(){
     cout << "SkeletalActor Name: " << name << endl;
     cout << "SkeletalActor vboID: " << vboMeshID << endl;
 
-	if (renderer->vboList[vboMeshID]->boneCount>0){
-		boneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
-		invBoneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
+	if (sceneData->vboList[vboMeshID]->boneCount>0){
+		boneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
+		invBoneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
 	}
     int myPos=0;
 
@@ -94,32 +94,32 @@ void SkeletalActor::postLoad(){
 
 
     //spawn bones
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
 
         boneTransforms[i].identity();
-        invBoneTransforms[i]=*renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
+        invBoneTransforms[i]=*sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix;
         if ((int)bones.size()==i){
             //insert before character?
             //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
                 bones.push_back(spawn("9BoneActor"));
-                bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
+                bones[i]->name=sceneData->vboList[vboMeshID]->bones[i]->name;
             bones[i]->bRemoveable=false;
             //bones[i]->scale=bones[i]->scale*0.25;
             bones[i]->base=this;
 
             }
 
-        bones[i]->originalMatrix=*renderer->vboList[vboMeshID]->bones[i]->boneMatrix;
+        bones[i]->originalMatrix=*sceneData->vboList[vboMeshID]->bones[i]->boneMatrix;
 
         //cout << "created new bone: " << bones[i]->name << endl;
 
         }
 
 //connect parents...
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
-        for (int j=0;j<renderer->vboList[vboMeshID]->boneCount;j++){
-            if (renderer->vboList[vboMeshID]->bones[i]->parentBone){
-                if (renderer->vboList[vboMeshID]->bones[j]==renderer->vboList[vboMeshID]->bones[i]->parentBone){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
+        for (int j=0;j<sceneData->vboList[vboMeshID]->boneCount;j++){
+            if (sceneData->vboList[vboMeshID]->bones[i]->parentBone){
+                if (sceneData->vboList[vboMeshID]->bones[j]==sceneData->vboList[vboMeshID]->bones[i]->parentBone){
                     cout << "connecting " << bones[i]->name << "  with " << bones[j]->name <<endl;
                     bones[i]->base=bones[j];
                     j=100;
@@ -175,7 +175,7 @@ void SkeletalActor::update(double deltaTime){
             Vector3f oldRotation= input->controller->controlledActor->rotation;
             input->console->setZero("NULL");
             bDelayedConvert=false;
-            renderer->update();                 //TODO:skip one whole frame
+            sceneData->update(0.0f);                 //TODO:skip one whole frame
             convertToPhysicsBones();
             input->controller->controlledActor->setRotation(oldRotation);
             //input->controller->navBtn->processMove(0);
@@ -187,7 +187,7 @@ void SkeletalActor::updateShaders(){
 
     ParticleSystem::updateShaders();
 
-    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
+    shaderObject* myShader= sceneData->shaderList[renderer->currentShader];
 
     //if we're being drawn into
     if (drawType==DRAW_PARTICLES){
@@ -221,23 +221,23 @@ void SkeletalActor::updateShaders(){
 
             PhysicsActor* phys=(PhysicsActor*)bones[i];
             if (!renderer->bUpdatePhysics){
-                boneTransforms[i]= initialMatrix * bones[i]->baseMatrix * *renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix * *renderer->vboList[vboMeshID]->bindShapeMatrix;
+                boneTransforms[i]= initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
             }else if (phys->bFixToWorld)
-                boneTransforms[i]= initialMatrix * bones[i]->baseMatrix * *renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix * *renderer->vboList[vboMeshID]->bindShapeMatrix;
+                boneTransforms[i]= initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
             else{
-                boneTransforms[i]= (renderer->cameraMatrix * bones[i]->transformMatrix) * *renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
+                boneTransforms[i]= (renderer->cameraMatrix * bones[i]->transformMatrix) * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix;
             }
         }
     }else{
         for (int i=0;i<(int)bones.size();i++){
-            boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix * *renderer->vboList[vboMeshID]->bindShapeMatrix;
+            boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
         }
     }
 
 
     //This depends on driver implementation
     if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end() || myShader->uniforms.find("boneTransforms[0]") != myShader->uniforms.end()){
-        glUniformMatrix4fv(myShader->uniforms["boneTransforms"],renderer->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
+        glUniformMatrix4fv(myShader->uniforms["boneTransforms"],sceneData->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
 	}
 }
 
@@ -275,8 +275,8 @@ void SkeletalActor::stop(){
         }
         bones.clear();
 
-    boneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
-    invBoneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
+    boneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
+    invBoneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
     int myPos=0;
 
     for (int i=0;i<(int)sceneData->actorList.size();i++){
@@ -286,15 +286,15 @@ void SkeletalActor::stop(){
     }
 
 
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
 
         boneTransforms[i].identity();
-        invBoneTransforms[i]=*renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
+        invBoneTransforms[i]=*sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix;
         if ((int)bones.size()==i){
             //insert before character?
             //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
                 bones.push_back(new BoneActor);
-                bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
+                bones[i]->name=sceneData->vboList[vboMeshID]->bones[i]->name;
                 sceneData->actorList.push_back(bones[i]);
             bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
@@ -303,17 +303,17 @@ void SkeletalActor::stop(){
             bones[i]->base=this;
             }
 
-        bones[i]->originalMatrix=*renderer->vboList[vboMeshID]->bones[i]->boneMatrix;
+        bones[i]->originalMatrix=*sceneData->vboList[vboMeshID]->bones[i]->boneMatrix;
 
         //cout << "created new bone: " << bones[i]->name << endl;
 
         }
 
 //connect parents...
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
-        for (int j=0;j<renderer->vboList[vboMeshID]->boneCount;j++){
-            if (renderer->vboList[vboMeshID]->bones[i]->parentBone){
-                if (renderer->vboList[vboMeshID]->bones[j]==renderer->vboList[vboMeshID]->bones[i]->parentBone){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
+        for (int j=0;j<sceneData->vboList[vboMeshID]->boneCount;j++){
+            if (sceneData->vboList[vboMeshID]->bones[i]->parentBone){
+                if (sceneData->vboList[vboMeshID]->bones[j]==sceneData->vboList[vboMeshID]->bones[i]->parentBone){
                 cout << "connecting " << bones[i]->name << "  with " << bones[j]->name <<endl;
                 bones[i]->base=bones[j];
                 j=100;
@@ -365,8 +365,8 @@ void SkeletalActor::convertToPhysicsBones(){
 
     //create Physics Bones
 
-    boneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
-    invBoneTransforms=new Matrix4f[renderer->vboList[vboMeshID]->boneCount];
+    boneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
+    invBoneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
 
     int myPos=0;
 
@@ -376,13 +376,13 @@ void SkeletalActor::convertToPhysicsBones(){
         }
     }
 
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
 
         boneTransforms[i].identity();
-        invBoneTransforms[i]=*renderer->vboList[vboMeshID]->bones[i]->invBoneMatrix;
+        invBoneTransforms[i]=*sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix;
         if ((int)bones.size()==i){
             bones.push_back(new PhysicsActor);
-            bones[i]->name=renderer->vboList[vboMeshID]->bones[i]->name;
+            bones[i]->name=sceneData->vboList[vboMeshID]->bones[i]->name;
             //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
             sceneData->actorList.push_back(bones[i]);
             bones[i]->bUseTransformMatrix=true;
@@ -391,20 +391,20 @@ void SkeletalActor::convertToPhysicsBones(){
             bones[i]->scale=bones[i]->scale*0.25;
             bones[i]->base=this;
             }
-        //bones[i]->originalMatrix=*renderer->vboList[vboMeshID]->bones[i]->boneMatrix;
+        //bones[i]->originalMatrix=*sceneData->vboList[vboMeshID]->bones[i]->boneMatrix;
         bones[i]->baseMatrix=oldBones[i]->baseMatrix;
-        bones[i]->transformMatrix=*renderer->vboList[vboMeshID]->bones[i]->boneMatrix;
+        bones[i]->transformMatrix=*sceneData->vboList[vboMeshID]->bones[i]->boneMatrix;
 
         //cout << "created new bone: " << bones[i]->name << endl;
 
         }
 
 //connect parents...
-    for (int i=0; i< renderer->vboList[vboMeshID]->boneCount; i++){
-        for (int j=0;j<renderer->vboList[vboMeshID]->boneCount;j++){
-            if (renderer->vboList[vboMeshID]->bones[i]->parentBone){
+    for (int i=0; i< sceneData->vboList[vboMeshID]->boneCount; i++){
+        for (int j=0;j<sceneData->vboList[vboMeshID]->boneCount;j++){
+            if (sceneData->vboList[vboMeshID]->bones[i]->parentBone){
 
-                if (renderer->vboList[vboMeshID]->bones[j]==renderer->vboList[vboMeshID]->bones[i]->parentBone){
+                if (sceneData->vboList[vboMeshID]->bones[j]==sceneData->vboList[vboMeshID]->bones[i]->parentBone){
                     cout << "connecting " << bones[i]->name << "  with " << bones[j]->name <<endl;
                     bones[i]->base=bones[j];
                     j=100;
@@ -440,4 +440,4 @@ void SkeletalActor::convertToPhysicsBones(){
     bPhysicsBones=true;
 }
 
-void SkeletalActor::create(){renderer->addActor(this);}
+void SkeletalActor::create(){sceneData->addActor(this);}

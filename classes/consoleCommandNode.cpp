@@ -52,4 +52,4 @@ void ConsoleCommandNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void ConsoleCommandNode::create(){renderer->addNode(this);}
+void ConsoleCommandNode::create(){sceneData->addNode(this);}

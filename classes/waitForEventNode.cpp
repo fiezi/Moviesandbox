@@ -57,4 +57,4 @@ void WaitForEventNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void WaitForEventNode::create(){renderer->addNode(this);}
+void WaitForEventNode::create(){sceneData->addNode(this);}

@@ -59,4 +59,4 @@ void WalkToNode::update(double deltaTime){
     Node::update(deltaTime);
 }
 
-void WalkToNode::create(){renderer->addNode(this);}
+void WalkToNode::create(){sceneData->addNode(this);}

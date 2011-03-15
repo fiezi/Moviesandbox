@@ -28,7 +28,7 @@ void BoneWidget::openWidget(){
     //switch to create bone mode
     input->controller->switchTool(TOOL_BONE);
     //unless our drawing is already boned (tee-he-he), then we might want to switch to skinning mode!
-    if (input->specialSelected && renderer->vboList[input->specialSelected->vboMeshID]->bIsSkeletal)
+    if (input->specialSelected && sceneData->vboList[input->specialSelected->vboMeshID]->bIsSkeletal)
         input->controller->switchTool(TOOL_SKIN);
 }
 
@@ -36,12 +36,12 @@ void BoneWidget::closeWidget(){
 
     input->deselectActors();
 
-    if (renderer->brush->drawing){
+    if (sceneData->brush->drawing){
         input->makeWarningPopUp("saving drawing...",this);
         renderer->draw();
         input->controller->myTools[TOOL_BONE]->save();
-        renderer->brush->drawing->drawType=DRAW_VBOMESH;
-        renderer->brush->drawing->reset();
+        sceneData->brush->drawing->drawType=DRAW_VBOMESH;
+        sceneData->brush->drawing->reset();
         input->staticButton->focusClick();
         input->bTextInput=false;
     }
@@ -55,7 +55,7 @@ void BoneWidget::closeWidget(){
 void BoneWidget::trigger(MsbObject* other){
 
 
-	SkeletalActor* skel=renderer->brush->drawing;
+	SkeletalActor* skel=sceneData->brush->drawing;
 	if (!skel) return;
 
 
@@ -64,12 +64,12 @@ void BoneWidget::trigger(MsbObject* other){
     }
 
     if (other->name=="Paint Weights"){
-        if (renderer->brush->drawing){
+        if (sceneData->brush->drawing){
             input->makeWarningPopUp("saving drawing...",this);
             renderer->draw();
             input->controller->myTools[TOOL_BONE]->save();
-            renderer->brush->drawing->drawType=DRAW_VBOMESH;
-            renderer->brush->drawing->reset();
+            sceneData->brush->drawing->drawType=DRAW_VBOMESH;
+            sceneData->brush->drawing->reset();
             input->staticButton->focusClick();
             input->bTextInput=false;
         }
@@ -96,15 +96,15 @@ void BoneWidget::trigger(MsbObject* other){
 			return;
 		}
 		//resetting bones of drawing...
-		string oldMeshID=renderer->brush->drawing->vboMeshID;
+		string oldMeshID=sceneData->brush->drawing->vboMeshID;
 
-		renderer->brush->drawing->vboMeshID=meshID;
-		renderer->brush->drawing->reset();
-		renderer->brush->drawing->vboMeshID=oldMeshID;
+		sceneData->brush->drawing->vboMeshID=meshID;
+		sceneData->brush->drawing->reset();
+		sceneData->brush->drawing->vboMeshID=oldMeshID;
 
 		//set to skeletal if loaded mesh was skeletal too!
-		if (renderer->vboList[meshID]->bIsSkeletal)
-			renderer->vboList[oldMeshID]->bIsSkeletal=true;
+		if (sceneData->vboList[meshID]->bIsSkeletal)
+			sceneData->vboList[oldMeshID]->bIsSkeletal=true;
 
 	}
 
@@ -114,11 +114,11 @@ void BoneWidget::trigger(MsbObject* other){
 
     if (other->name=="save As..."){
         cout << "creating VBO..." << endl;
-        renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(renderer->brush->drawing));
-        renderer->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
+        sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
+        sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
 
-		renderer->brush->drawing->name=input->inputText;
-		renderer->brush->drawing->vboMeshID=input->inputText;
+		sceneData->brush->drawing->name=input->inputText;
+		sceneData->brush->drawing->vboMeshID=input->inputText;
 
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);

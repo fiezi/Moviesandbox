@@ -29,7 +29,7 @@ void ColorPickButton::mouseDrag(){
                 }
         }
     }else if (input->controller->tool==TOOL_DRAW){
-        renderer->brush->color=pickColor();
+        sceneData->brush->color=pickColor();
     }
     cout << "picked color: "<< pickColor() << endl;
 
@@ -57,7 +57,7 @@ void ColorPickButton::clickedLeft(){
                 }
         }
     }else if (input->controller->tool==TOOL_DRAW){
-        renderer->brush->color=pickColor();
+        sceneData->brush->color=pickColor();
     }
     cout << "picked color: "<< pickColor() << endl;
 

@@ -85,8 +85,8 @@ void SkinTool::stop(){
 
 /*
 	//save vbo and reload, then assign to this actor and switch drawmode to VBO
-    renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
-	renderer->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
+    sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+	sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
 
     //open my.library and append this mesh!
     TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
@@ -187,7 +187,7 @@ void SkinTool::selectActors(int btn, Actor* other){
             }
         }
 
-        if (input->worldTarget->name=="ground" || input->worldTarget==renderer->grid)
+        if (input->worldTarget->name=="ground" || input->worldTarget==sceneData->grid)
             input->deselectActors();
 
     }
@@ -227,10 +227,10 @@ void SkinTool::paint(){
 
     //calcLocation();
 
-    for (unsigned int pID=0;pID<renderer->vboList[skel->vboMeshID]->vData.size();pID++){           //go through particles
+    for (unsigned int pID=0;pID<sceneData->vboList[skel->vboMeshID]->vData.size();pID++){           //go through particles
 
         //find out where the brush is in relation to the particle
-        Vector4f loc=renderer->vboList[skel->vboMeshID]->vData[pID].location;
+        Vector4f loc=sceneData->vboList[skel->vboMeshID]->vData[pID].location;
         Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
 
         ///within brush range
@@ -255,7 +255,7 @@ void SkinTool::paint(){
 void SkinTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
@@ -268,7 +268,7 @@ void SkinTool::save(){
 
 void SkinTool::singleSkin(int pID,int boneID){
 
-    MeshData * myData = renderer->vboList[brush->drawing->vboMeshID];
+    MeshData * myData = sceneData->vboList[brush->drawing->vboMeshID];
     //find distance from brush
     Vector3f bLoc = brush->location;
     Vector3f pLoc=Vector3f(myData->vData[pID].location.x,myData->vData[pID].location.y,myData->vData[pID].location.z) + brush->drawing->location;
@@ -315,12 +315,12 @@ void SkinTool::singleSkin(int pID,int boneID){
 void SkinTool::eraseSingleSkin(int pID, int boneID){
 
 
-    MeshData * myData = renderer->vboList[brush->drawing->vboMeshID];
+    MeshData * myData = sceneData->vboList[brush->drawing->vboMeshID];
 
     //find distance from brush
     Vector3f bLoc = brush->location;
     Vector3f pLoc = Vector3f(myData->vData[pID].location.x,myData->vData[pID].location.y,myData->vData[pID].location.z) + brush->drawing->location;
-    float bSize=renderer->brush->scale.x * 2;
+    float bSize=sceneData->brush->scale.x * 2;
 
     float distance=fabs( (pLoc-bLoc).length() );
 

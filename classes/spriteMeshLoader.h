@@ -2,18 +2,16 @@
 #define SPRITEMESHLOADER_H_INCLUDED
 
 
-#include "includes.h"
+#include "msbObject.h"
 #include "meshData.h"
 
 using namespace std;
 
-class Renderer;
 
-class SpriteMeshLoader{
+class SpriteMeshLoader: public MsbObject{
 
     public:
 
-        Renderer* renderer;
 
         float*  vertexIDs;                              //IDs for every single vertex
 

@@ -39,8 +39,7 @@ Actor::setup();
 //player->setLoopState(OF_LOOP_NONE);
 }
 
-void VideoTextureActor::trigger(MsbObject* other)
-{
+void VideoTextureActor::trigger(MsbObject* other){
 
     cout << "triggered video!" << endl;
 
@@ -62,7 +61,7 @@ void VideoTextureActor::update(double deltaTime){
     player->idleMovie();
 
     // get texture
-    GLuint texture = renderer->textureList[textureID]->texture;
+    GLuint texture = sceneData->textureList[textureID]->texture;
 
     // select our texture
     glBindTexture( GL_TEXTURE_2D, texture );
@@ -90,7 +89,7 @@ void VideoTextureActor::stop(){
     bPlaying=false;
 }
 
-void VideoTextureActor::create(){renderer->addActor(this);}
+void VideoTextureActor::create(){sceneData->addActor(this);}
 
 
 void VideoTextureActor::loadMovie(string fileName){

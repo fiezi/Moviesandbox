@@ -69,6 +69,12 @@ public:
        float eyeDistance;                   //eyeDistance for 3D rendering
        float bkgOffset;                     //eyeDistance for 3D rendering
 
+       int      screenX,
+                screenY,
+                windowX,
+                windowY,
+                fov;
+
        int frames;                         //amount of frames rendered
        double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
@@ -160,11 +166,12 @@ public:
        virtual void setup();                      //first thing called when program starts
        virtual void physicsSetup();                      //setup ODE
 
-       virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name);
-       virtual void checkFBOStatus();
-
        virtual void update(float deltaTime);
        virtual void physicsUpdate();
+
+
+       virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name);
+       virtual void checkFBOStatus();
 
        virtual void draw();
        virtual void drawBackground();

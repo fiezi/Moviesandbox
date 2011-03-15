@@ -64,4 +64,4 @@ void SwitchCameraNode::update(double deltaTime){
     Node::update(deltaTime);
     }
 
-void SwitchCameraNode::create(){renderer->addNode(this);}
+void SwitchCameraNode::create(){sceneData->addNode(this);}

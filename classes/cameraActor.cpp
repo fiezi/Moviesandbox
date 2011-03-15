@@ -70,4 +70,4 @@ void CameraActor::update(double deltaTime){
     Actor::update(deltaTime);
 }
 
-void CameraActor::create(){renderer->addActor(this);}
+void CameraActor::create(){sceneData->addActor(this);}

@@ -61,7 +61,7 @@ void Brush::select(){
 
     calcLoc=location-drawing->location;
 
-    MeshData* myData=renderer->vboList[drawing->vboMeshID];
+    MeshData* myData=sceneData->vboList[drawing->vboMeshID];
 //go through all particles and see
     for (int i=0;i<(int)myData->vData.size();i++){
         //compute the distance to brush
@@ -109,10 +109,10 @@ void Brush::skin(){
 
     //calcLocation();
 
-    for (unsigned int pID=0;pID<renderer->vboList[drawing->vboMeshID]->vData.size();pID++){           //go through particles
+    for (unsigned int pID=0;pID<sceneData->vboList[drawing->vboMeshID]->vData.size();pID++){           //go through particles
 
         //find out where the brush is in relation to the particle
-        Vector4f loc=renderer->vboList[drawing->vboMeshID]->vData[pID].location;
+        Vector4f loc=sceneData->vboList[drawing->vboMeshID]->vData[pID].location;
         Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
 
         ///within brush range
@@ -145,8 +145,8 @@ void Brush::createBone(){
     }
 
     //first bone sets the whole thing to be skeletal!
-    if (!renderer->vboList[drawing->vboMeshID]->bIsSkeletal)
-        renderer->vboList[drawing->vboMeshID]->bIsSkeletal=true;
+    if (!sceneData->vboList[drawing->vboMeshID]->bIsSkeletal)
+        sceneData->vboList[drawing->vboMeshID]->bIsSkeletal=true;
 
     BoneActor* bone=(BoneActor*)spawn("9BoneActor");
 
@@ -186,7 +186,7 @@ void Brush::createNewDrawing(){
         drawing->controller=input->controller;
         drawing->name=input->inputText;
         drawing->vboMeshID=input->inputText;
-        renderer->vboList[input->inputText]=new MeshData;
+        sceneData->vboList[input->inputText]=new MeshData;
 
         drawing->setup();
 }
@@ -206,4 +206,4 @@ void Brush::eraseSingleSkin(int pID, int boneID){
 
 }
 
-void Brush::create(){renderer->addActor(this);}
+void Brush::create(){sceneData->addActor(this);}

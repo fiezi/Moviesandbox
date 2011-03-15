@@ -68,8 +68,8 @@ void SetAnimationNode::execute(){
     if (!myChar)
         cout << "not assigned to character!" << endl;
 
-    if (myChar && renderer->actionList[animName]){
-        myChar->playAnim(renderer->actionList[animName], bLoop, inPoint * 1000);
+    if (myChar && sceneData->actionList[animName]){
+        myChar->playAnim(sceneData->actionList[animName], bLoop, inPoint * 1000);
     }
 
     nextNode();
@@ -82,4 +82,4 @@ void SetAnimationNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void SetAnimationNode::create(){renderer->addNode(this);}
+void SetAnimationNode::create(){sceneData->addNode(this);}

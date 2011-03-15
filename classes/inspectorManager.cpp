@@ -58,4 +58,4 @@ void InspectorManager::update(double deltaTime){
   Actor::update(deltaTime);
 }
 
-void InspectorManager::create(){renderer->addActor(this);}
+void InspectorManager::create(){sceneData->addActor(this);}

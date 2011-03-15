@@ -301,7 +301,7 @@ Matrix4f Action::setRotationComponent(Matrix4f dest, Matrix3f source){
     return dest;
 }
 
-void Action::create(){renderer->addAction(this);}
+void Action::create(){sceneData->addAction(this);}
 
 TiXmlElement* Action::save(TiXmlElement *root){
 

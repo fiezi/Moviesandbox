@@ -92,4 +92,4 @@ void InterpolateNode::trigger(MsbObject* other){
 Node::trigger(other);
 }
 
-void InterpolateNode::create(){renderer->addNode(this);}
+void InterpolateNode::create(){sceneData->addNode(this);}

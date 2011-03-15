@@ -31,7 +31,7 @@ void ActionInspector::createInspectorButtons(){
 
 void ActionInspector::refreshList(){
 
-    if (listButton.size()<renderer->actionList.size()){
+    if (listButton.size()<sceneData->actionList.size()){
             assembleList();
     }
 }
@@ -42,7 +42,7 @@ void ActionInspector::assembleList(){
         int i=0;
 
         listButton.clear();
-        for ( it=renderer->actionList.begin() ; it != renderer->actionList.end(); it++ ){
+        for ( it=sceneData->actionList.begin() ; it != sceneData->actionList.end(); it++ ){
 
                 if (it->second){
 

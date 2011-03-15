@@ -2,17 +2,16 @@
 #define COLLADALOADER_H_INCLUDED
 
 
-#include "includes.h"
+#include "msbObject.h"
 #include "renderer.h"
 #include "meshData.h"
 
 using namespace std;
 
-class ColladaLoader{
+class ColladaLoader: public MsbObject{
 
     public:
 
-        Renderer* renderer;
     //COLLADA can do 3 different types of geometry - polygons, polylists and triangles
     //we only do triangles here
 

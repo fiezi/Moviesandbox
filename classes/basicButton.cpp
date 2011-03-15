@@ -121,9 +121,9 @@ void BasicButton::remove(){
           sceneData->buttonList.erase(sceneData->buttonList.begin()+i);
     }
     if (bPermanent){
-        for (uint i=0;i<renderer->saveableButtonList.size();i++){
-            if (renderer->saveableButtonList[i]==this)
-              renderer->saveableButtonList.erase(renderer->saveableButtonList.begin()+i);
+        for (uint i=0;i<sceneData->saveableButtonList.size();i++){
+            if (sceneData->saveableButtonList[i]==this)
+              sceneData->saveableButtonList.erase(sceneData->saveableButtonList.begin()+i);
         }
     }
 

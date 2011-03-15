@@ -145,18 +145,18 @@ void BrushInspector::assembleList(){
 void BrushInspector::trigger(MsbObject* other){
 
     if (other->name=="brush scale"){
-        renderer->brush->scale.x= pow(0.4+ ((SliderButton*)other)->sliderValue,2.0) ;
+        sceneData->brush->scale.x= pow(0.4+ ((SliderButton*)other)->sliderValue,2.0) ;
     }
 
     if (other->name=="brush intensity"){
-        renderer->brush->intensity=min(1.0, 0.01 + ((SliderButton*)other)->sliderValue);
+        sceneData->brush->intensity=min(1.0, 0.01 + ((SliderButton*)other)->sliderValue);
     }
 
     if (other->name=="pick Color"){
         cout << "triggered from pickColor!" << endl;
         color=Vector4f( max(min(color.r, 1.0f),0.0f),max(min(color.g, 1.0f),0.0f), max(min(color.b, 1.0f),0.0f), max(min(color.a, 1.0f),0.0f) );
         colorSwatches[currentSwatch]->color=color;
-        renderer->brush->color=color;
+        sceneData->brush->color=color;
         color=Vector4f(1.0,0.6,0.1,1.0);
     }
 
@@ -169,7 +169,7 @@ void BrushInspector::trigger(MsbObject* other){
                     }
             }
         }else if (input->controller->tool==TOOL_DRAW){
-            renderer->brush->color=other->color;
+            sceneData->brush->color=other->color;
         }
 
         for (int i=0;i<numSwatches;i++){
@@ -182,22 +182,22 @@ void BrushInspector::trigger(MsbObject* other){
 
     if (other->name=="normals up"){
 
-        renderer->brush->normalMode=NORMAL_UP;
+        sceneData->brush->normalMode=NORMAL_UP;
         other->color=Vector4f(1,1,0,1);
     }
 
     if (other->name=="normals front"){
 
-        renderer->brush->normalMode=NORMAL_FRONT;
+        sceneData->brush->normalMode=NORMAL_FRONT;
         other->color=Vector4f(1,1,0,1);
 
     }
 
     if (other->name=="normals follow drawing"){
 
-        renderer->brush->bNormalFollowDrawing=!renderer->brush->bNormalFollowDrawing;
+        sceneData->brush->bNormalFollowDrawing=!sceneData->brush->bNormalFollowDrawing;
 
-        if (renderer->brush->bNormalFollowDrawing)
+        if (sceneData->brush->bNormalFollowDrawing)
             other->color=Vector4f(1,1,0,1);
         else
             other->color=Vector4f(1,1,1,1);

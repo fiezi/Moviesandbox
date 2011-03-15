@@ -1,15 +1,20 @@
 #include "colladaLoader.h"
+#include "input.h"
 
 
 ColladaLoader::ColladaLoader(){
 
-vertexWeights=NULL; //4 weights per vertex, we select the 4 most influential
-boneReference=NULL; //4 bone References per vertex, we select the 4 most influential
+    vertexWeights=NULL; //4 weights per vertex, we select the 4 most influential
+    boneReference=NULL; //4 bone References per vertex, we select the 4 most influential
 
-normals=NULL;                               //normal array pointer
-vertices=NULL;                              //vertex array pointer
-texCoords=NULL;                              //vertex array pointer
-renderer=Renderer::getInstance();
+    normals=NULL;                               //normal array pointer
+    vertices=NULL;                              //vertex array pointer
+    texCoords=NULL;                              //vertex array pointer
+
+    input=Input::getInstance();
+    renderer=Renderer::getInstance();
+    sceneData=SceneData::getInstance();
+
 }
 
 ColladaLoader::~ColladaLoader(){
@@ -19,8 +24,8 @@ bool ColladaLoader::loadColladaMesh( string filename, string meshID ){
 
 
     //check if meshID already exists!
-    if (renderer->vboList[meshID]){
-        renderer->vboList.erase(meshID);
+    if (sceneData->vboList[meshID]){
+        sceneData->vboList.erase(meshID);
         }
 
     // XML File Open
@@ -30,8 +35,8 @@ bool ColladaLoader::loadColladaMesh( string filename, string meshID ){
     TiXmlDocument doc( filename );
     if (!doc.LoadFile()) return false;
 
-    renderer->vboList[meshID]=new MeshData;
-    renderer->vboList[meshID]->drawType=DRAW_VBOMESH;
+    sceneData->vboList[meshID]=new MeshData;
+    sceneData->vboList[meshID]->drawType=DRAW_VBOMESH;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement * element;
@@ -56,17 +61,17 @@ bool ColladaLoader::loadColladaMesh( string filename, string meshID ){
     cout << "checking for Controller information..." << endl;
 
     //make sure we don't have a hole in our mesh
-    renderer->vboList[meshID]->bIsHead=false;
+    sceneData->vboList[meshID]->bIsHead=false;
 
     //no vertex color in Collada!
     if (loadColladaBones(meshID, hRoot)){
-        renderer->vboList[meshID]->bIsSkeletal=true;
-        renderer->vboList[meshID]->bVertexColor=false;
+        sceneData->vboList[meshID]->bIsSkeletal=true;
+        sceneData->vboList[meshID]->bVertexColor=false;
         }
     else{
-        renderer->vboList[meshID]->bIsSkeletal=false;
-        renderer->vboList[meshID]->bVertexColor=false;
-        renderer->vboList[meshID]->boneCount=0;
+        sceneData->vboList[meshID]->bIsSkeletal=false;
+        sceneData->vboList[meshID]->bVertexColor=false;
+        sceneData->vboList[meshID]->boneCount=0;
         }
 
 
@@ -171,7 +176,7 @@ void ColladaLoader::recurseThroughNodes(TiXmlElement* element, bone* parentBone,
                     bonePart= strtok(NULL, " "); // advance
                     }
                 *myBone->boneMatrix=myBone->boneMatrix->transpose();    //collada matrices are in row major order, we store them in column major order...
-                renderer->vboList[meshID]->bones.push_back(myBone);
+                sceneData->vboList[meshID]->bones.push_back(myBone);
                 }
             //TODO: code for supporting COLLADA bone translate and rotate goes here
             boneElement=element->FirstChildElement("translate");
@@ -219,7 +224,7 @@ bool ColladaLoader::loadBindShapeMatrix(string meshID, TiXmlElement * sourceElem
             bindShapeMatrixPart= strtok(NULL, " "); // advance
             }
     *bindShapeMat=bindShapeMat->transpose();    //collada matrices are in row major order, we store them in column major order...
-    renderer->vboList[meshID]->bindShapeMatrix=bindShapeMat;
+    sceneData->vboList[meshID]->bindShapeMatrix=bindShapeMat;
 
     return true;
 }
@@ -251,12 +256,12 @@ bool ColladaLoader::loadBoneNames(string meshID, TiXmlElement * sourceElement){
     for (int i=0;i<boneCount;i++){
         boneNames.push_back(boneNamePart);                //x
         if (boneNames[i]=="mouthUp")
-            renderer->vboList[meshID]->bIsHead=true;
+            sceneData->vboList[meshID]->bIsHead=true;
         boneNamePart = strtok(NULL, "  "); //advance
         cout << "found bone name: " << boneNames[i] << endl;
         }
 
-    renderer->vboList[meshID]->boneCount=boneCount;
+    sceneData->vboList[meshID]->boneCount=boneCount;
     cout << "our bone count is: " << boneCount << endl;
     return true;
 }
@@ -296,17 +301,17 @@ bool ColladaLoader::loadInvBoneMatrices(string meshID, TiXmlElement * sourceElem
     //sort bones to bring them in the same order as in <controller>
     for (uint i=0; i< boneNames.size();i++){
         cout << "currently reorganizing bones..." << endl;
-        for (uint j=0; j<renderer->vboList[meshID]->bones.size();j++){
+        for (uint j=0; j<sceneData->vboList[meshID]->bones.size();j++){
 
-            if (boneNames[i]==renderer->vboList[meshID]->bones[j]->name){
+            if (boneNames[i]==sceneData->vboList[meshID]->bones[j]->name){
                 //put new location in container
-                bone* interim=renderer->vboList[meshID]->bones[i];
+                bone* interim=sceneData->vboList[meshID]->bones[i];
                 //move old location to new location
-                renderer->vboList[meshID]->bones[i]=renderer->vboList[meshID]->bones[j];
+                sceneData->vboList[meshID]->bones[i]=sceneData->vboList[meshID]->bones[j];
                 //move interim to old location
-                renderer->vboList[meshID]->bones[j]=interim;
+                sceneData->vboList[meshID]->bones[j]=interim;
                 }
-            renderer->vboList[meshID]->bones[i]->invBoneMatrix=&invBoneMatrices[i];
+            sceneData->vboList[meshID]->bones[i]->invBoneMatrix=&invBoneMatrices[i];
             }
         }
     return true;
@@ -443,7 +448,7 @@ bool ColladaLoader::loadPerVertexWeights(string meshID, TiXmlElement * sourceEle
 bool ColladaLoader::loadColladaVertices(string meshID, TiXmlElement * sourceElement){
 
     int coordinatesPerVertex=3;
-    renderer->vboList[meshID]->verticesPerShapeCount=3;
+    sceneData->vboList[meshID]->verticesPerShapeCount=3;
     int vertexCount=0;
 
     //Vertices
@@ -529,7 +534,7 @@ bool ColladaLoader::loadColladaTexCoords(string meshID, TiXmlElement* sourceElem
     texCoordArrayElement->NextSiblingElement("technique_common")->FirstChildElement("accessor")->Attribute("stride",&texCoordsPerVertex);          //how many texcoords we have per vertex
 
     texCoords=new Vector3f[texCoordCount/texCoordsPerVertex];               //initialise texCoord Array (divide by 2 because we map single floats to a Vector2f
-    renderer->vboList[meshID]->texCoordPerVertexCount=texCoordsPerVertex;
+    sceneData->vboList[meshID]->texCoordPerVertexCount=texCoordsPerVertex;
     //read normal information into char array!
     const char* tStr =texCoordArrayElement->GetText();
     char* texCoordPart = strtok((char*)tStr, " "); // Splits spaces between words in string and advances
@@ -635,7 +640,7 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
             finalVertexArray=new Vector3f[referenceCount*verticesPerFace];
             finalVertexWeights=new Vector4f[referenceCount*verticesPerFace];
 
-            if (renderer->vboList[meshID]->bIsSkeletal)
+            if (sceneData->vboList[meshID]->bIsSkeletal)
                 finalBoneReferences=new Vector4f[referenceCount*verticesPerFace];
 
             finalNormalArray=new Vector3f[referenceCount*verticesPerFace];
@@ -644,7 +649,7 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
             for (int j=0;j<referenceCount*verticesPerFace;j++){
                 finalVertexArray[j]=vertices[vertexReferenceArray[j]];  //vertices
 
-                if (renderer->vboList[meshID]->bIsSkeletal){
+                if (sceneData->vboList[meshID]->bIsSkeletal){
                     finalVertexWeights[j]=vertexWeights[vertexReferenceArray[j]]; //vertex weights 1-4
                     finalBoneReferences[j]=boneReference[vertexReferenceArray[j]]; //bone references
                     }
@@ -672,12 +677,12 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertexBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, referenceCount*verticesPerFace*sizeof(Vector3f), finalVertexArray , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->vertexBufferObject.push_back(vertexBuffer);
-    renderer->vboList[meshID]->vertexCount.push_back(referenceCount*verticesPerFace);
-    renderer->vboList[meshID]->vertexInterpretation=GL_TRIANGLES;
+    sceneData->vboList[meshID]->vertexBufferObject.push_back(vertexBuffer);
+    sceneData->vboList[meshID]->vertexCount.push_back(referenceCount*verticesPerFace);
+    sceneData->vboList[meshID]->vertexInterpretation=GL_TRIANGLES;
 
     //bind bone References
-    if ( renderer->vboList[meshID]->bIsSkeletal){
+    if ( sceneData->vboList[meshID]->bIsSkeletal){
         //bind weights 1 to 4
         glGenBuffersARB(1, &vertexWeightsBuffer);
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertexWeightsBuffer);
@@ -687,8 +692,8 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, boneReferenceBuffer);
         glBufferDataARB(GL_ARRAY_BUFFER_ARB, referenceCount*verticesPerFace*sizeof(Vector4f), finalBoneReferences , GL_STATIC_DRAW_ARB);
 
-        renderer->vboList[meshID]->vertexWeightsObject.push_back(vertexWeightsBuffer);
-        renderer->vboList[meshID]->boneReferenceObject.push_back(boneReferenceBuffer);
+        sceneData->vboList[meshID]->vertexWeightsObject.push_back(vertexWeightsBuffer);
+        sceneData->vboList[meshID]->boneReferenceObject.push_back(boneReferenceBuffer);
         }
 
     //normal Buffer
@@ -696,17 +701,17 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, normalBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, referenceCount*verticesPerFace*sizeof(Vector3f), finalNormalArray , GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->normalBufferObject.push_back(normalBuffer);
+    sceneData->vboList[meshID]->normalBufferObject.push_back(normalBuffer);
 
     //texCoord Buffer
     glGenBuffersARB(1, &texCoordBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, texCoordBuffer);
-    if (renderer->vboList[meshID]->texCoordPerVertexCount==2)
+    if (sceneData->vboList[meshID]->texCoordPerVertexCount==2)
         glBufferDataARB(GL_ARRAY_BUFFER_ARB, referenceCount*verticesPerFace*sizeof(Vector2f), finalTexCoordArray, GL_STATIC_DRAW_ARB);
-    else if (renderer->vboList[meshID]->texCoordPerVertexCount==3)
+    else if (sceneData->vboList[meshID]->texCoordPerVertexCount==3)
         glBufferDataARB(GL_ARRAY_BUFFER_ARB, referenceCount*verticesPerFace*sizeof(Vector3f), finalTexCoordArray, GL_STATIC_DRAW_ARB);
 
-    renderer->vboList[meshID]->texCoordBufferObject.push_back(texCoordBuffer);
+    sceneData->vboList[meshID]->texCoordBufferObject.push_back(texCoordBuffer);
 
 
     //after pushing all the final Arrays to the graphics card, we can clean them up as well!

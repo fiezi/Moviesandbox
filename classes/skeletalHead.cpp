@@ -68,4 +68,4 @@ void SkeletalHead::update(double deltaTime){
     }
 }
 
-void SkeletalHead::create(){renderer->addActor(this);}
+void SkeletalHead::create(){sceneData->addActor(this);}

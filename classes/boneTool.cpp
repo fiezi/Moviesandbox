@@ -23,7 +23,7 @@ void BoneTool::start(){
 
     highlightButton("Create Bone (b)");
 
-    brush=renderer->brush;
+    brush=sceneData->brush;
     brush->bHidden=false;
 	//use selectedActor as drawing
 	if (input->selectedActors.size()>0){
@@ -41,17 +41,17 @@ void BoneTool::start(){
 		brush->drawing->drawType=DRAW_PARTICLES;
 
 		//if we already have bones, reset transforms
-        if (renderer->vboList[input->specialSelected->vboMeshID]->bIsSkeletal){
+        if (sceneData->vboList[input->specialSelected->vboMeshID]->bIsSkeletal){
 
         //if we have an original Matrix, then reset our transformMatrices!
             Matrix4f identityMatrix;
             identityMatrix.identity();
 
             //reset Matrices...
-            for (int i=0;i<(int)renderer->vboList[input->specialSelected->vboMeshID]->bones.size();i++){
-                if (renderer->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
-                    renderer->brush->drawing->bones[i]->transformMatrix=renderer->brush->drawing->bones[i]->originalMatrix;
-                    renderer->brush->drawing->bones[i]->originalMatrix.identity();
+            for (int i=0;i<(int)sceneData->vboList[input->specialSelected->vboMeshID]->bones.size();i++){
+                if (sceneData->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
+                    sceneData->brush->drawing->bones[i]->transformMatrix=sceneData->brush->drawing->bones[i]->originalMatrix;
+                    sceneData->brush->drawing->bones[i]->originalMatrix.identity();
                 }
             }
         }
@@ -137,7 +137,7 @@ void BoneTool::postSpawn(Actor* myActor){
 void BoneTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");

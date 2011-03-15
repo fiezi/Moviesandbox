@@ -146,9 +146,6 @@ public:
        Actor* grid;                        //direct pointer to Grid
        Brush* brush;                       //direct pointer to Brush
 
-       int screenX,screenY;                //rendered screen width, height - maybe rename..
-       int windowX,windowY;                //window width and height
-
        int frames;                         //amount of frames rendered
        double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
@@ -157,8 +154,6 @@ public:
        //Control stuff
        float mouseSensitivity;             //mouse sensitivity and general turn speed
        float moveSpeed;                    //general move speed
-
-       float fov;                          //field of view
 
        Content *content;                   //the list of things we create at program start
        ColladaLoader* colladaLoader;       //helper object for loading meshes and animations
@@ -171,13 +166,14 @@ public:
        //singleton-ish
        static SceneData* getInstance();
 
-       //***************************************
-       //this is stuff we can update easily
-       //***************************************
+       virtual void setup();
+
        virtual void fillGlobalLists();                  //for RTTY - generate actorInfo
 
-       virtual void setup();                      //first thing called when program starts
-       virtual void loadPreferences();
+       virtual void loadPreferences();                  //first thing called when program starts
+
+       virtual void createScene();
+
 
        virtual void update(float deltaTime);
 

@@ -35,7 +35,7 @@ void TextureInspector::createInspectorButtons(){
 }
 
 void TextureInspector::refreshList(){
-    if (renderer->textureList.size()!=listButton.size()){
+    if (sceneData->textureList.size()!=listButton.size()){
 
         assembleList();
         clickedLeft();
@@ -55,7 +55,7 @@ void TextureInspector::assembleList(){
         std::map <std::string, textureObject*>::iterator it;
         int i=0;
 
-        for ( it=renderer->textureList.begin() ; it != renderer->textureList.end(); it++ ){
+        for ( it=sceneData->textureList.begin() ; it != sceneData->textureList.end(); it++ ){
 
             sceneData->actorInfo["20PropertyAssignButton"].actorReference->create();
             listButton.push_back(sceneData->buttonList.back());

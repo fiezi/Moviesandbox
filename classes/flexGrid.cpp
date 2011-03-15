@@ -26,7 +26,7 @@ if (p)
 
 void FlexGrid::makeGridFromParticles(ParticleSystem * p){
 
-MeshData * myMesh =  renderer->vboList[p->vboMeshID];
+MeshData * myMesh =  sceneData->vboList[p->vboMeshID];
 
 for (unsigned int i=0;i<myMesh->vData.size(); i++)
   {

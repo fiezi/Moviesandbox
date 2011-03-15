@@ -245,24 +245,21 @@ void SceneData::fillGlobalLists(){
 SceneData::SceneData(){
 
 
+    name="SceneManager";
+
     backgroundTex="NULL";
     backgroundColor=Vector4f(0.25,0.5,0.8,1);
 
     currentLayer=0;
     startSceneFilename="";
 
-    fov=45;
 
     mouseSensitivity=0.005;
     moveSpeed=0.1;
 
-    screenX=0;
-    screenY=0;
-    windowX=0;
-    windowY=0;
-
 	deltaTime=0.0;
 	frames=0;
+
 }
 
 SceneData::~SceneData(){}
@@ -277,6 +274,24 @@ SceneData* SceneData::getInstance(){
         }
 }
 
+
+void SceneData::setup(){
+
+    renderer=Renderer::getInstance();
+    input=Input::getInstance();
+
+    //do this first, so we don't get an error when initialising our physicsActor in the global list!
+	renderer->physicsSetup();
+
+        //generate Class and Type Lists
+    fillGlobalLists();
+
+    colladaLoader=new ColladaLoader();
+    spriteMeshLoader=new SpriteMeshLoader();
+    spriteMeshLoaderXML=new SpriteMeshLoaderXML();
+
+
+}
 
 // load render settings
 void SceneData::loadPreferences(){
@@ -298,17 +313,6 @@ void SceneData::loadPreferences(){
 
 	chdir(myPath.c_str());
 #endif
-
-    //do this first, so we don't get an error when initialising our physicsActor in the global list!
-    renderer=Renderer::getInstance();
-    input=Input::getInstance();
-	renderer->physicsSetup();
-
-    //generate Class and Type Lists
-    fillGlobalLists();
-    colladaLoader=new ColladaLoader();
-    spriteMeshLoader=new SpriteMeshLoader();
-    spriteMeshLoaderXML=new SpriteMeshLoaderXML();
 
     //open config xml file
     //configure renderer
@@ -346,15 +350,18 @@ void SceneData::loadPreferences(){
 
     //resolution
     element->Attribute("WindowSizeX", &val);
-    windowX=val;
+    renderer->windowX=val;
     element->Attribute("WindowSizeY", &val);
-    windowY=val;
+    renderer->windowY=val;
 
     //renderscreen
     element->Attribute("ScreenSizeX", &val);
-    screenX=val;
+    renderer->screenX=val;
     element->Attribute("ScreenSizeY", &val);
-    screenY=val;
+    renderer->screenY=val;
+
+    input->screenX=renderer->screenX;
+    input->screenY=renderer->screenY;
 
     //fullscreen on/off
     element->Attribute("bFullScreen", &val);
@@ -392,7 +399,7 @@ void SceneData::loadPreferences(){
     moveSpeed=dVal;
 
     element->Attribute("FOV", &dVal);
-    fov=dVal;
+    renderer->fov=dVal;
 
     //setting start scene
     startSceneFilename=element->Attribute("StartSceneFile");
@@ -447,7 +454,7 @@ void SceneData::loadPreferences(){
 //
 //************************************************************
 
-void SceneData::setup(){
+void SceneData::createScene(){
 
 
    //create base layer
@@ -461,8 +468,6 @@ void SceneData::setup(){
     //add one grid - allow for adding more!
     addGrid();
 
-    input->screenX=screenX;
-    input->screenY=screenY;
     input->setup();          //controller gets created here!
 
 
@@ -493,6 +498,107 @@ void SceneData::setup(){
     //shared memory texture
     renderer->setup();
 }
+
+void SceneData::update(float deltaTime){
+
+
+    readSharedMemory();           //convert shared memory to a texture...
+
+	//first update Nodes!
+	for (unsigned int i=0;i<buttonList.size();i++){
+		Node* myNode=dynamic_cast<Node*>(buttonList[i]);
+		NodeIO* myNodeIO=dynamic_cast<NodeIO*>(buttonList[i]);
+		if (myNode || myNodeIO){
+            if (renderer->bDrawNodes){
+                buttonList[i]->update(deltaTime);
+            }
+		}
+		else{
+			buttonList[i]->update(deltaTime);
+		}
+	}
+
+	//then update Actors!
+	for (int i=0;i<(int)actorList.size();i++){
+        actorList[i]->objectID=(float)i;
+        actorList[i]->update(deltaTime);
+	}
+
+	//then helpers - we are using these for brush and grid and stuff
+	for (int i=0;i<(int)helperList.size();i++){
+        helperList[i]->update(deltaTime);
+	}
+
+	input->update(deltaTime);
+    renderer->update(deltaTime);
+
+    glutPostRedisplay();
+}
+
+
+
+void SceneData::addLayer(string layerName){
+
+        Layer* lay = new Layer;
+        lay->setup();
+        lay->name=layerName;
+        lay->textureID=lay->name+"_Color";
+        lay->depthTextureID=lay->name+"_Depth";
+        lay->pickTextureID=lay->name+"_Pick";
+		lay->lightDataTextureID=lay->name+"_lightData";
+
+        layerList.push_back(lay);
+        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->textureID);
+        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->scene_size, false, lay->depthTextureID);
+        renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->scene_size, false, lay->pickTextureID);
+		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->scene_size, false, lay->lightDataTextureID);
+        currentLayer=layerList.size()-1;
+
+        cout << "Added new Layer:" << layerName << endl;
+
+}
+
+void SceneData::addGrid(){
+
+    grid= new Actor;
+    grid->scale=Vector3f(50,50,50);
+    grid->texScale=Vector3f(10,10,10);
+    grid->setLocation(Vector3f(0,25,0));
+    grid->setRotation(Vector3f(0,180,0));
+
+    grid->sceneShaderID="texture";
+
+    grid->bTextured=true;
+    grid->bUseShader=true;
+    grid->bComputeLight=true;
+    grid->bHidden=true;
+    grid->color=Vector4f(0.5,0.5,0.5,0.8);
+    grid->textureID="grid_solid";
+    grid->name="grid";
+
+    grid->drawType=DRAW_PLANE;
+    grid->objectID=-2.0f;
+	grid->bRemoveable=false;
+
+    helperList.push_back(grid);
+
+ }
+
+ void SceneData::addBrush(){
+
+ //brush creation code here
+    brush = new Brush;
+    brush->drawing=NULL;
+    brush->bPickable=false;
+    brush->name="brush";
+    brush->controller=input->controller;
+    brush->bHidden=true;
+
+    brush->menuType.empty();
+    helperList.push_back(brush);
+}
+
+
 
 int SceneData::readSharedMemory(){
 
@@ -561,105 +667,4 @@ int SceneData::readSharedMemory(){
 
 
 }
-
-void SceneData::update(float deltaTime){
-
-
-    readSharedMemory();           //convert shared memory to a texture...
-
-	//first update Nodes!
-	for (unsigned int i=0;i<buttonList.size();i++){
-		Node* myNode=dynamic_cast<Node*>(buttonList[i]);
-		NodeIO* myNodeIO=dynamic_cast<NodeIO*>(buttonList[i]);
-		if (myNode || myNodeIO){
-            if (renderer->bDrawNodes){
-                buttonList[i]->update(deltaTime);
-            }
-		}
-		else{
-			buttonList[i]->update(deltaTime);
-		}
-	}
-
-	//then update Actors!
-	for (int i=0;i<(int)actorList.size();i++){
-        actorList[i]->objectID=(float)i;
-        actorList[i]->update(deltaTime);
-	}
-
-	//then helpers - we are using these for brush and grid and stuff
-	for (int i=0;i<(int)helperList.size();i++){
-        helperList[i]->update(deltaTime);
-	}
-
-	input->update(deltaTime);
-    renderer->update(deltaTime);
-
-    glutPostRedisplay();
-}
-
-
-
-void SceneData::addLayer(string layerName){
-
-        Layer* lay = new Layer;
-        lay->setup();
-        lay->name=layerName;
-        lay->textureID=lay->name+"_Color";
-        lay->depthTextureID=lay->name+"_Depth";
-        lay->pickTextureID=lay->name+"_Pick";
-		lay->lightDataTextureID=lay->name+"_lightData";
-
-        layerList.push_back(lay);
-        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->textureID);
-        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->scene_size, false, lay->depthTextureID);
-        renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->scene_size, false, lay->pickTextureID);
-		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->scene_size, false, lay->lightDataTextureID);
-        currentLayer=layerList.size()-1;
-
-        cout << "Added new Layer:" << layerName << endl;
-
-}
-
-
-void SceneData::addGrid(){
-
-    grid= new Actor;
-    grid->scale=Vector3f(50,50,50);
-    grid->texScale=Vector3f(10,10,10);
-    grid->setLocation(Vector3f(0,25,0));
-    grid->setRotation(Vector3f(0,180,0));
-
-    grid->sceneShaderID="texture";
-
-    grid->bTextured=true;
-    grid->bUseShader=true;
-    grid->bComputeLight=true;
-    grid->bHidden=true;
-    grid->color=Vector4f(0.5,0.5,0.5,0.8);
-    grid->textureID="grid_solid";
-    grid->name="grid";
-
-    grid->drawType=DRAW_PLANE;
-    grid->objectID=-2.0f;
-	grid->bRemoveable=false;
-
-    helperList.push_back(grid);
-
- }
-
- void SceneData::addBrush(){
-
- //brush creation code here
-    brush = new Brush;
-    brush->drawing=NULL;
-    brush->bPickable=false;
-    brush->name="brush";
-    brush->controller=input->controller;
-    brush->bHidden=true;
-
-    brush->menuType.empty();
-    helperList.push_back(brush);
-}
-
 

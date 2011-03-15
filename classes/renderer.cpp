@@ -102,23 +102,6 @@
 //data
 #include "meshData.h"
 
-#ifdef TARGET_WIN32
-
-    #include <Commdlg.h>
-    #include <stdio.h>
-    #include <conio.h>
-    #include <tchar.h>
-
-    TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
-
-#else
-
-	#include <sys/mman.h>
-
-#endif
-
-#define BUF_SIZE 640*480*4*32
-
 
 //static link
 Renderer* Renderer::rendererInstance=NULL;
@@ -139,15 +122,7 @@ Renderer* Renderer::rendererInstance=NULL;
 
 Renderer::Renderer(){
 
-
-    backgroundTex="NULL";
-    backgroundColor=Vector4f(0.25,0.5,0.8,1);
-
     lastShader="NULL";
-
-    currentLayer=0;
-
-    startSceneFilename="";
 
     bDrawLighting=true;
     bRenderStereo=true;
@@ -164,22 +139,19 @@ Renderer::Renderer(){
     lightLoc=Vector3f(0,3,15);                  //light Location
     ambient=Vector3f(1,1,1);
 
-    fov=45;
     nearClip=0.2;
     farClip=1000;
-    frustumTop=0.083;
-    frustumBottom=-0.083;
-
-    eyeDistance=0.10;
-    bkgOffset = 50.0;
-
-    mouseSensitivity=0.005;
-    moveSpeed=0.1;
 
     screenX=0;
     screenY=0;
     windowX=0;
     windowY=0;
+    fov=45;
+
+    frustumTop=0.083;
+    frustumBottom=-0.083;
+    eyeDistance=0.10;
+    bkgOffset = 50.0;
 
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
@@ -204,7 +176,6 @@ Renderer::Renderer(){
 	drawBuffers[1] = GL_COLOR_ATTACHMENT1_EXT;
 	drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
 	drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
-
 }
 
 Renderer::~Renderer(){
@@ -243,10 +214,7 @@ Renderer* Renderer::getInstance(){
 
 void Renderer::initWindow(int x, int y, string windowName){
 
-    //screenX=x;
-    //screenY=y;
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
-//    glutInitDisplayString("rgba double depth>=24 sample=8");
 
     if (bFullscreen)
       {
@@ -259,8 +227,8 @@ void Renderer::initWindow(int x, int y, string windowName){
       }
     else
       {
-      glutInitWindowSize(x,y);
-      glutInitWindowPosition(input->windowX,input->windowY);
+      glutInitWindowSize(windowX,windowY);
+      glutInitWindowPosition(x,y);
       glutCreateWindow(windowName.c_str());
       }
 }
@@ -290,8 +258,6 @@ void Renderer::reDrawScreen(int w, int h){
 	gluLookAt(input->controller->controlledActor->location.x, input->controller->controlledActor->location.y,input->controller->controlledActor->location.z,
 		      input->controller->lookPoint.x,input->controller->lookPoint.y,input->controller->lookPoint.z,
 			  input->controller->upPoint.x, input->controller->upPoint.y,input->controller->upPoint.z);
-    input->screenX=screenX;
-    input->screenY=screenY;
 }
 
 
@@ -302,6 +268,10 @@ void Renderer::reDrawScreen(int w, int h){
 //************************************************************
 
 void Renderer::setup(){
+
+
+    input=Input::getInstance();
+    sceneData=SceneData::getInstance();
 
 
     #ifdef TARGET_WIN32
@@ -394,6 +364,38 @@ void Renderer::physicsSetup(){
     dInitODE();
     dWorldSetQuickStepNumIterations(physicsWorld,120);
 }
+
+
+void Renderer::update(float deltaTime){
+
+	if (bUpdatePhysics)
+	  physicsUpdate();
+
+    glutPostRedisplay();
+}
+
+void Renderer::physicsUpdate(){
+
+	// Detect collision
+	dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
+
+	// Step world
+	/*
+	if (physicsTime<1)
+	  physicsTime+=deltaTime * 0.001f;
+    else
+     {
+    */
+      dWorldQuickStep(physicsWorld, 0.01);
+      //super-accurate but sloooooow:
+	  //dWorldStep(physicsWorld,0.01f);
+	  // Remove all temporary collision joints now that the world has been stepped
+	  dJointGroupEmpty(jointGroup);
+      physicsTime=deltaTime;
+	//  }
+
+}
+
 
 
 void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name){
@@ -536,18 +538,18 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
     if (name=="multisampleBuffer")   return;
 
-    textureList[name]=new textureObject;
-    textureList[name]->texture=(uint)*fbTexture;
-    textureList[name]->nextTexture="NULL";
-    textureList[name]->frameRate=0;
+    sceneData->textureList[name]=new textureObject;
+    sceneData->textureList[name]->texture=(uint)*fbTexture;
+    sceneData->textureList[name]->nextTexture="NULL";
+    sceneData->textureList[name]->frameRate=0;
 
     if (bDepth)
-      textureList[name]->bAlpha=true;
+      sceneData->textureList[name]->bAlpha=true;
     else
-      textureList[name]->bAlpha=false;
+      sceneData->textureList[name]->bAlpha=false;
 
-    textureList[name]->bWrap=false;
-    textureList[name]->texFilename="NULL";
+    sceneData->textureList[name]->bWrap=false;
+    sceneData->textureList[name]->texFilename="NULL";
 
     cout << "FBO texture name " << name << endl;
 
@@ -579,36 +581,6 @@ void Renderer::checkFBOStatus(){
     }
 }
 
-void Renderer::update(float deltaTime){
-
-	if (bUpdatePhysics)
-	  physicsUpdate();
-
-    glutPostRedisplay();
-}
-
-
-void Renderer::physicsUpdate(){
-
-	// Detect collision
-	dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
-
-	// Step world
-	/*
-	if (physicsTime<1)
-	  physicsTime+=deltaTime * 0.001f;
-    else
-     {
-    */
-      dWorldQuickStep(physicsWorld, 0.01);
-      //super-accurate but sloooooow:
-	  //dWorldStep(physicsWorld,0.01f);
-	  // Remove all temporary collision joints now that the world has been stepped
-	  dJointGroupEmpty(jointGroup);
-      physicsTime=deltaTime;
-	//  }
-
-}
 
 void Renderer::handleCollisionBetween(void * data, dGeomID o0, dGeomID o1){
 
@@ -737,7 +709,7 @@ void Renderer::draw(){
 
     //clear to color here!
 
-    glClearColor(backgroundColor.r,backgroundColor.g,backgroundColor.b, 1.0f);
+    glClearColor(sceneData->backgroundColor.r,sceneData->backgroundColor.g,sceneData->backgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     drawBackground();
     glClear(GL_DEPTH_BUFFER_BIT);
@@ -750,20 +722,20 @@ void Renderer::draw(){
     checkOpenGLError("pre-Lighting");
     #endif
 
-    for (int i=0;i<(int)layerList.size();i++){
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
 
 		if (bDrawLighting){
-            drawDeferredLighting(layerList[i]);
+            drawDeferredLighting(sceneData->layerList[i]);
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-Lighting");
             #endif
         }
         else
-            layerList[i]->sceneShaderID="texture";
+            sceneData->layerList[i]->sceneShaderID="texture";
         //then, draw our final composite
 
 
-        drawButton(layerList[i]);
+        drawButton(sceneData->layerList[i]);
     }
 
     #ifdef BDEBUGRENDERER
@@ -805,13 +777,13 @@ void Renderer::draw(){
 void Renderer::drawBackground(){
 
     //only draw Background Texture if we're having one
-    if (backgroundTex=="NULL")
+    if (sceneData->backgroundTex=="NULL")
         return;
 
 
     setupShading("texture");
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureList[backgroundTex]->texture);
+    glBindTexture(GL_TEXTURE_2D, sceneData->textureList[sceneData->backgroundTex]->texture);
 
     drawPlane(0,0,screenX,screenY);
 
@@ -855,14 +827,14 @@ void Renderer::drawShadows(MsbLight* myLight){
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 	GLenum depthOnly={GL_COLOR_ATTACHMENT1_EXT};
 	glDrawBuffers(1,&depthOnly);
-    for (int i=0;i<(int)layerList.size();i++){
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
 
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
 
-        draw3D(layerList[i]);
+        draw3D(sceneData->layerList[i]);
 
       glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
       glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
@@ -903,7 +875,7 @@ void Renderer::drawSceneTexture(){
     glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
 
 
-    for (int i=0;i<(int)layerList.size();i++){
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
@@ -918,7 +890,7 @@ void Renderer::drawSceneTexture(){
         glActiveTexture(GL_TEXTURE0);
 
 		 //drawbuffers are set up here!
-        draw3D(layerList[i]);
+        draw3D(sceneData->layerList[i]);
 
 
         //color blitting
@@ -926,7 +898,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
         glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, layerList[i]->colorFBO );
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
@@ -935,7 +907,7 @@ void Renderer::drawSceneTexture(){
         //depth blitting
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
 
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, layerList[i]->depthFBO );
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
@@ -943,7 +915,7 @@ void Renderer::drawSceneTexture(){
         //picking blitting
         glReadBuffer(GL_COLOR_ATTACHMENT2_EXT);
 
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, layerList[i]->pickFBO );
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->pickFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
@@ -952,7 +924,7 @@ void Renderer::drawSceneTexture(){
 
         glReadBuffer(GL_COLOR_ATTACHMENT3_EXT);
 
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, layerList[i]->lightDataFBO );
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->lightDataFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
@@ -1003,11 +975,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         ///loop from here for every shadowed light!
 
-        for (int i=0;i<(int)lightList.size(); i++){
+        for (int i=0;i<(int)sceneData->lightList.size(); i++){
 
 
-            if (lightList[i]->bCastShadows)
-                drawShadows(lightList[i]);
+            if (sceneData->lightList[i]->bCastShadows)
+                drawShadows(sceneData->lightList[i]);
 
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-drawShadow");
@@ -1020,11 +992,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
 
-            float castShadow=(float)lightList[i]->bCastShadows;
+            float castShadow=(float)sceneData->lightList[i]->bCastShadows;
             //update light
-            glLightfv(GL_LIGHT0,GL_POSITION,&lightList[i]->location.x);
-            glLightfv(GL_LIGHT0,GL_DIFFUSE,&lightList[i]->color.r);
-            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&lightList[i]->lightDistance);
+            glLightfv(GL_LIGHT0,GL_POSITION,&sceneData->lightList[i]->location.x);
+            glLightfv(GL_LIGHT0,GL_DIFFUSE,&sceneData->lightList[i]->color.r);
+            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&sceneData->lightList[i]->lightDistance);
             glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
 
            //bind depth
@@ -1045,7 +1017,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
 			//set background
             //glActiveTexture(GL_TEXTURE5);
-            //glBindTexture(GL_TEXTURE_2D, textureList[backgroundTex]->texture);
+            //glBindTexture(GL_TEXTURE_2D, sceneData->textureList[backgroundTex]->texture);
 
             ///light&shadow rendering
 
@@ -1143,16 +1115,16 @@ void Renderer::draw3D(Layer* currentLayer){
 	//draw helpers - brush, grid, etc... if we're not running
     if (!input->controller->bRunning){
 
-        for (int i=0;i<(int)helperList.size();i++){
-            if (!helperList[i]->bHidden){
+        for (int i=0;i<(int)sceneData->helperList.size();i++){
+            if (!sceneData->helperList[i]->bHidden){
 
-                if (helperList[i]->bPickable){
-                    drawActor(helperList[i]);
+                if (sceneData->helperList[i]->bPickable){
+                    drawActor(sceneData->helperList[i]);
                 }
                 else{
                     //don't draw in Z or draw normals if we're not pickable!
                     glDrawBuffers(1, drawBuffers);
-                    drawActor(helperList[i]);
+                    drawActor(sceneData->helperList[i]);
                     glDrawBuffers(4, drawBuffers);
                 }
 
@@ -1192,36 +1164,36 @@ void Renderer::draw2D(){
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
     //colored Buttons  first
-    for (unsigned int i=0;i<buttonList.size();i++){
-        if (    (!Control::bRunning || buttonList[i]->bScreenOverlay)
-                && !buttonList[i]->bHidden){
+    for (unsigned int i=0;i<sceneData->buttonList.size();i++){
+        if (    (!Control::bRunning || sceneData->buttonList[i]->bScreenOverlay)
+                && !sceneData->buttonList[i]->bHidden){
 
-                    Node* myNode=dynamic_cast<Node*>(buttonList[i]);
-                    NodeIO* myNodeIO=dynamic_cast<NodeIO*>(buttonList[i]);
+                    Node* myNode=dynamic_cast<Node*>(sceneData->buttonList[i]);
+                    NodeIO* myNodeIO=dynamic_cast<NodeIO*>(sceneData->buttonList[i]);
                     //if we disabled drawing nodes...
                     if ((myNode || myNodeIO) && bDrawNodes)
-                        drawButton(buttonList[i]);
+                        drawButton(sceneData->buttonList[i]);
                     //always draw everything else
                     if (!myNode && !myNodeIO)
-                        drawButton(buttonList[i]);
+                        drawButton(sceneData->buttonList[i]);
                 }
     }
 
     //finally font rendering
     setupShading("font");
 
-    for (unsigned int i=0;i<buttonList.size();i++){
-        if (    (!Control::bRunning || buttonList[i]->bScreenOverlay)
-                && !buttonList[i]->bHidden){
+    for (unsigned int i=0;i<sceneData->buttonList.size();i++){
+        if (    (!Control::bRunning || sceneData->buttonList[i]->bScreenOverlay)
+                && !sceneData->buttonList[i]->bHidden){
 
-                Node* myNode=dynamic_cast<Node*>(buttonList[i]);
-                NodeIO* myNodeIO=dynamic_cast<NodeIO*>(buttonList[i]);
+                Node* myNode=dynamic_cast<Node*>(sceneData->buttonList[i]);
+                NodeIO* myNodeIO=dynamic_cast<NodeIO*>(sceneData->buttonList[i]);
 
                 if ((myNode || myNodeIO) && bDrawNodes)
-                    buttonList[i]->drawTooltip();
+                    sceneData->buttonList[i]->drawTooltip();
 
                 if (!myNode && !myNodeIO)
-                    buttonList[i]->drawTooltip();
+                    sceneData->buttonList[i]->drawTooltip();
         }
     }
 
@@ -1236,7 +1208,7 @@ void Renderer::drawButton(BasicButton* b){
 
     //set Texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureList[b->textureID]->texture);
+    glBindTexture(GL_TEXTURE_2D, sceneData->textureList[b->textureID]->texture);
 
     glPushMatrix();
 
@@ -1390,7 +1362,7 @@ void Renderer::draw3DOverlay(){
         //TODO: should be drawSFX
         glActiveTexture(GL_TEXTURE2);
         glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, textureList["leftEyeDepthTexture"]->texture);
+        glBindTexture(GL_TEXTURE_2D, sceneData->textureList["leftEyeDepthTexture"]->texture);
         glActiveTexture(GL_TEXTURE0);
 
 
@@ -1401,11 +1373,11 @@ void Renderer::draw3DOverlay(){
 setupShading("post");
 
     GLuint uniform_location=0;
-    uniform_location = glGetUniformLocation(shaderList["post"]->shader, "tex");
+    uniform_location = glGetUniformLocation(sceneData->shaderList["post"]->shader, "tex");
     glUniform1iARB(uniform_location, 0);
 
     uniform_location=0;
-    uniform_location = glGetUniformLocation(shaderList["post"]->shader, "depthTex");
+    uniform_location = glGetUniformLocation(sceneData->shaderList["post"]->shader, "depthTex");
     glUniform1iARB(uniform_location, 2);
 
     //zoom!
@@ -1417,7 +1389,7 @@ setupShading("post");
 
 //do for all FBOs too!
 
-    glBindTexture(GL_TEXTURE_2D, textureList["leftEyeTexture"]->texture);
+    glBindTexture(GL_TEXTURE_2D, sceneData->textureList["leftEyeTexture"]->texture);
 
     glColor4f(1.0,1.0,1.0,1.0);
 
@@ -1443,10 +1415,10 @@ setupShading("post");
         //TODO: should be drawSFX
 
         glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, textureList["rightEyeDepthTexture"]->texture);
+        glBindTexture(GL_TEXTURE_2D, sceneData->textureList["rightEyeDepthTexture"]->texture);
         glActiveTexture(GL_TEXTURE0);
 
-    glBindTexture(GL_TEXTURE_2D, textureList["rightEyeTexture"]->texture);
+    glBindTexture(GL_TEXTURE_2D, sceneData->textureList["rightEyeTexture"]->texture);
 
     glColor4f(1.0,1.0,1.0,1.0);
 
@@ -1479,11 +1451,11 @@ setupShading("post");
 
 void Renderer::setupShading(string shaderName){
 
-    if (shaderName!=lastShader && shaderList[shaderName]){
-        glUseProgram(shaderList[shaderName]->shader);
+    if (shaderName!=lastShader && sceneData->shaderList[shaderName]){
+        glUseProgram(sceneData->shaderList[shaderName]->shader);
         lastShader=shaderName;
         }
-    if (!shaderList[shaderName]){
+    if (!sceneData->shaderList[shaderName]){
         cout << "found bad shader: " << shaderName << endl;
         return;
     }
@@ -1496,14 +1468,14 @@ void Renderer::setupTexturing(string texName, Actor* a, GLenum texChannel){
     if (!a )
         return;
 
-    if (textureList[texName])
-        glBindTexture(GL_TEXTURE_2D, textureList[texName]->texture);
+    if (sceneData->textureList[texName])
+        glBindTexture(GL_TEXTURE_2D, sceneData->textureList[texName]->texture);
 
 
     //texture animation
-    if (textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > textureList[texName]->frameRate ){
-        a->textTimer += textureList[texName]->frameRate;
-        a->textureID=textureList[texName]->nextTexture;
+    if (sceneData->textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > sceneData->textureList[texName]->frameRate ){
+        a->textTimer += sceneData->textureList[texName]->frameRate;
+        a->textureID=sceneData->textureList[texName]->nextTexture;
     }
 
     transformTextureMatrix(a);
@@ -1669,7 +1641,7 @@ void Renderer::drawLine(Vector3f start, Vector3f end, Vector4f startColor, Vecto
 
 void Renderer::drawParticles (Actor* a){
 
-    MeshData* myMesh=vboList[a->vboMeshID];
+    MeshData* myMesh=sceneData->vboList[a->vboMeshID];
 
     if (!myMesh && myMesh->vData.size()==0)
         return;
@@ -1708,7 +1680,7 @@ void Renderer::drawParticles (Actor* a){
 			//vertexID from here - if we're using a shader on a drawing that does not support vertexID
             //TODO: load attribs in shaders so no repeating lookup necessary!
             GLint indexThree;
-            indexThree=glGetAttribLocation(shaderList[currentShader]->shader,"vertexID");
+            indexThree=glGetAttribLocation(sceneData->shaderList[currentShader]->shader,"vertexID");
             if (indexThree>-1){
                 glEnableVertexAttribArray(indexThree);
                 glVertexAttribPointer(indexThree,1,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexIDs);
@@ -1723,10 +1695,10 @@ void Renderer::drawParticles (Actor* a){
             //skeletal Stuff from here
 
             if (myMesh->bIsSkeletal && input->controller->tool==TOOL_SKIN && currentShader=="skinning"){
-                indexOne=glGetAttribLocation(shaderList["skinning"]->shader,"boneReferences");
+                indexOne=glGetAttribLocation(sceneData->shaderList["skinning"]->shader,"boneReferences");
                 glEnableVertexAttribArray(indexOne);
                 glVertexAttribPointer(indexOne,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),boneReferences);
-                indexTwo=glGetAttribLocation(shaderList["skinning"]->shader,"vertexWeights");
+                indexTwo=glGetAttribLocation(sceneData->shaderList["skinning"]->shader,"vertexWeights");
                 glEnableVertexAttribArray(indexTwo);
                 glVertexAttribPointer(indexTwo,4,GL_FLOAT,false,sizeof(myMesh->vData[0]),vertexWeights);
 
@@ -1760,7 +1732,7 @@ void Renderer::drawParticles (Actor* a){
 
 void Renderer::drawColladaMesh (Actor* a){
 
-    MeshData* myMesh=vboList[a->vboMeshID];
+    MeshData* myMesh=sceneData->vboList[a->vboMeshID];
 
     if (!myMesh || myMesh->vertexBufferObject.size()==0)
        return;
@@ -1804,12 +1776,12 @@ void Renderer::drawColladaMesh (Actor* a){
 
         if (myMesh->bIsSkeletal){
 
-            indexOne=glGetAttribLocation(shaderList["skeletal"]->shader,"boneReferences");
+            indexOne=glGetAttribLocation(sceneData->shaderList["skeletal"]->shader,"boneReferences");
 			glEnableVertexAttribArray(indexOne);
 			glBindBufferARB(GL_ARRAY_BUFFER, myMesh->boneReferenceObject[0]);
 			glVertexAttribPointer(indexOne,4,GL_FLOAT,false,0,0);
 
-			indexTwo=glGetAttribLocation(shaderList["skeletal"]->shader,"vertexWeights");
+			indexTwo=glGetAttribLocation(sceneData->shaderList["skeletal"]->shader,"vertexWeights");
 			glEnableVertexAttribArray(indexTwo);
 			glBindBufferARB(GL_ARRAY_BUFFER, myMesh->vertexWeightsObject[0]);
 			glVertexAttribPointer(indexTwo,4,GL_FLOAT,false,0,0);
@@ -1869,7 +1841,7 @@ void Renderer::pick(int x, int y){
     //color = xyz location
     //alpha = object id
 
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, layerList[currentLayer]->pickFBO );
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->pickFBO );
     float mousePos[4];
 
     //create small picking texture
@@ -1889,8 +1861,8 @@ void Renderer::pick(int x, int y){
 
     if (mousePos[3]>=0){
         int aID=(int)ceil(mousePos[3]);
-        if ((int) actorList.size() > aID)
-            input->worldTarget=actorList[aID];
+        if ((int) sceneData->actorList.size() > aID)
+            input->worldTarget=sceneData->actorList[aID];
     }
     else
         input->worldTarget=NULL;
@@ -1898,13 +1870,13 @@ void Renderer::pick(int x, int y){
     //special stuff
     //grid
     if ((int)floor(mousePos[3])==-2)
-        input->worldTarget=grid;
+        input->worldTarget=sceneData->grid;
 
 
 
     /// World Normal!
 
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, layerList[currentLayer]->depthFBO );
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->depthFBO );
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
     xRatio=(float)scene_size/(float)screenX;
@@ -1943,7 +1915,7 @@ void Renderer::pick(int x, int y){
 //
 //************************************************************
 
-//generates a texture from a RAW file - needs implementation of textureList!
+//generates a texture from a RAW file - needs implementation of sceneData->textureList!
 GLuint Renderer::LoadTextureRAW( const char * filename,int size, int wrap ){
 
     GLuint texture;
@@ -2028,12 +2000,12 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
 
     FreeImage_Unload(myBitmap);
 
-    textureList[texID]=new textureObject;
-    textureList[texID]->texture=texture;
-    textureList[texID]->bAlpha=bAlpha;
-    textureList[texID]->bWrap=wrap;
-    textureList[texID]->texFilename=filename;
-    textureList[texID]->nextTexture="NULL";
+    sceneData->textureList[texID]=new textureObject;
+    sceneData->textureList[texID]->texture=texture;
+    sceneData->textureList[texID]->bAlpha=bAlpha;
+    sceneData->textureList[texID]->bWrap=wrap;
+    sceneData->textureList[texID]->texFilename=filename;
+    sceneData->textureList[texID]->nextTexture="NULL";
 
     return true;
 }
@@ -2093,10 +2065,10 @@ bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint data
         return 0;
     }
 
-    textureList[texID]= new textureObject;
-    textureList[texID]->texture=tex;
-    textureList[texID]->texFilename="memory";
-    textureList[texID]->nextTexture="NULL";
+    sceneData->textureList[texID]= new textureObject;
+    sceneData->textureList[texID]->texture=tex;
+    sceneData->textureList[texID]->texFilename="memory";
+    sceneData->textureList[texID]->nextTexture="NULL";
 
     cout << "created new empty texture with name:" << texID << " and number:" << tex << endl;
     return true;
@@ -2169,10 +2141,10 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     free(vertexShaderFile);
     free(fragmentShaderFile);
 
-    shaderList[shaderProgramName]=new shaderObject;
-    shaderList[shaderProgramName]->shader=shaderProgram;
-    shaderList[shaderProgramName]->vertexShaderFilename=vertexShaderFileName;
-    shaderList[shaderProgramName]->fragmentShaderFilename=fragmentShaderFileName;
+    sceneData->shaderList[shaderProgramName]=new shaderObject;
+    sceneData->shaderList[shaderProgramName]->shader=shaderProgram;
+    sceneData->shaderList[shaderProgramName]->vertexShaderFilename=vertexShaderFileName;
+    sceneData->shaderList[shaderProgramName]->fragmentShaderFilename=fragmentShaderFileName;
     cout << "registered program!" << shaderProgram << "\n";
 
     cout << "*************************************************************" << endl;
@@ -2191,8 +2163,8 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     GLenum uniType;
     for (int i=0;i<listSize;i++){
         glGetActiveUniform(shaderProgram, i , maxLen, &uniNameLength , &uniSize , &uniType , &uniName[0] );
-        shaderList[shaderProgramName]->uniforms[uniName]=glGetUniformLocation(shaderProgram,(const GLchar*) (&uniName)) ;
-        cout << "has Uniform: " << uniName << " in Location " << shaderList[shaderProgramName]->uniforms[uniName] << endl;
+        sceneData->shaderList[shaderProgramName]->uniforms[uniName]=glGetUniformLocation(shaderProgram,(const GLchar*) (&uniName)) ;
+        cout << "has Uniform: " << uniName << " in Location " << sceneData->shaderList[shaderProgramName]->uniforms[uniName] << endl;
     }
 
     cout << "*************************************************************" << endl;

@@ -335,5 +335,5 @@ void PhysicsActor::makeJoint(){
 }
 
 
-void PhysicsActor::create(){renderer->addActor(this);}
+void PhysicsActor::create(){sceneData->addActor(this);}
 

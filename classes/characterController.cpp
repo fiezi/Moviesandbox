@@ -32,4 +32,4 @@ void CharacterController::update(double deltaTime){
         Actor::update(deltaTime);
 }
 
-void CharacterController::create(){renderer->addActor(this);}
+void CharacterController::create(){sceneData->addActor(this);}

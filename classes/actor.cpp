@@ -16,6 +16,7 @@ Actor::Actor(){
 
 renderer=Renderer::getInstance();
 input=Input::getInstance();
+sceneData=SceneData::getInstance();
 
 renderLayer=0;
 
@@ -468,7 +469,7 @@ void Actor::update(double deltaTime){
 // updates shader uniforms
 void Actor::updateShaders(){
 
-    shaderObject* myShader= renderer->shaderList[renderer->currentShader];
+    shaderObject* myShader= sceneData->shaderList[renderer->currentShader];
 
     //these uniforms should always exist, but let's check maybe?
 
@@ -811,13 +812,13 @@ void Actor::remove(){
     }
 
     //check if we're the current drawing!
-    if (renderer->brush->drawing && (Actor*)renderer->brush->drawing == this)
-        renderer->brush->drawing=NULL;
+    if (sceneData->brush->drawing && (Actor*)sceneData->brush->drawing == this)
+        sceneData->brush->drawing=NULL;
 
     //remove from renderLayer list
-    for (int i=0;i<(int)renderer->layerList[renderLayer]->actorList.size();i++){
-        if (renderer->layerList[renderLayer]->actorList[i]==this)
-          renderer->layerList[renderLayer]->actorList.erase(renderer->layerList[renderLayer]->actorList.begin()+i);
+    for (int i=0;i<(int)sceneData->layerList[renderLayer]->actorList.size();i++){
+        if (sceneData->layerList[renderLayer]->actorList[i]==this)
+          sceneData->layerList[renderLayer]->actorList.erase(sceneData->layerList[renderLayer]->actorList.begin()+i);
     }
     //remove from actorList
     for (int i=0;i<(int)sceneData->actorList.size();i++){
@@ -829,7 +830,7 @@ void Actor::remove(){
 }
 
 //for runtime Actor creation
-void Actor::create(){ renderer->addActor(this); }
+void Actor::create(){ sceneData->addActor(this); }
 
 bool Actor::createNewActor(string actorIDName){
 

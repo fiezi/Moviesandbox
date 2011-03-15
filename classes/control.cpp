@@ -78,9 +78,6 @@ void Control::update(double deltaTime){
     eventTrigger.clear();
     Actor::update(deltaTime);
 
-	//always update navTool!
-	((NavTool*)myTools[TOOL_NAV])->processMove(0.0);
-
 }
 
 //for Tool-Button Callbacks

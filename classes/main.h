@@ -15,7 +15,8 @@ const int screenY=480;
 
 Renderer*    renderManager;
 Input*       inputManager;
-
+SceneData*   sceneDataManager;
+int          splashWindow;
 /*
 
 Functions

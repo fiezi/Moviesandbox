@@ -46,12 +46,12 @@ void DrawingWidget::closeWidget(){
     input->deselectActors();
 
 
-    if (renderer->brush->drawing){
+    if (sceneData->brush->drawing){
         input->makeWarningPopUp("saving drawing...",this);
         renderer->draw();
         input->controller->myTools[TOOL_DRAW]->save();
-        renderer->brush->drawing->drawType=DRAW_VBOMESH;
-        renderer->brush->drawing->reset();
+        sceneData->brush->drawing->drawType=DRAW_VBOMESH;
+        sceneData->brush->drawing->reset();
         input->staticButton->focusClick();
         input->bTextInput=false;
     }
@@ -73,8 +73,8 @@ void DrawingWidget::trigger(MsbObject* other){
 
     //from staticButton
     if (other->name=="Name your new drawing:"){
-        renderer->brush->createNewDrawing();
-        input->specialSelected=renderer->brush->drawing;
+        sceneData->brush->createNewDrawing();
+        input->specialSelected=sceneData->brush->drawing;
     }
 
     if (other->name=="Draw Particles (p)"){
@@ -95,11 +95,11 @@ void DrawingWidget::trigger(MsbObject* other){
 
     if (other->name=="save As..."){
         cout << "creating VBO..." << endl;
-        renderer->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(renderer->brush->drawing));
-        renderer->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
+        sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
+        sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
 
-		renderer->brush->drawing->name=input->inputText;
-		renderer->brush->drawing->vboMeshID=input->inputText;
+		sceneData->brush->drawing->name=input->inputText;
+		sceneData->brush->drawing->vboMeshID=input->inputText;
 
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);
@@ -142,33 +142,33 @@ void DrawingWidget::trigger(MsbObject* other){
 
 void DrawingWidget::closeKinectTool(){
 
-    renderer->externalInputList["kinectInput"]->stopProgram();
+    sceneData->externalInputList["kinectInput"]->stopProgram();
 
 }
 
 void DrawingWidget::openKinectTool(){
 
-    renderer->brush->drawing->drawType=DRAW_POINTPATCH;
-    renderer->brush->drawing->bTextured=true;
-    renderer->brush->drawing->textureID="sharedMemory";
-    renderer->brush->drawing->sceneShaderID="heightfield";
-    renderer->brush->drawing->particleScale=100;
+    sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
+    sceneData->brush->drawing->bTextured=true;
+    sceneData->brush->drawing->textureID="sharedMemory";
+    sceneData->brush->drawing->sceneShaderID="heightfield";
+    sceneData->brush->drawing->particleScale=100;
 
-    renderer->externalInputList["kinectInput"]->startProgram();
+    sceneData->externalInputList["kinectInput"]->startProgram();
 }
 
 void DrawingWidget::importKinect(){
 
             static float kinectContent[1024*1024*4];
-            glBindTexture(GL_TEXTURE_2D,renderer->textureList["sharedMemory"]->texture);
+            glBindTexture(GL_TEXTURE_2D,sceneData->textureList["sharedMemory"]->texture);
             glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&kinectContent);
             glBindTexture(GL_TEXTURE_2D,0);
-            renderer->brush->drawing->drawType=DRAW_PARTICLES;
-            renderer->brush->drawing->bTextured=false;
-            renderer->brush->drawing->textureID="NULL";
-            renderer->brush->drawing->sceneShaderID="color";
-            renderer->brush->drawing->bPickable=true;
-            renderer->brush->drawing->particleScale=2;
+            sceneData->brush->drawing->drawType=DRAW_PARTICLES;
+            sceneData->brush->drawing->bTextured=false;
+            sceneData->brush->drawing->textureID="NULL";
+            sceneData->brush->drawing->sceneShaderID="color";
+            sceneData->brush->drawing->bPickable=true;
+            sceneData->brush->drawing->particleScale=2;
             for (int i=0;i<1024*1024*4;i+=4){
                 Vector3f myLoc;
                 myLoc.z=kinectContent[i+3] * 10.0f;
@@ -183,9 +183,9 @@ void DrawingWidget::importKinect(){
                 myLoc.x*=myLoc.z;
                 myLoc.y*=myLoc.z;
 
-                renderer->brush->setLocation(myLoc);
-                renderer->brush->color=Vector4f(kinectContent[i],kinectContent[i+1],kinectContent[i+2],1.0);
-                renderer->brush->normalMode=NORMAL_FRONT;
+                sceneData->brush->setLocation(myLoc);
+                sceneData->brush->color=Vector4f(kinectContent[i],kinectContent[i+1],kinectContent[i+2],1.0);
+                sceneData->brush->normalMode=NORMAL_FRONT;
                 input->mouseVector.x=1.0f;
 
                 drawTool->paint();

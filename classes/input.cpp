@@ -83,6 +83,7 @@ Input::Input(){
 
     upDown=NULL;
     leftRight=NULL;
+
 }
 
 Input::~Input(){}
@@ -99,7 +100,9 @@ Input* Input::getInstance(){
 
 void Input::setup(){
 
-	renderer=Renderer::getInstance();
+    renderer=Renderer::getInstance();
+    sceneData=SceneData::getInstance();
+
     inspectorManager=new InspectorManager;
 
 	windowX=100;
@@ -882,9 +885,9 @@ void Input::saveAll(std::string filename){
       }
 
     //then saveable Buttons
-    for (unsigned int i=0;i<renderer->saveableButtonList.size();i++)
+    for (unsigned int i=0;i<sceneData->saveableButtonList.size();i++)
       {
-      TiXmlElement * buttonElement=renderer->saveableButtonList[i]->save(root);
+      TiXmlElement * buttonElement=sceneData->saveableButtonList[i]->save(root);
       root->LinkEndChild(buttonElement);
       }
     //then nodes
@@ -1069,7 +1072,7 @@ void Input::loadAll(std::string fileName, bool bCleanUp){
       element=hRoot.FirstChild( "Button" ).Element();
       for( ; element!=NULL; element=element->NextSiblingElement("Button"))
         {
-        BasicButton* B=renderer->saveableButtonList[listPos];
+        BasicButton* B=sceneData->saveableButtonList[listPos];
         myType=element->GetText();
         //***********************************************************************
         //Fill up Properties
@@ -1120,7 +1123,7 @@ void Input::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("ColladaMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        renderer->colladaLoader->loadColladaMesh(meshFileName, meshID);
+        sceneData->colladaLoader->loadColladaMesh(meshFileName, meshID);
         cout << "loading mesh " << meshID << endl;
       }
 
@@ -1131,7 +1134,7 @@ void Input::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        renderer->spriteMeshLoader->loadSpriteMesh(meshFileName, meshID);
+        sceneData->spriteMeshLoader->loadSpriteMesh(meshFileName, meshID);
         cout << "loading sprite mesh " << meshID << endl;
       }
 
@@ -1139,7 +1142,7 @@ void Input::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMeshXML")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        renderer->spriteMeshLoaderXML->loadSpriteMesh(meshFileName, meshID);
+        sceneData->spriteMeshLoaderXML->loadSpriteMesh(meshFileName, meshID);
         cout << "loading legacy XML sprite mesh " << meshID << endl;
       }
 
@@ -1231,7 +1234,7 @@ void Input::loadAction(std::string fileName){
 
     AC=(Action*)sceneData->buttonList.back();
     AC->load(element);
-    renderer->actionList[AC->name]=AC;
+    sceneData->actionList[AC->name]=AC;
     AC->setup();
 }
 
@@ -1280,8 +1283,8 @@ void Input::loadTextures(string fileName){
         bool bWrap=bool(val);
 
         renderer->LoadTextureTGA(texFileName,bWrap,bAlpha, texID);
-        renderer->textureList[texID]->nextTexture=nextFrame;
-        renderer->textureList[texID]->frameRate=frameRate;
+        sceneData->textureList[texID]->nextTexture=nextFrame;
+        sceneData->textureList[texID]->frameRate=frameRate;
         cout << "loading texture " << texID << endl;
       }
 }

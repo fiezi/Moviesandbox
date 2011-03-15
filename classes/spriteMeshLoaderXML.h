@@ -2,18 +2,15 @@
 #define SPRITEMESHLOADERXML_H_INCLUDED
 
 
-#include "includes.h"
+#include "msbObject.h"
 #include "skeletalActor.h"
 
 using namespace std;
 
-class Renderer;
 
-class SpriteMeshLoaderXML{
+class SpriteMeshLoaderXML: public MsbObject{
 
     public:
-
-        Renderer* renderer;
 
         Vector4f* vertices;
         Vector4f* colors;

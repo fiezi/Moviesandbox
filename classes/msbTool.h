@@ -1,20 +1,16 @@
 #ifndef H_MSBTOOL
 #define H_MSBTOOL
 
-
+#include "msbObject.h"
 #include "basicButton.h"
 
-class Input;
-class Renderer;
 class Control;
 
 
-class MsbTool {
+class MsbTool: public MsbObject {
 
 public:
 
-    Renderer* renderer;
-    Input* input;
     Control* controller;
 
     BasicButton* myBtn;

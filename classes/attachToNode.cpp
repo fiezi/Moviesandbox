@@ -83,4 +83,4 @@ void AttachToNode::update(double deltaTime){
 	Node::update(deltaTime);
 }
 
-void AttachToNode::create(){renderer->addNode(this);}
+void AttachToNode::create(){sceneData->addNode(this);}
