@@ -992,6 +992,10 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
         }
 
     inspectorManager->setup();
+
+    //do a camera update!
+    controller->myTools[TOOL_NAV]->update(deltaTime);
+
 }
 
 void SceneData::loadMeshes(std::string fileName){

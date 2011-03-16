@@ -202,6 +202,8 @@ cout << "stopping simulation..." << endl;
       }
     }
 
+    //update navTool once!
+    myTools[TOOL_NAV]->update(0.0);
 }
 
 
