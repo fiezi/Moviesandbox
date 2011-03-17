@@ -35,11 +35,7 @@ void NavTool::stop(){
     //reset color of navigation button
     myBtn->color=COLOR_WHITE;
 
-
-    #ifdef TARGET_WIN32
-
-	SetCursorPos((int)(renderer->windowX+oldMousePos.x), (int)(renderer->windowY+oldMousePos.y));
-    #endif
+    glutWarpPointer(oldMousePos.x,oldMousePos.y);
 
 }
 
@@ -70,11 +66,7 @@ void NavTool::mouseReleased(int btn){
 
     //reset old cursor position
 
-    #ifdef TARGET_WIN32
-
-	SetCursorPos((int)(renderer->windowX+oldMousePos.x), (int)(renderer->windowY+oldMousePos.y));
-    #endif
-
+    glutWarpPointer(oldMousePos.x,oldMousePos.y);
 }
 
 void NavTool::mouseDragged(int btn){

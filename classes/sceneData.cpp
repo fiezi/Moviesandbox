@@ -676,7 +676,7 @@ int SceneData::readSharedMemory(){
 
    if (pBuf != NULL)
    {
-        //renderer->copyMemoryToTexture(pBuf,textureList["sharedMemory"], 640,480);
+        renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 640,480);
 
         UnmapViewOfFile((void*)pBuf);
         CloseHandle(hMapFile);
@@ -705,7 +705,7 @@ int SceneData::readSharedMemory(){
 	// once the file is mapped, we can dispose of the filehandle
 	close(fd);
 
-        //renderer->copyMemoryToTexture(pBuf,textureList["sharedMemory"], 640,480);
+        renderer->copyMemoryToTexture(pBuf,textureList["sharedMemory"], 640,480);
 
 	if (sourcebuffer)
 		munmap(sourcebuffer, BUF_SIZE);

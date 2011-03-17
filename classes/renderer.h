@@ -221,6 +221,8 @@ public:
        bool LoadTextureTGA( string filename, bool wrap, bool bAlpha, string texID );
        bool createEmptyTexture( string texID, GLuint colorFormat, GLuint type, int width, int height);
 
+       bool copyMemoryToTexture(void* originBuffer,string texName, float width,float height);
+
        bool loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName);
 
        void printShaderInfoLog(GLuint obj);

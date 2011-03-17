@@ -2126,6 +2126,16 @@ bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint data
     return true;
 }
 
+bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float width, float height){
+
+
+        glBindTexture(GL_TEXTURE_2D,sceneData->textureList[texName]->texture);
+        //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
+        glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - width)/2.0 ,(screenX - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);
+        glBindTexture(GL_TEXTURE_2D,0);
+
+}
+
 bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName){
 
     GLuint fragmentShader;
