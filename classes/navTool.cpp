@@ -96,8 +96,6 @@ void NavTool::update(double deltaTime){
     }
 
     processMove(deltaTime);
-    processRotation(deltaTime);
-
 }
 
 void NavTool::processRotation(double deltaTime){

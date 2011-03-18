@@ -24,7 +24,7 @@ void PropsWidget::openWidget(){
 void PropsWidget::closeWidget(){
 
     //input->deselectActors();
-    sceneData->controller->switchTool(sceneData->controller->oldTool);
+    sceneData->controller->switchTool(TOOL_SELECT);
 }
 
 void PropsWidget::trigger(MsbObject* other){
