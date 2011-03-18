@@ -212,12 +212,12 @@ struct key{
 #endif
 
 
-#define COLOR_WHITE     Vector4f(1,1,1,1);
-#define COLOR_YELLOW    Vector4f(1,1,0,1);
-#define COLOR_BLACK     Vector4f(0,0,0,1);
-#define COLOR_RED       Vector4f(1,0,0,1);
-#define COLOR_GREEN     Vector4f(0,1,0,1);
-#define COLOR_BLUE      Vector4f(0,0,1,1);
+#define COLOR_WHITE Vector4f(1,1,1,1);
+#define COLOR_YELLOW Vector4f(1,1,0,1);
+#define COLOR_BLACK Vector4f(0,0,0,1);
+#define COLOR_RED Vector4f(1,0,0,1);
+#define COLOR_GREEN Vector4f(0,1,0,1);
+#define COLOR_BLUE Vector4f(0,0,1,1);
 
 
 #endif

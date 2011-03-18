@@ -18,7 +18,7 @@ SwitchCameraNode::SwitchCameraNode(){
     color=Vector4f(0.5,0.5,0.5,1.0);
     registerProperties();
     controller=sceneData->controller;
-    }
+}
 
 SwitchCameraNode::~SwitchCameraNode(){}
 
@@ -29,6 +29,7 @@ createMemberID("CAMERAACTOR",&cameraActor,this);
 }
 
 void SwitchCameraNode::start(){
+
     if (cameraActor){
         cameraActor->drawType=DRAW_NULL;
         controller->switchTool(TOOL_NAV);

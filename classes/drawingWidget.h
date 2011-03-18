@@ -8,8 +8,8 @@
 
 class DrawTool;
 
-class DrawingWidget: public Widget
-{
+class DrawingWidget: public Widget{
+
 public:
 
         DrawTool* drawTool;

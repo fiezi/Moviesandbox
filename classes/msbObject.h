@@ -85,7 +85,7 @@ public:
 
        std::string name;                            //actor name - not unique yet!
 
-        Vector4f color;                             //yes, objects can have color. Why not?
+       Vector4f color;                              //yes, objects can have color. Why not?
 
        double elapsedTime;                          //time since scene started
 

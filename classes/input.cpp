@@ -478,6 +478,7 @@ void Input::keyUp(unsigned char key,int x,int y){
           sceneData->controller->startMovie();
 
         //pressed Delete!!!
+        //TODO: this is also implemented in selectTool! Only need one!
         if (key==127 || key==8){
             if (hudTarget){
                 Node* n=dynamic_cast<Node*>(hudTarget);
@@ -485,6 +486,7 @@ void Input::keyUp(unsigned char key,int x,int y){
                     deselectButtons(0);
                     n->remove();
                 }
+            hudTarget=NULL;
             }
         }
 

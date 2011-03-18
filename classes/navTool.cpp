@@ -25,6 +25,9 @@ void NavTool::start(){
     oldMousePos.y=input->mouseY;
 
     myBtn->color=COLOR_RED;
+    processMove(0.0);
+    processRotation(0.0);
+
 
 }
 
@@ -35,6 +38,7 @@ void NavTool::stop(){
     //reset color of navigation button
     myBtn->color=COLOR_WHITE;
 
+    processMove(0.0);
     glutWarpPointer(oldMousePos.x,oldMousePos.y);
 
 }
@@ -92,6 +96,8 @@ void NavTool::update(double deltaTime){
     }
 
     processMove(deltaTime);
+    processRotation(deltaTime);
+
 }
 
 void NavTool::processRotation(double deltaTime){

@@ -123,7 +123,6 @@ void DrawingWidget::trigger(MsbObject* other){
     }
 
     if (other->name=="Import Kinect"){
-
         if (other->color==Vector4f(1,1,0,1)){
             //TODO: move these functions to drawTool!
             importKinect();
@@ -133,8 +132,6 @@ void DrawingWidget::trigger(MsbObject* other){
         }
         else{
             openKinectTool();
-            other->color=COLOR_YELLOW;
-            bKinectToolOpen=true;
         }
     }
 
@@ -148,6 +145,10 @@ void DrawingWidget::closeKinectTool(){
 
 void DrawingWidget::openKinectTool(){
 
+    if (!sceneData->brush->drawing){
+        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+        return;
+    }
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;
     sceneData->brush->drawing->textureID="sharedMemory";
@@ -155,6 +156,8 @@ void DrawingWidget::openKinectTool(){
     sceneData->brush->drawing->particleScale=100;
 
     sceneData->externalInputList["kinectInput"]->startProgram();
+    listButton[4]->color=Vector4f(1,1,0,1);
+    bKinectToolOpen=true;
 }
 
 void DrawingWidget::importKinect(){

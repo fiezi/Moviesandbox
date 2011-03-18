@@ -18,8 +18,6 @@ ColorPickButton::~ColorPickButton(){}
 
 void ColorPickButton::mouseDrag(){
 
-    Actor* actorParent=(Actor*)parent;
-
     input->dragButton=this;
 
     if (sceneData->controller->tool==TOOL_SELECT){
@@ -35,9 +33,9 @@ void ColorPickButton::mouseDrag(){
 
 
 
-    if (actorParent){
-        actorParent->color=pickColor();
-        actorParent->trigger(this);
+    if (parent){
+        parent->color=pickColor();
+        parent->trigger(this);
     }
 
 }
@@ -47,8 +45,6 @@ input->dragButton=NULL;
 }
 
 void ColorPickButton::clickedLeft(){
-
-    Actor* actorParent=(Actor*)parent;
 
     if (sceneData->controller->tool==TOOL_SELECT){
         if (sceneData->selectedActors.size()>0){
@@ -61,9 +57,9 @@ void ColorPickButton::clickedLeft(){
     }
     cout << "picked color: "<< pickColor() << endl;
 
-    if (actorParent){
-        actorParent->color=pickColor();
-        actorParent->trigger(this);
+    if (parent){
+        parent->color=pickColor();
+        parent->trigger(this);
     }
 }
 

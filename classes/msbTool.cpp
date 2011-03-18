@@ -104,9 +104,10 @@ void MsbTool::lowlightButton(){
         return;
 
    // myBtn->color=COLOR_WHITE;
-
+    //only lowlight red buttons!
     for (int i=0;i<(int)lst->listButton.size();i++){
-            lst->listButton[i]->color=COLOR_WHITE;
+            if (lst->listButton[i]->color==Vector4f(1,0,0,1))
+                lst->listButton[i]->color=COLOR_WHITE;
     }
 }
 

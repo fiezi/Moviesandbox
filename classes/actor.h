@@ -44,8 +44,6 @@ public:
 
        int renderLayer;                             //layer in which this Actor is being rendered
 
-       std::map <std::string, memberID> property;   //actor variables as string representations for easy property passing
-
        Vector3f location,                           //space properties
                 rotation,
                 scale,
@@ -68,7 +66,6 @@ public:
        float particleScale;                         //size multiplier for particle Mesh
        float particleAngleScale;                    //angle size attenuation multiplier for particle Mesh (to fill holes)
 
-       Vector4f color;
 
        Vector3f pivotLocation;                      //for rotation around a different point - is relative to location!!!
 
