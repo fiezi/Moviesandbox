@@ -691,7 +691,7 @@ int SceneData::readSharedMemory(){
 	//attach shared memory file
 	int fd = open("/tmp/msbRamFile", O_RDWR);
 	if(fd<0){
-		cout << "Could not open '/tmp/msbRamFile'"<<endl;
+		//cout << "Could not open '/tmp/msbRamFile'"<<endl;
 		return 0;
 	}
 
@@ -705,7 +705,7 @@ int SceneData::readSharedMemory(){
 	// once the file is mapped, we can dispose of the filehandle
 	close(fd);
 
-        renderer->copyMemoryToTexture(pBuf,textureList["sharedMemory"], 640,480);
+	renderer->copyMemoryToTexture((void*)sourcebuffer,"sharedMemory", 640,480);
 
 	if (sourcebuffer)
 		munmap(sourcebuffer, BUF_SIZE);

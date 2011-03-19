@@ -155,6 +155,8 @@
 		189A8104123C10C100B5A8F6 /* layerInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189A80FF123C10C100B5A8F6 /* layerInspector.cpp */; };
 		189A8105123C10C100B5A8F6 /* spriteMeshLoaderXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189A8101123C10C100B5A8F6 /* spriteMeshLoaderXML.cpp */; };
 		189F843C11EA9D82009E4178 /* propsWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189F843A11EA9D82009E4178 /* propsWidget.cpp */; };
+		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
+		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -492,6 +494,7 @@
 		186069DD11771CC3008D43C2 /* skinning.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skinning.vert; path = shaders/skinning.vert; sourceTree = "<group>"; };
 		186069DE11771CC3008D43C2 /* texture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.frag; path = shaders/texture.frag; sourceTree = "<group>"; };
 		186069DF11771CC3008D43C2 /* texture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.vert; path = shaders/texture.vert; sourceTree = "<group>"; };
+		186E2A7B13355A69007A8129 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		18754DFC1214883200F0FD48 /* base64Encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64Encode.h; sourceTree = "<group>"; };
 		1887AD561117530C009D266E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1887AD571117530C009D266E /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -507,6 +510,10 @@
 		189A8102123C10C100B5A8F6 /* spriteMeshLoaderXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spriteMeshLoaderXML.h; sourceTree = "<group>"; };
 		189F843A11EA9D82009E4178 /* propsWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = propsWidget.cpp; path = classes/propsWidget.cpp; sourceTree = "<group>"; };
 		189F843B11EA9D82009E4178 /* propsWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = propsWidget.h; path = classes/propsWidget.h; sourceTree = "<group>"; };
+		18AD2B0A13354F21000E02E7 /* msbObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msbObject.cpp; path = classes/msbObject.cpp; sourceTree = "<group>"; };
+		18AD2B0B13354F21000E02E7 /* msbObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msbObject.h; path = classes/msbObject.h; sourceTree = "<group>"; };
+		18AD2B0C13354F21000E02E7 /* sceneData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sceneData.cpp; sourceTree = "<group>"; };
+		18AD2B0D13354F21000E02E7 /* sceneData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sceneData.h; sourceTree = "<group>"; };
 		18CD3C9510CC825100148B92 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLee.h; sourceTree = "<group>"; };
 		18CD3C9710CC825100148B92 /* GLee.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = GLee.a; sourceTree = "<group>"; };
 		18DFE98910CBF7DC00E4FFE2 /* freeglut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freeglut.h; sourceTree = "<group>"; };
@@ -581,6 +588,7 @@
 		08FB7794FE84155DC02AAC07 /* MSB_mac */ = {
 			isa = PBXGroup;
 			children = (
+				186E2A7B13355A69007A8129 /* config.xml */,
 				181165E910CB3925007AE094 /* Actors */,
 				181165E810CB390E007AE094 /* Buttons */,
 				181163CF10CB37E2007AE094 /* classes */,
@@ -652,6 +660,8 @@
 				184232FD10EF6A7E00AF940C /* macIncludes */,
 				181163F210CB3815007AE094 /* content.cpp */,
 				181163F310CB3815007AE094 /* content.h */,
+				18AD2B0A13354F21000E02E7 /* msbObject.cpp */,
+				18AD2B0B13354F21000E02E7 /* msbObject.h */,
 				1860696811770D54008D43C2 /* meshData.cpp */,
 				1860696911770D54008D43C2 /* meshData.h */,
 				181163F510CB3815007AE094 /* control.h */,
@@ -1247,6 +1257,8 @@
 				1811641310CB3816007AE094 /* includes.h */,
 				1811641410CB3816007AE094 /* input.cpp */,
 				1811641510CB3816007AE094 /* input.h */,
+				18AD2B0C13354F21000E02E7 /* sceneData.cpp */,
+				18AD2B0D13354F21000E02E7 /* sceneData.h */,
 				1887AD561117530C009D266E /* main.cpp */,
 				1887AD571117530C009D266E /* main.h */,
 				1811645E10CB3816007AE094 /* renderer.cpp */,
@@ -1595,6 +1607,8 @@
 				18119091123EB15600DA63CE /* particleSelectTool.cpp in Sources */,
 				1805E91A132AF9E400DF1107 /* particleHeightField.frag in Sources */,
 				1805E91B132AF9E400DF1107 /* particleHeightField.vert in Sources */,
+				18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */,
+				18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -77,6 +77,8 @@ public:
                 screenY,
                 windowX,
                 windowY,
+				windowPosX,
+				windowPosY,
                 fov;
 
        int frames;                         //amount of frames rendered

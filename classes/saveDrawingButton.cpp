@@ -19,9 +19,9 @@ SaveDrawingButton::~SaveDrawingButton(){}
 void SaveDrawingButton::clickedLeft(){
 
     input->deselectButtons(0);
-    Actor * myParent=parent;
+    MsbObject * myParent=parent;
 
-    input->getAllDrawings();
+    sceneData->getAllDrawings();
 
     SaveButton::clickedLeft();
     parent=myParent;
@@ -29,10 +29,10 @@ void SaveDrawingButton::clickedLeft(){
 
 void SaveDrawingButton::assembleSaveList(){
 
-      for (unsigned int i=0;i<input->savedDrawings.size();i++)
+      for (unsigned int i=0;i<sceneData->savedDrawings.size();i++)
         {
         listType.push_back("12AssignButton");
-        listName.push_back(input->savedDrawings[i]);
+        listName.push_back(sceneData->savedDrawings[i]);
         listProp.push_back("NULL");
         listIcon.push_back("icon_base");
         }
@@ -67,12 +67,12 @@ TiXmlElement * root = new TiXmlElement( "Drawing" );
 doc.LinkEndChild( root );
 
 string saveString;
-root->LinkEndChild( renderer->brush->drawing->save(root) );
-saveString=input->savedDrawingDirName;
+root->LinkEndChild( sceneData->brush->drawing->save(root) );
+saveString=sceneData->savedDrawingDirName;
 
 saveString.append(filename);
 cout << "saving filename: " << saveString << endl;
 doc.SaveFile( saveString );
 }
 
-void SaveDrawingButton::create(){renderer->addButton(this);}
+void SaveDrawingButton::create(){sceneData->addButton(this);}

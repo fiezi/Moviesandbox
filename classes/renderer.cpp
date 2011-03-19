@@ -147,6 +147,8 @@ Renderer::Renderer(){
     screenY=0;
     windowX=0;
     windowY=0;
+	windowPosX=0;
+	windowPosY=0;
     fov=45;
 
     frustumTop=0.083;
@@ -380,6 +382,8 @@ void Renderer::update(float deltaTime){
 	if (bUpdatePhysics)
 	  physicsUpdate();
 
+	windowPosX=glutGet(GLUT_WINDOW_X);
+	windowPosY=glutGet(GLUT_WINDOW_Y);
     glutPostRedisplay();
 }
 

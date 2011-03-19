@@ -4,7 +4,6 @@
 #include "widget.h"
 #include "particleSystem.h"
 #include "brush.h"
-#include "windows.h"
 
 class DrawTool;
 

@@ -17,7 +17,7 @@
       numSamples="2"
 
       ShadowSize="512"
-      SceneSize="512"
+      SceneSize="1024"
 
       MouseSensitivity="0.04"
       MoveSpeed="8.0"

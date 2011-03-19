@@ -222,6 +222,10 @@ int main(int argc, char** argv){
     glutKeyboardUpFunc(keyboardUp);
     glutSpecialUpFunc(specialKeyUp);
 
+#ifdef TARGET_MACOSX
+	SetSystemUIMode(kUIModeAllHidden, NULL);
+#endif
+	
     glutMainLoop();
 
     delete(renderManager);
