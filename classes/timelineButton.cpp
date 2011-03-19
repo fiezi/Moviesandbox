@@ -69,9 +69,6 @@ void TimelineButton::update(double deltaTime){
         interpolator.bFinished=false;
         bPlaying=false;
         }
-
-
-
 }
 
 void TimelineButton::drawPlane(){
@@ -239,11 +236,17 @@ void TimelineButton::clickedRight(){
 
 
     if (!bOccupied){
+        createKey((input->mouseX-location.x)*zoomTime + startPos);
+    }
 
 
-        key* myKey=new key;
+}
 
-        myKey->timeKey  = (input->mouseX-location.x)*zoomTime + startPos; //time in seconds
+void TimelineButton::createKey(float keyTime){
+
+       key* myKey=new key;
+
+        myKey->timeKey  = keyTime; //time in seconds
         myKey->timeKey  *= 10.0;
 
         if( keyFrames.size() == 0 )
@@ -276,10 +279,6 @@ void TimelineButton::clickedRight(){
         cout << "TimelineButton: timekey: " << keyFrames.back()->timeKey << endl;
 
         updateAction();
-
-    }
-
-
 }
 
 bool TimelineButton::isOccupied(){
@@ -313,7 +312,6 @@ void TimelineButton::playTimeline(){
 
 		interpolator.startTime=renderer->currentTime;
         interpolator.keyFrames=keyFrames;
-        interpolator.currentKey=0;
 
 }
 
@@ -337,7 +335,6 @@ void TimelineButton::scrub(float scrubber){
         //no interpolating to keys we don't have
         if (keyFrames.size()<1 || keyFrames.back()->timeKey<=scrubPos)
             return;
-        interpolator.reset();
         interpolator.moveActor=connectedActor;
 		if (bSkeletalTrack){
             interpolator.bInterpolateMatrix=true;
@@ -345,11 +342,11 @@ void TimelineButton::scrub(float scrubber){
 		interpolator.bInterpolateVectors=true;
         interpolator.startTime=renderer->currentTime-scrubPos;
         interpolator.keyFrames=keyFrames;
-
+        interpolator.reset();
         //interpolator.interpolate();
         cout << "interpolating scrub " << scrubPos << endl;
         interpolator.interpolate();
-        connectedActor->update(0.0);
+        //connectedActor->update(0.0);
 }
 
 void TimelineButton::pauseTimeline(){

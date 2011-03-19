@@ -55,7 +55,7 @@ void Inspector::setup(){
 
     backgroundButton->level=level;
     backgroundButton->bPermanent=true;
-    backgroundButton->name=name;
+    backgroundButton->name="";
     backgroundButton->color=Vector4f(0.4,0.4,0.4,1.0);
     backgroundButton->setLocation(backgroundButton->location);
 

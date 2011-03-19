@@ -70,6 +70,7 @@ public:
     virtual void trigger(MsbObject* other);
 
     virtual void update(double deltaTime);
+    virtual void start();
     virtual void stop();
     virtual void updateShaders();
 

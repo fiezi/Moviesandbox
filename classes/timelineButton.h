@@ -62,6 +62,8 @@ public:
 
     virtual float convertToTimeGrid( float val );       //
 
+
+    virtual void createKey(float keyTime);
     virtual bool isOccupied();                          // checks if key is occupying this place already
 
     virtual void deleteKey();                           // deletes selected keyFrames from timeline

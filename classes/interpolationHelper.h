@@ -26,6 +26,9 @@ class InterpolationHelper{
     bool bInterpolateProperty;
     bool bInterpolateActor;
 
+    bool bFinishedMatrix;
+    bool bFinishedVectors;
+
     bool bRelative;
     bool bAdditive;
     bool bLinear;
@@ -43,6 +46,8 @@ class InterpolationHelper{
     std::map<std::string, Matrix4f> baseBoneMatrices;
 
     int currentKey;
+    int currentKeyMatrix;
+    int currentKeyVectors;
 
     double currentTime;
     double startTime;

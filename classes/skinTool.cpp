@@ -142,36 +142,17 @@ void SkinTool::selectActors(int btn, Actor* other){
     if (fabs(input->mouseVector.length())>0.0)
         return;
 
-
+    if (!input->worldTarget)
+        return;
 
     //don't do anything to selection if we're just finishing a move or rotate
     if (sceneData->actorMenu && sceneData->actorMenu->listButton.size()>0)
         return;
 
+    //only allow selection of bones in skinTool!!
+    BoneActor* myBone=dynamic_cast<BoneActor*>(input->worldTarget);
 
-    SkeletalActor* skel=dynamic_cast<SkeletalActor*>(other);
-       //clicked on an already existing drawing:
-    if (skel && skel!=sceneData->specialSelected){
-        input->deselectActors();
-        sceneData->specialSelected=skel;
-
-        //if we had a previous drawing, make sure all of its bones are pickable!
-        if (brush->drawing){
-            brush->drawing->sceneShaderID="drawing";
-            for (int i=0;i<(int)brush->drawing->bones.size();i++)
-                brush->drawing->bones[i]->bPickable=true;
-        }
-
-        brush->drawing=skel;
-
-        //make new bones unpickable
-        for (int i=0;i<(int)brush->drawing->bones.size();i++)
-            brush->drawing->bones[i]->bPickable=false;
-
-        skel->drawType=DRAW_PARTICLES; //important!
-        skel->sceneShaderID="skinning";   //also important!
-    }
-    else{
+    if (myBone){
 
         //no drawing present!
         if (!brush->drawing)

@@ -16,7 +16,6 @@ PropertyInspector::PropertyInspector(){
     textureID="icon_advanced";
     oldParent=NULL;
     parent=NULL;
-
     maxListItems=(int) ((renderer->screenY* 4.0/5.0) / listHeight );
     //maxListItems=10;
 }
@@ -70,8 +69,11 @@ void PropertyInspector::assembleList(){
 
             const std::type_info* mType;
             mType=&(typeid(Actor*));
-
-            if (mID->memberType->name()==mType->name()){
+            //special buttons for special properties!
+            if (it->first=="BASE"){
+                sceneData->actorInfo["13SetBaseButton"].actorReference->create();
+                listButton.push_back(sceneData->buttonList.back());
+            }else if (mID->memberType->name()==mType->name()){
                 sceneData->actorInfo["15PickWorldButton"].actorReference->create();
                 listButton.push_back(sceneData->buttonList.back());
                 }

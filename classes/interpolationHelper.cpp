@@ -22,7 +22,10 @@ InterpolationHelper::InterpolationHelper(){
     timeScale= 0.75f;
     startTime=0.0f;
     currentTime=0;
+
     currentKey=0;
+    currentKeyMatrix=0;
+    currentKeyVectors=0;
 
     moveTime=1.0f;
 
@@ -30,6 +33,9 @@ InterpolationHelper::InterpolationHelper(){
     bInterpolateMatrix=false;
     bInterpolateActor=false;
     bInterpolateProperty=false;
+
+    bFinishedMatrix=false;
+    bFinishedVectors=false;
 }
 
 InterpolationHelper::~InterpolationHelper(){
@@ -37,28 +43,34 @@ InterpolationHelper::~InterpolationHelper(){
 
 void InterpolationHelper::interpolate(){
 
+
+    //make sure we're not waiting for something that isn't going to happen
+    if (!bInterpolateMatrix)
+        bFinishedMatrix=true;
+
+    if (!bInterpolateVectors)
+        bFinishedVectors=true;
+
+    //as long as there's work to do...
     if (!bFinished){
 
+        //this gets called from interpolate node - moves one actor to another actor!
         if (bInterpolateActor)
                 interpolateActor();
 
         if (keyFrames.size()>1){
 
-			bool bFinishMatrix=false;
-            if (bInterpolateMatrix)
+            //bone rotations
+            if (bInterpolateMatrix && !bFinishedMatrix)
                 interpolateMatrix();
 
-			if (bFinished){
-				bFinishMatrix=true;
-				bFinished=false;
-			}
-
-            if (bInterpolateVectors)
+            //location/rotation of underlying actor
+            if (bInterpolateVectors && !bFinishedVectors)
                 interpolateVectors();
 
-			if (bFinishMatrix)
+            //only if both are finished can we be destroyed!
+			if (bFinishedMatrix && bFinishedVectors)
 				bFinished=true;
-
         }
 
     }
@@ -121,17 +133,17 @@ void InterpolationHelper::interpolateVectors(){
     currentTime=renderer->currentTime-startTime;
 
     //move forward if we are at end of key
-    while (currentTime> keyFrames[currentKey+1]->timeKey ){
+    while (currentTime> keyFrames[currentKeyVectors+1]->timeKey ){
     //if (currentTime> keyFrames[currentKey+1]->timeKey ){
-          currentKey++;
-          if (currentKey+1 >= (int)keyFrames.size()){
-            bFinished=true;
+          currentKeyVectors++;
+          if (currentKeyVectors+1 >= (int)keyFrames.size()){
+            bFinishedVectors=true;
             return;
             }
           }
 
-    timeKeyOne=keyFrames[currentKey]->timeKey;
-    timeKeyTwo=keyFrames[currentKey+1]->timeKey;
+    timeKeyOne=keyFrames[currentKeyVectors]->timeKey;
+    timeKeyTwo=keyFrames[currentKeyVectors+1]->timeKey;
 
     //get the time difference
     double timeDifference=timeKeyTwo-timeKeyOne;
@@ -146,13 +158,13 @@ void InterpolationHelper::interpolateVectors(){
         rotationOne=moveActor->rotation;
         relativeTime*=relativeTime;      //
     }else{
-        locationOne=keyFrames[currentKey]->locationKey;
-        rotationOne=keyFrames[currentKey]->rotationKey;
+        locationOne=keyFrames[currentKeyVectors]->locationKey;
+        rotationOne=keyFrames[currentKeyVectors]->rotationKey;
     }
 
 
-    locationTwo=keyFrames[currentKey+1]->locationKey;
-    rotationTwo=keyFrames[currentKey+1]->rotationKey;
+    locationTwo=keyFrames[currentKeyVectors+1]->locationKey;
+    rotationTwo=keyFrames[currentKeyVectors+1]->rotationKey;
 
     //interpolate between them
     resultingLocation=locationOne.lerp(relativeTime,locationTwo); //calculate resulting position
@@ -173,6 +185,9 @@ void InterpolationHelper::interpolateMatrix(){
 
 
     if (bMerge){
+
+    cout << "InterpolationHelper: bMerge" << endl;
+
         if (mergeFactor<=1.0)
             mergeFactor+=2.0 * renderer->deltaTime * 0.001 * mergeDirection;
 
@@ -182,7 +197,7 @@ void InterpolationHelper::interpolateMatrix(){
 
         if (mergeFactor<0.0 ){
             mergeFactor=1.0;
-            bFinished=true;
+            bFinishedMatrix=true;
             return;
         }
     }
@@ -208,11 +223,11 @@ void InterpolationHelper::interpolateMatrix(){
     //currentTime++;
     //move forward if we are at end of key
 
-    while (currentTime> keyFrames[currentKey+1]->timeKey ){
-        currentKey++;
-        if ((uint)currentKey+1 >= keyFrames.size()){
+    while (currentTime> keyFrames[currentKeyMatrix+1]->timeKey ){
+        currentKeyMatrix++;
+        if ((uint)currentKeyMatrix+1 >= keyFrames.size()){
             if (bLooping){
-                currentKey=0;
+                currentKeyMatrix=0;
                 startTime=renderer->currentTime;
                 currentTime=0.0;
                 //cout << "looped keyframes size: " << keyFrames.size() << endl;
@@ -222,22 +237,22 @@ void InterpolationHelper::interpolateMatrix(){
                     mergeDirection=-1.0 * mergeDirection;
                     mergeFactor=1.0f;
                 }
-                currentKey=keyFrames.size()-2;
+                currentKeyMatrix=keyFrames.size()-2;
                 fadeOut(keyFrames.size()-1);
                 return;
             }else{
-                bFinished=true;
+                bFinishedMatrix=true;
                 return;
-                }
+            }
         }
     }
 
-    //cout << "key: " << currentKey << " max Keys: " << (*timeKeys).size() << endl;
+    //cout << "key: " << currentKeyMatrix << " max Keys: " << (*timeKeys).size() << endl;
     //if we are at the end of all keys, we're finished!
 
     //get the two closest interpolation points
-    timeKeyOne=keyFrames[currentKey]->timeKey;
-    timeKeyTwo=keyFrames[currentKey+1]->timeKey;
+    timeKeyOne=keyFrames[currentKeyMatrix]->timeKey;
+    timeKeyTwo=keyFrames[currentKeyMatrix+1]->timeKey;
 
         //get the time difference
         double timeDifference=timeKeyTwo-timeKeyOne;
@@ -250,8 +265,8 @@ void InterpolationHelper::interpolateMatrix(){
 
     for (uint i=0;i<skel->bones.size();i++){
 
-        matrixOne=keyFrames[currentKey]->boneMatrices[skel->bones[i]->name];
-        matrixTwo=keyFrames[currentKey+1]->boneMatrices[skel->bones[i]->name];
+        matrixOne=keyFrames[currentKeyMatrix]->boneMatrices[skel->bones[i]->name];
+        matrixTwo=keyFrames[currentKeyMatrix+1]->boneMatrices[skel->bones[i]->name];
 
         //ease in - ease out
         float x=relativeTime*2.0f;
@@ -262,7 +277,7 @@ void InterpolationHelper::interpolateMatrix(){
         else
             y=2-( (x-2) * (x-2) );
 
-        y=y*0.5;
+        y=y* 0.5;
 
         if (bLinear)
             y=relativeTime;
@@ -295,6 +310,12 @@ void InterpolationHelper::interpolateMatrix(){
 void InterpolationHelper::reset(){
 
     currentKey=0;
+    currentKeyVectors=0;
+    currentKeyMatrix=0;
+
+    bFinished=false;
+    bFinishedMatrix=false;
+    bFinishedVectors=false;
 }
 
 Matrix3f InterpolationHelper::getRotationMatrix(Matrix4f source){

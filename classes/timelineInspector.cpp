@@ -213,6 +213,9 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     tlBtn->bPermanent=true;
     tlBtn->setup();
 
+    ///add initial keyframe
+    tlBtn->createKey(0.0);
+
     ///scaling
     nameButton->scale=Vector3f( listWidth, listHeight, 0);
     makeAction->scale=Vector3f( listWidth, listHeight, 0);
@@ -229,6 +232,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
 
     loc.x+=listWidth + 2;
     tlBtn->setLocation(loc);
+
 }
 
 void TimelineInspector::trigger(MsbObject* other){

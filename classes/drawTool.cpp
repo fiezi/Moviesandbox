@@ -187,10 +187,6 @@ void DrawTool::update(double deltaTime){
         if (bPressRight)
             erase();
     }
-
-    Vector4f myVector=(/*renderer->inverseCameraMatrix* */Vector4f(input->worldNormal.x,input->worldNormal.y,input->worldNormal.z,0.0));
-    myVector.normalize();
-    cout << "abs. normal: " << myVector << endl;
 }
 
 void DrawTool::paint(){

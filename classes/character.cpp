@@ -170,6 +170,34 @@ void Character::update(double deltaTime){
 }
 
 
+void Character::start(){
+
+    SkeletalActor::start();
+
+    //setup feet and hands for IK
+       for (int i=0; i<(int)bones.size();i++){
+
+        if (bones[i]->name=="rightFoot"){
+            rightFoot=bones[i];
+        }
+        if (bones[i]->name=="rightHand"){
+            rightHand=bones[i];
+        }
+        if (bones[i]->name=="leftFoot"){
+            leftFoot=bones[i];
+        }
+        if (bones[i]->name=="leftHand"){
+            leftHand=bones[i];
+        }
+    }
+
+    if (leftFoot && rightFoot){
+        leftFootDelta=leftFoot->baseMatrix.getTranslation() - baseMatrix.getTranslation();
+        rightFootDelta=rightFoot->baseMatrix.getTranslation() - baseMatrix.getTranslation();
+        footYOffset = leftFootDelta.y;
+    }
+}
+
 void Character::stop(){
 
     bKnowStep=false;
