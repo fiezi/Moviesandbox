@@ -1108,7 +1108,7 @@ void Renderer::draw3D(Layer* currentLayer){
     //used for drawings while drawing, so they're visible
     for (int i=0;i<(int)currentLayer->actorList.size(); i++){
         if (!currentLayer->actorList[i]->bPickable){
-            glDrawBuffers(2, drawBuffers);
+            glDrawBuffers(1, drawBuffers);
             drawActor(currentLayer->actorList[i]);
             glDrawBuffers(4, drawBuffers);
         }

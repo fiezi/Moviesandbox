@@ -846,6 +846,9 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
             for (int i=(int)nodeList.size()-1;i>=0;i--)
                 nodeList[i]->remove();
         }
+        //clean selection stuff!
+        specialSelected=NULL;
+        selectedActors.clear();
     }
 
 

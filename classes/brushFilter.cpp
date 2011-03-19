@@ -72,13 +72,16 @@ void BrushFilter::filter(vertexData* myVData){
 
         case NORMAL_FRONT:
 
-//            if (brush->bNormalFollowDrawing){
-//                myVData->normal=pDist3.crossProduct(sceneData->grid->yAxis);
-//            }else{
+            if (brush->bNormalFollowDrawing){
+                myVData->normal=pDist3.crossProduct(sceneData->grid->yAxis);
+            }else{
                 myVData->normal=sceneData->grid->zAxis;
-//            }
+            }
             break;
 
+        case NORMAL_WORLD:
+
+            myVData->normal=input->worldNormal;
     }
 
 

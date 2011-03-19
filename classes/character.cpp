@@ -222,8 +222,8 @@ void Character::idle(double deltaTime){
 
 void Character::grab(){
 
-    //BoneActor* grabHand = (BoneActor*) rightHand;
-    BoneActor* grabHand = (BoneActor*) rightFoot;
+    BoneActor* grabHand = (BoneActor*) rightHand;
+    //BoneActor* grabHand = (BoneActor*) rightFoot;
     grabHand->doIK(grabActor->baseMatrix.getTranslation(),true);
 }
 

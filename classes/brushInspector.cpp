@@ -21,7 +21,7 @@ BrushInspector::~BrushInspector(){}
 
 
 void BrushInspector::setup(){
-Inspector::setup();
+    Inspector::setup();
 }
 
 void BrushInspector::refreshList(){
@@ -127,6 +127,20 @@ void BrushInspector::assembleList(){
         listButton.push_back(normalAssign);
 
         normalAssign = new AssignButton;
+        normalAssign->name="normals world";
+        normalAssign->parent=this;
+        normalAssign->bPermanent=true;
+        normalAssign->level=level+1;
+        normalAssign->setLocation(location+Vector3f(105,250,0));
+        normalAssign->initialLocation=normalAssign->location;
+        normalAssign->scale=Vector3f(32,32,1);
+        normalAssign->textureID="normals_front";
+        normalAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(normalAssign);
+        listButton.push_back(normalAssign);
+
+        normalAssign = new AssignButton;
         normalAssign->name="normals follow drawing";
         normalAssign->parent=this;
         normalAssign->bPermanent=true;
@@ -183,13 +197,42 @@ void BrushInspector::trigger(MsbObject* other){
     if (other->name=="normals up"){
 
         sceneData->brush->normalMode=NORMAL_UP;
-        other->color=Vector4f(1,1,0,1);
+        other->color=COLOR_YELLOW;
+        for (int i=0;i<(int)listButton.size();i++){
+            if (listButton[i]->name=="normals front")
+                listButton[i]->color=COLOR_WHITE;
+            if (listButton[i]->name=="normals world")
+                listButton[i]->color=COLOR_WHITE;
+
+        }
+
     }
 
     if (other->name=="normals front"){
 
         sceneData->brush->normalMode=NORMAL_FRONT;
         other->color=Vector4f(1,1,0,1);
+        for (int i=0;i<(int)listButton.size();i++){
+            if (listButton[i]->name=="normals up")
+                listButton[i]->color=COLOR_WHITE;
+            if (listButton[i]->name=="normals world")
+                listButton[i]->color=COLOR_WHITE;
+
+        }
+
+    }
+
+    if (other->name=="normals world"){
+
+        sceneData->brush->normalMode=NORMAL_WORLD;
+        other->color=Vector4f(1,1,0,1);
+        for (int i=0;i<(int)listButton.size();i++){
+            if (listButton[i]->name=="normals front")
+                listButton[i]->color=COLOR_WHITE;
+            if (listButton[i]->name=="normals up")
+                listButton[i]->color=COLOR_WHITE;
+
+        }
 
     }
 

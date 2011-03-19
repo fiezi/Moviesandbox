@@ -294,7 +294,7 @@ vec4 smudge(vec2 coord){
 
 
 		float smudgeSamples=8.0;
-		float step=2.0/768.0;
+		float step=1.0/1024.0;
 
 		vec2 smudge=texture2D(fxTex,coord).xy;
 

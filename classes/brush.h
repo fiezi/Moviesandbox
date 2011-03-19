@@ -16,6 +16,7 @@ class SkeletalActor;
 
 #define NORMAL_UP 0
 #define NORMAL_FRONT 1
+#define NORMAL_WORLD 2
 
 
 

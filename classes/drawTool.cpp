@@ -145,7 +145,10 @@ void DrawTool::selectActors(int btn, Actor* other){
     SkeletalActor* skel=dynamic_cast<SkeletalActor*>(other);
 
     //figure out if we released on a drawing
+    //don't use that drawing as our new drawing if we already have one...
     if (skel){
+        if (brush->drawing)
+            return;
         input->deselectActors();
         sceneData->specialSelected=skel;
         brush->drawing=skel;
@@ -184,6 +187,10 @@ void DrawTool::update(double deltaTime){
         if (bPressRight)
             erase();
     }
+
+    Vector4f myVector=(/*renderer->inverseCameraMatrix* */Vector4f(input->worldNormal.x,input->worldNormal.y,input->worldNormal.z,0.0));
+    myVector.normalize();
+    cout << "abs. normal: " << myVector << endl;
 }
 
 void DrawTool::paint(){
