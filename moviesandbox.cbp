@@ -813,6 +813,8 @@
 		<Unit filename="shaders\drawing.vert" />
 		<Unit filename="shaders\font.frag" />
 		<Unit filename="shaders\font.vert" />
+		<Unit filename="shaders\illustration.frag" />
+		<Unit filename="shaders\illustration.vert" />
 		<Unit filename="shaders\particleHeightField.frag" />
 		<Unit filename="shaders\particleHeightField.vert" />
 		<Unit filename="shaders\post\deferredLight.frag" />

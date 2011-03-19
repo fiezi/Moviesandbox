@@ -34,7 +34,7 @@ void main(){
 	else{
 		gl_FragDepth=gl_FragCoord.z;
 	}
-    gl_FragData[0]=gl_Color;
+    gl_FragData[0]=gl_Color * postColor;
 
 
     if (bSelected==1){
@@ -50,7 +50,7 @@ void main(){
 
 	//also: depending on smudge going in or out, it's all different!
 
-
+/*
 	if (bTubeNormal>0.0){
 		vec3 biNormal= smudge;
 		vec3 NcrossS = cross( biNormal, N );
@@ -59,7 +59,11 @@ void main(){
 		gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
 		}
 	else
+
+*/
 		gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
+
+
 
 
     if (!bComputeLight)

@@ -612,6 +612,11 @@ void Input::specialKeyUp (int key,int x, int y){
         return;
     }
 
+    if (key==GLUT_KEY_F6){
+        renderer->bDrawSmudge=!renderer->bDrawSmudge;
+        return;
+    }
+
 
 }
 

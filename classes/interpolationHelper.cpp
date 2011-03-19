@@ -186,8 +186,6 @@ void InterpolationHelper::interpolateMatrix(){
 
     if (bMerge){
 
-    cout << "InterpolationHelper: bMerge" << endl;
-
         if (mergeFactor<=1.0)
             mergeFactor+=2.0 * renderer->deltaTime * 0.001 * mergeDirection;
 

@@ -5,7 +5,8 @@
     <ColladaMesh meshID="camera" meshFilename="resources/meshes/cameraMesh.DAE"/>
 
     <SpriteMesh meshID="sticky" meshFilename="resources/meshes/sticky.spriteMesh"/>
-    <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh"/>
+    <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh" />
+    <SpriteMesh meshID="cube" meshFilename="resources/meshes/cube.spriteMesh" />
 
     <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_Skeleton.spriteMesh"/>
 
@@ -97,6 +98,7 @@
 
 
     <Shader shaderID="color" vertexShaderFilename="shaders/color.vert" fragmentShaderFilename="shaders/color.frag" />
+    <Shader shaderID="illustration" vertexShaderFilename="shaders/illustration.vert" fragmentShaderFilename="shaders/illustration.frag" />
     <Shader shaderID="drawing" vertexShaderFilename="shaders/drawing.vert" fragmentShaderFilename="shaders/drawing.frag" />
     <Shader shaderID="texture" vertexShaderFilename="shaders/texture.vert" fragmentShaderFilename="shaders/texture.frag" />
     <Shader shaderID="heightfield" vertexShaderFilename="shaders/particleHeightField.vert" fragmentShaderFilename="shaders/particleHeightField.frag" />

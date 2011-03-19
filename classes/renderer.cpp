@@ -125,6 +125,7 @@ Renderer::Renderer(){
     lastShader="NULL";
 
     bDrawLighting=true;
+    bDrawSmudge=false;
     bRenderStereo=true;
     bDrawMenu=true;
     bDrawNodes=true;
@@ -787,7 +788,6 @@ void Renderer::drawBackground(){
     //only draw Background Texture if we're having one
     if (sceneData->backgroundTex=="NULL")
         return;
-
 
     setupShading("texture");
     glActiveTexture(GL_TEXTURE0);

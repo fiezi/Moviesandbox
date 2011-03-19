@@ -47,6 +47,7 @@ public:
 
        bool bRenderStereo,                  //render stereoscpic into Framebuffers
             bDrawLighting,                  //include Lights and Shadows in Rendering
+            bDrawSmudge,                  //include Lights and Shadows in Rendering
             bDrawNodes,                     //draw nodes
             bDrawMenu,                      //show menu in 3D renderer
             bUseBlending,

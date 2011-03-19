@@ -8,6 +8,7 @@ varying float zPos;
 varying vec4 picking;
 varying vec3 N;
 varying float vID;
+varying vec3 smudge;
 
 /*
 *   Point Size
@@ -36,6 +37,8 @@ void main(){
 
   gl_FrontColor=gl_Color;
 
+  smudge=gl_NormalMatrix * gl_SecondaryColor.rgb;
+  //normalize(smudge);
   //reset gl_Vertex coordinate or we create weird distortions!
   vec4 myVertex=gl_Vertex;
   myVertex.w=1.0;
@@ -43,6 +46,7 @@ void main(){
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
   gl_PointSize= pointSize();
+  smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
 
   N=gl_NormalMatrix * gl_Normal;
   picking= cameraInverse * gl_ModelViewMatrix * myVertex;

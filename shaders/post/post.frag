@@ -2,6 +2,7 @@ uniform float time;
 
 uniform bool bSSAO;
 uniform bool bLighting;
+uniform bool bSmudge;
 uniform bool bDrawColor;
 
 uniform sampler2D tex;
@@ -293,28 +294,27 @@ vec4 computeAO(){
 vec4 smudge(vec2 coord){
 
 
-		float smudgeSamples=8.0;
-		float step=1.0/1024.0;
+		float smudgeSamples=16.0;
+		float myStep=1.0/1024.0 * texture2D(depthTex, texCoord).a/80.0;
+;
 
 		vec2 smudge=texture2D(fxTex,coord).xy;
 
-//        if (length(smudge)<0.1)
-//            smudge=vec2(0.2,0.1);
+        //if (length(smudge)<0.1)
+        //    smudge=vec2(0.2,0.1);
 
 
-		vec4 smudgeColor=gl_FragColor * texture2D(shadowTex,texCoord);
+		vec4 smudgeColor=gl_FragColor;// * texture2D(shadowTex,texCoord);
 
-		if (objectID<0.0)
-			return smudgeColor;
 
-		if (smudge == smudge*0.0)
-			return smudgeColor;
+		if (smudge == smudge*0.0 || objectID<0.0)
+			return gl_FragColor;
 
 		for (int i=0;i<int(smudgeSamples);i++){
-			vec2 myCoord = vec2(texCoord.x + float(i) * smudge.x * step,texCoord.y + float(i) * smudge.y * step);
-			vec2 myNegCoord = vec2(texCoord.x - float(i) * smudge.x * step,texCoord.y - float(i) * smudge.y * step);
-			smudgeColor+=texture2D(tex, myCoord) * texture2D(shadowTex,myCoord);
-			smudgeColor+=texture2D(tex, myNegCoord) * texture2D(shadowTex,myNegCoord);
+			vec2 myCoord = vec2(texCoord.x + float(i) * smudge.x * myStep,texCoord.y + float(i) * smudge.y * myStep);
+			vec2 myNegCoord = vec2(texCoord.x - float(i) * smudge.x * myStep,texCoord.y - float(i) * smudge.y * myStep);
+            smudgeColor+=texture2D(tex, myCoord) * texture2D(shadowTex,myCoord);
+            smudgeColor+=texture2D(tex, myNegCoord) * texture2D(shadowTex,myNegCoord);
 		}
 		smudgeColor*=1.0/(smudgeSamples * 2.0);
 		smudgeColor.a=1.0;
@@ -342,13 +342,9 @@ void main(void){
 
     objectID=ceil(texture2D(pickTex,texCoord).a);
 
-    ///Ambient Occlusion
-    if (bSSAO)
-        gl_FragColor.rgb*=computeAO().rgb ;
-
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
-    if (bLighting){
+    if (bLighting && !bSmudge){
         vec4 lightData=texture2D(shadowTex,texCoord);
         if (lightData.r>=0.0)
             gl_FragColor*=lightData;
@@ -358,8 +354,13 @@ void main(void){
     //gl_FragColor*=blur3(shadowTex,texCoord);
 
     ///smudging
-	//gl_FragColor=smudge(texCoord);
+    if (bSmudge)
+        gl_FragColor=smudge(texCoord);
 
+
+    ///Ambient Occlusion
+    if (bSSAO)
+        gl_FragColor.rgb*=computeAO().rgb ;
 
     ///debug stuff
     //gl_FragColor/=3.0;

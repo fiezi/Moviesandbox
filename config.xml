@@ -13,11 +13,11 @@
       BackgroundTex="background"
 
       bDrawLighting="1"
-      bMultisample="0"
+      bMultisample="1"
       numSamples="2"
 
       ShadowSize="512"
-      SceneSize="1024"
+      SceneSize="512"
 
       MouseSensitivity="0.04"
       MoveSpeed="8.0"
