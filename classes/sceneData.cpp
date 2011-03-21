@@ -718,6 +718,13 @@ int SceneData::readSharedMemory(){
 }
 
 
+void SceneData::updateView(){
+
+((NavTool*)controller->myTools[TOOL_NAV])->processRotation(0.0);
+((NavTool*)controller->myTools[TOOL_NAV])->processMove(0.0);
+
+}
+
 
 void SceneData::createActorMenu(){
 

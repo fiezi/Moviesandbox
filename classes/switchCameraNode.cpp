@@ -33,6 +33,7 @@ void SwitchCameraNode::start(){
     if (cameraActor){
         cameraActor->drawType=DRAW_NULL;
         controller->switchTool(TOOL_NAV);
+        sceneData->updateView();
     }
     Node::start();
 }
@@ -49,6 +50,7 @@ void SwitchCameraNode::stop(){
 
 void SwitchCameraNode::execute(){
     sceneData->controller->controlledActor=cameraActor;
+    sceneData->updateView();
     nextNode();
 }
 

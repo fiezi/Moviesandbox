@@ -762,19 +762,20 @@ void Renderer::draw(){
 
     glDisable(GL_DEPTH_TEST);
 
-    setupShading("font");
-    displayDebug();
+    if (bDrawMenu){
+        setupShading("font");
+        displayDebug();
 
-    /*
-	 *	Draw all Buttons
-	 */
+        /*
+         *	Draw all Buttons
+         */
 
-	draw2D();
+        draw2D();
 
-    #ifdef BDEBUGRENDERER
-    checkOpenGLError("post-draw2D");
-    #endif
-
+        #ifdef BDEBUGRENDERER
+        checkOpenGLError("post-draw2D");
+        #endif
+    }
     glutSwapBuffers();
     deltaTime=glutGet(GLUT_ELAPSED_TIME)-currentTime;
     currentTime=glutGet(GLUT_ELAPSED_TIME);

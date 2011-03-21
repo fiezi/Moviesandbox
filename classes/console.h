@@ -26,6 +26,7 @@ public:
     void randomSize(string args);
     void dropBird(string args);
     void setZero(string args);
+    void teleport(string args);
 
 
 

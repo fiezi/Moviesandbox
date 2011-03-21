@@ -227,6 +227,7 @@ public:
 
         virtual int readSharedMemory();
 
+        virtual void updateView();
 
        virtual void createActorMenu();
 

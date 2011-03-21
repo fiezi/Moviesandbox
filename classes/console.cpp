@@ -29,6 +29,7 @@ TextInputButton::registerProperties();
 functionList["randomSize"]=&Console::randomSize;
 functionList["dropBird"]=&Console::dropBird;
 functionList["setZero"]=&Console::setZero;
+functionList["teleport"]=&Console::teleport;
 }
 
 void Console::focusClick(){
@@ -90,5 +91,15 @@ void Console::setZero(string args){
 
     cout << "setting to zero..." << endl;
     sceneData->controller->controlledActor->setRotation(Vector3f(0,0,0));
+    sceneData->updateView();
 //    sceneData->controller->navBtn->processMove(0);
+}
+
+
+
+void Console::teleport(string args){
+
+    Vector3f myVector=readVector3f((char*)args.c_str());
+    sceneData->controller->controlledActor->setLocation(myVector);
+    sceneData->updateView();
 }

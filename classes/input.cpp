@@ -592,6 +592,11 @@ void Input::specialKeyUp (int key,int x, int y){
         bPressedMovementKeys=false;
     }
 
+    if (key==GLUT_KEY_F1){
+        renderer->bDrawMenu=!renderer->bDrawMenu;
+        return;
+    }
+
     if (key==GLUT_KEY_F2){
         renderer->bDrawNodes=!renderer->bDrawNodes;
         return;
@@ -666,14 +671,14 @@ void Input::confineMouse(){
 #ifdef TARGET_WIN32
     glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
 #endif
-	
+
 #ifdef TARGET_MACOSX
 	CGPoint myPoint;
 	myPoint.x=centerX+renderer->windowPosX;
 	myPoint.y=centerY+renderer->windowPosY;
 	CGDisplayMoveCursorToPoint( CGMainDisplayID (),myPoint);
 #endif
-	
+
 	mouseX=renderer->screenX/2;
 	mouseY=renderer->screenY/2;
 

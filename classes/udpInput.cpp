@@ -35,16 +35,17 @@ pilotType="pilot";
 level=1;
 bDrawName=true;
 listWidth=60;
+listColor=Vector4f(0.8,0.8,0.8,1.0);
 
 listType.push_back("15TextInputButton");
 listName.push_back("name");
 listProp.push_back("NAME");
-listIcon.push_back("icon_base");
+listIcon.push_back("icon_flat");
 
 listType.push_back("15TextInputButton");
 listName.push_back("channel");
 listProp.push_back("CHANNEL");
-listIcon.push_back("icon_base");
+listIcon.push_back("icon_flat");
 
 registerProperties();
 }
@@ -239,6 +240,7 @@ void UdpInput::createNewInputConnect(Vector4f btnColor, std::string btnName, uns
     myBtn->name=btnName;
     //connect directly to UDPInput - but why?
     myBtn->parent=this;
+    myBtn->textureID="icon_flat";
     myBtn->listPosition=numInputs;
     sceneData->buttonList.push_back(myBtn);
     inputConnectButtons.push_back(myBtn);
@@ -268,6 +270,8 @@ void UdpInput::create(){sceneData->addButton(this);}
 
 void UdpInput::trigger(MsbObject* other){
 
+    if (other->name=="name")
+        return;
 
     if (listenSocket){
         listenSocket->Break();

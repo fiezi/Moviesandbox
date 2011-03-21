@@ -100,8 +100,7 @@ void NavTool::update(double deltaTime){
 
 void NavTool::processRotation(double deltaTime){
 
-	
-	cout << "processing rotation... " << endl;
+
     Vector3f axis;
 
     float amount=0.0f;
