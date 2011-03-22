@@ -774,6 +774,14 @@ void Actor::remove(){
                 }
             }
         }
+        //remove from timeline
+        TimelineInspector* tiInsp=dynamic_cast<TimelineInspector*>(sceneData->buttonList[i]);
+        if (tiInsp){
+            for (int t=0;t<(int)tiInsp->timelineActors.size();t++){
+                if (tiInsp->timelineActors[t]==this)
+                    tiInsp->removeTimeline(t);
+            }
+        }
     }
 
     //remove references in nodes
@@ -813,6 +821,7 @@ void Actor::remove(){
     //check if we're the currently specialSelected Actor
     if (sceneData->specialSelected==this)
         sceneData->specialSelected=NULL;
+
 
     //remove from renderLayer list
     for (int i=0;i<(int)sceneData->layerList[renderLayer]->actorList.size();i++){

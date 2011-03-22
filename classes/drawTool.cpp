@@ -116,12 +116,13 @@ void DrawTool::mousePressed(int btn){
 void DrawTool::mouseReleased(int btn){
 
     MsbTool::mouseReleased(btn);
-
+/*
     if (brush->drawing){
         brush->drawing->bPickable=true;
         brush->drawing->bZTest=true;
         brush->drawing->bZWrite=true;
     }
+*/
     bDrawing=false;
 	bStartStroke=true;
 
@@ -201,11 +202,11 @@ void DrawTool::paint(){
 	int mySize=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
 	if (mySize>0)
 		oldVData=sceneData->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
-
+/*
     brush->drawing->bPickable=false;
     brush->drawing->bZTest=false;
     brush->drawing->bZWrite=false;
-
+*/
     for (int i=0;i<(int)filters.size();i++){
         filters[i]->filter(&myVData);
     }

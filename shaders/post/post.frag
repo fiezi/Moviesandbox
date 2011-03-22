@@ -307,7 +307,7 @@ vec4 smudge(vec2 coord){
 		vec4 smudgeColor=gl_FragColor;// * texture2D(shadowTex,texCoord);
 
 
-		if (smudge == smudge*0.0 || objectID<0.0)
+		if (objectID<0.0)
 			return gl_FragColor;
 
 		for (int i=0;i<int(smudgeSamples);i++){

@@ -32,6 +32,7 @@ TimelineButton::TimelineButton(){
     connectedAction=NULL;
     startPressedLeft=0;
     bDragable=true;
+    draggedKey=NULL;
 
     interpolator.bAdditive=false;
 }
@@ -135,6 +136,7 @@ BasicButton::mouseOver();
 
 void TimelineButton::mouseDrag(){
 
+
    float timeLineWidth= timeSize * secondMark;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
@@ -144,6 +146,7 @@ void TimelineButton::mouseDrag(){
 
     if(input->pressedLeft && startPressedLeft==0){
 
+        draggedKey=NULL;
         float mouseX=input->mouseX;
 
         for (uint i=0;i<keyFrames.size();i++){

@@ -9,6 +9,7 @@
 
 SkeletalActor::SkeletalActor(){
 
+name="SkeletalActor";
 drawType=DRAW_VBOMESH;
 sceneShaderID="color";
 bUseShader=true;

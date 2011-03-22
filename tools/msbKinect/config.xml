@@ -40,10 +40,10 @@
     <Rendersettings
 
 
-      WindowSizeX="1024"
-      WindowSizeY="768"
-      ScreenSizeX="1024"
-      ScreenSizeY="768"
+      WindowSizeX="200"
+      WindowSizeY="200"
+      ScreenSizeX="200"
+      ScreenSizeY="200"
       bRenderStereo="0"
 
       bFullScreen="0"

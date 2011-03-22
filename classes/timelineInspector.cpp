@@ -44,11 +44,7 @@ void TimelineInspector::setup(){
 
 void TimelineInspector::update(double deltaTime){
 
-    // check delete timeline
-    if( input->lastKey == 127 || input->lastKey == 8 )
-        for(uint i=0;i<listButton.size();i++)
-            if (listButton[i]==input->hudTarget && (i-6)%3==0)
-                removeTimeline(i);
+
 }
 
 
@@ -126,7 +122,7 @@ void TimelineInspector::createInspectorButtons(){
     inspectorButtons[6]->sceneShaderID="color";
     inspectorButtons[6]->scale=Vector3f(5,400,0);
 
-    loc.x=location.x + 2* listWidth +4;
+    loc.x=location.x + 2* listWidth +4 + 96;
     loc.y=location.y + 55;
     inspectorButtons[6]->color=Vector4f(0.0,0.0,0.0,1.0);
     inspectorButtons[6]->setLocation( loc );
@@ -139,7 +135,7 @@ void TimelineInspector::createInspectorButtons(){
     mySlider->scale.y=5;
     mySlider->color=Vector4f(0.3,0.3,0.3,1.0);
     mySlider->sceneShaderID="color";
-    mySlider->setLocation(Vector3f(location.x + (2*listWidth+2), location.y + 47, 0) );
+    mySlider->setLocation(Vector3f(location.x + (2*listWidth+2) +96, location.y + 47, 0) );
     mySlider->name="timePos";
     mySlider->bDrawName=false;
     mySlider->buttonProperty="timePos";
@@ -160,8 +156,8 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     listButton.push_back(nameButton);
 
     if (bSkeletal){
-        nameButton->name="bones";
-        nameButton->color=Vector4f(0.3,0.3,0.6,1.0);
+        nameButton->name=timelineActors[pos]->name;
+        nameButton->color=Vector4f(0.3,0.3,0.3,1.0);
         }
     else{
         nameButton->color=Vector4f(0.3,0.3,0.3,1.0);
@@ -217,7 +213,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     tlBtn->createKey(0.0);
 
     ///scaling
-    nameButton->scale=Vector3f( listWidth, listHeight, 0);
+    nameButton->scale=Vector3f( listWidth+96, listHeight, 0);
     makeAction->scale=Vector3f( listWidth, listHeight, 0);
     tlBtn->scale=Vector3f( renderer->screenX - location.x, listHeight, 0);
 
@@ -227,7 +223,8 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     loc=location + Vector3f( 0, listOffset+2, 0) + Vector3f( 0, pos * (listHeight+10), 0);
     nameButton->setLocation(loc);
 
-    loc.x+=listWidth + 2;
+    //give more space to names
+    loc.x+=listWidth + 96 + 2;
     makeAction->setLocation(loc);
 
     loc.x+=listWidth + 2;
@@ -384,7 +381,8 @@ void TimelineInspector::trigger(MsbObject* other){
 void TimelineInspector::playTimelines(){
 
     for(uint i=0;i<listButton.size();i++){
-        if (listButton[i]->isA("TimelineButton")){
+        TimelineButton* tiBut=dynamic_cast<TimelineButton*>(listButton[i]);
+        if (tiBut){
             ((TimelineButton*)listButton[i])->playTimeline();
         }
     }
@@ -411,7 +409,7 @@ void TimelineInspector::drawTimeScale(){
 
     glTranslatef(location.x,location.y,location.z);
 
-    float tlButtonOffset= 2* (listWidth + 4);
+    float tlButtonOffset= 2* (listWidth + 4) +96;
 
     glTranslatef( tlButtonOffset , 65, 0);
 
@@ -534,13 +532,23 @@ void TimelineInspector::zoomTimeScale( float val )
 
 
 void TimelineInspector::removeTimeline(int i){
+    cout << "removing timeline" << endl;
+    timelineActors.erase(timelineActors.begin()+i);
 
-    /*
-    timelineActors.erase(timelineActors.begin()+(i-6)/3);
-    listButton[i+2]->remove();
-    listButton[i+1]->remove();
-    listButton[i]->remove();
-    listButton.erase(listButton.begin()+i, listButton.begin()+i+3);
-    */
-// placeTimelineButtons();
+
+    //name button
+    listButton[i*3+0]->remove();
+    //make button
+    listButton[i*3+1]->remove();
+    //timelineButton
+    listButton[i*3+2]->remove();
+    //erase removes all between first and last, not iincluding the one pointed to by last!
+
+    //move remaining timelinebuttons up!
+    for (int n=i*3+3;n<(int)listButton.size();n++){
+        listButton[n]->setLocation(Vector3f(listButton[n]->location.x, listButton[n]->location.y - (listHeight+10),listButton[n]->location.z));
+    }
+    listButton.erase(listButton.begin()+i*3, listButton.begin()+3+i*3);
+    //placeTimelineButtons();
+
 }
