@@ -18,6 +18,5 @@ using namespace std;
 //OpenGL
 #include "glee.h"
 #include "freeglut.h"
-#include "resource.h"
 
 #endif

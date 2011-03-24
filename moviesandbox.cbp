@@ -242,6 +242,9 @@
 		<Unit filename="classes\flexGrid.h">
 			<Option virtualFolder="Actors\" />
 		</Unit>
+		<Unit filename="classes\glut.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="classes\gridTool.cpp">
 			<Option virtualFolder="Tools\" />
 		</Unit>
@@ -470,10 +473,6 @@
 		</Unit>
 		<Unit filename="classes\renderer.h">
 			<Option virtualFolder="core\" />
-		</Unit>
-		<Unit filename="classes\resource.h" />
-		<Unit filename="classes\resource.rc">
-			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="classes\rootNode.cpp">
 			<Option virtualFolder="Nodes\" />
