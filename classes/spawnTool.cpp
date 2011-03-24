@@ -81,14 +81,11 @@ void SpawnTool::mouseReleased(int btn){
     }
     //allow Actor selection in spawn tool!
     if (btn==MOUSEBTNRIGHT){
-        if (input->worldTarget){
+        if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
 
-			//right Button creates menu if on selected actor
-			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
 			    for (int i=0;i<(int)sceneData->selectedActors.size();i++)
                     if (input->worldTarget==sceneData->selectedActors[i])
                         sceneData->createActorMenu();
-			}
 						//any Button selects!
 
 			if (!bKeepSelection) selectActors(btn, input->worldTarget);

@@ -42,11 +42,11 @@ void SkinTool::start(){
 		brush->drawing->drawType=DRAW_PARTICLES;
 
 		//if we already have bones, reset transforms
-		/*
+
 		for (int i=0; i<(int)brush->drawing->bones.size();i++) {
 			brush->drawing->bones[i]->transformMatrix.identity();
 		}
-        */
+
         //color=highlightColor;
         //highlight(listButton[0]);
     }
@@ -83,7 +83,7 @@ void SkinTool::stop(){
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=true;
 
-/*
+
 	//save vbo and reload, then assign to this actor and switch drawmode to VBO
     sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
 	sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
@@ -97,7 +97,7 @@ void SkinTool::stop(){
 	skel->drawType=DRAW_VBOMESH;
 
 	skel->reset();
-*/
+
 
 }
 
