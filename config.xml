@@ -2,10 +2,10 @@
 <Moviesandbox>
 
      <Rendersettings
-      WindowSizeX="1280"
-      WindowSizeY="720"
-      ScreenSizeX="1280"
-      ScreenSizeY="720"
+      WindowSizeX="1024"
+      WindowSizeY="768"
+      ScreenSizeX="1024"
+      ScreenSizeY="768"
       bRenderStereo="0"
 
       bFullScreen="0"
