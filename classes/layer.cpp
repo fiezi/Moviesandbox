@@ -21,6 +21,7 @@ Layer::Layer(){
 	pickFBO=0;
 	lightDataFBO=0;
 
+    color=COLOR_WHITE;
     sceneShaderID="post";
 
 	registerProperties();

@@ -44,7 +44,12 @@ void TimelineInspector::setup(){
 
 void TimelineInspector::update(double deltaTime){
 
-
+    if (input->lastKey==127 || input->lastKey==8){
+        for (int i=0;i<(int)listButton.size();i++){
+            if (i%3==0 && input->hudTarget==listButton[i])
+                removeTimeline(i/3);
+        }
+    }
 }
 
 

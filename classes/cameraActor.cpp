@@ -46,6 +46,7 @@ void CameraActor::trigger(MsbObject* other){
 //        sceneData->controller->navBtn->processMove(0);
         drawType=DRAW_NULL;
         bPossessed=true;
+        sceneData->updateView();
         //sceneData->controller->toggleFlyMode();
     }
     else{
@@ -55,11 +56,16 @@ void CameraActor::trigger(MsbObject* other){
 
 void CameraActor::update(double deltaTime){
 
+    if (bPossessed)
+        sceneData->updateView();
+
+
     if (bPossessed && input->startPressLeftBtn>0){
         bPossessed=false;
         sceneData->controller->controlledActor=sceneData->controller;
+
         drawType=DRAW_VBOMESH;
-//        sceneData->controller->navBtn->processMove(0);
+        sceneData->updateView();
     }
 
     if (Control::bRunning && bCameraShake){

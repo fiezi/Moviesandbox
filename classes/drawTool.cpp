@@ -180,6 +180,7 @@ void DrawTool::update(double deltaTime){
         brush->drawing->bPickable=true;
         brush->drawing->bZTest=true;
         brush->drawing->bZWrite=true;
+
     }
 
     if (bDrawing){
@@ -202,11 +203,11 @@ void DrawTool::paint(){
 	int mySize=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
 	if (mySize>0)
 		oldVData=sceneData->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
-/*
+
     brush->drawing->bPickable=false;
     brush->drawing->bZTest=false;
-    brush->drawing->bZWrite=false;
-*/
+    //brush->drawing->bZWrite=false;
+
     for (int i=0;i<(int)filters.size();i++){
         filters[i]->filter(&myVData);
     }

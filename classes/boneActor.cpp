@@ -10,8 +10,6 @@ BoneActor::BoneActor(){
 
 name="Bone";
 drawType=DRAW_SPRITE;
-bTextured=true;
-bComputeLight=false;
 particleScale=5;
 sceneShaderID="texture";
 textureID="sprite_bone";
@@ -21,8 +19,9 @@ influence=10;
 collisionCubeSize=2;
 
 bComputeLight=false;
-bZTest=true;
+bZTest=false;
 bZWrite=true;
+bTextured=true;
 
 bPhysicsBone=false;
 bJointedToBase=true;
