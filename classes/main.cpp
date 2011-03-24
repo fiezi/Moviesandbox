@@ -198,6 +198,16 @@ int main(int argc, char** argv){
     //do scene stuff
     sceneDataManager->createScene();
 
+    #ifdef TARGET_WIN32
+    //change the icon
+    HWND hwnd = ::FindWindowA(0, "Moviesandbox"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
+    if (hwnd != NULL)
+    {
+        SetClassLong(hwnd,GCL_HICON,(LONG)  LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_ICO_MAIN)));
+        SetClassLong(hwnd,GCL_HICONSM,(LONG)  LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_ICO_MAIN_SM)));
+    }
+    #endif
+
     //destroy splash screen
     glutDestroyWindow(splashWindow);
 
@@ -225,7 +235,7 @@ int main(int argc, char** argv){
 #ifdef TARGET_MACOSX
 	SetSystemUIMode(kUIModeAllHidden, NULL);
 #endif
-	
+
     glutMainLoop();
 
     delete(renderManager);

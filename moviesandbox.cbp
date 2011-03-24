@@ -471,6 +471,10 @@
 		<Unit filename="classes\renderer.h">
 			<Option virtualFolder="core\" />
 		</Unit>
+		<Unit filename="classes\resource.h" />
+		<Unit filename="classes\resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="classes\rootNode.cpp">
 			<Option virtualFolder="Nodes\" />
 		</Unit>
