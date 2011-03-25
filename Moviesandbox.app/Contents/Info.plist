@@ -10,8 +10,10 @@
 	<string>Moviesandbox</string>
 	<key>CFBundleExecutable</key>
 	<string>Moviesandbox</string>
+	<key>CFBundleIconFile</key>
+	<string>msb_Icon_PNG</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Moviesandbox</string>
+	<string>com.friedrichKirschner.Moviesandbox</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -21,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.5</string>
 	<key>DTCompiler</key>
 	<string></string>
 	<key>DTPlatformBuild</key>

@@ -21,6 +21,8 @@
 		1815BA0D11EA166600D3A7B9 /* skinTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0111EA166600D3A7B9 /* skinTool.cpp */; };
 		1815BA0E11EA166600D3A7B9 /* spawnTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0311EA166600D3A7B9 /* spawnTool.cpp */; };
 		18315DB311178EE900304F2E /* freeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18315DB211178EE900304F2E /* freeimage.a */; };
+		185057C7133BFEF300AA18E6 /* msb_Icon_PNG.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */; };
+		185057CD133BFF7700AA18E6 /* Moviesandbox-Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */; };
 		185F44D91116213C007024FB /* action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D110CB3815007AE094 /* action.cpp */; };
 		185F44DA1116213C007024FB /* actionInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D310CB3815007AE094 /* actionInspector.cpp */; };
 		185F44DB1116213C007024FB /* actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D510CB3815007AE094 /* actor.cpp */; };
@@ -158,6 +160,20 @@
 		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
 		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		185057BD133BFE0800AA18E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				185057CD133BFF7700AA18E6 /* Moviesandbox-Info.plist in CopyFiles */,
+				185057C7133BFEF300AA18E6 /* msb_Icon_PNG.icns in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1805E918132AF9E400DF1107 /* particleHeightField.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = particleHeightField.frag; path = shaders/particleHeightField.frag; sourceTree = "<group>"; };
@@ -389,6 +405,8 @@
 		18315DB211178EE900304F2E /* freeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = freeimage.a; sourceTree = "<group>"; };
 		18315DB911178F4700304F2E /* FreeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeImage.h; sourceTree = "<group>"; };
 		184232FC10EF6A7700AF940C /* platformIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platformIncludes.h; path = classes/macosx/platformIncludes.h; sourceTree = "<group>"; };
+		185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = msb_Icon_PNG.icns; path = classes/macosx/msb_Icon_PNG.icns; sourceTree = "<group>"; };
+		185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Moviesandbox-Info.plist"; sourceTree = "<group>"; };
 		185F436F1116097D007024FB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		185F43701116097D007024FB /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		185F43711116097D007024FB /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -474,7 +492,6 @@
 		185F43C31116097D007024FB /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
 		185F43C61116097D007024FB /* freetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = freetype.a; sourceTree = "<group>"; };
 		185F44D3111620F2007024FB /* Moviesandbox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moviesandbox.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		185F44D5111620F2007024FB /* Moviesandbox-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Moviesandbox-Info.plist"; sourceTree = "<group>"; };
 		1860696811770D54008D43C2 /* meshData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = meshData.cpp; path = classes/meshData.cpp; sourceTree = "<group>"; };
 		1860696911770D54008D43C2 /* meshData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = meshData.h; path = classes/meshData.h; sourceTree = "<group>"; };
 		1860696A11770D54008D43C2 /* msbLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msbLight.cpp; path = classes/msbLight.cpp; sourceTree = "<group>"; };
@@ -588,6 +605,7 @@
 		08FB7794FE84155DC02AAC07 /* MSB_mac */ = {
 			isa = PBXGroup;
 			children = (
+				185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */,
 				186E2A7B13355A69007A8129 /* config.xml */,
 				181165E910CB3925007AE094 /* Actors */,
 				181165E810CB390E007AE094 /* Buttons */,
@@ -601,7 +619,6 @@
 				18F2B32010CC31640026A20C /* frameworks */,
 				1811650110CB38C8007AE094 /* external */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
-				185F44D5111620F2007024FB /* Moviesandbox-Info.plist */,
 			);
 			name = MSB_mac;
 			sourceTree = "<group>";
@@ -937,6 +954,7 @@
 		184232FD10EF6A7E00AF940C /* macIncludes */ = {
 			isa = PBXGroup;
 			children = (
+				185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */,
 				184232FC10EF6A7700AF940C /* platformIncludes.h */,
 			);
 			name = macIncludes;
@@ -1429,6 +1447,7 @@
 			buildPhases = (
 				185F44D0111620F2007024FB /* Sources */,
 				185F44D1111620F2007024FB /* Frameworks */,
+				185057BD133BFE0800AA18E6 /* CopyFiles */,
 			);
 			buildRules = (
 			);

@@ -43,7 +43,7 @@ void setup() {
    * and the port of the remote location address are the same, hence you will
    * send messages back to this sketch.
    */
-  myRemoteLocation = new NetAddress("127.0.0.1",31841);
+  myRemoteLocation = new NetAddress("192.168.3.105",31843);
   
   vectorX=new slider(200,20);
   vectorY=new slider(320,20);
@@ -102,7 +102,7 @@ void mouseReleased() {
   //  myMessage.add(vectorZ.value/50.0); /* add a float to the osc message */
   
     myMessage.add(0.0); /* add a float to the osc message */
-    myMessage.add(vectorZ.value/1.0); /* add a float to the osc message */
+    myMessage.add(vectorZ.value/2.0); /* add a float to the osc message */
     myMessage.add(vectorY.value/1.0 - 10); /* add a float to the osc message */
     }
   /* send the message */
