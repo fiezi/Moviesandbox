@@ -47,6 +47,29 @@ void Layer::updateShaders(){
 
     shaderObject* myShader= sceneData->shaderList[sceneShaderID];
 
+    if (myShader->uniforms.find("screenX") != myShader->uniforms.end()){
+        GLint screenSize[4];
+        glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
+        glUniform1fARB(myShader->uniforms["screenX"], (float)screenSize[2]);
+        glUniform1fARB(myShader->uniforms["screenY"], (float)screenSize[3]);
+    }
+
+   #ifdef BDEBUGRENDERER
+    renderer->checkOpenGLError("ss-updateShaders...");
+   #endif
+
+    if (myShader->uniforms.find("scene_size") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["scene_size"], renderer->scene_size);
+    }
+
+    if (myShader->uniforms.find("lighting_size") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["lighting_size"], renderer->lighting_size);
+    }
+
+
+
+
+
     //needs if statements because the compiler throws out stuff if not used!
     if (myShader->uniforms.find("tex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["tex"], 0);

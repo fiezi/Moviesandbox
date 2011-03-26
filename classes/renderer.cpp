@@ -133,6 +133,7 @@ Renderer::Renderer(){
     bMultisample=true;
     bSSAO=true;
     bDrawColor=true;
+    bShadowPass=false;
 
     bFullscreen=false;
     bUpdatePhysics=false;
@@ -158,6 +159,7 @@ Renderer::Renderer(){
 
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
+    lighting_size = 512;
 
     depth_tx = 0;
     depth_fb = 0;
@@ -795,6 +797,20 @@ void Renderer::drawBackground(){
         return;
 
     setupShading("texture");
+
+    //update objectID!
+    shaderObject* myShader= sceneData->shaderList[currentShader];
+
+    if (myShader->uniforms.find("objectID") != myShader->uniforms.end())
+        glUniform1fARB(myShader->uniforms["objectID"], 0.0f);
+
+    if (myShader->uniforms.find("bSelected") != myShader->uniforms.end())
+        glUniform1iARB(myShader->uniforms["bSelected"], false);
+
+   #ifdef BDEBUGRENDERER
+    checkOpenGLError("post-drawBackground");
+    #endif
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, sceneData->textureList[sceneData->backgroundTex]->texture);
 
@@ -805,8 +821,7 @@ void Renderer::drawBackground(){
 // this renders the scene from the view of each light
 void Renderer::drawShadows(MsbLight* myLight){
 
-	glPushAttrib(GL_VIEWPORT_BIT);
-    //glShadeModel(GL_FLAT);
+    glPushAttrib(GL_VIEWPORT_BIT);
     glViewport (0, 0, shadow_size, shadow_size);
 
     //setup projection
@@ -817,7 +832,7 @@ void Renderer::drawShadows(MsbLight* myLight){
 
     //set perspective
 
-        gluPerspective(110.0f, 1.0f, nearClip, 1000.0f);             //this sets the framing of the light!
+        gluPerspective(myLight->fov, 1.0f, nearClip, myLight->lightDistance);             //this sets the framing of the light!
 
         glGetFloatv(GL_PROJECTION_MATRIX,lightProjectionMatrix);
 
@@ -839,7 +854,9 @@ void Renderer::drawShadows(MsbLight* myLight){
     //glDisable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 	GLenum depthOnly={GL_COLOR_ATTACHMENT1_EXT};
-	glDrawBuffers(1,&depthOnly);
+	//TODO: reorder draw buffers for better performance!
+	//glDrawBuffers(1,&depthOnly);
+	glDrawBuffers(2,drawBuffers);
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
@@ -849,22 +866,24 @@ void Renderer::drawShadows(MsbLight* myLight){
 
         draw3D(sceneData->layerList[i]);
 
+
       glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
       glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
 
       glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, shadow_fb );
       glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-      glBlitFramebufferEXT( 0, 0, scene_size-1, scene_size-1, 0, 0, scene_size-1, scene_size-1, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+      glBlitFramebufferEXT( 0, 0, shadow_size, shadow_size, 0, 0, shadow_size, shadow_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 
     }
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
+
 
         glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 
-    glPopAttrib (); // restore the viewport
+    glPopAttrib();
 
  }
 
@@ -963,6 +982,8 @@ void Renderer::drawSceneTexture(){
 
 void Renderer::drawDeferredLighting(Layer* layer){
 
+
+        bShadowPass=true;
         //preserve our unlit color content
         string oldTextureID=layer->textureID;
 
@@ -976,9 +997,9 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
+        glPushAttrib(GL_VIEWPORT);
+        glViewport (0, 0, lighting_size, lighting_size);
 
-        glPushAttrib(GL_VIEWPORT_BIT);
-        glViewport (0, 0, scene_size, scene_size);
 
         //set our textureID to lighting pass
         layer->textureID="lighting";
@@ -988,6 +1009,19 @@ void Renderer::drawDeferredLighting(Layer* layer){
         ///loop from here for every shadowed light!
 
         for (int i=0;i<(int)sceneData->lightList.size(); i++){
+            sceneData->lightList[i]->drawType=DRAW_NULL;
+        }
+
+        for (int i=0;i<(int)sceneData->lightList.size(); i++){
+
+            //don't draw lights when calculating light...
+
+            float castShadow=(float)sceneData->lightList[i]->bCastShadows;
+            //update light
+            glLightfv(GL_LIGHT0,GL_POSITION,&sceneData->lightList[i]->location.x);
+            glLightfv(GL_LIGHT0,GL_DIFFUSE,&sceneData->lightList[i]->color.r);
+            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&sceneData->lightList[i]->lightDistance);
+            glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
 
 
             if (sceneData->lightList[i]->bCastShadows)
@@ -1003,13 +1037,6 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-
-            float castShadow=(float)sceneData->lightList[i]->bCastShadows;
-            //update light
-            glLightfv(GL_LIGHT0,GL_POSITION,&sceneData->lightList[i]->location.x);
-            glLightfv(GL_LIGHT0,GL_DIFFUSE,&sceneData->lightList[i]->color.r);
-            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&sceneData->lightList[i]->lightDistance);
-            glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
 
            //bind depth
             glActiveTexture(GL_TEXTURE1);
@@ -1027,14 +1054,13 @@ void Renderer::drawDeferredLighting(Layer* layer){
             glActiveTexture(GL_TEXTURE4);
             glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
 
-			//set background
-            //glActiveTexture(GL_TEXTURE5);
-            //glBindTexture(GL_TEXTURE_2D, sceneData->textureList[backgroundTex]->texture);
 
             ///light&shadow rendering
 
             //render lighting pass into lighting FBO
             glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
+
+            glDrawBuffers(1,drawBuffers);
 
             glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
@@ -1047,7 +1073,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         }             //repeat for every shadowed light!
 
-        glPopAttrib();
+        for (int i=0;i<(int)sceneData->lightList.size(); i++){
+            sceneData->lightList[i]->drawType=DRAW_SPRITE;
+        }
+
+        //glPopAttrib();
 
         //set our textureID to lighting pass
         layer->textureID=oldTextureID;
@@ -1072,6 +1102,9 @@ void Renderer::drawDeferredLighting(Layer* layer){
         glActiveTexture(GL_TEXTURE4);
         glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
 
+
+        bShadowPass=false;
+        glPopAttrib();
 }
 
 
@@ -1084,7 +1117,8 @@ void Renderer::draw3D(Layer* currentLayer){
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-	glDrawBuffers(4, drawBuffers);
+    if (!bShadowPass)
+        glDrawBuffers(4, drawBuffers);
 
     //draw color
 
@@ -1102,6 +1136,15 @@ void Renderer::draw3D(Layer* currentLayer){
             }
             //don't draw in picking buffer for non-pickable actors
         }
+    }
+
+    //leave after this one if we're in shadow pass!
+    if (bShadowPass){
+        //reset texture Matrix transform
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        return;
     }
 
     #ifdef BDEBUGRENDERER
@@ -1362,6 +1405,11 @@ void Renderer::drawOrientation(Actor* a){
 
     glPopMatrix();
 
+    #ifdef BDEBUGRENDERER
+    checkOpenGLError("individual Orientation...");
+    #endif
+
+
 }
 
 
@@ -1589,14 +1637,14 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
 
 
         GLfloat verts[] = { x1-xOffset, y1-yOffset,
-                            x1-xOffset, y2-yOffset,
+                            x2-xOffset, y1-yOffset,
                             x2-xOffset, y2-yOffset,
-                            x2-xOffset, y1-yOffset };
+                            x1-xOffset, y2-yOffset };
 
 		GLfloat tex_coords[] = { 0, 0,
-                                 0, 1,
+                                 1, 0,
                                  1, 1,
-                                 1, 0 };
+                                 0, 1 };
 
         GLfloat normals[] = { 0, 0, 1,
                               0, 0, 1,

@@ -1,4 +1,8 @@
 uniform float time;
+uniform float lighting_size;
+uniform float scene_size;
+uniform float screenX;
+uniform float screenY;
 
 uniform bool bSSAO;
 uniform bool bLighting;
@@ -29,13 +33,13 @@ varying vec2 texCoord;
 
 //Ambient Occlusion variables:
 
-    vec2 screensize = vec2 (768,768 );
+
 
 	float d;
 
 
-	float pw =  1.0/screensize.x ;  //stepping horizontal
-	float ph =  1.0/screensize.y ;  //stepping vertical
+	float pw =  1.0/screenX ;  //stepping horizontal
+	float ph =  1.0/screenY ;  //stepping vertical
 
 
 	float ao = 0.0;                 //ambient AO
@@ -267,8 +271,8 @@ vec4 computeAO(){
 
         for (int j=0; j<int(circleRes);j++){
 
-            pw= cos(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screensize.x;
-            ph= sin(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screensize.y;
+            pw= cos(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screenX;
+            ph= sin(float(j)/(circleRes-1.0) * (2.0 *PI)) * float(i) * stepsize/screenY;
 
             compareAOSamples(depth, n1, j);
         }
@@ -345,7 +349,7 @@ void main(void){
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
     if (bLighting && !bSmudge){
-        vec4 lightData=texture2D(shadowTex,texCoord);
+        vec4 lightData=texture2D(shadowTex,texCoord * lighting_size/scene_size);
         if (lightData.r>=0.0)
             gl_FragColor*=lightData;
     }

@@ -1,7 +1,7 @@
 uniform vec4 postColor;
 uniform bool bComputeLight;
 uniform int bSelected;
-uniform int screensize;
+uniform float screensize;
 
 varying vec3 N;
 varying vec3 smudge;

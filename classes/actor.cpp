@@ -483,6 +483,10 @@ void Actor::updateShaders(){
     if (myShader->uniforms.find("objectID") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["objectID"], objectID);
 
+    #ifdef BDEBUGRENDERER
+    renderer->checkOpenGLError("half-updateShaders...");
+    #endif
+
 
     if (myShader->uniforms.find("tex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["tex"], 0);
@@ -500,9 +504,26 @@ void Actor::updateShaders(){
     if (myShader->uniforms.find("screensize") != myShader->uniforms.end()){
         GLint screenSize[4];
         glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
-        glUniform1iARB(myShader->uniforms["screensize"], screenSize[3]);
+        glUniform1fARB(myShader->uniforms["screensize"], (float)screenSize[2]);
     }
 
+    if (myShader->uniforms.find("scene_size") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["scene_size"], (float)renderer->scene_size);
+    }
+
+    //for shadow pass
+    if (renderer->bShadowPass){
+        if (myShader->uniforms.find("lighting_size") != myShader->uniforms.end()){
+            glUniform1fARB(myShader->uniforms["lighting_size"], (float)renderer->lighting_size);
+        }
+        if (myShader->uniforms.find("shadow_size") != myShader->uniforms.end()){
+            glUniform1fARB(myShader->uniforms["shadow_size"], renderer->shadow_size);
+        }
+    }
+
+    #ifdef BDEBUGRENDERER
+    renderer->checkOpenGLError("post-updateShaders...");
+    #endif
 
 }
 

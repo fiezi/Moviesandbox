@@ -1,9 +1,13 @@
 uniform float time;
+uniform float screensize;
+uniform float lighting_size;
+uniform float shadow_size;
+uniform float scene_size;
 
-uniform sampler2D tex; // rendered scene
+uniform sampler2D tex; // rendered scene 512*512 (lighting resolution)
 uniform sampler2D depthTex; // rendered normals and depth texture
-uniform sampler2D pickTex; //rendered picking texture
-uniform sampler2D shadowTex; // rendered shadow textures
+uniform sampler2D pickTex; //rendered picking texture -1024*1024 (scene resolution)
+uniform sampler2D shadowTex; // rendered shadow textures - 256x256 (shadow resolution)
 
 uniform mat4 lightProperties;
 
@@ -34,7 +38,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/400.0;//   * texture2D(myTex , tc).a/32.0;
+      float spread=1.0/screensize;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -67,7 +71,7 @@ vec4 computeLight(){
 
 
     //do Light calculations
-	vec3 normal = texture2D(depthTex,texCoord).xyz;
+	vec3 normal = texture2D(depthTex,texCoord ).xyz;
 
     //if our normal indicates that we do not want light calculations to happen,
     //then pass this indication on to post-shader
@@ -79,7 +83,7 @@ vec4 computeLight(){
     vec4 lightPos=gl_LightSource[0].position;
     lightPos.w=1.0;
 
-    objectPos=texture2D(pickTex, texCoord);
+    objectPos=texture2D(pickTex, texCoord );
 
     if (objectPos.a<-100.0)
         return vec4(0.0,0.0,0.0,0.0);
@@ -104,7 +108,7 @@ vec4 computeLight(){
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
     //ambient
-    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
+    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
 
     //diffuse
 	vec3 NL = normalize( distVecEye.xyz );
@@ -133,23 +137,23 @@ vec4 shadowMapping(){
 
 
     vec4 pixelPosition;
-	pixelPosition=texture2D(pickTex,texCoord);
+	pixelPosition=texture2D(pickTex,texCoord );
     pixelPosition.w=1.0;
 
 
 
-    //Matrix transform to light space
-    vec4 shadowCoord =   lightProjectionMatrix * lightViewMatrix * pixelPosition;
+    //Matrix transform to light space - our pixel
+    vec4 shadowCoord =   lightProjectionMatrix * lightViewMatrix * pixelPosition ;
 
     vec4 ssShadow=shadowCoord/shadowCoord.w;
     ssShadow=ssShadow * 0.5 + 0.5;
-
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
 
         //this leads to hard edges. Maybe we can soften them up a bit?
 
-            vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
+            //vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
+            vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.a;
 			//myLight +=max(0.0,(1.0 - falloff))	* computeLight();
 			myLight+= ( min (1.0,max( 0.0,(0.25 *shadowColor.a-falloff)/(0.25*shadowColor.a) ) ) ) * computeLight( );
@@ -167,7 +171,7 @@ void main(){
 
 
     //load old lighting data
-    gl_FragColor=texture2D(tex, texCoord);
+    gl_FragColor=texture2D(tex, texCoord * lighting_size/scene_size);
     //gl_FragColor.g+=0.0001 * texture2D(pickTex, texCoord).r;
     //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).g;
     //gl_FragColor.b+=0.0001 *texture2D(shadowTex,texCoord).b;

@@ -1,5 +1,8 @@
 attribute float vertexID;
 
+uniform float screensize;
+uniform float scene_size;
+
 uniform float time;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
@@ -53,10 +56,12 @@ void main(){
 
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-  gl_PointSize= pointSize();
+  gl_PointSize= pointSize() * screensize/scene_size;
+  smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
+
+
   pSize=gl_PointSize;
 
-  smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
 
 //give normal as up vector!
 

@@ -53,7 +53,8 @@ public:
             bUseBlending,
             bMultisample,                   //Multisample FBOs
             bSSAO,                          //draw screen-space ambient occlusion
-            bDrawColor;                     //draw basic Color image (would be lighting only if false)
+            bDrawColor,                     //draw basic Color image (would be lighting only if false)
+            bShadowPass;                    //currently rendering shadows
 
        int numSamples;                      //number of multisamples
 
@@ -97,19 +98,20 @@ public:
 
         //Frame Buffer Objects for light and shadow rendering
 
-        GLuint lighting_tx;                 // the lightTexture we read from
-        GLuint lighting_fb;                 // the lightFBO we bind
+        GLuint  lighting_tx;                 // the lightTexture we read from
+        GLuint  lighting_fb;                 // the lightFBO we bind
+        int     lighting_size;                //resolution for the lighting pass
 
-        GLuint shadow_tx;                   // the shadowTexture we read from
-        GLuint shadow_fb;                   // the shadowFBO we bind
-        int shadow_size;
+        GLuint  shadow_tx;                   // the shadowTexture we read from
+        GLuint  shadow_fb;                   // the shadowFBO we bind
+        int     shadow_size;
 
         //Frame Buffer Object for Depth Rendering
-        GLuint depth_tx;
-        GLuint depth_fb;
-        int depth_size;
+        GLuint  depth_tx;
+        GLuint  depth_fb;
+        int     depth_size;
 
-        int scene_size;
+        int     scene_size;
 
         //Frame Buffer Object for Right Eye Rendering
 

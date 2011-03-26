@@ -16,7 +16,8 @@
       bMultisample="0"
       numSamples="2"
 
-      ShadowSize="1024"
+      ShadowSize="256"
+      LightingSize="512"
       SceneSize="1024"
 
       MouseSensitivity="0.04"

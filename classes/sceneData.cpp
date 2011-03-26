@@ -422,6 +422,9 @@ void SceneData::loadPreferences(){
     element->Attribute("ShadowSize", &val);
     renderer->shadow_size=val;
 
+    element->Attribute("LightingSize", &val);
+    renderer->lighting_size=val;
+
     element->Attribute("SceneSize", &val);
     renderer->scene_size=val;
 
