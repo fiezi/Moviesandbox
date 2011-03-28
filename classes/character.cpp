@@ -162,8 +162,10 @@ void Character::update(double deltaTime){
         if (grabActor)
             grab();
 
-        if (walkTarget)
+        if (walkTarget){
+            idle(deltaTime);
             walkTowards(walkTarget, deltaTime * 0.001);
+        }
         else
             idle(deltaTime);
      }

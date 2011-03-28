@@ -228,7 +228,7 @@ void DrawTool::erase(){
 
     calcLoc=brush->location-brush->drawing->location;
 
-    for (unsigned int i=0;i<sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++)
+    for (int i=0;i<(int)sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++)
       {
       Vector4f loc=sceneData->vboList[brush->drawing->vboMeshID]->vData[i].location;
       Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
@@ -351,6 +351,14 @@ void DrawTool::mergeDrawings(){
             receiveMesh->vData[receiveMesh->vData.size()-1].location.w=myScale;
         }
     }
+}
+
+void DrawTool::clearDrawing(){
+
+    sceneData->vboList[brush->drawing->vboMeshID]->vData.clear();
+ //   for (int i=0;i<(int)sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++){
+ //       brush->drawing->deleteParticle(i);
+ //   }
 }
 
 void DrawTool::calcLocation(){

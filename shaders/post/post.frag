@@ -299,8 +299,8 @@ vec4 smudge(vec2 coord){
 
 
 		float smudgeSamples=16.0;
-		float myStep=1.0/1024.0 * texture2D(depthTex, texCoord).a/80.0;
-;
+		float myStep=1.0/scene_size;
+        myStep=myStep* texture2D(depthTex, texCoord).a/80.0 * texture2D(depthTex, texCoord).a/80.0* texture2D(depthTex, texCoord).a/80.0;
 
 		vec2 smudge=texture2D(fxTex,coord).xy;
 
@@ -317,8 +317,8 @@ vec4 smudge(vec2 coord){
 		for (int i=0;i<int(smudgeSamples);i++){
 			vec2 myCoord = vec2(texCoord.x + float(i) * smudge.x * myStep,texCoord.y + float(i) * smudge.y * myStep);
 			vec2 myNegCoord = vec2(texCoord.x - float(i) * smudge.x * myStep,texCoord.y - float(i) * smudge.y * myStep);
-            smudgeColor+=texture2D(tex, myCoord) * texture2D(shadowTex,myCoord);
-            smudgeColor+=texture2D(tex, myNegCoord) * texture2D(shadowTex,myNegCoord);
+            smudgeColor+=texture2D(tex, myCoord) * texture2D(shadowTex,myCoord* lighting_size/scene_size);
+            smudgeColor+=texture2D(tex, myNegCoord) * texture2D(shadowTex,myNegCoord* lighting_size/scene_size);
 		}
 		smudgeColor*=1.0/(smudgeSamples * 2.0);
 		smudgeColor.a=1.0;

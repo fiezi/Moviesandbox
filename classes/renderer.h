@@ -212,6 +212,10 @@ public:
        virtual void drawParticles (Actor* a);
        virtual void drawColladaMesh (Actor* a);
 
+
+       virtual void createKinectWall( float resolution );
+
+
        virtual void setupCamera(bool bCalculateMatrices);
        virtual void setupShading(string shaderName);
        virtual void setupTexturing(string texName, Actor* a=NULL, GLenum texChannel=GL_TEXTURE0);

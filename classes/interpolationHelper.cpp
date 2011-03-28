@@ -78,6 +78,8 @@ void InterpolationHelper::interpolate(){
 
 void InterpolationHelper::interpolateActor(){
 
+
+
     Vector3f locationOne, locationTwo;
     Vector3f rotationOne, rotationTwo;
 
@@ -118,6 +120,7 @@ void InterpolationHelper::interpolateActor(){
 
     moveActor->setLocation(resultingLocation);
     moveActor->setRotation(resultingRotation);
+
 }
 
 void InterpolationHelper::interpolateVectors(){

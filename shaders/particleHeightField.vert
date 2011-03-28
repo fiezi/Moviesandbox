@@ -41,13 +41,13 @@ void main(){
     N =  gl_NormalMatrix * gl_Normal;
 
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
-    myVertex.z=gl_FrontColor.a*10.0;
+    myVertex.z=gl_FrontColor.a*15.0;
     myVertex.x=myVertex.x*myVertex.z;
     myVertex.y=myVertex.y*myVertex.z;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= 8.0;//pointSize(1.0);
+    gl_PointSize= 5.0;//pointSize(1.0);
 
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;

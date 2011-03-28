@@ -289,10 +289,15 @@ void Content::createDrawWidget(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paintFancy");
 
+    lbut->listType.push_back("15PickWorldButton");
+    lbut->listName.push_back("Select Drawing");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_selectDrawing");
+
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Select Particles");
     lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_selectDrawing");
+    lbut->listIcon.push_back("icon_selectParticles");
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Import Kinect");
@@ -330,6 +335,12 @@ void Content::createDrawWidget(int x, int y){
     lbut->listName.push_back("save As...");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_saveAs");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("clear Drawing");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_clearDrawing");
+
 }
 
 void Content::createBoneWidget(int x, int y){

@@ -17,7 +17,6 @@ CalligraphyFilter::~CalligraphyFilter(){}
 
 void CalligraphyFilter::filter(vertexData* myVData){
 
-    BrushFilter::filter(myVData);
+    //BrushFilter::filter(myVData);
     myVData->location.w*=input->mouseVector.length() * renderer->deltaTime / 100.0;
-
 }

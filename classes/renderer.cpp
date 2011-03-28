@@ -357,6 +357,10 @@ void Renderer::setup(){
     //shared memory texture
     createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
+    //This was used for the promo video to get better framerates for kinect live-feed.
+    //will make it in some time, but not now...
+    //createKinectWall(640.0f);
+
 }
 
 void Renderer::physicsSetup(){
@@ -1117,8 +1121,11 @@ void Renderer::draw3D(Layer* currentLayer){
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    if (!bShadowPass)
+    if (bShadowPass)
+        glDrawBuffers(2, drawBuffers);
+    else
         glDrawBuffers(4, drawBuffers);
+
 
     //draw color
 
@@ -1138,14 +1145,7 @@ void Renderer::draw3D(Layer* currentLayer){
         }
     }
 
-    //leave after this one if we're in shadow pass!
-    if (bShadowPass){
-        //reset texture Matrix transform
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
-        return;
-    }
+
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw regular...");
@@ -1162,7 +1162,14 @@ void Renderer::draw3D(Layer* currentLayer){
         }
     }
 
-
+   //leave after this one if we're in shadow pass!
+    if (bShadowPass){
+        //reset texture Matrix transform
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        return;
+    }
     #ifdef BDEBUGRENDERER
     checkOpenGLError("draw3D draw non-pickable...");
     #endif
@@ -1330,7 +1337,11 @@ void Renderer::drawActor(Actor* a){
         else if (a->drawType==DRAW_CUBE)        drawCube(a->collisionCubeSize, a->scale.x);                 //Mesh
         else if (a->drawType==DRAW_TEA)         a->drawTeapot();
         else if (a->drawType==DRAW_SPECIAL)     a->draw();
-        else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
+        //else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
+        else if (a->drawType==DRAW_POINTPATCH){
+                                        a->vboMeshID="kinectWall";
+                                        drawColladaMesh(a);
+                                        }
 
 
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
@@ -1701,6 +1712,7 @@ void Renderer::drawPatch(float width, float height, float resolution){
         }
     }
 
+
     // activate and specify pointer to vertex array
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -1925,6 +1937,86 @@ void Renderer::drawText(string str, float x, float y){
 
 
 
+
+void Renderer::createKinectWall( float resolution ){
+
+
+    //delete(sceneData->vboList["kinectWall"]);
+    //create a vertex array for a quad patch with "resolution" amount of vertices per side
+    //lets do points for now...
+
+    //4:3 for kinect...
+    GLuint vertexBuffer=0;
+    GLuint normalBuffer=0;
+    GLuint texCoordBuffer=0;
+
+    vector<Vector4f> vertices;
+    vector<Vector3f> normals;
+    vector<Vector3f> texCoords;
+
+	sceneData->vboList["kinectWall"]=new MeshData;
+    MeshData* myMesh=sceneData->vboList["kinectWall"];
+    myMesh->bIsSkeletal=false;
+    myMesh->bIsHead=false;
+    myMesh->bVertexColor=false;
+    myMesh->boneCount=0;
+    myMesh->texCoordPerVertexCount=3;
+    myMesh->verticesPerShapeCount=4;
+    myMesh->vertexInterpretation=GL_POINTS;
+    myMesh->drawType=DRAW_VBOMESH;
+
+    float width=1.5;
+    float height=1.5;
+
+    for (int h=0;h<resolution;h++){
+
+        //for every line...
+        for (int l=0;l<resolution;l++){
+            Vector4f myVertex;
+            myVertex.x=float(l) * width/(resolution-1.0) - width/2.0f;            //x-coord
+            myVertex.y=float(h) * height/(resolution-1.0) - height/2.0f;
+            myVertex.z=0.0f;
+            myVertex.w=0.01f;
+
+            vertices.push_back(myVertex);
+            normals.push_back(Vector3f(0,0,-1));
+            texCoords.push_back(Vector3f( (float(l) /(resolution-1.0) ), ( float(h) /(resolution-1.0) ), 0.0 ));
+        }
+    }
+
+    float vertexCount=vertices.size();
+
+    cout << "setting up vertexBuffer" << endl;
+
+	//vertex buffer
+    glGenBuffersARB(1, &vertexBuffer);
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, vertexBuffer);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector4f), &vertices[0].x , GL_STATIC_DRAW_ARB);
+
+
+    sceneData->vboList["kinectWall"]->vertexBufferObject.push_back(vertexBuffer);
+	sceneData->vboList["kinectWall"]->vertexCount.push_back(vertexCount);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+
+    //creating vertexBuffer here!
+    glGenBuffersARB(1, &texCoordBuffer);
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, texCoordBuffer);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &texCoords[0].x , GL_STATIC_DRAW_ARB);
+
+    sceneData->vboList["kinectWall"]->texCoordBufferObject.push_back(texCoordBuffer);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+
+    //normal Buffer
+    glGenBuffersARB(1, &normalBuffer);
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, normalBuffer);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &normals[0].x , GL_STATIC_DRAW_ARB);
+
+    sceneData->vboList["kinectWall"]->normalBufferObject.push_back(normalBuffer);
+
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+}
 
 //************************************************************
 //

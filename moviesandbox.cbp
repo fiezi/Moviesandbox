@@ -360,8 +360,12 @@
 		<Unit filename="classes\main.h">
 			<Option virtualFolder="core\" />
 		</Unit>
-		<Unit filename="classes\meshData.cpp" />
-		<Unit filename="classes\meshData.h" />
+		<Unit filename="classes\meshData.cpp">
+			<Option virtualFolder="dataHandlers\" />
+		</Unit>
+		<Unit filename="classes\meshData.h">
+			<Option virtualFolder="dataHandlers\" />
+		</Unit>
 		<Unit filename="classes\meshInspector.cpp">
 			<Option virtualFolder="Buttons\Inspectors\" />
 		</Unit>

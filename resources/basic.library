@@ -31,8 +31,8 @@
     <Texture textureID="icon_light" filename="resources/icons/icon_light.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_target" filename="resources/icons/icon_target.tga" bAlpha="1" bWrap="0"/>
 
-	  <Texture textureID="icon_drawMesh" filename="resources/icons/icon_drawMesh.tga" bAlpha="1" bWrap="0"/>
-	  <Texture textureID="icon_brush" filename="resources/icons/icon_brush.tga" bAlpha="1" bWrap="0"/>
+	<Texture textureID="icon_drawMesh" filename="resources/icons/icon_drawMesh.tga" bAlpha="1" bWrap="0"/>
+	<Texture textureID="icon_brush" filename="resources/icons/icon_brush.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_paint" filename="resources/icons/icon_paint.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_paintFancy" filename="resources/icons/icon_paintFancy.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_ball" filename="resources/icons/icon_ball.tga" bAlpha="1" bWrap="0"/>
@@ -54,7 +54,9 @@
     <Texture textureID="icon_selectChar" filename="resources/icons/icon_selectChar.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_brushSize" filename="resources/icons/icon_brushSize.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_new" filename="resources/icons/icon_new.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_clearDrawing" filename="resources/icons/icon_clearDrawing.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_selectDrawing" filename="resources/icons/icon_selectDrawing.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_selectParticles" filename="resources/icons/icon_selectParticles.tga" bAlpha="1" bWrap="0"/>
 
     <Texture textureID="brushTwo" filename="resources/icons/brushTwo.tga" bAlpha="1" bWrap="0" nextFrame="brushTwo" frameRate="400"/>
     <Texture textureID="brushTwob" filename="resources/icons/brushTwob.tga" bAlpha="1" bWrap="0" nextFrame="brushTwob" frameRate="200"/>

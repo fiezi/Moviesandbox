@@ -109,6 +109,18 @@ void DrawingWidget::trigger(MsbObject* other){
     }
 
 
+    if (other->name=="Select Drawing"){
+        if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
+            //save old drawing
+            sceneData->controller->myTools[TOOL_DRAW]->save();
+            //select new drawing
+            drawTool->stop();
+            sceneData->specialSelected=input->worldTarget;
+            sceneData->brush->drawing=(SkeletalActor*)sceneData->specialSelected;
+            drawTool->start();
+        }
+    }
+
     if (other->name=="merge Drawings"){
         drawTool->mergeDrawings();
     }
@@ -135,6 +147,10 @@ void DrawingWidget::trigger(MsbObject* other){
         }
     }
 
+   if (other->name=="clear Drawing"){
+        drawTool->clearDrawing();
+   }
+
 }
 
 void DrawingWidget::closeKinectTool(){
@@ -156,7 +172,7 @@ void DrawingWidget::openKinectTool(){
     sceneData->brush->drawing->particleScale=100;
 
     sceneData->externalInputList["kinectInput"]->startProgram();
-    listButton[4]->color=Vector4f(1,1,0,1);
+    listButton[5]->color=Vector4f(1,1,0,1);
     bKinectToolOpen=true;
 }
 
