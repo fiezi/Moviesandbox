@@ -243,7 +243,7 @@ void Content::createPropList(int x, int y){
 
 //--- test video actor
     lbut->listType.push_back("17CreateActorButton");
-    lbut->listName.push_back("place bone");
+    lbut->listName.push_back("place dummy");
     lbut->listProp.push_back("9BoneActor");
     lbut->listIcon.push_back("icon_target");
 

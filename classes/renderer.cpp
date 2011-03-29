@@ -131,7 +131,7 @@ Renderer::Renderer(){
     bDrawNodes=true;
     bUseBlending=true;
     bMultisample=true;
-    bSSAO=true;
+    bSSAO=false;
     bDrawColor=true;
     bShadowPass=false;
 

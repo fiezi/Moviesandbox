@@ -1,3 +1,5 @@
+uniform float screensize;
+uniform float scene_size;
 uniform float time;
 uniform mat4 cameraInverse;
 uniform float particleMultiplier;
@@ -45,7 +47,7 @@ void main(){
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= pointSize();
+    gl_PointSize= pointSize() * screensize/scene_size;;
 
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;

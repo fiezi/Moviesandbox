@@ -510,7 +510,7 @@ void Actor::updateShaders(){
     if (myShader->uniforms.find("scene_size") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["scene_size"], (float)renderer->scene_size);
     }
-
+	
     //for shadow pass
     if (renderer->bShadowPass){
         if (myShader->uniforms.find("lighting_size") != myShader->uniforms.end()){

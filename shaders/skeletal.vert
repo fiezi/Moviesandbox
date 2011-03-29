@@ -1,3 +1,5 @@
+uniform float screensize;
+uniform float scene_size;
 
 attribute float vertexID;
 
@@ -90,7 +92,7 @@ void main(){
     gl_Position=myPosition;
 
     //Point Size
-    gl_PointSize=pointSize();
+    gl_PointSize=pointSize() * screensize/scene_size;
 
     //make unskinned particles go away!
     //if (bones[0]<0)
@@ -132,7 +134,7 @@ void main(){
 	//smudging and pixel Position
 
 	smudge=gl_NormalMatrix * gl_SecondaryColor.rgb;
-	normalize(smudge);
+	smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
 
 
 
