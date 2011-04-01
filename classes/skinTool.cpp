@@ -41,12 +41,19 @@ void SkinTool::start(){
         brush->drawing->sceneShaderID="skinning";
 		brush->drawing->drawType=DRAW_PARTICLES;
 
-		//if we already have bones, reset transforms
+       //if we have an original Matrix, then reset our transformMatrices!
+        if (sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal){
+            Matrix4f identityMatrix;
+            identityMatrix.identity();
 
-		for (int i=0; i<(int)brush->drawing->bones.size();i++) {
-			brush->drawing->bones[i]->transformMatrix.identity();
-		}
-
+            //reset Matrices...
+            for (int i=0;i<(int)sceneData->vboList[sceneData->specialSelected->vboMeshID]->bones.size();i++){
+                if (sceneData->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
+                    sceneData->brush->drawing->bones[i]->transformMatrix=sceneData->brush->drawing->bones[i]->originalMatrix;
+                    sceneData->brush->drawing->bones[i]->originalMatrix.identity();
+                }
+            }
+        }
         //color=highlightColor;
         //highlight(listButton[0]);
     }
