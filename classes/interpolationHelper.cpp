@@ -81,6 +81,9 @@ void InterpolationHelper::interpolateActor(){
 
     Matrix4f transformOne, transformTwo;
 
+	Matrix3f rotationOne, rotationTwo;
+	Matrix3f resultingRotation;
+	
     Matrix4f resultingTransform;
 
 
@@ -111,8 +114,20 @@ void InterpolationHelper::interpolateActor(){
         if (bLinear)
             y=relativeTime;
 
-    resultingTransform=transformOne.lerp(y,transformTwo); //calculate resulting position
 
+	rotationOne=getRotationMatrix(transformOne);
+	rotationTwo=getRotationMatrix(transformTwo);
+	resultingRotation=rotationOne.lerp(y,rotationTwo);
+	
+	
+    //interpolate between them
+    resultingTransform=transformOne.lerp(y,transformTwo); //calculate resulting position
+	
+	
+	//normalize rotations!
+	resultingRotation=normalizeRotations(resultingRotation);
+	resultingTransform.setRotation(resultingRotation);
+	
     moveActor->transformMatrix=resultingTransform;
 }
 
@@ -122,6 +137,11 @@ void InterpolationHelper::interpolateTransform(){
 
     Matrix4f resultingTransform;
 
+	Matrix3f rotationOne;
+    Matrix3f rotationTwo;
+	
+    Matrix3f resultingRotation;
+	
     double timeKeyOne;
     double timeKeyTwo;
 
@@ -158,17 +178,29 @@ void InterpolationHelper::interpolateTransform(){
 
     transformTwo=keyFrames[currentKeyTransform+1]->transformKey;
 
+
+	rotationOne=getRotationMatrix(transformOne);
+	rotationTwo=getRotationMatrix(transformTwo);
+	resultingRotation=rotationOne.lerp(relativeTime,rotationTwo);
+	
+	
     //interpolate between them
     resultingTransform=transformOne.lerp(relativeTime,transformTwo); //calculate resulting position
-
+	
+	
+	//normalize rotations!
+	resultingRotation=normalizeRotations(resultingRotation);
+	resultingTransform.setRotation(resultingRotation);
+	
     //apply resulting position
     if (bRelative){
-        //moveActor->setLocation(resultingLocation+baseLocation);
-        //moveActor->setRotation(resultingRotation+baseRotation);
+		//apply rotation
+		moveActor->transformMatrix=baseTransform* resultingTransform;
         }
     else{
-        moveActor->transformMatrix=resultingTransform;
-        }
+		//apply rotation
+		moveActor->transformMatrix=resultingTransform;
+	}
 }
 
 void InterpolationHelper::interpolateMatrix(){

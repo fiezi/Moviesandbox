@@ -21,6 +21,10 @@
 		1815BA0D11EA166600D3A7B9 /* skinTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0111EA166600D3A7B9 /* skinTool.cpp */; };
 		1815BA0E11EA166600D3A7B9 /* spawnTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0311EA166600D3A7B9 /* spawnTool.cpp */; };
 		18315DB311178EE900304F2E /* freeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18315DB211178EE900304F2E /* freeimage.a */; };
+		18487E4A134A8769004E7D00 /* illustration.frag in Sources */ = {isa = PBXBuildFile; fileRef = 18487E46134A8769004E7D00 /* illustration.frag */; };
+		18487E4B134A8769004E7D00 /* illustration.vert in Sources */ = {isa = PBXBuildFile; fileRef = 18487E47134A8769004E7D00 /* illustration.vert */; };
+		18487E4C134A8769004E7D00 /* skeletalIllustration.frag in Sources */ = {isa = PBXBuildFile; fileRef = 18487E48134A8769004E7D00 /* skeletalIllustration.frag */; };
+		18487E4D134A8769004E7D00 /* skeletalIllustration.vert in Sources */ = {isa = PBXBuildFile; fileRef = 18487E49134A8769004E7D00 /* skeletalIllustration.vert */; };
 		185057C7133BFEF300AA18E6 /* msb_Icon_PNG.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */; };
 		185057CD133BFF7700AA18E6 /* Moviesandbox-Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */; };
 		185F44D91116213C007024FB /* action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D110CB3815007AE094 /* action.cpp */; };
@@ -405,6 +409,10 @@
 		18315DB211178EE900304F2E /* freeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = freeimage.a; sourceTree = "<group>"; };
 		18315DB911178F4700304F2E /* FreeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeImage.h; sourceTree = "<group>"; };
 		184232FC10EF6A7700AF940C /* platformIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platformIncludes.h; path = classes/macosx/platformIncludes.h; sourceTree = "<group>"; };
+		18487E46134A8769004E7D00 /* illustration.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = illustration.frag; path = shaders/illustration.frag; sourceTree = "<group>"; };
+		18487E47134A8769004E7D00 /* illustration.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = illustration.vert; path = shaders/illustration.vert; sourceTree = "<group>"; };
+		18487E48134A8769004E7D00 /* skeletalIllustration.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalIllustration.frag; path = shaders/skeletalIllustration.frag; sourceTree = "<group>"; };
+		18487E49134A8769004E7D00 /* skeletalIllustration.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalIllustration.vert; path = shaders/skeletalIllustration.vert; sourceTree = "<group>"; };
 		185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = msb_Icon_PNG.icns; path = classes/macosx/msb_Icon_PNG.icns; sourceTree = "<group>"; };
 		185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Moviesandbox-Info.plist"; sourceTree = "<group>"; };
 		185F436F1116097D007024FB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
@@ -1148,6 +1156,10 @@
 		186069D011771CAC008D43C2 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				18487E46134A8769004E7D00 /* illustration.frag */,
+				18487E47134A8769004E7D00 /* illustration.vert */,
+				18487E48134A8769004E7D00 /* skeletalIllustration.frag */,
+				18487E49134A8769004E7D00 /* skeletalIllustration.vert */,
 				1805E918132AF9E400DF1107 /* particleHeightField.frag */,
 				1805E919132AF9E400DF1107 /* particleHeightField.vert */,
 				1892E0EA1222FE4B00F0CB0A /* drawing.frag */,
@@ -1628,6 +1640,10 @@
 				1805E91B132AF9E400DF1107 /* particleHeightField.vert in Sources */,
 				18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */,
 				18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */,
+				18487E4A134A8769004E7D00 /* illustration.frag in Sources */,
+				18487E4B134A8769004E7D00 /* illustration.vert in Sources */,
+				18487E4C134A8769004E7D00 /* skeletalIllustration.frag in Sources */,
+				18487E4D134A8769004E7D00 /* skeletalIllustration.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
