@@ -127,7 +127,7 @@ void TimelineInspector::createInspectorButtons(){
     inspectorButtons[6]->sceneShaderID="color";
     inspectorButtons[6]->scale=Vector3f(5,400,0);
 
-    loc.x=location.x + 2* listWidth +4 + 96;
+    loc.x=location.x + (2* listWidth +2) + 96;
     loc.y=location.y + 55;
     inspectorButtons[6]->color=Vector4f(0.0,0.0,0.0,1.0);
     inspectorButtons[6]->setLocation( loc );
@@ -258,9 +258,9 @@ void TimelineInspector::trigger(MsbObject* other){
 
         float myTime;
         //calculate time from scrubber position
-        myTime=((Actor*)other)->location.x - 2* (listWidth +2) - location.x;
+        myTime=((Actor*)other)->location.x - 2* (listWidth +2) - (location.x + 96);
         if (myTime<0.0){
-            ((Actor*)other)->setLocation( Vector3f( location.x + 2* (listWidth +2), ((Actor*)other)->location.y, 0.0) );
+            ((Actor*)other)->setLocation( Vector3f( location.x + 2* (listWidth +2)+ 96, ((Actor*)other)->location.y, 0.0) );
             return;
         }
 

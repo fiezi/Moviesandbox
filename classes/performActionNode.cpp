@@ -65,8 +65,7 @@ void PerformActionNode::execute(){
 
             if (dynamic_cast<SkeletalActor*>(applyTo))
                 interpolator->bInterpolateMatrix=true;
-            else
-                interpolator->bInterpolateVectors=true;
+            interpolator->bInterpolateTransform=true;
 
             interpolator->startTime=renderer->currentTime;
             interpolator->keyFrames=sceneData->actionList[myAction]->keyFrames;
@@ -75,8 +74,7 @@ void PerformActionNode::execute(){
              //apply current Location/rotation if we want our action to be performed relative
             if (bRelative){
                 //starts new ation from the position/rotation the actor is currently in
-                interpolator->baseLocation=applyTo->location - sceneData->actionList[myAction]->keyFrames[0]->locationKey;
-                interpolator->baseRotation=applyTo->rotation - sceneData->actionList[myAction]->keyFrames[0]->rotationKey;
+                interpolator->baseTransform=applyTo->transformMatrix * (sceneData->actionList[myAction]->keyFrames[0]->transformKey).inverse();
                 interpolator->baseMatrix=applyTo->transformMatrix;
 
                 //apply current bone matrices if we want our action to be performed relative

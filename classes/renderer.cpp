@@ -1301,8 +1301,10 @@ void Renderer::drawActor(Actor* a){
     glBlendFunc(a->blendModeOne,a->blendModeTwo);
     //glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
-	//glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	glBlendFuncSeparate(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    //if (!bShadowPass)
+    //    glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    //else
+        glBlendFuncSeparate(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor Blending Setup...");

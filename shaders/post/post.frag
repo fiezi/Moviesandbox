@@ -49,7 +49,7 @@ varying vec2 texCoord;
     float stepsize = 2.0;          //distance of next point in pixels
 
 	float aoMultiplier=10.0;        //progressive darkening
-	float falloff =1.15;
+	float falloff =1.015;
 
     float minDepth=0.05;           //minimum distance to take into account
     float maxDepth=6.0;            //maximum distance to take into account
@@ -300,7 +300,7 @@ vec4 smudge(vec2 coord){
 
 		float smudgeSamples=16.0;
 		float myStep=1.0/scene_size;
-        myStep=myStep* texture2D(depthTex, texCoord).a/80.0 * texture2D(depthTex, texCoord).a/80.0* texture2D(depthTex, texCoord).a/80.0;
+        myStep=myStep* texture2D(depthTex, texCoord).a;
 
 		vec2 smudge=texture2D(fxTex,coord).xy;
 

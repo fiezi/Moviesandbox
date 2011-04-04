@@ -25,17 +25,17 @@ InterpolationHelper::InterpolationHelper(){
 
     currentKey=0;
     currentKeyMatrix=0;
-    currentKeyVectors=0;
+    currentKeyTransform=0;
 
     moveTime=1.0f;
 
-    bInterpolateVectors=false;
+    bInterpolateTransform=false;
     bInterpolateMatrix=false;
     bInterpolateActor=false;
     bInterpolateProperty=false;
 
     bFinishedMatrix=false;
-    bFinishedVectors=false;
+    bFinishedTransform=false;
 }
 
 InterpolationHelper::~InterpolationHelper(){
@@ -48,8 +48,8 @@ void InterpolationHelper::interpolate(){
     if (!bInterpolateMatrix)
         bFinishedMatrix=true;
 
-    if (!bInterpolateVectors)
-        bFinishedVectors=true;
+    if (!bInterpolateTransform)
+        bFinishedTransform=true;
 
     //as long as there's work to do...
     if (!bFinished){
@@ -65,11 +65,11 @@ void InterpolationHelper::interpolate(){
                 interpolateMatrix();
 
             //location/rotation of underlying actor
-            if (bInterpolateVectors && !bFinishedVectors)
-                interpolateVectors();
+            if (bInterpolateTransform && !bFinishedTransform)
+                interpolateTransform();
 
             //only if both are finished can we be destroyed!
-			if (bFinishedMatrix && bFinishedVectors)
+			if (bFinishedMatrix && bFinishedTransform)
 				bFinished=true;
         }
 
@@ -79,25 +79,21 @@ void InterpolationHelper::interpolate(){
 void InterpolationHelper::interpolateActor(){
 
 
+    Matrix4f transformOne, transformTwo;
 
-    Vector3f locationOne, locationTwo;
-    Vector3f rotationOne, rotationTwo;
+    Matrix4f resultingTransform;
 
-    Vector3f resultingLocation, resultingRotation;
 
     currentTime=renderer->currentTime-startTime;
 
     float relativeTime=currentTime/moveTime;
 
-    locationOne=baseLocation;
-    locationTwo=targetActor->location;
-
-    rotationOne=baseRotation;
-    rotationTwo=targetActor->rotation;
+    transformOne=baseTransform;
+    transformTwo=targetActor->transformMatrix;
 
     if (currentTime>moveTime){
-        resultingLocation=locationOne.lerp(1.0,locationTwo); //calculate resulting position
-        resultingRotation=rotationOne.lerp(1.0,rotationTwo); //calculate resulting position
+        resultingTransform=transformOne.lerp(1.0,transformTwo); //calculate resulting position
+        moveActor->transformMatrix=resultingTransform;
         bFinished=true;
         return;
     }
@@ -115,20 +111,16 @@ void InterpolationHelper::interpolateActor(){
         if (bLinear)
             y=relativeTime;
 
-    resultingLocation=locationOne.lerp(y,locationTwo); //calculate resulting position
-    resultingRotation=rotationOne.lerp(y,rotationTwo); //calculate resulting position
+    resultingTransform=transformOne.lerp(y,transformTwo); //calculate resulting position
 
-    moveActor->setLocation(resultingLocation);
-    moveActor->setRotation(resultingRotation);
-
+    moveActor->transformMatrix=resultingTransform;
 }
 
-void InterpolationHelper::interpolateVectors(){
+void InterpolationHelper::interpolateTransform(){
 
-    Vector3f locationOne, locationTwo;
-    Vector3f rotationOne, rotationTwo;
+    Matrix4f transformOne, transformTwo;
 
-    Vector3f resultingLocation, resultingRotation;
+    Matrix4f resultingTransform;
 
     double timeKeyOne;
     double timeKeyTwo;
@@ -136,17 +128,17 @@ void InterpolationHelper::interpolateVectors(){
     currentTime=renderer->currentTime-startTime;
 
     //move forward if we are at end of key
-    while (currentTime> keyFrames[currentKeyVectors+1]->timeKey ){
+    while (currentTime> keyFrames[currentKeyTransform+1]->timeKey ){
     //if (currentTime> keyFrames[currentKey+1]->timeKey ){
-          currentKeyVectors++;
-          if (currentKeyVectors+1 >= (int)keyFrames.size()){
-            bFinishedVectors=true;
+          currentKeyTransform++;
+          if (currentKeyTransform+1 >= (int)keyFrames.size()){
+            bFinishedTransform=true;
             return;
             }
           }
 
-    timeKeyOne=keyFrames[currentKeyVectors]->timeKey;
-    timeKeyTwo=keyFrames[currentKeyVectors+1]->timeKey;
+    timeKeyOne=keyFrames[currentKeyTransform]->timeKey;
+    timeKeyTwo=keyFrames[currentKeyTransform+1]->timeKey;
 
     //get the time difference
     double timeDifference=timeKeyTwo-timeKeyOne;
@@ -157,30 +149,25 @@ void InterpolationHelper::interpolateVectors(){
 
 
     if (bAdditive){
-        locationOne=moveActor->location;                //
-        rotationOne=moveActor->rotation;
+        transformOne=moveActor->transformMatrix;                //
         relativeTime*=relativeTime;      //
     }else{
-        locationOne=keyFrames[currentKeyVectors]->locationKey;
-        rotationOne=keyFrames[currentKeyVectors]->rotationKey;
+        transformOne=keyFrames[currentKeyTransform]->transformKey;
     }
 
 
-    locationTwo=keyFrames[currentKeyVectors+1]->locationKey;
-    rotationTwo=keyFrames[currentKeyVectors+1]->rotationKey;
+    transformTwo=keyFrames[currentKeyTransform+1]->transformKey;
 
     //interpolate between them
-    resultingLocation=locationOne.lerp(relativeTime,locationTwo); //calculate resulting position
-    resultingRotation=rotationOne.lerp(relativeTime,rotationTwo); //calculate resulting position
+    resultingTransform=transformOne.lerp(relativeTime,transformTwo); //calculate resulting position
 
     //apply resulting position
     if (bRelative){
-        moveActor->setLocation(resultingLocation+baseLocation);
-        moveActor->setRotation(resultingRotation+baseRotation);
+        //moveActor->setLocation(resultingLocation+baseLocation);
+        //moveActor->setRotation(resultingRotation+baseRotation);
         }
     else{
-        moveActor->setLocation(resultingLocation);
-        moveActor->setRotation(resultingRotation);
+        moveActor->transformMatrix=resultingTransform;
         }
 }
 
@@ -311,12 +298,12 @@ void InterpolationHelper::interpolateMatrix(){
 void InterpolationHelper::reset(){
 
     currentKey=0;
-    currentKeyVectors=0;
+    currentKeyTransform=0;
     currentKeyMatrix=0;
 
     bFinished=false;
     bFinishedMatrix=false;
-    bFinishedVectors=false;
+    bFinishedTransform=false;
 }
 
 Matrix3f InterpolationHelper::getRotationMatrix(Matrix4f source){

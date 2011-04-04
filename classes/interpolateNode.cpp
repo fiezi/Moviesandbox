@@ -67,8 +67,7 @@ void InterpolateNode::execute(){
         lerp->targetActor=targetActor;
         lerp->moveTime=moveTime * 1000.0;
         lerp->startTime=renderer->currentTime;
-        lerp->baseLocation=moveActor->location;
-        lerp->baseRotation=moveActor->rotation;
+        lerp->baseTransform=moveActor->transformMatrix;
         lerp->bLooping=false;
         lerp->bLinear=false;
         moveActor->movers.push_back(lerp);

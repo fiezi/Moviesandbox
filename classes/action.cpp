@@ -325,21 +325,18 @@ TiXmlElement* Action::save(TiXmlElement *root){
     for (uint i=0;i<keyFrames.size();i++){
 
         TiXmlElement * property=new TiXmlElement("KEYFRAME");
-        TiXmlElement * locKeyProperty=new TiXmlElement("LOCATIONKEY");
-        TiXmlElement * rotKeyProperty=new TiXmlElement("ROTATIONKEY");
+        TiXmlElement * transformKeyProperty=new TiXmlElement("TRANSFORMKEY");
         TiXmlElement * timeKeyProperty=new TiXmlElement("TIMEKEY");
 
-            char locValue[64];
-            sprintf(locValue,"vec3f %f %f %f",keyFrames[i]->locationKey.x,keyFrames[i]->locationKey.y,keyFrames[i]->locationKey.z);
-            locKeyProperty->LinkEndChild ( new TiXmlText( locValue));
+            char transformValue[255];
+            sprintf(transformValue,"mat4f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f", keyFrames[i]->transformKey.data[0],keyFrames[i]->transformKey.data[1],keyFrames[i]->transformKey.data[2],keyFrames[i]->transformKey.data[3],
+                                                                                            keyFrames[i]->transformKey.data[4],keyFrames[i]->transformKey.data[5],keyFrames[i]->transformKey.data[6],keyFrames[i]->transformKey.data[7],
+                                                                                            keyFrames[i]->transformKey.data[8],keyFrames[i]->transformKey.data[9],keyFrames[i]->transformKey.data[10],keyFrames[i]->transformKey.data[11],
+                                                                                            keyFrames[i]->transformKey.data[12],keyFrames[i]->transformKey.data[13],keyFrames[i]->transformKey.data[14],keyFrames[i]->transformKey.data[15]);
 
-            property->LinkEndChild(locKeyProperty);
+            transformKeyProperty->LinkEndChild ( new TiXmlText( transformValue));
 
-            char rotValue[64];
-            sprintf(rotValue,"vec3f %f %f %f",keyFrames[i]->rotationKey.x,keyFrames[i]->rotationKey.y,keyFrames[i]->rotationKey.z);
-            rotKeyProperty->LinkEndChild ( new TiXmlText( rotValue));
-
-            property->LinkEndChild(rotKeyProperty);
+            property->LinkEndChild(transformKeyProperty);
 
             char timeValue[64];
             sprintf(timeValue,"float %f",keyFrames[i]->timeKey);
@@ -378,19 +375,10 @@ void Action::load(TiXmlElement* myInfo){
         key* myKey = new key;
 
         //location
-        TiXmlElement * locProperty=property->FirstChildElement("LOCATIONKEY");
-        if (locProperty && locProperty->GetText()!=NULL){
-            myKey->locationKey=readVector3f((char*)locProperty->GetText());
+        TiXmlElement * baseProperty=property->FirstChildElement("TRANSFORMKEY");
+        if (baseProperty && baseProperty->GetText()!=NULL){
+            myKey->transformKey=readMatrix4f((char*)baseProperty->GetText());
             //cout << "found new locationKey: " << myKey->locationKey << endl;
-            }
-        else
-            cout << "something wrong with KeyFrame" << endl;
-
-        //rotation
-        TiXmlElement * rotProperty=property->FirstChildElement("ROTATIONKEY");
-        if (rotProperty && rotProperty->GetText()!=NULL){
-            myKey->rotationKey=readVector3f((char*)rotProperty->GetText());
-            //cout << "found new rotationKey: " << myKey->rotationKey << endl;
             }
         else
             cout << "something wrong with KeyFrame" << endl;

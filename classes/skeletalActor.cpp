@@ -231,7 +231,7 @@ void SkeletalActor::updateShaders(){
         }
     }else{
         for (int i=0;i<(int)bones.size();i++){
-            boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
+                boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
         }
     }
 

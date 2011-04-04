@@ -193,9 +193,7 @@ struct externalInputData{
 //for keyframing and stuff...
 
 struct key{
-    Vector3f    locationKey;                        //stores location Key
-    Vector3f    rotationKey;                        //stores rotation Key
-    Vector3f    scaleKey;                           //stores scale Key
+    Matrix4f    transformKey;                        //stores location Key
     std::map<std::string,Matrix4f> boneMatrices;    //stores Matrices to all bones in a skeletalActor
     double       timeKey;                           //the key's time
     };

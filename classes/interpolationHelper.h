@@ -21,13 +21,13 @@ class InterpolationHelper{
     Actor * moveActor;
     Actor * targetActor;
 
-    bool bInterpolateVectors;
+    bool bInterpolateTransform;
     bool bInterpolateMatrix;
     bool bInterpolateProperty;
     bool bInterpolateActor;
 
     bool bFinishedMatrix;
-    bool bFinishedVectors;
+    bool bFinishedTransform;
 
     bool bRelative;
     bool bAdditive;
@@ -39,15 +39,14 @@ class InterpolationHelper{
 
     vector <key*>    keyFrames;
 
-    Vector3f    baseLocation;
-    Vector3f    baseRotation;
+    Matrix4f    baseTransform;
     Matrix4f    baseMatrix;
 
     std::map<std::string, Matrix4f> baseBoneMatrices;
 
     int currentKey;
     int currentKeyMatrix;
-    int currentKeyVectors;
+    int currentKeyTransform;
 
     double currentTime;
     double startTime;
@@ -65,7 +64,7 @@ class InterpolationHelper{
     virtual ~InterpolationHelper();
 
     virtual void interpolate();
-    virtual void interpolateVectors();
+    virtual void interpolateTransform();
     virtual void interpolateMatrix();
     virtual void interpolateActor();
 

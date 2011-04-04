@@ -54,8 +54,7 @@ void TimelineButton::update(double deltaTime){
                 }
 		}
 
-		selectedKey->locationKey=connectedActor->location;
-		selectedKey->rotationKey=connectedActor->rotation;
+		selectedKey->transformKey=connectedActor->transformMatrix;
 
         updateAction();
 		deleteKey();
@@ -205,8 +204,7 @@ void TimelineButton::clickedLeft(){
                     skeleton->bones[i]->transformMatrix=selectedKey->boneMatrices[skeleton->bones[i]->name];
 				}
 			}
-			connectedActor->setLocation(selectedKey->locationKey);
-			connectedActor->setRotation(selectedKey->rotationKey);
+			connectedActor->transformMatrix=selectedKey->transformKey;
 
 		}
 	}
@@ -275,8 +273,7 @@ void TimelineButton::createKey(float keyTime){
 			}
 		}
 
-		myKey->locationKey=connectedActor->location;
-        myKey->rotationKey=connectedActor->rotation;
+		myKey->transformKey=connectedActor->transformMatrix;
 
         selectedKey=myKey;
         cout << "TimelineButton: timekey: " << keyFrames.back()->timeKey << endl;
@@ -311,7 +308,7 @@ void TimelineButton::playTimeline(){
             interpolator.bInterpolateMatrix=true;
 		}
 
-		interpolator.bInterpolateVectors=true;
+		interpolator.bInterpolateTransform=true;
 
 		interpolator.startTime=renderer->currentTime;
         interpolator.keyFrames=keyFrames;
@@ -342,7 +339,7 @@ void TimelineButton::scrub(float scrubber){
 		if (bSkeletalTrack){
             interpolator.bInterpolateMatrix=true;
 		}
-		interpolator.bInterpolateVectors=true;
+		interpolator.bInterpolateTransform=true;
         interpolator.startTime=renderer->currentTime-scrubPos;
         interpolator.keyFrames=keyFrames;
         interpolator.reset();

@@ -46,14 +46,17 @@ void main(){
   vec4 myVertex=gl_Vertex;
   myVertex.w=1.0;
   float xC=myVertex.x;
-  myVertex.x+=0.00025*myVertex.y*sin(myVertex.y+0.01* time);
+  myVertex.x+=0.00025*myVertex.y*sin(myVertex.y+0.001* time);
   myVertex.z+=0.00025*cos(xC+0.008* time);
   myVertex.y+=0.00025*sin(myVertex.z+0.008* time);
 
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-  gl_PointSize= pointSize() * (1.15+0.15* sin(0.001* time * objectID * xC +xC)) * screensize/scene_size;
-  smudge=smudge*(gl_PointSize/30.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
+  gl_PointSize= pointSize() * (1.15+0.15* sin(0.001* time + objectID +xC+myVertex.y)) * screensize/scene_size;
+  //smudge=smudge*(gl_PointSize/30.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
+  smudge=smudge*0.25;
+  if (particleMultiplier>30.0)
+    smudge=smudge*1.5;
 
   N=gl_NormalMatrix * gl_Normal;
   picking= cameraInverse * gl_ModelViewMatrix * myVertex;
