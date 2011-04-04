@@ -829,6 +829,8 @@
 		<Unit filename="shaders\post\post.vert" />
 		<Unit filename="shaders\skeletal.frag" />
 		<Unit filename="shaders\skeletal.vert" />
+		<Unit filename="shaders\skeletalIllustration.frag" />
+		<Unit filename="shaders\skeletalIllustration.vert" />
 		<Unit filename="shaders\skinning.frag" />
 		<Unit filename="shaders\skinning.vert" />
 		<Unit filename="shaders\texture.frag" />
