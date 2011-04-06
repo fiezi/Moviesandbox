@@ -1212,6 +1212,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
                     if (sceneData->helperList[i]->name=="brush"){
                         drawActor(sceneData->helperList[i]);
+                        glDrawBuffers(4, drawBuffers);
                         continue;
                     }
                     glEnable(GL_CULL_FACE);
