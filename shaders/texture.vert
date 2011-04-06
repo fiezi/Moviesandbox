@@ -10,6 +10,8 @@ varying float zPos;
 varying vec4 picking;
 
 varying vec3 N;
+varying float backSide;
+
 /*
 *   Point Size
 */

@@ -54,9 +54,9 @@ void GridTool::keyReleased(int key){
             gridRot=0;
 
         if (gridRot==GRID_X)
-            sceneData->grid->setRotation(gridX,gridY,gridZ);
+            sceneData->grid->setRotation(-gridX,gridY,-gridZ);
         if (gridRot==GRID_Y)
-            sceneData->grid->setRotation(gridZ,gridY,gridX);
+            sceneData->grid->setRotation(-gridZ,gridY,gridX);
         if (gridRot==GRID_Z)
             sceneData->grid->setRotation(gridX,gridZ,gridY);
 

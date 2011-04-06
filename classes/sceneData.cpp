@@ -616,7 +616,7 @@ void SceneData::addGrid(){
     grid->scale=Vector3f(50,50,50);
     grid->texScale=Vector3f(10,10,10);
     grid->setLocation(Vector3f(0,25,0));
-    grid->setRotation(Vector3f(0,180,0));
+    grid->setRotation(Vector3f(0,0,0));
 
     grid->sceneShaderID="texture";
 

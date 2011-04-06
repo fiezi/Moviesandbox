@@ -361,6 +361,16 @@ void DrawTool::clearDrawing(){
  //   }
 }
 
+void DrawTool::flipNormals(){
+
+    MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
+
+    for (int i=0;i<selectedData.size();i++){
+        myData->vData[selectedData[i]].normal=-myData->vData[selectedData[i]].normal;
+    }
+
+}
+
 void DrawTool::calcLocation(){
 
     Matrix4f invmDrawing;

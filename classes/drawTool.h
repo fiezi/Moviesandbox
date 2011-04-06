@@ -50,6 +50,7 @@ public:
     virtual void deselectAllParticles();
     virtual void scaleZ(float factor);
     virtual void mergeDrawings();
+    virtual void flipNormals();
     virtual void clearDrawing();
 
     virtual void calcLocation();

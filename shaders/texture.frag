@@ -5,6 +5,7 @@ uniform int bSelected;
 uniform float objectID;
 
 varying vec3 N;
+varying float backSide;
 
 varying float zPos;
 varying vec4 picking;
@@ -14,6 +15,7 @@ void main(){
 
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
 
+    //black if not facing light
     gl_FragData[0]=color * gl_Color;//* postColor;
 
     if (bSelected==1){

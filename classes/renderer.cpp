@@ -1181,12 +1181,56 @@ void Renderer::draw3D(Layer* currentLayer){
             if (!sceneData->helperList[i]->bHidden){
 
                 if (sceneData->helperList[i]->bPickable){
+
+                    //no backface stuff for brush!
+                    if (sceneData->helperList[i]->name=="brush"){
+                        drawActor(sceneData->helperList[i]);
+                        continue;
+                    }
+                    glEnable(GL_CULL_FACE);
+
+                    // Draw Front faces
+                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
+
+                    Vector4f myColor=sceneData->helperList[i]->color;
+
+                    // Draw Back faces;
+                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
+
+                    glCullFace(GL_FRONT);
+                    drawActor(sceneData->helperList[i]);
+
+                    sceneData->helperList[i]->color=myColor;
+
+                    glDisable(GL_CULL_FACE);
+
                 }
                 else{
                     //don't draw in Z or draw normals if we're not pickable!
                     glDrawBuffers(1, drawBuffers);
+
+                    if (sceneData->helperList[i]->name=="brush"){
+                        drawActor(sceneData->helperList[i]);
+                        continue;
+                    }
+                    glEnable(GL_CULL_FACE);
+
+                    // Draw Front faces
+                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
+
+                    Vector4f myColor=sceneData->helperList[i]->color;
+
+                    // Draw Back faces;
+                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
+
+                    glCullFace(GL_FRONT);
+                    drawActor(sceneData->helperList[i]);
+
+                    sceneData->helperList[i]->color=myColor;
+                    glDisable(GL_CULL_FACE);
+
                     glDrawBuffers(4, drawBuffers);
                 }
 
@@ -1659,10 +1703,10 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
                                  1, 1,
                                  0, 1 };
 
-        GLfloat normals[] = { 0, 0, 1,
-                              0, 0, 1,
-                              0, 0, 1,
-                              0, 0, 1 };
+        GLfloat normals[] = { 0, 0, -1,
+                              0, 0, -1,
+                              0, 0, -1,
+                              0, 0, -1 };
         GLfloat vColor[] ={ color.r, color.g, color.b, color.a,
                             color.r, color.g, color.b, color.a,
                             color.r, color.g, color.b, color.a,
