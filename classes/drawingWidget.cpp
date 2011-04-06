@@ -112,7 +112,8 @@ void DrawingWidget::trigger(MsbObject* other){
     if (other->name=="Select Drawing"){
         if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
             //save old drawing
-            sceneData->controller->myTools[TOOL_DRAW]->save();
+            if (sceneData->brush->drawing)
+                sceneData->drawTool->save();
             //select new drawing
             drawTool->stop();
             sceneData->specialSelected=input->worldTarget;

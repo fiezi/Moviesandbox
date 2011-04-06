@@ -7,10 +7,6 @@ class ParticleSelectTool: public DrawTool{
 
 public:
 
-    vector<int> selectedData;
-    vector<Vector4f>  selectedOldColors;
-
-
     ParticleSelectTool();
     virtual ~ParticleSelectTool();
 
@@ -23,6 +19,7 @@ public:
 
     virtual void paint();
     virtual void erase();
+
 
 };
 #endif // PARTICLESELECTTOOL

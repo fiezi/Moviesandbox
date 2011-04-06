@@ -147,9 +147,6 @@ public:
         string backgroundTex;
         Vector4f backgroundColor;
 
-        Actor* grid;                        //direct pointer to Grid
-        Brush* brush;                       //direct pointer to Brush
-
         int frames;                         //amount of frames rendered
         double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
@@ -167,6 +164,11 @@ public:
 
        //Interface related - refactored from Input
 
+        Actor* grid;                        //direct pointer to Grid
+        Brush* brush;                       //direct pointer to Brush
+
+        NavTool*            navTool;        //pointer to navTool for convenience
+        DrawTool*           drawTool;       //pointer to drawTool for convenience
 
         Control*            controller;
         Console*            console;

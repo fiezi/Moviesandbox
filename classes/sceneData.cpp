@@ -261,6 +261,9 @@ SceneData::SceneData(){
     grid=NULL;                        //direct pointer to Grid
     brush=NULL;                       //direct pointer to Brush
 
+    drawTool=NULL;
+    navTool=NULL;
+
 	frames=0;
     currentTime=0.0;
 	deltaTime=0.0;
@@ -507,6 +510,9 @@ void SceneData::createScene(){
     input->setup();          //controller gets created here!
     controller->setup();
 
+    //set convenience pointers to drawTool and navTool in sceneData:
+    navTool=(NavTool*)controller->myTools[TOOL_NAV];
+    drawTool=(DrawTool*)controller->myTools[TOOL_DRAW];
 
     //setting up menu
     cout << "setting up menu" << endl;
@@ -723,8 +729,8 @@ int SceneData::readSharedMemory(){
 
 void SceneData::updateView(){
 
-((NavTool*)controller->myTools[TOOL_NAV])->processRotation(0.0);
-((NavTool*)controller->myTools[TOOL_NAV])->processMove(0.0);
+    navTool->processRotation(0.0);
+    navTool->processMove(0.0);
 
 }
 

@@ -57,6 +57,8 @@ void Control::setup(){
 
     ((DrawTool*)myTools[5])->filters.push_back(new CalligraphyFilter((DrawTool*)myTools.back()));
     ((DrawTool*)myTools[5])->highlightBtn="Draw Calligraphy";
+
+
 }
 
 void Control::update(double deltaTime){

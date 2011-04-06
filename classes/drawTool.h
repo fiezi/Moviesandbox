@@ -19,9 +19,6 @@ public:
     bool bDrawing;
 	bool bStartStroke;
 
-    vector<int> selectedData;
-    vector<Vector4f>  selectedOldColors;
-
     vector<BrushFilter*> filters;
 
     DrawTool();

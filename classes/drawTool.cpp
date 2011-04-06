@@ -277,9 +277,9 @@ void DrawTool::selectParticles(){
         if ( brush->scale.x>distance.length() ){
 
             //first one gets a free ride!
-            if (selectedData.size()==0){
-                selectedData.push_back(i);
-                selectedOldColors.push_back(myData->vData[i].color);
+            if (brush->selectedData.size()==0){
+                brush->selectedData.push_back(i);
+                brush->selectedOldColors.push_back(myData->vData[i].color);
                 myData->vData[i].color=Vector4f(1.0,0.0,0.0,1.0);
             }
             bool bAlreadySelected=false;
@@ -288,15 +288,15 @@ void DrawTool::selectParticles(){
             for (int j=0;j<(int)brush->selectedData.size();j++){
                 if (brush->selectedData[j]==i){
                     bAlreadySelected=true;
-                    cout << "already selected!" << selectedData.size() << endl;
+                    cout << "already selected!" << brush->selectedData.size() << endl;
                 }
             }
 
             if (!bAlreadySelected){
-                selectedData.push_back(i);
-                selectedOldColors.push_back(myData->vData[i].color);
-                cout << "selecting: " << selectedData.size() << endl;
-                cout << "storing color: " << selectedOldColors.size() << " " <<selectedOldColors.back() << endl;
+                brush->selectedData.push_back(i);
+                brush->selectedOldColors.push_back(myData->vData[i].color);
+                //cout << "selecting: " << brush->selectedData.size() << endl;
+                //cout << "storing color: " << brush->selectedOldColors.size() << " " <<brush->selectedOldColors.back() << endl;
                 myData->vData[i].color=Vector4f(1.0,0.0,0.0,1.0);
             }
         }
@@ -365,8 +365,8 @@ void DrawTool::flipNormals(){
 
     MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 
-    for (int i=0;i<selectedData.size();i++){
-        myData->vData[selectedData[i]].normal=-myData->vData[selectedData[i]].normal;
+    for (int i=0;i<brush->selectedData.size();i++){
+        myData->vData[brush->selectedData[i]].normal=-myData->vData[brush->selectedData[i]].normal;
     }
 
 }

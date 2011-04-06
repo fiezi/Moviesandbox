@@ -141,6 +141,20 @@ void BrushInspector::assembleList(){
         listButton.push_back(normalAssign);
 
         normalAssign = new AssignButton;
+        normalAssign->name="flip normals";
+        normalAssign->parent=this;
+        normalAssign->bPermanent=true;
+        normalAssign->level=level+1;
+        normalAssign->setLocation(location+Vector3f(140,250,0));
+        normalAssign->initialLocation=normalAssign->location;
+        normalAssign->scale=Vector3f(32,32,1);
+        normalAssign->textureID="normals_front";
+        normalAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(normalAssign);
+        listButton.push_back(normalAssign);
+
+        normalAssign = new AssignButton;
         normalAssign->name="normals follow drawing";
         normalAssign->parent=this;
         normalAssign->bPermanent=true;
@@ -157,6 +171,10 @@ void BrushInspector::assembleList(){
 }
 
 void BrushInspector::trigger(MsbObject* other){
+
+    if (other->name=="flip normals"){
+        sceneData->drawTool->flipNormals();
+    }
 
     if (other->name=="brush scale"){
         sceneData->brush->scale.x= pow(0.4+ ((SliderButton*)other)->sliderValue,2.0) ;
