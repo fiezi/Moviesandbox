@@ -156,7 +156,7 @@ vec4 shadowMapping(){
             vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.a;
 			//myLight +=max(0.0,(1.0 - falloff))	* computeLight();
-			myLight+= ( min (1.0,max( 0.0,(0.25 *shadowColor.a-falloff)/(0.25*shadowColor.a) ) ) ) * computeLight( );
+			myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
     }
 
   return myLight;

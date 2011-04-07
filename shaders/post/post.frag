@@ -44,7 +44,7 @@ varying vec2 texCoord;
 
 	float ao = 0.0;                 //ambient AO
 
-    float samples = 8.0;            //number of sample circles
+    float samples = 6.0;            //number of sample circles
 	float circleRes= 8.0;           //samples per circle
     float stepsize = 2.0;          //distance of next point in pixels
 
@@ -52,7 +52,7 @@ varying vec2 texCoord;
 	float falloff =1.015;
 
     float minDepth=0.05;           //minimum distance to take into account
-    float maxDepth=6.0;            //maximum distance to take into account
+    float maxDepth=10.0;            //maximum distance to take into account
 
 
     float aspect =45.0;             //field of view ratio
