@@ -182,10 +182,7 @@ int main(int argc, char** argv){
 
     createSplashScreen();
 
-    if (argc>0)
-        renderManager=X1600Renderer::getInstance();
-    else
-        selectRenderer();
+    selectRenderer();
 
     sceneDataManager=SceneData::getInstance();
 	inputManager=Input::getInstance();
