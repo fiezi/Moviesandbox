@@ -16,7 +16,7 @@ bNormalFollowDrawing=true;
 intensity= 1.0;
 
 color=Vector4f(1,1,1,1);
-scale=Vector3f(0.25,0.25,0.25);
+scale=Vector3f(1.0,1.0,1.0);
 pNormal=Vector3f(0.0,0.0,1.0);
 
 
