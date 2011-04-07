@@ -169,6 +169,7 @@ public:
 
         NavTool*            navTool;        //pointer to navTool for convenience
         DrawTool*           drawTool;       //pointer to drawTool for convenience
+        GridTool*           gridTool;       //pointer to gridTool for convenience
 
         Control*            controller;
         Console*            console;

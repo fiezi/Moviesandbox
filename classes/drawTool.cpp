@@ -365,7 +365,7 @@ void DrawTool::flipNormals(){
 
     MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 
-    for (int i=0;i<brush->selectedData.size();i++){
+    for (int i=0;i<(int)brush->selectedData.size();i++){
         myData->vData[brush->selectedData[i]].normal=-myData->vData[brush->selectedData[i]].normal;
     }
 

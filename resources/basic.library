@@ -75,6 +75,13 @@
     <Texture textureID="normals_front" filename="resources/icons/normals_front.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="normals_back" filename="resources/icons/normals_back.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="normals_follow_drawing" filename="resources/icons/normals_follow_drawing.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_world" filename="resources/icons/normals_world.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_flip" filename="resources/icons/normals_flip.tga" bAlpha="1" bWrap="1"/>
+
+
+    <Texture textureID="icon_gridXY" filename="resources/icons/icon_gridXY.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_gridXZ" filename="resources/icons/icon_gridXZ.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_gridZY" filename="resources/icons/icon_gridZY.tga" bAlpha="1" bWrap="1"/>
 
     <Texture textureID="icon_kinect" filename="resources/icons/icon_kinect.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="icon_importBitmap" filename="resources/icons/icon_importBitmap.tga" bAlpha="1" bWrap="1"/>

@@ -263,6 +263,7 @@ SceneData::SceneData(){
 
     drawTool=NULL;
     navTool=NULL;
+    gridTool=NULL;
 
 	frames=0;
     currentTime=0.0;
@@ -513,6 +514,7 @@ void SceneData::createScene(){
     //set convenience pointers to drawTool and navTool in sceneData:
     navTool=(NavTool*)controller->myTools[TOOL_NAV];
     drawTool=(DrawTool*)controller->myTools[TOOL_DRAW];
+    gridTool=(GridTool*)controller->myTools[TOOL_GRID];
 
     //setting up menu
     cout << "setting up menu" << endl;

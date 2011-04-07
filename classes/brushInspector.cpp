@@ -134,7 +134,7 @@ void BrushInspector::assembleList(){
         normalAssign->setLocation(location+Vector3f(105,250,0));
         normalAssign->initialLocation=normalAssign->location;
         normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_front";
+        normalAssign->textureID="normals_world";
         normalAssign->color=Vector4f(1,1,1,1);
 
         sceneData->buttonList.push_back(normalAssign);
@@ -148,7 +148,7 @@ void BrushInspector::assembleList(){
         normalAssign->setLocation(location+Vector3f(140,250,0));
         normalAssign->initialLocation=normalAssign->location;
         normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_front";
+        normalAssign->textureID="normals_flip";
         normalAssign->color=Vector4f(1,1,1,1);
 
         sceneData->buttonList.push_back(normalAssign);
@@ -168,9 +168,91 @@ void BrushInspector::assembleList(){
         sceneData->buttonList.push_back(normalAssign);
         listButton.push_back(normalAssign);
 
+    ///Grid specific buttons
+
+        AssignButton* gridAssign = new AssignButton;
+        gridAssign->name="Grid Plane XY";
+        gridAssign->parent=this;
+        gridAssign->bPermanent=true;
+        gridAssign->level=level+1;
+        gridAssign->setLocation(location+Vector3f(35,350,0));
+        gridAssign->initialLocation=gridAssign->location;
+        gridAssign->scale=Vector3f(32,32,1);
+        gridAssign->textureID="icon_gridXY";
+        gridAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(gridAssign);
+        listButton.push_back(gridAssign);
+
+        gridAssign = new AssignButton;
+        gridAssign->name="Grid Plane ZY";
+        gridAssign->parent=this;
+        gridAssign->bPermanent=true;
+        gridAssign->level=level+1;
+        gridAssign->setLocation(location+Vector3f(70,350,0));
+        gridAssign->initialLocation=gridAssign->location;
+        gridAssign->scale=Vector3f(32,32,1);
+        gridAssign->textureID="icon_gridZY";
+        gridAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(gridAssign);
+        listButton.push_back(gridAssign);
+
+        gridAssign = new AssignButton;
+        gridAssign->name="Grid Plane XZ";
+        gridAssign->parent=this;
+        gridAssign->bPermanent=true;
+        gridAssign->level=level+1;
+        gridAssign->setLocation(location+Vector3f(105,350,0));
+        gridAssign->initialLocation=gridAssign->location;
+        gridAssign->scale=Vector3f(32,32,1);
+        gridAssign->textureID="icon_gridXZ";
+        gridAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(gridAssign);
+        listButton.push_back(gridAssign);
+
+        gridAssign = new AssignButton;
+        gridAssign->name="flip Grid";
+        gridAssign->parent=this;
+        gridAssign->bPermanent=true;
+        gridAssign->level=level+1;
+        gridAssign->setLocation(location+Vector3f(140,350,0));
+        gridAssign->initialLocation=gridAssign->location;
+        gridAssign->scale=Vector3f(32,32,1);
+        gridAssign->textureID="icon_gridZY";
+        gridAssign->color=Vector4f(1,1,1,1);
+
+        sceneData->buttonList.push_back(gridAssign);
+        listButton.push_back(gridAssign);
+
 }
 
 void BrushInspector::trigger(MsbObject* other){
+
+    if (other->name=="Grid Plane XY"){
+        sceneData->gridTool->gridRot=GRID_X-1;
+        sceneData->gridTool->keyReleased('.');
+    }
+
+    if (other->name=="Grid Plane ZY"){
+        sceneData->gridTool->gridRot=GRID_Y-1;
+        sceneData->gridTool->keyReleased('.');
+    }
+
+    if (other->name=="Grid Plane XZ"){
+        sceneData->gridTool->gridRot=GRID_Z-1;
+        sceneData->gridTool->keyReleased('.');
+    }
+
+    if (other->name=="flip Grid"){
+
+        if (sceneData->gridTool->gridRot==GRID_Z)
+            sceneData->grid->addRotation(180,Vector3f(1,0,0));
+        else
+            sceneData->grid->addRotation(180,Vector3f(0,1,0));
+
+    }
 
     if (other->name=="flip normals"){
         sceneData->drawTool->flipNormals();
