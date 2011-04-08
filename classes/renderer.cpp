@@ -355,7 +355,7 @@ void Renderer::setup(){
     #endif
 
     //shared memory texture
-    createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
+    //createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
     //This was used for the promo video to get better framerates for kinect live-feed.
     //will make it in some time, but not now...
