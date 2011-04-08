@@ -68,6 +68,9 @@ void DrawingWidget::closeWidget(){
 void DrawingWidget::trigger(MsbObject* other){
 
     if (other->name=="New Drawing" && (sceneData->controller->tool==TOOL_DRAW || sceneData->controller->tool==TOOL_CALLIGRAPHY) ){
+        //save old drawing first!
+        if (sceneData->brush->drawing)
+            sceneData->controller->currentTool->save();
         sceneData->makeUserPopUp("Name your new drawing:",this);
     }
 
