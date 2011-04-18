@@ -2220,6 +2220,10 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
 
     FreeImage_FlipVertical(myBitmap);
 
+
+    if (FreeImage_GetBPP(myBitmap)<32)
+        bAlpha=false;
+
     //allocate texture List
     glGenTextures( 1, &texture );
 

@@ -247,6 +247,13 @@ void Content::createPropList(int x, int y){
     lbut->listProp.push_back("9BoneActor");
     lbut->listIcon.push_back("icon_target");
 
+#ifdef TARGET_WIN32
+    lbut->listType.push_back("17CreateActorButton");
+    lbut->listName.push_back("place videoTexture");
+    lbut->listProp.push_back("17VideoTextureActor");
+    lbut->listIcon.push_back("icon_camera");
+#endif
+
     lbut->listType.push_back("17CreateActorButton");
     lbut->listName.push_back("place light");
     lbut->listProp.push_back("8MsbLight");

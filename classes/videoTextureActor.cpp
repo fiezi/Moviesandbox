@@ -11,6 +11,7 @@ VideoTextureActor::VideoTextureActor(){
     sceneShaderID="texture";
     textureID="videoTexture";
     drawType = DRAW_PLANE;
+    bTextured= true;
     registerProperties();
 
 }
@@ -33,7 +34,6 @@ void VideoTextureActor::setup(){
 
 player=new ofVideoPlayer;
 loadMovie("resources/"+videoInfo);
-
 player->setSpeed(playSpeed);     //44 to 48 kHz problem...
 Actor::setup();
 //player->setLoopState(OF_LOOP_NONE);

@@ -22,6 +22,10 @@
 #include "character.h"
 #include "characterController.h"
 
+#ifdef TARGET_WIN32
+    #include "videoTextureActor.h"
+#endif
+
 #include "msbLight.h"
 
 //#include "videoTextureActor.h"
@@ -158,6 +162,9 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new MsbLight);
 
+    #ifdef TARGET_WIN32
+    createActorID(new VideoTextureActor);
+    #endif
 
     ////buttons
     createActorID(new BasicButton);
