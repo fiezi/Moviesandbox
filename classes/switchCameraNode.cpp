@@ -4,6 +4,7 @@
 #include "control.h"
 #include "renderer.h"
 #include "input.h"
+#include "cameraActor.h"
 
 SwitchCameraNode::SwitchCameraNode(){
 
@@ -32,7 +33,7 @@ void SwitchCameraNode::start(){
 
     if (cameraActor){
         cameraActor->drawType=DRAW_NULL;
-        controller->switchTool(TOOL_NAV);
+        //controller->switchTool(TOOL_NAV);
         sceneData->updateView();
     }
     Node::start();
@@ -41,16 +42,24 @@ void SwitchCameraNode::start(){
 void SwitchCameraNode::stop(){
 
     if (cameraActor){
-        controller->switchTool(TOOL_SELECT);
+        //controller->switchTool(TOOL_SELECT);
         cameraActor->drawType=DRAW_VBOMESH;
         Node::stop();
         sceneData->controller->controlledActor=sceneData->controller;
+        CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
+        if (cA)
+            renderer->fov=45;
     }
+
 }
 
 void SwitchCameraNode::execute(){
     sceneData->controller->controlledActor=cameraActor;
     sceneData->updateView();
+    CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
+    if (cA)
+        renderer->fov=cA->fov;
+
     nextNode();
 }
 

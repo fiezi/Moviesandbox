@@ -11,6 +11,7 @@ CameraActor::CameraActor(){
     bPossessed=false;
     bCameraShake=false;
 
+    fov=45;
     name="camera";
     sceneShaderID="color";
 
@@ -28,6 +29,7 @@ void CameraActor::registerProperties(){
 
 
 createMemberID("BCAMERASHAKE",&bCameraShake,this);
+createMemberID("FOV",&fov,this);
 Actor::registerProperties();
 }
 
@@ -47,6 +49,7 @@ void CameraActor::trigger(MsbObject* other){
         drawType=DRAW_NULL;
         bPossessed=true;
         sceneData->updateView();
+        renderer->fov=fov;
         //sceneData->controller->toggleFlyMode();
     }
     else{
@@ -63,6 +66,7 @@ void CameraActor::update(double deltaTime){
     if (bPossessed && input->startPressLeftBtn>0){
         bPossessed=false;
         sceneData->controller->controlledActor=sceneData->controller;
+        renderer->fov=45;
 
         drawType=DRAW_VBOMESH;
         sceneData->updateView();

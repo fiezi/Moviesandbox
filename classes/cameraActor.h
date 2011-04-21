@@ -13,6 +13,8 @@ public:
     bool bPossessed;
     bool bCameraShake;
 
+    float fov;
+
     CameraActor();
     virtual ~CameraActor();
 
