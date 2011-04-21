@@ -270,7 +270,7 @@ void BrushInspector::trigger(MsbObject* other){
         cout << "triggered from pickColor!" << endl;
         color=Vector4f( max(min(color.r, 1.0f),0.0f),max(min(color.g, 1.0f),0.0f), max(min(color.b, 1.0f),0.0f), max(min(color.a, 1.0f),0.0f) );
         colorSwatches[currentSwatch]->color=color;
-        sceneData->brush->color=color;
+        sceneData->brush->setColor(color);
         color=Vector4f(1.0,0.6,0.1,1.0);
     }
 

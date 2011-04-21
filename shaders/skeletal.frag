@@ -21,7 +21,7 @@ float PI = 3.14159265358979323846264;
 
 void main(){
 
-    gl_FragData[0]=gl_Color;
+    gl_FragData[0]=gl_Color * postColor;
     //gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
     if (bSelected==1){

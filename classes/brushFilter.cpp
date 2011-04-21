@@ -85,6 +85,7 @@ void BrushFilter::filter(vertexData* myVData){
     }
 
 
+
     myVData->color=brush->color;
 
     //standard bone references - nothing (set to -1)

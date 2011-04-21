@@ -2219,6 +2219,7 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
     FIBITMAP * myBitmap = FreeImage_Load(FIF_TARGA,filename.c_str(),0);
 
     FreeImage_FlipVertical(myBitmap);
+    //FreeImage_FlipHorizontal(myBitmap);
 
 
     if (FreeImage_GetBPP(myBitmap)<32)

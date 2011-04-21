@@ -1,5 +1,4 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <Video vidFilename="resources/videos/fingers.mov" />
-    <Video vidFilename="resources/videos/actionFig1.mov" />
+    <Video vidFilename="resources/videos/actionFig1.MOV" />
 </Moviesandbox>
