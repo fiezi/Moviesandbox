@@ -1012,8 +1012,10 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         ///loop from here for every shadowed light!
 
-        for (int i=0;i<(int)sceneData->lightList.size(); i++){
-            sceneData->lightList[i]->drawType=DRAW_NULL;
+        if (!sceneData->controller->bRunning){
+            for (int i=0;i<(int)sceneData->lightList.size(); i++){
+                sceneData->lightList[i]->drawType=DRAW_NULL;
+            }
         }
 
         for (int i=0;i<(int)sceneData->lightList.size(); i++){
@@ -1077,10 +1079,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         }             //repeat for every shadowed light!
 
-        for (int i=0;i<(int)sceneData->lightList.size(); i++){
-            sceneData->lightList[i]->drawType=DRAW_SPRITE;
+        if (!sceneData->controller->bRunning){
+            for (int i=0;i<(int)sceneData->lightList.size(); i++){
+                sceneData->lightList[i]->drawType=DRAW_SPRITE;
+            }
         }
-
         //glPopAttrib();
 
         //set our textureID to lighting pass
@@ -1386,9 +1389,9 @@ void Renderer::drawActor(Actor* a){
         else if (a->drawType==DRAW_SPECIAL)     a->draw();
         //else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
         else if (a->drawType==DRAW_POINTPATCH){
-                                        a->vboMeshID="kinectWall";
-                                        drawColladaMesh(a);
-                                        }
+                                                a->vboMeshID="kinectWall";
+                                                drawColladaMesh(a);
+                                               }
 
 
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
