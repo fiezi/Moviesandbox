@@ -8,6 +8,7 @@ class SwitchCameraNode: public Node{
 public:
 
     Actor* cameraActor;
+    float focus;
 
     SwitchCameraNode();
     ~SwitchCameraNode();

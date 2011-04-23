@@ -10,10 +10,16 @@ SwitchCameraNode::SwitchCameraNode(){
 
     name="SwitchCam";
     cameraActor=NULL;
+    focus=15.0;
 
     listType.push_back("15PickWorldButton");
     listName.push_back("cameraActor");
     listProp.push_back("CAMERAACTOR");
+    listIcon.push_back("icon_flat");
+
+    listType.push_back("15TextInputButton");
+    listName.push_back("focus");
+    listProp.push_back("FOCUS");
     listIcon.push_back("icon_flat");
 
     color=Vector4f(0.5,0.5,0.5,1.0);
@@ -27,6 +33,7 @@ void SwitchCameraNode::registerProperties(){
 
 Node::registerProperties();
 createMemberID("CAMERAACTOR",&cameraActor,this);
+createMemberID("FOCUS",&focus,this);
 }
 
 void SwitchCameraNode::start(){
@@ -49,6 +56,7 @@ void SwitchCameraNode::stop(){
         CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
         if (cA)
             renderer->fov=45;
+        renderer->focus=25.0;
     }
 
 }
@@ -60,6 +68,7 @@ void SwitchCameraNode::execute(){
     if (cA)
         renderer->fov=cA->fov;
 
+    renderer->focus=focus;
     nextNode();
 }
 

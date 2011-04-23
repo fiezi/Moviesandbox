@@ -609,13 +609,15 @@ void SceneData::addLayer(string layerName){
         Layer* lay = new Layer;
         lay->setup();
         lay->name=layerName;
-        lay->textureID=lay->name+"_Color";
+        lay->sceneTextureID=lay->name+"_Scene";
+        lay->colorTextureID=lay->name+"_Color";
         lay->depthTextureID=lay->name+"_Depth";
         lay->pickTextureID=lay->name+"_Pick";
 		lay->lightDataTextureID=lay->name+"_lightData";
 
         layerList.push_back(lay);
-        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->textureID);
+        renderer->createFBO(&(lay->sceneFBO), &(lay->sceneTex), NULL, renderer->scene_size, false, lay->sceneTextureID);
+        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->colorTextureID);
         renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->scene_size, false, lay->depthTextureID);
         renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->scene_size, false, lay->pickTextureID);
 		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->scene_size, false, lay->lightDataTextureID);

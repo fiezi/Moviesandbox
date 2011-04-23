@@ -53,6 +53,7 @@ public:
             bUseBlending,
             bMultisample,                   //Multisample FBOs
             bSSAO,                          //draw screen-space ambient occlusion
+            bDOF,                           //draw Depth of Field
             bDrawColor,                     //draw basic Color image (would be lighting only if false)
             bShadowPass;                    //currently rendering shadows
 
@@ -73,6 +74,8 @@ public:
        float frustumTop,frustumBottom;      //viewFrustum for 3D stuff
        float eyeDistance;                   //eyeDistance for 3D rendering
        float bkgOffset;                     //eyeDistance for 3D rendering
+
+       float focus;                         //camera focus distance
 
        int      screenX,
                 screenY,
@@ -111,6 +114,9 @@ public:
         GLuint  depth_fb;
         int     depth_size;
 
+
+        GLuint  scene_tx;
+        GLuint  scene_fb;
         int     scene_size;
 
         //Frame Buffer Object for Right Eye Rendering

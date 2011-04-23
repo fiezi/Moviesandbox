@@ -7,9 +7,14 @@ class Layer: public BasicButton{
 
 public:
 
+    std::string sceneTextureID;
+    std::string colorTextureID;
     std::string depthTextureID;
     std::string pickTextureID;
     std::string lightDataTextureID;
+
+    GLuint sceneFBO;
+    GLuint sceneTex;
 
     GLuint depthFBO;
     GLuint depthTex;

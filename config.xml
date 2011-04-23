@@ -2,22 +2,22 @@
 <Moviesandbox>
 
      <Rendersettings
-      WindowSizeX="1024"
-      WindowSizeY="768"
-      ScreenSizeX="1024"
-      ScreenSizeY="768"
+      WindowSizeX="1280"
+      WindowSizeY="720"
+      ScreenSizeX="1280"
+      ScreenSizeY="720"
       bRenderStereo="0"
 
-      bFullScreen="0"
+      bFullScreen="1"
 
       BackgroundTex="background"
 
       bDrawLighting="1"
-      bMultisample="0"
+      bMultisample="1"
       numSamples="2"
 
-      ShadowSize="256"
-      LightingSize="512"
+      ShadowSize="1024"
+      LightingSize="1024"
       SceneSize="1024"
 
       MouseSensitivity="0.04"

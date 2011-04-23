@@ -120,6 +120,7 @@
     <Shader shaderID="skeletal" vertexShaderFilename="shaders/skeletal.vert" fragmentShaderFilename="shaders/skeletal.frag" />
     <Shader shaderID="skeletalIllustration" vertexShaderFilename="shaders/skeletalIllustration.vert" fragmentShaderFilename="shaders/skeletalIllustration.frag" />
 
+    <Shader shaderID="dof" vertexShaderFilename="shaders/post/dof.vert" fragmentShaderFilename="shaders/post/dof.frag" />
     <Shader shaderID="post" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/post.frag" />
     <Shader shaderID="deferredLight" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/deferredLight.frag" />
 

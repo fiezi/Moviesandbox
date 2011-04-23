@@ -11,11 +11,13 @@ Layer::Layer(){
 	pickTextureID="NULL";
 	lightDataTextureID="NULL";
 
+    sceneTex=0;
 	depthTex=0;
 	colorTex=0;
 	pickTex=0;
 	lightDataTex=0;
 
+    sceneFBO=0;
 	depthFBO=0;
 	colorFBO=0;
 	pickFBO=0;
@@ -116,6 +118,9 @@ void Layer::updateShaders(){
 
     if (myShader->uniforms.find("bDrawColor") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bDrawColor"],renderer->bDrawColor);
+
+    if (myShader->uniforms.find("focus") != myShader->uniforms.end())
+        glUniform1f(myShader->uniforms["focus"],renderer->focus);
 
    BasicButton::updateShaders();
 

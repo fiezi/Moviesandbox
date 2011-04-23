@@ -134,6 +134,8 @@ Renderer::Renderer(){
     bSSAO=false;
     bDrawColor=true;
     bShadowPass=false;
+    bDOF=false;
+
 
     bFullscreen=false;
     bUpdatePhysics=false;
@@ -151,6 +153,7 @@ Renderer::Renderer(){
 	windowPosX=0;
 	windowPosY=0;
     fov=45;
+    focus=25.0;
 
     frustumTop=0.083;
     frustumBottom=-0.083;
@@ -165,6 +168,8 @@ Renderer::Renderer(){
     depth_fb = 0;
     depth_size = 512;
 
+    scene_tx = 0;
+    scene_fb = 0;
     scene_size = 512;
 
     multiSample_fb = 0;
@@ -317,8 +322,9 @@ void Renderer::setup(){
 	createFBO(&multiSample_fb, NULL, &multiSample_db, scene_size, false, "multisampleBuffer");
 
     //framebuffer and texture to store global lighting and shadow information
-    createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting");
+    createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
+    createFBO(&scene_fb, &scene_tx, NULL, scene_size, false, "scene");
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("FBO Error check...");
@@ -726,39 +732,86 @@ void Renderer::draw(){
 	glLoadIdentity();
     glActiveTexture(GL_TEXTURE0);
 
-    //clear to color here!
+
+	/////////////////////////////////////////////////////
+    /// Final Composite
+    /////////////////////////////////////////////////////
 
     glClearColor(sceneData->backgroundColor.r,sceneData->backgroundColor.g,sceneData->backgroundColor.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    drawBackground();
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    /*
-	 *	Draw Final Image
-	 */
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("pre-Lighting");
     #endif
 
+
     for (int i=0;i<(int)sceneData->layerList.size();i++){
+
+
+    #ifdef BDEBUGRENDERER
+    checkOpenGLError("init finalFrame");
+    #endif
+
+        sceneData->layerList[i]->textureID=sceneData->layerList[i]->colorTextureID;
 
 		if (bDrawLighting){
             drawDeferredLighting(sceneData->layerList[i]);
+        }
+        else{
+            sceneData->layerList[i]->sceneShaderID="texture";
+        }
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-Lighting");
             #endif
-        }
-        else
-            sceneData->layerList[i]->sceneShaderID="texture";
+
+
+        //draw into FBO for post-production
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, sceneData->layerList[i]->sceneFBO);
+        glViewport (0, 0, scene_size, scene_size);
+
+        //Draw Background here
+        drawBackground();
+        glClear(GL_DEPTH_BUFFER_BIT);
+
         //then, draw our final composite
-
-
         drawButton(sceneData->layerList[i]);
-    }
+
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
+
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("post draw Final Frame");
+    #endif
+
+
+
+            /////////////////////////////////////////////////////
+            /// Post-Production
+            /////////////////////////////////////////////////////
+
+            glViewport (0, 0, screenX, screenY);
+
+            sceneData->layerList[i]->textureID=sceneData->layerList[i]->sceneTextureID;
+            if (bDOF)
+                sceneData->layerList[i]->sceneShaderID="dof";
+            else
+                sceneData->layerList[i]->sceneShaderID="texture";
+
+
+            //bind depth        drawButton(sceneData->layerList[i]);
+
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
+
+            drawButton(sceneData->layerList[i]);
+    }//end for loop through layers
+
+
+
+
+
+    #ifdef BDEBUGRENDERER
+    checkOpenGLError("post draw PostPro-Frame");
     #endif
 
 
@@ -857,7 +910,6 @@ void Renderer::drawShadows(MsbLight* myLight){
 
     //glDisable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-	GLenum depthOnly={GL_COLOR_ATTACHMENT1_EXT};
 	//TODO: reorder draw buffers for better performance!
 	//glDrawBuffers(1,&depthOnly);
 	glDrawBuffers(2,drawBuffers);
@@ -1084,7 +1136,6 @@ void Renderer::drawDeferredLighting(Layer* layer){
                 sceneData->lightList[i]->drawType=DRAW_SPRITE;
             }
         }
-        //glPopAttrib();
 
         //set our textureID to lighting pass
         layer->textureID=oldTextureID;

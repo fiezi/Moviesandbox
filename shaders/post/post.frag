@@ -59,74 +59,6 @@ varying vec2 texCoord;
 
     float objectID=0.0;
 
-/***********************************************
-
-    Depth of Field
-
-***********************************************/
-
-/*
-*   5x5 Kernel Gaussian Blur
-*/
-
-vec4 blur(sampler2D myTex){
-
-      float spread=1.0/32.0; // * 10.0/texture2D(depthTex,texCoord).a;
-
-      tc_offset[0]=spread * vec2(-2.0,-2.0);
-      tc_offset[1]=spread * vec2(-1.0,-2.0);
-      tc_offset[2]=spread * vec2(0.0,-2.0);
-      tc_offset[3]=spread * vec2(1.0,-2.0);
-      tc_offset[4]=spread * vec2(2.0,-2.0);
-
-      tc_offset[5]=spread * vec2(-2.0,-1.0);
-      tc_offset[6]=spread * vec2(-1.0,-1.0);
-      tc_offset[7]=spread * vec2(0.0,-1.0);
-      tc_offset[8]=spread * vec2(1.0,-1.0);
-      tc_offset[9]=spread * vec2(2.0,-1.0);
-
-      tc_offset[10]=spread * vec2(-2.0,0.0);
-      tc_offset[11]=spread * vec2(-1.0,0.0);
-      tc_offset[12]=spread * vec2(0.0,0.0);
-      tc_offset[13]=spread * vec2(1.0,0.0);
-      tc_offset[14]=spread * vec2(2.0,0.0);
-
-      tc_offset[15]=spread * vec2(-2.0,1.0);
-      tc_offset[16]=spread * vec2(-1.0,1.0);
-      tc_offset[17]=spread * vec2(0.0,1.0);
-      tc_offset[18]=spread * vec2(1.0,1.0);
-      tc_offset[19]=spread * vec2(2.0,1.0);
-
-      tc_offset[20]=spread * vec2(-2.0,2.0);
-      tc_offset[21]=spread * vec2(-1.0,2.0);
-      tc_offset[22]=spread * vec2(0.0,2.0);
-      tc_offset[23]=spread * vec2(1.0,2.0);
-      tc_offset[24]=spread * vec2(2.0,2.0);
-
-
-      vec4 sample[25];
-
-      for (int i=0 ; i<25 ; i++)
-      {
-        sample[i]=texture2D(myTex , texCoord + tc_offset[i]);
-      }
-
-      vec4 blurredColor=(
-                        (1.0 * (sample[0] + sample[4] + sample[20] + sample[24])) +
-
-                        (4.0 * (sample[1] + sample[3] + sample[5] + sample[9] +
-                               sample[15] + sample[19] + sample[21] + sample[23])) +
-
-                        (7.0 * (sample[2] + sample[10] + sample[14] + sample[22])) +
-
-                        (16.0 * (sample[6] + sample[8] + sample[16] + sample[18])) +
-
-                        (26.0 * (sample[7] + sample[11] + sample[13] + sample[17])) +
-                        (41.0 * sample[12])
-                        )/ 273.0;
-      blurredColor.a=1.0;
-      return(blurredColor);
-}
 
 
 
@@ -164,36 +96,6 @@ vec4 blur3(sampler2D myTex, vec2 tc){
       //blurredColor.a=1.0;
       return(blurredColor);
 }
-
-
-/*
-*   compute Depth of Field
-*/
-
-vec4 computeDOF() {
-
-    vec4 depthValue= texture2D(depthTex, texCoord);
-
-    vec4 blurPart=blur(tex);
-
-    vec4 sharpPart=  texture2D(tex,texCoord);
-    sharpPart.a=1.0;
-
-    float focus = 5.0+ 5.0 * sin(time * 0.00051);
-    focus= 25.0;
-    float combineBack =min(1.0,depthValue.a/focus);
-    float combineFront = min(1.0,focus/depthValue.a);
-
-    float combine = min(combineFront * combineFront , combineBack * combineBack);
-    //combine = min(combineFront , combineBack);
-    combine =clamp (combine, 0.0, 1.0);
-    vec4 dofColor = (1.0-combine)* blurPart + combine * sharpPart ;
-    //dofColor=vec4(depthValue.a/100.0);
-    dofColor.a=1.0;
-
-    return dofColor;
-}
-
 
 
 
@@ -339,10 +241,10 @@ void main(void){
 
     ///color map
     if (bDrawColor)
-        gl_FragColor=texture2D(tex, texCoord);
+        gl_FragData[0]=texture2D(tex, texCoord);
     else
     ///lighting only
-        gl_FragColor=vec4(1.0,1.0,1.0,1.0);
+        gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
     objectID=ceil(texture2D(pickTex,texCoord).a);
 
@@ -351,7 +253,7 @@ void main(void){
     if (bLighting && !bSmudge){
         vec4 lightData=texture2D(shadowTex,texCoord * lighting_size/scene_size);
         if (lightData.r>=0.0)
-            gl_FragColor*=lightData;
+            gl_FragData[0]*=lightData;
     }
 
     ///blurred shadows
@@ -359,25 +261,25 @@ void main(void){
 
     ///smudging
     if (bSmudge)
-        gl_FragColor=smudge(texCoord);
+        gl_FragData[0]=smudge(texCoord);
 
 
     ///Ambient Occlusion
     if (bSSAO)
-        gl_FragColor.rgb*=computeAO().rgb ;
+        gl_FragData[0].rgb*=computeAO().rgb ;
 
     ///debug stuff
-    //gl_FragColor/=3.0;
-    //gl_FragColor.rgb=texture2D(shadowTex, texCoord).rgb;
-    //gl_FragColor.g+=0.0001 * texture2D(pickTex, texCoord).g;
-    //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).b;
-    //gl_FragColor.a=1.0;
-    //gl_FragColor.rgb=texture2D(depthTex, texCoord).rgb;
-    //gl_FragColor.rgb=texture2D(depthTex, texCoord).a/100.0;
-    //gl_FragColor.b=texture2D(depthTex, texCoord).a/100.0;
+    //gl_FragData[0]/=3.0;
+    //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
+    //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;
+    //gl_FragData[0].b+=0.0001 * texture2D(depthTex, texCoord).b;
+    //gl_FragData[0].a=1.0;
+    //gl_FragData[0].rgb=texture2D(depthTex, texCoord).rgb;
+    //gl_FragData[0].rgb=texture2D(depthTex, texCoord).a/100.0;
+    //gl_FragData[0].b=texture2D(depthTex, texCoord).a/100.0;
     //vec3 norm=readNormal(texCoord);
-    //gl_FragColor.xyz+=0.10 * norm;
+    //gl_FragData[0].xyz+=0.10 * norm;
 
-    //gl_FragColor.r=1.0;
-    //gl_FragColor.a=1.0;
+    //gl_FragData[0].r=1.0;
+    //gl_FragData[0].a=1.0;
 }

@@ -622,6 +622,11 @@ void Input::specialKeyUp (int key,int x, int y){
         return;
     }
 
+    if (key==GLUT_KEY_F7){
+        renderer->bDOF=!renderer->bDOF;
+        return;
+    }
+
 
 }
 
