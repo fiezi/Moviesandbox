@@ -8,7 +8,7 @@
       ScreenSizeY="720"
       bRenderStereo="0"
 
-      bFullScreen="1"
+      bFullScreen="0"
 
       BackgroundTex="background"
 
@@ -16,7 +16,7 @@
       bMultisample="1"
       numSamples="2"
 
-      ShadowSize="1024"
+      ShadowSize="512"
       LightingSize="1024"
       SceneSize="1024"
 

@@ -7,6 +7,8 @@ uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform mat4 cameraInverse;
 uniform float objectID;
+uniform float fov;
+
 varying float zPos;
 varying vec4 picking;
 varying vec3 N;
@@ -48,7 +50,7 @@ void main(){
 
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-  gl_PointSize= pointSize() * screensize/scene_size;
+  gl_PointSize= pointSize() * screensize/scene_size * 180.0/(4.0*fov);
   smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
 
   N=gl_NormalMatrix * gl_Normal;

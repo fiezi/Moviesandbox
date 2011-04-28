@@ -137,8 +137,8 @@ vec4 computeDOF() {
     vec4 sharpPart=  texture2D(tex,texCoord);
     sharpPart.a=1.0;
 
-    //float focus = 35.0+ 35.0 * sin(time * 0.0001);
-    //focus=10.0;
+    //focus = 15.0+ 15.0 * sin(time * 0.0004);
+    //focus=7.0;
 
   //non-linear focus
 /*
@@ -151,7 +151,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=10.0;
+    float focusDepth=6.0;
     //get depth distance to focus:
     float combine=abs(depthValue.a-focus);
     //clamp focus:
