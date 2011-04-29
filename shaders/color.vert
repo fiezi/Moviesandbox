@@ -50,7 +50,7 @@ void main(){
 
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-  gl_PointSize= pointSize() * screensize/scene_size * 180.0/(4.0*fov);
+  gl_PointSize= pointSize() * screensize/scene_size * (45.0*45.0)/(fov*fov);
   smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
 
   N=gl_NormalMatrix * gl_Normal;
