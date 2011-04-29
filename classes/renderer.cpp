@@ -1024,7 +1024,8 @@ void Renderer::drawSceneTexture(){
     glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
 
-	pick(input->mouseX,input->mouseY);
+    if (!sceneData->controller->bRunning)
+        pick(input->mouseX,input->mouseY);
 
 	draw3DTime=glutGet(GLUT_ELAPSED_TIME) - draw3DTime;
 
