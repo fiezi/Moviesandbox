@@ -1441,6 +1441,9 @@ void Renderer::drawActor(Actor* a){
         else if (a->drawType==DRAW_SPECIAL)     a->draw();
         //else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
         else if (a->drawType==DRAW_POINTPATCH){
+                                                drawPatch(a->scale.x, a->scale.y,a->particleAngleScale);
+                                               }
+        else if (a->drawType==DRAW_KINECT){
                                                 a->vboMeshID="kinectWall";
                                                 drawColladaMesh(a);
                                                }

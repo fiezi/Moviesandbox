@@ -10,14 +10,14 @@
 
       bFullScreen="0"
 
-      BackgroundTex="background"
+      BackgroundTex="black_bkg"
 
       bDrawLighting="1"
       bMultisample="0"
       numSamples="2"
 
-      ShadowSize="512"
-      LightingSize="1024"
+      ShadowSize="256"
+      LightingSize="512"
       SceneSize="1024"
 
       MouseSensitivity="0.04"

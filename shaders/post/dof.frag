@@ -138,7 +138,7 @@ vec4 computeDOF() {
     sharpPart.a=1.0;
 
     //focus = 15.0+ 15.0 * sin(time * 0.0004);
-    //focus=7.0;
+    focus=60.0;
 
   //non-linear focus
 /*
@@ -151,7 +151,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=6.0;
+    float focusDepth=20.0;
     //get depth distance to focus:
     float combine=abs(depthValue.a-focus);
     //clamp focus:

@@ -1,6 +1,6 @@
 uniform sampler2D tex;
-//uniform sampler2D displacementTex;
-//uniform sampler2D normalTex;
+uniform float screensize;
+uniform float scene_size;
 
 uniform float time;
 uniform mat4 cameraInverse;
@@ -16,12 +16,16 @@ varying vec3 N;
 *   Point Size
 */
 
-float pointSize(float p){
+float pointSize(){
 
-  float particleScale=  p *  gl_Position.w ;
-  particleScale+=  particleAngleScale * (1.0 - abs(gl_Normal.z));
-  particleScale+=  particleAngleScale * (abs(gl_Normal.y ));
-  return ( (particleScale * particleScale * 1000.0  ) / (gl_Position.z * gl_Position.z) );
+  float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w ;
+  if (gl_Position.z>0.3){
+      if (gl_Position.z<1.0 )
+        return ( (particleScale * 1000.0  ) / (gl_Position.z) );
+
+      return ( (particleScale * 1000.0  ) / (gl_Position.z * gl_Position.z) );
+  }else
+  return 1.0;
 
 }
 
@@ -38,16 +42,16 @@ void main(){
     vec4 myVertex=gl_Vertex;
     myVertex.w=1.0;
 
-    N =  gl_NormalMatrix * gl_Normal;
+    N =  gl_NormalMatrix * -gl_Normal;
 
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
-    myVertex.z=gl_FrontColor.a*15.0;
-    myVertex.x=myVertex.x*myVertex.z;
-    myVertex.y=myVertex.y*myVertex.z;
+    myVertex.z=gl_FrontColor.r*5.0;
+    //myVertex.x=myVertex.x*myVertex.z;
+    //myVertex.y=myVertex.y*myVertex.z;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= 5.0;//pointSize(1.0);
+    gl_PointSize= pointSize()* screensize/scene_size;
 
     picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
     picking.w = objectID;

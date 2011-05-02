@@ -17,6 +17,7 @@ varying vec4 picking;
 void main(){
 
     gl_FragData[0]=gl_Color;
+    gl_FragData[0]=vec4(1.0);
     gl_FragData[0].a=1.0;
 
     if (bSelected==1){
