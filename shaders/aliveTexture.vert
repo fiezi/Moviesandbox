@@ -43,6 +43,8 @@ void main(){
 
     //reset gl_Vertex coordinate or we create weird distortions!
     vec4 myVertex=gl_Vertex;
+    myVertex.x+=0.01 * sin(time * 0.0001 + myVertex.y+objectID);
+    myVertex.y+=0.01 * sin(time * 0.001 + myVertex.z);
     myVertex.w=1.0;
 
     N =  gl_NormalMatrix * gl_Normal;

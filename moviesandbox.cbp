@@ -814,6 +814,8 @@
 		<Unit filename="resources\basic.library" />
 		<Unit filename="resources\my.library" />
 		<Unit filename="resources\scenes\blank.scene" />
+		<Unit filename="shaders\aliveTexture.frag" />
+		<Unit filename="shaders\aliveTexture.vert" />
 		<Unit filename="shaders\color.frag" />
 		<Unit filename="shaders\color.vert" />
 		<Unit filename="shaders\drawing.frag" />

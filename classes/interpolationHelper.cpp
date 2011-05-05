@@ -83,7 +83,7 @@ void InterpolationHelper::interpolateActor(){
 
 	Matrix3f rotationOne, rotationTwo;
 	Matrix3f resultingRotation;
-	
+
     Matrix4f resultingTransform;
 
 
@@ -118,16 +118,16 @@ void InterpolationHelper::interpolateActor(){
 	rotationOne=getRotationMatrix(transformOne);
 	rotationTwo=getRotationMatrix(transformTwo);
 	resultingRotation=rotationOne.lerp(y,rotationTwo);
-	
-	
+
+
     //interpolate between them
     resultingTransform=transformOne.lerp(y,transformTwo); //calculate resulting position
-	
-	
+
+
 	//normalize rotations!
 	resultingRotation=normalizeRotations(resultingRotation);
 	resultingTransform.setRotation(resultingRotation);
-	
+
     moveActor->transformMatrix=resultingTransform;
 }
 
@@ -139,9 +139,9 @@ void InterpolationHelper::interpolateTransform(){
 
 	Matrix3f rotationOne;
     Matrix3f rotationTwo;
-	
+
     Matrix3f resultingRotation;
-	
+
     double timeKeyOne;
     double timeKeyTwo;
 
@@ -167,6 +167,9 @@ void InterpolationHelper::interpolateTransform(){
     double keyTime=currentTime-timeKeyOne; //-> current Position, in the beginning 0.0;
     float relativeTime=(float) (keyTime/timeDifference); //-> will go from 0.0 to 1.0 between the keys
 
+        relativeTime=relativeTime*100.0;
+        relativeTime=(int)relativeTime/40;
+        relativeTime=relativeTime*0.4;
 
     if (bAdditive){
         transformOne=moveActor->transformMatrix;                //
@@ -182,16 +185,16 @@ void InterpolationHelper::interpolateTransform(){
 	rotationOne=getRotationMatrix(transformOne);
 	rotationTwo=getRotationMatrix(transformTwo);
 	resultingRotation=rotationOne.lerp(relativeTime,rotationTwo);
-	
-	
+
+
     //interpolate between them
     resultingTransform=transformOne.lerp(relativeTime,transformTwo); //calculate resulting position
-	
-	
+
+
 	//normalize rotations!
 	resultingRotation=normalizeRotations(resultingRotation);
 	resultingTransform.setRotation(resultingRotation);
-	
+
     //apply resulting position
     if (bRelative){
 		//apply rotation
@@ -280,6 +283,10 @@ void InterpolationHelper::interpolateMatrix(){
         //map time difference to 0.0 - 1.0
         double keyTime=currentTime-timeKeyOne; //-> current Position, in the beginning 0.0;
         float relativeTime=(float) (keyTime/timeDifference); //-> will go from 0.0 to 1.0 between the keys
+
+        relativeTime=relativeTime*100.0;
+        relativeTime=(int)relativeTime/25;
+        relativeTime=relativeTime*0.25;
 
     SkeletalActor* skel=(SkeletalActor*)moveActor;
 
