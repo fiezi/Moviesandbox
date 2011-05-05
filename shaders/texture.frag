@@ -18,6 +18,9 @@ void main(){
     //black if not facing light
     gl_FragData[0]=color * gl_Color;//* postColor;
 
+    if (gl_FragData[0].a<0.5)
+        gl_FragData[0].r=1.0;
+
     if (bSelected==1){
         gl_FragData[0]*=0.5;
         //don't brighten if transparent!

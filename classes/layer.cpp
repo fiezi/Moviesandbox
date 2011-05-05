@@ -89,6 +89,9 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("fxTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["fxTex"], 4);
 
+    if (myShader->uniforms.find("multiTex") != myShader->uniforms.end())
+        glUniform1iARB(myShader->uniforms["multiTex"], 5);
+
     if (myShader->uniforms.find("lightViewMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightViewMatrix"],1,false,(GLfloat*)renderer->lightViewMatrix);
 

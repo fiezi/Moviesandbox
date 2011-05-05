@@ -803,6 +803,9 @@ void Renderer::draw(){
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 
+            glActiveTexture(GL_TEXTURE5);
+            glBindTexture(GL_TEXTURE_2D, sceneData->textureList["smear"]->texture);
+
             drawButton(sceneData->layerList[i]);
     }//end for loop through layers
 

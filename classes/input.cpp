@@ -506,6 +506,9 @@ void Input::keyUp(unsigned char key,int x,int y){
         // reload all shaders!
         if (key=='S')
                sceneData->loadShaders("resources/basic.library");
+        // reload all basic textures!
+        if (key=='X')
+               sceneData->loadTextures("resources/basic.library");
 
         if (key=='i')
             sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();

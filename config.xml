@@ -10,7 +10,7 @@
 
       bFullScreen="0"
 
-      BackgroundTex="black_bkg"
+      BackgroundTex="background"
 
       bDrawLighting="1"
       bMultisample="0"

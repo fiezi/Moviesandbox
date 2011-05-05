@@ -4,6 +4,8 @@ uniform float scene_size;
 uniform sampler2D tex;
 uniform sampler2D depthTex;
 uniform sampler2D pickTex;
+uniform sampler2D multiTex;
+
 
 uniform float focus;
 
@@ -138,7 +140,7 @@ vec4 computeDOF() {
     sharpPart.a=1.0;
 
     //focus = 15.0+ 15.0 * sin(time * 0.0004);
-    focus=60.0;
+    //focus=6.0;
 
   //non-linear focus
 /*
@@ -151,7 +153,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=20.0;
+    float focusDepth=1.0;
     //get depth distance to focus:
     float combine=abs(depthValue.a-focus);
     //clamp focus:
@@ -174,7 +176,18 @@ vec4 computeDOF() {
 
 void main(void){
 
-    //gl_FragColor=texture2D(tex, texCoord);
+    gl_FragColor=texture2D(tex, texCoord);
     gl_FragColor=computeDOF();
+    gl_FragColor=0.8*gl_FragColor+0.2*blur(tex, texCoord);
+
+    gl_FragColor*=1.0*texture2D(multiTex, texCoord );
+
+    if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b>2.0)
+        gl_FragColor+=5.0*blur(tex, texCoord) *  gl_FragColor.r;
+
+    if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b<0.3)
+        gl_FragColor*=0.0*blur(tex, texCoord);
+
+    gl_FragColor.a=1.0;
 
 }
