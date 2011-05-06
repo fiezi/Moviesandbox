@@ -33,6 +33,11 @@ void main(){
     if (!bComputeLight)
         gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
 
+    if (mod(gl_FragCoord.x,10.0)>5.0 + 2.0*sin(zPos) && mod(gl_FragCoord.y,8.0)>4.0+ 2.0*sin(zPos)){
+        gl_FragData[1].y=0.0;
+        //gl_FragData[0].xyz=gl_FragData[0].xyz * gl_FragData[0].xyz;
+    }
+
 /*
 	vec2 myPixelPos=pixelPos.xy * 768.0;
 	vec2 pixelDist=myPixelPos-gl_FragCoord.xy;
@@ -87,6 +92,7 @@ void main(){
 
     gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,vID);
     //gl_FragData[3]=vec4(0.0,0.0,0.0,vID);
+
 
 }
 

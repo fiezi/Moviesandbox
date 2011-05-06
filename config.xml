@@ -10,13 +10,13 @@
 
       bFullScreen="0"
 
-      BackgroundTex="background"
+      BackgroundTex="nightTime"
 
       bDrawLighting="1"
       bMultisample="0"
       numSamples="2"
 
-      ShadowSize="256"
+      ShadowSize="512"
       LightingSize="512"
       SceneSize="1024"
 

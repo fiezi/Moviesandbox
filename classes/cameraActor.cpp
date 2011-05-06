@@ -42,7 +42,8 @@ Actor::setup();
 
 void CameraActor::trigger(MsbObject* other){
 
-    if (other->name=="possess"){
+
+    if (other && other->name=="possess"){
         cout << "possessing!" << endl;
         sceneData->controller->controlledActor=this;
 //        sceneData->controller->navBtn->processMove(0);
@@ -73,8 +74,9 @@ void CameraActor::update(double deltaTime){
     }
 
     if (Control::bRunning && bCameraShake){
-        location.y+=noise.get(renderer->currentTime * 0.01,0.7) * 0.25;
-        location.x+=noise.get((renderer->currentTime-0.5) * 0.01,0.3) * 0.25;
+        location.y+=noise.get(renderer->currentTime * 0.01,0.7) * 0.025;
+        location.x+=noise.get((renderer->currentTime-0.5) * 0.01,0.3) * 0.025;
+        setLocation(location);
     }
 
     Actor::update(deltaTime);

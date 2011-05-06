@@ -168,8 +168,8 @@ void InterpolationHelper::interpolateTransform(){
     float relativeTime=(float) (keyTime/timeDifference); //-> will go from 0.0 to 1.0 between the keys
 
         relativeTime=relativeTime*100.0;
-        relativeTime=(int)relativeTime/40;
-        relativeTime=relativeTime*0.4;
+        relativeTime=(int)relativeTime/30;
+        relativeTime=relativeTime*0.3;
 
     if (bAdditive){
         transformOne=moveActor->transformMatrix;                //

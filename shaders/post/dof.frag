@@ -140,7 +140,7 @@ vec4 computeDOF() {
     sharpPart.a=1.0;
 
     //focus = 15.0+ 15.0 * sin(time * 0.0004);
-    //focus=6.0;
+    //focus=32.0;
 
   //non-linear focus
 /*
@@ -153,7 +153,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=5.0;
+    float focusDepth=5.5;
     //get depth distance to focus:
     float combine=abs(depthValue.a-focus);
     //clamp focus:
@@ -179,7 +179,7 @@ void main(void){
     gl_FragColor=texture2D(tex, texCoord);
     gl_FragColor=computeDOF();
     gl_FragColor=0.8*gl_FragColor+0.2*blur(tex, texCoord);
-
+/*
     gl_FragColor*=1.0*texture2D(multiTex, texCoord );
 
     if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b>2.0)
@@ -189,5 +189,5 @@ void main(void){
         gl_FragColor*=0.0*blur(tex, texCoord);
 
     gl_FragColor.a=1.0;
-
+*/
 }

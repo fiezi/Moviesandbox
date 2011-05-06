@@ -286,7 +286,7 @@ void Character::computeStep(){
     walkDirection=walkTarget->location - location;
 
     //for now:
-    walkDirection.y=0.0;
+    //walkDirection.y=0.0;
 
     walkDirection.normalize();
 
@@ -397,7 +397,11 @@ void Character::walk(double deltaTime){
 
     float bodyY=originalMatrix.getTranslation().z - hipNess;
     Vector3f newBodyLocation=startBodyLocation + targetBodyLocation * stepTime;
-    newBodyLocation.y=bodyY+yPartBody - footYOffset;
+
+    //removed for y-movement!
+    //newBodyLocation.y=bodyY+yPartBody - footYOffset;
+    newBodyLocation.y+=yPartBody;// - footYOffset;
+
     //first move body linear
     setLocation(newBodyLocation);
 
