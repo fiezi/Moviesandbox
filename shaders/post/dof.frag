@@ -153,7 +153,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=5.5;
+    float focusDepth=focus/5.0 +1.0;
     //get depth distance to focus:
     float combine=abs(depthValue.a-focus);
     //clamp focus:
