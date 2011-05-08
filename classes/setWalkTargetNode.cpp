@@ -42,7 +42,11 @@ Node::start();
 
 void SetWalkTargetNode::stop(){
 
-Node::stop();
+    Character* character = dynamic_cast<Character*>(applyTo);
+    if (character){
+        character->walkTarget=NULL;
+    }
+    Node::stop();
 }
 
 void SetWalkTargetNode::execute(){
