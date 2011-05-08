@@ -219,7 +219,9 @@ void SkinTool::paint(){
 
         //find out where the brush is in relation to the particle
         Vector4f loc=sceneData->vboList[skel->vboMeshID]->vData[pID].location;
-        Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
+        //TODO: skip z for now...
+        //Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
+        Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,calcLoc.z);
 
         ///within brush range
         if (brush->scale.x * 0.1>distance.length()){

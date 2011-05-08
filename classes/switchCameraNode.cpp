@@ -11,6 +11,7 @@ SwitchCameraNode::SwitchCameraNode(){
     name="SwitchCam";
     cameraActor=NULL;
     focus=15.0;
+    bCameraShake=false;
 
     listType.push_back("15PickWorldButton");
     listName.push_back("cameraActor");
@@ -20,6 +21,11 @@ SwitchCameraNode::SwitchCameraNode(){
     listType.push_back("15TextInputButton");
     listName.push_back("focus");
     listProp.push_back("FOCUS");
+    listIcon.push_back("icon_flat");
+
+    listType.push_back("15TextInputButton");
+    listName.push_back("cameraShake");
+    listProp.push_back("BCAMERASHAKE");
     listIcon.push_back("icon_flat");
 
     color=Vector4f(0.5,0.5,0.5,1.0);
@@ -34,6 +40,7 @@ void SwitchCameraNode::registerProperties(){
 Node::registerProperties();
 createMemberID("CAMERAACTOR",&cameraActor,this);
 createMemberID("FOCUS",&focus,this);
+createMemberID("BCAMERASHAKE",&bCameraShake,this);
 }
 
 void SwitchCameraNode::start(){
@@ -54,9 +61,12 @@ void SwitchCameraNode::stop(){
         Node::stop();
         sceneData->controller->controlledActor=sceneData->controller;
         CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
-        if (cA)
+        if (cA){
             renderer->fov=45;
+            cA->bCameraShake=false;
+        }
         renderer->focus=25.0;
+
     }
 
 }
@@ -65,9 +75,10 @@ void SwitchCameraNode::execute(){
     sceneData->controller->controlledActor=cameraActor;
     sceneData->updateView();
     CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
-    if (cA)
+    if (cA){
         renderer->fov=cA->fov;
-
+        cA->bCameraShake=bCameraShake;
+    }
     renderer->focus=focus;
     nextNode();
 }

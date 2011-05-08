@@ -54,7 +54,7 @@ void CameraActor::trigger(MsbObject* other){
         //sceneData->controller->toggleFlyMode();
     }
     else{
-        bCameraShake=!bCameraShake;
+        //bCameraShake=!bCameraShake;
     }
 }
 

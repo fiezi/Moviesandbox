@@ -9,6 +9,7 @@ public:
 
     Actor* cameraActor;
     float focus;
+    bool bCameraShake;
 
     SwitchCameraNode();
     ~SwitchCameraNode();
