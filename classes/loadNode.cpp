@@ -3,11 +3,17 @@
 #include "loadNode.h"
 #include "control.h"
 #include "renderer.h"
+#include "loadButton.h"
 
 LoadNode::LoadNode(){
 
 fileName="NULL";
 registerProperties();
+
+    listType.push_back("15TextInputButton");
+    listName.push_back("filename");
+    listProp.push_back("FILENAME");
+    listIcon.push_back("icon_flat");
 
 }
 
@@ -29,7 +35,16 @@ void LoadNode::stop(){
 Node::stop();
 }
 
-void LoadNode::execute(){}
+void LoadNode::execute(){
+
+    if (fileName!="NULL"){
+        LoadButton* lb=(LoadButton*)sceneData->actorInfo["10LoadButton"].actorReference;
+        sceneData->controller->startMovie();
+        lb->loadFile(fileName);
+        sceneData->controller->startMovie();
+    }
+
+}
 
 
 void LoadNode::update(double deltaTime){

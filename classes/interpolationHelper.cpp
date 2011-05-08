@@ -167,10 +167,11 @@ void InterpolationHelper::interpolateTransform(){
     double keyTime=currentTime-timeKeyOne; //-> current Position, in the beginning 0.0;
     float relativeTime=(float) (keyTime/timeDifference); //-> will go from 0.0 to 1.0 between the keys
 
+/*
         relativeTime=relativeTime*100.0;
         relativeTime=(int)relativeTime/30;
         relativeTime=relativeTime*0.3;
-
+*/
     if (bAdditive){
         transformOne=moveActor->transformMatrix;                //
         relativeTime*=relativeTime;      //
@@ -181,14 +182,27 @@ void InterpolationHelper::interpolateTransform(){
 
     transformTwo=keyFrames[currentKeyTransform+1]->transformKey;
 
+       float x=relativeTime*2.0f;
+        float y=0.0f;
+
+        if (x< 1)
+            y=x*x;
+        else
+            y=2-( (x-2) * (x-2) );
+
+        y=y* 0.5;
+
+        if (bLinear)
+            y=relativeTime;
+
 
 	rotationOne=getRotationMatrix(transformOne);
 	rotationTwo=getRotationMatrix(transformTwo);
-	resultingRotation=rotationOne.lerp(relativeTime,rotationTwo);
+	resultingRotation=rotationOne.lerp(y,rotationTwo);
 
 
     //interpolate between them
-    resultingTransform=transformOne.lerp(relativeTime,transformTwo); //calculate resulting position
+    resultingTransform=transformOne.lerp(y,transformTwo); //calculate resulting position
 
 
 	//normalize rotations!
@@ -241,7 +255,14 @@ void InterpolationHelper::interpolateMatrix(){
     double timeKeyTwo;
 
     currentTime=(renderer->currentTime-startTime) + inPoint;
+
+        //currentTime=currentTime*100.0;
+        currentTime=(int)currentTime/100;
+        currentTime=currentTime*100;
+
     currentTime*=timeScale;
+
+
     //currentTime=startTime+1;
     //currentTime++;
     //move forward if we are at end of key
@@ -284,9 +305,6 @@ void InterpolationHelper::interpolateMatrix(){
         double keyTime=currentTime-timeKeyOne; //-> current Position, in the beginning 0.0;
         float relativeTime=(float) (keyTime/timeDifference); //-> will go from 0.0 to 1.0 between the keys
 
-        relativeTime=relativeTime*100.0;
-        relativeTime=(int)relativeTime/25;
-        relativeTime=relativeTime*0.25;
 
     SkeletalActor* skel=(SkeletalActor*)moveActor;
 

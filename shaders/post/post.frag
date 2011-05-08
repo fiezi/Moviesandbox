@@ -250,7 +250,7 @@ void main(void){
 
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
-    if (bLighting && !bSmudge){
+    if (bLighting){// && !bSmudge){
         vec4 lightData=texture2D(shadowTex,texCoord * lighting_size/scene_size);
         if (lightData.r>=0.0)
             gl_FragData[0]*=lightData;
@@ -260,8 +260,8 @@ void main(void){
     //gl_FragColor*=blur3(shadowTex,texCoord);
 
     ///smudging
-    if (bSmudge)
-        gl_FragData[0]=smudge(texCoord);
+    //if (bSmudge)
+    //    gl_FragData[0]=smudge(texCoord);
 
 
     ///Ambient Occlusion

@@ -99,6 +99,7 @@
 #include "attachToNode.h"
 #include "setBackgroundNode.h"
 #include "morphSpriteMeshNode.h"
+#include "loadNode.h"
 #include "layer.h"
 
 //animation
@@ -240,6 +241,7 @@ void SceneData::fillGlobalLists(){
     createActorID(new AttachToNode);
     createActorID(new SetBackgroundNode);
     createActorID(new MorphSpriteMeshNode);
+    createActorID(new LoadNode);
 }
 
 

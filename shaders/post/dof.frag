@@ -6,7 +6,7 @@ uniform sampler2D depthTex;
 uniform sampler2D pickTex;
 uniform sampler2D multiTex;
 
-
+uniform bool bSmudge;
 uniform float focus;
 
 varying vec2 texCoord;
@@ -179,15 +179,16 @@ void main(void){
     gl_FragColor=texture2D(tex, texCoord);
     gl_FragColor=computeDOF();
     gl_FragColor=0.8*gl_FragColor+0.2*blur(tex, texCoord);
-/*
-    gl_FragColor*=1.0*texture2D(multiTex, texCoord );
 
-    if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b>2.0)
-        gl_FragColor+=5.0*blur(tex, texCoord) *  gl_FragColor.r;
+    if (bSmudge){
+        gl_FragColor*=1.0*texture2D(multiTex, texCoord );
 
-    if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b<0.3)
-        gl_FragColor*=0.0*blur(tex, texCoord);
+        if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b>2.0)
+            gl_FragColor+=5.0*blur(tex, texCoord) *  gl_FragColor.r;
 
+        if (gl_FragColor.r+gl_FragColor.g+gl_FragColor.b<0.3)
+            gl_FragColor*=0.0*blur(tex, texCoord);
+    }
     gl_FragColor.a=1.0;
-*/
+
 }

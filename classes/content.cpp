@@ -438,6 +438,7 @@ void Content::createNodeList(int x, int y){
     lbut->listType.push_back("16CreateNodeButton");
     lbut->listType.push_back("16CreateNodeButton");
     lbut->listType.push_back("17CreateActorButton");
+    lbut->listType.push_back("17CreateActorButton");
 
     lbut->listName.push_back("RootNode");
     lbut->listName.push_back("WaitTime");
@@ -458,6 +459,7 @@ void Content::createNodeList(int x, int y){
     lbut->listName.push_back("SetProperty");
     lbut->listName.push_back("SetBackground");
     lbut->listName.push_back("MorphSpriteMesh");
+    lbut->listName.push_back("load new");
     lbut->listName.push_back("place UDPInput");
 
     lbut->listProp.push_back("8RootNode");
@@ -479,9 +481,11 @@ void Content::createNodeList(int x, int y){
     lbut->listProp.push_back("15SetPropertyNode");
     lbut->listProp.push_back("17SetBackgroundNode");
     lbut->listProp.push_back("19MorphSpriteMeshNode");
+    lbut->listProp.push_back("8LoadNode");
     lbut->listProp.push_back("8UdpInput");
 
 
+    lbut->listIcon.push_back("icon_flat");
     lbut->listIcon.push_back("icon_flat");
     lbut->listIcon.push_back("icon_flat");
     lbut->listIcon.push_back("icon_flat");
