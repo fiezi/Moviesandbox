@@ -13,7 +13,7 @@ public:
     virtual void clickedLeft();
     virtual void assembleLoadList();
     virtual void trigger(MsbObject* other);
-    virtual void loadFile(string filename);
+    virtual void loadFile(string filename, bool bStart=false);
     virtual void create();
 };
 #endif // LOADBUTTON

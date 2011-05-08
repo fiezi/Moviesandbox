@@ -51,9 +51,12 @@ void LoadButton::trigger(MsbObject* other){
     loadFile(other->name);
 }
 
-void LoadButton::loadFile(string filename){
+void LoadButton::loadFile(string filename, bool bStart){
 
     sceneData->loadAll(filename);
+    if (bStart){
+        sceneData->controller->startMovie();
+    }
 }
 
 void LoadButton::create(){sceneData->addButton(this);}

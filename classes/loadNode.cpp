@@ -40,8 +40,8 @@ void LoadNode::execute(){
     if (fileName!="NULL"){
         LoadButton* lb=(LoadButton*)sceneData->actorInfo["10LoadButton"].actorReference;
         sceneData->controller->startMovie();
-        lb->loadFile(fileName);
-        sceneData->controller->startMovie();
+        lb->loadFile(fileName,true);
+
     }
 
 }
