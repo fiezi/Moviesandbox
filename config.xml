@@ -10,7 +10,7 @@
 
       bFullScreen="0"
 
-      BackgroundTex="nightTime"
+      BackgroundTex="background"
 
       bDrawLighting="1"
       bMultisample="0"
