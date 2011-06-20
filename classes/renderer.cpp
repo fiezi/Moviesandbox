@@ -186,6 +186,8 @@ Renderer::Renderer(){
 	drawBuffers[1] = GL_COLOR_ATTACHMENT1_EXT;
 	drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
 	drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
+
+	registerProperties();
 }
 
 Renderer::~Renderer(){
@@ -221,6 +223,11 @@ Renderer* Renderer::getInstance(){
 //  Windowing stuff and screen setup
 //
 //************************************************************
+
+void Renderer::registerProperties(){
+
+    createMemberID("BDRAWLIGHTING",&bDrawLighting, this);
+}
 
 void Renderer::initWindow(int x, int y, string windowName){
 

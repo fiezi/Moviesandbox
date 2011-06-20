@@ -75,6 +75,7 @@
 
 #include "layerInspector.h"
 
+#include "settingsButton.h"
 //communication
 #include "udpInput.h"
 
@@ -219,6 +220,9 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new LayerInspector);
 
+    createActorID(new SettingsButton);
+
+    //nodes and actions
     createActorID(new Action);
 
     createActorID(new Node);

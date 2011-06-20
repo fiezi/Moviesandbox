@@ -172,6 +172,8 @@ public:
        //singleton-ish
        static Renderer* getInstance();
 
+       virtual void registerProperties();
+
        //***************************************
        //this is stuff we can update easily
        //***************************************
