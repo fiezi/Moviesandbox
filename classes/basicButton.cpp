@@ -66,18 +66,22 @@ Actor::update(deltaTime);
 
 void BasicButton::drawTooltip(){
 
-//tooltip rendering
-if (bOver)
-  {
-  if(tooltip=="" && !bDrawName)
-    renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
-  else
-    renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
-  }
-//drawname is not a tooltip! So no tooltipOffset here!
-if (bDrawName)
-    renderer->drawText((char*)name.c_str(), location.x+2,location.y+scale.y/2+2.0);
-bOver=false;
+    //tooltip rendering
+    if (bOver)
+      {
+      if(tooltip=="" && !bDrawName)
+        renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+      else
+        renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+      }
+    //drawname is not a tooltip! So no tooltipOffset here!
+    if (bDrawName){
+        string smallName=name.substr(0,scale.x/10);
+        if (smallName.size()<name.size())
+            smallName+="...";
+        renderer->drawText((char*)smallName.c_str(), location.x+2,location.y+scale.y/2+2.0);
+    }
+    bOver=false;
 }
 
 void BasicButton::drawPlane(){

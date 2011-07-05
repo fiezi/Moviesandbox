@@ -61,6 +61,8 @@ void WindowButton::assembleList(){
 
             memberID * mID=&it->second;
 
+            if (!mID->bShowProperty)
+                continue;
             //find Actor* properties
             sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
             listButton.push_back(sceneData->buttonList.back());
@@ -100,9 +102,9 @@ void WindowButton::deselect(int depth){
             listButton[i]->level=100;
         }
         //kill list buttons!
+        backgroundButton->remove();
         bPermanent=false;
         ListButton::deselect(1);
-        backgroundButton->remove();
     }
 
 }
