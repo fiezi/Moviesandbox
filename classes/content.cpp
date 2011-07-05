@@ -521,7 +521,7 @@ void Content::createSysMenu(int x, int y){
     lbut->textureID="icon_system";
     lbut->name="sysMenu";
 
-    lbut->listType.push_back("14SettingsButton");
+    lbut->listType.push_back("12WindowButton");
     lbut->listName.push_back("settings");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_system");

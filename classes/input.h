@@ -85,6 +85,9 @@ public:
 
        Input();
        virtual ~Input();
+
+       virtual void registerProperties();
+
        static Input* getInstance();
 
        //setup

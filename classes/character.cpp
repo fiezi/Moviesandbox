@@ -76,13 +76,13 @@ void Character::registerProperties(){
     createMemberID("TURNSPEED",&turnSpeed,this);
     createMemberID("BBREATHING",&bBreathing,this);
     createMemberID("BREATHSTRENGTH",&breathStrength,this);
-    createMemberID("MOUTH",&mouth,this);
-    createMemberID("LEFTFOOT",&leftFoot,this);
-    createMemberID("RIGHTFOOT",&rightFoot,this);
+    createMemberID("MOUTH",&mouth,this,true,"15PickWorldButton");
+    createMemberID("LEFTFOOT",&leftFoot,this,true,"15PickWorldButton");
+    createMemberID("RIGHTFOOT",&rightFoot,this,true,"15PickWorldButton");
 
-    createMemberID("LEFTHAND",&leftHand,this);
-    createMemberID("RIGHTHAND",&rightHand,this);
-    createMemberID("GRABACTOR",&grabActor,this);
+    createMemberID("LEFTHAND",&leftHand,this,true,"15PickWorldButton");
+    createMemberID("RIGHTHAND",&rightHand,this,true,"15PickWorldButton");
+    createMemberID("GRABACTOR",&grabActor,this,true,"15PickWorldButton");
 
     createMemberID("STEPSIZE",&stepSize,this);
     createMemberID("STEPWIDTH",&stepWidth,this);

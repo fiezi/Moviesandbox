@@ -689,6 +689,8 @@
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
 		<Unit filename="classes\win32\platformIncludes.h" />
+		<Unit filename="classes\windowButton.cpp" />
+		<Unit filename="classes\windowButton.h" />
 		<Unit filename="classes\x1600Renderer.cpp">
 			<Option virtualFolder="core\" />
 		</Unit>

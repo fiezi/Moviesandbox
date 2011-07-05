@@ -8,9 +8,11 @@ class ListButton: public BasicButton{
 
 public:
 
-    int listDisplayMode;                            //mode 0:
-                                                    //mode 1:
-                                                    //mode 2:
+    int listDisplayMode;                            //mode 0: to the right and down
+                                                    //mode 1: weird thing for brush-size
+                                                    //mode 2: circular
+                                                    //mode 3: straight up
+                                                    //mode 4: box, right - used for texture browser
 
     float radius;                                   //for radial menu
     float maxRadius;                                //for radial menu
@@ -20,10 +22,15 @@ public:
 
     int listColumns;
 
+    Vector3f listButtonDistance;                    //distance between listButtons
+    Vector3f listLoc;                               //list position
+    bool bRelativeListLocation;                     //list position is relative to listbutton
+
     std::vector <std::string> listType;            //registers the types of Buttons you want the list to populate
     std::vector <std::string> listProp;            //the buttonProperty for each Button in the List
     std::vector <std::string> listName;            //the name for each Button in the List
     std::vector <std::string> listIcon;            //the icon for each Button in the List
+    std::vector <std::string> listParent;          //the parent for each Button in the List (will call trigger on parent!)
 
     std::vector <BasicButton *> listButton;             //holds the actual references to the Buttons - will be populated by assembleList();
 

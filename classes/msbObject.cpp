@@ -189,6 +189,13 @@ void MsbObject::memberFromString(memberID *mID,string value){
     strcpy (cValue, value.c_str());
 
 
+    //allow individual components of vectors to be changed
+    //for this, in order to not mix up vector components and full vectors, let's check first
+
+    if (testForVectorComponent(cValue)){
+        if (setVector3PropertyTo (mID, readVector3fComponent(cValue)))
+            return;
+    }
 
     //give special priority to locations and other vectors!
     if (setPropertyTo (mID, readVector3f(cValue)))
@@ -205,8 +212,8 @@ void MsbObject::memberFromString(memberID *mID,string value){
         return;
     if (setPropertyTo (mID, readFloat(cValue)))
         return;
-    if (setPropertyTo (mID, readDouble(cValue)))
-        return;
+
+
     if (setStringPropertyTo(mID, readString(cValue)))
         return;
 
@@ -247,6 +254,35 @@ void MsbObject::memberFromString(memberID *mID,string value){
         return;
 
     delete(cValue);
+}
+
+//TODO: I am sure this can be done much nicer...
+bool MsbObject::testForVectorComponent(char* cValue){
+
+    if( strncmp("vec3fx ",cValue,7) == 0 )
+        return true;
+    if( strncmp("vec3fy ",cValue,7) == 0 )
+        return true;
+    if( strncmp("vec3fz ",cValue,7) == 0 )
+        return true;
+
+    return false;
+}
+
+bool MsbObject::setVector3PropertyTo(memberID * mID,Vector3f v){
+
+    if (mID->memberType->name()==typeid(v).name())
+      {
+      Vector3f * myVec=(Vector3f*)mID->memberReference;
+      if (v.x!=0)
+        myVec->x=v.x;
+      if (v.y!=0)
+        myVec->y=v.y;
+      if (v.z!=0)
+        myVec->z=v.z;
+      return true;
+      }
+    return false;
 }
 
 //gets called from memberFromString! Don't use as standalone function!
@@ -315,6 +351,30 @@ string MsbObject::writeVector3f(memberID* mID){
     return value;
 }
 
+string MsbObject::writeVector3fdotX(memberID* mID){
+    char value[512];
+    Vector3f * p;
+    p=(Vector3f*)mID->memberReference;
+    sprintf(value,"vec3fx %f",p->x);
+    return value;
+}
+
+string MsbObject::writeVector3fdotY(memberID* mID){
+    char value[512];
+    Vector3f * p;
+    p=(Vector3f*)mID->memberReference;
+    sprintf(value,"vec3fy %f",p->y);
+    return value;
+}
+
+string MsbObject::writeVector3fdotZ(memberID* mID){
+    char value[512];
+    Vector3f * p;
+    p=(Vector3f*)mID->memberReference;
+    sprintf(value,"vec3fz %f",p->z);
+    return value;
+}
+
 string MsbObject::writeFloat(memberID* mID){
     char value[512];
     float * p;
@@ -336,6 +396,38 @@ string MsbObject::writeVector4f(memberID* mID){
     Vector4f * p;
     p=(Vector4f*)mID->memberReference;
     sprintf(value,"vec4f %f %f %f %f",p->r, p->g, p->b, p->a);
+    return value;
+}
+
+string MsbObject::writeVector4fdotX(memberID* mID){
+    char value[512];
+    Vector4f * p;
+    p=(Vector4f*)mID->memberReference;
+    sprintf(value,"vec4fx %f",p->r);
+    return value;
+}
+
+string MsbObject::writeVector4fdotY(memberID* mID){
+    char value[512];
+    Vector4f * p;
+    p=(Vector4f*)mID->memberReference;
+    sprintf(value,"vec4fy %f",p->g);
+    return value;
+}
+
+string MsbObject::writeVector4fdotZ(memberID* mID){
+    char value[512];
+    Vector4f * p;
+    p=(Vector4f*)mID->memberReference;
+    sprintf(value,"vec4fz %f",p->b);
+    return value;
+}
+
+string MsbObject::writeVector4fdotW(memberID* mID){
+    char value[512];
+    Vector4f * p;
+    p=(Vector4f*)mID->memberReference;
+    sprintf(value,"vec4fw %f",p->a);
     return value;
 }
 
@@ -513,11 +605,26 @@ if( strncmp("vec3f ",cValue,6) == 0 )
 return vec3f;
 }
 
+Vector3f MsbObject::readVector3fComponent(char* cValue){
+    Vector3f vec3f;
+    if( strncmp("vec3fx ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec3f.x);
+    if( strncmp("vec3fy ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec3f.y);
+    if( strncmp("vec3fz ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec3f.z);
+    return vec3f;
+}
+
 Vector4f MsbObject::readVector4f(char* cValue){
 Vector4f vec4f;
 if( strncmp("vec4f ",cValue,6) == 0 )
     sscanf((cValue+6),"%f%f%f%f",&vec4f.r,&vec4f.g,&vec4f.b,&vec4f.a);
 return vec4f;
+}
+
+Vector4f MsbObject::readVector4fComponent(char* cValue){
+
 }
 
 Matrix4f MsbObject::readMatrix4f(char* cValue){

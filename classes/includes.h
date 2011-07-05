@@ -47,13 +47,17 @@ struct actorID
        };
 
 
-//TODO: maybe make toString function in here?
+//keep reference to propertyButton in here,
+//to store the best way of changing its values
 struct memberID
        {
        void* memberReference;
        const std::type_info* memberType;
        int memberSize;
        char* memberName;
+       //these are for interface reasons
+       std::string propertyButtonType;
+       bool bShowProperty;
        };
 
 

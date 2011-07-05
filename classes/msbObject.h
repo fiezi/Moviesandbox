@@ -45,13 +45,15 @@ bool setVecPropertyTo (memberID* mID, vector<myType> vec){
 //*****************************************
 
 template<typename MyType, typename ActorClass>
-void createMemberID(const char* memberName, MyType *memberRef, ActorClass* base){
+void createMemberID(const char* memberName, MyType *memberRef, ActorClass* base, bool bShowProperty = true, string propertyButtonType="15TextInputButton" ){
     memberID mID;
     //Actor
     mID.memberReference=memberRef;
     mID.memberType=&(typeid(*memberRef));
     mID.memberSize=sizeof(*memberRef);
     mID.memberName=(char*)memberName;
+    mID.propertyButtonType=propertyButtonType;
+    mID.bShowProperty=bShowProperty;
     base->property[memberName]=mID;
 }
 
@@ -123,6 +125,9 @@ public:
        virtual string memberToString(memberID *mID);                //reads a member from a string
        virtual void memberFromString(memberID *mID,string value);   //sets a member as defined in registerProperties to a value given as a string
 
+       virtual bool testForVectorComponent(char* cValue);
+
+       virtual bool setVector3PropertyTo(memberID *mID,Vector3f v);
        virtual bool setStringPropertyTo(memberID *mID,string s);
        virtual bool setActorPropertyTo(memberID *mID,Actor* a);
        virtual bool setNodePropertyTo(memberID * mID,Node* n);
@@ -130,8 +135,18 @@ public:
        // XML parsing functions for loading:
        virtual string writeMatrix3f(memberID* mID);
        virtual string writeMatrix4f(memberID* mID);
+
        virtual string writeVector3f(memberID* mID);
+       virtual string writeVector3fdotX(memberID* mID);
+       virtual string writeVector3fdotY(memberID* mID);
+       virtual string writeVector3fdotZ(memberID* mID);
+
        virtual string writeVector4f(memberID* mID);
+       virtual string writeVector4fdotX(memberID* mID);
+       virtual string writeVector4fdotY(memberID* mID);
+       virtual string writeVector4fdotZ(memberID* mID);
+       virtual string writeVector4fdotW(memberID* mID);
+
        virtual string writeInt(memberID* mID);
        virtual string writeFloat(memberID* mID);
        virtual string writeDouble(memberID* mID);
@@ -150,7 +165,11 @@ public:
 
 
        virtual Vector3f readVector3f(char* cValue);
+       virtual Vector3f readVector3fComponent(char* cValue);
+
        virtual Vector4f readVector4f(char* cValue);
+       virtual Vector4f readVector4fComponent(char* cValue);
+
        virtual Matrix3f readMatrix3f(char* cValue);
        virtual Matrix4f readMatrix4f(char* cValue);
        virtual bool readBool(char* cValue);

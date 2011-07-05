@@ -109,11 +109,11 @@ void TextInputButton::focusClick(){
                     memberID * mID = &(sceneData->selectedActors[i]->property[buttonProperty]);        //look for the property we should set
                     cout << "we found the following memberID: " << mID->memberName << " with the following member type: " << mID->memberType->name() << endl;
                     if (buttonProperty=="ROTATION"){
-                        Vector3f rot = readVector3f((char*)input->inputText.c_str());
-                        sceneData->selectedActors[i]->setRotation(rot);
+                        memberFromString(mID,input->inputText);
+                        sceneData->selectedActors[i]->setRotation(sceneData->selectedActors[i]->rotation);
                     }else if (buttonProperty=="LOCATION"){
-                        Vector3f loc = readVector3f((char*)input->inputText.c_str());
-                        sceneData->selectedActors[i]->setLocation(loc);
+                        memberFromString(mID,input->inputText);
+                        sceneData->selectedActors[i]->setLocation(sceneData->selectedActors[i]->location);
                     }else if (buttonProperty=="SCALE"){
                         Vector3f loc = readVector3f((char*)input->inputText.c_str());
                         sceneData->selectedActors[i]->setScale(loc);

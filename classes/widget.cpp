@@ -8,6 +8,7 @@ Widget::Widget(){
 bWidgetOpen=false;
 bToggleWidget=true;
 bPermanentList=true;
+parent=NULL;
 
 widgetLocation=Vector3f(0,0,0);
 level = 0;
@@ -24,10 +25,10 @@ void Widget::clickedLeft(){
     if (!bWidgetOpen){
         bWidgetOpen=true;
 
-        //close all other widgets
+        //close all other widgets, if our parent is not a widget either
         for (int i=0;i<(int)sceneData->buttonList.size();i++){
             Widget* widge=dynamic_cast<Widget*>(sceneData->buttonList[i]);
-            if (widge && widge!=this && widge->bWidgetOpen && widge->bToggleWidget){
+            if (widge && widge!=this && widge->bWidgetOpen && widge->bToggleWidget && widge!=parent){
                 widge->clickedLeft();
             }
         }
@@ -40,6 +41,10 @@ void Widget::clickedLeft(){
     else{
         bWidgetOpen=false;
         for (int i=0;i<(int)listButton.size();i++){
+            //for cascading widgets:
+            Widget* widge=dynamic_cast<Widget*>(listButton[i]);
+            if (widge && widge->bWidgetOpen)
+                widge->clickedLeft();
             listButton[i]->bPermanent=false;
             listButton[i]->level=100;
         }

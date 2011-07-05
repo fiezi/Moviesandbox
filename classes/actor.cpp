@@ -138,15 +138,16 @@ createMemberID("NAME",&name,this);
 createMemberID("LOCATION", &location, this);
 createMemberID("ROTATION", &rotation, this);
 createMemberID("SCALE", &scale, this);
-createMemberID("ORIENTATION", &orientation, this);
 
-createMemberID("TRANSFORMMATRIX",&transformMatrix,this);
-createMemberID("SCALEMATRIX",&scaleMatrix,this);
-
-createMemberID("BASE",&base,this);
-createMemberID("BASEMATRIX",&baseMatrix,this);
+createMemberID("ORIENTATION", &orientation, this,false);    //let's not show the orientation as editable property!
 createMemberID("PIVOTLOCATION", &pivotLocation, this);
-createMemberID("BASENODE",&baseNode, this);
+
+createMemberID("TRANSFORMMATRIX",&transformMatrix,this,false);
+createMemberID("SCALEMATRIX",&scaleMatrix,this,false);
+
+createMemberID("BASE",&base,this,true,"13SetBaseButton");
+createMemberID("BASEMATRIX",&baseMatrix,this,false);
+createMemberID("BASENODE",&baseNode, this,false);
 
 createMemberID("GROUPID",&groupID, this);
 
@@ -177,14 +178,14 @@ createMemberID("BCOMPUTELIGHT",&bComputeLight,this);
 createMemberID("BTEXTURED",&bTextured,this);
 createMemberID("BZTEST",&bZTest,this);
 createMemberID("BZWRITE",&bZWrite,this);
-createMemberID("BUSESHADER",&bUseShader,this);
-createMemberID("BPICKABLE",&bPickable,this);
 createMemberID("BDEBUG",&bDebug,this);
+createMemberID("BUSESHADER",&bUseShader,this,false);
+createMemberID("BPICKABLE",&bPickable,this, false);
 
 createMemberID("BLIGHT",&bLight,this);
 createMemberID("TEXTIMER",&textTimer,this);
 
-createMemberID("MENUTYPE", &menuType, this);
+createMemberID("MENUTYPE", &menuType, this, false);
 
 }
 

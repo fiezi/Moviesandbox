@@ -63,6 +63,10 @@ Input::Input(){
 
 Input::~Input(){}
 
+void Input::registerProperties(){
+
+}
+
 Input* Input::getInstance(){
 
     if (inputInstance)

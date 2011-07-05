@@ -1,27 +1,24 @@
 #ifndef H_WINDOWBUTTON
 #define H_WINDOWBUTTON
 
-#include "basicButton.h"
+#include "widget.h"
 
-class WindowButton: public ListButton{
+class WindowButton: public Widget{
 
 public:
+
+    BasicButton* backgroundButton;
+
+    vector<string> tabNames;                   //tab names of all tabs for this window
+
+    int currentTab;                                 //currently selected tab
 
     WindowButton();
     virtual ~WindowButton();
 
     virtual void setup();
-    virtual void update(double deltaTime);
 
-    virtual void mouseOver();
-
-    virtual void mouseDrag();
-    virtual void finishDrag();
-
-    virtual void clickedLeft();
-    virtual void clickedRight();
-
-    virtual void focusClick();
+    virtual void assembleList();
 
     virtual void deselect(int depth);
 

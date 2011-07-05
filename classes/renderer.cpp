@@ -226,7 +226,25 @@ Renderer* Renderer::getInstance(){
 
 void Renderer::registerProperties(){
 
-    createMemberID("BDRAWLIGHTING",&bDrawLighting, this);
+    createMemberID("BDRAWLIGHTING",&bDrawLighting, this,true,"10BoolButton");
+    createMemberID("BUSEBLENDING",&bUseBlending, this,true,"10BoolButton");
+    createMemberID("BMULTISAMPLE",&bMultisample,this,false);
+    createMemberID("BSSAO",&bSSAO,this,true,"10BoolButton");
+    createMemberID("BDRAWCOLOR",&bDrawColor,this,true,"10BoolButton");
+    createMemberID("BSHADOWPASS",&bShadowPass,this,true,"10BoolButton");
+    createMemberID("BDOF",&bDOF,this,true,"10BoolButton");
+
+    createMemberID("NEARCLIP",&nearClip,this);
+    createMemberID("FARCLIP",&farClip,this);
+
+    createMemberID("FOV",&fov,this);
+
+    createMemberID("LIGHTING_SIZE",&lighting_size,this);
+
+    createMemberID("DEPTH_SIZE",&depth_size,this);
+
+    createMemberID("SCENE_SIZE",&scene_size,this);
+
 }
 
 void Renderer::initWindow(int x, int y, string windowName){

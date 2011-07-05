@@ -67,6 +67,9 @@ void PropertyInspector::assembleList(){
             //find Actor* properties
             memberID * mID=&it->second;
 
+            if (!mID->bShowProperty)
+                continue;
+/*
             const std::type_info* mType;
             mType=&(typeid(Actor*));
             //special buttons for special properties!
@@ -81,7 +84,11 @@ void PropertyInspector::assembleList(){
                 sceneData->actorInfo["15TextInputButton"].actorReference->create();
                 listButton.push_back(sceneData->buttonList.back());
                 }
+*/
 
+            //Properties now have their own knowledge of what button type they should spawn!
+            sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
+            listButton.push_back(sceneData->buttonList.back());
             listButton[i]->name=it->first;
             listButton[i]->buttonProperty=it->first;
             listButton[i]->textureID="icon_base";

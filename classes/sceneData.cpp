@@ -55,6 +55,8 @@
 #include "colorPickButton.h"
 #include "pickWorldButton.h"
 
+#include "boolButton.h"
+
 //static buttons for windows and messages and stuff
 #include "createPrefabButton.h"
 #include "createActionButton.h"
@@ -75,7 +77,7 @@
 
 #include "layerInspector.h"
 
-#include "settingsButton.h"
+#include "windowButton.h"
 //communication
 #include "udpInput.h"
 
@@ -198,6 +200,8 @@ void SceneData::fillGlobalLists(){
     createActorID(new TextInputButton);
     createActorID(new AssignButton);
 
+    createActorID(new BoolButton);
+
     createActorID(new ColorPickButton);
     createActorID(new PickWorldButton);
     createActorID(new CreatePrefabButton);
@@ -220,7 +224,7 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new LayerInspector);
 
-    createActorID(new SettingsButton);
+    createActorID(new WindowButton);
 
     //nodes and actions
     createActorID(new Action);
@@ -752,6 +756,8 @@ void SceneData::updateView(){
 }
 
 
+//Button related stuff
+
 void SceneData::createActorMenu(){
 
 	cout << "Creating radial menu for: " << input->worldTarget->name << endl;
@@ -773,7 +779,6 @@ void SceneData::createActorMenu(){
 	actorMenu->parent=myActor;
 	actorMenu->clickedLeft();
 }
-
 
 
 void SceneData::makeUserPopUp(string text, Actor* parent){

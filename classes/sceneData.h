@@ -232,37 +232,38 @@ public:
 
         virtual void updateView();
 
-       virtual void createActorMenu();
+        //Interface related
+        virtual void createActorMenu();
 
-       virtual void makeUserPopUp(string text, Actor* parent);
-       virtual void makeWarningPopUp(string message, Actor* parent);
+        virtual void makeUserPopUp(string text, Actor* parent);
+        virtual void makeWarningPopUp(string message, Actor* parent);
 
-       //saving and loading
-       void saveAll(std::string filename);
-       void loadAll(std::string filename, bool bCleanup=true);
+        //saving and loading
+        void saveAll(std::string filename);
+        void loadAll(std::string filename, bool bCleanup=true);
 
-       void loadMeshes(std::string fileName);
-       void loadPrefab(std::string fileName);
-       void loadAction(std::string fileName);           //loads individual action
-       void loadActionList(std::string fileName);       //loads list of actions from config file (and later, .asset file)
-       void loadTextures(std::string filename);
-       void loadShaders(std::string filename);
+        void loadMeshes(std::string fileName);
+        void loadPrefab(std::string fileName);
+        void loadAction(std::string fileName);           //loads individual action
+        void loadActionList(std::string fileName);       //loads list of actions from config file (and later, .asset file)
+        void loadTextures(std::string filename);
+        void loadShaders(std::string filename);
 
-       void addToLibrary(TiXmlElement* myElement);
+        void addToLibrary(TiXmlElement* myElement);
 
-       //directory stuff
-       void getAllDrawings();
-       void getAllScenes();
-       void getAllImages();
-       void getAllBrushes();
-       void getAllPrefabs();
+        //directory stuff
+        void getAllDrawings();
+        void getAllScenes();
+        void getAllImages();
+        void getAllBrushes();
+        void getAllPrefabs();
 
-       // 3D and general helper functions
-       float convertToGrid(float nonGrid);
-       float setToRange(float min, float max, float value);
+        // 3D and general helper functions
+        float convertToGrid(float nonGrid);
+        float setToRange(float min, float max, float value);
 
-       //File IO
-       string openFileDialog();
+        //File IO
+        string openFileDialog();
 
 
 };

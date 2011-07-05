@@ -12,6 +12,10 @@ animSpeed=0.5;
 listWidth=0;
 listHeight=0;
 
+bRelativeListLocation=true;
+listLoc=Vector3f(0,0,0);
+listButtonDistance=Vector3f(2,2,0);
+
 listColumns=1;
 maxListItems=10;
 beginListItem=0;
@@ -46,7 +50,7 @@ void ListButton::clickedLeft(){
 
 void ListButton::assembleList(){
 
-  for (unsigned int i=0;i<listType.size();i++){
+  for (int i=0;i<(int)listType.size();i++){
       cout << "creating list..." << endl;
 
       sceneData->actorInfo[listType[i]].actorReference->create();
@@ -63,11 +67,31 @@ void ListButton::assembleList(){
       if (listIcon.size()>i && listIcon[i]!="")
         listButton[i]->textureID=listIcon[i];
 
+      //now allowing string parenting!
+      //special stuff: RENDERER - parents to the renderer
+      //special stuff: THIS - parents to the creating Listbutton (literally, this)
+      //special stuff: PARENT - parents to the parent of the creating Listbutton
+      //special stuff: PARENT - parents to the first Selected Actor
 
-      if (parent)
-        listButton[i]->parent=parent;
-      else
-        listButton[i]->parent=this;
+      if (listParent.size()>i && listParent[i]!=""){
+        if (listParent[i]=="RENDERER")
+            listButton[i]->parent=renderer;
+        else if (listParent[i]=="THIS")
+            listButton[i]->parent=this;
+        else if (listParent[i]=="PARENT")
+            listButton[i]->parent=parent;
+        else if (listParent[i]=="SELECTED")
+            listButton[i]->parent=sceneData->selectedActors[0];
+        else
+            listButton[i]->parent=readActor((char*)listParent[i].c_str());
+
+      }else{
+
+          if (parent)
+            listButton[i]->parent=parent;
+          else
+            listButton[i]->parent=this;
+      }
       listButton[i]->level=level+1;
       listButton[i]->bDrawName=bDrawListNames;
       listButton[i]->color=listColor;
@@ -138,8 +162,13 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
 
 
         case 0:                     //to the right and down
-            loc.x=location.x+scale.x+2;
-            loc.y=location.y+drawPosition*(listButton[buttonNumber]->scale.y+2);
+            if (bRelativeListLocation){
+                loc.x=location.x+listLoc.x+scale.x+listButtonDistance.x;
+                loc.y=location.y+drawPosition*(listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }else{
+                loc.x=listLoc.x;
+                loc.y=listLoc.y+drawPosition*(listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }
             listButton[buttonNumber]->setLocation(loc);
             break;
 
@@ -158,9 +187,14 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
             listButton[buttonNumber]->setLocation(loc);
             break;
 
-        case 3:                       //straight up
-            loc.x=location.x;
-            loc.y=location.y-scale.y-drawPosition*(listButton[buttonNumber]->scale.y+2);
+        case 3:                       //straight upwards
+            if (bRelativeListLocation){
+                loc.x=listLoc.x+location.x;
+                loc.y=listLoc.y+location.y-scale.y-drawPosition*(listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }else{
+                loc.x=listLoc.x;
+                loc.y=listLoc.y-scale.y-drawPosition*(listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }
             listButton[buttonNumber]->setLocation(loc);
             break;
 
@@ -169,8 +203,14 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
             int row=drawPosition/listColumns;
             //find column
             int column = drawPosition%listColumns;
-            loc.x=location.x + scale.x + column * (listButton[buttonNumber]->scale.x+2);
-            loc.y=location.y + row * (listButton[buttonNumber]->scale.y+2);
+
+            if (bRelativeListLocation){
+                loc.x=listLoc.x + location.x + scale.x + column * (listButton[buttonNumber]->scale.x+listButtonDistance.x);
+                loc.y=listLoc.y + location.y + row * (listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }else{
+                loc.x=listLoc.x + scale.x + column * (listButton[buttonNumber]->scale.x+listButtonDistance.x);
+                loc.y=listLoc.y + row * (listButton[buttonNumber]->scale.y+listButtonDistance.y);
+            }
             listButton[buttonNumber]->setLocation(loc);
             break;
     }
