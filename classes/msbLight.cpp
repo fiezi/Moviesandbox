@@ -33,7 +33,7 @@ MsbLight::~MsbLight(){
 
 void MsbLight::registerProperties(){
 
-createMemberID("BCASTSHADOWS",&bCastShadows,this);
+createMemberID("BCASTSHADOWS",&bCastShadows,this,true,"10BoolButton");
 createMemberID("FOV",&fov,this);
 createMemberID("LIGHTDISTANCE",&lightDistance, this);
 Actor::registerProperties();

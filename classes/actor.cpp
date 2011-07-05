@@ -170,19 +170,19 @@ createMemberID("BLENDMODETWO",&blendModeTwo,this);
 
 createMemberID("SCENESHADERID",&sceneShaderID,this);
 
-createMemberID("BHIDDEN",&bHidden,this);
+createMemberID("BHIDDEN",&bHidden,this,true,"10BoolButton");
 
 
-createMemberID("BCOMPUTELIGHT",&bComputeLight,this);
+createMemberID("BCOMPUTELIGHT",&bComputeLight,this,true,"10BoolButton");
 
-createMemberID("BTEXTURED",&bTextured,this);
-createMemberID("BZTEST",&bZTest,this);
-createMemberID("BZWRITE",&bZWrite,this);
-createMemberID("BDEBUG",&bDebug,this);
+createMemberID("BTEXTURED",&bTextured,this,true,"10BoolButton");
+createMemberID("BZTEST",&bZTest,this,true,"10BoolButton");
+createMemberID("BZWRITE",&bZWrite,this,true,"10BoolButton");
+createMemberID("BDEBUG",&bDebug,this,true,"10BoolButton");
 createMemberID("BUSESHADER",&bUseShader,this,false);
 createMemberID("BPICKABLE",&bPickable,this, false);
 
-createMemberID("BLIGHT",&bLight,this);
+createMemberID("BLIGHT",&bLight,this,true,"10BoolButton");
 createMemberID("TEXTIMER",&textTimer,this);
 
 createMemberID("MENUTYPE", &menuType, this, false);
