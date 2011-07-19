@@ -71,12 +71,11 @@ vec4 computeLight(){
 
 
     //do Light calculations
-	vec3 normal = texture2D(depthTex,texCoord ).xyz;
 
     //if our normal indicates that we do not want light calculations to happen,
     //then pass this indication on to post-shader
-    if (normal.x==-100.0)
-        return vec4(-1.0,0.0,0.0,1.0);
+  //  if (normal.x==-100.0)
+  //      return vec4(-1.0,0.0,0.0,1.0);
 
 
     //calculate distance
@@ -102,8 +101,20 @@ vec4 computeLight(){
     vec4 objectPosEye = cameraMatrix * objectPos;
     vec4 distVecEye = lightPosEye - objectPosEye;
 
+	vec3 normal = texture2D(depthTex,texCoord ).xyz;
+
+	float zPos = blur3(depthTex,texCoord ).w ;
+	//float zPos = texture2D(depthTex,texCoord ).w ;
+	zPos*=10.0;//zPos;
+    normal=(vec3(dFdx(zPos),dFdy(zPos),1.0));
+
+    vec4 myNormal=vec4(0.0,0.0,0.0,1.0);
+    myNormal.xyz=normal;
+
+    //return myNormal;
 
 	vec3 NN = normalize (normal);
+	//vec3 NN = normal;
 
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
@@ -122,6 +133,7 @@ vec4 computeLight(){
 	}
 
     colorLight= colorLight * linAtt;
+
     return colorLight;
 }
 

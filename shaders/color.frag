@@ -1,6 +1,5 @@
 uniform vec4 postColor;
 uniform bool bComputeLight;
-uniform int bSelected;
 
 varying vec3 N;
 varying float zPos;
@@ -18,12 +17,8 @@ void main(){
     gl_FragData[0]=gl_Color;// * postColor;
     //gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
-    if (bSelected==1){
-        gl_FragData[0]*=0.5;
-        gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
-    }
-
 	gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
+
     if (!bComputeLight)
         gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
 

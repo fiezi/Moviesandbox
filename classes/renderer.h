@@ -210,10 +210,11 @@ public:
 
        virtual void drawBone(float width, float height, float depth);
        virtual void drawCube(float scale, float cubeSize);
+       virtual void drawBoundingBox(Vector3f lowerLeftBack, Vector3f upperRightFront, Vector4f color);
        virtual void drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color = Vector4f(1.0,1.0,1.0,1.0), bool bCentered = false);
        virtual void drawLine(Vector3f start,Vector3f end, Vector4f startColor=Vector4f(0,0,0,1), Vector4f endColor=Vector4f(0,0,0,1));
        virtual void drawPatch(float width, float height, float resolution);
-       virtual void drawOrientation(Actor* a);
+       virtual void drawGizmos(Actor* a);
        virtual void drawSprite();
        virtual void drawText(string str, float x, float y);
 

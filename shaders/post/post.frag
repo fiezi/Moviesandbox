@@ -101,6 +101,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 /***********************************************
 
+    TODO: move SSAO into deferredLight shader!
     Ambient Occlusion
 
 ***********************************************/

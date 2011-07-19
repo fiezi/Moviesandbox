@@ -1,7 +1,6 @@
 uniform sampler2D tex;
 uniform vec4 postColor;
 uniform bool bComputeLight;
-uniform int bSelected;
 uniform float objectID;
 
 varying vec3 N;
@@ -21,14 +20,6 @@ void main(){
     if (gl_FragData[0].a<0.5)
         gl_FragData[0].r=1.0;
 
-    if (bSelected==1){
-        gl_FragData[0]*=0.5;
-        //don't brighten if transparent!
-        if (gl_FragData[0].a>0.1)
-            gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
-
-    }
-
     //transparency...
     if (gl_FragData[0].a < 0.1){
         discard;
@@ -36,6 +27,7 @@ void main(){
     else{
         gl_FragDepth=gl_FragCoord.z;
         gl_FragData[1]=vec4(N.x ,N.y ,N.z, zPos );
+        //gl_FragData[1]=vec4(dFdx(gl_FragCoord.z)*65536.0 ,dFdy(gl_FragCoord.z)*65536.0 , 0.0,zPos);
     }
 
     if (!bComputeLight)

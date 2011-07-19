@@ -68,6 +68,11 @@ public:
        float particleAngleScale;                    //angle size attenuation multiplier for particle Mesh (to fill holes)
 
 
+       //bounding box related
+       Vector3f    lowerLeftBack,                   //point is relative to object position
+                   upperRightFront,
+                   center;                          //center of bounding box!
+
        Vector3f pivotLocation;                      //for rotation around a different point - is relative to location!!!
 
        Matrix4f originalMatrix;                     //original transformation - makes transformmatrix relative to this one - used for bones!

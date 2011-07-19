@@ -17,6 +17,10 @@ bindShapeMatrix=NULL;
 
 drawType=DRAW_PARTICLES;
 
+
+lowerLeftBack=Vector3f(0,0,0);
+upperRightFront=Vector3f(0,0,0);
+center=Vector3f(0,0,0);
 registerProperties();
 }
 

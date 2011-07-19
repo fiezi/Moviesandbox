@@ -30,6 +30,11 @@ yAxis=Vector3f(0,0,0);
 zAxis=Vector3f(0,0,0);
 
 
+lowerLeftBack=Vector3f(-1,-1,-1);
+upperRightFront=Vector3f(1,1,1);
+center=Vector3f(0,0,0);
+
+
 pivotLocation=Vector3f(0,0,0);
 
 transformMatrix.identity();
@@ -477,9 +482,6 @@ void Actor::updateShaders(){
 
     if (myShader->uniforms.find("bComputeLight") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["bComputeLight"], (GLuint)bComputeLight);
-
-    if (myShader->uniforms.find("bSelected") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["bSelected"], (GLuint)bSelected);
 
     if (myShader->uniforms.find("objectID") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["objectID"], objectID);

@@ -1,6 +1,5 @@
 uniform vec4 postColor;
 uniform bool bComputeLight;
-uniform int bSelected;
 uniform float screensize;
 
 varying vec3 N;
@@ -36,11 +35,6 @@ void main(){
 	}
     gl_FragData[0]=gl_Color * postColor;
 
-
-    if (bSelected==1){
-        gl_FragData[0]*=0.5;
-        gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
-    }
 
 	//Normal calculation, as in a tube...
 	//normal on top of our tube points up -> is our N

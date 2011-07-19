@@ -183,7 +183,7 @@ void X1600Renderer::drawColor3D(Layer* currentLayer){
         //glDepthMask(GL_FALSE);
         setupShading("color");
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
-            drawOrientation(currentLayer->actorList[i]);
+            drawGizmos(currentLayer->actorList[i]);
         }
 
         //glDepthMask(GL_TRUE);
@@ -231,7 +231,7 @@ void X1600Renderer::drawData3D(Layer* currentLayer){
 
         setupShading("color");
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
-            drawOrientation(currentLayer->actorList[i]);
+            drawGizmos(currentLayer->actorList[i]);
         }
     }
 

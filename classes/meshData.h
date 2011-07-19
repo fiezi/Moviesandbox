@@ -9,7 +9,7 @@ public:
 
 
 
-    std::vector<int>    vertexCount;
+    std::vector<int>    vertexCount;                    //how many vertices does this mesh have
     std::vector<GLuint> vertexIDObject;
     std::vector<GLuint> vertexBufferObject;
     std::vector<GLuint> normalBufferObject;
@@ -22,17 +22,23 @@ public:
 
     std::vector<vertexData> vData;
 
-    bool bIsSkeletal;
-    bool bIsHead;
-    bool bVertexColor;
-    bool bEditable;
+    bool bIsSkeletal;                       //has bones and stuff
+    bool bIsHead;                           // to be implemented someday?
+    bool bVertexColor;                      //uses vertex color object - COLLADA doesn't use this usually
+    bool bEditable;                         //can be changed within MSB - COLLADA cannot be changed for now
 
-    int boneCount;
-    int texCoordPerVertexCount;
+    int boneCount;                          //how many bones
+    int texCoordPerVertexCount;             //how many texture coordinaes per vertex?
     int verticesPerShapeCount;              //TODO: should be "numbers per Vertex count" - 3 or 4
-    GLenum  vertexInterpretation;
+    GLenum  vertexInterpretation;           //vertices interpreted as QUADS or TRIANGLES
     std::vector<bone*>   bones;
     Matrix4f* bindShapeMatrix;              //points to an array of bone matrices (according to number of bones in boneCount)
+
+    //bounding box related
+    Vector3f    lowerLeftBack,                  //point starts lower left hand corner (as seen from user)
+                upperRightFront,
+                center;                     //center of bounding box!
+
 
     MeshData();
     virtual ~MeshData();

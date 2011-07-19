@@ -669,6 +669,40 @@ void SpriteMeshLoader::loadVertices(string meshID, TiXmlElement * sourceElement)
     memcpy(vertices,&vChars[0],vChars.size());
 
 	sceneData->vboList[meshID]->vertexCount.push_back(vertexCount);
+
+
+	//FIND BOUNDING BOX
+
+	//cannot be outside the meshes 0,0,0 point,
+    Vector3f lowerLeft=Vector3f(0,0,0);
+    Vector3f upperRight=Vector3f(0,0,0);
+
+	for (int i=0;i<vertexCount;i++){
+	    //lower left front
+        if (lowerLeft.x > vertices[i].x)
+            lowerLeft.x=vertices[i].x;
+
+        if (lowerLeft.y > vertices[i].y)
+            lowerLeft.y=vertices[i].y;
+
+        if (lowerLeft.z > vertices[i].z)
+            lowerLeft.z=vertices[i].z;
+
+        //upper Right Back
+        if (upperRight.x < vertices[i].x)
+            upperRight.x=vertices[i].x;
+
+        if (upperRight.y < vertices[i].y)
+            upperRight.y=vertices[i].y;
+
+        if (upperRight.z < vertices[i].z)
+            upperRight.z=vertices[i].z;
+	}
+
+    //expand a little bit
+	sceneData->vboList[meshID]->lowerLeftBack=lowerLeft * 1.1;
+	sceneData->vboList[meshID]->upperRightFront=upperRight * 1.1;
+
 }
 
 //loads as bytes

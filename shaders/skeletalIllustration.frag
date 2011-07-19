@@ -1,7 +1,6 @@
 uniform sampler2D sceneTex;
 
 uniform vec4 postColor;
-uniform int bSelected;
 uniform bool bComputeLight;
 varying vec3 N;
 varying float zPos;
@@ -24,10 +23,6 @@ void main(){
     gl_FragData[0]= gl_Color * postColor;
     //gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
-    if (bSelected==1){
-        gl_FragData[0]*=0.5;
-        gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
-    }
 	gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
 
     if (!bComputeLight)
@@ -49,12 +44,6 @@ void main(){
 	}
 
     gl_FragData[0]=gl_Color;
-
-    if (bSelected==1){
-        gl_FragData[0]*=0.5;
-        gl_FragData[0]+=vec4(0.5,0.0,0.0,0.5);
-    }
-
 
 
 	//Normal calculation, as in a tube...

@@ -102,7 +102,8 @@ void WindowButton::deselect(int depth){
             listButton[i]->level=100;
         }
         //kill list buttons!
-        backgroundButton->remove();
+        if (backgroundButton)
+            backgroundButton->remove();
         bPermanent=false;
         ListButton::deselect(1);
     }

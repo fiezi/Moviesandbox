@@ -1338,7 +1338,7 @@ void Renderer::draw3D(Layer* currentLayer){
         setupShading("color");
 
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
-            drawOrientation(currentLayer->actorList[i]);
+            drawGizmos(currentLayer->actorList[i]);
         }
 
     }
@@ -1352,6 +1352,8 @@ void Renderer::draw3D(Layer* currentLayer){
 void Renderer::draw2D(){
 
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
+
 
     //colored Buttons  first
     for (unsigned int i=0;i<sceneData->buttonList.size();i++){
@@ -1387,7 +1389,6 @@ void Renderer::draw2D(){
                     sceneData->buttonList[i]->drawTooltip();
         }
     }
-
 }
 
 void Renderer::drawButton(BasicButton* b){
@@ -1462,6 +1463,7 @@ void Renderer::drawActor(Actor* a){
     //Actual Drawing takes place here!
         if (a->drawType==DRAW_PLANE)            drawPlane(0.0,0.0,a->scale.x, -a->scale.y, a->color,true );
         else if (a->drawType==DRAW_VBOMESH)     drawColladaMesh(a);
+
         else if (a->drawType==DRAW_PARTICLES)   drawParticles(a);                 //Particles
         else if (a->drawType==DRAW_SPRITE)      a->drawSprite();
         else if (a->drawType==DRAW_CUBE)        drawCube(a->collisionCubeSize, a->scale.x);                 //Mesh
@@ -1484,22 +1486,16 @@ void Renderer::drawActor(Actor* a){
     checkOpenGLError("drawActor actual draw...");
     #endif
 
-
     //end translation
     glPopMatrix();
 }
 
-void Renderer::drawOrientation(Actor* a){
-
-
-
-    //TODO: Plane orientation, yes/no?
-    if (a->drawType==DRAW_PLANE)
-        return;
+void Renderer::drawGizmos(Actor* a){
 
     glPushMatrix();
 
 
+    //draw line to base
     if (a->base){
         glMultMatrixf(a->base->baseMatrix);
         drawLine(Vector3f(0,0,0),(a->originalMatrix * a->transformMatrix).getTranslation(),Vector4f(1,1,1,1));
@@ -1510,41 +1506,19 @@ void Renderer::drawOrientation(Actor* a){
         transformActorMatrix(a);
     }
 
+    //save lighting information, but turn lighting off for now
     bool bComputeLight=a->bComputeLight;
     a->bComputeLight=false;
 
     a->updateShaders();
 
-    //set color to specialSelected
-    glColor4f(1,0,1,1);
+    if (a->bSelected)
+        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
 
-    glLineWidth(4.0);
+    if (sceneData->specialSelected==a)
+        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,1,1));
 
-    //draw code for lines
-    //red
-    if (sceneData->specialSelected!=a)
-        glColor4f(1,0,0,1);
-    glBegin(GL_LINES);
-    glVertex3f(0,0,0);
-    glVertex3f(1,0,0);
-    glEnd();
-
-    //green
-    if (sceneData->specialSelected!=a)
-        glColor4f(0.0,1.0,0.0,1);
-    glBegin(GL_LINES);
-    glVertex3f(0,0,0);
-    glVertex3f(0,1,0);
-    glEnd();
-
-    //blue
-    if (sceneData->specialSelected!=a)
-        glColor4f(0,0,1,1);
-    glBegin(GL_LINES);
-    glVertex3f(0,0,0);
-    glVertex3f(0,0,1);
-    glEnd();
-
+    //restore lighting information
     a->bComputeLight=bComputeLight;
 
     glPopMatrix();
@@ -1761,8 +1735,47 @@ void Renderer::drawBone(float width, float height, float depth){
 
 void Renderer::drawCube(float scale, float cubeSize){
 
+    glutSolidCube( cubeSize / max(scale , 1.0f) );
+}
 
-glutSolidCube( cubeSize / max(scale , 1.0f) );
+void Renderer::drawBoundingBox(Vector3f lowerLeftBack,Vector3f upperRightFront, Vector4f color){
+
+        GLfloat verts[] = { //lower rectangle
+                            lowerLeftBack.x, lowerLeftBack.y, lowerLeftBack.z,          //1
+                            upperRightFront.x, lowerLeftBack.y, lowerLeftBack.z,        //2
+                            upperRightFront.x, lowerLeftBack.y, upperRightFront.z,      //3
+                            lowerLeftBack.x, lowerLeftBack.y, upperRightFront.z,        //4
+                            lowerLeftBack.x, lowerLeftBack.y, lowerLeftBack.z,          //5
+
+                            //up
+                            lowerLeftBack.x, upperRightFront.y, lowerLeftBack.z,        //6
+
+                            //upper rectangle
+                            lowerLeftBack.x, upperRightFront.y, upperRightFront.z,      //7
+                            upperRightFront.x, upperRightFront.y, upperRightFront.z,    //8
+                            upperRightFront.x, upperRightFront.y, lowerLeftBack.z,      //9
+                            lowerLeftBack.x, upperRightFront.y, lowerLeftBack.z,        //10
+
+                            //missing lines - some backtracking...
+                            upperRightFront.x, upperRightFront.y, lowerLeftBack.z,      //11
+                            upperRightFront.x, lowerLeftBack.y, lowerLeftBack.z,        //12
+                            upperRightFront.x, lowerLeftBack.y, upperRightFront.z,      //13
+                            upperRightFront.x, upperRightFront.y, upperRightFront.z,    //14
+                            lowerLeftBack.x, upperRightFront.y, upperRightFront.z,      //15
+                            lowerLeftBack.x, lowerLeftBack.y, upperRightFront.z,        //16
+
+                            };
+
+        glColor4f(color.r,color.g,color.b,color.a);
+
+        glEnableClientState( GL_VERTEX_ARRAY );
+
+		glVertexPointer(3, GL_FLOAT, 0, &verts[0] );
+
+		glDrawArrays( GL_LINE_STRIP, 0, 16 );
+
+        glDisableClientState( GL_VERTEX_ARRAY );
+
 }
 
 void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color, bool bCentered){
@@ -1770,7 +1783,6 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
 
 
 	//draw centered!
-        //TODO:can be optional?
         float xOffset=0.0;
         float yOffset=0.0;
 
@@ -2184,11 +2196,6 @@ void Renderer::pick(int x, int y){
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
 
-
-    input->mouse3D.x=mousePos[2];
-    input->mouse3D.y=mousePos[1];
-    input->mouse3D.z=mousePos[0];
-
     if (mousePos[3]>=0){
         int aID=(int)ceil(mousePos[3]);
         if ((int) sceneData->actorList.size() > aID)
@@ -2222,10 +2229,19 @@ void Renderer::pick(int x, int y){
     myNormal.w=0.0;
     myNormal= inverseCameraMatrix * myNormal;
 
+
+    //Calculate mouse 3D position from zPos
+
+    float zPos=mousePos[3];
+    input->mouse3D= sceneData->controller->location;
+    input->mouse3D+= sceneData->controller->zAxis * zPos;
+    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)windowX - 0.5) * zPos * 1.1);
+    input->mouse3D+= sceneData->controller->yAxis * (((float)(windowY-input->mouseY)/(float)windowY - 0.5) *zPos * screenY/scene_size * 1.1);
+
     //TODO: implement vertexID
     //int vertexID = (int)ceil(mousePos[2] * 65536.0) + (int)ceil(mousePos[1]);
 
-  //  cout << "vertexID: " <<vertexID << endl;
+    //cout << "vertexID: " <<vertexID << endl;
 
     input->worldNormal.x=myNormal.x;
     input->worldNormal.y=myNormal.y;
