@@ -68,6 +68,13 @@ void Layer::updateShaders(){
         glUniform1fARB(myShader->uniforms["lighting_size"], renderer->lighting_size);
     }
 
+    if (myShader->uniforms.find("nearClip") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["nearClip"], renderer->nearClip);
+    }
+    if (myShader->uniforms.find("farClip") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["farClip"], renderer->farClip);
+    }
+
 
 
 
@@ -100,6 +107,9 @@ void Layer::updateShaders(){
 
     if (myShader->uniforms.find("cameraMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["cameraMatrix"],1,false,(GLfloat*)renderer->cameraMatrix);
+
+    if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
+        glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
 
     if (myShader->uniforms.find("projectionMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["projectionMatrix"],1,false,(GLfloat*)renderer->projectionMatrix);

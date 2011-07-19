@@ -51,8 +51,6 @@ void main(){
 
     gl_PointSize= pointSize() * screensize/scene_size;
 
-    picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
-    picking.w = objectID;
     zPos=gl_Position.z;
 
 }

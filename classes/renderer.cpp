@@ -2180,10 +2180,8 @@ void Renderer::pick(int x, int y){
     ///World Position and object ID
     //draw pickTex of current layer, just on mouse coordinate, one pixel wide
     //read pixel color at mouse coordinate
-    //color = xyz location
-    //alpha = object id
 
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->pickFBO );
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->depthFBO);
     float mousePos[4];
 
     //create small picking texture
@@ -2196,8 +2194,13 @@ void Renderer::pick(int x, int y){
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
 
-    if (mousePos[3]>=0){
-        int aID=(int)ceil(mousePos[3]);
+    //Shader writes data as follows:
+    //gl_FragData[1]=vec4(zPos,objectID,vIDOne,vIDTwo);
+
+    ///Picking
+    //get ObjectID and find worldTarget
+    if (mousePos[1]>=0){
+        int aID=(int)ceil(mousePos[1]);
         if ((int) sceneData->actorList.size() > aID)
             input->worldTarget=sceneData->actorList[aID];
     }
@@ -2206,48 +2209,25 @@ void Renderer::pick(int x, int y){
 
     //special stuff
     //grid
-    if ((int)floor(mousePos[3])==-2)
+    if ((int)floor(mousePos[1])==-2)
         input->worldTarget=sceneData->grid;
 
 
-
-    /// World Normal!
-
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->depthFBO );
-    //create small picking texture
-    glBindTexture(GL_TEXTURE_2D,pickTexture);
-    xRatio=(float)scene_size/(float)screenX;
-    yRatio=(float)scene_size/(float)screenY;
-
-    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
-    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
-    //get normal!
-    Vector4f myNormal;
-    myNormal.x=mousePos[2];
-    myNormal.y=mousePos[1];
-    myNormal.z=mousePos[0];
-    myNormal.w=0.0;
-    myNormal= inverseCameraMatrix * myNormal;
-
-
+    ///Mouse 3D Position
     //Calculate mouse 3D position from zPos
 
-    float zPos=mousePos[3];
+    float zPos=mousePos[2];
     input->mouse3D= sceneData->controller->location;
     input->mouse3D+= sceneData->controller->zAxis * zPos;
     input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)windowX - 0.5) * zPos * 1.1);
     input->mouse3D+= sceneData->controller->yAxis * (((float)(windowY-input->mouseY)/(float)windowY - 0.5) *zPos * screenY/scene_size * 1.1);
 
+
+    ///VertexID
     //TODO: implement vertexID
     //int vertexID = (int)ceil(mousePos[2] * 65536.0) + (int)ceil(mousePos[1]);
 
     //cout << "vertexID: " <<vertexID << endl;
-
-    input->worldNormal.x=myNormal.x;
-    input->worldNormal.y=myNormal.y;
-    input->worldNormal.z=myNormal.z;
-
-    input->worldNormal.normalize();
 
 	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
     glBindTexture(GL_TEXTURE_2D,0);

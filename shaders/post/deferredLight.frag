@@ -4,6 +4,9 @@ uniform float lighting_size;
 uniform float shadow_size;
 uniform float scene_size;
 
+uniform float nearClip;
+uniform float farClip;
+
 uniform sampler2D tex; // rendered scene 512*512 (lighting resolution)
 uniform sampler2D depthTex; // rendered normals and depth texture
 uniform sampler2D pickTex; //rendered picking texture -1024*1024 (scene resolution)
@@ -25,7 +28,7 @@ float lightDistance = 100.0;
 
 const float specularExp = 32.0;
 
-vec4 objectPos;
+
 
 // Depth of Field variables
 
@@ -69,60 +72,68 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 vec4 computeLight(){
 
-
-    //do Light calculations
-
-    //if our normal indicates that we do not want light calculations to happen,
-    //then pass this indication on to post-shader
-  //  if (normal.x==-100.0)
-  //      return vec4(-1.0,0.0,0.0,1.0);
-
+    //add all previous lighting calculations (from other lights) here:
+    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
 
     //calculate distance
+    //light in world space
     vec4 lightPos=gl_LightSource[0].position;
     lightPos.w=1.0;
+    //convert to eye space
+    lightPos=projectionMatrix * cameraMatrix * lightPos;
+    //lightPos=projectionInverse * cameraInverse * lightPos;
+    //lightPos=lightPos/scene_size;
+    //convert to screen space
+    lightPos=lightPos/lightPos.w;
+    lightPos=lightPos* 0.5 +0.5;
+//    lightPos.a=1.0;
 
-    objectPos=texture2D(pickTex, texCoord );
 
-    if (objectPos.a<-100.0)
-        return vec4(0.0,0.0,0.0,0.0);
-    else
-        objectPos.w=1.0;
+    float zPos = blur3(depthTex,texCoord ).r ;
 
-    vec4 distVec = lightPos - objectPos;
-    float dist=distance(lightPos,objectPos);
+    //bring z from view space to screen space
+    //depthEye = (zNear * zFar) / (zFar - depthScreen * (zFar - zNear));
+    //zFar - depthScreen * (zFar - zNear) = zNear * zFar/depthEye;
+    //-depthScreen* (zFar -zNear)= (zNear * zFar/depthEye) - zFar;
+    //float zPosScreen=-((nearClip * farClip/zPos ) - farClip) /(farClip -nearClip);
+    //zPosScreen=zPos/1000.0;
+    float zPosScreen=(nearClip * farClip) / (farClip - zPos * (farClip - nearClip));
+    //zPosScreen=zPos/100.0;
+    //zPos=zPosScreen;
+    //zPos= zPos * 0.5 +0.5;
+    //frag Position in screen space
+    vec4 fragmentPos=vec4(gl_FragCoord.x,gl_FragCoord.y,zPosScreen,1.0);
+    fragmentPos.xy=fragmentPos.xy/scene_size;
+
+    //return (vec4(zPosScreen,0,0,1)/2.0);
+
+    //distance calculations
+
+    vec3 distVec = lightPos.xyz - fragmentPos.xyz;
+    //vec3 distVec = fragmentPos.xyz - lightPos.xyz;
+
+    //distVec= distVec* cameraInverse;
+
+    float dist=distance(lightPos.xyz,fragmentPos.xyz);
+    //float dist=distance(fragmentPos,lightPos);
+
+    //return vec4(1.0,1.0,1.0,1.0)*abs(dist)/30.0;
+
     if (abs(dist)>gl_LightSource[0].linearAttenuation)
         return vec4(0.0,0.0,0.0,0.0);
 
     float linAtt = (gl_LightSource[0].linearAttenuation-abs(dist))/gl_LightSource[0].linearAttenuation;
 
-    //transform distVec into eyespace
-    vec4 lightPosEye = cameraMatrix * lightPos;
-    vec4 objectPosEye = cameraMatrix * objectPos;
-    vec4 distVecEye = lightPosEye - objectPosEye;
 
-	vec3 normal = texture2D(depthTex,texCoord ).xyz;
+    zPos*=100.0;
+	//calculate Normal from screen space difference to adjacent fragment
+    vec3 NN=normalize(vec3(dFdx(zPos),dFdy(zPos),1.0));
 
-	float zPos = blur3(depthTex,texCoord ).w ;
-	//float zPos = texture2D(depthTex,texCoord ).w ;
-	zPos*=10.0;//zPos;
-    normal=(vec3(dFdx(zPos),dFdy(zPos),1.0));
-
-    vec4 myNormal=vec4(0.0,0.0,0.0,1.0);
-    myNormal.xyz=normal;
-
-    //return myNormal;
-
-	vec3 NN = normalize (normal);
-	//vec3 NN = normal;
 
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
-    //ambient
-    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
-
     //diffuse
-	vec3 NL = normalize( distVecEye.xyz );
+	vec3 NL = normalize( distVec.xyz );
 	float NdotL = max(0.0,dot(NL,NN));
 	colorLight.rgb += 1.0 * lightCol * NdotL;
 
@@ -148,8 +159,8 @@ vec4 shadowMapping(){
 
 
 
-    vec4 pixelPosition;
-	pixelPosition=texture2D(pickTex,texCoord );
+
+	vec4 pixelPosition=texture2D(pickTex,texCoord );
     pixelPosition.w=1.0;
 
 

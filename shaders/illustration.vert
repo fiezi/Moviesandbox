@@ -5,13 +5,9 @@ uniform float scene_size;
 uniform float time;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
-uniform mat4 cameraInverse;
 uniform float objectID;
 varying float zPos;
-varying vec4 picking;
-varying vec3 N;
 varying float vID;
-varying vec3 smudge;
 
 /*
 *   Point Size
@@ -40,11 +36,10 @@ void main(){
 
   gl_FrontColor=gl_Color;
 
-  smudge=gl_NormalMatrix * gl_SecondaryColor.rgb;
-  //normalize(smudge);
   //reset gl_Vertex coordinate or we create weird distortions!
   vec4 myVertex=gl_Vertex;
   myVertex.w=1.0;
+
   float xC=myVertex.x;
   myVertex.x+=0.00025*myVertex.y*sin(myVertex.y+0.001* time);
   myVertex.z+=0.00025*cos(xC+0.008* time);
@@ -53,14 +48,6 @@ void main(){
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
   gl_PointSize= pointSize() * (1.15+0.15* sin(0.001* time + objectID +xC+myVertex.y)) * screensize/scene_size;
-  //smudge=smudge*(gl_PointSize/30.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
-  smudge=smudge*0.25;
-  if (particleMultiplier>30.0)
-    smudge=smudge*1.5;
-
-  N=gl_NormalMatrix * gl_Normal;
-  picking= cameraInverse * gl_ModelViewMatrix * myVertex;
-  picking.w = objectID;
 
   zPos=gl_Position.z;
 

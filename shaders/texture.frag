@@ -26,12 +26,11 @@ void main(){
     }
     else{
         gl_FragDepth=gl_FragCoord.z;
-        gl_FragData[1]=vec4(N.x ,N.y ,N.z, zPos );
+        //gl_FragData[1]=vec4(N.x ,N.y ,N.z, zPos );
         //gl_FragData[1]=vec4(dFdx(gl_FragCoord.z)*65536.0 ,dFdy(gl_FragCoord.z)*65536.0 , 0.0,zPos);
     }
 
-    if (!bComputeLight)
-        gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
+    gl_FragData[1]=vec4(zPos ,objectID ,0.0, 0.0 );
 
     gl_FragData[2]=picking;
 

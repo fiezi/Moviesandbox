@@ -477,9 +477,6 @@ void Actor::updateShaders(){
     if (myShader->uniforms.find("time") != myShader->uniforms.end())
         glUniform1fARB(myShader->uniforms["time"], renderer->currentTime);
 
-    if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
-        glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
-
     if (myShader->uniforms.find("bComputeLight") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["bComputeLight"], (GLuint)bComputeLight);
 

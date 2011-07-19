@@ -15,12 +15,8 @@ uniform mat4 cameraInverse;
 uniform float objectID;
 
 varying float zPos;
-varying vec4 picking;
-varying vec3 N;
-varying vec3 smudge;
 varying float pSize;
 varying vec4 pixelPos;
-varying float bTubeNormal;
 
 varying float vID;
 
@@ -98,45 +94,12 @@ void main(){
     //if (bones[0]<0)
     //  gl_PointSize=0.0;
 
-
-
-    //lighting
-
     //3D positions
 
     zPos=gl_Position.z;
-    //world.w=1.0;
-    picking= cameraInverse * gl_ModelViewMatrix * world;
-    picking=  picking/picking.w;
-    picking.w=objectID;
 
 
     gl_FrontColor=gl_Color;
-
-    //Normal transformation
-
-    vec4 myNormal;
-
-	if (gl_Normal!=gl_Normal * 0.0){
-		myNormal.xyz= gl_NormalMatrix * ( gl_Normal);
-		bTubeNormal=0.0;
-		}
-	else{
-		myNormal.xyz= gl_NormalMatrix * vec3(0.0,1.0,0.0);
-		bTubeNormal=100.0;
-		}
-
-    myNormal.w=1.0;
-    myNormal=  myNormal * myMat ;
-
-    N = myNormal.xyz;
-
-	//smudging and pixel Position
-
-	smudge=gl_NormalMatrix * gl_SecondaryColor.rgb;
-	smudge=smudge*(gl_PointSize/20.0)*(gl_PointSize/10.0)*(gl_PointSize/2.0);
-
-
 
 	pixelPos= myPosition;
 	pixelPos /= pixelPos.w;

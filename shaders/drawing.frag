@@ -1,14 +1,11 @@
 uniform vec4 postColor;
+uniform float objectID;
 uniform bool bComputeLight;
 uniform float screensize;
 
-varying vec3 N;
-varying vec3 smudge;
 varying float zPos;
-varying vec4 picking;
 varying vec4 pixelPos;
 varying float pSize;
-varying float bTubeNormal;
 
 varying float vID;
 
@@ -35,37 +32,11 @@ void main(){
 	}
     gl_FragData[0]=gl_Color * postColor;
 
-
-	//Normal calculation, as in a tube...
-	//normal on top of our tube points up -> is our N
-	//normal to the right points to N cross smudge
-	//normal to the left points to negative N cross smudge
-	//normal downwards points negative N
-
-	//also: depending on smudge going in or out, it's all different!
-
 /*
-	if (bTubeNormal>0.0){
-		vec3 biNormal= smudge;
-		vec3 NcrossS = cross( biNormal, N );
-
-		vec3 tubeNormal=    (sin(pixelDist.x * PI/4.0) *  -NcrossS + sin(pixelDist.y * PI/4.0) * -N);
-		gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
-		}
-	else
-
-*/
-		gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
-
-
-
-
     if (!bComputeLight)
         gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
+*/
 
-
-
-	gl_FragData[2]=picking;
 
     //per-vertex ID
         int vIDOneInt=int(vID/65536.0);
@@ -73,13 +44,7 @@ void main(){
 
         float vIDTwo=mod(vID,65536.0);
 
-/*
-        if (length(smudge)<0.1){
-            smudge.xy=vec2(0.1,0.1);
-            smudge.xy=N.xy;
-        }
-*/
-        gl_FragData[3]=vec4(smudge.x,smudge.y,vIDOne,vIDTwo);
+    gl_FragData[1]=vec4(zPos ,objectID ,0.0,0.0 );
 
 }
 
