@@ -2163,12 +2163,12 @@ void Renderer::createKinectWall( float resolution ){
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 }
 
-//************************************************************
+/************************************************************
 //
 //Picking: determining what Actor the mouse points to
 //         and mouse 3d coordinate
 //
-//************************************************************
+************************************************************/
 
 
 //picking needs mouse coordinates

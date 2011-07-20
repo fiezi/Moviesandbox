@@ -77,6 +77,21 @@ void Layer::updateShaders(){
 
 
 
+    if (myShader->uniforms.find("camLoc") != myShader->uniforms.end()){
+        glUniform3fARB(myShader->uniforms["camLoc"], sceneData->controller->location.x,sceneData->controller->location.y,sceneData->controller->location.z);
+    }
+    if (myShader->uniforms.find("camX") != myShader->uniforms.end()){
+        glUniform3fARB(myShader->uniforms["camX"], sceneData->controller->xAxis.x,sceneData->controller->xAxis.y,sceneData->controller->xAxis.z);
+    }
+    if (myShader->uniforms.find("camY") != myShader->uniforms.end()){
+        glUniform3fARB(myShader->uniforms["camY"], sceneData->controller->yAxis.x,sceneData->controller->yAxis.y,sceneData->controller->yAxis.z);
+    }
+    if (myShader->uniforms.find("camZ") != myShader->uniforms.end()){
+        glUniform3fARB(myShader->uniforms["camZ"], sceneData->controller->zAxis.x,sceneData->controller->zAxis.y,sceneData->controller->zAxis.z);
+    }
+
+
+
 
 
     //needs if statements because the compiler throws out stuff if not used!

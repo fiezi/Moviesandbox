@@ -12,6 +12,12 @@ uniform sampler2D depthTex; // rendered normals and depth texture
 uniform sampler2D pickTex; //rendered picking texture -1024*1024 (scene resolution)
 uniform sampler2D shadowTex; // rendered shadow textures - 256x256 (shadow resolution)
 
+uniform vec3 camLoc;
+uniform vec3 camX;
+uniform vec3 camY;
+uniform vec3 camZ;
+
+
 uniform mat4 lightProperties;
 
 uniform mat4 lightViewMatrix;
@@ -28,7 +34,8 @@ float lightDistance = 100.0;
 
 const float specularExp = 32.0;
 
-
+vec4 fragWorldLoc;
+float zPos;
 
 // Depth of Field variables
 
@@ -70,71 +77,58 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 }
 
 
+vec4 calcFragmentWorldSpace(){
+
+    //zPos in Eye Space
+    //zPos = texture2D(depthTex,texCoord ).r;
+    zPos = blur3(depthTex,texCoord ).r;
+
+    //zPos in Screen Space - for reference
+    //float zPosScreen = farClip / (farClip - zPos * (farClip - nearClip));
+
+    //world space
+    vec4 fW=vec4(1.0);
+    fW.xyz= camLoc;
+    fW.xyz+= camZ * (zPos);
+    fW.xyz-= camX * ((gl_FragCoord.x/scene_size - 0.5) * zPos * 1.1);
+    fW.xyz+= camY * ((gl_FragCoord.y/scene_size - 0.5) * zPos * 768.0/scene_size * 1.1);
+
+    return fW;
+}
+
+
 vec4 computeLight(){
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
 
-    //calculate distance
     //light in world space
     vec4 lightPos=gl_LightSource[0].position;
     lightPos.w=1.0;
-    //convert to eye space
-    lightPos=projectionMatrix * cameraMatrix * lightPos;
-    //lightPos=projectionInverse * cameraInverse * lightPos;
-    //lightPos=lightPos/scene_size;
-    //convert to screen space
-    lightPos=lightPos/lightPos.w;
-    lightPos=lightPos* 0.5 +0.5;
-//    lightPos.a=1.0;
+
+    //transform both to eye space
+    vec4 fragWorld= cameraMatrix * fragWorldLoc;
+    lightPos = cameraMatrix * lightPos;
 
 
-    float zPos = blur3(depthTex,texCoord ).r ;
+    vec3 distVec=(lightPos.xyz - fragWorld.xyz);
+    float dist=length(distVec);
 
-    //bring z from view space to screen space
-    //depthEye = (zNear * zFar) / (zFar - depthScreen * (zFar - zNear));
-    //zFar - depthScreen * (zFar - zNear) = zNear * zFar/depthEye;
-    //-depthScreen* (zFar -zNear)= (zNear * zFar/depthEye) - zFar;
-    //float zPosScreen=-((nearClip * farClip/zPos ) - farClip) /(farClip -nearClip);
-    //zPosScreen=zPos/1000.0;
-    float zPosScreen=(nearClip * farClip) / (farClip - zPos * (farClip - nearClip));
-    //zPosScreen=zPos/100.0;
-    //zPos=zPosScreen;
-    //zPos= zPos * 0.5 +0.5;
-    //frag Position in screen space
-    vec4 fragmentPos=vec4(gl_FragCoord.x,gl_FragCoord.y,zPosScreen,1.0);
-    fragmentPos.xy=fragmentPos.xy/scene_size;
-
-    //return (vec4(zPosScreen,0,0,1)/2.0);
-
-    //distance calculations
-
-    vec3 distVec = lightPos.xyz - fragmentPos.xyz;
-    //vec3 distVec = fragmentPos.xyz - lightPos.xyz;
-
-    //distVec= distVec* cameraInverse;
-
-    float dist=distance(lightPos.xyz,fragmentPos.xyz);
-    //float dist=distance(fragmentPos,lightPos);
-
-    //return vec4(1.0,1.0,1.0,1.0)*abs(dist)/30.0;
-
-    if (abs(dist)>gl_LightSource[0].linearAttenuation)
-        return vec4(0.0,0.0,0.0,0.0);
-
-    float linAtt = (gl_LightSource[0].linearAttenuation-abs(dist))/gl_LightSource[0].linearAttenuation;
-
-
-    zPos*=100.0;
-	//calculate Normal from screen space difference to adjacent fragment
-    vec3 NN=normalize(vec3(dFdx(zPos),dFdy(zPos),1.0));
-
+    //black if out of range
+/*
+    if (dist>gl_LightSource[0].linearAttenuation)
+        return vec4(0.0,0.0,0.0,1.0);
+*/
+    //exaggerate normals
+    zPos=zPos * 128.0;
+    //normal in Eye Space
+    vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
 
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
     //diffuse
-	vec3 NL = normalize( distVec.xyz );
-	float NdotL = max(0.0,dot(NL,NN));
+    vec3 NL = normalize( distVec.xyz );
+	float NdotL = max(0.0,dot(NN,NL));
 	colorLight.rgb += 1.0 * lightCol * NdotL;
 
     //specular
@@ -143,7 +137,9 @@ vec4 computeLight(){
         colorLight.rgb += 1.0 * lightCol * pow(max(0.0,dot(NN,NH)),specularExp);
 	}
 
-    colorLight= colorLight * linAtt;
+    //falloff
+    float falloff = (gl_LightSource[0].linearAttenuation-dist)/gl_LightSource[0].linearAttenuation;
+    //colorLight= colorLight * falloff;
 
     return colorLight;
 }
@@ -160,7 +156,8 @@ vec4 shadowMapping(){
 
 
 
-	vec4 pixelPosition=texture2D(pickTex,texCoord );
+	//vec4 pixelPosition=texture2D(pickTex,texCoord );
+	vec4 pixelPosition=fragWorldLoc;
     pixelPosition.w=1.0;
 
 
@@ -178,8 +175,13 @@ vec4 shadowMapping(){
             //vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
             vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.a;
-			//myLight +=max(0.0,(1.0 - falloff))	* computeLight();
-			myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
+            //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
+            //myLight += computeLight();
+            //if (falloff>0.0)
+                //myLight+=vec4(1.0);
+                //myLight.x=shadowCoord.z/20.0;
+                myLight.x=shadowColor.x/10.0;
+			//myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
     }
 
   return myLight;
@@ -193,11 +195,10 @@ void main(){
             tc_offset[i]=vec2(0.0,0.0);
 
 
+    fragWorldLoc=calcFragmentWorldSpace();
     //load old lighting data
     gl_FragColor=texture2D(tex, texCoord * lighting_size/scene_size);
-    //gl_FragColor.g+=0.0001 * texture2D(pickTex, texCoord).r;
-    //gl_FragColor.b+=0.0001 * texture2D(depthTex, texCoord).g;
-    //gl_FragColor.b+=0.0001 *texture2D(shadowTex,texCoord).b;
+    //gl_FragColor=vec4(0.0,0.0,0.0,1.0);
     //gl_FragColor+=computeLight();
     gl_FragColor+=shadowMapping();
     //gl_FragColor.r+=texture2D(depthTex, texCoord).a/100.0;
