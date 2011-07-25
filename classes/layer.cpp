@@ -98,7 +98,6 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("tex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["tex"], 0);
 
-    //TODO: MAP is not the right way to store shader locations!
     if (myShader->uniforms.find("depthTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["depthTex"], 1);
 
@@ -125,6 +124,7 @@ void Layer::updateShaders(){
 
     if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
         glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
+
 
     if (myShader->uniforms.find("projectionMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["projectionMatrix"],1,false,(GLfloat*)renderer->projectionMatrix);

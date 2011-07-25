@@ -200,6 +200,11 @@ void Actor::postLoad(){
     baseMatrix=calcMatrix(this);
     matrixToVectors();
     bInit=true;
+    //use bounding area from vboMeshID
+    if (vboMeshID!="NULL"){
+        lowerLeftBack=sceneData->vboList[vboMeshID]->lowerLeftBack;
+        upperRightFront=sceneData->vboList[vboMeshID]->upperRightFront;
+    }
 }
 
 void Actor::setup(){

@@ -36,6 +36,7 @@ const float specularExp = 32.0;
 
 vec4 fragWorldLoc;
 float zPos;
+float zPosScreen;
 
 // Depth of Field variables
 
@@ -84,7 +85,8 @@ vec4 calcFragmentWorldSpace(){
     zPos = blur3(depthTex,texCoord ).r;
 
     //zPos in Screen Space - for reference
-    //float zPosScreen = farClip / (farClip - zPos * (farClip - nearClip));
+    zPosScreen = farClip / (farClip - zPos * (farClip - nearClip));
+
 
     //world space
     vec4 fW=vec4(1.0);
@@ -93,6 +95,7 @@ vec4 calcFragmentWorldSpace(){
     fW.xyz-= camX * ((gl_FragCoord.x/scene_size - 0.5) * zPos * 1.1);
     fW.xyz+= camY * ((gl_FragCoord.y/scene_size - 0.5) * zPos * 768.0/scene_size * 1.1);
 
+    //fW.y-=camLoc.y;
     return fW;
 }
 
@@ -108,21 +111,34 @@ vec4 computeLight(){
 
     //transform both to eye space
     vec4 fragWorld= cameraMatrix * fragWorldLoc;
+    //vec4 fragWorld= fragWorldLoc;
+    //fragWorld/=fragWorld.w;
     lightPos = cameraMatrix * lightPos;
-
+    //lightPos = cameraInverse * lightPos;
+    //lightPos/=lightPos.w;
 
     vec3 distVec=(lightPos.xyz - fragWorld.xyz);
+    //distVec.z*=2.0;
     float dist=length(distVec);
 
     //black if out of range
-/*
+
     if (dist>gl_LightSource[0].linearAttenuation)
         return vec4(0.0,0.0,0.0,1.0);
-*/
+
     //exaggerate normals
-    zPos=zPos * 128.0;
+    //zPos=zPosScreen * lightPos.y * 1.0;
+    zPos=zPos * 32.0;
+    //zPos=dist * 32.0;
+
     //normal in Eye Space
     vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
+
+    vec4 debug=vec4(0.0,0.0,0.0,1.0);
+    debug.xyz=fragWorldLoc.xyz;
+    debug.xyz=normalize(camZ);
+    //return debug;
+
 
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;
 
@@ -139,7 +155,7 @@ vec4 computeLight(){
 
     //falloff
     float falloff = (gl_LightSource[0].linearAttenuation-dist)/gl_LightSource[0].linearAttenuation;
-    //colorLight= colorLight * falloff;
+    colorLight= colorLight * falloff;
 
     return colorLight;
 }
@@ -174,14 +190,13 @@ vec4 shadowMapping(){
 
             //vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
             vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
-            float falloff = (shadowCoord.z) - shadowColor.a;
+            float falloff = (shadowCoord.z) - shadowColor.x;
             //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
             //myLight += computeLight();
             //if (falloff>0.0)
                 //myLight+=vec4(1.0);
                 //myLight.x=shadowCoord.z/20.0;
-                myLight.x=shadowColor.x/10.0;
-			//myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
+			myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
     }
 
   return myLight;

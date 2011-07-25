@@ -48,8 +48,8 @@ void main(){
     N =  gl_NormalMatrix * gl_Normal;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
-    vec4 myPos = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
-    myPos=myPos/myPos.w;
+    //vec4 myPos = gl_ModelViewMatrix * myVertex;
+    //myPos=myPos/myPos.w;
 
     gl_PointSize= pointSize() * screensize/scene_size;
 
