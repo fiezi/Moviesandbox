@@ -184,8 +184,8 @@ Renderer::Renderer(){
 
 	drawBuffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 	drawBuffers[1] = GL_COLOR_ATTACHMENT1_EXT;
-	drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
-	drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
+	//drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
+	//drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
 
 	registerProperties();
 }
@@ -458,7 +458,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
     int maxsamples;
     glGetIntegerv(GL_MAX_SAMPLES_EXT,&maxsamples);
 
-
+    //Multisample type - needs to be minimum 16 bit for picking and lighting calculations
 	GLenum sampleType=GL_RGBA16F_ARB;
 	//GLenum sampleType=GL_RGBA;
 	//GLenum sampleType=GL_RGBA32F_ARB;
@@ -467,14 +467,11 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
         if (name=="multisampleBuffer"){
 
-			//see if 16bit multisample is allowed
-
-
             glGenRenderbuffersEXT(1, &multiSample_color);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_color);
 
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_RGBA16F_ARB, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
             else
                 glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
 
@@ -485,7 +482,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 			glGenRenderbuffersEXT(1, &multiSample_depth);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_depth);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_RGBA16F_ARB, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
             else
                 glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
@@ -493,7 +490,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glGenRenderbuffersEXT(1, &multiSample_pick);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_pick);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_RGBA16F_ARB, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
             else
                 glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
@@ -501,7 +498,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glGenRenderbuffersEXT(1, &multiSample_lightData);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_lightData);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_RGBA16F_ARB, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
             else
                 glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
@@ -524,8 +521,6 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 			// attach renderbuffer
             glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT, multiSample_color);
             glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_RENDERBUFFER_EXT, multiSample_depth);
-            glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_RENDERBUFFER_EXT, multiSample_pick);
-            glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT3_EXT, GL_RENDERBUFFER_EXT, multiSample_lightData);
             glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, multiSample_db);
 
 		}
@@ -711,8 +706,10 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 
 void Renderer::draw(){
 
+
 	//cout << "MouseVector in draw: " << input->mouseVector << " in frame: " << frames << endl;
     //cout << "draw!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+    glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -737,6 +734,8 @@ void Renderer::draw(){
 
 
 	drawSceneTexture();
+
+
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("post-drawSceneTexture");
@@ -827,9 +826,6 @@ void Renderer::draw(){
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
-
-            glActiveTexture(GL_TEXTURE5);
-            glBindTexture(GL_TEXTURE_2D, sceneData->textureList["smear"]->texture);
 
             drawButton(sceneData->layerList[i]);
     }//end for loop through layers
@@ -938,9 +934,7 @@ void Renderer::drawShadows(MsbLight* myLight){
 
     //glDisable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-	//TODO: reorder draw buffers for better performance!
-	//glDrawBuffers(1,&depthOnly);
-	glDrawBuffers(2,drawBuffers);
+	//glDrawBuffers(2,drawBuffers);
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
@@ -985,8 +979,7 @@ void Renderer::drawSceneTexture(){
 
 
 
-
-    glDrawBuffers(4,drawBuffers);
+    glDrawBuffers(1,drawBuffers);
 
     glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
 
@@ -997,11 +990,9 @@ void Renderer::drawSceneTexture(){
                  GL_DEPTH_BUFFER_BIT );
 
 
-        //disable blending for second, third and fourth buffer
+        //disable blending for second buffer
 
         glDisableIndexedEXT(GL_BLEND,1);
-        glDisableIndexedEXT(GL_BLEND,2);
-        glDisableIndexedEXT(GL_BLEND,3);
 
         glActiveTexture(GL_TEXTURE0);
 
@@ -1019,32 +1010,13 @@ void Renderer::drawSceneTexture(){
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 
-
-        //depth blitting
+        //meta blitting - zPos, ObjectID, vertexID
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
 
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-        //picking blitting
-        glReadBuffer(GL_COLOR_ATTACHMENT2_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->pickFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-        //lightInfo blitting
-
-        glReadBuffer(GL_COLOR_ATTACHMENT3_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->lightDataFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
 	}
 
     //cleanup
@@ -1066,7 +1038,6 @@ void Renderer::drawSceneTexture(){
 
 
 void Renderer::drawDeferredLighting(Layer* layer){
-
 
         bShadowPass=true;
         //preserve our unlit color content
@@ -1198,16 +1169,14 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
 void Renderer::draw3D(Layer* currentLayer){
 
-
-
     glActiveTexture(GL_TEXTURE0);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
     if (bShadowPass)
-        glDrawBuffers(2, drawBuffers);
+        glDrawBuffers(1, drawBuffers);
     else
-        glDrawBuffers(4, drawBuffers);
+        glDrawBuffers(2, drawBuffers);
 
 
     //draw color
@@ -1223,6 +1192,10 @@ void Renderer::draw3D(Layer* currentLayer){
             //draw in all buffers for pickable actors
             if (currentLayer->actorList[i]->bPickable){
                 drawActor(currentLayer->actorList[i]);
+            }else{
+                glDrawBuffers(1, drawBuffers);
+                drawActor(currentLayer->actorList[i]);
+                glDrawBuffers(2, drawBuffers);
             }
             //don't draw in picking buffer for non-pickable actors
         }
@@ -1237,14 +1210,15 @@ void Renderer::draw3D(Layer* currentLayer){
 
     //draw non-pickable actors afterwards!
     //used for drawings while drawing, so they're visible
+    /*
     for (int i=0;i<(int)currentLayer->actorList.size(); i++){
         if (!currentLayer->actorList[i]->bPickable){
             glDrawBuffers(1, drawBuffers);
             drawActor(currentLayer->actorList[i]);
-            glDrawBuffers(4, drawBuffers);
+            glDrawBuffers(2, drawBuffers);
         }
     }
-
+    */
    //leave after this one if we're in shadow pass!
     if (bShadowPass){
         //reset texture Matrix transform
@@ -1288,6 +1262,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
                     glDisable(GL_CULL_FACE);
 
+                    glDrawBuffers(2, drawBuffers);
                 }
                 else{
                     //don't draw in Z or draw normals if we're not pickable!
@@ -1295,7 +1270,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
                     if (sceneData->helperList[i]->name=="brush"){
                         drawActor(sceneData->helperList[i]);
-                        glDrawBuffers(4, drawBuffers);
+                        glDrawBuffers(2, drawBuffers);
                         continue;
                     }
                     glEnable(GL_CULL_FACE);
@@ -1315,9 +1290,8 @@ void Renderer::draw3D(Layer* currentLayer){
                     sceneData->helperList[i]->color=myColor;
                     glDisable(GL_CULL_FACE);
 
-                    glDrawBuffers(4, drawBuffers);
+                    glDrawBuffers(2, drawBuffers);
                 }
-
             }
         }
 
@@ -1350,6 +1324,7 @@ void Renderer::draw3D(Layer* currentLayer){
 }
 
 void Renderer::draw2D(){
+
 
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1512,11 +1487,16 @@ void Renderer::drawGizmos(Actor* a){
 
     a->updateShaders();
 
+    glDrawBuffers(1,drawBuffers);
+
     if (a->bSelected)
         drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
 
     if (sceneData->specialSelected==a)
         drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,1,1));
+
+    glDrawBuffers(2,drawBuffers);
+
 
     //restore lighting information
     a->bComputeLight=bComputeLight;
@@ -1991,17 +1971,18 @@ void Renderer::drawColladaMesh (Actor* a){
 
 
         glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_NORMAL_ARRAY);
+		//TODO: no more normals!
+		//glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->vertexBufferObject[0]);
         glVertexPointer(myMesh->verticesPerShapeCount, GL_FLOAT, 0, 0);
 
 
-
+/*
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->normalBufferObject[0]);
         glNormalPointer(GL_FLOAT, 0, 0);
-
+*/
 
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->texCoordBufferObject[0]);
         glTexCoordPointer(myMesh->texCoordPerVertexCount, GL_FLOAT, 0, 0);
@@ -2009,13 +1990,15 @@ void Renderer::drawColladaMesh (Actor* a){
         if (myMesh->colorBufferObject.size()>0){
 
             glEnableClientState(GL_COLOR_ARRAY);
-			glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
+            //TODO: no more secondary colors!
+
+			//glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
 
             glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->colorBufferObject[0]);
             glColorPointer(4, GL_FLOAT, 0, 0);
 
-			glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->secondaryColorBufferObject[0]);
-			glSecondaryColorPointer(3,GL_FLOAT, 0, 0);
+			//glBindBufferARB(GL_ARRAY_BUFFER_ARB, myMesh->secondaryColorBufferObject[0]);
+			//glSecondaryColorPointer(3,GL_FLOAT, 0, 0);
         }
 
 
@@ -2045,7 +2028,7 @@ void Renderer::drawColladaMesh (Actor* a){
         glBindBufferARB(GL_ARRAY_BUFFER_ARB,0);
 
         glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_NORMAL_ARRAY);
+        //glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         if (myMesh->bIsSkeletal){
@@ -2055,7 +2038,7 @@ void Renderer::drawColladaMesh (Actor* a){
 
         if (myMesh->colorBufferObject.size()>0){
                 glDisableClientState(GL_COLOR_ARRAY);
-                glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
+                //glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
         }
 
     glPopMatrix();
@@ -2073,11 +2056,14 @@ void Renderer::drawSprite(){
 //Display and Textdrawing
 void Renderer::drawText(string str, float x, float y){
 
+
+
     glColor4f(1.0,1.0,1.0,1.0);
     verdana->drawString(str, x, y);
     #ifdef BDEBUGRENDERER
     checkOpenGLError("post-Font:", false);
     #endif
+
 }
 
 

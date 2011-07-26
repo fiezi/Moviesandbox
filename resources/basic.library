@@ -2,103 +2,102 @@
 <Moviesandbox>
 
  <!-- Meshes -->
-    <ColladaMesh meshID="camera" meshFilename="resources/meshes/cameraMesh.DAE"/>
+    <ColladaMesh meshID="camera" meshFilename="cameraMesh.DAE"/>
 
-    <SpriteMesh meshID="sticky" meshFilename="resources/meshes/sticky.spriteMesh"/>
-    <SpriteMesh meshID="teapot" meshFilename="resources/meshes/teapot.spriteMesh" />
-    <SpriteMesh meshID="cube" meshFilename="resources/meshes/cube.spriteMesh" />
+    <SpriteMesh meshID="sticky" meshFilename="sticky.spriteMesh"/>
+    <SpriteMesh meshID="teapot" meshFilename="teapot.spriteMesh" />
+    <SpriteMesh meshID="cube" meshFilename="cube.spriteMesh" />
 
-    <SpriteMesh meshID="std_skeleton" meshFilename="resources/meshes/std_Skeleton.spriteMesh"/>
+    <SpriteMesh meshID="std_skeleton" meshFilename="std_Skeleton.spriteMesh"/>
 
 
  <!-- Textures -->
-    <Texture textureID="NULL" filename="resources/icons/error.tga" bAlpha="1" bWrap="1" />
-    <Texture textureID="videoTexture" filename="resources/icons/video.tga" bAlpha="0" bWrap="0" />
+    <Texture textureID="NULL" filename="error.tga" bAlpha="1" bWrap="1" />
+    <Texture textureID="videoTexture" filename="video.tga" bAlpha="0" bWrap="0" />
 
-    <Texture textureID="icon_base" filename="resources/icons/icon_base.tga" bAlpha="1" bWrap="0" />
-    <Texture textureID="icon_select" filename="resources/icons/icon_select.tga" bAlpha="1" bWrap="0" />
-    <Texture textureID="icon_advanced" filename="resources/icons/icon_advanced.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_move" filename="resources/icons/icon_move.tga" bAlpha="1" bWrap="0" />
-    <Texture textureID="icon_rotate" filename="resources/icons/icon_rotate.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_grow" filename="resources/icons/icon_grow.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_shrink" filename="resources/icons/icon_shrink.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_flat" filename="resources/icons/icon_flat.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_base" filename="icon_base.tga" bAlpha="1" bWrap="0" />
+    <Texture textureID="icon_select" filename="icon_select.tga" bAlpha="1" bWrap="0" />
+    <Texture textureID="icon_advanced" filename="icon_advanced.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_move" filename="icon_move.tga" bAlpha="1" bWrap="0" />
+    <Texture textureID="icon_rotate" filename="icon_rotate.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_grow" filename="icon_grow.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_shrink" filename="icon_shrink.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_flat" filename="icon_flat.tga" bAlpha="1" bWrap="0"/>
 
-    <Texture textureID="icon_fly" filename="resources/icons/icon_fly.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_props" filename="resources/icons/icon_props.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_character" filename="resources/icons/icon_character.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_camera" filename="resources/icons/icon_camera.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_light" filename="resources/icons/icon_light.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_target" filename="resources/icons/icon_target.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_fly" filename="icon_fly.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_props" filename="icon_props.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_character" filename="icon_character.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_camera" filename="icon_camera.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_light" filename="icon_light.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_target" filename="icon_target.tga" bAlpha="1" bWrap="0"/>
 
-	<Texture textureID="icon_drawMesh" filename="resources/icons/icon_drawMesh.tga" bAlpha="1" bWrap="0"/>
-	<Texture textureID="icon_brush" filename="resources/icons/icon_brush.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_paint" filename="resources/icons/icon_paint.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_paintFancy" filename="resources/icons/icon_paintFancy.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_ball" filename="resources/icons/icon_ball.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_timeline" filename="resources/icons/icon_nextBone.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_nodeMenu" filename="resources/icons/icon_nodeMenu.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_texture" filename="resources/icons/icon_texture.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_layers" filename="resources/icons/icon_layers.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_prefab" filename="resources/icons/icon_prefab.tga" bAlpha="1" bWrap="0"/>
+	<Texture textureID="icon_drawMesh" filename="icon_drawMesh.tga" bAlpha="1" bWrap="0"/>
+	<Texture textureID="icon_brush" filename="icon_brush.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_paint" filename="icon_paint.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_paintFancy" filename="icon_paintFancy.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_ball" filename="icon_ball.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_timeline" filename="icon_nextBone.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_nodeMenu" filename="icon_nodeMenu.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_texture" filename="icon_texture.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_layers" filename="icon_layers.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_prefab" filename="icon_prefab.tga" bAlpha="1" bWrap="0"/>
 
-    <Texture textureID="icon_system" filename="resources/icons/icon_system.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_save" filename="resources/icons/icon_save.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_saveAs" filename="resources/icons/icon_saveAs.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_load" filename="resources/icons/icon_load.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_exit" filename="resources/icons/icon_exit.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_system" filename="icon_system.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_save" filename="icon_save.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_saveAs" filename="icon_saveAs.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_load" filename="icon_load.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_exit" filename="icon_exit.tga" bAlpha="1" bWrap="0"/>
 
-    <Texture textureID="icon_colorPad" filename="resources/icons/icon_color.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_palette" filename="resources/icons/rgb_Palette.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_grid" filename="resources/icons/icon_grid.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_selectChar" filename="resources/icons/icon_selectChar.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_brushSize" filename="resources/icons/icon_brushSize.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_new" filename="resources/icons/icon_new.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_clearDrawing" filename="resources/icons/icon_clearDrawing.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_selectDrawing" filename="resources/icons/icon_selectDrawing.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_selectParticles" filename="resources/icons/icon_selectParticles.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_colorPad" filename="icon_color.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_palette" filename="rgb_Palette.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_grid" filename="icon_grid.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_selectChar" filename="icon_selectChar.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_brushSize" filename="icon_brushSize.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_new" filename="icon_new.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_clearDrawing" filename="icon_clearDrawing.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_selectDrawing" filename="icon_selectDrawing.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_selectParticles" filename="icon_selectParticles.tga" bAlpha="1" bWrap="0"/>
 
-    <Texture textureID="brushTwo" filename="resources/icons/brushTwo.tga" bAlpha="1" bWrap="0" nextFrame="brushTwo" frameRate="400"/>
-    <Texture textureID="brushTwob" filename="resources/icons/brushTwob.tga" bAlpha="1" bWrap="0" nextFrame="brushTwob" frameRate="200"/>
+    <Texture textureID="brushTwo" filename="brushTwo.tga" bAlpha="1" bWrap="0" nextFrame="brushTwo" frameRate="400"/>
+    <Texture textureID="brushTwob" filename="brushTwob.tga" bAlpha="1" bWrap="0" nextFrame="brushTwob" frameRate="200"/>
 
-    <Texture textureID="grid" filename="resources/icons/grid.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="grid_solid" filename="resources/icons/grid_solid.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="grid" filename="grid.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="grid_solid" filename="grid_solid.tga" bAlpha="1" bWrap="1"/>
 
-    <Texture textureID="sunset" filename="resources/icons/sunset.tga" bAlpha="0" bWrap="1"/>
-    <Texture textureID="background" filename="resources/icons/background.tga" bAlpha="0" bWrap="0"/>
-    <Texture textureID="black_bkg" filename="resources/icons/black_bkg.tga" bAlpha="0" bWrap="0"/>
-    <Texture textureID="nightTime" filename="resources/icons/nightTime.tga" bAlpha="0" bWrap="0"/>
+    <Texture textureID="sunset" filename="sunset.tga" bAlpha="0" bWrap="1"/>
+    <Texture textureID="background" filename="background.tga" bAlpha="0" bWrap="0"/>
+    <Texture textureID="black_bkg" filename="black_bkg.tga" bAlpha="0" bWrap="0"/>
+    <Texture textureID="nightTime" filename="nightTime.tga" bAlpha="0" bWrap="0"/>
 
-    <Texture textureID="normals_up" filename="resources/icons/normals_up.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_left" filename="resources/icons/normals_left.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_right" filename="resources/icons/normals_right.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_down" filename="resources/icons/normals_down.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_front" filename="resources/icons/normals_front.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_back" filename="resources/icons/normals_back.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_follow_drawing" filename="resources/icons/normals_follow_drawing.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_world" filename="resources/icons/normals_world.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_flip" filename="resources/icons/normals_flip.tga" bAlpha="1" bWrap="1"/>
-
-
-    <Texture textureID="icon_gridXY" filename="resources/icons/icon_gridXY.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_gridXZ" filename="resources/icons/icon_gridXZ.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_gridZY" filename="resources/icons/icon_gridZY.tga" bAlpha="1" bWrap="1"/>
-
-    <Texture textureID="icon_kinect" filename="resources/icons/icon_kinect.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_importBitmap" filename="resources/icons/icon_importBitmap.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_mergeDrawings" filename="resources/icons/icon_mergeDrawings.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_paintWeights" filename="resources/icons/icon_paintWeights.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="icon_addBones" filename="resources/icons/icon_addBones.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_up" filename="normals_up.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_left" filename="normals_left.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_right" filename="normals_right.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_down" filename="normals_down.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_front" filename="normals_front.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_back" filename="normals_back.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_follow_drawing" filename="normals_follow_drawing.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_world" filename="normals_world.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="normals_flip" filename="normals_flip.tga" bAlpha="1" bWrap="1"/>
 
 
+    <Texture textureID="icon_gridXY" filename="icon_gridXY.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_gridXZ" filename="icon_gridXZ.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_gridZY" filename="icon_gridZY.tga" bAlpha="1" bWrap="1"/>
 
-    <Texture textureID="kinectInput" filename="resources/icons/icon_kinect.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="audioInput" filename="resources/icons/icon_importBitmap.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_kinect" filename="icon_kinect.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_importBitmap" filename="icon_importBitmap.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_mergeDrawings" filename="icon_mergeDrawings.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_paintWeights" filename="icon_paintWeights.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="icon_addBones" filename="icon_addBones.tga" bAlpha="1" bWrap="1"/>
 
-    <Texture textureID="sprite_light" filename="resources/icons/sprite_light.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="sprite_bone" filename="resources/icons/sprite_bone.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="smear" filename="resources/textures/smear.tga" bAlpha="1" bWrap="1"/>
 
+
+    <Texture textureID="kinectInput" filename="icon_kinect.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="audioInput" filename="icon_importBitmap.tga" bAlpha="1" bWrap="1"/>
+
+    <Texture textureID="sprite_light" filename="sprite_light.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="sprite_bone" filename="sprite_bone.tga" bAlpha="1" bWrap="1"/>
+    
 
 
  <!-- Actions -->
@@ -109,25 +108,25 @@
  <!-- Shaders -->
 
 
-    <Shader shaderID="color" vertexShaderFilename="shaders/color.vert" fragmentShaderFilename="shaders/color.frag" />
-    <Shader shaderID="aliveTexture" vertexShaderFilename="shaders/aliveTexture.vert" fragmentShaderFilename="shaders/aliveTexture.frag" />
-    <Shader shaderID="illustration" vertexShaderFilename="shaders/illustration.vert" fragmentShaderFilename="shaders/illustration.frag" />
-    <Shader shaderID="drawing" vertexShaderFilename="shaders/drawing.vert" fragmentShaderFilename="shaders/drawing.frag" />
-    <Shader shaderID="texture" vertexShaderFilename="shaders/texture.vert" fragmentShaderFilename="shaders/texture.frag" />
-    <Shader shaderID="kinectHeightfield" vertexShaderFilename="shaders/kinectHeightField.vert" fragmentShaderFilename="shaders/kinectHeightField.frag" />
-    <Shader shaderID="heightfield" vertexShaderFilename="shaders/particleHeightField.vert" fragmentShaderFilename="shaders/particleHeightField.frag" />
+    <Shader shaderID="color" vertexShaderFilename="color.vert" fragmentShaderFilename="color.frag" />
+    <Shader shaderID="aliveTexture" vertexShaderFilename="aliveTexture.vert" fragmentShaderFilename="aliveTexture.frag" />
+    <Shader shaderID="illustration" vertexShaderFilename="illustration.vert" fragmentShaderFilename="illustration.frag" />
+    <Shader shaderID="drawing" vertexShaderFilename="drawing.vert" fragmentShaderFilename="drawing.frag" />
+    <Shader shaderID="texture" vertexShaderFilename="texture.vert" fragmentShaderFilename="texture.frag" />
+    <Shader shaderID="kinectHeightfield" vertexShaderFilename="kinectHeightField.vert" fragmentShaderFilename="kinectHeightField.frag" />
+    <Shader shaderID="heightfield" vertexShaderFilename="particleHeightField.vert" fragmentShaderFilename="particleHeightField.frag" />
 
-    <Shader shaderID="skinning" vertexShaderFilename="shaders/skinning.vert" fragmentShaderFilename="shaders/skinning.frag" />
+    <Shader shaderID="skinning" vertexShaderFilename="skinning.vert" fragmentShaderFilename="skinning.frag" />
 
-    <Shader shaderID="font" vertexShaderFilename="shaders/font.vert" fragmentShaderFilename="shaders/font.frag" />
+    <Shader shaderID="font" vertexShaderFilename="font.vert" fragmentShaderFilename="font.frag" />
 
-    <Shader shaderID="skeletal" vertexShaderFilename="shaders/skeletal.vert" fragmentShaderFilename="shaders/skeletal.frag" />
-    <Shader shaderID="skeletalIllustration" vertexShaderFilename="shaders/skeletalIllustration.vert" fragmentShaderFilename="shaders/skeletalIllustration.frag" />
-    <Shader shaderID="skeletalCab" vertexShaderFilename="shaders/skeletalCab.vert" fragmentShaderFilename="shaders/skeletalCab.frag" />
+    <Shader shaderID="skeletal" vertexShaderFilename="skeletal.vert" fragmentShaderFilename="skeletal.frag" />
+    <Shader shaderID="skeletalIllustration" vertexShaderFilename="skeletalIllustration.vert" fragmentShaderFilename="skeletalIllustration.frag" />
+    <Shader shaderID="skeletalCab" vertexShaderFilename="skeletalCab.vert" fragmentShaderFilename="skeletalCab.frag" />
 
-    <Shader shaderID="dof" vertexShaderFilename="shaders/post/dof.vert" fragmentShaderFilename="shaders/post/dof.frag" />
-    <Shader shaderID="post" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/post.frag" />
-    <Shader shaderID="deferredLight" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/deferredLight.frag" />
+    <Shader shaderID="dof" vertexShaderFilename="post/dof.vert" fragmentShaderFilename="post/dof.frag" />
+    <Shader shaderID="post" vertexShaderFilename="post/post.vert" fragmentShaderFilename="post/post.frag" />
+    <Shader shaderID="deferredLight" vertexShaderFilename="post/post.vert" fragmentShaderFilename="post/deferredLight.frag" />
 
 
 </Moviesandbox>

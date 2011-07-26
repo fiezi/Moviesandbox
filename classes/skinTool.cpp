@@ -92,13 +92,13 @@ void SkinTool::stop(){
 
 
 	//save vbo and reload, then assign to this actor and switch drawmode to VBO
-    sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
-	sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
+    sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
+	sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
 
     //open my.library and append this mesh!
     TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
     myElement->SetAttribute("meshID",skel->vboMeshID);
-    myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
+    myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
     sceneData->addToLibrary(myElement);
 
 	skel->drawType=DRAW_VBOMESH;
@@ -245,12 +245,12 @@ void SkinTool::paint(){
 void SkinTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
-		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
+		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
 		sceneData->addToLibrary(myElement);
 		free(myElement);
 }

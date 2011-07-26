@@ -143,7 +143,7 @@ public:
         //shared memory
         GLuint smTexture;                           //texture written from shared memory
 
-		GLenum drawBuffers[3];
+		GLenum drawBuffers[2];
 
         BasicButton* leftEyeFBO;                 //2D planes for left and right eye!
         BasicButton* rightEyeFBO;

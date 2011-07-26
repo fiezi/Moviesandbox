@@ -137,12 +137,12 @@ void BoneTool::postSpawn(Actor* myActor){
 void BoneTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
-		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
+		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
 		sceneData->addToLibrary(myElement);
 		free(myElement);
 }

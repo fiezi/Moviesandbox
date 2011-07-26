@@ -107,7 +107,7 @@ void PrefabInspector::trigger(MsbObject* other){
         if (other==listButton[i])
             prefNo=i;
 
-     sceneData->loadPrefab("resources/prefabs/"+sceneData->prefabs[prefNo]);
+     sceneData->loadPrefab("resources/prefabs/",sceneData->prefabs[prefNo]);
 
 
     //this should only be called when we drag'n'dropped the prefab somewhere

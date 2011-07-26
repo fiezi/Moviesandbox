@@ -115,6 +115,9 @@ void MeshInspector::trigger(MsbObject* other){
     }
 
     if (other->name=="import"){
+
+        //TODO: also copy to project folder!
+
         string filename=sceneData->openFileDialog();
         //check for file ending
         size_t found;

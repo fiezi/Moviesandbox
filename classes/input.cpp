@@ -140,6 +140,11 @@ void Input::resetInputVectors(){
 
 void Input::pressedMouse(int button,int state,int x, int y){
 
+    if (bTextInput){
+        cout << "In text input mode! Cannot press stuff!" << endl;
+        return;
+    }
+
 
     cout << "pressed button: " << button << endl;
 
@@ -474,8 +479,10 @@ void Input::keyUp(unsigned char key,int x,int y){
             sceneData->controller->myTools[TOOL_NAV]->myBtn->clickedLeft();
 
         //pressed ESC!!!
-        if (key==27)
-          Input::deselectButtons(0);
+        if (key==27){
+            Input::deselectButtons(0);
+            bTextInput=false;
+        }
 
         //space - run scene
         if (key==' ')
@@ -509,10 +516,10 @@ void Input::keyUp(unsigned char key,int x,int y){
 
         // reload all shaders!
         if (key=='S')
-               sceneData->loadShaders("resources/basic.library");
+               sceneData->loadShaders("shaders/","resources/basic.library");
         // reload all basic textures!
         if (key=='X')
-               sceneData->loadTextures("resources/basic.library");
+               sceneData->loadTextures("resources/icons/","resources/basic.library");
 
         if (key=='i')
             sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();

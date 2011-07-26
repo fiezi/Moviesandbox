@@ -114,15 +114,15 @@ void BoneWidget::trigger(MsbObject* other){
 
     if (other->name=="save As..."){
         cout << "creating VBO..." << endl;
-        sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
-        sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
+        sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
+        sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",input->inputText);
 
 		sceneData->brush->drawing->name=input->inputText;
 		sceneData->brush->drawing->vboMeshID=input->inputText;
 
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);
-        newMesh->SetAttribute("meshFilename","resources/meshes/"+input->inputText+".spriteMesh");
+        newMesh->SetAttribute("meshFilename",input->inputText+".spriteMesh");
         sceneData->addToLibrary(newMesh);
         free(newMesh);
     }

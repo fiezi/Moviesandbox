@@ -9,6 +9,8 @@ WindowButton::WindowButton(){
     bToggleWidget=true;
     bPermanentList=true;
 
+    backgroundButton=NULL;
+
     bRelativeListLocation=false;
     listLoc.x=renderer->screenX/2-300;
     listLoc.y=renderer->screenY/2-200;
@@ -41,15 +43,16 @@ void WindowButton::setup(){
 
 void WindowButton::assembleList(){
 
-        backgroundButton=new BasicButton;
-        backgroundButton->scale.x=700;
-        backgroundButton->scale.y=400;
-        backgroundButton->location.x=listLoc.x;
-        backgroundButton->location.y=listLoc.y-20;
-        backgroundButton->setLocation(backgroundButton->location);
-        backgroundButton->sceneShaderID="color";
-        backgroundButton->bTextured=false;
-        backgroundButton->color=Vector4f(0.3,0.3,0.3,0.75);
+            backgroundButton=new BasicButton;
+            backgroundButton->scale.x=700;
+            backgroundButton->scale.y=400;
+            backgroundButton->location.x=listLoc.x;
+            backgroundButton->location.y=listLoc.y-20;
+
+            backgroundButton->setLocation(backgroundButton->location);
+            backgroundButton->sceneShaderID="color";
+            backgroundButton->bTextured=false;
+            backgroundButton->color=Vector4f(0.3,0.3,0.3,0.75);
 
         sceneData->buttonList.push_back(backgroundButton);
 
@@ -91,13 +94,19 @@ void WindowButton::assembleList(){
 
 
 }
-//ROCCHINASCHOENEGRUESE
+
+void WindowButton::closeWidget(){
+
+    Widget::closeWidget();
+    backgroundButton->remove();
+    backgroundButton=NULL;
+}
 
 void WindowButton::deselect(int depth){
 
     if (!((Widget*)parent)->bWidgetOpen){
         //un-permanentize our buttons if our parent widget closes...
-        for (int i=0;i<listButton.size();i++){
+        for (int i=0;i<(int)listButton.size();i++){
             listButton[i]->bPermanent=false;
             listButton[i]->level=100;
         }

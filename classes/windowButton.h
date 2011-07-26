@@ -20,6 +20,8 @@ public:
 
     virtual void assembleList();
 
+    virtual void closeWidget();
+
     virtual void deselect(int depth);
 
     virtual void create();

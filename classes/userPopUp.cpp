@@ -10,6 +10,7 @@ name="UserPopUp";
 bMessageWindow=true;
 bDrawName=true;
 bWaitForInput=false;
+level=100;
 registerProperties();
 }
 
@@ -17,13 +18,13 @@ UserPopUp::~UserPopUp(){}
 
 
 void UserPopUp::setup(){
-TextInputButton::setup();
+    TextInputButton::setup();
 
 }
 
 void UserPopUp::update(double deltaTime){
 
-TextInputButton::update(deltaTime);
+    TextInputButton::update(deltaTime);
 }
 
 void UserPopUp::mouseOver(){
@@ -41,7 +42,11 @@ TextInputButton::finishDrag();
 
 void UserPopUp::clickedLeft(){
     input->inputText="";
-    TextInputButton::clickedLeft();
+    if (bWaitForInput)
+        TextInputButton::clickedLeft();
+    else
+        focusClick();
+
 }
 
 void UserPopUp::clickedRight(){
@@ -64,11 +69,21 @@ void UserPopUp::focusClick(){
     //clean up
     input->inputText="";
     bEditing=false;
+    bWaitForInput=false;
     BasicButton::focusClick();
 }
 
 void UserPopUp::deselect(int depth){
-TextInputButton::deselect(depth);
+
+    input->inputText="";
+    bEditing=false;
+    bWaitForInput=false;
+    //cleanUp
+    //we need to pop back to vanish again!
+    sceneData->buttonList.pop_back();
+    //remove from sceneData reference!
+    sceneData->staticButton=NULL;
+    input->focusButton=NULL;
 }
 
 void UserPopUp::create(){sceneData->addButton(this);}

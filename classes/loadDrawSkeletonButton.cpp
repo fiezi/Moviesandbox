@@ -61,7 +61,7 @@ void LoadDrawSkeletonButton::trigger(MsbObject* other){
     if (sceneData->brush && sceneData->brush->drawing){
         SkeletalActor* mySkel= dynamic_cast<SkeletalActor*>(sceneData->brush->drawing);
         if (mySkel){
-            sceneData->loadPrefab("resources/prefabs/"+other->name);            //load prefab
+            sceneData->loadPrefab("resources/prefabs/",other->name);            //load prefab
             for (uint i=0;i<sceneData->selectedActors.size();i++){
                 mySkel->bones.push_back(sceneData->selectedActors[i]);                  //push selectedActors into drawing as bones
                 if (!mySkel->bones[i]->base)

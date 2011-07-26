@@ -52,12 +52,15 @@ void DrawingWidget::closeWidget(){
         sceneData->controller->myTools[TOOL_DRAW]->save();
         sceneData->brush->drawing->drawType=DRAW_VBOMESH;
         sceneData->brush->drawing->reset();
-        sceneData->staticButton->focusClick();
         input->bTextInput=false;
     }
 
 
     sceneData->controller->switchTool(TOOL_SELECT);
+    if (sceneData->staticButton){
+        sceneData->staticButton->focusClick();
+    }
+
     color=COLOR_WHITE;
 
 }
@@ -98,15 +101,15 @@ void DrawingWidget::trigger(MsbObject* other){
 
     if (other->name=="save As..."){
         cout << "creating VBO..." << endl;
-        sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
-        sceneData->spriteMeshLoader->loadSpriteMesh("resources/meshes/"+input->inputText+".spriteMesh",input->inputText);
+        sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
+        sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",input->inputText);
 
 		sceneData->brush->drawing->name=input->inputText;
 		sceneData->brush->drawing->vboMeshID=input->inputText;
 
         TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
         newMesh->SetAttribute("meshID",input->inputText);
-        newMesh->SetAttribute("meshFilename","resources/meshes/"+input->inputText+".spriteMesh");
+        newMesh->SetAttribute("meshFilename",input->inputText+".spriteMesh");
         sceneData->addToLibrary(newMesh);
         free(newMesh);
     }

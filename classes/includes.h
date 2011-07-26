@@ -89,6 +89,8 @@ struct bone{
     bone*      parentBone;
 };
 
+
+//TODO: remove normals from vertexData?
 struct vertexData{
 
     Vector4f location;

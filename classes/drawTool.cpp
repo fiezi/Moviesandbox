@@ -193,6 +193,9 @@ void DrawTool::update(double deltaTime){
 
 void DrawTool::paint(){
 
+    brush->drawing->bPickable=false;
+    brush->drawing->bZTest=false;
+
     if (fabs(input->mouseVector.length())==0.0)
         return;
 
@@ -211,8 +214,6 @@ void DrawTool::paint(){
     for (int i=0;i<(int)filters.size();i++){
         filters[i]->filter(&myVData);
     }
-	if (!sceneData->brush->bMouseControlled)
-		myVData.normal=sceneData->brush->pNormal;
 
     myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
 
@@ -220,6 +221,17 @@ void DrawTool::paint(){
 
     //count particles
     sceneData->numParticles++;
+
+    //adjust bounding box
+
+    brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,myVData.location.x);
+    brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,myVData.location.y);
+    brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,myVData.location.z);
+
+    brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,myVData.location.x);
+    brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,myVData.location.y);
+    brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,myVData.location.z);
+
 }
 
 void DrawTool::erase(){
@@ -241,12 +253,12 @@ void DrawTool::erase(){
 void DrawTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		sceneData->spriteMeshLoader->saveSpriteMesh("resources/meshes/"+skel->vboMeshID+".spriteMesh",skel);
+		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
-		myElement->SetAttribute("meshFilename","resources/meshes/"+skel->vboMeshID+".spriteMesh");
+		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
 		sceneData->addToLibrary(myElement);
 }
 

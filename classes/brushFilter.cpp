@@ -38,9 +38,10 @@ void BrushFilter::filter(vertexData* myVData){
     myVData->location=Vector4f(parent->calcLoc.x,parent->calcLoc.y,parent->calcLoc.z,parent->brush->scale.x*0.1);
 
 
-    //TODO: figure out normal generation for drawing!
-        //myVData->normal=input->worldNormal;
+//TODO: No more need for nomal generation! Also leave out biNormal, as we can get that from dFdx!
 
+        //myVData->normal=input->worldNormal;
+/*
     vertexData oldData;
     oldData.normal=Vector3f(0,0,0);
     oldData.location=Vector4f(0,0,0,brush->scale.x*0.1);
@@ -84,7 +85,7 @@ void BrushFilter::filter(vertexData* myVData){
             myVData->normal=input->worldNormal;
     }
 
-
+*/
 
     myVData->color=brush->color;
 
@@ -100,11 +101,11 @@ void BrushFilter::filter(vertexData* myVData){
 	if (abs(myVData->secondaryColor.y)>0.9)
 		myAxis=Vector3f(0.0,0.0,1.0);
 
-	Vector3f biNormal=input->mouse3D - oldMouse3D;
-	biNormal.normalize();
+//	Vector3f biNormal=input->mouse3D - oldMouse3D;
+//	biNormal.normalize();
 //	myVData->normal=biNormal.crossProduct(myAxis);
-	//myVData->normal=myAxis * 0.0;
-	myVData->secondaryColor=biNormal;
+//  myVData->normal=myAxis * 0.0;
+//	myVData->secondaryColor=biNormal;
 
 	oldMouse3D=input->mouse3D;
 

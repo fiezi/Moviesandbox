@@ -535,10 +535,12 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
     //allow spritemeshes without vertices!
     if (hRoot.FirstChild("vertices").Element()){
         loadVertices(meshID, hRoot.FirstChild("vertices").Element());
+        //TODO: remove normal loading!
         loadNormals(meshID, hRoot.FirstChild("normals").Element());
         loadTexCoords(meshID, hRoot.FirstChild("texCoords").Element());
 
         loadColors(meshID, hRoot.FirstChild("colors").Element());
+        //TODO: remove secondary colors!
         loadSecondaryColors(meshID, hRoot.FirstChild("secondaryColors").Element());
 
         loadBoneReferences(meshID, hRoot.FirstChild("boneReferences").Element());
@@ -679,24 +681,13 @@ void SpriteMeshLoader::loadVertices(string meshID, TiXmlElement * sourceElement)
 
 	for (int i=0;i<vertexCount;i++){
 	    //lower left front
-        if (lowerLeft.x > vertices[i].x)
-            lowerLeft.x=vertices[i].x;
-
-        if (lowerLeft.y > vertices[i].y)
-            lowerLeft.y=vertices[i].y;
-
-        if (lowerLeft.z > vertices[i].z)
-            lowerLeft.z=vertices[i].z;
-
+            lowerLeft.x=min(lowerLeft.x,vertices[i].x);
+            lowerLeft.y=min(lowerLeft.y,vertices[i].y);
+            lowerLeft.z=min(lowerLeft.z,vertices[i].z);
         //upper Right Back
-        if (upperRight.x < vertices[i].x)
-            upperRight.x=vertices[i].x;
-
-        if (upperRight.y < vertices[i].y)
-            upperRight.y=vertices[i].y;
-
-        if (upperRight.z < vertices[i].z)
-            upperRight.z=vertices[i].z;
+            upperRight.x=max(upperRight.x,vertices[i].x);
+            upperRight.y=max(upperRight.y,vertices[i].y);
+            upperRight.z=max(upperRight.z,vertices[i].z);
 	}
 
     //expand a little bit

@@ -68,7 +68,7 @@ void X1600Renderer::drawSceneTexture(){
 
 		glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 
-		glDrawBuffers(4, drawBuffers);
+		glDrawBuffers(2, drawBuffers);
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
 
@@ -88,7 +88,7 @@ void X1600Renderer::drawSceneTexture(){
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
+/*
         //picking blitting
         glReadBuffer(GL_COLOR_ATTACHMENT2_EXT);
 
@@ -105,7 +105,7 @@ void X1600Renderer::drawSceneTexture(){
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
         glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
+*/
     }
 	glEnable(GL_BLEND);
 

@@ -122,8 +122,10 @@ public:
         map <string, actorID> actorInfo;    //for RTTY - all types of actors this program has
                                            //and type/size information for them
 
-        std::string  startSceneFilename;    //basic scene
-        vector<std::string>  library;       //all libraries
+        std::string  startSceneFilename;    //scene to load at startup
+        std::string  startProject;          //project to load at startup
+        std::string  library;               //basic content xml location - meshes, shaders, textures, etc...
+
         //lists
         vector <Actor*> actorList;          //all created actors go here
         vector <Actor*> helperList;         //brush and grid go here
@@ -182,10 +184,6 @@ public:
         vector<Actor*>      selectedActors;   //the last Actor we clicked on/selected - gets NULL when clicked on ground or world
         Actor*              specialSelected;
 
-        std::string savedDrawingDirName;
-        std::string savedSceneDirName;
-        std::string savedActionsDirName;
-
         std::vector<string> savedDrawings;
         std::vector<string> savedCharacters;
         std::vector<string> savedScenes;
@@ -240,14 +238,14 @@ public:
 
         //saving and loading
         void saveAll(std::string filename);
-        void loadAll(std::string filename, bool bCleanup=true);
+        void loadAll(std::string fileName, bool bCleanup=true);
 
-        void loadMeshes(std::string fileName);
-        void loadPrefab(std::string fileName);
-        void loadAction(std::string fileName);           //loads individual action
-        void loadActionList(std::string fileName);       //loads list of actions from config file (and later, .asset file)
-        void loadTextures(std::string filename);
-        void loadShaders(std::string filename);
+        void loadMeshes(std::string path, std::string fileName);
+        void loadPrefab(std::string path, std::string fileName);
+        void loadAction(std::string path, std::string fileName);           //loads individual action
+        void loadActionList(std::string path, std::string fileName);       //loads list of actions from config file (and later, .asset file)
+        void loadTextures(std::string path, std::string filename);
+        void loadShaders(std::string path, std::string filename);
 
         void addToLibrary(TiXmlElement* myElement);
 

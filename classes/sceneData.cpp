@@ -264,12 +264,9 @@ SceneData::SceneData(){
 
     name="SceneManager";
 
-    savedDrawingDirName="resources/drawings/",
-    savedSceneDirName="resources/scenes/",
-    savedActionsDirName="resources/actions/";
-
     currentLayer=0;
-    startSceneFilename="";
+    startProject="NULL";
+    startSceneFilename="NULL";
     currentShader="color";                //currently bound shader
 
     backgroundTex="NULL";
@@ -459,6 +456,8 @@ void SceneData::loadPreferences(){
     renderer->fov=dVal;
 
     //setting start scene
+    startProject=element->Attribute("StartProject");
+
     startSceneFilename=element->Attribute("StartSceneFile");
 
     //setting external Program connections
@@ -480,17 +479,13 @@ void SceneData::loadPreferences(){
     }
 
 
-    //setting libraries
+    //setting library
     element=hRoot.FirstChild( "Library" ).Element();
+    library=element->Attribute("Library");
 
-    while (element){
-        library.push_back(element->Attribute("Library"));
-        element=element->NextSiblingElement("Library");
-    }
+    //check for my.project and create if not exists
 
-    //check for myLibrary and create if not exists
-
-    TiXmlDocument myLib( "resources/my.library" );
+    TiXmlDocument myLib( startProject + "/" + "my.project" );
 
     if (!myLib.LoadFile()){
 
@@ -498,7 +493,7 @@ void SceneData::loadPreferences(){
         myLib.LinkEndChild( decl );
         TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
         myLib.LinkEndChild( root );
-        myLib.SaveFile( "resources/my.library");
+        myLib.SaveFile( startProject + "/" + "my.project");
     }
 
 
@@ -540,12 +535,18 @@ void SceneData::createScene(){
 
     //load library stuff
     getAllPrefabs();
-    for (int i=0;i<(int)library.size();i++){
-        loadMeshes(library[i]);
-        loadTextures(library[i]);
-        loadShaders(library[i]);
-        loadActionList(library[i]);
-    }
+
+    //load basic library
+    loadMeshes("resources/meshes/",library);
+    loadTextures("resources/icons/",library);
+    loadShaders("shaders/",library);
+    loadActionList("resources/actions/",library);
+
+    //load project library
+    loadMeshes(startProject+"/","my.project");
+    loadTextures(startProject+"/","my.project");
+    loadShaders(startProject+"/","my.project");
+    loadActionList(startProject+"/","my.project");
 
 
     //then load scene
@@ -803,7 +804,7 @@ void SceneData::makeWarningPopUp(string message, Actor* parent){
     staticButton->name=message;
     staticButton->parent=parent;
     cout << "UserInput->parent is: " << parent->name << endl;
-    staticButton->clickedLeft();
+    //staticButton->clickedLeft();
     buttonList.push_back(staticButton);
 }
 
@@ -844,7 +845,7 @@ void SceneData::saveAll(std::string filename){
       root->LinkEndChild(nodeElement);
       }
 
-    string saveString=savedSceneDirName;
+    string saveString=startProject + "/";
     saveString.append(filename);
 
     cout << "saving filename: " << saveString << endl;
@@ -859,7 +860,7 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
 
     if (bCleanUp){
         //clean Up
-        //let's not remove actions, okay?
+        //let's not remove actions, okay? But why? Now with the ne
         //let's not remove buttons? unless they are nodes?
         //Button first because of udpInput and threading
 
@@ -890,7 +891,7 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
     }
 
 
-    string stringName=savedSceneDirName;
+    string stringName=startProject + "/";
     stringName.append(fileName);
 
     cout << "Loading file..." << stringName <<endl;
@@ -1039,7 +1040,7 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
 
 }
 
-void SceneData::loadMeshes(std::string fileName){
+void SceneData::loadMeshes(std::string path, std::string fileName){
 
     TiXmlDocument doc(fileName);
     if (!doc.LoadFile()) return;
@@ -1077,7 +1078,7 @@ void SceneData::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("ColladaMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        colladaLoader->loadColladaMesh(meshFileName, meshID);
+        colladaLoader->loadColladaMesh(path+"/"+meshFileName, meshID);
         cout << "loading mesh " << meshID << endl;
       }
 
@@ -1088,7 +1089,7 @@ void SceneData::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        spriteMeshLoader->loadSpriteMesh(meshFileName, meshID);
+        spriteMeshLoader->loadSpriteMesh(path+"/"+meshFileName, meshID);
         cout << "loading sprite mesh " << meshID << endl;
       }
 
@@ -1096,13 +1097,13 @@ void SceneData::loadMeshes(std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMeshXML")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        spriteMeshLoaderXML->loadSpriteMesh(meshFileName, meshID);
+        spriteMeshLoaderXML->loadSpriteMesh(path+"/"+meshFileName, meshID);
         cout << "loading legacy XML sprite mesh " << meshID << endl;
       }
 
 }
 
-void SceneData::loadPrefab(std::string fileName){
+void SceneData::loadPrefab(std::string path, std::string fileName){
 
     //loading is a two step process
     int listPos=actorList.size();
@@ -1163,7 +1164,7 @@ void SceneData::loadPrefab(std::string fileName){
  //   makeGroup();
 }
 
-void SceneData::loadAction(std::string fileName){
+void SceneData::loadAction(std::string path, std::string fileName){
 
 
     TiXmlDocument doc(fileName);
@@ -1191,7 +1192,7 @@ void SceneData::loadAction(std::string fileName){
     AC->setup();
 }
 
-void SceneData::loadTextures(string fileName){
+void SceneData::loadTextures(std::string path, string fileName){
 
     TiXmlDocument doc( fileName );
     if (!doc.LoadFile()) return;
@@ -1235,14 +1236,14 @@ void SceneData::loadTextures(string fileName){
         element->Attribute("bWrap", &val);
         bool bWrap=bool(val);
 
-        renderer->LoadTextureTGA(texFileName,bWrap,bAlpha, texID);
+        renderer->LoadTextureTGA(path+texFileName,bWrap,bAlpha, texID);
         textureList[texID]->nextTexture=nextFrame;
         textureList[texID]->frameRate=frameRate;
         cout << "loading texture " << texID << endl;
       }
 }
 
-void SceneData::loadShaders(string fileName){
+void SceneData::loadShaders(std::string path, string fileName){
 
     TiXmlDocument doc( fileName );
     if (!doc.LoadFile()) return;
@@ -1269,12 +1270,12 @@ void SceneData::loadShaders(string fileName){
         string vertexFileName=element->Attribute("vertexShaderFilename");
         string fragmentFileName=element->Attribute("fragmentShaderFilename");
         cout << "loading shader " << shaderID << endl;
-        renderer->loadShader(vertexFileName,fragmentFileName, shaderID);
+        renderer->loadShader(path+vertexFileName,path+fragmentFileName, shaderID);
         cout << "finished loading shader " << shaderID << "-------------------------------------------------- " << endl;
       }
 }
 
-void SceneData::loadActionList(string fileName){
+void SceneData::loadActionList(std::string path, string fileName){
 
     TiXmlDocument doc( fileName );
     if (!doc.LoadFile()) return;
@@ -1298,7 +1299,7 @@ void SceneData::loadActionList(string fileName){
       element=hRoot.FirstChild( "Action" ).Element();
       for ( ; element!=NULL ;element=element->NextSiblingElement("Action")){
         string actionFileName=element->Attribute("actionFilename");
-        loadAction("resources/actions/"+actionFileName);
+        loadAction(path,actionFileName);
         cout << "loading action " << actionFileName << endl;
       }
 

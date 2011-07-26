@@ -12,9 +12,9 @@
 
       BackgroundTex="background"
 
-      bDrawLighting="1"
+      bDrawLighting="0"
       bMultisample="0"
-      numSamples="2"
+      numSamples="0"
 
       ShadowSize="1024"
       LightingSize="1024"
@@ -23,6 +23,7 @@
       MouseSensitivity="0.04"
       MoveSpeed="8.0"
       FOV="45"
+      StartProject="projects/emptyProject"
       StartSceneFile="blank.scene">
     </Rendersettings>
 
@@ -31,6 +32,5 @@
     <ExternalInput taskName="joystickInput" filenameWin32="tools/Multi HID Input.exe" filenameOSX="NULL" />
 
     <Library Library="resources/basic.library" />
-    <Library Library="resources/my.library" />
 
 </Moviesandbox>

@@ -53,6 +53,7 @@ void LoadDrawingButton::assembleLoadList(){
       {
       listDisplayMode=0;
       parent=NULL;
+      /*
         if (buttonProperty==sceneData->savedDrawingDirName)
           for (unsigned int i=0;i<sceneData->savedDrawings.size();i++)
             {
@@ -69,6 +70,7 @@ void LoadDrawingButton::assembleLoadList(){
             listProp.push_back(buttonProperty);
             listIcon.push_back("icon_character");
             }
+      */
       }
 }
 
@@ -95,7 +97,7 @@ void LoadDrawingButton::loadFile(string filename){
     //todo: clear previous drawing!
     //if (DrawingWidget::brush)
     //  DrawingWidget::brush->setLocation(newLocation);
-    std::string stringName=sceneData->savedDrawingDirName;
+    std::string stringName=sceneData->startProject + "/";
     stringName.append(filename);
 
     TiXmlDocument doc( stringName );

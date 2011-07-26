@@ -37,7 +37,10 @@ void SetBaseButton::focusClick(){
     if (!parent)
         return;
 
-    ((Actor*)parent)->setBase(input->worldTarget);
+    if (input->worldTarget->base!=(Actor*)parent)
+        ((Actor*)parent)->setBase(input->worldTarget);
+    else
+        sceneData->makeWarningPopUp("Circular connections not allowed!", this);
 }
 
 void SetBaseButton::deselect(int depth){

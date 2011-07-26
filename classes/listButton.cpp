@@ -58,13 +58,13 @@ void ListButton::assembleList(){
 
       cout << "made button " << listButton[i]->name << endl;
 
-      if (listName.size()>i && listName[i]!="")
+      if ((int)listName.size()>i && listName[i]!="")
         listButton[i]->name=listName[i];
 
-      if (listProp.size()>i && listProp[i]!="")
+      if ((int)listProp.size()>i && listProp[i]!="")
         listButton[i]->buttonProperty=listProp[i];
 
-      if (listIcon.size()>i && listIcon[i]!="")
+      if ((int)listIcon.size()>i && listIcon[i]!="")
         listButton[i]->textureID=listIcon[i];
 
       //now allowing string parenting!
