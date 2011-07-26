@@ -51,6 +51,11 @@ void DrawTool::start(){
 		cout << "already have drawing and switched to Particle draw mode!!!!!" << endl;
 	}
 
+    //auto-generate drawing when we don't have one selected!
+    if (!brush->drawing){
+        brush->createNewDrawing(true);
+        sceneData->specialSelected=brush->drawing;
+    }
 
 
     if (brush->drawing)
@@ -193,10 +198,14 @@ void DrawTool::update(double deltaTime){
 
 void DrawTool::paint(){
 
-    brush->drawing->bPickable=false;
-    brush->drawing->bZTest=false;
+    //brush->drawing->bPickable=false;
+    //brush->drawing->bZTest=false;
+    //brush->drawing->bZWrite=false;
 
     if (fabs(input->mouseVector.length())==0.0)
+        return;
+
+    if (input->worldTarget==brush->drawing)
         return;
 
     calcLocation();
@@ -207,9 +216,8 @@ void DrawTool::paint(){
 	if (mySize>0)
 		oldVData=sceneData->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
 
-    brush->drawing->bPickable=false;
-    brush->drawing->bZTest=false;
-    //brush->drawing->bZWrite=false;
+    //brush->drawing->bPickable=false;
+    //brush->drawing->bZTest=false;
 
     for (int i=0;i<(int)filters.size();i++){
         filters[i]->filter(&myVData);

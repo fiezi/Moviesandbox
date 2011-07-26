@@ -59,29 +59,27 @@ void Brush::update(double deltaTime){
 
 
 
-void Brush::createNewDrawing(){
+void Brush::createNewDrawing(bool bUnnamed){
 
-	if (drawing){
-		drawing->bPickable=true;
-		drawing->bZTest=true;
-		drawing->bZWrite=true;
-	}
-        //setup drawing
-        drawing = (SkeletalActor*)spawn("13SkeletalActor");
-        //drawing->bPickable=false;
-        drawing->name="skeletalActor";
-		drawing->drawType=DRAW_PARTICLES;
-        drawing->sceneShaderID="drawing";
-		drawing->setLocation(input->lastMouse3D);
-        drawing->update(0.0);
-        cout << "New Drawing: " << drawing->location << endl;
-        drawing->controller=sceneData->controller;
+    //setup drawing
+    drawing = (SkeletalActor*)spawn("13SkeletalActor");
+    drawing->drawType=DRAW_PARTICLES;
+    drawing->sceneShaderID="drawing";
+    drawing->setLocation(input->lastMouse3D);
+    drawing->update(0.0);
+    cout << "New Drawing: " << drawing->location << endl;
+    drawing->controller=sceneData->controller;
+
+    if (bUnnamed){
+        drawing->name="untitled";
+    }else{
         drawing->name=input->inputText;
-        drawing->vboMeshID=input->inputText;
-        sceneData->vboList[input->inputText]=new MeshData;
+    }
 
-        cout << "new drawing name: " << input->inputText << endl;
-        drawing->setup();
+    sceneData->vboList[drawing->name]=new MeshData;
+    drawing->vboMeshID=drawing->name;
+    cout << "new drawing name: " << drawing->name << endl;
+    drawing->setup();
 }
 
 

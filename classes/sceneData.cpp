@@ -1308,9 +1308,9 @@ void SceneData::loadActionList(std::string path, string fileName){
 
 void SceneData::addToLibrary(TiXmlElement* myElement){
 
-    TiXmlDocument doc( "resources/my.library" );
+    TiXmlDocument doc( startProject + "/my.project" );
     if (!doc.LoadFile()){
-        cout << "could not find my.library!" << endl;
+        cout << "could not find my.project!" << endl;
         return;
     }
 
@@ -1339,8 +1339,8 @@ void SceneData::addToLibrary(TiXmlElement* myElement){
         if (myAttribContent==existingAttribContent){
             TiXmlElement* yesNo = (TiXmlElement*)hRoot.Element()->ReplaceChild(element,*myElement);
             if (yesNo){
-                doc.SaveFile("resources/my.library");
-                cout << "replaced in my.library!!" << endl;
+                doc.SaveFile(startProject + "/my.project");
+                cout << "replaced in my.project!!" << endl;
             }
             else
                 exit(0);
@@ -1356,7 +1356,7 @@ void SceneData::addToLibrary(TiXmlElement* myElement){
     else
         element->LinkEndChild(myElement);
 
-    doc.SaveFile("resources/my.library");
+    doc.SaveFile(startProject + "/my.project");
 }
 
 void SceneData::getAllDrawings(){

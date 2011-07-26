@@ -1193,6 +1193,7 @@ void Renderer::draw3D(Layer* currentLayer){
             if (currentLayer->actorList[i]->bPickable){
                 drawActor(currentLayer->actorList[i]);
             }else{
+            //only draw in color buffer for non-pickable actors
                 glDrawBuffers(1, drawBuffers);
                 drawActor(currentLayer->actorList[i]);
                 glDrawBuffers(2, drawBuffers);

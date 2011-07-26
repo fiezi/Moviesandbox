@@ -53,7 +53,7 @@ public:
     virtual void setColor(Vector4f newColor);
 
 
-    virtual void createNewDrawing();
+    virtual void createNewDrawing(bool bUnnamed=false);
     //virtual void calcLocation();
     virtual void create();
 
