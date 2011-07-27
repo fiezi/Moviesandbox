@@ -32,6 +32,7 @@ void DrawingWidget::setup(){
 
 void DrawingWidget::clickedLeft(){
 
+    Widget::clickedLeft();
     sceneData->controller->switchTool(useTool);
     color=COLOR_RED;
 }

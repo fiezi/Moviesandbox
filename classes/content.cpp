@@ -1,6 +1,8 @@
 #include "content.h"
 #include "input.h"
 
+#include "selectWidget.h"
+//#include "selectWidget.h"
 #include "drawingWidget.h"
 #include "boneWidget.h"
 #include "propsWidget.h"
@@ -145,20 +147,33 @@ void Content::createMonitors(){
 
 void Content::createSelectButton(int x, int y){
 
-    BasicButton *but;
+    ListButton *lbut;
 
-    but= new AssignButton;
-    but->location.x=x;
-    but->location.y=y;
-    but->name="select";
-    but->tooltip="select (i)";
-    but->setLocation(but->location);
-    but->textureID="icon_select";
-    but->color=COLOR_RED;
-    but->setup();
-    but->parent=sceneData->controller;
-    sceneData->controller->myTools[TOOL_SELECT]->myBtn=but;
-    sceneData->buttonList.push_back(but);
+    lbut= new SelectWidget;
+    lbut->location.x=x;
+    lbut->location.y=y;
+    lbut->name="select";
+    lbut->tooltip="select (i)";
+    lbut->setLocation(lbut->location);
+    lbut->textureID="icon_select";
+    lbut->color=COLOR_RED;
+    lbut->setup();
+    //lbut->parent=sceneData->controller;
+    sceneData->controller->myTools[TOOL_SELECT]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
+    sceneData->buttonList.push_back(lbut);
+
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Select Objects");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_select");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Select Particles");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_selectParticles");
+
 }
 
 void Content::createNavButton(int x, int y){
@@ -276,7 +291,6 @@ void Content::createDrawWidget(int x, int y){
     //assign Widget to corresponding tools
     sceneData->controller->myTools[TOOL_DRAW]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_CALLIGRAPHY]->myBtn=lbut;
-    sceneData->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
     lbut->setup();
     sceneData->buttonList.push_back(lbut);
 

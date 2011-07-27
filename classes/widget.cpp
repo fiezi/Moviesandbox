@@ -21,6 +21,14 @@ Widget::~Widget(){}
 
 
 void Widget::clickedLeft(){
+
+    //reset color of all other widgets
+    for (int i=0;i<(int)sceneData->buttonList.size();i++){
+        Widget* widge=dynamic_cast<Widget*>(sceneData->buttonList[i]);
+        if (widge && widge!=this && widge!=parent){
+            widge->color=COLOR_WHITE;
+        }
+    }
 }
 
 
