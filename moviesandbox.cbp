@@ -418,6 +418,12 @@
 		<Unit filename="classes\nodeIO.h">
 			<Option virtualFolder="Nodes\" />
 		</Unit>
+		<Unit filename="classes\orbitTool.cpp">
+			<Option virtualFolder="Tools\" />
+		</Unit>
+		<Unit filename="classes\orbitTool.h">
+			<Option virtualFolder="Tools\" />
+		</Unit>
 		<Unit filename="classes\particleSelectTool.cpp" />
 		<Unit filename="classes\particleSelectTool.h" />
 		<Unit filename="classes\particleSpray.cpp" />

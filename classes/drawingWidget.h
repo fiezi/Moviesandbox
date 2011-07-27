@@ -11,11 +11,13 @@ class DrawingWidget: public Widget{
 
 public:
 
-        DrawTool* drawTool;
+        DrawTool*   drawTool;
 
-        float brushScale;
+        int         useTool;
 
-        bool bKinectToolOpen;
+        float       brushScale;
+
+        bool        bKinectToolOpen;
 
         #ifdef TARGET_WIN32
                 PROCESS_INFORMATION processId;
@@ -27,6 +29,8 @@ public:
         ~DrawingWidget();
 
         virtual void setup();
+
+        virtual void clickedLeft();
 
         virtual void openWidget();
         virtual void closeWidget();

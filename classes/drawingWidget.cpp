@@ -16,6 +16,8 @@ bKinectToolOpen=false;
 color=Vector4f(0.8,0.8,0.8,1.0);
 listDisplayMode=0;
 
+useTool=TOOL_DRAW;
+
 }
 
 DrawingWidget::~DrawingWidget(){
@@ -28,10 +30,16 @@ void DrawingWidget::setup(){
     drawTool=(DrawTool*)sceneData->controller->myTools[TOOL_DRAW];
 }
 
+void DrawingWidget::clickedLeft(){
+
+    sceneData->controller->switchTool(useTool);
+    color=COLOR_RED;
+}
+
 void DrawingWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
-    sceneData->controller->switchTool(TOOL_DRAW);
+    //sceneData->controller->switchTool(TOOL_DRAW);
 
     if (bKinectToolOpen){
         listButton[4]->color=COLOR_YELLOW;
@@ -43,6 +51,7 @@ void DrawingWidget::openWidget(){
 
 void DrawingWidget::closeWidget(){
 
+/*
     input->deselectActors();
 
 
@@ -56,12 +65,13 @@ void DrawingWidget::closeWidget(){
     }
 
 
-    sceneData->controller->switchTool(TOOL_SELECT);
+    //sceneData->controller->switchTool(TOOL_SELECT);
     if (sceneData->staticButton){
         sceneData->staticButton->focusClick();
     }
 
     color=COLOR_WHITE;
+*/
 
 }
 
@@ -70,6 +80,7 @@ void DrawingWidget::closeWidget(){
 ///creates new drawing here!
 void DrawingWidget::trigger(MsbObject* other){
 
+/*
     if (other->name=="New Drawing" && (sceneData->controller->tool==TOOL_DRAW || sceneData->controller->tool==TOOL_CALLIGRAPHY) ){
         //save old drawing first!
         if (sceneData->brush->drawing)
@@ -79,20 +90,24 @@ void DrawingWidget::trigger(MsbObject* other){
 
     //from staticButton
     if (other->name=="Name your new drawing:"){
-        sceneData->brush->createNewDrawing();
+        drawTool->createNewDrawing();
         sceneData->specialSelected=sceneData->brush->drawing;
     }
+*/
 
     if (other->name=="Draw Particles (p)"){
-        sceneData->controller->switchTool(TOOL_DRAW);
+        useTool=TOOL_DRAW;
+        textureID="icon_paint";
     }
 
     if (other->name=="Draw Calligraphy"){
-        sceneData->controller->switchTool(TOOL_CALLIGRAPHY);
+        useTool=TOOL_CALLIGRAPHY;
+        textureID="icon_paintFancy";
     }
 
     if (other->name=="Select Particles"){
-        sceneData->controller->switchTool(TOOL_PARTICLESELECT);
+        useTool=TOOL_PARTICLESELECT;
+        textureID="icon_selectParticles";
     }
 
 	if (other->name=="save"){
@@ -158,6 +173,9 @@ void DrawingWidget::trigger(MsbObject* other){
         drawTool->clearDrawing();
    }
 
+    //close widget and select again
+    clickedRight();
+    clickedLeft();
 }
 
 void DrawingWidget::closeKinectTool(){

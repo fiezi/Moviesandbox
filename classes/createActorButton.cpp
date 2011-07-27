@@ -4,9 +4,9 @@
 #include "meshData.h"
 
 CreateActorButton::CreateActorButton(){
-newActor=NULL;
-bDragable=true;
-name="createActorButton";
+    newActor=NULL;
+    bDragable=true;
+    name="createActorButton";
 }
 
 CreateActorButton::~CreateActorButton(){

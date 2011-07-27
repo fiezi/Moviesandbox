@@ -21,6 +21,11 @@ Widget::~Widget(){}
 
 
 void Widget::clickedLeft(){
+}
+
+
+void Widget::clickedRight(){
+
 
     if (!bWidgetOpen){
         bWidgetOpen=true;
@@ -29,7 +34,8 @@ void Widget::clickedLeft(){
         for (int i=0;i<(int)sceneData->buttonList.size();i++){
             Widget* widge=dynamic_cast<Widget*>(sceneData->buttonList[i]);
             if (widge && widge!=this && widge->bWidgetOpen && widge->bToggleWidget && widge!=parent){
-                widge->clickedLeft();
+                widge->clickedRight();
+                widge->color=COLOR_WHITE;
             }
         }
 
@@ -44,7 +50,7 @@ void Widget::clickedLeft(){
             //for cascading widgets:
             Widget* widge=dynamic_cast<Widget*>(listButton[i]);
             if (widge && widge->bWidgetOpen)
-                widge->clickedLeft();
+                widge->clickedRight();
             listButton[i]->bPermanent=false;
             listButton[i]->level=100;
         }
@@ -54,6 +60,7 @@ void Widget::clickedLeft(){
         color=COLOR_WHITE;
     }
 }
+
 
 void Widget::trigger(MsbObject* other){
 

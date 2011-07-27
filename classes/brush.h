@@ -47,17 +47,10 @@ public:
 
     virtual void update(double deltaTime);
 
-    //virtual void select();
-    //virtual void skin();
-    //virtual void createBone();
     virtual void setColor(Vector4f newColor);
 
 
-    virtual void createNewDrawing(bool bUnnamed=false);
-    //virtual void calcLocation();
     virtual void create();
 
-    //virtual void singleSkin(int pID, int boneID);
-    //virtual void eraseSingleSkin(int pID, int boneID);
 };
 #endif

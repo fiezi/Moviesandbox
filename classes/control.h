@@ -6,6 +6,7 @@
 #include "msbTool.h"
 #include "selectTool.h"
 #include "navTool.h"
+#include "orbitTool.h"
 #include "gridTool.h"
 #include "drawTool.h"
 #include "spawnTool.h"

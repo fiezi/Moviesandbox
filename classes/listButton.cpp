@@ -73,7 +73,7 @@ void ListButton::assembleList(){
       //special stuff: PARENT - parents to the parent of the creating Listbutton
       //special stuff: PARENT - parents to the first Selected Actor
 
-      if (listParent.size()>i && listParent[i]!=""){
+      if ((int)listParent.size()>i && listParent[i]!=""){
         if (listParent[i]=="RENDERER")
             listButton[i]->parent=renderer;
         else if (listParent[i]=="THIS")

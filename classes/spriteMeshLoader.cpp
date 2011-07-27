@@ -503,7 +503,8 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
     cout << "Loading file..." << filename <<endl;
 
     TiXmlDocument doc( filename );
-    if (!doc.LoadFile()) return false;
+    if (!doc.LoadFile())
+        return false;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement * element;

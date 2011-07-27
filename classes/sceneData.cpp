@@ -307,6 +307,7 @@ SceneData::SceneData(){
     numParticles=0;
     invertMouse=-1;
 
+    numberOfUntitledDrawings=0;
 
 }
 
@@ -492,8 +493,21 @@ void SceneData::loadPreferences(){
         TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
         myLib.LinkEndChild( decl );
         TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
+
+        TiXmlElement * untitled = new TiXmlElement ("untitled");
+        untitled->SetAttribute("amount", 0);
+        root->LinkEndChild(untitled);
         myLib.LinkEndChild( root );
         myLib.SaveFile( startProject + "/" + "my.project");
+
+        #ifdef TARGET_WIN32
+        string myName=startProject + "/" +"untitled";
+        CreateDirectory(myName.c_str(),NULL);
+        #endif
+
+        #ifdef TARGET_MACOSX
+        #endif
+
     }
 
 
@@ -543,10 +557,10 @@ void SceneData::createScene(){
     loadActionList("resources/actions/",library);
 
     //load project library
-    loadMeshes(startProject+"/","my.project");
-    loadTextures(startProject+"/","my.project");
-    loadShaders(startProject+"/","my.project");
-    loadActionList(startProject+"/","my.project");
+    loadMeshes(startProject+"/",startProject+"/my.project");          //this one also sets the number of untitled drawings!
+    loadTextures(startProject+"/",startProject+"/my.project");
+    loadShaders(startProject+"/",startProject+"/my.project");
+    loadActionList(startProject+"/",startProject+"/my.project");
 
 
     //then load scene
@@ -1042,6 +1056,8 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
 
 void SceneData::loadMeshes(std::string path, std::string fileName){
 
+    cout<< "loading project: " << fileName << " from path: " << path << endl;
+
     TiXmlDocument doc(fileName);
     if (!doc.LoadFile()) return;
 
@@ -1055,6 +1071,18 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
 
     // save this for later
     hRoot=TiXmlHandle(element);
+
+/*
+    for (int i=0;i<numberOfUntitledDrawings;i++){
+        string myName="untitled";
+        char buffer [16];
+        itoa(i, buffer,10);
+        myName=myName+buffer;
+        spriteMeshLoader->loadSpriteMesh(path+"/untitled/"+myName, myName);
+        cout << "loading untitled drawing: " << myName << endl;
+
+    }
+*/
     //***********************************************************************
     //Load OBJs
     //***********************************************************************
@@ -1100,6 +1128,11 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
         spriteMeshLoaderXML->loadSpriteMesh(path+"/"+meshFileName, meshID);
         cout << "loading legacy XML sprite mesh " << meshID << endl;
       }
+
+    //load number of untitled drawings
+    element=hRoot.FirstChild( "untitled" ).Element();
+    if (element)
+        element->Attribute("amount",&numberOfUntitledDrawings);
 
 }
 
@@ -1305,7 +1338,6 @@ void SceneData::loadActionList(std::string path, string fileName){
 
 }
 
-
 void SceneData::addToLibrary(TiXmlElement* myElement){
 
     TiXmlDocument doc( startProject + "/my.project" );
@@ -1355,6 +1387,10 @@ void SceneData::addToLibrary(TiXmlElement* myElement){
         element->InsertBeforeChild(lastElementOfSameType,*myElement);
     else
         element->LinkEndChild(myElement);
+
+    //update number of untitled drawings
+    element=hRoot.FirstChild("untitled").Element();
+    element->SetAttribute("amount",numberOfUntitledDrawings);
 
     doc.SaveFile(startProject + "/my.project");
 }
@@ -1415,9 +1451,10 @@ void SceneData::getAllScenes(){
 
     //never used?
     //char path[MAX_PATH];
+    string myPath=startProject + DIRECTORY_SEPARATION + "*.scene";
 	WIN32_FIND_DATA fd;
 	DWORD dwAttr = FILE_ATTRIBUTE_DIRECTORY;
-	HANDLE hFind = FindFirstFile( "resources\\scenes\\*", &fd);
+	HANDLE hFind = FindFirstFile( myPath.c_str(), &fd);
 	if(hFind != INVALID_HANDLE_VALUE)
 	{
 	    do{
@@ -1431,7 +1468,8 @@ void SceneData::getAllScenes(){
 #endif
 
 #ifdef TARGET_MACOSX
-	string dir="resources/scenes";
+    //TODO: only list .scene files on Mac OSX!!
+	string dir=startProject+DIRECTORY_SEPARATION;
     DIR *dp;
     struct dirent *dirp;
     if((dp  = opendir(dir.c_str())) == NULL) {
@@ -1440,7 +1478,8 @@ void SceneData::getAllScenes(){
     }
 
 	while ((dirp = readdir(dp)) != NULL) {
-        savedScenes.push_back(string(dirp->d_name));
+	    if (dirp->d_name.contains(".scene"))
+            savedScenes.push_back(string(dirp->d_name));
     }
     closedir(dp);
     return;

@@ -625,6 +625,7 @@ return vec4f;
 
 Vector4f MsbObject::readVector4fComponent(char* cValue){
 
+    //TODO: this needs to be filled in!
 }
 
 Matrix4f MsbObject::readMatrix4f(char* cValue){

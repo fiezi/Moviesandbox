@@ -50,6 +50,8 @@ public:
     virtual void flipNormals();
     virtual void clearDrawing();
 
+    virtual void createNewDrawing(bool bUnnamed=false);
+
     virtual void calcLocation();
 };
 #endif // DRAWTOOL

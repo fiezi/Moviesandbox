@@ -45,6 +45,7 @@ void DrawTool::start(){
     }
 
     //switch drawing to particleMode
+
 	if (sceneData->specialSelected){
 		sceneData->specialSelected->drawType=DRAW_PARTICLES; //important!
 		sceneData->specialSelected->sceneShaderID="drawing";   //also important!
@@ -53,7 +54,7 @@ void DrawTool::start(){
 
     //auto-generate drawing when we don't have one selected!
     if (!brush->drawing){
-        brush->createNewDrawing(true);
+        createNewDrawing(true);
         sceneData->specialSelected=brush->drawing;
     }
 
@@ -74,22 +75,19 @@ void DrawTool::stop(){
 
     lowlightButton();
 
-    if (brush->drawing){
-        brush->drawing->bPickable=true;
-        brush->drawing->bZTest=true;
-        brush->drawing->bZWrite=true;
-    }
     bDrawing=false;
 
     SkeletalActor* skel=brush->drawing;
 
+
     if (!skel) return;
+
+    save();
 
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=false;
 
 	glutSetCursor(GLUT_CURSOR_INHERIT);
-
 
 }
 
@@ -258,16 +256,22 @@ void DrawTool::erase(){
     sceneData->numParticles--;
 }
 
+//we have a separate directory for untitled drawings!
 void DrawTool::save(){
 
 		SkeletalActor* skel=brush->drawing;
-		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
+		string myPath="";
+		if (skel->vboMeshID.find("untitled")!=string::npos && (int)skel->vboMeshID.find("untitled")==0){
+            myPath+="untitled/";
+		}
+
+		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+myPath+skel->vboMeshID+".spriteMesh",skel);
 
 		//open my.library and append this mesh!
 		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
 		myElement->SetAttribute("meshID",skel->vboMeshID);
-		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
-		sceneData->addToLibrary(myElement);
+		myElement->SetAttribute("meshFilename",myPath+skel->vboMeshID+".spriteMesh");
+        sceneData->addToLibrary(myElement);
 }
 
 void DrawTool::scaleZ(float factor){
@@ -380,6 +384,37 @@ void DrawTool::clearDrawing(){
  //       brush->drawing->deleteParticle(i);
  //   }
 }
+
+void DrawTool::createNewDrawing(bool bUnnamed){
+
+    //setup drawing
+    brush->drawing = (SkeletalActor*)brush->spawn("13SkeletalActor");
+    brush->drawing->drawType=DRAW_PARTICLES;
+    brush->drawing->sceneShaderID="drawing";
+    brush->drawing->setLocation(input->lastMouse3D);
+    brush->drawing->update(0.0);
+    cout << "New Drawing: " << brush->drawing->location << endl;
+    brush->drawing->controller=sceneData->controller;
+
+    if (bUnnamed){
+        string myName="untitled";
+        char buffer [16];
+        cout << "amount untitled drawings: " << sceneData->numberOfUntitledDrawings << endl;
+        itoa(sceneData->numberOfUntitledDrawings, buffer,10);
+        myName=myName+buffer;
+        brush->drawing->name=myName;
+        sceneData->numberOfUntitledDrawings++;
+    }else{
+        brush->drawing->name=input->inputText;
+    }
+
+    sceneData->vboList[brush->drawing->name]=new MeshData;
+    brush->drawing->vboMeshID=brush->drawing->name;
+    cout << "new drawing name: " << brush->drawing->name << endl;
+    brush->drawing->setup();
+}
+
+
 
 void DrawTool::flipNormals(){
 

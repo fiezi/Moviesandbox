@@ -685,8 +685,8 @@ void Input::confineMouse(){
 
 
 
-    int centerX=renderer->screenX/2;
-    int centerY=renderer->screenY/2;
+//    int centerX=renderer->screenX/2;
+//    int centerY=renderer->screenY/2;
 #ifdef TARGET_WIN32
     glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
 #endif

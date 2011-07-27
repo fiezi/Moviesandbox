@@ -26,6 +26,7 @@ public:
     virtual ~Widget();
 
     virtual void clickedLeft();
+    virtual void clickedRight();
 
     virtual void openWidget();
     virtual void closeWidget();

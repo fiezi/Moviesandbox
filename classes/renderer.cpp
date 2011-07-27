@@ -556,8 +556,11 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
             glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_FLOAT, NULL);
 
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
@@ -697,7 +700,6 @@ void Renderer::setupCamera(bool bCalculateMatrices){
         glGetFloatv(GL_MODELVIEW_MATRIX,cameraMatrix);
         inverseCameraMatrix=cameraMatrix.inverse();
         inverseProjectionMatrix=projectionMatrix.inverse();
-        //inverseCameraMatrix=cameraMatrix.transpose();
     }
 
 }
@@ -826,7 +828,7 @@ void Renderer::draw(){
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
-
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
             drawButton(sceneData->layerList[i]);
     }//end for loop through layers
 
@@ -1099,18 +1101,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
            //bind depth
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-
-            //and pick Textures
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, layer->pickTex);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
 
             //set shadowTexture (might not have one)
             glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, shadow_tx);
-
-            //what is this one? - crazy VFX
-            glActiveTexture(GL_TEXTURE4);
-            glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
 
 
             ///light&shadow rendering
@@ -1147,18 +1142,11 @@ void Renderer::drawDeferredLighting(Layer* layer){
         //bind depth
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-
-            //and pick Textures
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, layer->pickTex);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
         //set shadowTexture (might not have one)
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, lighting_tx);
-
-        //what is this one? - crazy VFX
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, layer->lightDataTex);
 
 
         bShadowPass=false;

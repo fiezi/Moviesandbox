@@ -37,7 +37,8 @@ void Control::setup(){
 
     Actor::setup();
     myTools.push_back(new SelectTool);
-    myTools.push_back(new NavTool);
+    //myTools.push_back(new NavTool);
+    myTools.push_back(new OrbitTool);
     myTools.push_back(new GridTool);
     myTools.push_back(new SpawnTool);
     myTools.push_back(new DrawTool);

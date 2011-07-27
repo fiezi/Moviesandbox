@@ -395,10 +395,10 @@ void Character::walk(double deltaTime){
     float yPart= liftLegs * sin(stepTime*M_PI);
     float yPartBody= bobStrength * cos(stepTime* M_PI * 2) - bobStrength ;
 
-    float bodyY=originalMatrix.getTranslation().z - hipNess;
     Vector3f newBodyLocation=startBodyLocation + targetBodyLocation * stepTime;
 
     //removed for y-movement!
+    //float bodyY=originalMatrix.getTranslation().z - hipNess;
     //newBodyLocation.y=bodyY+yPartBody - footYOffset;
     newBodyLocation.y+=yPartBody;// - footYOffset;
 
