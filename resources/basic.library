@@ -25,6 +25,7 @@
     <Texture textureID="icon_flat" filename="icon_flat.tga" bAlpha="1" bWrap="0"/>
 
     <Texture textureID="icon_fly" filename="icon_fly.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_orbit" filename="icon_orbit.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_props" filename="icon_props.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_character" filename="icon_character.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_camera" filename="icon_camera.tga" bAlpha="1" bWrap="0"/>

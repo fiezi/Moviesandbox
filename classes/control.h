@@ -23,7 +23,7 @@
 #define TOOL_PARTICLESELECT    6
 #define TOOL_BONE              7
 #define TOOL_SKIN              8
-
+#define TOOL_ORBIT             9
 
 
 #define FLYINGCAMERA 0

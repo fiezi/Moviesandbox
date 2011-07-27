@@ -2,7 +2,7 @@
 #include "input.h"
 
 #include "selectWidget.h"
-//#include "selectWidget.h"
+#include "navWidget.h"
 #include "drawingWidget.h"
 #include "boneWidget.h"
 #include "propsWidget.h"
@@ -158,7 +158,6 @@ void Content::createSelectButton(int x, int y){
     lbut->textureID="icon_select";
     lbut->color=COLOR_RED;
     lbut->setup();
-    //lbut->parent=sceneData->controller;
     sceneData->controller->myTools[TOOL_SELECT]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
     sceneData->buttonList.push_back(lbut);
@@ -178,19 +177,29 @@ void Content::createSelectButton(int x, int y){
 
 void Content::createNavButton(int x, int y){
 
-    BasicButton *but;
+    ListButton *lbut;
 
-    but= new AssignButton;
-    but->location.x=x;
-    but->location.y=y;
-    but->name="navigate";
-    but->tooltip="navigate (TAB)";
-    but->setLocation(but->location);
-    but->textureID="icon_fly";
-    but->setup();
-    but->parent=sceneData->controller;
-    sceneData->controller->myTools[TOOL_NAV]->myBtn=but;
-    sceneData->buttonList.push_back(but);
+    lbut= new NavWidget;
+    lbut->location.x=x;
+    lbut->location.y=y;
+    lbut->name="navigate";
+    lbut->tooltip="navigate (TAB)";
+    lbut->setLocation(lbut->location);
+    lbut->textureID="icon_fly";
+    lbut->setup();
+    sceneData->controller->myTools[TOOL_NAV]->myBtn=lbut;
+    sceneData->controller->myTools[TOOL_ORBIT]->myBtn=lbut;
+    sceneData->buttonList.push_back(lbut);
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Fly");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_fly");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Orbit");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_orbit");
 
 }
 

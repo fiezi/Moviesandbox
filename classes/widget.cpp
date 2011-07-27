@@ -27,8 +27,13 @@ void Widget::clickedLeft(){
         Widget* widge=dynamic_cast<Widget*>(sceneData->buttonList[i]);
         if (widge && widge!=this && widge!=parent){
             widge->color=COLOR_WHITE;
+            if (widge->bWidgetOpen)
+                widge->clickedRight();
         }
     }
+
+    if (bWidgetOpen)
+        clickedRight();
 }
 
 
@@ -65,7 +70,6 @@ void Widget::clickedRight(){
         closeWidget();
         input->deselectButtons(level);
         listButton.clear();
-        color=COLOR_WHITE;
     }
 }
 

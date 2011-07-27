@@ -20,4 +20,4 @@ public:
 
     virtual void create();
 };
-#endif // BONEWIDGET
+#endif // NAVWIDGET

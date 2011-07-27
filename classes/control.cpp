@@ -37,8 +37,7 @@ void Control::setup(){
 
     Actor::setup();
     myTools.push_back(new SelectTool);
-    //myTools.push_back(new NavTool);
-    myTools.push_back(new OrbitTool);
+    myTools.push_back(new NavTool);
     myTools.push_back(new GridTool);
     myTools.push_back(new SpawnTool);
     myTools.push_back(new DrawTool);
@@ -46,6 +45,8 @@ void Control::setup(){
     myTools.push_back(new ParticleSelectTool);
     myTools.push_back(new BoneTool);
     myTools.push_back(new SkinTool);
+    myTools.push_back(new OrbitTool);
+
 
 
     for (int i=0;i<(int)myTools.size();i++){
