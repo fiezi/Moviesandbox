@@ -12,7 +12,6 @@ parent=NULL;
 
 widgetLocation=Vector3f(0,0,0);
 level = 0;
-maxListItems=20;
 
 registerProperties();
 }

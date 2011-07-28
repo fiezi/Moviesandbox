@@ -122,12 +122,15 @@ public:
        virtual void load(TiXmlElement *myInfo);         //loads all properties as defined in registerProperties
 
        //property assigning
-       virtual string memberToString(memberID *mID);                //reads a member from a string
+       virtual string memberToString(memberID *mID, bool bPart=false, int part=0);                //reads a member from a string
        virtual void memberFromString(memberID *mID,string value);   //sets a member as defined in registerProperties to a value given as a string
 
-       virtual bool testForVectorComponent(char* cValue);
+       virtual bool testForVector3Component(char* cValue);
+       virtual bool testForVector4Component(char* cValue);
 
        virtual bool setVector3PropertyTo(memberID *mID,Vector3f v);
+       virtual bool setVector4PropertyTo(memberID *mID,Vector4f v);
+
        virtual bool setStringPropertyTo(memberID *mID,string s);
        virtual bool setActorPropertyTo(memberID *mID,Actor* a);
        virtual bool setNodePropertyTo(memberID * mID,Node* n);

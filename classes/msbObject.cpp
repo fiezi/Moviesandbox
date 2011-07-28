@@ -105,11 +105,37 @@ void MsbObject::load(TiXmlElement *myInfo){
 }
 
 //reads out a property value as a string
-string MsbObject::memberToString(memberID *mID){
+string MsbObject::memberToString(memberID *mID, bool bPart, int part){
+
+    //Vector4
+    if (mID->memberType->name()==typeid(Vector4f).name()){
+        if (!bPart)
+            return writeVector4f(mID);
+        else{
+            if (part==0)
+                return writeVector4fdotX(mID);
+            if (part==1)
+                return writeVector4fdotY(mID);
+            if (part==2)
+                return writeVector4fdotZ(mID);
+            if (part==3)
+                return writeVector4fdotW(mID);
+        }
+    }
 
     //Vector3f
-    if (mID->memberType->name()==typeid(Vector3f).name() )
-       return writeVector3f(mID);
+    if (mID->memberType->name()==typeid(Vector3f).name() ){
+        if (!bPart)
+            return writeVector3f(mID);
+        else{
+            if (part==0)
+                return writeVector3fdotX(mID);
+            if (part==1)
+                return writeVector3fdotY(mID);
+            if (part==2)
+                return writeVector3fdotZ(mID);
+        }
+    }
 
     //float
     if (mID->memberType->name()==typeid(float).name())
@@ -130,10 +156,6 @@ string MsbObject::memberToString(memberID *mID){
     //Matrix3f
     if (mID->memberType->name()==typeid(Matrix3f).name())
         return writeMatrix3f(mID);
-
-    //Vector4
-    if (mID->memberType->name()==typeid(Vector4f).name())
-        return writeVector4f(mID);
 
     //int
     if (mID->memberType->name()==typeid(int).name())
@@ -192,8 +214,14 @@ void MsbObject::memberFromString(memberID *mID,string value){
     //allow individual components of vectors to be changed
     //for this, in order to not mix up vector components and full vectors, let's check first
 
-    if (testForVectorComponent(cValue)){
+    if (testForVector3Component(cValue)){
         if (setVector3PropertyTo (mID, readVector3fComponent(cValue)))
+            return;
+    }
+
+
+    if (testForVector4Component(cValue)){
+        if (setVector4PropertyTo (mID, readVector4fComponent(cValue)))
             return;
     }
 
@@ -257,7 +285,7 @@ void MsbObject::memberFromString(memberID *mID,string value){
 }
 
 //TODO: I am sure this can be done much nicer...
-bool MsbObject::testForVectorComponent(char* cValue){
+bool MsbObject::testForVector3Component(char* cValue){
 
     if( strncmp("vec3fx ",cValue,7) == 0 )
         return true;
@@ -269,16 +297,48 @@ bool MsbObject::testForVectorComponent(char* cValue){
     return false;
 }
 
+bool MsbObject::testForVector4Component(char* cValue){
+
+    if( strncmp("vec4fx ",cValue,7) == 0 )
+        return true;
+    if( strncmp("vec4fy ",cValue,7) == 0 )
+        return true;
+    if( strncmp("vec4fz ",cValue,7) == 0 )
+        return true;
+    if( strncmp("vec4fw ",cValue,7) == 0 )
+        return true;
+
+    return false;
+}
+
+bool MsbObject::setVector4PropertyTo(memberID * mID,Vector4f v){
+
+    if (mID->memberType->name()==typeid(v).name())
+      {
+      Vector4f * myVec=(Vector4f*)mID->memberReference;
+      if (v.x!=-65536.0)
+        myVec->x=v.x;
+      if (v.y!=-65536.0)
+        myVec->y=v.y;
+      if (v.z!=-65536.0)
+        myVec->z=v.z;
+      if (v.w!=-65536.0)
+        myVec->w=v.w;
+      return true;
+      }
+    return false;
+}
+
 bool MsbObject::setVector3PropertyTo(memberID * mID,Vector3f v){
 
     if (mID->memberType->name()==typeid(v).name())
       {
       Vector3f * myVec=(Vector3f*)mID->memberReference;
-      if (v.x!=0)
+      if (v.x!=-65536.0)
         myVec->x=v.x;
-      if (v.y!=0)
+      if (v.y!=-65536.0)
         myVec->y=v.y;
-      if (v.z!=0)
+      if (v.z!=-65536.0)
         myVec->z=v.z;
       return true;
       }
@@ -606,7 +666,10 @@ return vec3f;
 }
 
 Vector3f MsbObject::readVector3fComponent(char* cValue){
-    Vector3f vec3f;
+
+    //this is done so we can check if anything changed
+    Vector3f vec3f=Vector3f(-65536.0,-65536.0,-65536.0);
+
     if( strncmp("vec3fx ",cValue,7) == 0 )
         sscanf((cValue+7),"%f",&vec3f.x);
     if( strncmp("vec3fy ",cValue,7) == 0 )
@@ -625,7 +688,18 @@ return vec4f;
 
 Vector4f MsbObject::readVector4fComponent(char* cValue){
 
-    //TODO: this needs to be filled in!
+    //this is done so we can check if anything changed
+    Vector4f vec4f=Vector4f(-65536.0,-65536.0,-65536.0,-65536.0);
+
+    if( strncmp("vec4fx ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec4f.x);
+    if( strncmp("vec4fy ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec4f.y);
+    if( strncmp("vec4fz ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec4f.z);
+    if( strncmp("vec4fw ",cValue,7) == 0 )
+        sscanf((cValue+7),"%f",&vec4f.w);
+    return vec4f;
 }
 
 Matrix4f MsbObject::readMatrix4f(char* cValue){

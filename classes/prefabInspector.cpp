@@ -17,7 +17,6 @@ PrefabInspector::PrefabInspector(){
     listDisplayMode=4;
     listColumns=4;
     level=0;
-    maxListItems=20;
 
     textureID="icon_error";
     }

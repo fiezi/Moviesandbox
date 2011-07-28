@@ -9,7 +9,6 @@ LayerInspector::LayerInspector(){
     newLayer=NULL;
     listHeight=12;
     listWidth=200;
-    maxListItems=38;
     registerProperties();
 }
 

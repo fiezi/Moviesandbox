@@ -54,6 +54,7 @@
 #include "textInputButton.h"
 #include "colorPickButton.h"
 #include "pickWorldButton.h"
+#include "vectorInputButton.h"
 
 #include "boolButton.h"
 
@@ -201,6 +202,7 @@ void SceneData::fillGlobalLists(){
     createActorID(new AssignButton);
 
     createActorID(new BoolButton);
+    createActorID(new VectorInputButton);
 
     createActorID(new ColorPickButton);
     createActorID(new PickWorldButton);

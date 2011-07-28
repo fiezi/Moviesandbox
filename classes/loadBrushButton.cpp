@@ -63,9 +63,9 @@ void LoadBrushButton::assembleLoadList(){
 
 void LoadBrushButton::placeScrollBar(){
 
-    scrollBar->location.x=location.x-17;
-    scrollBar->location.y=location.y- scale.y -( maxListItems * listButton[0]->scale.y );
-    scrollBar->bFlipValue=true;
+    //scrollBar->location.x=location.x-17;
+    //scrollBar->location.y=location.y- scale.y -( maxListItems * listButton[0]->scale.y );
+    //scrollBar->bFlipValue=true;
 
 }
 

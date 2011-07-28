@@ -16,7 +16,6 @@ TextureInspector::TextureInspector(){
     listDisplayMode=4;
     listColumns=8;
     level=0;
-    maxListItems=50;
 }
 
 TextureInspector::~TextureInspector(){}

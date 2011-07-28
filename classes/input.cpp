@@ -136,6 +136,8 @@ void Input::resetInputVectors(){
 
 
     mouseVector*=0;
+    if (!bPressedMovementKeys)
+        keyVector*=0;
 }
 
 void Input::pressedMouse(int button,int state,int x, int y){
@@ -475,8 +477,14 @@ void Input::keyUp(unsigned char key,int x,int y){
     ///System stuff
 
         //pressed TAB
-        if (key==9)
-            sceneData->controller->myTools[TOOL_NAV]->myBtn->clickedLeft();
+        if (key==9){
+            if (sceneData->controller->tool==TOOL_NAV || sceneData->controller->tool==TOOL_ORBIT){
+                sceneData->controller->switchTool(sceneData->controller->oldTool);
+            }else{
+                sceneData->controller->myTools[TOOL_NAV]->myBtn->clickedLeft();
+            }
+
+        }
 
         //pressed ESC!!!
         if (key==27){

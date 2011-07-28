@@ -20,10 +20,18 @@ public:
     float listWidth;                                //width of every button in the list
     float listHeight;                               //height of every button in the list
 
+    float listOffsetX;                              //used for non-standard-sized listButtons in placeButton
+    float listOffsetY;                              //used for non-standard-sized listButtons in placeButton
+
     int listColumns;
 
     Vector3f listButtonDistance;                    //distance between listButtons
     Vector3f listLoc;                               //list position
+
+    Vector3f listSize;                              //size of all buttons in screen-coordinates
+    float scrollSize;                               //size of scrollbar
+    float listDisplaySize;                          //how much of the list is to be displayed in screen-coordinates
+
     bool bRelativeListLocation;                     //list position is relative to listbutton
 
     std::vector <std::string> listType;            //registers the types of Buttons you want the list to populate
@@ -36,9 +44,6 @@ public:
 
     SliderButton* scrollBar;                      //holds the scroll button;
 
-    int maxListItems;                              //max amount of listButtons to show
-    int beginListItem;                             //where to start displaying from
-
     bool bPermanentList;                           //make listButtons permanent = undeletable
                                                    //you must manually clean them up then!
 
@@ -46,6 +51,11 @@ public:
 
     Vector4f listColor;                            //color of the buttons in the list
     string listShader;                             //shader to use (usually color or texture)
+
+
+    /*** Functions ***/
+
+
     ListButton();
     virtual ~ListButton();
 

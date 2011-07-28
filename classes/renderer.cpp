@@ -709,10 +709,6 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 void Renderer::draw(){
 
 
-	//cout << "MouseVector in draw: " << input->mouseVector << " in frame: " << frames << endl;
-    //cout << "draw!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-    glClear(GL_COLOR_BUFFER_BIT);
-
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
 

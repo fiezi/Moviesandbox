@@ -60,6 +60,10 @@ void NavTool::mousePressed(int btn){
         oldMousePos.x=input->mouseX;
         oldMousePos.y=input->mouseY;
     }
+    if (input->startPressRightBtn==0){
+        oldMousePos.x=input->mouseX;
+        oldMousePos.y=input->mouseY;
+    }
 
 
 }
@@ -89,6 +93,7 @@ void NavTool::update(double deltaTime){
     }
     if (bPressRight && input->hudTarget==NULL){
         input->keyVector=input->mouseVector * 0.5;
+        input->bConfineMouse=true;
         if (!input->bShiftDown){
             input->keyVector.z=-input->keyVector.y;
             input->keyVector.y=0.0;
@@ -147,6 +152,5 @@ void NavTool::processMove(double deltaTime){
     //TODO: why is this necessary?
     if (controlledActor==sceneData->controller)
         sceneData->controller->upPoint=Vector3f(0,1,0);
-
 
 }

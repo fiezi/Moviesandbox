@@ -682,6 +682,12 @@
 		<Unit filename="classes\userPopUp.h">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
+		<Unit filename="classes\vectorInputButton.cpp">
+			<Option virtualFolder="Buttons\BasicInterface\" />
+		</Unit>
+		<Unit filename="classes\vectorInputButton.h">
+			<Option virtualFolder="Buttons\BasicInterface\" />
+		</Unit>
 		<Unit filename="classes\videoTextureActor.cpp">
 			<Option virtualFolder="Actors\" />
 		</Unit>

@@ -13,6 +13,8 @@ bAlwaysUpdate=false;
 bPermanent=false;
 bScreenOverlay=false;
 bMessageWindow=false;
+bIndividualListSize=false;
+
 bDrawOrientation=false;
 
 bDragable=false;

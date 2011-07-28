@@ -19,6 +19,7 @@ public:
         bool bPermanent;                        //don't delete when deselecting - also pushes Buttons to "saveableButtonList" when true on default...
         bool bScreenOverlay;                    //gets drawn when running the scene
         bool bMessageWindow;                    //this button is used as an on-screen message.
+        bool bIndividualListSize;               //when in a list, this button doesn't conform to listHeight or listWidth
 
         bool bDragable;                         //this button can be dragged around...
         bool bConfineDragX;                     //can only be dragged around horizontal

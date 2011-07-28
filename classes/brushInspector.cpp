@@ -12,7 +12,6 @@ BrushInspector::BrushInspector(){
 level=0;
 currentSwatch=0;
 numSwatches=5;
-maxListItems=20;
 
 registerProperties();
 }

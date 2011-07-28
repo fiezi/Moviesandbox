@@ -32,8 +32,8 @@ void LoadDrawSkeletonButton::clickedLeft(){
 
 void LoadDrawSkeletonButton::placeScrollBar(){
 
-    scrollBar->setLocation( Vector3f(location.x-17, location.y- scale.y -( maxListItems * listButton[0]->scale.y ), 0) );
-    scrollBar->bFlipValue=true;
+    //scrollBar->setLocation( Vector3f(location.x-17, location.y- scale.y -( maxListItems * listButton[0]->scale.y ), 0) );
+    //scrollBar->bFlipValue=true;
 
 }
 

@@ -435,7 +435,6 @@ void Content::createNodeList(int x, int y){
     lbut->listHeight=20;
     lbut->listColor=Vector4f(0.7,0.7,0.7,1.0);
 
-    lbut->maxListItems=10;
     lbut->bDrawListNames=true;
     lbut->textureID="icon_nodeMenu";
     lbut->name="nodeMenu";

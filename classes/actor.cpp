@@ -140,12 +140,12 @@ createMemberID("RENDERLAYER",&renderLayer,this);
 
 createMemberID("NAME",&name,this);
 
-createMemberID("LOCATION", &location, this);
-createMemberID("ROTATION", &rotation, this);
-createMemberID("SCALE", &scale, this);
+createMemberID("LOCATION", &location, this,true,"17VectorInputButton");
+createMemberID("ROTATION", &rotation, this,true,"17VectorInputButton");
+createMemberID("SCALE", &scale, this,true,"17VectorInputButton");
 
 createMemberID("ORIENTATION", &orientation, this,false);    //let's not show the orientation as editable property!
-createMemberID("PIVOTLOCATION", &pivotLocation, this);
+createMemberID("PIVOTLOCATION", &pivotLocation, this,true,"17VectorInputButton");
 
 createMemberID("TRANSFORMMATRIX",&transformMatrix,this,false);
 createMemberID("SCALEMATRIX",&scaleMatrix,this,false);
@@ -160,14 +160,14 @@ createMemberID("CUBESIZE",&collisionCubeSize, this);
 createMemberID("PARTICLESCALE",&particleScale, this);
 createMemberID("PARTICLEANGLESCALE",&particleAngleScale, this);
 
-createMemberID("COLOR", &color, this);
+createMemberID("COLOR", &color, this,true,"17VectorInputButton");
 
 createMemberID("VBOMESHID", &vboMeshID, this);
 
 createMemberID("TEXTUREID", &textureID, this);
-createMemberID("TEXTRANSLATION",&texTranslation,this);
-createMemberID("TEXROTATION",&texRotation,this);
-createMemberID("TEXSCALE",&texScale,this);
+createMemberID("TEXTRANSLATION",&texTranslation,this,true,"17VectorInputButton");
+createMemberID("TEXROTATION",&texRotation,this,true,"17VectorInputButton");
+createMemberID("TEXSCALE",&texScale,this,true,"17VectorInputButton");
 
 createMemberID("DRAWTYPE",&drawType,this);
 createMemberID("BLENDMODEONE",&blendModeOne,this);

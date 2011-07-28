@@ -68,8 +68,8 @@ void ImportBitmapButton::assembleLoadList(){
 
 void ImportBitmapButton::placeScrollBar(){
 
-    scrollBar->setLocation(Vector3f(location.x + listWidth, location.y- scale.y -( maxListItems * listHeight ), 0 ) );
-    scrollBar->bFlipValue=true;
+    //scrollBar->setLocation(Vector3f(location.x + listWidth, location.y- scale.y -, 0 ) );
+    //scrollBar->bFlipValue=true;
 
 }
 

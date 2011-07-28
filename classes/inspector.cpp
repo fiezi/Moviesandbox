@@ -74,7 +74,7 @@ void Inspector::update(double deltaTime){
 
     //check if we need scrollBar and make one if we do
 	if (scrollBar){
-		if ((int)listButton.size()>maxListItems){
+		if (listSize.y>listDisplaySize){
 			trigger(scrollBar);
 			placeScrollBar();
 		}else {
@@ -84,7 +84,7 @@ void Inspector::update(double deltaTime){
         scrollBar->bHidden=!bOpen;
 	}
 	else{
-		if ((int)listButton.size()>maxListItems){
+		if (listSize.y>listDisplaySize){
 			createScrollBar();
             scrollBar->bHidden=!bOpen;
 		}
@@ -177,6 +177,8 @@ void Inspector::clickedLeft(){
 
 void Inspector::assembleList(){
 
+    listOffsetX=0;
+    listOffsetY=0;
         cout << "creating list..." << endl;
 }
 
@@ -190,7 +192,7 @@ ListButton::focusClick();
 void Inspector::placeButton(int buttonNumber, int drawPosition){
 
     ListButton::placeButton(buttonNumber,drawPosition);
-    listButton[buttonNumber]->setLocation(listButton[buttonNumber]->location + Vector3f( 0, listOffset, 0 ) );
+    listButton[buttonNumber]->setLocation(listButton[buttonNumber]->location );
     if (scrollBar)
         placeScrollBar();
 }

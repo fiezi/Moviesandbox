@@ -9,6 +9,9 @@ public:
 
     bool    bEditing;           //are we typing in text?
 
+    bool    bmIDPart;           //only edit a part of a property (e.g. Vector3f)
+    int     mIDPartNumber;      //which part of the property to edit
+
     TextInputButton();
     virtual ~TextInputButton();
 

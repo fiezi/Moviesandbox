@@ -26,6 +26,7 @@ void NavWidget::clickedLeft(){
 
     if (sceneData->controller->tool!=useTool)
         sceneData->controller->switchTool(useTool);
+
     color=COLOR_RED;
     Widget::clickedLeft();
 }

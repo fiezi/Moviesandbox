@@ -11,19 +11,21 @@ name="TextInputButton";
 parent=NULL;
 buttonProperty="NULL";
 bEditing=false;
+bmIDPart=false;
+mIDPartNumber=0;
 }
 
 TextInputButton::~TextInputButton(){}
 
 
 void TextInputButton::setup(){
-BasicButton::setup();
+    BasicButton::setup();
 
-if (parent && buttonProperty!="NULL"){
-    memberID * mID=&parent->property[buttonProperty];
-    if (mID)
-        tooltip=memberToString(mID);
-    }
+    if (parent && buttonProperty!="NULL"){
+        memberID * mID=&parent->property[buttonProperty];
+        if (mID)
+            tooltip=memberToString(mID,bmIDPart,mIDPartNumber);
+        }
 }
 
 void TextInputButton::update(double deltaTime){

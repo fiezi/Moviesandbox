@@ -24,7 +24,6 @@ WindowButton::WindowButton(){
     listWidth = 128;
     listHeight = 16;
     listColumns = 3;
-    maxListItems = 20;
 
     name="Settings";
 

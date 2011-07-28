@@ -16,8 +16,8 @@ PropertyInspector::PropertyInspector(){
     textureID="icon_advanced";
     oldParent=NULL;
     parent=NULL;
-    maxListItems=(int) ((renderer->screenY* 4.0/5.0) / listHeight );
-    //maxListItems=10;
+
+    scrollSize=128.0;
 }
 
 PropertyInspector::~PropertyInspector(){}
@@ -41,6 +41,10 @@ void PropertyInspector::refreshList(){
 
 
 void PropertyInspector::assembleList(){
+
+
+    listOffsetX=0;
+    listOffsetY=0;
 
     //cleanup
     for (int i=0;i<(int)listButton.size();i++){
@@ -69,22 +73,6 @@ void PropertyInspector::assembleList(){
 
             if (!mID->bShowProperty)
                 continue;
-/*
-            const std::type_info* mType;
-            mType=&(typeid(Actor*));
-            //special buttons for special properties!
-            if (it->first=="BASE"){
-                sceneData->actorInfo["13SetBaseButton"].actorReference->create();
-                listButton.push_back(sceneData->buttonList.back());
-            }else if (mID->memberType->name()==mType->name()){
-                sceneData->actorInfo["15PickWorldButton"].actorReference->create();
-                listButton.push_back(sceneData->buttonList.back());
-                }
-            else{
-                sceneData->actorInfo["15TextInputButton"].actorReference->create();
-                listButton.push_back(sceneData->buttonList.back());
-                }
-*/
 
             //Properties now have their own knowledge of what button type they should spawn!
             sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
@@ -100,10 +88,15 @@ void PropertyInspector::assembleList(){
 
             listButton[i]->bPermanent=true;
 
-            if (listWidth>0)
-                listButton[i]->scale.x=listWidth;
-            if (listHeight>0)
-                listButton[i]->scale.y=listHeight;
+            if (listButton[i]>0 && listButton[i-1]->bIndividualListSize && !listButton[i-1]->bHidden){
+                listOffsetY+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
+            }
+            if (!listButton[i]->bIndividualListSize){
+                if (listWidth>0)
+                    listButton[i]->scale.x=listWidth;
+                if (listHeight>0)
+                    listButton[i]->scale.y=listHeight;
+            }
 
             //if (!bOpen)
             //    listButton[i]->bHidden=true;
@@ -114,6 +107,10 @@ void PropertyInspector::assembleList(){
 
     }
 
+    if (listButton.size()>0)
+        listSize.y=listButton[listButton.size()-1]->location.y+listButton[listButton.size()-1]->scale.y;
+    else
+        listSize.y=0;
    // if (bOpen)
    //     createScrollBar();
 }
