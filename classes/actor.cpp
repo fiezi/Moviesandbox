@@ -39,7 +39,6 @@ pivotLocation=Vector3f(0,0,0);
 
 transformMatrix.identity();
 originalMatrix.identity();
-bUseTransformMatrix=true;
 
 collisionCubeSize=1.0f;
 
@@ -75,6 +74,7 @@ bPickable=true;
 bHidden=false;
 bRemoveable=true;
 bSelected=false;
+bHighlight=false;
 bDebug=false;
 
 drawType=DRAW_TEA;                     //teapot
@@ -439,8 +439,13 @@ void Actor::matrixToVectors(){
 
 void Actor::update(double deltaTime){
 
-
     elapsedTime+=deltaTime;
+
+    if (input->worldTarget==this && name!="ground"){
+        bHighlight=true;
+    }else{
+        bHighlight=false;
+    }
 
     if (bDebug)
         cout << "setting Mover stuff now..." << renderer->frames <<endl;

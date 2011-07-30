@@ -20,7 +20,6 @@ shape=Vector3f(0.1,0.3,0.1);
 mass=1.0;
 type=CAPSULESHAPE;
 //drawType=DRAW_SPECIAL;
-bUseTransformMatrix=true;
 bJointedToBase=false;
 bSkeletalPart=false;
 bFixToWorld=false;

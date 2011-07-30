@@ -19,7 +19,11 @@ void SetBaseButton::update(double deltaTime){}
 
 void SetBaseButton::mouseOver(){
 
-BasicButton::mouseOver();
+    BasicButton::mouseOver();
+    if ( ((Actor*)parent)->base){
+        ((Actor*)parent)->base->bHighlight=true;
+    }
+
 }
 
 void SetBaseButton::mouseDrag(){}

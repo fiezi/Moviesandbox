@@ -297,7 +297,6 @@ void SkeletalActor::stop(){
                 bones.push_back(new BoneActor);
                 bones[i]->name=sceneData->vboList[vboMeshID]->bones[i]->name;
                 sceneData->actorList.push_back(bones[i]);
-            bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
             bones[i]->drawType=DRAW_SPRITE;
             bones[i]->scale=bones[i]->scale*0.25;
@@ -386,7 +385,6 @@ void SkeletalActor::convertToPhysicsBones(){
             bones[i]->name=sceneData->vboList[vboMeshID]->bones[i]->name;
             //sceneData->actorList.insert(sceneData->actorList.begin()+ myPos+i, bones[i]);
             sceneData->actorList.push_back(bones[i]);
-            bones[i]->bUseTransformMatrix=true;
             bones[i]->bRemoveable=false;
             bones[i]->drawType=DRAW_CUBE;
             bones[i]->scale=bones[i]->scale*0.25;

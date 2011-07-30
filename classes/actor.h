@@ -78,7 +78,6 @@ public:
        Matrix4f originalMatrix;                     //original transformation - makes transformmatrix relative to this one - used for bones!
        Matrix4f transformMatrix;                    //our individual transform, without base transformations
        Matrix4f scaleMatrix;                        //our scaling
-       bool     bUseTransformMatrix;                //should we use the matrix?
 
 
        Matrix4f initialTransform;                   //for resetting after scene finished playing
@@ -108,6 +107,7 @@ public:
        bool bPickable;                              //can be clicked on (mouse)
        bool bRemoveable;                            //cannot be removed...
        bool bSelected;                              //is in sceneData->selectedActors
+       bool bHighlight;                              //is in sceneData->selectedActors
 
        //Render options
        bool bTextured,                              //uses Texture Map in TextureUnit 0

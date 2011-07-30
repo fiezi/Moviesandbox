@@ -88,7 +88,7 @@ void PropertyInspector::assembleList(){
 
             listButton[i]->bPermanent=true;
 
-            if (listButton[i]>0 && listButton[i-1]->bIndividualListSize && !listButton[i-1]->bHidden){
+            if (i>0 && listButton[i-1]->bIndividualListSize && !listButton[i-1]->bHidden){
                 listOffsetY+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
             }
             if (!listButton[i]->bIndividualListSize){

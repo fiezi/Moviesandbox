@@ -384,7 +384,6 @@ void Renderer::setup(){
     #ifdef BDEBUGRENDERER
     checkOpenGLError("glEnables Error check...");
     #endif
-
     //shared memory texture
     //createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
@@ -543,7 +542,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
-            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, fbSize, fbSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSize, fbSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -555,6 +554,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             // attach colorBuffer to a texture
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
             glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_FLOAT, NULL);
+            //glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_BYTE, NULL);
 
 //            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -975,12 +975,9 @@ void Renderer::drawSceneTexture(){
 
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 
-
-
     glDrawBuffers(1,drawBuffers);
 
     glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
-
 
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
@@ -1477,7 +1474,10 @@ void Renderer::drawGizmos(Actor* a){
     if (a->bSelected)
         drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
 
-    if (sceneData->specialSelected==a)
+    else if (a->bHighlight)
+        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(0.6,0.6,0.6,1));
+
+    else if (sceneData->specialSelected==a)
         drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,1,1));
 
     glDrawBuffers(2,drawBuffers);
@@ -2187,7 +2187,11 @@ void Renderer::pick(int x, int y){
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos
 
+    //float zPos=( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
     float zPos=mousePos[2];
+
+    //cout << "pick: " << zPos << mousePos[1] << " " << mousePos[2] << endl;
+
     input->mouse3D= sceneData->controller->location;
     input->mouse3D+= sceneData->controller->zAxis * zPos;
     input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)windowX - 0.5) * zPos * 1.1);

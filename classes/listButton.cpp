@@ -103,7 +103,7 @@ void ListButton::assembleList(){
         listButton[i]->color=listColor;
         listButton[i]->sceneShaderID=listShader;
 
-        if (listButton[i]>0 && listButton[i-1]->bIndividualListSize){
+        if (i>0 && listButton[i-1]->bIndividualListSize){
             listOffsetY+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
         }
         if (!listButton[i]->bIndividualListSize){
