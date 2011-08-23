@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBdtC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oscP5 : : OscP5 : : send ( )</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+document.getElementsByTagName('html')[0].className = 'isjs';
+
+function toggle(dt) 
+{ 
+  var display, dd=dt; 
+  /* get dd */ 
+  do{ dd = dd.nextSibling } while(dd.tagName!='DD'); 
+  toOpen =!dd.style.display; 
+  dd.style.display = toOpen? 'block':'' 
+  dt.getElementsByTagName('span')[0].innerHTML 
+    = toOpen? '-':'+' ; 
+} 
+</script>
+</head>
+<body>
+<div id="container">
+	<div id="header">
+	<a href="./index.htm"><img src="./docuImages/title.jpg" /></a>
+	</div>
+	<div class="content">
+	<h1><a href="index.htm">oscP5</a> / <a href="OscP5_class_OscP5.htm">OscP5</a> / send( )</h1>
+		<div class="separator">
+		<dl><dt class="key">name</dt><dd class="value">send ( )</dd></dl>
+		</div>
+		<dl><dt class="key">description</dt><dd class="value">you can send osc packets in many different ways. see below and use
+ the send method that fits your needs.&nbsp;</dd></dl>
+		<!-- noExamples:START 
+		<div class="toggleList example">
+			<dl><dt onclick="toggle(this)"><span>+</span>Examples</dt>
+			<dd><pre>None available</pre></dd>
+			</dl>
+		</div>
+		 noExamples:END -->
+		<div class="separator">
+		<dl><dt class="key">Syntax</dt><dd class="value"><pre>send(thePacket, theNetAddress);
+send(thePacket);
+send(thePacket, theNetAddressList);
+send(theAddrPattern, theArguments);
+send(theAddrPattern, theArguments, theNetAddressList);
+send(theAddrPattern, theArguments, theNetAddress);
+send(theAddrPattern, theArguments, theAddress, thePort);
+send(thePacket, theClient);
+send(theAddrPattern, theArguments, theClient);
+send(thePacket, theIpAddress, thePort);
+</pre></dd></dl>
+		</div>
+		<div class="separator">
+		
+   <dl><dt class="key">parameters</dt><dd class="value"><span class="parameters">thePacket</span><span class="parameters">OscPacket</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theNetAddress</span><span class="parameters">NetAddress</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theNetAddressList</span><span class="parameters">NetAddressList</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theAddrPattern</span><span class="parameters">String</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theArguments</span><span class="parameters">Object[]</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theClient</span><span class="parameters">TcpClient</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theIpAddress</span><span class="parameters">String</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">thePort</span><span class="parameters">int</span><span class="clear">&nbsp;</span></dd>
+</dl>
+		<br /><br />
+		</div>
+		<div class="separator">
+		<dl><dt class="key">Returns</dt><dd class="value">None</dd></dl>
+
+		</div>
+		<div class="separator">
+		<dl><dt class="key">Usage</dt><dd class="value">Application</dd></dl>
+		</div>
+		<div class="separator">
+		<dl><dt class="key">Related</dt><dd class="value"><ul></ul></dd></dl>
+		</div>
+	</div>
+	<div id="footer">
+<p>by andreas schlegel (<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">cc</a>) 2007, <a href="http://www.sojamo.de" target="_blank">sojamo</a>.</p>
+</div>
+
+</div>
+</body>
+</html>

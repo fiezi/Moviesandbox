@@ -27,7 +27,8 @@ void main(){
 
         float vIDTwo=mod(vID,65536.0);
 
-    gl_FragData[1]=vec4(zPos ,objectID ,0.0,0.0 );
+//    gl_FragData[1]=vec4(zPos/256.0 ,mod(zPos,256.0),objectID, 0.0 );
+    gl_FragData[1]=vec4( zPos, objectID, 0.0, 0.0 );
 
 
 }

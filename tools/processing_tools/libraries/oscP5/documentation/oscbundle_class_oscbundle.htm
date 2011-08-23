@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oscP5 : : OscBundle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+document.getElementsByTagName('html')[0].className = 'isjs';
+
+function toggle(dt) 
+{ 
+  var display, dd=dt; 
+  /* get dd */ 
+  do{ dd = dd.nextSibling } while(dd.tagName!='DD'); 
+  toOpen =!dd.style.display; 
+  dd.style.display = toOpen? 'block':'' 
+  dt.getElementsByTagName('span')[0].innerHTML 
+    = toOpen? '-':'+' ; 
+} 
+</script>
+</head>
+<body>
+<div id="container">
+		<div id="header">
+		<a href="./index.htm"><img src="./docuImages/title.jpg" /></a>
+		</div>
+	<div class="content">
+		<h1>OscBundle</h1>
+		<dl><dt class="key">description</dt><dd class="value">Osc Bundles are collections of Osc Messages. use bundles to send multiple
+ osc messages to one destination. the OscBundle timetag is supported for
+ sending but not for receiving yet.</dd></dl>
+			
+			<div class="toggleList example">
+				<dl><dt onclick="toggle(this)"><span>+</span>Example</dt>
+					<dd><pre>/**
+ * oscP5bundle by andreas schlegel
+ * an osc broadcast server.
+ * example shows how to create and send osc bundles. 
+ * oscP5 website at http://www.sojamo.de/oscP5
+ */
+
+import oscP5.*;
+import netP5.*;
+
+OscP5 oscP5;
+NetAddress myRemoteLocation;
+
+void setup() {
+  size(400,400);
+  frameRate(25);
+  /* start oscP5, listening for incoming messages at port 12000 */
+  oscP5 = new OscP5(this,12000);
+  
+  /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
+   * an ip address and a port number. myRemoteLocation is used as parameter in
+   * oscP5.send() when sending osc packets to another computer, device, 
+   * application. usage see below. for testing purposes the listening port
+   * and the port of the remote location address are the same, hence you will
+   * send messages back to this sketch.
+   */
+  myRemoteLocation = new NetAddress("127.0.0.1",12000);
+}
+
+
+void draw() {
+  background(0);  
+}
+
+
+void mousePressed() {
+  /* create an osc bundle */
+  OscBundle myBundle = new OscBundle();
+  
+  /* createa new osc message object */
+  OscMessage myMessage = new OscMessage("/test");
+  myMessage.add("abc");
+  
+  /* add an osc message to the osc bundle */
+  myBundle.add(myMessage);
+  
+  /* reset and clear the myMessage object for refill. */
+  myMessage.clear();
+  
+  /* refill the osc message object again */
+  myMessage.setAddrPattern("/test2");
+  myMessage.add("defg");
+  myBundle.add(myMessage);
+  
+  myBundle.setTimetag(myBundle.now() + 10000);
+  /* send the osc bundle, containing 2 osc messages, to a remote location. */
+  oscP5.send(myBundle, myRemoteLocation);
+}
+
+
+
+/* incoming osc message are forwarded to the oscEvent method. */
+void oscEvent(OscMessage theOscMessage) {
+  /* print the address pattern and the typetag of the received OscMessage */
+  print("### received an osc message.");
+  print(" addrpattern: "+theOscMessage.addrPattern());
+  print(" typetag: "+theOscMessage.typetag());
+  println(" timetag: "+theOscMessage.timetag());
+}
+</pre></dd>
+				</dl>
+			</div>
+			
+			
+			<!-- noConstructor:START
+			<dl><dt class="key">constructors</dt><dd class="value"><pre>OscBundle();
+</pre></dd></dl>
+			noConstructor:END -->
+			
+			
+			
+			
+			
+			
+			<!-- METHODS:BEGIN -->
+			
+       <dl class="noborder"><dt>Methods</dt></dl>
+       <dl><dt class="key"><a href="oscbundle_method_add.htm">add ( )</a></dt><dd class="value">add an osc message to the osc bundle.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_clear.htm">clear ( )</a></dt><dd class="value">clear and reset the osc bundle for reusing.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_getmessage.htm">getMessage ( )</a></dt><dd class="value">request an osc message inside the osc bundle array,</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_now.htm">now ( )</a></dt><dd class="value">returns the current time in milliseconds. use with setTimetag.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_remove.htm">remove ( )</a></dt><dd class="value">remove an OscMessage from an OscBundle.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_settimetag.htm">setTimetag ( )</a></dt><dd class="value">set the timetag of an osc bundle. timetags are used to synchronize events and
+ execute events at a given time in the future or immediately. timetags can
+ only be set for osc bundles, not for osc messages. oscP5 supports receiving
+ timetags, but does not queue messages for execution at a set time.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_size.htm">size ( )</a></dt><dd class="value">get the size of the osc bundle array which contains the osc messages.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_tcpconnection.htm">tcpConnection ( )</a></dt><dd class="value">when in TCP mode, tcpConnection() returns the instance of the TcpClient that has sent the OscMessage.</dd></dl>
+<dl><dt class="key"><a href="oscbundle_method_timetag.htm">timetag ( )</a></dt><dd class="value">returns a timetag as byte array.</dd></dl>
+
+   
+			<!-- METHODS:END -->
+			<div class="separator">
+			<dl><dt class="key">usage</dt><dd class="value">Web & Application</dd></dl>
+			</div>
+			<div class="separator">
+			<dl><dt class="key">related</dt><dd class="value"><ul><li><a href="oscmessage_class_oscmessage.htm">OscMessage</a></li>
+<li><a href="oscp5_class_oscp5.htm">OscP5</a></li>
+</ul></dd></dl>
+			</div>
+	</div>
+	<div id="footer">
+	<p>by andreas schlegel (<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">cc</a>) 2007, <a href="http://www.sojamo.de" target="_blank">sojamo</a>.</p>
+	</div>
+</div>
+</body>
+</html>
+
+

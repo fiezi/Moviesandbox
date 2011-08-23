@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>oscP5 : : OscMessage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+document.getElementsByTagName('html')[0].className = 'isjs';
+
+function toggle(dt) 
+{ 
+  var display, dd=dt; 
+  /* get dd */ 
+  do{ dd = dd.nextSibling } while(dd.tagName!='DD'); 
+  toOpen =!dd.style.display; 
+  dd.style.display = toOpen? 'block':'' 
+  dt.getElementsByTagName('span')[0].innerHTML 
+    = toOpen? '-':'+' ; 
+} 
+</script>
+</head>
+<body>
+<div id="container">
+		<div id="header">
+		<a href="./index.htm"><img src="./docuImages/title.jpg" /></a>
+		</div>
+	<div class="content">
+		<h1>OscMessage</h1>
+		<dl><dt class="key">description</dt><dd class="value">An OSC message consists of an OSC Address Pattern, an OSC Type Tag String
+ and the OSC arguments.</dd></dl>
+			
+			<div class="toggleList example">
+				<dl><dt onclick="toggle(this)"><span>+</span>Example</dt>
+					<dd><pre>/**
+ * oscP5sendreceive by andreas schlegel
+ * example shows how to send and receive osc messages.
+ * oscP5 website at http://www.sojamo.de/oscP5
+ */
+ 
+import oscP5.*;
+import netP5.*;
+  
+OscP5 oscP5;
+NetAddress myRemoteLocation;
+
+void setup() {
+  size(400,400);
+  frameRate(25);
+  /* start oscP5, listening for incoming messages at port 12000 */
+  oscP5 = new OscP5(this,12000);
+  
+  /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
+   * an ip address and a port number. myRemoteLocation is used as parameter in
+   * oscP5.send() when sending osc packets to another computer, device, 
+   * application. usage see below. for testing purposes the listening port
+   * and the port of the remote location address are the same, hence you will
+   * send messages back to this sketch.
+   */
+  myRemoteLocation = new NetAddress("127.0.0.1",12000);
+}
+
+
+void draw() {
+  background(0);  
+}
+
+void mousePressed() {
+  /* in the following different ways of creating osc messages are shown by example */
+  OscMessage myMessage = new OscMessage("/test");
+  
+  myMessage.add(123); /* add an int to the osc message */
+
+  /* send the message */
+  oscP5.send(myMessage, myRemoteLocation); 
+}
+
+
+/* incoming osc message are forwarded to the oscEvent method. */
+void oscEvent(OscMessage theOscMessage) {
+  /* print the address pattern and the typetag of the received OscMessage */
+  print("### received an osc message.");
+  print(" addrpattern: "+theOscMessage.addrPattern());
+  println(" typetag: "+theOscMessage.typetag());
+}
+</pre></dd>
+				</dl>
+			</div>
+			
+			
+			
+			<dl><dt class="key">constructors</dt><dd class="value"><pre>OscMessage(theAddrPattern);
+OscMessage(theAddrInt);
+OscMessage(theAddrPattern, theArguments);
+</pre></dd></dl>
+			
+			
+			
+			
+   <dl><dt class="key">parameters</dt><dd class="value"><span class="parameters">theAddrPattern</span><span class="parameters">String</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theAddrInt</span><span class="parameters">int</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theArguments</span><span class="parameters">Object[]</span><span class="clear">&nbsp;</span></dd>
+<dd class="value"><span class="parameters">theAddrPattern</span><span class="parameters">int</span><span class="clear">&nbsp;</span></dd>
+</dl>
+			
+			
+			
+			<!-- METHODS:BEGIN -->
+			
+       <dl class="noborder"><dt>Methods</dt></dl>
+       <dl><dt class="key"><a href="oscmessage_method_add.htm">add ( )</a></dt><dd class="value">add values to an osc message. please check the
+ add documentation for specific information.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_addrint.htm">addrInt ( )</a></dt><dd class="value">returns the address pattern of the osc message as int.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_checkaddrpattern.htm">checkAddrPattern ( )</a></dt><dd class="value">check if an address pattern equals a specific address pattern
+ you are looking for. this is usually used when parsing an osc message.
+ e.g. if(theOscMessage.checkAddrPattern("/test")==true) {...}</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_clear.htm">clear ( )</a></dt><dd class="value">clear and reset an OscMessage for reuse.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_get.htm">get ( )</a></dt><dd class="value">get a value at a specific position in the osc message. the get method
+ returns an OscArgument from which the value can be parsed into the right
+ format. e.g. to parse an int from the first argument in the osc message,
+ use theOscMessage.get(0).intValue();</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_setaddrpattern.htm">setAddrPattern ( )</a></dt><dd class="value">set the address pattern of an osc message. you can set
+ a string or an int as address pattern.tnt might be useful for
+ supercollider users. oscP5 does support ints and strings as
+ address patterns when sending and receiving messages.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_setarguments.htm">setArguments ( )</a></dt><dd class="value">set the arguments of the osc message using an object array.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_tcpconnection.htm">tcpConnection ( )</a></dt><dd class="value">when in TCP mode, tcpConnection() returns the instance of the TcpClient that has sent the OscMessage.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_timetag.htm">timetag ( )</a></dt><dd class="value">get the timetag of an osc message. timetags are only sent by
+ osc bundles.</dd></dl>
+<dl><dt class="key"><a href="oscmessage_method_typetag.htm">typetag ( )</a></dt><dd class="value">returns the typetag of the osc message. e.g. the message contains
+ 3 floats then the typetag would be "fff"</dd></dl>
+
+   
+			<!-- METHODS:END -->
+			<div class="separator">
+			<dl><dt class="key">usage</dt><dd class="value">Web & Application</dd></dl>
+			</div>
+			<div class="separator">
+			<dl><dt class="key">related</dt><dd class="value"><ul><li><a href="oscbundle_class_oscbundle.htm">OscBundle</a></li>
+</ul></dd></dl>
+			</div>
+	</div>
+	<div id="footer">
+	<p>by andreas schlegel (<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">cc</a>) 2007, <a href="http://www.sojamo.de" target="_blank">sojamo</a>.</p>
+	</div>
+</div>
+</body>
+</html>
+
+

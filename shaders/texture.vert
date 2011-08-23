@@ -53,6 +53,7 @@ void main(){
 
     gl_PointSize= pointSize() * screensize/scene_size;
 
+    //zPos from 0 to 1, then from 0 to 65536.0!
     zPos=gl_Position.z;
     //zPos=myPos.z;
 

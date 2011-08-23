@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>candy : : XMLElement : : getChildren ( )</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+<body> 
+<div id="page"> 
+  <div id="describtion"> 
+    <div id="libname"><img src="images/proxml.gif" width="259" height="40"></div> 
+    <div id="indexlink"><a href="index.htm"><img src="images/index.gif"></a></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> name </div> 
+    <div id="pointcontent"><div id="membertitle"> getChildren ( ) </div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"><a href="#" id="exampleButton" onClick="handleExample()">openExample</a></div> 
+    <div id="pointcontent"><div id="example"><pre>/*
+This example loads an xml file and 
+prints out the children of the root element
+*/
+
+import proxml.*;
+
+XMLInOut xmlIO; 
+
+void setup(){
+  size(400,400);
+
+  xmlIO = new XMLInOut(this);
+  xmlIO.loadElement("my-xml-file.xml");
+}
+
+void xmlEvent(XMLElement element){
+  XMLElement[] children = element.getChildren();
+
+  for(int i = 0; i &lt; children.length;i++){
+    XMLElement child = children[i];
+    println(child);
+  }
+}
+
+void draw(){
+}
+</pre></div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> description </div> 
+    <div id="pointcontent">Use getChildren() to get an array with all children of an element. 
+ Each element in the array is a reference to an XML object that represents 
+ a child element.</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> syntax </div> 
+    <div id="pointcontent"> 
+      <pre>getChildren();
+</pre> 
+    </div> 
+  </div> 
+    
+<div id="point"> 
+  <div id="pointname"> returns </div> 
+  <div id="pointcontent">XMLElement[], an Array of child elements</div> 
+</div> 
+
+  <div id="point"> 
+    <div id="pointname"> usage </div> 
+    <div id="pointcontent">Web & Application</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> related </div> 
+    <div id="pointcontent"><A href="xmlelement_class_xmlelement.htm">XMLElement</A><BR>
+<A href="xmlelement_method_addchild.htm">addChild ( )</A><BR>
+<A href="xmlelement_method_countchildren.htm">countChildren ( )</A><BR>
+<A href="xmlelement_method_getchild.htm">getChild ( )</A><BR>
+<A href="xmlelement_method_getparent.htm">getParent ( )</A><BR>
+<A href="xmlelement_method_haschildren.htm">hasChildren ( )</A><BR>
+</div> 
+  </div> 
+</div> 
+</body>
+<script language="JavaScript" src="script.js" type="text/javascript"></script>
+</html>

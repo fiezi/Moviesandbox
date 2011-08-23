@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>packagehtml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<p>
+The proXML library allows Processing to read and write XML files. You can build 
+a XML document by putting together different elements, or you can load an XML element 
+from a certain url. When you have the XML-element filled with content you can save it
+as file on your harddisk.
+</p>
+<p>
+The Extensible Markup Language XML has become the standard for exchanging structured data 
+in Internet applications. proXML allows you to easily integrate and manipulate this data 
+in Processing. 
+</p>
+<p>
+Like HTML, XML uses tags to specify, or mark up, a body of text, but instead of using predefined 
+tags to indicate how text should appear in a web browser, you define tags that represent the 
+type of a piece of data. XML separates the structure of the information from the way it appears, 
+so the same XML document can be used and reused in different environments.
+</p>
+<p>
+Every XML tag represents a node also called element. A node can be a XML element a text node.
+If it is a XML element it can have attributes. An element nested in another element is called 
+the child of this element. Every element can have several child elements this results in a 
+hierarchical tree structure of elements, that is called the XML DOM. 
+</p>
+<p>
+The following example is a xml file representing several ellipses.
+</p>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;ellipses&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="152" xPos="127"/&gt;
+    &lt;size Xsize="61" Ysize="54"/&gt;
+  &lt;/ellipse&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="155" xPos="212"/&gt;
+    &lt;size Xsize="33" Ysize="66"/&gt;
+  &lt;/ellipse&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="246" xPos="130"/&gt;
+    &lt;size Xsize="65" Ysize="48"/&gt;
+  &lt;/ellipse&gt;
+&lt;/ellipses&gt;
+</pre>
+<p>
+&lt;ellipses&gt; is the root node; it has no attributes and contains the child nodes &lt;ellipse&gt;, 
+which has two child elements &lt;position&gt; and &lt;size&gt; &lt;position&gt; has two attributes
+yPos and xPos.
+</p>
+@libname proXML 
+</body>
+</html>

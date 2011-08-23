@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>candy : : XMLInOut : : loadElement ( )</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+<body> 
+<div id="page"> 
+  <div id="describtion"> 
+    <div id="libname"><img src="images/proxml.gif" width="259" height="40"></div> 
+    <div id="indexlink"><a href="index.htm"><img src="images/index.gif"></a></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> name </div> 
+    <div id="pointcontent"><div id="membertitle"> loadElement ( ) </div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"><a href="#" id="exampleButton" onClick="handleExample()">openExample</a></div> 
+    <div id="pointcontent"><div id="example"><pre>/*
+this is a more complex example demonstrating the possibilities
+of proxml. In the example the user can draw ellipses that are saved
+into a xml file. This file is loaded on the next start of the program.
+If there exists an xml file it is loaded and the
+content is drawn as ellipses. Otherwise the xml element is created.
+*/
+
+import proxml.*;
+
+//to store the background after painting an ellipse
+PImage back;
+
+//xml element to store and load the drawn ellipses
+XMLElement ellipses;
+XMLInOut xmlInOut;
+
+int xPos = 0;
+int yPos = 0;
+
+void setup(){
+  size(400,400);
+  smooth();
+  background(255);
+
+  //load ellipses from file if it exists
+  xmlInOut = new XMLInOut(this);
+  try{
+    xmlInOut.loadElement("ellipse.xml"); 
+  }catch(Exception e){
+    //if the xml file could not be loaded it has to be created
+    xmlEvent(new XMLElement("ellipses"));
+  }
+}
+
+void xmlEvent(XMLElement element){
+  ellipses = element;
+  initEllipses();
+    //initialise PImage for background
+  back = new PImage(width,height);
+  loadPixels();
+  back.pixels = pixels;
+}
+
+void draw(){
+}
+
+//draw all ellipses saved in the xml file
+void initEllipses(){
+  ellipses.printElementTree(" ");
+  XMLElement ellipse;
+  XMLElement position;
+  XMLElement size;
+  
+  for(int i = 0; i &lt; ellipses.countChildren();i++){
+    ellipse = ellipses.getChild(i);
+    position = ellipse.getChild(0);
+    size = ellipse.getChild(1);
+    ellipse(
+      position.getIntAttribute("xPos"),
+      position.getIntAttribute("yPos"),
+      size.getFloatAttribute("Xsize"),
+      size.getFloatAttribute("Ysize")
+    );
+  }
+}
+
+void mousePressed(){
+  xPos = mouseX;
+  yPos = mouseY;
+}
+
+void mouseDragged(){
+  background(back);
+  ellipse(xPos,yPos,abs(xPos-mouseX),abs(yPos-mouseY));
+}
+
+void mouseReleased(){
+  XMLElement ellipse = new XMLElement("ellipse");
+  ellipses.addChild(ellipse);
+  XMLElement position = new XMLElement("position");
+  position.addAttribute("xPos",xPos);
+  position.addAttribute("yPos",yPos);
+  ellipse.addChild(position);
+  XMLElement size = new XMLElement("size");
+  size.addAttribute("Xsize",abs(xPos-mouseX));
+  size.addAttribute("Ysize",abs(yPos-mouseY));
+  ellipse.addChild(size);
+  xmlInOut.saveElement(ellipses,"ellipse.xml");
+  loadPixels();
+  back.pixels = pixels;
+}
+</pre></div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> description </div> 
+    <div id="pointcontent">Use this method to load an xml file. If the given String is xml it is
+ directly parsed and converted to a XMLElement. Be aware that it has to
+ start with &quot;&lt;?xml&quot to be detected as xml.
+ If you call the function with an url the according file is loaded. You 
+ can load xml files from your harddisk or the internet. Both works in
+ an application if you export it as an applet it is not possible to 
+ directly load xml from external sources, because of java security resctictions.
+ If you want to load external sources you have to use an application on
+ the serverside that passes the file to your applet. You will find
+ examples using php in the processing forum.
+ 
+ To handle the loaded XML File you have to implement the method xmlEvent(XMLElement element).
+ If the xml file is loaded it is send to this method.</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> syntax </div> 
+    <div id="pointcontent"> 
+      <pre>loadElement(documentUrl);
+</pre> 
+    </div> 
+  </div> 
+   
+<div id="point"> 
+  <div id="pointname"> parameters </div> 
+  <div id="members">
+  <div id="membername">documentUrl</div> 
+  <div id="memberdesc">String, url from where the Element has to be loaded</div>
+</div> 
+</div> 
+  
+<div id="point"> 
+  <div id="pointname"> returns </div> 
+  <div id="pointcontent">None</div> 
+</div> 
+
+  <div id="point"> 
+    <div id="pointname"> usage </div> 
+    <div id="pointcontent">Web & Application</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> related </div> 
+    <div id="pointcontent"><A href="xmlinout_class_xmlinout.htm">XMLInOut</A><BR>
+<A href="xmlinout_method_loadelementfrom.htm">loadElementFrom ( )</A><BR>
+<A href="xmlinout_method_saveelement.htm">saveElement ( )</A><BR>
+</div> 
+  </div> 
+</div> 
+</body>
+<script language="JavaScript" src="script.js" type="text/javascript"></script>
+</html>

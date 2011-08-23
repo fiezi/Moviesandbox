@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="page">
+  <div id="describtionIndex">
+    <div id="libnameIndex"><img src="images/proxml.gif" width="259" height="40"></div>
+    <div id="textIndex"><p>
+The proXML library allows Processing to read and write XML files. You can build 
+a XML document by putting together different elements, or you can load an XML element 
+from a certain url. When you have the XML-element filled with content you can save it
+as file on your harddisk.
+</p>
+<p>
+The Extensible Markup Language XML has become the standard for exchanging structured data 
+in Internet applications. proXML allows you to easily integrate and manipulate this data 
+in Processing. 
+</p>
+<p>
+Like HTML, XML uses tags to specify, or mark up, a body of text, but instead of using predefined 
+tags to indicate how text should appear in a web browser, you define tags that represent the 
+type of a piece of data. XML separates the structure of the information from the way it appears, 
+so the same XML document can be used and reused in different environments.
+</p>
+<p>
+Every XML tag represents a node also called element. A node can be a XML element a text node.
+If it is a XML element it can have attributes. An element nested in another element is called 
+the child of this element. Every element can have several child elements this results in a 
+hierarchical tree structure of elements, that is called the XML DOM. 
+</p>
+<p>
+The following example is a xml file representing several ellipses.
+</p>
+<pre>
+&lt;?xml version="1.0"?&gt;
+&lt;ellipses&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="152" xPos="127"/&gt;
+    &lt;size Xsize="61" Ysize="54"/&gt;
+  &lt;/ellipse&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="155" xPos="212"/&gt;
+    &lt;size Xsize="33" Ysize="66"/&gt;
+  &lt;/ellipse&gt;
+  &lt;ellipse&gt;
+    &lt;position yPos="246" xPos="130"/&gt;
+    &lt;size Xsize="65" Ysize="48"/&gt;
+  &lt;/ellipse&gt;
+&lt;/ellipses&gt;
+</pre>
+<p>
+&lt;ellipses&gt; is the root node; it has no attributes and contains the child nodes &lt;ellipse&gt;, 
+which has two child elements &lt;position&gt; and &lt;size&gt; &lt;position&gt; has two attributes
+yPos and xPos.
+</p></div>
+  </div>
+  <div id="links">
+    <div id="classlinks"><div id="classname"><a href="xmlinout_class_xmlinout.htm">XMLInOut</a></div><a href="xmlinout_method_loadelement.htm">loadElement ( )</a><br><a href="xmlinout_method_loadelementfrom.htm">loadElementFrom ( )</a><br><a href="xmlinout_method_saveelement.htm">saveElement ( )</a><br></div><div id="classlinks"><div id="classname"><a href="xmlelement_class_xmlelement.htm">XMLElement</a></div><a href="xmlelement_method_addattribute.htm">addAttribute ( )</a><br><a href="xmlelement_method_addchild.htm">addChild ( )</a><br><a href="xmlelement_method_countallchildren.htm">countAllChildren ( )</a><br><a href="xmlelement_method_countattributes.htm">countAttributes ( )</a><br><a href="xmlelement_method_countchildren.htm">countChildren ( )</a><br><a href="xmlelement_method_firstchild.htm">firstChild ( )</a><br><a href="xmlelement_method_getattribute.htm">getAttribute ( )</a><br><a href="xmlelement_method_getattributes.htm">getAttributes ( )</a><br><a href="xmlelement_method_getchild.htm">getChild ( )</a><br><a href="xmlelement_method_getchildren.htm">getChildren ( )</a><br><a href="xmlelement_method_getdepth.htm">getDepth ( )</a><br><a href="xmlelement_method_getelement.htm">getElement ( )</a><br><a href="xmlelement_method_getfloatattribute.htm">getFloatAttribute ( )</a><br><a href="xmlelement_method_getintattribute.htm">getIntAttribute ( )</a><br><a href="xmlelement_method_getname.htm">getName ( )</a><br><a href="xmlelement_method_getparent.htm">getParent ( )</a><br><a href="xmlelement_method_gettext.htm">getText ( )</a><br><a href="xmlelement_method_hasattribute.htm">hasAttribute ( )</a><br><a href="xmlelement_method_hasattributes.htm">hasAttributes ( )</a><br><a href="xmlelement_method_haschildren.htm">hasChildren ( )</a><br><a href="xmlelement_method_istextelement.htm">isTextElement ( )</a><br><a href="xmlelement_method_lastchild.htm">lastChild ( )</a><br><a href="xmlelement_method_nextsibling.htm">nextSibling ( )</a><br><a href="xmlelement_method_previoussibling.htm">previousSibling ( )</a><br><a href="xmlelement_method_printelementtree.htm">printElementTree ( )</a><br><a href="xmlelement_method_removechild.htm">removeChild ( )</a><br><a href="xmlelement_method_tostring.htm">toString ( )</a><br></div><div id="classlinks"><div id="classname"><a href="invaliddocumentexception_class_invaliddocumentexception.htm">InvalidDocumentException</a></div></div><div id="classlinks"><div id="classname"><a href="invalidattributeexception_class_invalidattributeexception.htm">InvalidAttributeException</a></div></div>
+  </div>
+</div>
+</body>
+</html>

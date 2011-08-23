@@ -82,8 +82,9 @@ vec4 calcFragmentWorldSpace(){
 
     //zPos in Eye Space
     //zPos = texture2D(depthTex,texCoord ).r;
-    zPos = blur3(depthTex,texCoord ).r;
+    zPos = texture2D(depthTex,texCoord ).r;
 
+      //  ( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
     //zPos in Screen Space - for reference
     zPosScreen = farClip / (farClip - zPos * (farClip - nearClip));
 
@@ -111,8 +112,12 @@ vec4 computeLight(){
 
     //transform both to eye space
     vec4 fragWorld= cameraMatrix * fragWorldLoc;
+
+    //fragWorld.z=abs(fragWorld.z)/10.0;
+    //return (vec4(fragWorld.z,fragWorld.z,fragWorld.z,1.0)/10.0 );
+
+
     //vec4 fragWorld= fragWorldLoc;
-    //fragWorld/=fragWorld.w;
     lightPos = cameraMatrix * lightPos;
     //lightPos = cameraInverse * lightPos;
     //lightPos/=lightPos.w;

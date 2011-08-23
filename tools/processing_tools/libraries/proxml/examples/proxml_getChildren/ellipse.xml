@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ellipses>
+  <ellipse>
+    <position yPos="92" xPos="106"/>
+    <size ySize="41" xSize="53"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="114" xPos="198"/>
+    <size ySize="50" xSize="32"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="168" xPos="113"/>
+    <size ySize="63" xSize="87"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="192" xPos="252"/>
+    <size ySize="42" xSize="66"/>
+  </ellipse>
+</ellipses>

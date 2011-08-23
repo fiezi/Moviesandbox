@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ellipses>
+  <ellipse>
+    <position yPos="163" xPos="132"/>
+    <size ySize="28" xSize="43"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="136" xPos="192"/>
+    <size ySize="19" xSize="41"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="77" xPos="249"/>
+    <size ySize="36" xSize="46"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="215" xPos="273"/>
+    <size ySize="26" xSize="54"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="192" xPos="171"/>
+    <size ySize="52" xSize="64"/>
+  </ellipse>
+</ellipses>

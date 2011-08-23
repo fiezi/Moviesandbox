@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<ellipses>
+  <ellipse>
+    <position yPos="152" xPos="127"/>
+    <size Xsize="61" Ysize="54"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="155" xPos="212"/>
+    <size Xsize="33" Ysize="66"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="246" xPos="130"/>
+    <size Xsize="65" Ysize="48"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="239" xPos="190"/>
+    <size Xsize="98" Ysize="67"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="158" xPos="243"/>
+    <size Xsize="72" Ysize="53"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="62" xPos="90"/>
+    <size Xsize="74" Ysize="65"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="76" xPos="174"/>
+    <size Xsize="49" Ysize="23"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="66" xPos="222"/>
+    <size Xsize="68" Ysize="53"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="100" xPos="270"/>
+    <size Xsize="41" Ysize="23"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="231" xPos="282"/>
+    <size Xsize="46" Ysize="40"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="183" xPos="314"/>
+    <size Xsize="63" Ysize="55"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="366" xPos="311"/>
+    <size Xsize="54" Ysize="73"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="304" xPos="196"/>
+    <size Xsize="40" Ysize="33"/>
+  </ellipse>
+</ellipses>

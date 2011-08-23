@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+<!-- ================================================ Form Bean Definitions -->
+
+    <form-beans>
+    <!-- UiAnmeldenForm -->    
+        <form-bean
+            name="anmeldenForm"
+            type="ui.UiAnmeldenForm"/>
+    <!-- UiAuswaehlenTerminGeberForm -->    
+        <form-bean
+            name="auswaehlenTerminGeberForm"
+            type="ui.UiAuswaehlenTerminGeberForm"/>
+    <!-- UiBuchenTerminGeberForm -->   
+        <form-bean
+            name="buchenTerminGeberForm"
+            type="ui.UiBuchenTerminGeberForm"/>
+    <!-- UiAktualisierenBenutzerDatenForm -->
+        <form-bean
+        	name="aktualisierenBenutzerDatenForm"
+        	type="ui.UiAktualisierenBenutzerDatenForm"/>
+    <!-- UiAnlegenTeilZeitraumForm -->
+        <form-bean
+        	name="anlegenTeilZeitraumForm"
+        	type="ui.UiAnlegenTeilZeitraumForm"/>
+    <!-- UiBelegenTerminForm -->
+        <form-bean
+        	name="belegenTerminForm"
+        	type="ui.UiBelegenTerminForm"/>
+    <!-- UiAnzeigenTerminForm -->
+        <form-bean
+        	name="anzeigenTerminForm"
+        	type="ui.UiAnzeigenTerminForm"/>            
+    <!-- UiErstellenUebersichtMenueForm -->
+        <form-bean
+        	name="erstellenUebersichtMenueForm"
+        	type="ui.UiErstellenUebersichtMenueForm"/>
+    <!-- UiSuchenTerminGeberForm -->
+        <form-bean
+        	name="suchenTerminGeberForm"
+        	type="ui.SuchenTerminGeberForm"/>         
+    </form-beans>
+
+<!-- ========================================= Global Exception Definitions -->
+
+    <global-exceptions>
+    
+    </global-exceptions>
+
+<!-- =========================================== Global Forward Definitions -->
+
+    <global-forwards>
+    	<forward name="anmelden" path="/pages/anmelden.jsp"/>
+    	<forward name="cancel" path="/pages/uebersicht0.jsp"/>
+    </global-forwards>
+
+<!-- =========================================== Action Mapping Definitions -->
+
+    <action-mappings>
+	<!-- UiAnmeldenAction -->		
+		<action
+			path="/anmelden"
+           	type="ui.UiAnmeldenAction"
+           	name="anmeldenForm"
+           	validate="true"
+           	scope="request"
+           	input="/pages/anmelden.jsp">
+  			<forward name="success" path="/erstellenUebersichtMenue.do"/>
+		</action>
+	<!-- UiAbmeldenAction -->
+		<action
+			path="/abmelden"
+           	type="ui.UiAbmeldenAction"/>
+	<!-- UiFlashAction -->		
+		<action
+			path="/flash"
+           	type="ui.UiFlashAction">
+        </action>
+    <!-- UiAuswaehlenTerminGeberAction -->		
+		<action
+			path="/auswaehlenTerminGeber"
+           	type="ui.UiAuswaehlenTerminGeberAction"
+           	name="auswaehlenTerminGeberForm"
+           	validate="false"
+			scope="request"
+           	input="/pages/header.jsp">
+           	<forward name="success" path="/erstellenUebersichtMenue.do"/>
+        </action>
+     <!-- UiDozentenlisteAction -->
+		<action
+			path="/dozentenliste"
+           	type="ui.UiBuchenTerminGeberAction"
+           	parameter="dozentenliste"
+           	name="buchenTerminGeberForm"
+           	validate="false"
+			scope="request"
+           	input="/pages/dozentenliste.jsp">
+           	<forward name="success" path="/pages/dozentenliste.jsp"/>
+        </action>
+     <!-- UiBuchenTerminGeberAction -->
+		<action
+			path="/buchenTerminGeber"
+           	type="ui.UiBuchenTerminGeberAction"
+           	parameter="buchen"
+           	name="buchenTerminGeberForm"
+           	validate="false"
+			scope="request"
+           	input="/pages/dozentenliste.jsp">
+           	<forward name="success" path="/erstellenUebersichtMenue.do"/>
+        </action>
+    <!-- UiAnzeigenBenutzerDatenAction -->
+		<action
+			path="/anzeigenBenutzerDaten"
+			type="ui.UiAnzeigenBenutzerDatenAction"
+			name="aktualisierenBenutzerDatenForm"
+			validate="false"
+			scope="request"
+			input="/pages/uebersicht0.jsp">
+  			<forward name="success" path="/pages/uebersicht_Benutzerdaten.jsp" />
+		</action>
+    <!-- UiAktualisierenBenutzerDatenAction -->
+		<action
+			path="/aktualisierenBenutzerDaten"
+			type="ui.UiAktualisierenBenutzerDatenAction"
+			name="aktualisierenBenutzerDatenForm"
+			validate="false"
+			scope="request"
+			input="/pages/uebersicht_Benutzerdaten.jsp">
+  			<forward name="success" path="/pages/uebersicht_Benutzerdaten.jsp" />
+		</action>
+	<!-- UiDetailAnlegenTeilZeitraumAction -->
+		<action
+			path="/detailAnlegenTeilZeitraum"
+			type="ui.UiDetailAnlegenTeilZeitraumAction"
+			name="anlegenTeilZeitraumForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht0.jsp">
+  			<forward name="success" path="/pages/uebersicht_AnlegenTeilZeitraum.jsp"/>
+		</action>
+	<!-- UiAnlegenTeilZeitraumAction -->
+		<action
+			path="/anlegenTeilZeitraum"
+			type="ui.UiAnlegenTeilZeitraumAction"
+			name="anlegenTeilZeitraumForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht_AnlegenTeilZeitraum.jsp">
+  			<forward name="success" path="/pages/uebersicht0.jsp"/>
+		</action>
+	<!-- UiAnzeigenTeilZeitraumAction -->
+		<action
+			path="/anzeigenTeilZeitraum"
+			type="ui.UiAnzeigenTeilZeitraumAction"
+			name="belegenTerminForm"
+			validate="true"
+			scope="session"
+			input="/pages/uebersicht0.jsp">
+  			<forward name="success" path="/pages/uebersicht_AnzeigenTeilZeitraum.jsp"/>
+		</action>
+	<!-- UiBelegenTerminAction -->
+		<action
+			path="/belegenTermin"
+			type="ui.UiBelegenTerminAction"
+			name="belegenTerminForm"
+			validate="true"
+			scope="session"
+			input="/pages/uebersicht_AnzeigenTeilZeitraum.jsp">
+  			<forward name="success" path="/pages/uebersicht0.jsp"/>
+		</action>
+	<!-- UiLoeschenTerminAction -->
+		<action
+			path="/loeschenTeilZeitraum"
+			type="ui.UiLoeschenTeilZeitraumAction"
+			name="belegenTerminForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht_AnzeigenTeilZeitraum.jsp">
+  			<forward name="success" path="/pages/uebersicht0.jsp"/>
+		</action>
+	<!-- UiAnzeigenTerminAction -->
+		<action
+			path="/anzeigenTermin"
+			type="ui.UiAnzeigenTerminAction"
+			name="anzeigenTerminForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht0.jsp">
+  			<forward name="annulliert" path="/pages/uebersicht_AnnullierterTermin.jsp"/>
+  			<forward name="success" path="/pages/uebersicht_AnzeigenTermin.jsp"/>
+		</action>
+	<!-- UiAktualisierenTerminAction -->
+		<action
+			path="/aktualisierenTermin"
+			type="ui.UiAktualisierenTerminAction"
+			name="anzeigenTerminForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht_AnzeigenTermin.jsp">
+  			<forward name="success" path="/pages/uebersicht0.jsp"/>
+		</action>
+	<!-- UiAnnullierenTerminAction -->
+		<action
+			path="/annullierenTermin"
+			type="ui.UiAnnullierenTerminAction"
+			name="anzeigenTerminForm"
+			validate="false"
+			scope="session"
+			input="/pages/uebersicht_AnzeigenTermin.jsp">
+  			<forward name="success" path="/pages/uebersicht_AnnullierterTermin.jsp"/>
+		</action>
+	<!-- UiWochenKalenderEmpfangenAction -->		
+		<action
+			path="/wochenKalenderEmpfangen"
+           	type="ui.UiWochenKalenderEmpfangenAction">
+           	<forward name="success" path="/pages/uebersicht0.jsp"/>
+        </action>
+    <!-- UiWochenKalenderSendenAction -->		
+		<action
+			path="/wochenKalenderSenden"
+           	type="ui.UiWochenKalenderSendenAction">
+           	<forward name="success" path="/pages/uebersicht0.jsp"/>
+        </action>
+    <!-- UiErstellenUebersichtMenueAction -->
+		<action
+			path="/erstellenUebersichtMenue"
+           	type="ui.UiErstellenUebersichtMenueAction"
+           	name="erstellenUebersichtMenueForm"
+           	validate="false"
+			scope="session">
+           	<forward name="success" path="/pages/uebersicht0.jsp"/>
+        </action>
+    </action-mappings>
+
+<!-- ======================================== Message Resources Definitions -->
+
+    <message-resources parameter="java.resources.application" />
+
+</struts-config>

@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>candy : : XMLElement</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+<body> 
+<div id="page"> 
+  <div id="describtion"> 
+    <div id="libname"><img src="images/proxml.gif" width="259" height="40"></div> 
+    <div id="indexlink"><a href="index.htm"><img src="images/index.gif"></a></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> name </div> 
+    <div id="pointcontent"><div id="membertitle"> XMLElement </div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"><a href="#" id="exampleButton" onClick="handleExample()">openExample</a></div> 
+    <div id="pointcontent"><div id="example"><pre>/*
+this is a more complex example demonstrating the possibilities
+of proxml. In the example the user can draw ellipses that are saved
+into a xml file. This file is loaded on the next start of the program.
+If there exists an xml file it is loaded and the
+content is drawn as ellipses. Otherwise the xml element is created.
+*/
+
+import proxml.*;
+
+//to store the background after painting an ellipse
+PImage back;
+
+//xml element to store and load the drawn ellipses
+XMLElement ellipses;
+XMLInOut xmlInOut;
+
+int xPos = 0;
+int yPos = 0;
+
+void setup(){
+  size(400,400);
+  smooth();
+  background(255);
+
+  //load ellipses from file if it exists
+  xmlInOut = new XMLInOut(this);
+  try{
+    xmlInOut.loadElement("ellipse.xml"); 
+  }catch(Exception e){
+    //if the xml file could not be loaded it has to be created
+    xmlEvent(new XMLElement("ellipses"));
+  }
+}
+
+void xmlEvent(XMLElement element){
+  ellipses = element;
+  initEllipses();
+    //initialise PImage for background
+  back = new PImage(width,height);
+  loadPixels();
+  back.pixels = pixels;
+}
+
+void draw(){
+}
+
+//draw all ellipses saved in the xml file
+void initEllipses(){
+  ellipses.printElementTree(" ");
+  XMLElement ellipse;
+  XMLElement position;
+  XMLElement size;
+  
+  for(int i = 0; i &lt; ellipses.countChildren();i++){
+    ellipse = ellipses.getChild(i);
+    position = ellipse.getChild(0);
+    size = ellipse.getChild(1);
+    ellipse(
+      position.getIntAttribute("xPos"),
+      position.getIntAttribute("yPos"),
+      size.getFloatAttribute("Xsize"),
+      size.getFloatAttribute("Ysize")
+    );
+  }
+}
+
+void mousePressed(){
+  xPos = mouseX;
+  yPos = mouseY;
+}
+
+void mouseDragged(){
+  background(back);
+  ellipse(xPos,yPos,abs(xPos-mouseX),abs(yPos-mouseY));
+}
+
+void mouseReleased(){
+  XMLElement ellipse = new XMLElement("ellipse");
+  ellipses.addChild(ellipse);
+  XMLElement position = new XMLElement("position");
+  position.addAttribute("xPos",xPos);
+  position.addAttribute("yPos",yPos);
+  ellipse.addChild(position);
+  XMLElement size = new XMLElement("size");
+  size.addAttribute("Xsize",abs(xPos-mouseX));
+  size.addAttribute("Ysize",abs(yPos-mouseY));
+  ellipse.addChild(size);
+  xmlInOut.saveElement(ellipses,"ellipse.xml");
+  loadPixels();
+  back.pixels = pixels;
+}
+</pre></div></div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> description </div> 
+    <div id="pointcontent">XMLElement is the basic class of proXML. You can build a XMLElement and add 
+ Attributes and children, or load it from a certain path using XMLInOut. Text
+ is also handled as XMLElement, so if you want to get the text of an element
+ you have to call element.firstChild().getText(). If you have a part where
+ xml nodes are inside text they seperate the text into several elements, so for
+ example &quot;this is &lt;bold&gt;bold&lt;/bold&gt; ..&quot; would result in the following
+ element list: &quot;this is &quot;,&lt;bold&gt;,&quot;bold&quot;,&lt;/bold&gt;,&quot; ..&quot;</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> constructors </div> 
+    <div id="pointcontent"> 
+      <pre>XMLElement(name, pcdata);
+XMLElement(name, attributes, children);
+XMLElement(name);
+XMLElement(name, children);
+XMLElement(name, attributes);
+</pre> 
+    </div> 
+  </div> 
+   
+<div id="point"> 
+  <div id="pointname"> parameters </div> 
+  <div id="members">
+  <div id="membername">name</div> 
+  <div id="memberdesc">String, name of the element</div>
+
+  <div id="membername">pcdata</div> 
+  <div id="memberdesc">boolean, true if the element is a pcdata section</div>
+
+  <div id="membername">attributes</div> 
+  <div id="memberdesc">Hashtable, attributes for the element, with names and values</div>
+
+  <div id="membername">children</div> 
+  <div id="memberdesc">Vector, the children of the element</div>
+
+  <div id="membername">children</div> 
+  <div id="memberdesc">Vector, children of the element</div>
+
+  <div id="membername">attributes</div> 
+  <div id="memberdesc">Hashtable, attributes of the element, with names and values</div>
+</div> 
+</div> 
+   
+<div id="point"> 
+  <div id="pointname"> methods </div> 
+  <div id="members"> 
+<div id="membername"><a href="xmlelement_method_addattribute.htm">addAttribute ( )</a></div> 
+<div id="memberdesc">With addAttribute() you can add attributes to a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_addchild.htm">addChild ( )</a></div> 
+<div id="memberdesc">Adds the specified node to the XML element's child list.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_countallchildren.htm">countAllChildren ( )</a></div> 
+<div id="memberdesc">This method returns the number of all nodes of a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_countattributes.htm">countAttributes ( )</a></div> 
+<div id="memberdesc">Use this method to count the attributes of a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_countchildren.htm">countChildren ( )</a></div> 
+<div id="memberdesc">With countChildren() you get the number of children of a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_firstchild.htm">firstChild ( )</a></div> 
+<div id="memberdesc">Returns the first child of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getattribute.htm">getAttribute ( )</a></div> 
+<div id="memberdesc">Returns the value of a given attribute.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getattributes.htm">getAttributes ( )</a></div> 
+<div id="memberdesc">Returns a String Array with all attribute names of an Element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getchild.htm">getChild ( )</a></div> 
+<div id="memberdesc">Use getChild() to get a certain child element of a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getchildren.htm">getChildren ( )</a></div> 
+<div id="memberdesc">Returns an Array with all the children of an element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getdepth.htm">getDepth ( )</a></div> 
+<div id="memberdesc">Use getDepth to get the maximum depth of an Element to one of its leaves.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getelement.htm">getElement ( )</a></div> 
+<div id="memberdesc">Use this method to get the name or text of an XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getfloatattribute.htm">getFloatAttribute ( )</a></div> 
+<div id="memberdesc">Use getFloatAttribute() to get the value of an attribute as float value.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getintattribute.htm">getIntAttribute ( )</a></div> 
+<div id="memberdesc">Use getIntAttribute() to get the value of an attribute as int value.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getname.htm">getName ( )</a></div> 
+<div id="memberdesc">Returns the name of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_getparent.htm">getParent ( )</a></div> 
+<div id="memberdesc">With getParent() you can get the parent of a XMLElement.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_gettext.htm">getText ( )</a></div> 
+<div id="memberdesc">Returns the text of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_hasattribute.htm">hasAttribute ( )</a></div> 
+<div id="memberdesc">This method checks if the XMLElement has the given Attribute.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_hasattributes.htm">hasAttributes ( )</a></div> 
+<div id="memberdesc">Use this method to check if the XMLElement has attributes.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_haschildren.htm">hasChildren ( )</a></div> 
+<div id="memberdesc">Specifies whether or not the XML object has child nodes.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_istextelement.htm">isTextElement ( )</a></div> 
+<div id="memberdesc">Checks if a XMLElement is a text element</div> 
+ 
+<div id="membername"><a href="xmlelement_method_lastchild.htm">lastChild ( )</a></div> 
+<div id="memberdesc">Returns the last child of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_nextsibling.htm">nextSibling ( )</a></div> 
+<div id="memberdesc">Returns the next sibling of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_previoussibling.htm">previousSibling ( )</a></div> 
+<div id="memberdesc">Returns the previous sibling of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_printelementtree.htm">printElementTree ( )</a></div> 
+<div id="memberdesc">Prints out the XML  content of the element.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_removechild.htm">removeChild ( )</a></div> 
+<div id="memberdesc">Removes the specified XML element from its parent.</div> 
+ 
+<div id="membername"><a href="xmlelement_method_tostring.htm">toString ( )</a></div> 
+<div id="memberdesc">Use toString to get the String representation of a XMLElement.</div> 
+</div> 
+</div> 
+
+  <div id="point"> 
+    <div id="pointname"> usage </div> 
+    <div id="pointcontent">Web & Application</div> 
+  </div> 
+  <div id="point"> 
+    <div id="pointname"> related </div> 
+    <div id="pointcontent"><A href="xmlinout_class_xmlinout.htm">XMLInOut</A><BR>
+</div> 
+  </div> 
+</div> 
+</body>
+<script language="JavaScript" src="script.js" type="text/javascript"></script>
+</html>

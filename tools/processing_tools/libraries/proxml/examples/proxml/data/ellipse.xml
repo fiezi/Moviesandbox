@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ellipses>
+  <ellipse>
+    <position yPos="131" xPos="151"/>
+    <size Xsize="36" Ysize="63"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="202" xPos="197"/>
+    <size Xsize="108" Ysize="87"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="110" xPos="247"/>
+    <size Xsize="113" Ysize="87"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="99" xPos="227"/>
+    <size Xsize="18" Ysize="21"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="119" xPos="143"/>
+    <size Xsize="4" Ysize="8"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="177" xPos="156"/>
+    <size Xsize="20" Ysize="21"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="152" xPos="205"/>
+    <size Xsize="18" Ysize="21"/>
+  </ellipse>
+  <ellipse>
+    <position yPos="257" xPos="168"/>
+    <size Xsize="131" Ysize="75"/>
+  </ellipse>
+</ellipses>
