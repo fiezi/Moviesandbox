@@ -19,7 +19,8 @@ void setup(){
 
   controllIO = ControllIO.getInstance(this);
 
-  joypad = controllIO.getDevice("Logitech RumblePad 2 USB");
+  controllIO.printDevices();
+  joypad = controllIO.getDevice(5);
   joypad.plug(this, "handleButton1Press", ControllIO.ON_PRESS, 1);
   joypad.plug(this, "handleButton1Release", ControllIO.ON_RELEASE, 1);
   joypad.plug(this, "handleMovement", ControllIO.WHILE_PRESS, 0);

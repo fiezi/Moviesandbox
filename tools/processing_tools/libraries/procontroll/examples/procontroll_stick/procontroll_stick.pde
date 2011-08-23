@@ -11,16 +11,16 @@ void setup(){
   
   controll = ControllIO.getInstance(this);
 
-  device = controll.getDevice("Logitech RumblePad 2 USB");
+  device = controll.getDevice(5);
   device.printSticks();
   device.setTolerance(0.05f);
   
-  ControllSlider sliderX = device.getSlider("X-Achse");
-  ControllSlider sliderY = device.getSlider("Y-Achse");
+  ControllSlider sliderX = device.getSlider(0);
+  ControllSlider sliderY = device.getSlider(1);
   
   stick = new ControllStick(sliderX,sliderY);
   
-  button = device.getButton("Taste 0");
+  button = device.getButton(0);
   
   fill(0);
   rectMode(CENTER);
