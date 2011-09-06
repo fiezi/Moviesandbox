@@ -1,11 +1,11 @@
 #ifndef H_INSPECTOR
 #define H_INSPECTOR
 
-#include "listButton.h"
+#include "tabbedListButton.h"
 
 class InspectorManager;
 
-class Inspector: public ListButton{
+class Inspector: public TabbedListButton{
 
 public:
 

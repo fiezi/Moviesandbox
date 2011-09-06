@@ -137,6 +137,9 @@ vec4 computeLight(){
     //zPos=dist * 32.0;
 
     //normal in Eye Space
+    colorLight=vec4(dFdy(zPos),0,0,1);
+    return colorLight;
+
     vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
 
     vec4 debug=vec4(0.0,0.0,0.0,1.0);
@@ -153,6 +156,7 @@ vec4 computeLight(){
 	colorLight.rgb += 1.0 * lightCol * NdotL;
 
     //specular
+
 	if( NdotL > 0.0 ){
 		vec3 NH = normalize( NL +vec3(0.0,0.0,1.0) );
         colorLight.rgb += 1.0 * lightCol * pow(max(0.0,dot(NN,NH)),specularExp);

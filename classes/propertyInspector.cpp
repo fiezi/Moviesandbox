@@ -73,6 +73,9 @@ void PropertyInspector::assembleList(){
 
             if (!mID->bShowProperty)
                 continue;
+            else
+                cout << "processing property number " << i << " with name: " << it->first << endl;
+
 
             //Properties now have their own knowledge of what button type they should spawn!
             sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
@@ -100,8 +103,10 @@ void PropertyInspector::assembleList(){
 
             //if (!bOpen)
             //    listButton[i]->bHidden=true;
+
             placeButton(i,i);
             listButton[i]->setup();
+
             i++;
         }
 

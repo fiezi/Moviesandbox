@@ -46,7 +46,7 @@ void ListButton::clickedLeft(){
 
   if (listButton.size()==0){
     cout << "clicked!" << endl;
-  assembleList();
+    assembleList();
   }
 
 }
@@ -147,9 +147,12 @@ void ListButton::createScrollBar(){
       placeScrollBar();
 
       //scrollBar functionalitty:
+      cout << "kill after setup" << endl;
 
       //trigger scrollBar once to initialise
       trigger(scrollBar);
+
+      cout << "kill after trigger" << endl;
 
 }
 
@@ -275,7 +278,7 @@ void ListButton::trigger(MsbObject* other){
         //hide buttons
         listOffsetY=0;
 
-        for (int i=0;i<(int)listButton.size();i++){
+        for (int i=1    ;i<(int)listButton.size();i++){
             Vector3f oldListLoc=listLoc;
             listLoc.y-=(listSize.y-listDisplaySize)*scrollBar->sliderValue;
 
