@@ -33,9 +33,6 @@ public:
     virtual void createInspectorButtons();
     virtual void refreshList();
 
-    virtual void assembleList();
-    virtual void assembleListTabTwo();
-
     virtual void trigger(MsbObject* other);
 
 

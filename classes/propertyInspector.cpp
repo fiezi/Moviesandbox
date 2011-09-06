@@ -72,43 +72,31 @@ void PropertyInspector::refreshList(){
 
 void PropertyInspector::propTabOne::assembleList(){
 
-    mine->assembleList();
 
-}
-
-void PropertyInspector::propTabTwo::assembleList(){
-
-    cout << "TWO!!!" << endl;
-
-}
-
-void PropertyInspector::assembleList(){
-
-
-    listOffsetX=0;
-    listOffsetY=0;
+    mine->listOffsetX=0;
+    mine->listOffsetY=0;
 
     //cleanup
-    for (int i=0;i<listButton.size();i++){
-        listButton[i]->remove();
+    for (int i=0;i<(int)mine->listButton.size();i++){
+        mine->listButton[i]->remove();
     }
-    listButton.clear();
+    mine->listButton.clear();
 
-    if (scrollBar){
-        scrollBar->remove();
-        scrollBar=NULL;
+    if (mine->scrollBar){
+        mine->scrollBar->remove();
+        mine->scrollBar=NULL;
     }
 
-    if (sceneData->selectedActors.size()>0){
+    if (mine->sceneData->selectedActors.size()>0){
 
         cout << "assembling property list..." << endl;
 
         std::map <std::string, memberID>::iterator it;
         int i=0;
 
-        cout << "selected actor name: " << sceneData->selectedActors[0]->name << endl;
+        cout << "selected actor name: " << mine->sceneData->selectedActors[0]->name << endl;
 
-        for ( it=sceneData->selectedActors[0]->property.begin() ; it != sceneData->selectedActors[0]->property.end(); it++ ){
+        for ( it=mine->sceneData->selectedActors[0]->property.begin() ; it != mine->sceneData->selectedActors[0]->property.end(); it++ ){
 
             //find Actor* properties
             memberID * mID=&it->second;
@@ -120,53 +108,56 @@ void PropertyInspector::assembleList(){
 
 
             //Properties now have their own knowledge of what button type they should spawn!
-            sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
-            listButton.push_back(sceneData->buttonList.back());
-            listButton[i]->name=it->first;
-            listButton[i]->buttonProperty=it->first;
-            listButton[i]->textureID="icon_base";
-            listButton[i]->parent=sceneData->selectedActors[0];
-            listButton[i]->level=level+1;
-            listButton[i]->bDrawName=true;
-            listButton[i]->color=Vector4f(0.2,0.2,0.2,1.0);
-            listButton[i]->sceneShaderID="color";
+            mine->sceneData->actorInfo[mID->propertyButtonType].actorReference->create();
+            mine->listButton.push_back(mine->sceneData->buttonList.back());
+            mine->listButton[i]->name=it->first;
+            mine->listButton[i]->buttonProperty=it->first;
+            mine->listButton[i]->textureID="icon_base";
+            mine->listButton[i]->parent=mine->sceneData->selectedActors[0];
+            mine->listButton[i]->level=mine->level+1;
+            mine->listButton[i]->bDrawName=true;
+            mine->listButton[i]->color=Vector4f(0.2,0.2,0.2,1.0);
+            mine->listButton[i]->sceneShaderID="color";
 
-            listButton[i]->bPermanent=true;
+            mine->listButton[i]->bPermanent=true;
 
-            if (i>0 && listButton[i-1]->bIndividualListSize && !listButton[i-1]->bHidden){
-                listOffsetY+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
+            if (i>0 && mine->listButton[i-1]->bIndividualListSize && !mine->listButton[i-1]->bHidden){
+                mine->listOffsetY+=mine->listButton[i-1]->scale.y-mine->listHeight;// + listButtonDistance.y;
             }
-            if (!listButton[i]->bIndividualListSize){
-                if (listWidth>0)
-                    listButton[i]->scale.x=listWidth;
-                if (listHeight>0)
-                    listButton[i]->scale.y=listHeight;
+            if (!mine->listButton[i]->bIndividualListSize){
+                if (mine->listWidth>0)
+                    mine->listButton[i]->scale.x=mine->listWidth;
+                if (mine->listHeight>0)
+                    mine->listButton[i]->scale.y=mine->listHeight;
             }
 
             //if (!bOpen)
             //    listButton[i]->bHidden=true;
 
-            placeButton(i,i);
-            listButton[i]->setup();
+            mine->placeButton(i,i);
+            mine->listButton[i]->setup();
 
             i++;
         }
 
     }
 
-    if (listButton.size()>0)
-        listSize.y=listButton[listButton.size()-1]->location.y+listButton[listButton.size()-1]->scale.y;
+    if (mine->listButton.size()>0)
+        mine->listSize.y=mine->listButton[mine->listButton.size()-1]->location.y+mine->listButton[mine->listButton.size()-1]->scale.y;
     else
-        listSize.y=0;
-   // if (bOpen)
-   //     createScrollBar();
+        mine->listSize.y=0;
+
 }
 
+void PropertyInspector::propTabTwo::assembleList(){
 
-void PropertyInspector::assembleListTabTwo(){
+    //cleanup
+    for (int i=0;i<(int)mine->listButton.size();i++){
+        mine->listButton[i]->remove();
+    }
+    mine->listButton.clear();
 
 
-    cout << "tabTwo!" << endl;
 }
 
 

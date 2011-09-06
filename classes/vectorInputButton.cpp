@@ -101,5 +101,20 @@ void VectorInputButton::assembleList(){
     }
 }
 
+void VectorInputButton::remove(){
+
+    for (int i=0;i<(int)listButton.size();i++){
+        listButton[i]->bPermanent=false;
+        listButton[i]->level=100;
+    }
+
+	for (int i=listButton.size()-1;i>=0;i--){
+		listButton[i]->remove();
+	}
+    listButton.clear();
+
+    ListButton::remove();
+
+}
 
 void VectorInputButton::create(){sceneData->addButton(this);}

@@ -28,6 +28,7 @@ public:
 
     virtual void assembleList();
 
+    virtual void remove();
     virtual void create();
 };
 #endif // VECTORINPUTBUTTON

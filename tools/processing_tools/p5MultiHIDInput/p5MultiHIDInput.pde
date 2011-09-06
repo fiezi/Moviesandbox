@@ -2,25 +2,31 @@ import procontroll.*;
 import net.java.games.input.*;
 import java.io.*;
 
+import processing.serial.*;
+
+/**
+ * oscP5sendreceive by andreas schlegel
+ * oscP5 website at http://www.sojamo.de/oscP5
+ */
+
+
+/**
+ * procontroll by Christian Riekoff
+ * procontroll website: http://www.creativecomputing.cc/p5libs/procontroll/
+*/
+
+import oscP5.*;
+import netP5.*;
+import processing.serial.*;
+ 
+ 
 ControllIO controll;
 ControllDevice device;
 ControllDevice joypad;
 ControllStick stick1;
 ControllStick stick2;
 ControllButton button;
-
-
-import processing.serial.*;
-
-/**
- * oscP5sendreceive by andreas schlegel
- * example shows how to send and receive osc messages.
- * oscP5 website at http://www.sojamo.de/oscP5
- */
  
-import oscP5.*;
-import netP5.*;
-import processing.serial.*;
  
  Serial myPort;        // The serial port
  float inByte; 
@@ -72,7 +78,7 @@ void setup() {
 
   controll = ControllIO.getInstance(this);
   controll.printDevices();
-  joypad = controll.getDevice(2);
+  joypad = controll.getDevice(3);
 
   println( joypad.getNumberOfButtons() );
   println( joypad.getNumberOfSticks() );

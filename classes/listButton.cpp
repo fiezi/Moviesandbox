@@ -278,12 +278,12 @@ void ListButton::trigger(MsbObject* other){
         //hide buttons
         listOffsetY=0;
 
-        for (int i=1    ;i<(int)listButton.size();i++){
+        for (int i=0;i<(int)listButton.size();i++){
             Vector3f oldListLoc=listLoc;
             listLoc.y-=(listSize.y-listDisplaySize)*scrollBar->sliderValue;
 
             //recalculate listOffset
-            if (listButton[i]>0 && listButton[i-1]->bIndividualListSize){
+            if (i>0 && listButton[i]>0 && listButton[i-1]->bIndividualListSize){
                 listOffsetY+=listButton[i-1]->scale.y-listHeight;
             }
 
