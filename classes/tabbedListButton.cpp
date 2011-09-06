@@ -26,8 +26,8 @@ void TabbedListButton::clickedLeft(){
   input->deselectButtons(level);
 
   if (listButton.size()==0){
-    cout << "clicked!" << endl;
-    (tabAssembleListFunc)tabAssembleListFunctions[currentTab];
+    cout << "clicked! creating buttonlist for: " << currentTab << endl;
+    ((tabAssembleListFunc)tabAssembleListFunctions[currentTab])();
   }
 
 }

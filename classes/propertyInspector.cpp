@@ -3,6 +3,7 @@
 #include "propertyInspector.h"
 #include "renderer.h"
 #include "input.h"
+#include "assignButton.h"
 
 PropertyInspector::PropertyInspector(){
 
@@ -17,10 +18,36 @@ PropertyInspector::PropertyInspector(){
     oldParent=NULL;
     parent=NULL;
 
+    tabAssembleListFunctions.clear();
+    tabAssembleListFunctions.push_back( (void*)&PropertyInspector::assembleList );
+    tabAssembleListFunctions.push_back( (void*)&PropertyInspector::assembleListTabTwo );
+
     scrollSize=128.0;
 }
 
 PropertyInspector::~PropertyInspector(){}
+
+void PropertyInspector::createInspectorButtons(){
+
+    AssignButton* tabButton= new AssignButton;
+    tabButton->parent=this;
+    sceneData->buttonList.push_back(tabButton);
+    tabButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
+    tabButton->name="tabOne";
+    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->bDrawName=true;
+    inspectorButtons.push_back(tabButton);
+
+    tabButton= new AssignButton;
+    tabButton->parent=this;
+    sceneData->buttonList.push_back(tabButton);
+    tabButton->setLocation(Vector3f(location.x+60.0f,location.y, 0.0f));
+    tabButton->name="tabTwo";
+    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->bDrawName=true;
+    inspectorButtons.push_back(tabButton);
+
+}
 
 void PropertyInspector::refreshList(){
 
@@ -32,7 +59,8 @@ void PropertyInspector::refreshList(){
 
         if (parent!=oldParent){
 
-            assembleList();
+            ((tabAssembleListFunc)tabAssembleListFunctions[currentTab])();
+
             oldParent=parent;
         }
 
@@ -121,5 +149,23 @@ void PropertyInspector::assembleList(){
 }
 
 
+void PropertyInspector::assembleListTabTwo(){
+
+
+    cout << "tabTwo!" << endl;
+}
+
+
+void PropertyInspector::trigger(MsbObject* other){
+
+    Inspector::trigger(other);
+
+    if (other->name=="tabOne")
+        currentTab=0;
+
+    if (other->name=="tabTwo")
+        currentTab=1;
+
+}
 
 void PropertyInspector::create(){sceneData->addButton(this);}

@@ -59,7 +59,8 @@ void Inspector::setup(){
     backgroundButton->color=Vector4f(0.4,0.4,0.4,1.0);
     backgroundButton->setLocation(backgroundButton->location);
 
-    assembleList();
+    (tabAssembleListFunc)tabAssembleListFunctions[0];
+    //assembleList();
 
     //create inspectorButtons
     createInspectorButtons();

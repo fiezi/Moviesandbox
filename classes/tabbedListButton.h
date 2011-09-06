@@ -6,9 +6,10 @@
 
 class TabbedListButton: public ListButton{
 
-typedef    void (*tabAssembleListFunc)();   //function pointer
 
 public:
+
+    typedef void (*tabAssembleListFunc)();   //function pointer
 
     vector<void*>   tabAssembleListFunctions;   //pointers to functions that should be called as "assembleList"
 
