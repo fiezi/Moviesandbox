@@ -194,8 +194,12 @@
 		<Unit filename="classes\colorPickButton.h">
 			<Option virtualFolder="Buttons\Special\" />
 		</Unit>
-		<Unit filename="classes\console.cpp" />
-		<Unit filename="classes\console.h" />
+		<Unit filename="classes\console.cpp">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
+		<Unit filename="classes\console.h">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
 		<Unit filename="classes\consoleCommandNode.cpp">
 			<Option virtualFolder="Nodes\" />
 		</Unit>
@@ -627,6 +631,12 @@
 		</Unit>
 		<Unit filename="classes\switchCameraNode.h">
 			<Option virtualFolder="Nodes\" />
+		</Unit>
+		<Unit filename="classes\tabbedListButton.cpp">
+			<Option virtualFolder="Buttons\BasicInterface\" />
+		</Unit>
+		<Unit filename="classes\tabbedListButton.h">
+			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
 		<Unit filename="classes\textInputButton.cpp">
 			<Option virtualFolder="Buttons\BasicInterface\" />

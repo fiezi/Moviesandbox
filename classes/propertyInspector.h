@@ -7,10 +7,28 @@ class PropertyInspector: public Inspector{
 
 public:
 
+    class propTabOne: public tab{
+
+        public:
+
+        propTabOne(TabbedListButton* m){mine=m;};
+        virtual void assembleList();
+    };
+
+    class propTabTwo: public tab{
+
+        public:
+
+        propTabTwo(TabbedListButton* m){mine=m;};
+        virtual void assembleList();
+    };
+
     MsbObject*  oldParent;
 
     PropertyInspector();
     virtual ~PropertyInspector();
+
+    virtual void setup();
 
     virtual void createInspectorButtons();
     virtual void refreshList();

@@ -9,9 +9,21 @@ class TabbedListButton: public ListButton{
 
 public:
 
-    typedef void (*tabAssembleListFunc)();   //function pointer
+    class tab{
 
-    vector<void*>   tabAssembleListFunctions;   //pointers to functions that should be called as "assembleList"
+        public:
+
+        TabbedListButton* mine;
+
+        tab(){};
+        tab(TabbedListButton* m){mine=m;};
+        virtual ~tab(){};
+        virtual void assembleList();
+
+    };
+
+
+    vector<tab*>   tabAssembleListFunctions;   //pointers to functions that should be called as "assembleList"
 
     int currentTab;                             //which tab do we have open?
 

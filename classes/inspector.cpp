@@ -33,9 +33,20 @@ Inspector::Inspector(){
 Inspector::~Inspector(){}
 
 
+/*
+void Inspector::myTab::assembleList(){
+
+    listOffsetX=0;
+    listOffsetY=0;
+       cout << "creating list..." << endl;
+
+}
+*/
+
+
 void Inspector::setup(){
 
-    ListButton::setup();
+    TabbedListButton::setup();
     backgroundButton=new BasicButton;
     sceneData->buttonList.push_back(backgroundButton);
     backgroundButton->sceneShaderID="color";
@@ -59,8 +70,11 @@ void Inspector::setup(){
     backgroundButton->color=Vector4f(0.4,0.4,0.4,1.0);
     backgroundButton->setLocation(backgroundButton->location);
 
-    (tabAssembleListFunc)tabAssembleListFunctions[0];
-    //assembleList();
+    //setup tabs and fill buttonlist once
+    tabAssembleListFunctions.clear();
+    tabAssembleListFunctions.push_back( new myTab(this) );
+
+    tabAssembleListFunctions[0]->assembleList();
 
     //create inspectorButtons
     createInspectorButtons();

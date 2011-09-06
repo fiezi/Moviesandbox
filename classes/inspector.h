@@ -9,6 +9,16 @@ class Inspector: public TabbedListButton{
 
 public:
 
+    class myTab: public tab{
+
+        public:
+        myTab(){};
+        myTab(TabbedListButton* m){mine=m;};
+        virtual ~myTab(){};
+        virtual void assembleList(){cout << "assemblin'..." << endl;};
+
+    };
+
     bool bOpen;
     bool bToggleInspector;                      //close inspector when new one opens?
 

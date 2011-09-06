@@ -6,11 +6,20 @@ TabbedListButton::TabbedListButton(){
 
 
     currentTab=0;
-    tabAssembleListFunctions.push_back( (void*)&TabbedListButton::assembleList);
+    tabAssembleListFunctions.push_back( new tab(this) );
 
 }
 
 TabbedListButton::~TabbedListButton(){}
+
+
+
+void TabbedListButton::tab::assembleList() {
+
+    mine->assembleList();
+
+}
+
 
 void TabbedListButton::setup(){
 
@@ -27,14 +36,13 @@ void TabbedListButton::clickedLeft(){
 
   if (listButton.size()==0){
     cout << "clicked! creating buttonlist for: " << currentTab << endl;
-    ((tabAssembleListFunc)tabAssembleListFunctions[currentTab])();
+    tabAssembleListFunctions[currentTab]->assembleList();
   }
 
 }
 
 void TabbedListButton::assembleList(){
 
-    ListButton::assembleList();
 }
 
 void TabbedListButton::update(double deltaTime){
