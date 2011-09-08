@@ -12,13 +12,15 @@ PropertyInspector::PropertyInspector(){
     tabWidth=350;
     listHeight=15;
     listWidth=150;
-    listOffset=0;
+    //listOffsetY=20;
     level=0;
     textureID="icon_advanced";
     oldParent=NULL;
     parent=NULL;
 
-    scrollSize=128.0;
+    listDisplayMode=0;
+    scrollSize=250.0;
+    listDisplaySize=400;
 }
 
 PropertyInspector::~PropertyInspector(){}
@@ -73,8 +75,8 @@ void PropertyInspector::refreshList(){
 void PropertyInspector::propTabOne::assembleList(){
 
 
-    mine->listOffsetX=0;
-    mine->listOffsetY=0;
+//    mine->listOffsetX=0;
+//    mine->listOffsetY=0;
 
     //cleanup
     for (int i=0;i<(int)mine->listButton.size();i++){
@@ -95,6 +97,8 @@ void PropertyInspector::propTabOne::assembleList(){
         int i=0;
 
         cout << "selected actor name: " << mine->sceneData->selectedActors[0]->name << endl;
+
+        Vector3f startListLoc=mine->listLoc;
 
         for ( it=mine->sceneData->selectedActors[0]->property.begin() ; it != mine->sceneData->selectedActors[0]->property.end(); it++ ){
 
@@ -122,7 +126,7 @@ void PropertyInspector::propTabOne::assembleList(){
             mine->listButton[i]->bPermanent=true;
 
             if (i>0 && mine->listButton[i-1]->bIndividualListSize && !mine->listButton[i-1]->bHidden){
-                mine->listOffsetY+=mine->listButton[i-1]->scale.y-mine->listHeight;// + listButtonDistance.y;
+                mine->listLoc+=mine->listButton[i-1]->scale.y-mine->listHeight;// + listButtonDistance.y;
             }
             if (!mine->listButton[i]->bIndividualListSize){
                 if (mine->listWidth>0)
@@ -139,6 +143,9 @@ void PropertyInspector::propTabOne::assembleList(){
 
             i++;
         }
+
+        mine->listLoc=startListLoc;
+
 
     }
 

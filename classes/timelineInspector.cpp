@@ -28,7 +28,7 @@ TimelineInspector::TimelineInspector(){
     listDisplayMode=4;
     listColumns=3;
 
-    listOffset=70;
+    listOffsetY=70;
 
     bDrawName=true;
 
@@ -225,7 +225,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     ///locations
     Vector3f loc;
 
-    loc=location + Vector3f( 0, listOffset+2, 0) + Vector3f( 0, pos * (listHeight+10), 0);
+    loc=location + Vector3f( 0, listOffsetY+2, 0) + Vector3f( 0, pos * (listHeight+10), 0);
     nameButton->setLocation(loc);
 
     //give more space to names

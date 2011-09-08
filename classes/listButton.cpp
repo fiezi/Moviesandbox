@@ -54,7 +54,9 @@ void ListButton::clickedLeft(){
 void ListButton::assembleList(){
 
     listOffsetX=0;
-    listOffsetY=0;
+
+    Vector3f startListLoc=listLoc;
+
     for (int i=0;i<(int)listType.size();i++){
         cout << "creating list..." << endl;
 
@@ -104,7 +106,7 @@ void ListButton::assembleList(){
         listButton[i]->sceneShaderID=listShader;
 
         if (i>0 && listButton[i-1]->bIndividualListSize){
-            listOffsetY+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
+            listLoc.y+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
         }
         if (!listButton[i]->bIndividualListSize){
             if (listWidth>0)
@@ -122,6 +124,9 @@ void ListButton::assembleList(){
         listButton[i]->setup();
         cout << "placing..." << endl;
     }
+
+    listLoc=startListLoc;
+
 
     if (listButton.size()>0)
         listSize.y=listButton[listButton.size()-1]->location.y+listButton[listButton.size()-1]->scale.y - location.y;
@@ -239,11 +244,11 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
 void ListButton::update(double deltaTime){
 
     if (listDisplayMode==2 && radius<maxRadius){
-    radius+=animSpeed*deltaTime;
-    radius=min(radius,maxRadius);
+        radius+=animSpeed*deltaTime;
+        radius=min(radius,maxRadius);
 
-    for (int i=0;i<(int)listType.size();i++)
-        placeButton(i,i);
+        for (int i=0;i<(int)listType.size();i++)
+            placeButton(i,i);
     }
 }
 
@@ -270,32 +275,39 @@ void ListButton::trigger(MsbObject* other){
 
     if (scrollBar && other==scrollBar){
 
-        //if sliderValue is 1, begin is size()-maxDraw
-        //if sliderValue is 0, begin is 0
         if (listButton.size()==0)
             return;
         //adjust positions
         //hide buttons
-        listOffsetY=0;
+
+        Vector3f oldListLoc=listLoc;
+        listLoc.y-=(listSize.y-listDisplaySize)*scrollBar->sliderValue;
+
+        //listOffsetY=20;
 
         for (int i=0;i<(int)listButton.size();i++){
-            Vector3f oldListLoc=listLoc;
-            listLoc.y-=(listSize.y-listDisplaySize)*scrollBar->sliderValue;
 
-            //recalculate listOffset
-            if (i>0 && listButton[i]>0 && listButton[i-1]->bIndividualListSize){
-                listOffsetY+=listButton[i-1]->scale.y-listHeight;
+            //if sliderValue is 1, begin is size()-maxDraw
+            //if sliderValue is 0, begin is 0
+
+            //recalculate listOffset for buttons that are individually sized
+            if (i>0 && listButton[i-1]->bIndividualListSize){
+                //listOffsetY+=listButton[i-1]->scale.y-listHeight;
+                listLoc.y+=listButton[i-1]->scale.y-listHeight;
             }
+
 
             placeButton(i,i);
 
-            if (listButton[i]->location.y<location.y || listButton[i]->location.y>location.y+listDisplaySize)// || listButton[i]->location.y> location.y + listSize.y)
+            if (listButton[i]->location.y<location.y + listOffsetY || listButton[i]->location.y>location.y+listDisplaySize)// || listButton[i]->location.y> location.y + listSize.y)
                 listButton[i]->bHidden=true;
             else
                 listButton[i]->bHidden=false;
 
-            listLoc=oldListLoc;
         }
+
+        listLoc=oldListLoc;
+
     return;
     }
 

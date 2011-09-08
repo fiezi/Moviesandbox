@@ -25,8 +25,6 @@ public:
     float tabWidth;
     float tabHeight;
 
-    float listOffset;                           //y-offset for listButtons
-
     vector<BasicButton*> inspectorButtons;      //special inspector buttons, like "import", etc...
 
     BasicButton* backgroundButton;

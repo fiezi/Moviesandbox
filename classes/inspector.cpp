@@ -25,7 +25,7 @@ Inspector::Inspector(){
 
     backgroundButton=NULL;
 
-    listOffset=32;
+    listOffsetY=32;
 
     registerProperties();
 }
