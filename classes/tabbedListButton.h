@@ -9,21 +9,21 @@ class TabbedListButton: public ListButton{
 
 public:
 
-    class tab{
+    class Tab: public MsbObject{
 
         public:
 
         TabbedListButton* mine;
 
-        tab(){};
-        tab(TabbedListButton* m){mine=m;};
-        virtual ~tab(){};
+        Tab(){};
+        Tab(TabbedListButton* m){mine=m;};
+        virtual ~Tab(){};
         virtual void assembleList();
 
     };
 
 
-    vector<tab*>   tabAssembleListFunctions;   //pointers to functions that should be called as "assembleList"
+    vector<Tab*>   tabs;   //pointers to functions that should be called as "assembleList"
 
     int currentTab;                             //which tab do we have open?
 

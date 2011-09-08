@@ -71,10 +71,10 @@ void Inspector::setup(){
     backgroundButton->setLocation(backgroundButton->location);
 
     //setup tabs and fill buttonlist once
-    tabAssembleListFunctions.clear();
-    tabAssembleListFunctions.push_back( new myTab(this) );
+    tabs.clear();
+    tabs.push_back( new MyTab(this) );
 
-    tabAssembleListFunctions[0]->assembleList();
+    tabs[0]->assembleList();
 
     //create inspectorButtons
     createInspectorButtons();

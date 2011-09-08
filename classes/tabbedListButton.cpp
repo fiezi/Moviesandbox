@@ -6,7 +6,7 @@ TabbedListButton::TabbedListButton(){
 
 
     currentTab=0;
-    tabAssembleListFunctions.push_back( new tab(this) );
+    tabs.push_back( new Tab(this) );
 
 }
 
@@ -14,7 +14,7 @@ TabbedListButton::~TabbedListButton(){}
 
 
 
-void TabbedListButton::tab::assembleList() {
+void TabbedListButton::Tab::assembleList() {
 
     mine->assembleList();
 
@@ -36,7 +36,7 @@ void TabbedListButton::clickedLeft(){
 
   if (listButton.size()==0){
     cout << "clicked! creating buttonlist for: " << currentTab << endl;
-    tabAssembleListFunctions[currentTab]->assembleList();
+    tabs[currentTab]->assembleList();
   }
 
 }
@@ -71,7 +71,8 @@ void TabbedListButton::deselect(int depth){
 
 void TabbedListButton::trigger(MsbObject* other){
 
- ListButton::trigger(other);
+    ListButton::trigger(other);
+    tabs[currentTab]->trigger(other);
 }
 
 void TabbedListButton::create(){

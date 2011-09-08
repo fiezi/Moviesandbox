@@ -7,19 +7,19 @@ class PropertyInspector: public Inspector{
 
 public:
 
-    class propTabOne: public tab{
+    class PropTabOne: public Tab{
 
         public:
 
-        propTabOne(TabbedListButton* m){mine=m;};
+        PropTabOne(TabbedListButton* m){mine=m;};
         virtual void assembleList();
     };
 
-    class propTabTwo: public tab{
+    class PropTabTwo: public Tab{
 
         public:
 
-        propTabTwo(TabbedListButton* m){mine=m;};
+        PropTabTwo(TabbedListButton* m){mine=m;};
         virtual void assembleList();
     };
 

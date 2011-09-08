@@ -11,10 +11,20 @@ MeshInspector::MeshInspector(){
 
     listColumns=4;
     level=0;
+    listDisplaySize=250;
     textureID="icon_props";
 }
 
 MeshInspector::~MeshInspector(){}
+
+
+void MeshInspector::setup(){
+
+    Inspector::setup();
+    tabs.clear();
+    tabs.push_back( new MeshTab(this) );
+    tabs.push_back( new TextureTab(this) );
+}
 
 void MeshInspector::createInspectorButtons(){
 
@@ -26,93 +36,136 @@ void MeshInspector::createInspectorButtons(){
     importButton->color=Vector4f(0.8,0.8,0.8,1.0);
     importButton->bDrawName=true;
     inspectorButtons.push_back(importButton);
+
+
+    AssignButton* tabButton= new AssignButton;
+    tabButton->parent=this;
+    sceneData->buttonList.push_back(tabButton);
+    tabButton->setLocation(Vector3f(location.x+60.0f,location.y, 0.0f));
+    tabButton->name="tabOne";
+    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->bDrawName=true;
+    inspectorButtons.push_back(tabButton);
+
+    tabButton= new AssignButton;
+    tabButton->parent=this;
+    sceneData->buttonList.push_back(tabButton);
+    tabButton->setLocation(Vector3f(location.x+90.0f,location.y, 0.0f));
+    tabButton->name="tabTwo";
+    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->bDrawName=true;
+    inspectorButtons.push_back(tabButton);
+
+
 }
 
 void MeshInspector::refreshList(){
 
     if (listButton.size()<sceneData->vboList.size()){
-        assembleList();
+        tabs[currentTab]->assembleList();
     }
 }
 
 
-void MeshInspector::assembleList(){
+void MeshInspector::MeshTab::assembleList(){
 
         cout << "assembling mesh list..." << endl;
         std::map <std::string, MeshData*>::iterator it;
         int i=0;
-        for (int i=0; i<(int)listButton.size();i++){
-            listButton[i]->bPermanent=false;
-            listButton[i]->deselect(0);
+
+        if (mine->scrollBar){
+            mine->scrollBar->remove();
+            mine->scrollBar=NULL;
         }
-        cout << "old mesh list size : " << listButton.size() << endl;
 
-        listButton.clear();
 
-        for ( it=sceneData->vboList.begin() ; it != sceneData->vboList.end(); it++ ){
+        /*
+        for (int i=0; i<(int)mine->listButton.size();i++){
+            mine->listButton[i]->bPermanent=false;
+            mine->listButton[i]->deselect(0);
+        }
+        */
+
+        for (int i=0; i<(int)mine->listButton.size();i++){
+            mine->listButton[i]->remove();
+            //mine->listButton[i]->deselect(0);
+        }
+
+
+        cout << "old mesh list size : " << mine->listButton.size() << endl;
+
+        mine->listButton.clear();
+
+        for ( it=mine->sceneData->vboList.begin() ; it != mine->sceneData->vboList.end(); it++ ){
 
             if (it->second && it->first!="NULL"){
 
-                sceneData->actorInfo["12AssignButton"].actorReference->create();
-                listButton.push_back(sceneData->buttonList.back());
+                mine->sceneData->actorInfo["12AssignButton"].actorReference->create();
+                mine->listButton.push_back(mine->sceneData->buttonList.back());
 
-                listButton[i]->name="string " + it->first;
-                listButton[i]->buttonProperty="VBOMESHID";
-                listButton[i]->textureID="icon_base";
-                listButton[i]->level=level+1;
-                listButton[i]->bDrawName=true;
-                listButton[i]->color=Vector4f(1,1,1,1.0);
-                listButton[i]->bPermanent=true;
-                listButton[i]->bDragable=true;
-                listButton[i]->parent=this;
-                if (listWidth>0)
-                    listButton[i]->scale.x=listWidth;
-                if (listHeight>0)
-                    listButton[i]->scale.y=listHeight;
+                mine->listButton[i]->name="string " + it->first;
+                mine->listButton[i]->buttonProperty="VBOMESHID";
+                mine->listButton[i]->textureID="icon_base";
+                mine->listButton[i]->level=mine->level+1;
+                mine->listButton[i]->bDrawName=true;
+                mine->listButton[i]->color=Vector4f(1,1,1,1.0);
+                mine->listButton[i]->bPermanent=true;
+                mine->listButton[i]->bDragable=true;
+                mine->listButton[i]->parent=mine;
+                if (mine->listWidth>0)
+                    mine->listButton[i]->scale.x=mine->listWidth;
+                if (mine->listHeight>0)
+                    mine->listButton[i]->scale.y=mine->listHeight;
 
-                listButton[i]->setup();
-                placeButton(i,i);
+                mine->listButton[i]->setup();
+                mine->placeButton(i,i);
                 //set this because we want to drag buttons around!
-                listButton[i]->initialLocation=listButton[i]->location;
+                mine->listButton[i]->initialLocation=mine->listButton[i]->location;
 
-				cout << "create new mesh list button: " << listButton[i]->name << endl;
+				cout << "create new mesh list button: " << mine->listButton[i]->name << endl;
                 i++;
             }
         }
 
 
-    cout << "our Button list is: "<< listButton.size() <<" elements long..." << endl;
+    cout << "our Button list is: "<< mine->listButton.size() <<" elements long..." << endl;
+
+    if (mine->listButton.size()>0)
+        mine->listSize.y=mine->listButton[mine->listButton.size()-1]->location.y+mine->listButton[mine->listButton.size()-1]->scale.y - mine->location.y;
+    else
+        mine->listSize.y=0;
+
 }
 
+void MeshInspector::MeshTab::trigger(MsbObject* other){
 
-void MeshInspector::trigger(MsbObject* other){
 
 
-    for (int i=0;i<(int)listButton.size();i++){
-		listButton[i]->color=COLOR_WHITE;
-        if (other==listButton[i]){
-            ///set vboMeshID of worldTarget to
-            if (input->worldTarget && input->worldTarget!=sceneData->grid && input->worldTarget->name!="ground"){
-                Actor* a=input->worldTarget;
-                //special case for bones! Assign to parent character if present...
-                BoneActor* b = dynamic_cast<BoneActor*>(a);
-                if (b && b->parent)
-                    a=(Actor*)b->parent;
+       for (int i=0;i<(int)mine->listButton.size();i++){
+            mine->listButton[i]->color=COLOR_WHITE;
+            if (other==mine->listButton[i]){
+                ///set vboMeshID of worldTarget to
+                if (mine->input->worldTarget && mine->input->worldTarget!=mine->sceneData->grid && mine->input->worldTarget->name!="ground"){
+                    Actor* a=mine->input->worldTarget;
+                    //special case for bones! Assign to parent character if present...
+                    BoneActor* b = dynamic_cast<BoneActor*>(a);
+                    if (b && b->parent)
+                        a=(Actor*)b->parent;
 
-                ///setting the vboMesh
-                a->memberFromString(&a->property["VBOMESHID"], listButton[i]->name);
+                    ///setting the vboMesh
+                    a->memberFromString(&a->property["VBOMESHID"], mine->listButton[i]->name);
 
-				//figure out if we should change the shader too!
-				if (sceneData->vboList[a->vboMeshID]->bIsSkeletal)
-					a->sceneShaderID="skeletal";
-                //now, also reset the actor
-                a->reset();
+                    //figure out if we should change the shader too!
+                    if (mine->sceneData->vboList[a->vboMeshID]->bIsSkeletal)
+                        a->sceneShaderID="skeletal";
+                    //now, also reset the actor
+                    a->reset();
+                }
+                ///but always set the brushes mesh id!
+                mine->sceneData->brush->memberFromString(&mine->sceneData->brush->property["VBOMESHID"], mine->listButton[i]->name);
+                mine->listButton[i]->color=COLOR_RED;
             }
-            ///but always set the brushes mesh id!
-            sceneData->brush->memberFromString(&sceneData->brush->property["VBOMESHID"], listButton[i]->name);
-			other->color=COLOR_RED;
-		}
-    }
+        }
 
     if (other->name=="import"){
 
@@ -163,6 +216,81 @@ void MeshInspector::trigger(MsbObject* other){
             sceneData->addToLibrary(myElement);
         }
     }
+
+
+}
+
+
+void MeshInspector::TextureTab::assembleList(){
+
+    for (int i=0;i<(int)mine->listButton.size();i++){
+        mine->listButton[i]->remove();
+    }
+    mine->listButton.clear();
+
+    if (mine->scrollBar){
+        mine->scrollBar->remove();
+        mine->scrollBar=NULL;
+    }
+
+        cout << "creating list..." << endl;
+        std::map <std::string, textureObject*>::iterator it;
+        int i=0;
+
+        for ( it=mine->sceneData->textureList.begin() ; it != mine->sceneData->textureList.end(); it++ ){
+
+            mine->sceneData->actorInfo["20PropertyAssignButton"].actorReference->create();
+            mine->listButton.push_back(mine->sceneData->buttonList.back());
+
+            mine->listButton[i]->name="string " + it->first;
+            mine->listButton[i]->buttonProperty="TEXTUREID";
+            mine->listButton[i]->textureID="icon_base";
+            mine->listButton[i]->level=mine->level+1;
+            mine->listButton[i]->bDrawName=false;
+            mine->listButton[i]->color=Vector4f(1,1,1,1.0);
+            mine->listButton[i]->textureID=it->first;
+            mine->listButton[i]->bPermanent=true;
+            mine->listButton[i]->bDragable=true;
+            if (mine->listWidth>0)
+                mine->listButton[i]->scale.x=mine->listWidth;
+            if (mine->listHeight>0)
+                mine->listButton[i]->scale.y=mine->listHeight;
+
+            mine->listButton[i]->setup();
+            mine->placeButton(i,i);
+            //set this because we want to drag buttons around!
+            mine->listButton[i]->initialLocation=mine->listButton[i]->location;
+
+            i++;
+        }
+
+    cout << "TextureInspector: our Button list is: "<< mine->listButton.size() <<" elements long..." << endl;
+
+    if (mine->listButton.size()>0)
+        mine->listSize.y=mine->listButton[mine->listButton.size()-1]->location.y+mine->listButton[mine->listButton.size()-1]->scale.y - mine->location.y;
+    else
+        mine->listSize.y=0;
+
+}
+
+
+
+void MeshInspector::trigger(MsbObject* other){
+
+
+    Inspector::trigger(other);
+
+    if (other->name=="tabOne"){
+        currentTab=0;
+        tabs[currentTab]->assembleList();
+    }
+
+    if (other->name=="tabTwo"){
+        currentTab=1;
+        tabs[currentTab]->assembleList();
+    }
+
+
 }
 
 void MeshInspector::create(){sceneData->addButton(this);}

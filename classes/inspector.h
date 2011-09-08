@@ -9,12 +9,12 @@ class Inspector: public TabbedListButton{
 
 public:
 
-    class myTab: public tab{
+    class MyTab: public Tab{
 
         public:
-        myTab(){};
-        myTab(TabbedListButton* m){mine=m;};
-        virtual ~myTab(){};
+        MyTab(){};
+        MyTab(TabbedListButton* m){mine=m;};
+        virtual ~MyTab(){};
         virtual void assembleList(){cout << "assemblin'..." << endl;};
 
     };

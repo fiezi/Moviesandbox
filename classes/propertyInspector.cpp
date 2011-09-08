@@ -28,9 +28,9 @@ PropertyInspector::~PropertyInspector(){}
 void PropertyInspector::setup(){
 
     Inspector::setup();
-    tabAssembleListFunctions.clear();
-    tabAssembleListFunctions.push_back( new propTabOne(this) );
-    tabAssembleListFunctions.push_back( new propTabTwo(this) );
+    tabs.clear();
+    tabs.push_back( new PropTabOne(this) );
+    tabs.push_back( new PropTabTwo(this) );
 
 }
 
@@ -66,13 +66,13 @@ void PropertyInspector::refreshList(){
 
         if (parent!=oldParent){
 
-            tabAssembleListFunctions[currentTab]->assembleList();
+            tabs[currentTab]->assembleList();
             oldParent=parent;
         }
 
 }
 
-void PropertyInspector::propTabOne::assembleList(){
+void PropertyInspector::PropTabOne::assembleList(){
 
 
 //    mine->listOffsetX=0;
@@ -156,7 +156,7 @@ void PropertyInspector::propTabOne::assembleList(){
 
 }
 
-void PropertyInspector::propTabTwo::assembleList(){
+void PropertyInspector::PropTabTwo::assembleList(){
 
     //cleanup
     for (int i=0;i<(int)mine->listButton.size();i++){
@@ -174,12 +174,12 @@ void PropertyInspector::trigger(MsbObject* other){
 
     if (other->name=="tabOne"){
         currentTab=0;
-        tabAssembleListFunctions[currentTab]->assembleList();
+        tabs[currentTab]->assembleList();
     }
 
     if (other->name=="tabTwo"){
         currentTab=1;
-        tabAssembleListFunctions[currentTab]->assembleList();
+        tabs[currentTab]->assembleList();
     }
 
 }
