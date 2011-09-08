@@ -257,8 +257,8 @@ void main(void){
     }
 
     ///Ambient Occlusion
-    if (bSSAO)
-        gl_FragData[0].rgb*=computeAO().rgb ;
+    //if (bSSAO)
+    //    gl_FragData[0].rgb*=computeAO().rgb ;
 
     ///debug stuff
     //gl_FragData[0]/=3.0;

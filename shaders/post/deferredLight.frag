@@ -82,7 +82,8 @@ vec4 calcFragmentWorldSpace(){
 
     //zPos in Eye Space
     //zPos = texture2D(depthTex,texCoord ).r;
-    zPos = texture2D(depthTex,texCoord ).r;
+    //zPos = texture2D(depthTex,texCoord ).r;
+    zPos = blur3(depthTex,texCoord ).r;
 
       //  ( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
     //zPos in Screen Space - for reference
@@ -137,8 +138,8 @@ vec4 computeLight(){
     //zPos=dist * 32.0;
 
     //normal in Eye Space
-    colorLight=vec4(dFdy(zPos),0,0,1);
-    return colorLight;
+    //colorLight=vec4(dFdy(zPos),0,0,1);
+    //return colorLight;
 
     vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
 
