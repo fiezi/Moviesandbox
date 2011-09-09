@@ -43,6 +43,7 @@ public:
     virtual void importAction(string filename);
     virtual Matrix4f setRotationComponent(Matrix4f dest, Matrix3f source);
 
+    virtual void remove();
 
     virtual void create();
     virtual void load(TiXmlElement* myInfo);

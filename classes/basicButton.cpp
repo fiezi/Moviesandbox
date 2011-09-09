@@ -120,7 +120,9 @@ void BasicButton::focusClick(){
 void BasicButton::clickedRight(){
 }
 
-void BasicButton::remove(){
+void BasicButton::removeReferences(){
+
+//    Actor::removeReferences();
 
     for (uint i=0;i<sceneData->buttonList.size();i++){
         if (sceneData->buttonList[i]==this)
@@ -133,7 +135,12 @@ void BasicButton::remove(){
         }
     }
 
-    delete(this);
+}
+
+void BasicButton::remove(){
+
+    removeReferences();
+     delete(this);
 }
 
 void BasicButton::deselect(int depth){

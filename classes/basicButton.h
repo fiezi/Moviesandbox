@@ -53,6 +53,7 @@ public:
         virtual void focusClick();
         virtual void deselect(int depth);
 
+        virtual void removeReferences();
         virtual void remove();
         virtual void create();
 

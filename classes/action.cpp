@@ -155,6 +155,14 @@ void Action::trigger(MsbObject* other){
 }
 
 
+//Actions cannot be removed
+void Action:: remove(){
+
+    Actor::removeReferences();
+    bHidden=true;
+
+}
+
 void Action::importAction(string filename){
 
 

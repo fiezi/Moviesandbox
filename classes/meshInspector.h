@@ -24,6 +24,7 @@ public:
 
         TextureTab(TabbedListButton* m){mine=m;};
         virtual void assembleList();
+        virtual void trigger(MsbObject* other);
     };
 
     class ActionTab: public Tab{
@@ -32,6 +33,7 @@ public:
 
         ActionTab(TabbedListButton* m){mine=m;};
         virtual void assembleList();
+        virtual void trigger(MsbObject* other);
     };
 
     class PrefabTab: public Tab{
@@ -40,6 +42,7 @@ public:
 
         PrefabTab(TabbedListButton* m){mine=m;};
         virtual void assembleList();
+        virtual void trigger(MsbObject* other);
     };
 
 

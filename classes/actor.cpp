@@ -717,9 +717,10 @@ Node* Actor::readNode(char* cValue){
     Life or Death Functions
 ****************************************/
 
-void Actor::remove(){
 
-    //remove references in other actors
+void Actor::removeReferences(){
+
+   //remove references in other actors
     //go through all actors
     for (int i=0;i<(int)sceneData->actorList.size();i++){
         Actor* myActor=sceneData->actorList[i];
@@ -869,6 +870,13 @@ void Actor::remove(){
           sceneData->actorList.erase(sceneData->actorList.begin()+i);
     }
 
+    //remove from buttonList
+
+}
+
+void Actor::remove(){
+
+    removeReferences();
     delete(this);
 }
 

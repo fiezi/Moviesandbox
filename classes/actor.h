@@ -209,7 +209,8 @@ public:
        virtual Actor* readActor(char* cValue);                         //identical to readInt, but parses the actor* tag in the string!
        virtual Node* readNode(char* cValue);                          //identical to readInt, but parses the node* tag in the string!
 
-       virtual void remove();                           //removes the actor from actorList and frees memory.
+       virtual void removeReferences();                 //removes the actor from actorList, buttonList, other actors' properties, other buttons' properties and so on
+       virtual void remove();                           //calls removeReferences, then frees memory.
 
        bool isA(string className);                      //check against specific classname
 

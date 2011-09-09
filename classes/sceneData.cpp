@@ -1333,7 +1333,7 @@ void SceneData::loadActionList(std::string path, string fileName){
     //***********************************************************************
       element=hRoot.FirstChild( "Action" ).Element();
       for ( ; element!=NULL ;element=element->NextSiblingElement("Action")){
-        string actionFileName=element->Attribute("actionFilename");
+        string actionFileName=path+ "/" + element->Attribute("actionFilename");
         loadAction(path,actionFileName);
         cout << "loading action " << actionFileName << endl;
       }
