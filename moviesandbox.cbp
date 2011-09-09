@@ -858,7 +858,6 @@
 		<Unit filename="external\vMath\vmath.cpp" />
 		<Unit filename="external\vMath\vmath.h" />
 		<Unit filename="resources\basic.library" />
-		<Unit filename="resources\my.library" />
 		<Unit filename="resources\scenes\blank.scene" />
 		<Unit filename="shaders\aliveTexture.frag" />
 		<Unit filename="shaders\aliveTexture.vert" />

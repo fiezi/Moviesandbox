@@ -591,6 +591,7 @@ void Content::createInspectors(){
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
+/*
     lbut= new TextureInspector;
     lbut->location.x=renderer->screenX-30;
     lbut->location.y=60;
@@ -601,7 +602,7 @@ void Content::createInspectors(){
 
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
-
+*/
     lbut= new MeshInspector;
     lbut->location.x=renderer->screenX-30;
     lbut->location.y=90;
@@ -613,7 +614,7 @@ void Content::createInspectors(){
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
-
+/*
     lbut= new ActionInspector;
     lbut->location.x=renderer->screenX-30;
     lbut->location.y=120;
@@ -635,6 +636,8 @@ void Content::createInspectors(){
 
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
+
+*/
 
     lbut= new LayerInspector;
     lbut->location.x=renderer->screenX-30;

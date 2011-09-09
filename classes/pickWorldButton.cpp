@@ -25,7 +25,8 @@ void PickWorldButton::mouseOver(){
 
     BasicButton::mouseOver();
 
-    if ( parent->property[buttonProperty].memberType->name() == typeid(Actor*).name() ){
+
+    if ( parent && parent->property[buttonProperty].memberType->name() == typeid(Actor*).name() ){
         if (parent->property[buttonProperty].memberReference){
            Actor* myActor=readActor((char*)memberToString( &(parent->property[buttonProperty])).c_str());
            if (myActor)
