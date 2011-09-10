@@ -36,8 +36,8 @@ void SelectWidget::openWidget(){
 
 void SelectWidget::closeWidget(){
 
-    input->deselectActors();
-
+    //input->deselectActors();
+    color=COLOR_WHITE;
 }
 
 void SelectWidget::trigger(MsbObject* other){

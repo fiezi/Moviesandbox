@@ -48,7 +48,7 @@ void DrawTool::start(){
 
 	if (sceneData->specialSelected){
 		sceneData->specialSelected->drawType=DRAW_PARTICLES; //important!
-		sceneData->specialSelected->sceneShaderID="drawing";   //also important!
+		sceneData->specialSelected->sceneShaderID="color";   //also important!
 		cout << "already have drawing and switched to Particle draw mode!!!!!" << endl;
 	}
 

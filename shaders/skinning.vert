@@ -11,9 +11,10 @@ uniform float particleAngleScale;
 
 uniform mat4 cameraInverse;
 uniform float objectID;
+uniform float screensize;
+uniform float scene_size;
+uniform float fov;
 
-
-varying vec4 picking;
 varying float zPos;
 varying float vID;
 
@@ -89,12 +90,10 @@ void main(){
 
     gl_FrontColor.a=1.0;
 
-    picking=  cameraInverse * gl_ModelViewMatrix * myVertex;
-    picking.w=objectID;
-
     //apply bone transformations
     gl_Position=gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
-    gl_PointSize=pointSize();
+    gl_PointSize= pointSize() * screensize/scene_size * (45.0*45.0)/(fov*fov);
+
 
     zPos=gl_Position.z;
 

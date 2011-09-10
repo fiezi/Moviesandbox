@@ -33,7 +33,8 @@ void DrawingWidget::setup(){
 void DrawingWidget::clickedLeft(){
 
     Widget::clickedLeft();
-    sceneData->controller->switchTool(useTool);
+    if (sceneData->controller->tool!=useTool)
+        sceneData->controller->switchTool(useTool);
     color=COLOR_RED;
 }
 
@@ -41,20 +42,21 @@ void DrawingWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
     //sceneData->controller->switchTool(TOOL_DRAW);
-
+/*
     if (bKinectToolOpen){
         listButton[4]->color=COLOR_YELLOW;
     }
-
+*/
 
 
 }
 
 void DrawingWidget::closeWidget(){
 
-/*
-    input->deselectActors();
+    //input->deselectActors();
+    color=COLOR_WHITE;
 
+/*
 
     if (sceneData->brush->drawing){
         sceneData->makeWarningPopUp("saving drawing...",this);
@@ -106,6 +108,12 @@ void DrawingWidget::trigger(MsbObject* other){
         textureID="icon_paintFancy";
     }
 
+    if (other->name=="Draw Meshes"){
+        useTool=TOOL_SPAWN;
+        textureID="icon_drawMesh";
+    }
+
+/*
     if (other->name=="Select Particles"){
         useTool=TOOL_PARTICLESELECT;
         textureID="icon_selectParticles";
@@ -174,9 +182,12 @@ void DrawingWidget::trigger(MsbObject* other){
         drawTool->clearDrawing();
    }
 
+    */
+
     //close widget and select again
     clickedRight();
     clickedLeft();
+
 }
 
 void DrawingWidget::closeKinectTool(){

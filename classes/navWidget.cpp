@@ -38,8 +38,8 @@ void NavWidget::openWidget(){
 
 void NavWidget::closeWidget(){
 
-    input->deselectActors();
-
+    //input->deselectActors();
+    color=COLOR_WHITE;
 }
 
 void NavWidget::trigger(MsbObject* other){

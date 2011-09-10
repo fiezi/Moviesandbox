@@ -1,19 +1,18 @@
-varying vec4 picking;
+uniform vec4 postColor;
+uniform bool bComputeLight;
+uniform float objectID;
 varying float zPos;
 varying float vID;
 
 void main(){
 
     gl_FragData[0]=gl_Color;
-    gl_FragData[1]=vec4(1.0,1.0,1.0,zPos);
-    gl_FragData[2]=picking;
+    int vIDOneInt=int(vID/65536.0);
+    float vIDOne=float(vIDOneInt);
 
-    //per-vertex ID
-        int vIDOneInt=int(vID/65536.0);
-        float vIDOne=float(vIDOneInt);
+    float vIDTwo=mod(vID,65536.0);
 
-        float vIDTwo=mod(vID,65536.0);
-		gl_FragData[3]=vec4(0.0,0.0,vIDOne,vIDTwo);
+    gl_FragData[1]=vec4( zPos, objectID, 0.0, 0.0 );
 
 }
 

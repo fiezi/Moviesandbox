@@ -15,14 +15,30 @@ bWidgetOpen=false;
 listColor=Vector4f(0.8,0.8,0.8,1.0);
 listDisplayMode=0;
 color=listColor;
-highlightColor=Vector4f(0.8,0.0,0.0,1.0);
+//highlightColor=Vector4f(0.8,0.0,0.0,1.0);
+
+useTool=TOOL_BONE;
 }
 
 BoneWidget::~BoneWidget(){}
 
 
+void BoneWidget::clickedLeft(){
+
+    color=COLOR_RED;
+    Widget::clickedLeft();
+
+    if (sceneData->controller->tool!=useTool)
+        sceneData->controller->switchTool(useTool);
+
+}
+
 void BoneWidget::openWidget(){
 
+    widgetLocation=Vector3f(location.x,location.y,0);
+
+
+    /*
     widgetLocation=Vector3f(location.x,location.y,0);
 
     //switch to create bone mode
@@ -30,12 +46,16 @@ void BoneWidget::openWidget(){
     //unless our drawing is already boned (tee-he-he), then we might want to switch to skinning mode!
     if (sceneData->specialSelected && sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal)
         sceneData->controller->switchTool(TOOL_SKIN);
+    */
+
 }
 
 void BoneWidget::closeWidget(){
 
-    input->deselectActors();
+    //input->deselectActors();
+    color=COLOR_WHITE;
 
+    /*
     if (sceneData->brush->drawing){
         sceneData->makeWarningPopUp("saving drawing...",this);
         renderer->draw();
@@ -48,13 +68,14 @@ void BoneWidget::closeWidget(){
 
 
     sceneData->controller->switchTool(TOOL_SELECT);
-    color=COLOR_WHITE;
 
+    */
 }
 
 void BoneWidget::trigger(MsbObject* other){
 
 
+/*
 	SkeletalActor* skel=sceneData->brush->drawing;
 	if (!skel) return;
 
@@ -126,15 +147,34 @@ void BoneWidget::trigger(MsbObject* other){
         sceneData->addToLibrary(newMesh);
         free(newMesh);
     }
+
+    */
+
+
+    if (other->name=="Paint Weights"){
+        useTool=TOOL_SKIN;
+        textureID="icon_paintWeights";
+    }
+
+    if (other->name=="Create Bone (b)"){
+        useTool=TOOL_BONE;
+        textureID="icon_addBones";
+    }
+
+    clickedRight();
+    clickedLeft();
+
 }
 
 void BoneWidget::highlight(Actor* other){
 
+    /*
         for (int i=0;i<(int)listButton.size();i++)
             if (listButton[i]!=other && listButton[i]->color==highlightColor)
                 listButton[i]->color=listColor;
 
         other->color=highlightColor;
+    */
 }
 
 void BoneWidget::create(){sceneData->addButton(this);}

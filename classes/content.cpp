@@ -73,7 +73,7 @@ void Content::setup(){
 
     yPos+=30;
 
-    createPropList(xPos,yPos);
+    //createPropList(xPos,yPos);
 
     yPos+=30;
 
@@ -303,12 +303,12 @@ void Content::createDrawWidget(int x, int y){
     lbut->setup();
     sceneData->buttonList.push_back(lbut);
 
-
+/*
     lbut->listType.push_back("15PickWorldButton");
     lbut->listName.push_back("New Drawing");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_new");
-
+*/
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Draw Particles (p)");
     lbut->listProp.push_back("NULL");
@@ -319,6 +319,13 @@ void Content::createDrawWidget(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paintFancy");
 
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Draw Meshes");
+    lbut->listProp.push_back("NULL");
+    lbut->listIcon.push_back("icon_drawMesh");
+
+
+/*
     lbut->listType.push_back("15PickWorldButton");
     lbut->listName.push_back("Select Drawing");
     lbut->listProp.push_back("NULL");
@@ -370,7 +377,7 @@ void Content::createDrawWidget(int x, int y){
     lbut->listName.push_back("clear Drawing");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_clearDrawing");
-
+*/
 }
 
 void Content::createBoneWidget(int x, int y){
@@ -399,6 +406,8 @@ void Content::createBoneWidget(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paintWeights");
 
+    /*
+
     //here we load a bone set
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Load Bones");
@@ -415,12 +424,17 @@ void Content::createBoneWidget(int x, int y){
     lbut->listName.push_back("save As...");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_saveAs");
+
+    */
+
     /*
     lbut->listType.push_back("22SaveDrawSkeletonButton");
     lbut->listName.push_back("Load Skeleton");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_save");
     */
+
+
 }
 
 void Content::createNodeList(int x, int y){

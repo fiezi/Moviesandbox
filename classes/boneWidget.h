@@ -7,11 +7,13 @@ class BoneWidget: public Widget{
 
 public:
 
-    Vector4f    highlightColor;
+    int         useTool;
+//    Vector4f    highlightColor;
 
     BoneWidget();
     virtual ~BoneWidget();
 
+    virtual void clickedLeft();
     virtual void openWidget();
     virtual void closeWidget();
     virtual void trigger(MsbObject* other);

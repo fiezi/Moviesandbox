@@ -83,7 +83,7 @@ void MsbTool::highlightButton(string btnName){
     if (!lst)
         return;
 
-    myBtn->color=COLOR_YELLOW;
+    //myBtn->color=COLOR_YELLOW;
 
 
     for (int i=0;i<(int)lst->listButton.size();i++){

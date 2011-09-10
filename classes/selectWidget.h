@@ -7,7 +7,7 @@ class SelectWidget: public Widget{
 
 public:
 
-    int         useTool;
+    int         useTool;                            //which tool should we switch to when activated?
 
     SelectWidget();
     virtual ~SelectWidget();

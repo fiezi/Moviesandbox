@@ -21,18 +21,19 @@ void BoneTool::start(){
 
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
 
-    highlightButton("Create Bone (b)");
+    myBtn->color=COLOR_RED;
 
     brush=sceneData->brush;
     brush->bHidden=false;
-	//use selectedActor as drawing
-	if (sceneData->selectedActors.size()>0){
-		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
-		if (skel){
-			sceneData->specialSelected=skel;
-			brush->drawing=skel;
-		}
-	}
+
+    //if we have an actor selcted that is a drawing, use that as our new drawing
+    if (sceneData->selectedActors.size()>0 && !sceneData->specialSelected){
+        SkeletalActor* skel = dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
+        if (skel){
+            brush->drawing=skel;
+            sceneData->specialSelected=skel;
+        }
+    }
 
 	//use already assigned drawing
     if (brush->drawing){
@@ -60,9 +61,8 @@ void BoneTool::start(){
     else{
         sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
-//TODO: make WidgetHandler!
-//        boneWidget->closeWidget();
         input->bTextInput=false;
+        sceneData->controller->switchTool(TOOL_SELECT);
     }
 
 }
@@ -75,7 +75,7 @@ void BoneTool::stop(){
 
     glutSetCursor(GLUT_CURSOR_INHERIT);
     brush->bHidden=true;
-    lowlightButton();
+    myBtn->color=COLOR_WHITE;
 
     SkeletalActor* skel=brush->drawing;
 

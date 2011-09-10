@@ -23,8 +23,7 @@ void SkinTool::start(){
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
     brush->bHidden=false;
 
-    highlightButton("Paint Weights");
-
+    myBtn->color=COLOR_RED;
 
 	//use selectedActor as drawing
 	if (sceneData->selectedActors.size()>0){
@@ -61,8 +60,8 @@ void SkinTool::start(){
     else{
         sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Skin. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
-        //sceneData->controller->switchTool(TOOL_SELECT);
         input->bTextInput=false;
+        sceneData->controller->switchTool(TOOL_SELECT);
     }
 
 
