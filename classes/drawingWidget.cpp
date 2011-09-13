@@ -91,11 +91,6 @@ void DrawingWidget::trigger(MsbObject* other){
         sceneData->makeUserPopUp("Name your new drawing:",this);
     }
 
-    //from staticButton
-    if (other->name=="Name your new drawing:"){
-        drawTool->createNewDrawing();
-        sceneData->specialSelected=sceneData->brush->drawing;
-    }
 */
 
     if (other->name=="Draw Particles (p)"){

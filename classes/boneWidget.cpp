@@ -36,18 +36,6 @@ void BoneWidget::clickedLeft(){
 void BoneWidget::openWidget(){
 
     widgetLocation=Vector3f(location.x,location.y,0);
-
-
-    /*
-    widgetLocation=Vector3f(location.x,location.y,0);
-
-    //switch to create bone mode
-    sceneData->controller->switchTool(TOOL_BONE);
-    //unless our drawing is already boned (tee-he-he), then we might want to switch to skinning mode!
-    if (sceneData->specialSelected && sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal)
-        sceneData->controller->switchTool(TOOL_SKIN);
-    */
-
 }
 
 void BoneWidget::closeWidget(){
@@ -55,21 +43,6 @@ void BoneWidget::closeWidget(){
     //input->deselectActors();
     color=COLOR_WHITE;
 
-    /*
-    if (sceneData->brush->drawing){
-        sceneData->makeWarningPopUp("saving drawing...",this);
-        renderer->draw();
-        sceneData->controller->myTools[TOOL_BONE]->save();
-        sceneData->brush->drawing->drawType=DRAW_VBOMESH;
-        sceneData->brush->drawing->reset();
-        sceneData->staticButton->focusClick();
-        input->bTextInput=false;
-    }
-
-
-    sceneData->controller->switchTool(TOOL_SELECT);
-
-    */
 }
 
 void BoneWidget::trigger(MsbObject* other){

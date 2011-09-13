@@ -33,35 +33,32 @@ void DrawTool::start(){
     MsbTool::start();
 
 
-    highlightButton(highlightBtn);
+    //highlightButton(highlightBtn);
 
     //if we have an actor selcted that is a drawing, use that as our new drawing
-    if (sceneData->selectedActors.size()>0 && !sceneData->specialSelected){
+    if (sceneData->selectedActors.size()>0){
         SkeletalActor* skel = dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
         if (skel){
             brush->drawing=skel;
-            sceneData->specialSelected=skel;
+            //switch drawing to particleMode
+            skel->drawType=DRAW_PARTICLES; //important!
+            skel->sceneShaderID="color";   //also important!
+            cout << "already have drawing and switched to Particle draw mode!!!!!" << endl;
         }
     }
 
-    //switch drawing to particleMode
-
-	if (sceneData->specialSelected){
-		sceneData->specialSelected->drawType=DRAW_PARTICLES; //important!
-		sceneData->specialSelected->sceneShaderID="color";   //also important!
-		cout << "already have drawing and switched to Particle draw mode!!!!!" << endl;
-	}
 
     //auto-generate drawing when we don't have one selected!
     if (!brush->drawing){
         createNewDrawing(true);
-        sceneData->specialSelected=brush->drawing;
     }
 
 
-    if (brush->drawing)
+    if (brush->drawing){
+        brush->drawing->resetBones();
         for (int i=0;i<(int)brush->drawing->bones.size();i++)
             brush->drawing->bones[i]->bPickable=false;
+    }
 
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
     brush->bHidden=false;
@@ -73,19 +70,23 @@ void DrawTool::stop(){
     MsbTool::stop();
     brush->bHidden=true;
 
-    lowlightButton();
-
     bDrawing=false;
 
     SkeletalActor* skel=brush->drawing;
 
 
     if (!skel) return;
+    int mySize=sceneData->vboList[skel->vboMeshID]->vData.size();
 
-    save();
+	if (mySize>0 && skel->bones.size()>0){
+	    save();
 
-    for (int i=0;i<(int)skel->bones.size();i++)
-        skel->bones[i]->bPickable=false;
+        for (int i=0;i<(int)skel->bones.size();i++)
+            skel->bones[i]->bPickable=false;
+    }
+
+    //forget our drawing!
+    brush->drawing=NULL;
 
 	glutSetCursor(GLUT_CURSOR_INHERIT);
 
@@ -142,6 +143,10 @@ void DrawTool::selectActors(int btn, Actor* other){
 
     ///selection stuff
 
+    //we cannot select a drawing! Either we create one or we are out of luck!
+
+    return;
+
     //we can special-select any drawing
     //we create a new drawing if we have none selected
 
@@ -154,7 +159,6 @@ void DrawTool::selectActors(int btn, Actor* other){
         if (brush->drawing)
             return;
         input->deselectActors();
-        sceneData->specialSelected=skel;
         brush->drawing=skel;
         skel->drawType=DRAW_PARTICLES;
         skel->sceneShaderID="drawing";   //also important!
@@ -412,6 +416,11 @@ void DrawTool::createNewDrawing(bool bUnnamed){
     brush->drawing->vboMeshID=brush->drawing->name;
     cout << "new drawing name: " << brush->drawing->name << endl;
     brush->drawing->setup();
+
+    //also quite important - we want to select the drawing we create!
+    brush->drawing->bSelected=true;
+    sceneData->selectedActors.push_back(brush->drawing);
+
 }
 
 

@@ -1478,9 +1478,6 @@ void Renderer::drawGizmos(Actor* a){
     else if (a->bHighlight)
         drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(0.6,0.6,0.6,1));
 
-    else if (sceneData->specialSelected==a)
-        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,1,1));
-
     glDrawBuffers(2,drawBuffers);
 
 

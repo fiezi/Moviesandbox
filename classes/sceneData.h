@@ -182,7 +182,6 @@ public:
         BasicButton*        staticButton;    //using a button from the list created in Renderer
 
         vector<Actor*>      selectedActors;   //the last Actor we clicked on/selected - gets NULL when clicked on ground or world
-        Actor*              specialSelected;
 
         std::vector<string> savedDrawings;
         std::vector<string> savedCharacters;

@@ -23,7 +23,6 @@ public:
     virtual void erase();
     virtual void singleSkin(int pID,int boneID);
     virtual void eraseSingleSkin(int pID,int boneID);
-    virtual void save();
 
 };
 #endif // SKINTOOL

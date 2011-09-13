@@ -190,6 +190,11 @@ void SkeletalActor::updateShaders(){
 
     shaderObject* myShader= sceneData->shaderList[renderer->currentShader];
 
+    //This depends on driver implementation
+    if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end() || myShader->uniforms.find("boneTransforms[0]") != myShader->uniforms.end()){
+        glUniformMatrix4fv(myShader->uniforms["boneTransforms"],sceneData->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
+	}
+
     //if we're being drawn into
     if (drawType==DRAW_PARTICLES){
 
@@ -208,7 +213,7 @@ void SkeletalActor::updateShaders(){
                     }
                 }
             }
-        if (myShader->uniforms.find("boneIndices") != myShader->uniforms.end())
+        if (myShader->uniforms.find("boneIndices") != myShader->uniforms.end() || myShader->uniforms.find("boneIndices[0]") != myShader->uniforms.end())
             glUniform1iv(myShader->uniforms["boneIndices"],4,(GLint*)&boneIndices);
         }
         return;
@@ -236,10 +241,6 @@ void SkeletalActor::updateShaders(){
     }
 
 
-    //This depends on driver implementation
-    if (myShader->uniforms.find("boneTransforms") != myShader->uniforms.end() || myShader->uniforms.find("boneTransforms[0]") != myShader->uniforms.end()){
-        glUniformMatrix4fv(myShader->uniforms["boneTransforms"],sceneData->vboList[vboMeshID]->boneCount,false,(GLfloat*)boneTransforms[0]);
-	}
 }
 
 
@@ -329,15 +330,33 @@ void SkeletalActor::stop(){
     bDelayedConvert=true;
 }
 
+
+//this will simply reset the bones to their original positions
+void SkeletalActor::resetBones(){
+
+    Matrix4f identityMatrix;
+    identityMatrix.identity();
+
+    //reset Matrices...
+    for (int i=0;i<(int)bones.size();i++){
+        if (bones[i]->originalMatrix!=identityMatrix){
+            bones[i]->transformMatrix=bones[i]->originalMatrix;
+            bones[i]->originalMatrix.identity();
+        }
+    }
+
+}
+
+//this will also clear all base-relations of other objects
 void SkeletalActor::reset(){
 
-for (int i=0;i<(int)bones.size();i++)
-    bones[i]->remove();
+    for (int i=0;i<(int)bones.size();i++)
+        bones[i]->remove();
 
-bones.clear();
-bInit=false;
-//bPhysicsBones=false;
-setup();
+    bones.clear();
+    bInit=false;
+    //bPhysicsBones=false;
+    setup();
 }
 
 void SkeletalActor::remove(){

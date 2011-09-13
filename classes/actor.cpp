@@ -854,10 +854,6 @@ void Actor::removeReferences(){
     if (sceneData->brush->drawing && (Actor*)sceneData->brush->drawing == this)
         sceneData->brush->drawing=NULL;
 
-    //check if we're the currently specialSelected Actor
-    if (sceneData->specialSelected==this)
-        sceneData->specialSelected=NULL;
-
 
     //remove from renderLayer list
     for (int i=0;i<(int)sceneData->layerList[renderLayer]->actorList.size();i++){

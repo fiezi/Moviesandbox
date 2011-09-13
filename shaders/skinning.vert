@@ -87,7 +87,11 @@ void main(){
         if (howManyBones==3)
             gl_FrontColor.b=myWeight;
 
-
+/*
+    gl_FrontColor.r=float(boneIndices[0]);
+    gl_FrontColor.g=0.0;
+    gl_FrontColor.b=0.0;
+*/
     gl_FrontColor.a=1.0;
 
     //apply bone transformations

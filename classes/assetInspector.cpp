@@ -230,19 +230,19 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
                         //now, also reset the actor
                         a->reset();
                     }else{
-                        //create an actor of this type here please!
 
-                        Actor* a=mine->spawn("5Actor");
+                        //create a skeletal actor of this type here please!
+                        Actor* a=mine->spawn("13SkeletalActor");
                         a->drawType=DRAW_VBOMESH;
-                        //mine->sceneData->actorList.push_back(a);
 
                         a->memberFromString(&a->property["VBOMESHID"], mine->listButton[i]->name);
+
                         if (mine->sceneData->vboList[a->vboMeshID]->bIsSkeletal){
                             a->sceneShaderID="skeletal";
                         }
-                        //now, also reset the actor
-                        a->reset();
-                        a->setLocation(mine->input->mouse3D);
+                        a->setAbsoluteLocation(mine->input->mouse3D);
+                        //now, also set up the actor
+                        a->setup();
                     }
                 }
                 ///but always set the brushes mesh id!

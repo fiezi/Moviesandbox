@@ -37,6 +37,7 @@ public:
 
     virtual void convertToPhysicsBones();
 
+    virtual void resetBones();
     virtual void reset();
 
     virtual void remove();

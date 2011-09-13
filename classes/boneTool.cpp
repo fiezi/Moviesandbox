@@ -27,11 +27,10 @@ void BoneTool::start(){
     brush->bHidden=false;
 
     //if we have an actor selcted that is a drawing, use that as our new drawing
-    if (sceneData->selectedActors.size()>0 && !sceneData->specialSelected){
+    if (sceneData->selectedActors.size()>0){
         SkeletalActor* skel = dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
         if (skel){
             brush->drawing=skel;
-            sceneData->specialSelected=skel;
         }
     }
 
@@ -42,20 +41,7 @@ void BoneTool::start(){
 		brush->drawing->drawType=DRAW_PARTICLES;
 
 		//if we already have bones, reset transforms
-        if (sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal){
-
-        //if we have an original Matrix, then reset our transformMatrices!
-            Matrix4f identityMatrix;
-            identityMatrix.identity();
-
-            //reset Matrices...
-            for (int i=0;i<(int)sceneData->vboList[sceneData->specialSelected->vboMeshID]->bones.size();i++){
-                if (sceneData->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
-                    sceneData->brush->drawing->bones[i]->transformMatrix=sceneData->brush->drawing->bones[i]->originalMatrix;
-                    sceneData->brush->drawing->bones[i]->originalMatrix.identity();
-                }
-            }
-        }
+        brush->drawing->resetBones();
     }
 	//no useable drawing found
     else{
@@ -82,9 +68,28 @@ void BoneTool::stop(){
     if (!skel) return;
 
 	//determine if we're skeletal or not
+	//determine if we're skeletal or not
+	if (skel->bones.size()>0)
+		skel->sceneShaderID="skeletal";
+    else
+        skel->sceneShaderID="color";
 
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=true;
+
+
+	//save vbo and reload, then assign to this actor and switch drawmode to VBO
+    sceneData->drawTool->save();
+
+	skel->drawType=DRAW_VBOMESH;
+
+	skel->reset();
+
+    //revert back to our drawing as the only thing selected!
+    input->deselectActors();
+    skel->bSelected=true;
+    sceneData->selectedActors.push_back(skel);
+    brush->drawing=NULL;
 
 }
 

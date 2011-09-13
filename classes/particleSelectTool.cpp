@@ -30,7 +30,6 @@ void ParticleSelectTool::start(){
 	if (sceneData->selectedActors.size()>0){
 		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
 		if (skel){
-			sceneData->specialSelected=skel;
 			brush->drawing=skel;
 		}
 	}
@@ -44,7 +43,6 @@ void ParticleSelectTool::start(){
     else{
         sceneData->makeWarningPopUp("OOPS! \n \nNo Drawing to Select Particles in. Create or Select a Drawing first!", myBtn);
         cout << "no drawing!" << endl;
-        //sceneData->controller->switchTool(TOOL_SELECT);
         input->bTextInput=false;
     }
 
@@ -68,12 +66,13 @@ void ParticleSelectTool::stop(){
     input->bKeepSelection=false;
     glutSetCursor(GLUT_CURSOR_INHERIT);
     brush->bHidden=true;
-    lowlightButton();
 
-    MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
+    if (brush->drawing){
+        MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 
-    for (int i=0; i<(int)brush->selectedData.size(); i++){
-            myData->vData[brush->selectedData[i]].color=brush->selectedOldColors[i];
+        for (int i=0; i<(int)brush->selectedData.size(); i++){
+                myData->vData[brush->selectedData[i]].color=brush->selectedOldColors[i];
+        }
     }
 
 }

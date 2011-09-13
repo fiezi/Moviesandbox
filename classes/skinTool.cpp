@@ -29,7 +29,6 @@ void SkinTool::start(){
 	if (sceneData->selectedActors.size()>0){
 		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
 		if (skel){
-			sceneData->specialSelected=skel;
 			brush->drawing=skel;
 		}
 	}
@@ -39,20 +38,7 @@ void SkinTool::start(){
         brush->bHidden=false;
         brush->drawing->sceneShaderID="skinning";
 		brush->drawing->drawType=DRAW_PARTICLES;
-
-       //if we have an original Matrix, then reset our transformMatrices!
-        if (sceneData->vboList[sceneData->specialSelected->vboMeshID]->bIsSkeletal){
-            Matrix4f identityMatrix;
-            identityMatrix.identity();
-
-            //reset Matrices...
-            for (int i=0;i<(int)sceneData->vboList[sceneData->specialSelected->vboMeshID]->bones.size();i++){
-                if (sceneData->brush->drawing->bones[i]->originalMatrix!=identityMatrix){
-                    sceneData->brush->drawing->bones[i]->transformMatrix=sceneData->brush->drawing->bones[i]->originalMatrix;
-                    sceneData->brush->drawing->bones[i]->originalMatrix.identity();
-                }
-            }
-        }
+        brush->drawing->resetBones();
         //color=highlightColor;
         //highlight(listButton[0]);
     }
@@ -74,7 +60,7 @@ void SkinTool::stop(){
     input->bKeepSelection=false;
     glutSetCursor(GLUT_CURSOR_INHERIT);
     brush->bHidden=true;
-    lowlightButton();
+    //lowlightButton();
 
     SkeletalActor* skel=brush->drawing;
 
@@ -84,27 +70,21 @@ void SkinTool::stop(){
 	if (skel->bones.size()>0)
 		skel->sceneShaderID="skeletal";
     else
-        skel->sceneShaderID="drawing";
+        skel->sceneShaderID="color";
 
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=true;
 
 
-	//save vbo and reload, then assign to this actor and switch drawmode to VBO
-    sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
-	sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel->vboMeshID);
-
-    //open my.library and append this mesh!
-    TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
-    myElement->SetAttribute("meshID",skel->vboMeshID);
-    myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
-    sceneData->addToLibrary(myElement);
-
 	skel->drawType=DRAW_VBOMESH;
 
-	skel->reset();
+    save();
 
-
+    //revert back to our drawing as the only thing selected!
+    input->deselectActors();
+    skel->bSelected=true;
+    sceneData->selectedActors.push_back(skel);
+    brush->drawing=NULL;
 }
 
 
@@ -241,18 +221,8 @@ void SkinTool::paint(){
     }//end all particles
 }
 
-void SkinTool::save(){
 
-		SkeletalActor* skel=brush->drawing;
-		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
 
-		//open my.library and append this mesh!
-		TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
-		myElement->SetAttribute("meshID",skel->vboMeshID);
-		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
-		sceneData->addToLibrary(myElement);
-		free(myElement);
-}
 
 
 void SkinTool::singleSkin(int pID,int boneID){

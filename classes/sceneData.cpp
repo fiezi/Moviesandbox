@@ -302,8 +302,6 @@ SceneData::SceneData(){
     actorMenu=NULL;
     staticButton=NULL;    //in case we want to access Button functionality without actually displaying a Button
 
-    specialSelected=NULL;
-
     gridSize=0.00010f;                      //grid!
     debugText="Moviesandbox 2.0";
     numParticles=0;
@@ -344,10 +342,6 @@ void SceneData::setup(){
     inspectorManager=new InspectorManager;
 	controller=new Control;
 
-	if (specialSelected){
-        cout << "how??????????" << endl;
-        exit(0);
-	}
 }
 
 // load render settings
@@ -902,7 +896,6 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
                 nodeList[i]->remove();
         }
         //clean selection stuff!
-        specialSelected=NULL;
         selectedActors.clear();
     }
 
