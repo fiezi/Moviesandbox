@@ -11,7 +11,6 @@ uniform float objectID;
 varying float zPos;
 varying vec4 picking;
 
-varying vec3 N;
 /*
 *   Point Size
 */
@@ -42,8 +41,6 @@ void main(){
     vec4 myVertex=gl_Vertex;
     myVertex.w=1.0;
 
-    N =  gl_NormalMatrix * -gl_Normal;
-
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
     myVertex.z=gl_FrontColor.r*5.0;
     //myVertex.x=myVertex.x*myVertex.z;
@@ -53,8 +50,6 @@ void main(){
 
     gl_PointSize= pointSize()* screensize/scene_size;
 
-    picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
-    picking.w = objectID;
     zPos=gl_Position.z;
 
 }

@@ -23,35 +23,20 @@ void ImportBitmapButton::mouseDrag(){}
 
 void ImportBitmapButton::clickedLeft(){
 
-    input->deselectButtons(0);
-    bDrawName=true;
+    //LoadButton::clickedLeft();
 
-    sceneData->getAllImages();
+    if (!sceneData->brush->drawing){
+        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+        return;
+    }
 
-    MsbObject * myParent=parent;
+    string fileName=sceneData->openFileDialog();
+    loadFile(fileName);
 
-    LoadButton::clickedLeft();
-
-    parent=myParent;
-
-    bDrawName=false;
 }
 
 void ImportBitmapButton::trigger(MsbObject*other){
 
-ListButton::trigger(other);
-if (other==scrollBar)
-    return;
-
-if (sceneData->brush->drawing){
-    //clean up particleSystem
-    sceneData->brush->drawing->drawType=4;
-    for (int i=sceneData->vboList[sceneData->brush->drawing->vboMeshID]->vData.size()-1;i>-1;i--)
-        sceneData->brush->drawing->deleteParticle(i);
-    loadFile(other->name);
-    sceneData->brush->drawing->sceneShaderID="drawing";
-    }
-input->deselectButtons(0);
 }
 
 void ImportBitmapButton::assembleLoadList(){
@@ -76,36 +61,42 @@ void ImportBitmapButton::placeScrollBar(){
 void ImportBitmapButton::loadFile(string filename){
 
 
-cout << "loading image " << filename << endl;
-string fullName="resources/images/";
-fullName.append(filename);
-FIBITMAP * myBitmap = FreeImage_Load(FIF_TARGA,fullName.c_str(),0);
-int imageWidth=FreeImage_GetWidth(myBitmap);
-int imageHeight=FreeImage_GetHeight(myBitmap);
-//never used:
-//int channels=FreeImage_GetBPP(myBitmap)/8;
-if (sceneData->controller->tool!=TOOL_DRAW)
-	sceneData->controller->switchTool(TOOL_DRAW);
-//aquire brush if existing
-assembleImage(myBitmap,imageWidth, imageHeight, 1.0f);
-FreeImage_Unload(myBitmap);
-
-//this is for backside loading!!!
-    if (1){
-        fullName="resources/images/";
-
-        int pos = filename.find(".tga");    // position of ".tga" in str
-        string str = filename.substr(0,pos);   // get until ".tga" to the end
-        str.append("_back.tga");
-        fullName.append(str);
-        //fullName.append("asian_back.tga");
-        myBitmap = FreeImage_Load(FIF_TARGA,fullName.c_str(),0);
-        imageWidth=FreeImage_GetWidth(myBitmap);
-        imageHeight=FreeImage_GetHeight(myBitmap);
-
-        assembleImage(myBitmap,imageWidth, imageHeight, -1.0f);
-        FreeImage_Unload(myBitmap);
+    cout << "loading image " << filename << endl;
+    //string fullName="resources/images/";
+    //fullName.append(filename);
+    FIBITMAP * myBitmap = FreeImage_Load(FIF_TARGA,filename.c_str(),0);
+    if (!myBitmap){
+        cout << "Error loading bitmap!" << endl;
+        return;
     }
+
+
+    int imageWidth=FreeImage_GetWidth(myBitmap);
+    int imageHeight=FreeImage_GetHeight(myBitmap);
+    //never used:
+    //int channels=FreeImage_GetBPP(myBitmap)/8;
+    if (sceneData->controller->tool!=TOOL_DRAW)
+        sceneData->controller->switchTool(TOOL_DRAW);
+    //aquire brush if existing
+    assembleImage(myBitmap,imageWidth, imageHeight, 1.0f);
+    FreeImage_Unload(myBitmap);
+
+    //this is for backside loading!!!
+        if (1){
+            //fullName="resources/images/";
+
+            int pos = filename.find(".tga");    // position of ".tga" in str
+            string str = filename.substr(0,pos);   // get until ".tga" to the end
+            str.append("_back.tga");
+            //fullName.append(str);
+            //fullName.append("asian_back.tga");
+            myBitmap = FreeImage_Load(FIF_TARGA,filename.c_str(),0);
+            imageWidth=FreeImage_GetWidth(myBitmap);
+            imageHeight=FreeImage_GetHeight(myBitmap);
+
+            assembleImage(myBitmap,imageWidth, imageHeight, -1.0f);
+            FreeImage_Unload(myBitmap);
+        }
 
 }
 
@@ -145,18 +136,18 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 input->mouseVector=Vector3f(0.1,0.1,0.1);   //HACK so that we actually paint something!
                 sceneData->brush->setLocation(sceneData->brush->location*sceneData->brush->drawing->scale);
 				input->mouse3D=sceneData->brush->location;
-                xyzNormal=genNormal(myBitmap,w,h,imageWidth,imageHeight,flip);
-                xyzNormal+=genNormal(myBitmap,w+1,h,imageWidth,imageHeight,flip);
-                xyzNormal+=genNormal(myBitmap,w-1,h,imageWidth,imageHeight,flip);
-                xyzNormal+=genNormal(myBitmap,w,h+1,imageWidth,imageHeight,flip);
-                xyzNormal+=genNormal(myBitmap,w,h-1,imageWidth,imageHeight,flip);
-                xyzNormal.normalize();
-                sceneData->brush->pNormal=xyzNormal;
+                //xyzNormal=genNormal(myBitmap,w,h,imageWidth,imageHeight,flip);
+                //xyzNormal+=genNormal(myBitmap,w+1,h,imageWidth,imageHeight,flip);
+                //xyzNormal+=genNormal(myBitmap,w-1,h,imageWidth,imageHeight,flip);
+                //xyzNormal+=genNormal(myBitmap,w,h+1,imageWidth,imageHeight,flip);
+                //xyzNormal+=genNormal(myBitmap,w,h-1,imageWidth,imageHeight,flip);
+                //xyzNormal.normalize();
+                //sceneData->brush->pNormal=xyzNormal;
 
                 ((DrawTool*)sceneData->controller->currentTool)->paint();
 
             ///fill holes
-/*
+            /*
                 float myDepth=(float)myColor->rgbReserved;
                 float fillStep=1.0;
 
@@ -181,7 +172,11 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
 
                 if (fillDepth + fillStep/32.0f <myDepth){
                     int i=1;
-                    while (fillDepth<myDepth){
+                    while    if (!sceneData->brush->drawing){
+        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+        return;
+    }
+ (fillDepth<myDepth){
                         sceneData->brush->setLocation(sceneData->brush->location+ Vector3f(0,0,fillStep/32.0f));
                         input->mouse3D=sceneData->brush->location;
 						 ((DrawTool*)sceneData->controller->currentTool)->paint();
@@ -191,15 +186,15 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 }
 
         ///end fill holes
-*/
+        */
                 //flip y and z when shift down
-                if (input->bShiftDown){
-                    float interim=xyzNormal.y;
-                    xyzNormal.y=xyzNormal.z;
-                    xyzNormal.z=interim;
-                }
+                //if (input->bShiftDown){
+                    //float interim=xyzNormal.y;
+                    //xyzNormal.y=xyzNormal.z;
+                    //xyzNormal.z=interim;
+                //}
 
-            sceneData->brush->pNormal=xyzNormal;
+            //sceneData->brush->pNormal=xyzNormal;
 
             }//filling holes
         }//inner for loop

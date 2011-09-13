@@ -152,12 +152,7 @@ void ListButton::createScrollBar(){
       placeScrollBar();
 
       //scrollBar functionalitty:
-      cout << "kill after setup" << endl;
-
-      //trigger scrollBar once to initialise
       trigger(scrollBar);
-
-      cout << "kill after trigger" << endl;
 
 }
 
@@ -297,12 +292,16 @@ void ListButton::trigger(MsbObject* other){
             }
 
 
-            placeButton(i,i);
+            //do not re-position button if we're dragging it!
+            if (input->dragButton!=listButton[i]){
+                placeButton(i,i);
 
-            if (listButton[i]->location.y<location.y + listOffsetY || listButton[i]->location.y>location.y+listDisplaySize)// || listButton[i]->location.y> location.y + listSize.y)
-                listButton[i]->bHidden=true;
-            else
-                listButton[i]->bHidden=false;
+                if (listButton[i]->location.y<location.y + listOffsetY || listButton[i]->location.y>location.y+listDisplaySize)// || listButton[i]->location.y> location.y + listSize.y)
+                    listButton[i]->bHidden=true;
+                else
+                    listButton[i]->bHidden=false;
+
+            }
 
         }
 

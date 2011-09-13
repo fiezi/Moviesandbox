@@ -30,12 +30,13 @@ void PropertyInspector::setup(){
     Inspector::setup();
     tabs.clear();
     tabs.push_back( new PropTabOne(this) );
-    tabs.push_back( new PropTabTwo(this) );
+    //tabs.push_back( new PropTabTwo(this) );
 
 }
 
 void PropertyInspector::createInspectorButtons(){
 
+/*
     AssignButton* tabButton= new AssignButton;
     tabButton->parent=this;
     sceneData->buttonList.push_back(tabButton);
@@ -53,7 +54,7 @@ void PropertyInspector::createInspectorButtons(){
     tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
-
+*/
 }
 
 void PropertyInspector::refreshList(){

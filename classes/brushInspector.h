@@ -17,6 +17,8 @@ public:
 
     virtual void setup();
 
+    virtual void createInspectorButtons();
+
     virtual void refreshList();
     virtual void assembleList();
     virtual void trigger(MsbObject* other);

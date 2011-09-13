@@ -165,18 +165,6 @@ void DrawingWidget::trigger(MsbObject* other){
         drawTool->scaleZ(0.5);
     }
 
-    if (other->name=="Import Kinect"){
-        if (other->color==Vector4f(1,1,0,1)){
-            //TODO: move these functions to drawTool!
-            importKinect();
-            other->color=COLOR_WHITE;
-            closeKinectTool();
-            bKinectToolOpen=false;
-        }
-        else{
-            openKinectTool();
-        }
-    }
 
    if (other->name=="clear Drawing"){
         drawTool->clearDrawing();

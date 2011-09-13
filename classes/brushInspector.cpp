@@ -23,15 +23,9 @@ void BrushInspector::setup(){
     Inspector::setup();
 }
 
-void BrushInspector::refreshList(){
 
-    if (bOpen && listButton.size()==0){
-        cout << "assembling brushinspector..." << endl;
-        assembleList();
-    }
-}
+void BrushInspector::createInspectorButtons(){
 
-void BrushInspector::assembleList(){
 
     ColorPickButton* colorPick= new ColorPickButton;
     colorPick->name="pick Color";
@@ -43,7 +37,7 @@ void BrushInspector::assembleList(){
     colorPick->parent=this;
 
     sceneData->buttonList.push_back(colorPick);
-    listButton.push_back(colorPick);
+    inspectorButtons.push_back(colorPick);
 
     for (int i=0;i<numSwatches;i++){
         AssignButton* showColor = new AssignButton;
@@ -59,7 +53,7 @@ void BrushInspector::assembleList(){
 
 
         sceneData->buttonList.push_back(showColor);
-        listButton.push_back(showColor);
+        inspectorButtons.push_back(showColor);
         colorSwatches.push_back(showColor);
     }
 
@@ -78,7 +72,7 @@ void BrushInspector::assembleList(){
     brushScaleBtn->bVertical=false;
 
     sceneData->buttonList.push_back(brushScaleBtn);
-    listButton.push_back(brushScaleBtn);
+    inspectorButtons.push_back(brushScaleBtn);
 
     SliderButton* brushIntensityBtn= new SliderButton;
     brushIntensityBtn->name="brush intensity";
@@ -93,82 +87,28 @@ void BrushInspector::assembleList(){
     brushIntensityBtn->bVertical=false;
 
     sceneData->buttonList.push_back(brushIntensityBtn);
-    listButton.push_back(brushIntensityBtn);
+    inspectorButtons.push_back(brushIntensityBtn);
 
-    ///Normal alignment buttons!
 
-        AssignButton* normalAssign = new AssignButton;
-        normalAssign->name="normals up";
-        normalAssign->parent=this;
-        normalAssign->bPermanent=true;
-        normalAssign->level=level+1;
-        normalAssign->setLocation(location+Vector3f(35,250,0));
-        normalAssign->initialLocation=normalAssign->location;
-        normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_up";
-        normalAssign->color=Vector4f(1,1,0,1);
+}
 
-        sceneData->buttonList.push_back(normalAssign);
-        listButton.push_back(normalAssign);
+void BrushInspector::refreshList(){
 
-        normalAssign = new AssignButton;
-        normalAssign->name="normals front";
-        normalAssign->parent=this;
-        normalAssign->bPermanent=true;
-        normalAssign->level=level+1;
-        normalAssign->setLocation(location+Vector3f(70,250,0));
-        normalAssign->initialLocation=normalAssign->location;
-        normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_front";
-        normalAssign->color=Vector4f(1,1,1,1);
+/*
+    if (bOpen && listButton.size()==0){
+        cout << "assembling brushinspector..." << endl;
+        assembleList();
+    }
+*/
 
-        sceneData->buttonList.push_back(normalAssign);
-        listButton.push_back(normalAssign);
+}
 
-        normalAssign = new AssignButton;
-        normalAssign->name="normals world";
-        normalAssign->parent=this;
-        normalAssign->bPermanent=true;
-        normalAssign->level=level+1;
-        normalAssign->setLocation(location+Vector3f(105,250,0));
-        normalAssign->initialLocation=normalAssign->location;
-        normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_world";
-        normalAssign->color=Vector4f(1,1,1,1);
+void BrushInspector::assembleList(){
 
-        sceneData->buttonList.push_back(normalAssign);
-        listButton.push_back(normalAssign);
-
-        normalAssign = new AssignButton;
-        normalAssign->name="flip normals";
-        normalAssign->parent=this;
-        normalAssign->bPermanent=true;
-        normalAssign->level=level+1;
-        normalAssign->setLocation(location+Vector3f(140,250,0));
-        normalAssign->initialLocation=normalAssign->location;
-        normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_flip";
-        normalAssign->color=Vector4f(1,1,1,1);
-
-        sceneData->buttonList.push_back(normalAssign);
-        listButton.push_back(normalAssign);
-
-        normalAssign = new AssignButton;
-        normalAssign->name="normals follow drawing";
-        normalAssign->parent=this;
-        normalAssign->bPermanent=true;
-        normalAssign->level=level+1;
-        normalAssign->setLocation(location+Vector3f(35,300,0));
-        normalAssign->initialLocation=normalAssign->location;
-        normalAssign->scale=Vector3f(32,32,1);
-        normalAssign->textureID="normals_follow_drawing";
-        normalAssign->color=Vector4f(1,1,0,1);
-
-        sceneData->buttonList.push_back(normalAssign);
-        listButton.push_back(normalAssign);
 
     ///Grid specific buttons
 
+/*
         AssignButton* gridAssign = new AssignButton;
         gridAssign->name="Grid Plane XY";
         gridAssign->parent=this;
@@ -224,7 +164,7 @@ void BrushInspector::assembleList(){
 
         sceneData->buttonList.push_back(gridAssign);
         listButton.push_back(gridAssign);
-
+*/
 }
 
 void BrushInspector::trigger(MsbObject* other){
@@ -251,10 +191,6 @@ void BrushInspector::trigger(MsbObject* other){
         else
             sceneData->grid->addRotation(180,Vector3f(0,1,0));
 
-    }
-
-    if (other->name=="flip normals"){
-        sceneData->drawTool->flipNormals();
     }
 
     if (other->name=="brush scale"){
@@ -292,61 +228,6 @@ void BrushInspector::trigger(MsbObject* other){
         }
         ((Actor*)other)->textureID="icon_base";
     }
-
-    if (other->name=="normals up"){
-
-        sceneData->brush->normalMode=NORMAL_UP;
-        other->color=COLOR_YELLOW;
-        for (int i=0;i<(int)listButton.size();i++){
-            if (listButton[i]->name=="normals front")
-                listButton[i]->color=COLOR_WHITE;
-            if (listButton[i]->name=="normals world")
-                listButton[i]->color=COLOR_WHITE;
-
-        }
-
-    }
-
-    if (other->name=="normals front"){
-
-        sceneData->brush->normalMode=NORMAL_FRONT;
-        other->color=Vector4f(1,1,0,1);
-        for (int i=0;i<(int)listButton.size();i++){
-            if (listButton[i]->name=="normals up")
-                listButton[i]->color=COLOR_WHITE;
-            if (listButton[i]->name=="normals world")
-                listButton[i]->color=COLOR_WHITE;
-
-        }
-
-    }
-
-    if (other->name=="normals world"){
-
-        sceneData->brush->normalMode=NORMAL_WORLD;
-        other->color=Vector4f(1,1,0,1);
-        for (int i=0;i<(int)listButton.size();i++){
-            if (listButton[i]->name=="normals front")
-                listButton[i]->color=COLOR_WHITE;
-            if (listButton[i]->name=="normals up")
-                listButton[i]->color=COLOR_WHITE;
-
-        }
-
-    }
-
-    if (other->name=="normals follow drawing"){
-
-        sceneData->brush->bNormalFollowDrawing=!sceneData->brush->bNormalFollowDrawing;
-
-        if (sceneData->brush->bNormalFollowDrawing)
-            other->color=Vector4f(1,1,0,1);
-        else
-            other->color=Vector4f(1,1,1,1);
-
-
-    }
-
 
 }
 

@@ -283,7 +283,7 @@ void ofTrueTypeFont::drawChar(int c, float x, float y) {
 
 	int cu = c;
 
-	GLint height	= cps[cu].height;
+ 	GLint height	= cps[cu].height;
 	GLint bwidth	= cps[cu].width;
 	GLint top		= cps[cu].topExtent - cps[cu].height;
 	GLint lextent	= cps[cu].leftExtent;

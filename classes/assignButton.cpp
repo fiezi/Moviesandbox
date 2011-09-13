@@ -17,7 +17,7 @@ void AssignButton::update(double deltaTime){}
 
 void AssignButton::mouseOver(){
 
-BasicButton::mouseOver();
+    BasicButton::mouseOver();
 }
 
 void AssignButton::mouseDrag(){
@@ -36,13 +36,13 @@ void AssignButton::mouseDrag(){
 
 void AssignButton::finishDrag(){
 
-if (bResetAfterDrag)
-    setLocation(initialLocation);
-cout << "setting to: " << initialLocation << endl;
-input->dragButton=NULL;
+    if (bResetAfterDrag)
+        setLocation(initialLocation);
+    cout << "setting to: " << initialLocation << endl;
+    input->dragButton=NULL;
 
-if (parent)
-  parent->trigger(this);
+    if (parent)
+      parent->trigger(this);
 
 }
 
@@ -53,6 +53,7 @@ if (parent!=NULL)
 }
 
 void AssignButton::clickedRight(){}
+
 void AssignButton::focusClick(){
 
 BasicButton::focusClick();

@@ -95,6 +95,12 @@
 		<Unit filename="classes\actor.h">
 			<Option virtualFolder="Actors\" />
 		</Unit>
+		<Unit filename="classes\assetInspector.cpp">
+			<Option virtualFolder="Buttons\Inspectors\" />
+		</Unit>
+		<Unit filename="classes\assetInspector.h">
+			<Option virtualFolder="Buttons\Inspectors\" />
+		</Unit>
 		<Unit filename="classes\assignButton.cpp">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>

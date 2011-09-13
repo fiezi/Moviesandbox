@@ -384,8 +384,9 @@ void Renderer::setup(){
     #ifdef BDEBUGRENDERER
     checkOpenGLError("glEnables Error check...");
     #endif
+
     //shared memory texture
-    //createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
+    createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
     //This was used for the promo video to get better framerates for kinect live-feed.
     //will make it in some time, but not now...
@@ -1646,6 +1647,8 @@ void Renderer::setupTexturing(string texName, Actor* a, GLenum texChannel){
 
     if (sceneData->textureList[texName])
         glBindTexture(GL_TEXTURE_2D, sceneData->textureList[texName]->texture);
+    else
+        return;
 
 
     //texture animation
@@ -2316,7 +2319,7 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
     return true;
 }
 
-bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint dataType, int width, int height){
+bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint dataType, int width, int height){
 
     GLuint tex;
 
@@ -2371,12 +2374,12 @@ bool Renderer::createEmptyTexture( string texID, GLuint colorFormat, GLuint data
         return 0;
     }
 
-    sceneData->textureList[texID]= new textureObject;
-    sceneData->textureList[texID]->texture=tex;
-    sceneData->textureList[texID]->texFilename="memory";
-    sceneData->textureList[texID]->nextTexture="NULL";
+    sceneData->textureList[texName]= new textureObject;
+    sceneData->textureList[texName]->texture=tex;
+    sceneData->textureList[texName]->texFilename="memory";
+    sceneData->textureList[texName]->nextTexture="NULL";
 
-    cout << "created new empty texture with name:" << texID << " and number:" << tex << endl;
+    cout << "created new empty texture with name:" << texName << " and number:" << tex << endl;
     return true;
 }
 
@@ -2384,6 +2387,8 @@ bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float wi
 
         if (!originBuffer)
             return 0;
+
+        cout << "into name: " << texName <<endl;
 
         glBindTexture(GL_TEXTURE_2D,sceneData->textureList[texName]->texture);
         //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);

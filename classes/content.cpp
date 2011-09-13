@@ -32,7 +32,7 @@
 
 #include "propertyInspector.h"
 #include "textureInspector.h"
-#include "meshInspector.h"
+#include "assetInspector.h"
 #include "actionInspector.h"
 #include "timelineInspector.h"
 #include "prefabInspector.h"
@@ -336,15 +336,6 @@ void Content::createDrawWidget(int x, int y){
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_selectParticles");
 
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Import Kinect");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_kinect");
-
-    lbut->listType.push_back("18ImportBitmapButton");
-    lbut->listName.push_back("Import Bitmap");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_importBitmap");
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("merge Drawings");
@@ -605,19 +596,7 @@ void Content::createInspectors(){
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
-/*
-    lbut= new TextureInspector;
-    lbut->location.x=renderer->screenX-30;
-    lbut->location.y=60;
-    lbut->setLocation(lbut->location);
-    lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_texture";
-    lbut->name="textureInspector";
-
-    sceneData->buttonList.push_back(lbut);
-    lbut->setup();
-*/
-    lbut= new MeshInspector;
+    lbut= new AssetInspector;
     lbut->location.x=renderer->screenX-30;
     lbut->location.y=90;
     lbut->setLocation(lbut->location);
@@ -628,30 +607,6 @@ void Content::createInspectors(){
     sceneData->buttonList.push_back(lbut);
     lbut->setup();
 
-/*
-    lbut= new ActionInspector;
-    lbut->location.x=renderer->screenX-30;
-    lbut->location.y=120;
-    lbut->setLocation(lbut->location);
-    lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_ball";
-    lbut->name="actionInspector";
-
-    sceneData->buttonList.push_back(lbut);
-    lbut->setup();
-
-    lbut= new PrefabInspector;
-    lbut->location.x=renderer->screenX-30;
-    lbut->location.y=150;
-    lbut->setLocation(lbut->location);
-    lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_prefab";
-    lbut->name="prefabInspector";
-
-    sceneData->buttonList.push_back(lbut);
-    lbut->setup();
-
-*/
 
     lbut= new LayerInspector;
     lbut->location.x=renderer->screenX-30;
