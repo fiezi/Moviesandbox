@@ -2423,8 +2423,6 @@ bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float wi
         if (!originBuffer)
             return 0;
 
-        cout << "into name: " << texName <<endl;
-
         glBindTexture(GL_TEXTURE_2D,sceneData->textureList[texName]->texture);
         //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
         glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - width)/2.0 ,(screenX - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);

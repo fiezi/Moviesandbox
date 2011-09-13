@@ -553,7 +553,7 @@ void AssetInspector::trigger(MsbObject* other){
     }
 
     if (other->name=="Import Kinect"){
-        if (other->color==Vector4f(0.8,0.8,0,1)){
+        if (bKinectToolOpen){
             //TODO: move these functions to drawTool!
             importKinect();
             other->color=COLOR_WHITE;
@@ -588,8 +588,8 @@ void AssetInspector::openKinectTool(){
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;
     sceneData->brush->drawing->textureID="sharedMemory";
-    sceneData->brush->drawing->sceneShaderID="heightfield";
-    sceneData->brush->drawing->particleScale=100;
+    sceneData->brush->drawing->sceneShaderID="kinectHeightfield";
+    sceneData->brush->drawing->particleAngleScale=256;
 
     sceneData->externalInputList["kinectInput"]->startProgram();
     inspectorButtons[1]->color=Vector4f(1,1,0,1);
