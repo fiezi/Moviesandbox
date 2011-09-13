@@ -2,43 +2,44 @@
 
 BasicButton::BasicButton(){
 
-scale=Vector3f(30.0f,30.0f,30.0f);
-name="BasicButton";
-textureID="icon_base";
-bComputeLight=false;
+    scale=Vector3f(30.0f,30.0f,30.0f);
+    name="BasicButton";
+    textureID="icon_base";
+    bComputeLight=false;
 
-bOver=false;
-bDrawName=false;
-bAlwaysUpdate=false;
-bPermanent=false;
-bScreenOverlay=false;
-bMessageWindow=false;
-bIndividualListSize=false;
+    bOver=false;
+    bDrawName=false;
+    bDrawPrefix=true;
+    bAlwaysUpdate=false;
+    bPermanent=false;
+    bScreenOverlay=false;
+    bMessageWindow=false;
+    bIndividualListSize=false;
 
-bDrawOrientation=false;
+    bDrawOrientation=false;
 
-bDragable=false;
-bConfineDragX=false;
-bConfineDragY=false;
+    bDragable=false;
+    bConfineDragX=false;
+    bConfineDragY=false;
 
-bResetAfterDrag=true;
-bTriggerWhileDragging=false;
+    bResetAfterDrag=true;
+    bTriggerWhileDragging=false;
 
-tooltip="";
-tooltipOffset=Vector2f(0,0);
+    tooltip="";
+    tooltipOffset=Vector2f(0,0);
 
-parent=NULL;
-buttonProperty="NULL";
+    parent=NULL;
+    buttonProperty="NULL";
 
-level=0;
+    level=0;
 
-sceneShaderID="texture";
+    sceneShaderID="texture";
 
-drawType=DRAW_PLANE;
+    drawType=DRAW_PLANE;
 
-bTextured=true;
-bUseShader=true;
-registerProperties();
+    bTextured=true;
+    bUseShader=true;
+    registerProperties();
 }
 
 BasicButton::~BasicButton(){
@@ -69,19 +70,27 @@ Actor::update(deltaTime);
 void BasicButton::drawTooltip(){
 
     //tooltip rendering
-    if (bOver)
-      {
+    if (bOver){
+
       if(tooltip=="" && !bDrawName)
         renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
       else
         renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
-      }
-    //drawname is not a tooltip! So no tooltipOffset here!
+    }
+    //drawname is not a tooltip! So no tooltipOffset here! Why? Let's try...
     if (bDrawName){
-        string smallName=name.substr(0,scale.x/10);
-        if (smallName.size()<name.size())
+
+        //get rid of prefix
+        string myName=name;
+        if (!bDrawPrefix){
+            size_t pos=name.find(" ");
+            myName = name.substr(pos);
+        }
+        //smallify for better readability
+        string smallName=myName.substr(0,scale.x/8);
+        if (smallName.size()<myName.size())
             smallName+="...";
-        renderer->drawText((char*)smallName.c_str(), location.x+2,location.y+scale.y/2+2.0);
+        renderer->drawText((char*)smallName.c_str(), location.x+2+ drawNameOffset.x,location.y+scale.y/2+2.0 + drawNameOffset.y);
     }
     bOver=false;
 }

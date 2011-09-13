@@ -25,14 +25,23 @@ void ImportBitmapButton::clickedLeft(){
 
     //LoadButton::clickedLeft();
 
+    //remember our current Tool
+    int oldTool=sceneData->controller->tool;
+
     if (!sceneData->brush->drawing){
-        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
-        return;
+
+        //TODO: make this optional
+        sceneData->drawTool->createNewDrawing(true);
+
+        //sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+        //return;
     }
 
     string fileName=sceneData->openFileDialog();
     loadFile(fileName);
 
+    //switch back to it
+    sceneData->controller->switchTool(oldTool);
 }
 
 void ImportBitmapButton::trigger(MsbObject*other){
@@ -91,6 +100,11 @@ void ImportBitmapButton::loadFile(string filename){
             //fullName.append(str);
             //fullName.append("asian_back.tga");
             myBitmap = FreeImage_Load(FIF_TARGA,filename.c_str(),0);
+            if (!myBitmap){
+                cout << "Error loading bitmap!" << endl;
+                return;
+            }
+
             imageWidth=FreeImage_GetWidth(myBitmap);
             imageHeight=FreeImage_GetHeight(myBitmap);
 

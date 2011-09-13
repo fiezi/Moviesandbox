@@ -43,6 +43,8 @@ void AssetInspector::createInspectorButtons(){
     importButton->name="import";
     importButton->color=Vector4f(0.8,0.8,0.8,1.0);
     importButton->bDrawName=true;
+    importButton->sceneShaderID="color";
+    importButton->scale.x=64;
     inspectorButtons.push_back(importButton);
 
 
@@ -51,20 +53,22 @@ void AssetInspector::createInspectorButtons(){
     importButton= new AssignButton;
     importButton->parent=this;
     sceneData->buttonList.push_back(importButton);
-    importButton->setLocation(Vector3f(location.x+70.0f,location.y+20, 0.0f));
+    importButton->setLocation(Vector3f(location.x+100.0f,location.y+20, 0.0f));
     importButton->name="Import Kinect";
+    importButton->tooltip="Import Kinect";
     importButton->textureID="icon_kinect";
-    importButton->bDrawName=true;
+    //importButton->bDrawName=true;
     inspectorButtons.push_back(importButton);
 
 
     importButton= new ImportBitmapButton;
     importButton->parent=this;
     sceneData->buttonList.push_back(importButton);
-    importButton->setLocation(Vector3f(location.x+110.0f,location.y+20, 0.0f));
+    importButton->setLocation(Vector3f(location.x+140.0f,location.y+20, 0.0f));
     importButton->name="Import Bitmap";
+    importButton->tooltip="Import Bitmap";
     importButton->textureID="icon_importBitmap";
-    importButton->bDrawName=true;
+    //importButton->bDrawName=true;
     inspectorButtons.push_back(importButton);
 
 
@@ -78,7 +82,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Meshes";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
 
@@ -90,7 +94,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Textures";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
 
@@ -102,7 +106,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Actions";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
 
@@ -113,8 +117,20 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.x=64;
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
+    tabButton->name="Nodes";
+    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
+    tabButton->bDrawName=true;
+    inspectorButtons.push_back(tabButton);
+
+    tabButton= new AssignButton;
+    tabButton->parent=this;
+    sceneData->buttonList.push_back(tabButton);
+    tabButton->setLocation(Vector3f(location.x+310.0f,location.y, 0.0f));
+    tabButton->scale.x=64;
+    tabButton->scale.y=16;
+    tabButton->sceneShaderID="color";
     tabButton->name="Prefabs";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
 
@@ -168,18 +184,23 @@ void AssetInspector::MeshTab::assembleList(){
                 mine->listButton.push_back(mine->sceneData->buttonList.back());
 
                 mine->listButton[i]->name="string " + it->first;
+                mine->listButton[i]->tooltip= it->first;
                 mine->listButton[i]->buttonProperty="VBOMESHID";
-                mine->listButton[i]->textureID="icon_base";
+                mine->listButton[i]->textureID="icon_props";
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
-                mine->listButton[i]->color=Vector4f(1,1,1,1.0);
+                mine->listButton[i]->color=Vector4f(0.75,0.75,0.75,1.0);
                 mine->listButton[i]->bPermanent=true;
                 mine->listButton[i]->bDragable=true;
                 mine->listButton[i]->parent=mine;
+                mine->listButton[i]->bDrawPrefix=false;
+                mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
                 if (mine->listWidth>0)
                     mine->listButton[i]->scale.x=mine->listWidth;
+
+                //leave room for name beneath icon
                 if (mine->listHeight>0)
-                    mine->listButton[i]->scale.y=mine->listHeight;
+                    mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
                 mine->listButton[i]->setup();
                 mine->placeButton(i,i);
@@ -327,18 +348,24 @@ void AssetInspector::TextureTab::assembleList(){
             mine->listButton.push_back(mine->sceneData->buttonList.back());
 
             mine->listButton[i]->name="string " + it->first;
+            mine->listButton[i]->tooltip=it->first;
             mine->listButton[i]->buttonProperty="TEXTUREID";
             mine->listButton[i]->textureID="icon_base";
             mine->listButton[i]->level=mine->level+1;
-            mine->listButton[i]->bDrawName=false;
+            mine->listButton[i]->bDrawName=true;
             mine->listButton[i]->color=Vector4f(1,1,1,1.0);
             mine->listButton[i]->textureID=it->first;
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
-            if (mine->listWidth>0)
-                mine->listButton[i]->scale.x=mine->listWidth;
-            if (mine->listHeight>0)
-                mine->listButton[i]->scale.y=mine->listHeight;
+
+                mine->listButton[i]->bDrawPrefix=false;
+                mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
+                if (mine->listWidth>0)
+                    mine->listButton[i]->scale.x=mine->listWidth;
+
+                //leave room for name beneath icon
+                if (mine->listHeight>0)
+                    mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
             mine->listButton[i]->setup();
             mine->placeButton(i,i);
@@ -411,7 +438,7 @@ void AssetInspector::ActionTab::assembleList(){
                 if (it->second){
 
                 mine->listButton.push_back(it->second);
-
+                mine->listButton[i]->tooltip=mine->listButton[i]->name;
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
                 mine->listButton[i]->color=Vector4f(1.0,1.0,0.0,1.0);
@@ -419,10 +446,13 @@ void AssetInspector::ActionTab::assembleList(){
                 mine->listButton[i]->bHidden=false;
                 mine->listButton[i]->bDragable=true;
 
+                mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
                 if (mine->listWidth>0)
                     mine->listButton[i]->scale.x=mine->listWidth;
+
+                //leave room for name beneath icon
                 if (mine->listHeight>0)
-                    mine->listButton[i]->scale.y=mine->listHeight;
+                    mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
                 mine->placeButton(i,i);
                 //set this because we want to drag buttons around!
@@ -454,6 +484,7 @@ void AssetInspector::ActionTab::trigger(MsbObject* other){
 }
 
 
+
 void AssetInspector::PrefabTab::assembleList(){
 
         if (mine->scrollBar){
@@ -480,10 +511,13 @@ void AssetInspector::PrefabTab::assembleList(){
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
             mine->listButton[i]->parent=this;
-            if (mine->listWidth>0)
-                mine->listButton[i]->scale.x=mine->listWidth;
-            if (mine->listHeight>0)
-                mine->listButton[i]->scale.y=mine->listHeight;
+                mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
+                if (mine->listWidth>0)
+                    mine->listButton[i]->scale.x=mine->listWidth;
+
+                //leave room for name beneath icon
+                if (mine->listHeight>0)
+                    mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
             mine->listButton[i]->setup();
             mine->placeButton(i,i);
@@ -554,8 +588,11 @@ void AssetInspector::closeKinectTool(){
 void AssetInspector::openKinectTool(){
 
     if (!sceneData->brush->drawing){
-        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
-        return;
+        //TODO: maybe make this optional?
+        sceneData->drawTool->createNewDrawing(true);
+
+        //sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+        //return;
     }
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;

@@ -15,6 +15,7 @@ public:
 
         bool bOver;                             //is set from Input - mouse hovers over button
         bool bDrawName;                         //draws the button name onto it
+        bool bDrawPrefix;                       //should we draw the prefix? Like string, vec3f, etc...
         bool bAlwaysUpdate;                     //updates this button even if mouse is not over and is not in focus
         bool bPermanent;                        //don't delete when deselecting - also pushes Buttons to "saveableButtonList" when true on default...
         bool bScreenOverlay;                    //gets drawn when running the scene
@@ -29,6 +30,7 @@ public:
 
         string tooltip;                         //a tooltip to show when mouse hovers over button
         Vector2f tooltipOffset;                 //where to draw the tooltip
+        Vector2f drawNameOffset;                 //where to draw the name in case we draw that too
 
         string buttonProperty;                  //stores a string - often used to set the property of some Actor
 

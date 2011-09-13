@@ -31,11 +31,9 @@
 
 
 #include "propertyInspector.h"
-#include "textureInspector.h"
 #include "assetInspector.h"
-#include "actionInspector.h"
+#include "primitivesInspector.h"
 #include "timelineInspector.h"
-#include "prefabInspector.h"
 #include "brushInspector.h"
 
 #include "layerInspector.h"
@@ -73,19 +71,11 @@ void Content::setup(){
 
     yPos+=30;
 
-    //createPropList(xPos,yPos);
-
-    yPos+=30;
-
     createDrawWidget(xPos,yPos);
 
     yPos+=30;
 
     createBoneWidget(xPos,yPos);
-
-    yPos+=40;
-
-    createNodeList(xPos,yPos);
 
     yPos+=40;
 
@@ -598,11 +588,22 @@ void Content::createInspectors(){
 
     lbut= new AssetInspector;
     lbut->location.x=renderer->screenX-30;
-    lbut->location.y=90;
+    lbut->location.y=60;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->textureID="icon_props";
-    lbut->name="meshInspector";
+    lbut->name="assetInspector";
+
+    sceneData->buttonList.push_back(lbut);
+    lbut->setup();
+
+    lbut= new PrimitivesInspector;
+    lbut->location.x=renderer->screenX-30;
+    lbut->location.y=90;
+    lbut->setLocation(lbut->location);
+    lbut->color=Vector4f(1.0,0.6,0.1,1.0);
+    lbut->textureID="icon_prefab";
+    lbut->name="primitivesInspector";
 
     sceneData->buttonList.push_back(lbut);
     lbut->setup();

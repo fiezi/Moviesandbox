@@ -476,6 +476,12 @@
 		<Unit filename="classes\prefabInspector.h">
 			<Option virtualFolder="Buttons\Inspectors\" />
 		</Unit>
+		<Unit filename="classes\primitivesInspector.cpp">
+			<Option virtualFolder="Buttons\Inspectors\" />
+		</Unit>
+		<Unit filename="classes\primitivesInspector.h">
+			<Option virtualFolder="Buttons\Inspectors\" />
+		</Unit>
 		<Unit filename="classes\propertyAssignButton.cpp">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>

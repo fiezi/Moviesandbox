@@ -16,7 +16,7 @@ Inspector::Inspector(){
     tabWidth=350;
     tabHeight=0;
     listHeight=64;
-    listWidth=64;
+    listWidth=48;
     listDisplayMode=4;
     listColumns=1;
     level=0;

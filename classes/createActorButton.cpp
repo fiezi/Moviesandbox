@@ -54,7 +54,6 @@ void CreateActorButton::finishDrag(){
         newActor->drawType=sceneData->vboList[vboMeshID]->drawType;
     }
 
-//	newActor->bPickable=true;
 
     std::cout << "created new Actor of type " << newActor->name << endl;
 
@@ -68,6 +67,9 @@ void CreateActorButton::finishDrag(){
     cout << "set up new Actor at ..." << input->mouse3D << endl;
 
     newActor=NULL;
+
+    if (parent)
+        parent->trigger(this);
 }
 
 void CreateActorButton::clickedLeft(){
