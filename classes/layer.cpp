@@ -23,7 +23,7 @@ Layer::Layer(){
 	pickFBO=0;
 	lightDataFBO=0;
 
-    color=COLOR_WHITE;
+    color=Vector4f(1.0,1.0,1.0,1.0);
     sceneShaderID="post";
 
 	registerProperties();

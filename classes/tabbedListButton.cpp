@@ -6,6 +6,8 @@ TabbedListButton::TabbedListButton(){
 
 
     currentTab=0;
+    tabColor=Vector4f(0.8,0.8,0.8,1.0);
+    selectedTabColor=Vector4f(0.4,0.4,0.4,1.0);
     tabs.push_back( new Tab(this) );
 
 }
@@ -73,6 +75,12 @@ void TabbedListButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
     tabs[currentTab]->trigger(other);
+
+    for (int i=0;i<(int)tabTriggerButtons.size();i++)
+        tabTriggerButtons[i]->color=tabColor;
+
+    tabTriggerButtons[currentTab]->color=selectedTabColor;
+
 }
 
 void TabbedListButton::create(){

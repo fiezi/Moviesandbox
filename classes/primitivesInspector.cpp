@@ -39,9 +39,10 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Primitives";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
+    tabButton->color=selectedTabColor;
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
+    tabTriggerButtons.push_back(tabButton);
 
     tabButton= new AssignButton;
     tabButton->parent=this;
@@ -51,9 +52,10 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Nodes";
-    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
+    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
+    tabTriggerButtons.push_back(tabButton);
 
 
 }
@@ -305,9 +307,6 @@ void PrimitivesInspector::NodeTab::trigger(MsbObject* other){
 
 void PrimitivesInspector::trigger(MsbObject* other){
 
-
-    Inspector::trigger(other);
-
     if (other->name=="Primitives"){
         currentTab=0;
         tabs[currentTab]->assembleList();
@@ -318,6 +317,7 @@ void PrimitivesInspector::trigger(MsbObject* other){
         tabs[currentTab]->assembleList();
     }
 
+    Inspector::trigger(other);
 }
 
 void PrimitivesInspector::create(){sceneData->addButton(this);}

@@ -57,12 +57,9 @@
 //inspectors
 #include "inspector.h"
 #include "propertyInspector.h"
-#include "textureInspector.h"
-#include "actionInspector.h"
 #include "timelineInspector.h"
-#include "meshInspector.h"
-#include "prefabInspector.h"
-#include "brushInspector.h"
+#include "assetInspector.h"
+#include "primitivesInspector.h"
 
 #include "timelineButton.h"
 

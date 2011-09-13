@@ -85,6 +85,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
+    tabTriggerButtons.push_back(tabButton);
 
     tabButton= new AssignButton;
     tabButton->parent=this;
@@ -97,6 +98,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
+    tabTriggerButtons.push_back(tabButton);
 
     tabButton= new AssignButton;
     tabButton->parent=this;
@@ -109,31 +111,20 @@ void AssetInspector::createInspectorButtons(){
     tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
+    tabTriggerButtons.push_back(tabButton);
 
     tabButton= new AssignButton;
     tabButton->parent=this;
     sceneData->buttonList.push_back(tabButton);
     tabButton->setLocation(Vector3f(location.x+240.0f,location.y, 0.0f));
-    tabButton->scale.x=64;
-    tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
-    tabButton->name="Nodes";
-    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
-    tabButton->bDrawName=true;
-    inspectorButtons.push_back(tabButton);
-
-    tabButton= new AssignButton;
-    tabButton->parent=this;
-    sceneData->buttonList.push_back(tabButton);
-    tabButton->setLocation(Vector3f(location.x+310.0f,location.y, 0.0f));
-    tabButton->scale.x=64;
+    tabButton->scale.x=200;
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Prefabs";
     tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     inspectorButtons.push_back(tabButton);
-
+    tabTriggerButtons.push_back(tabButton);
 
 }
 
@@ -540,8 +531,6 @@ void AssetInspector::PrefabTab::trigger(MsbObject* other){}
 void AssetInspector::trigger(MsbObject* other){
 
 
-    Inspector::trigger(other);
-
     if (other->name=="Meshes"){
         currentTab=0;
         tabs[currentTab]->assembleList();
@@ -550,6 +539,7 @@ void AssetInspector::trigger(MsbObject* other){
     if (other->name=="Textures"){
         currentTab=1;
         tabs[currentTab]->assembleList();
+
     }
 
     if (other->name=="Actions"){
@@ -563,7 +553,7 @@ void AssetInspector::trigger(MsbObject* other){
     }
 
     if (other->name=="Import Kinect"){
-        if (other->color==Vector4f(1,1,0,1)){
+        if (other->color==Vector4f(0.8,0.8,0,1)){
             //TODO: move these functions to drawTool!
             importKinect();
             other->color=COLOR_WHITE;
@@ -575,6 +565,7 @@ void AssetInspector::trigger(MsbObject* other){
         }
     }
 
+    Inspector::trigger(other);
 
 }
 

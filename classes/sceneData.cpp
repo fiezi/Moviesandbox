@@ -67,11 +67,8 @@
 //inspectors
 #include "inspector.h"
 #include "propertyInspector.h"
-#include "textureInspector.h"
-#include "actionInspector.h"
-#include "timelineInspector.h"
-#include "meshInspector.h"
-#include "prefabInspector.h"
+#include "assetInspector.h"
+#include "primitivesInspector.h"
 #include "brushInspector.h"
 
 #include "timelineButton.h"
@@ -215,10 +212,8 @@ void SceneData::fillGlobalLists(){
     //inspectors
     createActorID(new Inspector);
     createActorID(new PropertyInspector);
-    createActorID(new TextureInspector);
-    createActorID(new MeshInspector);
-    createActorID(new ActionInspector);
-    createActorID(new PrefabInspector);
+    createActorID(new AssetInspector);
+    createActorID(new PrimitivesInspector);
     createActorID(new BrushInspector);
 
     createActorID(new TimelineInspector);

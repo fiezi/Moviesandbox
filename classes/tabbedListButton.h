@@ -23,9 +23,12 @@ public:
     };
 
 
-    vector<Tab*>   tabs;   //pointers to functions that should be called as "assembleList"
+    vector<Tab*>    tabs;                           //pointers to classes in which we call "assembleList" and "trigger"
+    vector<BasicButton*> tabTriggerButtons;         //the buttons that trigger the tabs... yeah, this should be combined somehow
+    int             currentTab;                     //which tab do we have open?
 
-    int currentTab;                             //which tab do we have open?
+    Vector4f        tabColor;                       //color of all tabs
+    Vector4f        selectedTabColor;               //color of selected tab
 
     /*** Functions ***/
 

@@ -171,8 +171,6 @@ void PropertyInspector::PropTabTwo::assembleList(){
 
 void PropertyInspector::trigger(MsbObject* other){
 
-    Inspector::trigger(other);
-
     if (other->name=="tabOne"){
         currentTab=0;
         tabs[currentTab]->assembleList();
@@ -182,6 +180,8 @@ void PropertyInspector::trigger(MsbObject* other){
         currentTab=1;
         tabs[currentTab]->assembleList();
     }
+
+    Inspector::trigger(other);
 
 }
 

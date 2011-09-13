@@ -83,12 +83,6 @@
 		<Unit filename="classes\action.h">
 			<Option virtualFolder="Buttons\Special\" />
 		</Unit>
-		<Unit filename="classes\actionInspector.cpp">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
-		<Unit filename="classes\actionInspector.h">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
 		<Unit filename="classes\actor.cpp">
 			<Option virtualFolder="Actors\" />
 		</Unit>
@@ -382,12 +376,6 @@
 		<Unit filename="classes\meshData.h">
 			<Option virtualFolder="dataHandlers\" />
 		</Unit>
-		<Unit filename="classes\meshInspector.cpp">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
-		<Unit filename="classes\meshInspector.h">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
 		<Unit filename="classes\morphSpriteMeshNode.cpp" />
 		<Unit filename="classes\morphSpriteMeshNode.h" />
 		<Unit filename="classes\moveButton.cpp">
@@ -470,12 +458,6 @@
 		</Unit>
 		<Unit filename="classes\pilot.cpp" />
 		<Unit filename="classes\pilot.h" />
-		<Unit filename="classes\prefabInspector.cpp">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
-		<Unit filename="classes\prefabInspector.h">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
 		<Unit filename="classes\primitivesInspector.cpp">
 			<Option virtualFolder="Buttons\Inspectors\" />
 		</Unit>
@@ -661,12 +643,6 @@
 		</Unit>
 		<Unit filename="classes\textfile.h">
 			<Option virtualFolder="dataHandlers\" />
-		</Unit>
-		<Unit filename="classes\textureInspector.cpp">
-			<Option virtualFolder="Buttons\Inspectors\" />
-		</Unit>
-		<Unit filename="classes\textureInspector.h">
-			<Option virtualFolder="Buttons\Inspectors\" />
 		</Unit>
 		<Unit filename="classes\timelineButton.cpp">
 			<Option virtualFolder="Buttons\timeline\" />

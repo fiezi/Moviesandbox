@@ -67,7 +67,7 @@ void Inspector::setup(){
     backgroundButton->level=level;
     backgroundButton->bPermanent=true;
     backgroundButton->name="";
-    backgroundButton->color=Vector4f(0.4,0.4,0.4,1.0);
+    backgroundButton->color=selectedTabColor;
     backgroundButton->setLocation(backgroundButton->location);
 
     //setup tabs and fill buttonlist once
@@ -118,17 +118,7 @@ void Inspector::drawPlane(){
 
     BasicButton::drawPlane();
 
-    renderer->setupShading("color");
-
-   /*
-    if (bOpen){
-        if (tabHeight==0)
-            renderer->drawPlane(scale.x ,0.0, renderer->screenX,renderer->screenY, Vector4f(0.4,0.4,0.4, 1.0));
-        else
-            renderer->drawPlane(0.0 ,scale.y, renderer->screenX,renderer->screenY, Vector4f(0.4,0.4,0.4, 1.0));
-    }
-*/
-
+    //renderer->setupShading("color");
 }
 
 void Inspector::mouseOver(){
