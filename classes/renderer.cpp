@@ -554,11 +554,11 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_FLOAT, NULL);
             //glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_BYTE, NULL);
 
-//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+//            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
@@ -822,7 +822,7 @@ void Renderer::draw(){
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
-            glGenerateMipmapEXT(GL_TEXTURE_2D);
+//            glGenerateMipmapEXT(GL_TEXTURE_2D);
             drawButton(sceneData->layerList[i]);
     }//end for loop through layers
 
@@ -930,10 +930,12 @@ void Renderer::drawShadows(MsbLight* myLight){
 
     //glDisable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-	//glDrawBuffers(2,drawBuffers);
+	glDrawBuffers(2,drawBuffers);
+    //draw all objects of all layers for this light
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
+        //glClearColor( 0.0f, 1.0f, 0.0f, 1.0f );
 
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
@@ -1092,7 +1094,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
            //bind depth
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-            glGenerateMipmapEXT(GL_TEXTURE_2D);
+//            glGenerateMipmapEXT(GL_TEXTURE_2D);
 
             //set shadowTexture (might not have one)
             glActiveTexture(GL_TEXTURE3);
@@ -1133,7 +1135,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
         //bind depth
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-        glGenerateMipmapEXT(GL_TEXTURE_2D);
+//        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
         //set shadowTexture (might not have one)
         glActiveTexture(GL_TEXTURE3);
@@ -1152,10 +1154,7 @@ void Renderer::draw3D(Layer* currentLayer){
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    if (bShadowPass)
-        glDrawBuffers(1, drawBuffers);
-    else
-        glDrawBuffers(2, drawBuffers);
+    glDrawBuffers(2, drawBuffers);
 
 
     //draw color

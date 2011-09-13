@@ -198,15 +198,15 @@ vec4 shadowMapping(){
 
         //this leads to hard edges. Maybe we can soften them up a bit?
 
-            //vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
-            vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
+            vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
+            //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.x;
             //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
             //myLight += computeLight();
             //if (falloff>0.0)
                 //myLight+=vec4(1.0);
                 //myLight.x=shadowCoord.z/20.0;
-			myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.a-falloff)/(0.1*shadowColor.a) ) ) ) * computeLight( );
+			myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.r-falloff)/(0.1*shadowColor.r) ) ) ) * computeLight( );
     }
 
   return myLight;

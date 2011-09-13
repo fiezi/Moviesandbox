@@ -31,5 +31,4 @@ void main(){
     }
 
     gl_FragData[1]=vec4( zPos, objectID, 0.0, 0.0 );
-    //gl_FragData[1]=vec4(4 ,4,objectID, 0.0 );
 }
