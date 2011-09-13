@@ -62,10 +62,10 @@ input->bTextInput=true;
 if (parent && buttonProperty!="" && tooltip!=""){
     //go through tooltip and stop when we find a " "!
     char* myTooltip=(char*)tooltip.c_str();
-    char* preText = strtok(myTooltip, " "); // Splits spaces between words in st
+    char* preText = strtok(myTooltip," "); // Splits spaces between words in st
     cout << "our pretext would be: " << preText << endl;
     input->inputText=preText;
-    input->inputText+=" ";
+    input->inputText+=' ';
     }
 }
 
@@ -117,8 +117,8 @@ void TextInputButton::focusClick(){
                         memberFromString(mID,input->inputText);
                         sceneData->selectedActors[i]->setLocation(sceneData->selectedActors[i]->location);
                     }else if (buttonProperty=="SCALE"){
-                        Vector3f loc = readVector3f((char*)input->inputText.c_str());
-                        sceneData->selectedActors[i]->setScale(loc);
+                        memberFromString(mID,input->inputText);
+                        sceneData->selectedActors[i]->setScale(sceneData->selectedActors[i]->scale);
                     }else if (mID){
                         memberFromString(mID,input->inputText);
                     }else
