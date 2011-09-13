@@ -79,7 +79,8 @@ void TabbedListButton::trigger(MsbObject* other){
     for (int i=0;i<(int)tabTriggerButtons.size();i++)
         tabTriggerButtons[i]->color=tabColor;
 
-    tabTriggerButtons[currentTab]->color=selectedTabColor;
+    if (tabTriggerButtons.size()>currentTab)
+        tabTriggerButtons[currentTab]->color=selectedTabColor;
 
 }
 

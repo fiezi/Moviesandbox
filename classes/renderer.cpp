@@ -1416,7 +1416,7 @@ void Renderer::drawActor(Actor* a){
 
 
     //Actual Drawing takes place here!
-        if (a->drawType==DRAW_PLANE)            drawPlane(0.0,0.0,a->scale.x, -a->scale.y, a->color,true );
+        if (a->drawType==DRAW_PLANE)            drawPlane(0.0,0.0,a->scale.x, -a->scale.y, a->color,true);
         else if (a->drawType==DRAW_VBOMESH)     drawColladaMesh(a);
 
         else if (a->drawType==DRAW_PARTICLES)   drawParticles(a);                 //Particles
@@ -1753,7 +1753,55 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
             yOffset=(y2-y1)/2.0;
         }
 
+/*
+                int h=10;
+                int w=10;
+                int step = 1;
+                vector<GLfloat> vert;
+                vector<GLfloat> tex;
+                vector<GLfloat> col;
 
+                for(int y = 0; y < h - step; y += step) {
+                        for(int x = 0; x < w; x += step) {
+                                tex.push_back(x);
+                                tex.push_back(y);
+
+                                vert.push_back(x);
+                                vert.push_back(y);
+
+                                col.push_back(color.r);
+                                col.push_back(color.g);
+                                col.push_back(color.b);
+                                col.push_back(color.a);
+
+
+                                tex.push_back(x);
+                                tex.push_back(y + step);
+
+                                vert.push_back(x);
+                                vert.push_back(y + step);
+
+                                col.push_back(color.r);
+                                col.push_back(color.g);
+                                col.push_back(color.b);
+                                col.push_back(color.a);
+
+                        }
+                }
+
+        glEnableClientState( GL_VERTEX_ARRAY );
+        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+     //   glEnableClientState( GL_NORMAL_ARRAY );
+        glEnableClientState( GL_COLOR_ARRAY);
+
+    	glTexCoordPointer(2, GL_FLOAT, 0, &tex[0] );
+		glVertexPointer(2, GL_FLOAT, 0, &vert[0] );
+        glColorPointer(4,GL_FLOAT,0, &col[0]);
+
+        cout << "vertices: " << vert.size() << endl;
+		glDrawArrays( GL_TRIANGLE_FAN, 0, vert.size()/2.0 );
+
+*/
         GLfloat verts[] = { x1-xOffset, y1-yOffset,
                             x2-xOffset, y1-yOffset,
                             x2-xOffset, y2-yOffset,
@@ -1764,10 +1812,6 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
                                  1, 1,
                                  0, 1 };
 
-        GLfloat normals[] = { 0, 0, -1,
-                              0, 0, -1,
-                              0, 0, -1,
-                              0, 0, -1 };
         GLfloat vColor[] ={ color.r, color.g, color.b, color.a,
                             color.r, color.g, color.b, color.a,
                             color.r, color.g, color.b, color.a,
@@ -1775,21 +1819,19 @@ void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color,
 
         glEnableClientState( GL_VERTEX_ARRAY );
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glEnableClientState( GL_NORMAL_ARRAY );
+     //   glEnableClientState( GL_NORMAL_ARRAY );
         glEnableClientState( GL_COLOR_ARRAY);
 
-		glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+    	glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
 		glVertexPointer(2, GL_FLOAT, 0, verts );
-        glNormalPointer(GL_FLOAT, 0, normals );
+        //glNormalPointer(GL_FLOAT, 0, normals );
         glColorPointer(4,GL_FLOAT,0, vColor);
-
 		glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
 
         glDisableClientState( GL_VERTEX_ARRAY );
 		glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-        glDisableClientState( GL_NORMAL_ARRAY );
+        //glDisableClientState( GL_NORMAL_ARRAY );
         glDisableClientState( GL_COLOR_ARRAY);
-
 
 }
 

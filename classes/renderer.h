@@ -54,7 +54,7 @@ public:
             bMultisample,                   //Multisample FBOs
             bSSAO,                          //draw screen-space ambient occlusion
             bDOF,                           //draw Depth of Field
-            bDrawColor,                     //draw basic Color image (would be lighting only if false)
+            bDrawColor,                 	//draw basic Color image (would be lighting only if false)
             bShadowPass;                    //currently rendering shadows
 
        int numSamples;                      //number of multisamples
