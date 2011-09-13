@@ -367,7 +367,7 @@ void ofTrueTypeFont::drawString(string c, float x, float y) {
 		int cy = (unsigned char)c[index] - NUM_CHARACTER_TO_START;
 		//TODO: fix this! NULL characters within tokenized strings to draw...
 		if (cy<-32){
-            //cout << "found NULL character" << cy <<" "<< len << " " << index << " " << c << endl;
+            cout << "found NULL character" << cy <<" "<< len << " " << index << " " << c << endl;
             return;
 		}
 

@@ -55,27 +55,6 @@ void DrawingWidget::closeWidget(){
 
     //input->deselectActors();
     color=COLOR_WHITE;
-
-/*
-
-    if (sceneData->brush->drawing){
-        sceneData->makeWarningPopUp("saving drawing...",this);
-        renderer->draw();
-        sceneData->controller->myTools[TOOL_DRAW]->save();
-        sceneData->brush->drawing->drawType=DRAW_VBOMESH;
-        sceneData->brush->drawing->reset();
-        input->bTextInput=false;
-    }
-
-
-    //sceneData->controller->switchTool(TOOL_SELECT);
-    if (sceneData->staticButton){
-        sceneData->staticButton->focusClick();
-    }
-
-    color=COLOR_WHITE;
-*/
-
 }
 
 

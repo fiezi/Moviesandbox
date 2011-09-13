@@ -176,12 +176,13 @@ void SkinTool::paint(){
 
 
 
-    if (fabs(input->mouseVector.length())==0.0)
+    if (fabs(input->mouseVector.length())==0.0){
         return;
+    }
 
     input->bKeepSelection=true;
 
-    SkeletalActor* skel =dynamic_cast<SkeletalActor*>(brush->drawing);
+    SkeletalActor* skel =brush->drawing;
     if (!skel){
         cout << "drawing cannot be skinned" << endl;
         return;

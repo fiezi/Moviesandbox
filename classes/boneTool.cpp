@@ -83,7 +83,7 @@ void BoneTool::stop(){
 
 	skel->drawType=DRAW_VBOMESH;
 
-	skel->reset();
+	skel->resetBones();
 
     //revert back to our drawing as the only thing selected!
     input->deselectActors();

@@ -334,17 +334,14 @@ void SkeletalActor::stop(){
 //this will simply reset the bones to their original positions
 void SkeletalActor::resetBones(){
 
-    Matrix4f identityMatrix;
-    identityMatrix.identity();
-
     //reset Matrices...
     for (int i=0;i<(int)bones.size();i++){
-        if (bones[i]->originalMatrix!=identityMatrix){
-            bones[i]->transformMatrix=bones[i]->originalMatrix;
             bones[i]->originalMatrix.identity();
-        }
+            bones[i]->transformMatrix.identity();
     }
 
+    //this is to re-initialise boneTransforms et al
+    postLoad();
 }
 
 //this will also clear all base-relations of other objects
