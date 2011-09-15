@@ -28,7 +28,6 @@
 		185057C7133BFEF300AA18E6 /* msb_Icon_PNG.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057C5133BFEE700AA18E6 /* msb_Icon_PNG.icns */; };
 		185057CD133BFF7700AA18E6 /* Moviesandbox-Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 185057CC133BFF6800AA18E6 /* Moviesandbox-Info.plist */; };
 		185F44D91116213C007024FB /* action.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D110CB3815007AE094 /* action.cpp */; };
-		185F44DA1116213C007024FB /* actionInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D310CB3815007AE094 /* actionInspector.cpp */; };
 		185F44DB1116213C007024FB /* actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D510CB3815007AE094 /* actor.cpp */; };
 		185F44DC1116213C007024FB /* attachToNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163D810CB3815007AE094 /* attachToNode.cpp */; };
 		185F44DD1116213C007024FB /* basicButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 181163DA10CB3815007AE094 /* basicButton.cpp */; };
@@ -67,7 +66,6 @@
 		185F45011116213C007024FB /* loadDrawingButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811642910CB3816007AE094 /* loadDrawingButton.cpp */; };
 		185F45021116213C007024FB /* loadDrawSkeletonButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811642B10CB3816007AE094 /* loadDrawSkeletonButton.cpp */; };
 		185F45031116213C007024FB /* loadNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811642D10CB3816007AE094 /* loadNode.cpp */; };
-		185F45051116213C007024FB /* meshInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811643310CB3816007AE094 /* meshInspector.cpp */; };
 		185F45061116213C007024FB /* morphSpriteMeshNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811643510CB3816007AE094 /* morphSpriteMeshNode.cpp */; };
 		185F45071116213C007024FB /* moveButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811643910CB3816007AE094 /* moveButton.cpp */; };
 		185F45091116213C007024FB /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811644110CB3816007AE094 /* node.cpp */; };
@@ -78,7 +76,6 @@
 		185F450F1116213C007024FB /* physicsActor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811644E10CB3816007AE094 /* physicsActor.cpp */; };
 		185F45101116213C007024FB /* pickWorldButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645010CB3816007AE094 /* pickWorldButton.cpp */; };
 		185F45111116213C007024FB /* pilot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645210CB3816007AE094 /* pilot.cpp */; };
-		185F45121116213C007024FB /* prefabInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645410CB3816007AE094 /* prefabInspector.cpp */; };
 		185F45131116213C007024FB /* propertyAssignButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645610CB3816007AE094 /* propertyAssignButton.cpp */; };
 		185F45141116213C007024FB /* propertyInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645810CB3816007AE094 /* propertyInspector.cpp */; };
 		185F45151116213C007024FB /* ragDoll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811645C10CB3816007AE094 /* ragDoll.cpp */; };
@@ -101,7 +98,6 @@
 		185F45271116213C007024FB /* stopAnimNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811647F10CB3816007AE094 /* stopAnimNode.cpp */; };
 		185F45281116213C007024FB /* switchCameraNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648110CB3816007AE094 /* switchCameraNode.cpp */; };
 		185F45291116213C007024FB /* textInputButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648510CB3816007AE094 /* textInputButton.cpp */; };
-		185F452A1116213C007024FB /* textureInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648710CB3816007AE094 /* textureInspector.cpp */; };
 		185F452B1116213C007024FB /* timelineButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648910CB3816007AE094 /* timelineButton.cpp */; };
 		185F452C1116213C007024FB /* timelineInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648B10CB3816007AE094 /* timelineInspector.cpp */; };
 		185F452D1116213C007024FB /* triggerActorNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1811648C10CB3816007AE094 /* triggerActorNode.cpp */; };
@@ -160,6 +156,15 @@
 		189A8103123C10C100B5A8F6 /* inspectorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189A80FD123C10C100B5A8F6 /* inspectorManager.cpp */; };
 		189A8104123C10C100B5A8F6 /* layerInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189A80FF123C10C100B5A8F6 /* layerInspector.cpp */; };
 		189A8105123C10C100B5A8F6 /* spriteMeshLoaderXML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189A8101123C10C100B5A8F6 /* spriteMeshLoaderXML.cpp */; };
+		189AFF9D141FB24C009882A5 /* assetInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF8B141FB24C009882A5 /* assetInspector.cpp */; };
+		189AFF9E141FB24C009882A5 /* boolButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF8D141FB24C009882A5 /* boolButton.cpp */; };
+		189AFF9F141FB24C009882A5 /* navWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF8F141FB24C009882A5 /* navWidget.cpp */; };
+		189AFFA0141FB24C009882A5 /* orbitTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF91141FB24C009882A5 /* orbitTool.cpp */; };
+		189AFFA1141FB24C009882A5 /* primitivesInspector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF93141FB24C009882A5 /* primitivesInspector.cpp */; };
+		189AFFA2141FB24C009882A5 /* selectWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF95141FB24C009882A5 /* selectWidget.cpp */; };
+		189AFFA3141FB24C009882A5 /* tabbedListButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF97141FB24C009882A5 /* tabbedListButton.cpp */; };
+		189AFFA4141FB24C009882A5 /* vectorInputButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF99141FB24C009882A5 /* vectorInputButton.cpp */; };
+		189AFFA5141FB24C009882A5 /* windowButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189AFF9B141FB24C009882A5 /* windowButton.cpp */; };
 		189F843C11EA9D82009E4178 /* propsWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189F843A11EA9D82009E4178 /* propsWidget.cpp */; };
 		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
 		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
@@ -192,8 +197,6 @@
 		1808999910EB5D48006A0226 /* UdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UdpSocket.h; path = ip/UdpSocket.h; sourceTree = "<group>"; };
 		181163D110CB3815007AE094 /* action.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = action.cpp; path = classes/action.cpp; sourceTree = "<group>"; };
 		181163D210CB3815007AE094 /* action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = action.h; path = classes/action.h; sourceTree = "<group>"; };
-		181163D310CB3815007AE094 /* actionInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = actionInspector.cpp; path = classes/actionInspector.cpp; sourceTree = "<group>"; };
-		181163D410CB3815007AE094 /* actionInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = actionInspector.h; path = classes/actionInspector.h; sourceTree = "<group>"; };
 		181163D510CB3815007AE094 /* actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = actor.cpp; path = classes/actor.cpp; sourceTree = "<group>"; };
 		181163D610CB3815007AE094 /* actor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = actor.h; path = classes/actor.h; sourceTree = "<group>"; };
 		181163D710CB3815007AE094 /* assignButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = assignButton.h; path = classes/assignButton.h; sourceTree = "<group>"; };
@@ -273,8 +276,6 @@
 		1811642C10CB3816007AE094 /* loadDrawSkeletonButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loadDrawSkeletonButton.h; path = classes/loadDrawSkeletonButton.h; sourceTree = "<group>"; };
 		1811642D10CB3816007AE094 /* loadNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = loadNode.cpp; path = classes/loadNode.cpp; sourceTree = "<group>"; };
 		1811642E10CB3816007AE094 /* loadNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loadNode.h; path = classes/loadNode.h; sourceTree = "<group>"; };
-		1811643310CB3816007AE094 /* meshInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = meshInspector.cpp; path = classes/meshInspector.cpp; sourceTree = "<group>"; };
-		1811643410CB3816007AE094 /* meshInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = meshInspector.h; path = classes/meshInspector.h; sourceTree = "<group>"; };
 		1811643510CB3816007AE094 /* morphSpriteMeshNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = morphSpriteMeshNode.cpp; path = classes/morphSpriteMeshNode.cpp; sourceTree = "<group>"; };
 		1811643610CB3816007AE094 /* morphSpriteMeshNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = morphSpriteMeshNode.h; path = classes/morphSpriteMeshNode.h; sourceTree = "<group>"; };
 		1811643910CB3816007AE094 /* moveButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moveButton.cpp; path = classes/moveButton.cpp; sourceTree = "<group>"; };
@@ -296,8 +297,6 @@
 		1811645110CB3816007AE094 /* pickWorldButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pickWorldButton.h; path = classes/pickWorldButton.h; sourceTree = "<group>"; };
 		1811645210CB3816007AE094 /* pilot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pilot.cpp; path = classes/pilot.cpp; sourceTree = "<group>"; };
 		1811645310CB3816007AE094 /* pilot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pilot.h; path = classes/pilot.h; sourceTree = "<group>"; };
-		1811645410CB3816007AE094 /* prefabInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = prefabInspector.cpp; path = classes/prefabInspector.cpp; sourceTree = "<group>"; };
-		1811645510CB3816007AE094 /* prefabInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = prefabInspector.h; path = classes/prefabInspector.h; sourceTree = "<group>"; };
 		1811645610CB3816007AE094 /* propertyAssignButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = propertyAssignButton.cpp; path = classes/propertyAssignButton.cpp; sourceTree = "<group>"; };
 		1811645710CB3816007AE094 /* propertyAssignButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = propertyAssignButton.h; path = classes/propertyAssignButton.h; sourceTree = "<group>"; };
 		1811645810CB3816007AE094 /* propertyInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = propertyInspector.cpp; path = classes/propertyInspector.cpp; sourceTree = "<group>"; };
@@ -341,8 +340,6 @@
 		1811648210CB3816007AE094 /* switchCameraNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = switchCameraNode.h; path = classes/switchCameraNode.h; sourceTree = "<group>"; };
 		1811648510CB3816007AE094 /* textInputButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = textInputButton.cpp; path = classes/textInputButton.cpp; sourceTree = "<group>"; };
 		1811648610CB3816007AE094 /* textInputButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = textInputButton.h; path = classes/textInputButton.h; sourceTree = "<group>"; };
-		1811648710CB3816007AE094 /* textureInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = textureInspector.cpp; path = classes/textureInspector.cpp; sourceTree = "<group>"; };
-		1811648810CB3816007AE094 /* textureInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = textureInspector.h; path = classes/textureInspector.h; sourceTree = "<group>"; };
 		1811648910CB3816007AE094 /* timelineButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = timelineButton.cpp; path = classes/timelineButton.cpp; sourceTree = "<group>"; };
 		1811648A10CB3816007AE094 /* timelineButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timelineButton.h; path = classes/timelineButton.h; sourceTree = "<group>"; };
 		1811648B10CB3816007AE094 /* timelineInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = timelineInspector.cpp; path = classes/timelineInspector.cpp; sourceTree = "<group>"; };
@@ -533,6 +530,24 @@
 		189A8100123C10C100B5A8F6 /* layerInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = layerInspector.h; path = classes/layerInspector.h; sourceTree = "<group>"; };
 		189A8101123C10C100B5A8F6 /* spriteMeshLoaderXML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spriteMeshLoaderXML.cpp; sourceTree = "<group>"; };
 		189A8102123C10C100B5A8F6 /* spriteMeshLoaderXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spriteMeshLoaderXML.h; sourceTree = "<group>"; };
+		189AFF8B141FB24C009882A5 /* assetInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = assetInspector.cpp; path = classes/assetInspector.cpp; sourceTree = "<group>"; };
+		189AFF8C141FB24C009882A5 /* assetInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = assetInspector.h; path = classes/assetInspector.h; sourceTree = "<group>"; };
+		189AFF8D141FB24C009882A5 /* boolButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boolButton.cpp; path = classes/boolButton.cpp; sourceTree = "<group>"; };
+		189AFF8E141FB24C009882A5 /* boolButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boolButton.h; path = classes/boolButton.h; sourceTree = "<group>"; };
+		189AFF8F141FB24C009882A5 /* navWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = navWidget.cpp; path = classes/navWidget.cpp; sourceTree = "<group>"; };
+		189AFF90141FB24C009882A5 /* navWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = navWidget.h; path = classes/navWidget.h; sourceTree = "<group>"; };
+		189AFF91141FB24C009882A5 /* orbitTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = orbitTool.cpp; path = classes/orbitTool.cpp; sourceTree = "<group>"; };
+		189AFF92141FB24C009882A5 /* orbitTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = orbitTool.h; path = classes/orbitTool.h; sourceTree = "<group>"; };
+		189AFF93141FB24C009882A5 /* primitivesInspector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = primitivesInspector.cpp; path = classes/primitivesInspector.cpp; sourceTree = "<group>"; };
+		189AFF94141FB24C009882A5 /* primitivesInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = primitivesInspector.h; path = classes/primitivesInspector.h; sourceTree = "<group>"; };
+		189AFF95141FB24C009882A5 /* selectWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = selectWidget.cpp; path = classes/selectWidget.cpp; sourceTree = "<group>"; };
+		189AFF96141FB24C009882A5 /* selectWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = selectWidget.h; path = classes/selectWidget.h; sourceTree = "<group>"; };
+		189AFF97141FB24C009882A5 /* tabbedListButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tabbedListButton.cpp; path = classes/tabbedListButton.cpp; sourceTree = "<group>"; };
+		189AFF98141FB24C009882A5 /* tabbedListButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tabbedListButton.h; path = classes/tabbedListButton.h; sourceTree = "<group>"; };
+		189AFF99141FB24C009882A5 /* vectorInputButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vectorInputButton.cpp; path = classes/vectorInputButton.cpp; sourceTree = "<group>"; };
+		189AFF9A141FB24C009882A5 /* vectorInputButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vectorInputButton.h; path = classes/vectorInputButton.h; sourceTree = "<group>"; };
+		189AFF9B141FB24C009882A5 /* windowButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = windowButton.cpp; path = classes/windowButton.cpp; sourceTree = "<group>"; };
+		189AFF9C141FB24C009882A5 /* windowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = windowButton.h; path = classes/windowButton.h; sourceTree = "<group>"; };
 		189F843A11EA9D82009E4178 /* propsWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = propsWidget.cpp; path = classes/propsWidget.cpp; sourceTree = "<group>"; };
 		189F843B11EA9D82009E4178 /* propsWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = propsWidget.h; path = classes/propsWidget.h; sourceTree = "<group>"; };
 		18AD2B0A13354F21000E02E7 /* msbObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msbObject.cpp; path = classes/msbObject.cpp; sourceTree = "<group>"; };
@@ -992,24 +1007,34 @@
 		1854627411063397006BECD2 /* Inspectors */ = {
 			isa = PBXGroup;
 			children = (
+				189AFF8B141FB24C009882A5 /* assetInspector.cpp */,
+				189AFF8C141FB24C009882A5 /* assetInspector.h */,
+				189AFF8D141FB24C009882A5 /* boolButton.cpp */,
+				189AFF8E141FB24C009882A5 /* boolButton.h */,
+				189AFF8F141FB24C009882A5 /* navWidget.cpp */,
+				189AFF90141FB24C009882A5 /* navWidget.h */,
+				189AFF91141FB24C009882A5 /* orbitTool.cpp */,
+				189AFF92141FB24C009882A5 /* orbitTool.h */,
+				189AFF93141FB24C009882A5 /* primitivesInspector.cpp */,
+				189AFF94141FB24C009882A5 /* primitivesInspector.h */,
+				189AFF95141FB24C009882A5 /* selectWidget.cpp */,
+				189AFF96141FB24C009882A5 /* selectWidget.h */,
+				189AFF97141FB24C009882A5 /* tabbedListButton.cpp */,
+				189AFF98141FB24C009882A5 /* tabbedListButton.h */,
+				189AFF99141FB24C009882A5 /* vectorInputButton.cpp */,
+				189AFF9A141FB24C009882A5 /* vectorInputButton.h */,
+				189AFF9B141FB24C009882A5 /* windowButton.cpp */,
+				189AFF9C141FB24C009882A5 /* windowButton.h */,
 				189A80FD123C10C100B5A8F6 /* inspectorManager.cpp */,
 				189A80FE123C10C100B5A8F6 /* inspectorManager.h */,
 				189A80FF123C10C100B5A8F6 /* layerInspector.cpp */,
 				189A8100123C10C100B5A8F6 /* layerInspector.h */,
 				1811641910CB3816007AE094 /* inspector.h */,
 				1811641810CB3816007AE094 /* inspector.cpp */,
-				181163D310CB3815007AE094 /* actionInspector.cpp */,
-				181163D410CB3815007AE094 /* actionInspector.h */,
 				181163E210CB3815007AE094 /* brushInspector.cpp */,
 				181163E310CB3815007AE094 /* brushInspector.h */,
-				1811643310CB3816007AE094 /* meshInspector.cpp */,
-				1811643410CB3816007AE094 /* meshInspector.h */,
-				1811645410CB3816007AE094 /* prefabInspector.cpp */,
-				1811645510CB3816007AE094 /* prefabInspector.h */,
 				1811645910CB3816007AE094 /* propertyInspector.h */,
 				1811645810CB3816007AE094 /* propertyInspector.cpp */,
-				1811648810CB3816007AE094 /* textureInspector.h */,
-				1811648710CB3816007AE094 /* textureInspector.cpp */,
 			);
 			name = Inspectors;
 			sourceTree = "<group>";
@@ -1503,7 +1528,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				185F44D91116213C007024FB /* action.cpp in Sources */,
-				185F44DA1116213C007024FB /* actionInspector.cpp in Sources */,
 				185F44DB1116213C007024FB /* actor.cpp in Sources */,
 				185F44DC1116213C007024FB /* attachToNode.cpp in Sources */,
 				185F44DD1116213C007024FB /* basicButton.cpp in Sources */,
@@ -1542,7 +1566,6 @@
 				185F45011116213C007024FB /* loadDrawingButton.cpp in Sources */,
 				185F45021116213C007024FB /* loadDrawSkeletonButton.cpp in Sources */,
 				185F45031116213C007024FB /* loadNode.cpp in Sources */,
-				185F45051116213C007024FB /* meshInspector.cpp in Sources */,
 				185F45061116213C007024FB /* morphSpriteMeshNode.cpp in Sources */,
 				185F45071116213C007024FB /* moveButton.cpp in Sources */,
 				185F45091116213C007024FB /* node.cpp in Sources */,
@@ -1553,7 +1576,6 @@
 				185F450F1116213C007024FB /* physicsActor.cpp in Sources */,
 				185F45101116213C007024FB /* pickWorldButton.cpp in Sources */,
 				185F45111116213C007024FB /* pilot.cpp in Sources */,
-				185F45121116213C007024FB /* prefabInspector.cpp in Sources */,
 				185F45131116213C007024FB /* propertyAssignButton.cpp in Sources */,
 				185F45141116213C007024FB /* propertyInspector.cpp in Sources */,
 				185F45151116213C007024FB /* ragDoll.cpp in Sources */,
@@ -1576,7 +1598,6 @@
 				185F45271116213C007024FB /* stopAnimNode.cpp in Sources */,
 				185F45281116213C007024FB /* switchCameraNode.cpp in Sources */,
 				185F45291116213C007024FB /* textInputButton.cpp in Sources */,
-				185F452A1116213C007024FB /* textureInspector.cpp in Sources */,
 				185F452B1116213C007024FB /* timelineButton.cpp in Sources */,
 				185F452C1116213C007024FB /* timelineInspector.cpp in Sources */,
 				185F452D1116213C007024FB /* triggerActorNode.cpp in Sources */,
@@ -1644,6 +1665,15 @@
 				18487E4B134A8769004E7D00 /* illustration.vert in Sources */,
 				18487E4C134A8769004E7D00 /* skeletalIllustration.frag in Sources */,
 				18487E4D134A8769004E7D00 /* skeletalIllustration.vert in Sources */,
+				189AFF9D141FB24C009882A5 /* assetInspector.cpp in Sources */,
+				189AFF9E141FB24C009882A5 /* boolButton.cpp in Sources */,
+				189AFF9F141FB24C009882A5 /* navWidget.cpp in Sources */,
+				189AFFA0141FB24C009882A5 /* orbitTool.cpp in Sources */,
+				189AFFA1141FB24C009882A5 /* primitivesInspector.cpp in Sources */,
+				189AFFA2141FB24C009882A5 /* selectWidget.cpp in Sources */,
+				189AFFA3141FB24C009882A5 /* tabbedListButton.cpp in Sources */,
+				189AFFA4141FB24C009882A5 /* vectorInputButton.cpp in Sources */,
+				189AFFA5141FB24C009882A5 /* windowButton.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

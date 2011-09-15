@@ -6,6 +6,7 @@
 #include "spriteMeshLoader.h"
 #include "drawingWidget.h"
 #include "brushFilter.h"
+#include "stdlib.h"
 
 
 DrawTool::DrawTool(){
@@ -404,7 +405,7 @@ void DrawTool::createNewDrawing(bool bUnnamed){
         string myName="untitled";
         char buffer [16];
         cout << "amount untitled drawings: " << sceneData->numberOfUntitledDrawings << endl;
-        itoa(sceneData->numberOfUntitledDrawings, buffer,10);
+        sprintf(buffer, "%d",sceneData->numberOfUntitledDrawings);
         myName=myName+buffer;
         brush->drawing->name=myName;
         sceneData->numberOfUntitledDrawings++;

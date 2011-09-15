@@ -42,7 +42,7 @@ void SaveDrawingButton::assembleSaveList(){
 void SaveDrawingButton::placeScrollBar(){
 
     scrollBar->location.x=location.x-17;
-    scrollBar->location.y=location.y- scale.y -( maxListItems * listButton[0]->scale.y );
+    //scrollBar->location.y=location.y- scale.y -( maxListItems * listButton[0]->scale.y );
     scrollBar->bFlipValue=true;
 
 
@@ -68,7 +68,7 @@ doc.LinkEndChild( root );
 
 string saveString;
 root->LinkEndChild( sceneData->brush->drawing->save(root) );
-saveString=sceneData->savedDrawingDirName;
+//saveString=sceneData->savedDrawingDirName;
 
 saveString.append(filename);
 cout << "saving filename: " << saveString << endl;

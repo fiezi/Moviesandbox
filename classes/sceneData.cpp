@@ -1468,7 +1468,11 @@ void SceneData::getAllScenes(){
     }
 
 	while ((dirp = readdir(dp)) != NULL) {
-	    if (dirp->d_name.contains(".scene"))
+		if (strcmp(dirp->d_name, ".") == 0)
+			continue;
+		if (strcmp(dirp->d_name, "..") == 0)
+			continue; 
+		if (strstr(dirp->d_name, ".scene"))
             savedScenes.push_back(string(dirp->d_name));
     }
     closedir(dp);

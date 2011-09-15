@@ -693,14 +693,14 @@ void Input::confineMouse(){
 
 
 
-//    int centerX=renderer->screenX/2;
-//    int centerY=renderer->screenY/2;
 #ifdef TARGET_WIN32
     glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
 #endif
 
 #ifdef TARGET_MACOSX
 	CGPoint myPoint;
+	    int centerX=renderer->screenX/2;
+	    int centerY=renderer->screenY/2;
 	myPoint.x=centerX+renderer->windowPosX;
 	myPoint.y=centerY+renderer->windowPosY;
 	CGDisplayMoveCursorToPoint( CGMainDisplayID (),myPoint);
