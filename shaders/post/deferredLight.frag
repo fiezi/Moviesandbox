@@ -32,13 +32,14 @@ varying vec2 texCoord;
 
 float lightDistance = 100.0;
 
-const float specularExp = 32.0;
+const float specularExp = 128.0;
 
 vec4 fragWorldLoc;
 float zPos;
 float zPosScreen;
 
 // Depth of Field variables
+
 
     vec2 tc_offset[25];
 
@@ -82,20 +83,24 @@ vec4 calcFragmentWorldSpace(){
 
     //zPos in Eye Space
     //zPos = texture2D(depthTex,texCoord ).r;
-    //zPos = texture2D(depthTex,texCoord ).r;
+    //zPos = texture2D(depthTex,texCoord ).r / 1000.0;
+
     zPos = blur3(depthTex,texCoord ).r;
 
       //  ( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
     //zPos in Screen Space - for reference
-    zPosScreen = farClip / (farClip - zPos * (farClip - nearClip));
+    zPosScreen =farClip / (farClip - zPos * (farClip - nearClip));
 
 
+    //zPos=1.0+zPosScreen;
+    //zPos=farClip * zPosScreen;
     //world space
     vec4 fW=vec4(1.0);
     fW.xyz= camLoc;
+    //fW.xyz+= camZ * (1.0+zPosScreen);
     fW.xyz+= camZ * (zPos);
-    fW.xyz-= camX * ((gl_FragCoord.x/scene_size - 0.5) * zPos * 1.1);
-    fW.xyz+= camY * ((gl_FragCoord.y/scene_size - 0.5) * zPos * 768.0/scene_size * 1.1);
+    fW.xyz-= camX * ((gl_FragCoord.x/scene_size - 0.5) * zPos);// * 1.1);
+    fW.xyz+= camY * ((gl_FragCoord.y/scene_size - 0.5) * zPos * 768.0/scene_size);// * 1.1);
 
     //fW.y-=camLoc.y;
     return fW;
@@ -114,7 +119,8 @@ vec4 computeLight(){
     //transform both to eye space
     vec4 fragWorld= cameraMatrix * fragWorldLoc;
 
-    //fragWorld.z=abs(fragWorld.z)/10.0;
+    //fragWorld.z=-(fragWorld.z);// * -30.0;
+    //fragWorld.z*=65536.0;
     //return (vec4(fragWorld.z,fragWorld.z,fragWorld.z,1.0)/10.0 );
 
 
@@ -128,25 +134,33 @@ vec4 computeLight(){
     float dist=length(distVec);
 
     //black if out of range
-
+/*
     if (dist>gl_LightSource[0].linearAttenuation)
         return vec4(0.0,0.0,0.0,1.0);
-
+*/
     //exaggerate normals
     //zPos=zPosScreen * lightPos.y * 1.0;
-    zPos=zPos * 32.0;
     //zPos=dist * 32.0;
 
     //normal in Eye Space
     //colorLight=vec4(dFdy(zPos),0,0,1);
     //return colorLight;
 
-    vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
+    //zPos=zPos * 32.0;
+    //vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
+    vec3 NN= (vec3(dFdx(zPos), dFdy(zPos),1.0));
 
     vec4 debug=vec4(0.0,0.0,0.0,1.0);
-    debug.xyz=fragWorldLoc.xyz;
-    debug.xyz=normalize(camZ);
+    //debug.xyz=fragWorld.xyz;
+    //debug.xyz=vec3(fragWorld.z);
+    //debug.xyz=vec3(-zPosScreen);
+    debug.xyz=vec3(1.0+zPosScreen);
+    //debug.xyz=vec3(zPos);
+    //debug.xyz=-lightPos.xyz;farClip
+    //debug.xyz=vec3(-lightPos.z);
+    //debug.xyz=normalize(camZ);
     //return debug;
+    //return vec4(-1.0);
 
 
 	vec3 lightCol = gl_LightSource[0].diffuse.rgb;

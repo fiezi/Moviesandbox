@@ -977,7 +977,8 @@ void Renderer::drawSceneTexture(){
 
     glDrawBuffers(1,drawBuffers);
 
-    glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
+    //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 

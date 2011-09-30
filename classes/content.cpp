@@ -43,6 +43,8 @@
 #include "action.h"
 
 
+#include "testActor.h"
+
 #include "spriteCharacter.h"
 
 void Content::setup(){
@@ -82,7 +84,6 @@ void Content::setup(){
     createSysMenu(xPos,yPos);
 
     createInspectors();
-
 
  }
 
