@@ -632,8 +632,6 @@
 		<Unit filename="classes\tabbedListButton.h">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
-		<Unit filename="classes\testActor.cpp" />
-		<Unit filename="classes\testActor.h" />
 		<Unit filename="classes\textInputButton.cpp">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
