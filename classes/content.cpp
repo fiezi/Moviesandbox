@@ -43,8 +43,6 @@
 #include "action.h"
 
 
-#include "testActor.h"
-
 #include "spriteCharacter.h"
 
 void Content::setup(){
@@ -84,6 +82,19 @@ void Content::setup(){
     createSysMenu(xPos,yPos);
 
     createInspectors();
+
+   BasicButton *but;
+
+    but= new BasicButton;
+    but->setLocation(Vector3f( 300, 300, -5.0));
+    but->setRotation(Vector3f(30,30,30));
+    but->setScale(Vector3f(30,30,30));
+    but->sceneShaderID="color";
+    but->textureID="grid_solid";
+    but->vboMeshID="cube";
+    but->setup();
+    but->drawType=DRAW_VBOMESH;
+    sceneData->buttonList.push_back(but);
 
  }
 

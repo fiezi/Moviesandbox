@@ -11,6 +11,7 @@ SwitchCameraNode::SwitchCameraNode(){
     name="SwitchCam";
     cameraActor=NULL;
     focus=15.0;
+    oldTool=TOOL_SELECT;
     bCameraShake=false;
 
     listType.push_back("15PickWorldButton");
@@ -47,8 +48,8 @@ void SwitchCameraNode::start(){
 
     if (cameraActor){
         cameraActor->drawType=DRAW_NULL;
-        //controller->switchTool(TOOL_NAV);
         sceneData->updateView();
+        oldTool=controller->tool;
     }
     Node::start();
 }
@@ -67,12 +68,15 @@ void SwitchCameraNode::stop(){
         }
         renderer->focus=25.0;
 
+        controller->switchTool(oldTool) ;
     }
 
 }
 
 void SwitchCameraNode::execute(){
     sceneData->controller->controlledActor=cameraActor;
+
+    controller->switchTool(TOOL_NAV);
     sceneData->updateView();
     CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
     if (cA){
@@ -94,6 +98,6 @@ void SwitchCameraNode::trigger(MsbObject* other){
 
 void SwitchCameraNode::update(double deltaTime){
     Node::update(deltaTime);
-    }
+}
 
 void SwitchCameraNode::create(){sceneData->addNode(this);}

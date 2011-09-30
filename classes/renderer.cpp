@@ -703,6 +703,19 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 }
 
 
+void Renderer::setupOrthoCamera(){
+
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0,screenX,screenY,0,-100,100);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+}
+
+
 
 void Renderer::draw(){
 
@@ -744,13 +757,7 @@ void Renderer::draw(){
 	 *	Set Ortho viewing transformation
 	 */
 
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0,screenX,screenY,0,-1,1);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-    glActiveTexture(GL_TEXTURE0);
+    setupOrthoCamera();
 
 
 	/////////////////////////////////////////////////////
@@ -1085,12 +1092,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
             checkOpenGLError("post-drawShadow");
             #endif
 
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(0,screenX,screenY,0,-1,1);
-
-            glMatrixMode(GL_MODELVIEW);
-            glLoadIdentity();
+            //setup 2D camera again!
+            setupOrthoCamera();
 
            //bind depth
             glActiveTexture(GL_TEXTURE1);
@@ -1359,13 +1362,24 @@ void Renderer::drawButton(BasicButton* b){
 
     glPushMatrix();
 
-    //buttons only translate
-    glTranslatef(b->location.x,b->location.y,b->location.z);
-
-    //draw
-    //TODO:phase out...
-    b->drawPlane();
-    //drawPlane(0.0, 0.0, b->scale.x, b->scale.y, b->color);
+    //regular buttons only translate
+    if (b->drawType==DRAW_PLANE){
+        glTranslatef(b->location.x,b->location.y,b->location.z);
+        drawPlane(0.0, 0.0, b->scale.x, b->scale.y, b->color);
+    }
+   //3D buttons do much more!
+    if (b->drawType==DRAW_TEA){
+        transformActorMatrix(b);
+        b->drawTeapot();
+    }
+    if (b->drawType==DRAW_CUBE){
+        transformActorMatrix(b);   //3D buttons do much more!
+        drawCube(1.0,30.0);
+    }
+    if (b->drawType==DRAW_VBOMESH){
+        transformActorMatrix(b);   //3D buttons do much more!
+        drawColladaMesh(b);
+    }
 
     glPopMatrix();
 

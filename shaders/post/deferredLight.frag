@@ -129,7 +129,7 @@ vec4 computeLight(){
     //lightPos = cameraInverse * lightPos;
     //lightPos/=lightPos.w;
 
-    vec3 distVec=(lightPos.xyz - fragWorld.xyz);
+    vec3 distVec=abs(lightPos.xyz - fragWorld.xyz);
     //distVec.z*=2.0;
     float dist=length(distVec);
 
@@ -171,14 +171,14 @@ vec4 computeLight(){
 	colorLight.rgb += 1.0 * lightCol * NdotL;
 
     //specular
-
+/*
 	if( NdotL > 0.0 ){
 		vec3 NH = normalize( NL +vec3(0.0,0.0,1.0) );
         colorLight.rgb += 1.0 * lightCol * pow(max(0.0,dot(NN,NH)),specularExp);
 	}
-
+*/
     //falloff
-    float falloff = (gl_LightSource[0].linearAttenuation-dist)/gl_LightSource[0].linearAttenuation;
+    float falloff = max(0.0,(gl_LightSource[0].linearAttenuation-dist)/gl_LightSource[0].linearAttenuation);
     colorLight= colorLight * falloff;
 
     return colorLight;

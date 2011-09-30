@@ -226,6 +226,7 @@ public:
 
 
        virtual void setupCamera(bool bCalculateMatrices);
+       virtual void setupOrthoCamera();
        virtual void setupShading(string shaderName);
        virtual void setupTexturing(string texName, Actor* a=NULL, GLenum texChannel=GL_TEXTURE0);
 
