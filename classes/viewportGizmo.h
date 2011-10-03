@@ -10,6 +10,8 @@ public:
     GLuint viewport_fb;
     GLuint myDepthBuffer;
 
+    int cubeSide;
+
     ViewportGizmo();
     virtual ~ViewportGizmo();
 

@@ -9,6 +9,7 @@ ViewportGizmo::ViewportGizmo(){
     bTextured=true;
     sceneShaderID="texture";
     viewport_fb = 0;
+    cubeSide=0;
 
     //create a 100x100 texture
     renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,100,100);
@@ -16,7 +17,9 @@ ViewportGizmo::ViewportGizmo(){
     //also, create an FBO
     renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,100,false, "viewportGizmo");
 
-
+    texRotation=Vector3f(180,0,0);
+    texTranslation=Vector3f(0,1,0);
+    texScale=Vector3f(1,1,1);
     registerProperties();
 }
 
@@ -57,15 +60,11 @@ void ViewportGizmo::update(double deltaTime){
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,0);
     glPopAttrib();
 
-
 }
 
 void ViewportGizmo::mouseOver(){
 
     BasicButton::mouseOver();
-
-
-       Vector4f myColor;
 
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, viewport_fb);
 
@@ -82,22 +81,73 @@ void ViewportGizmo::mouseOver(){
 
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
-//    float xRatio=(float)scene_size/(float)screenX;
-//    float yRatio=(float)scene_size/(float)screenY;
 
+    float cubeRead[4];
+    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,input->mouseX-location.x,(location.y+scale.y)-input->mouseY,1 ,1 );
+    glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&cubeRead[0]);
 
-
-    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,input->mouseX-800,input->mouseY-100,1 ,1 );
-    glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&myColor[0]);
+    cubeSide=cubeRead[3];
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
-    cout << "Mx: " << input->mouseX << "My: " << input-> mouseY << endl;
-    cout << myColor << endl;
+
+    //cout << cubeSide << "aa:v " << cubeRead[0] << " " << cubeRead[1] << " " << cubeRead[2] << endl;
+
 }
 
 void ViewportGizmo::mouseDrag(){}
 void ViewportGizmo::finishDrag(){}
-void ViewportGizmo::clickedLeft(){}
+
+void ViewportGizmo::clickedLeft(){
+
+
+    //find center
+    Vector3f oldV, newV, driftV;
+
+    oldV=input->center3D;
+
+    //depending on where we clicked, this Vector hould be different
+
+    //also, switching left and right...
+
+    if (cubeSide==1){    //front
+        newV=sceneData->controller->controlledActor->location + Vector3f(0,0,1* oldV.length());
+        sceneData->controller->controlledActor->setRotation(Vector3f(1,0,0),Vector3f(0,1,0),Vector3f(0,0,1));
+    }
+
+    if (cubeSide==2){   //right
+        newV=sceneData->controller->controlledActor->location + Vector3f(1* oldV.length(),0,0);
+        sceneData->controller->controlledActor->setRotation(Vector3f(0,0,-1),Vector3f(0,1,0),Vector3f(1,0,0));
+    }
+
+    if (cubeSide==3){   //top
+        newV=sceneData->controller->controlledActor->location + Vector3f(0,-1* oldV.length(),0);
+        sceneData->controller->controlledActor->setRotation(Vector3f(1,0,0),Vector3f(0,0,1),Vector3f(0,-1,0));
+        //add a tiny bit of rotation, so we don't deadlock...
+        sceneData->controller->controlledActor->addRotation(-1.0, sceneData->controller->controlledActor->xAxis);
+
+    }
+/*
+    if (cubeSide==4){   //bottom
+        newV=sceneData->controller->controlledActor->location + Vector3f(0,1* oldV.length(),0);
+        sceneData->controller->controlledActor->setRotation(Vector3f(1,0,0),Vector3f(0,0,-1),Vector3f(0,1,0));
+    }
+*/
+
+    if (cubeSide==5){   //left
+        newV=sceneData->controller->controlledActor->location + Vector3f(-1* oldV.length(),0,0);
+        sceneData->controller->controlledActor->setRotation(Vector3f(0,0,1),Vector3f(0,1,0),Vector3f(-1,0,0));
+    }
+
+    driftV= newV-oldV;
+
+    sceneData->controller->controlledActor->setLocation(sceneData->controller->controlledActor->location - driftV);
+    sceneData->updateView();
+    //int oldTool=sceneData->controller->tool;
+    //sceneData->controller->switchTool(TOOL_NAV);
+    //sceneData->controller->switchTool(oldTool);
+
+
+}
 
 void ViewportGizmo::clickedRight(){}
 void ViewportGizmo::focusClick(){

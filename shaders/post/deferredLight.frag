@@ -129,7 +129,7 @@ vec4 computeLight(){
     //lightPos = cameraInverse * lightPos;
     //lightPos/=lightPos.w;
 
-    vec3 distVec=abs(lightPos.xyz - fragWorld.xyz);
+    vec3 distVec=(lightPos.xyz - fragWorld.xyz);
     //distVec.z*=2.0;
     float dist=length(distVec);
 
@@ -146,7 +146,7 @@ vec4 computeLight(){
     //colorLight=vec4(dFdy(zPos),0,0,1);
     //return colorLight;
 
-    //zPos=zPos * 32.0;
+    zPos=zPos * 8.0;
     //vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
     vec3 NN= (vec3(dFdx(zPos), dFdy(zPos),1.0));
 

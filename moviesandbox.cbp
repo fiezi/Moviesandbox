@@ -692,6 +692,12 @@
 		<Unit filename="classes\videoTextureActor.h">
 			<Option virtualFolder="Actors\" />
 		</Unit>
+		<Unit filename="classes\viewportGizmo.cpp">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
+		<Unit filename="classes\viewportGizmo.h">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
 		<Unit filename="classes\waitForEventNode.cpp">
 			<Option virtualFolder="Nodes\" />
 		</Unit>
@@ -851,6 +857,8 @@
 		<Unit filename="shaders\aliveTexture.vert" />
 		<Unit filename="shaders\color.frag" />
 		<Unit filename="shaders\color.vert" />
+		<Unit filename="shaders\colorAlphaID.frag" />
+		<Unit filename="shaders\colorAlphaID.vert" />
 		<Unit filename="shaders\drawing.frag" />
 		<Unit filename="shaders\drawing.vert" />
 		<Unit filename="shaders\font.frag" />

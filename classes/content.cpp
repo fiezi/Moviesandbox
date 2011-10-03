@@ -45,11 +45,29 @@
 
 #include "spriteCharacter.h"
 
+#include "viewportGizmo.h"
+
 void Content::setup(){
 
     renderer=Renderer::getInstance();
     input=Input::getInstance();
     sceneData=SceneData::getInstance();
+
+    ViewportGizmo *but;
+
+    but= new ViewportGizmo;
+    but->setLocation(Vector3f( 800, 100, 0.0));
+    but->setRotation(Vector3f(30,30,30));
+    //but->setScale(Vector3f(20,20,20));
+    //but->sceneShaderID="color";
+    //but->textureID="grid_solid";
+    //but->vboMeshID="cube";
+    but->setup();
+    //but->drawType=DRAW_VBOMESH;
+    //but->drawType=DRAW_CUBE;
+    sceneData->buttonList.push_back(but);
+
+
 
     createMonitors();
 
@@ -83,18 +101,6 @@ void Content::setup(){
 
     createInspectors();
 
-   BasicButton *but;
-
-    but= new BasicButton;
-    but->setLocation(Vector3f( 300, 300, -5.0));
-    but->setRotation(Vector3f(30,30,30));
-    but->setScale(Vector3f(30,30,30));
-    but->sceneShaderID="color";
-    but->textureID="grid_solid";
-    but->vboMeshID="cube";
-    but->setup();
-    but->drawType=DRAW_VBOMESH;
-    sceneData->buttonList.push_back(but);
 
  }
 

@@ -563,8 +563,22 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
 
-
             glFramebufferTexture2DEXT (GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, *fbTexture, 0);
+
+            if (fbDepth){
+                glGenRenderbuffersEXT(1, fbDepth);
+                glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, *fbDepth);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSize, fbSize);
+
+                glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+
+                //glGenFramebuffersEXT (1, fbObject);
+                //glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, *fbObject);
+
+
+                // attach renderbuffer
+                glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, *fbDepth);
+            }
         }
 
     }
@@ -708,7 +722,7 @@ void Renderer::setupOrthoCamera(){
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0,screenX,screenY,0,-100,100);
+    glOrtho(0,screenX,screenY,0,-10000,10000);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -724,13 +738,7 @@ void Renderer::draw(){
     glEnable(GL_BLEND);
 
 
-    glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-    setupCamera(true);
+     setupCamera(true);
 
 
 
@@ -1359,7 +1367,7 @@ void Renderer::drawButton(BasicButton* b){
     //set Texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, sceneData->textureList[b->textureID]->texture);
-
+    transformTextureMatrix(b);
     glPushMatrix();
 
     //regular buttons only translate
@@ -1374,7 +1382,7 @@ void Renderer::drawButton(BasicButton* b){
     }
     if (b->drawType==DRAW_CUBE){
         transformActorMatrix(b);   //3D buttons do much more!
-        drawCube(1.0,30.0);
+        drawCube(1.0);
     }
     if (b->drawType==DRAW_VBOMESH){
         transformActorMatrix(b);   //3D buttons do much more!
@@ -1435,7 +1443,7 @@ void Renderer::drawActor(Actor* a){
 
         else if (a->drawType==DRAW_PARTICLES)   drawParticles(a);                 //Particles
         else if (a->drawType==DRAW_SPRITE)      a->drawSprite();
-        else if (a->drawType==DRAW_CUBE)        drawCube(a->collisionCubeSize, a->scale.x);                 //Mesh
+        else if (a->drawType==DRAW_CUBE)        drawCube(a->scale.x);                 //Mesh
         else if (a->drawType==DRAW_TEA)         a->drawTeapot();
         else if (a->drawType==DRAW_SPECIAL)     a->draw();
         //else if (a->drawType==DRAW_POINTPATCH)  drawPatch(a->scale.x,a->scale.x,a->particleScale);
@@ -1709,9 +1717,41 @@ void Renderer::drawBone(float width, float height, float depth){
 
 }
 
-void Renderer::drawCube(float scale, float cubeSize){
+void Renderer::drawCube(float scale){
 
-    glutSolidCube( cubeSize / max(scale , 1.0f) );
+    glEnable(GL_DEPTH_TEST);
+
+
+    //taken from: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/
+    GLfloat vertices[] = {scale,scale,scale,  -scale,scale,scale,  -scale,-scale,scale,  scale,-scale,scale,        // v0-v1-v2-v3
+                          scale,scale,scale,  scale,-scale,scale,  scale,-scale,-scale,  scale,scale,-scale,        // v0-v3-v4-v5
+                          scale,scale,scale,  scale,scale,-scale,  -scale,scale,-scale,  -scale,scale,scale,        // v0-v5-v6-v1
+                          -scale,scale,scale,  -scale,scale,-scale,  -scale,-scale,-scale,  -scale,-scale,scale,    // v1-v6-v7-v2
+                          -scale,-scale,-scale,  scale,-scale,-scale,  scale,-scale,scale,  -scale,-scale,scale,    // v7-v4-v3-v2
+                          scale,-scale,-scale,  -scale,-scale,-scale,  -scale,scale,-scale,  scale,scale,-scale};   // v4-v7-v6-v5
+    // color array
+
+    GLfloat colors[] = {1,0,0,  1,0,0,  1,0,0,  1,0,0,              // v0-v1-v2-v3
+                        0,1,0,  0,1,0,  0,1,0,  0,1,0,              // v0-v3-v4-v5
+                        0,0,1,  0,0,1,  0,0,1,  0,0,1,              // v0-v5-v6-v1
+                        1,1,0,  1,1,0,  1,1,0,  1,1,0,              // v1-v6-v7-v2
+                        0,1,1,  0,1,1,  0,1,1,  0,1,1,              // v7-v4-v3-v2
+                        1,0,1,  1,0,1,  1,0,1,  1,0,1};             // v4-v7-v6-v5
+
+        glEnableClientState( GL_VERTEX_ARRAY );
+//        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+        glEnableClientState( GL_COLOR_ARRAY);
+
+//    	glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+        glVertexPointer(3, GL_FLOAT, 0, vertices );
+        glColorPointer(3,GL_FLOAT,0, colors);
+        glDrawArrays( GL_QUADS, 0, 24 );
+
+        glDisableClientState( GL_VERTEX_ARRAY );
+//		glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+        glDisableClientState( GL_COLOR_ARRAY);
+
+    //    glutSolidCube( cubeSize / max(scale , 1.0f) );
 }
 
 void Renderer::drawBoundingBox(Vector3f lowerLeftBack,Vector3f upperRightFront, Vector4f color){
@@ -2207,6 +2247,7 @@ void Renderer::pick(int x, int y){
 
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, sceneData->layerList[sceneData->currentLayer]->depthFBO);
     float mousePos[4];
+    float centerInfo[4];
 
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
@@ -2217,6 +2258,9 @@ void Renderer::pick(int x, int y){
 
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
+
+    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (scene_size/2.0),(int) (scene_size/2.0) ,1 ,1 );
+    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&centerInfo);
 
     //Shader writes data as follows:
     //gl_FragData[1]=vec4(zPos,objectID,vIDOne,vIDTwo);
@@ -2249,6 +2293,17 @@ void Renderer::pick(int x, int y){
     input->mouse3D+= sceneData->controller->zAxis * zPos;
     input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)windowX - 0.5) * zPos * 1.1);
     input->mouse3D+= sceneData->controller->yAxis * (((float)(windowY-input->mouseY)/(float)windowY - 0.5) *zPos * screenY/scene_size * 1.1);
+
+   ///Center 3D Position
+    //Calculate mouse 3D position from zPos
+
+    //float zPos=( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
+    zPos=centerInfo[2];
+
+    //cout << "center: " << zPos << endl;
+
+    input->center3D= sceneData->controller->location;
+    input->center3D+= sceneData->controller->zAxis * zPos;
 
 
     ///VertexID
