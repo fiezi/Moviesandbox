@@ -370,6 +370,12 @@
 		<Unit filename="classes\main.h">
 			<Option virtualFolder="core\" />
 		</Unit>
+		<Unit filename="classes\menuBar.cpp">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
+		<Unit filename="classes\menuBar.h">
+			<Option virtualFolder="Buttons\Special\" />
+		</Unit>
 		<Unit filename="classes\meshData.cpp">
 			<Option virtualFolder="dataHandlers\" />
 		</Unit>

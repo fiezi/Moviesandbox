@@ -857,14 +857,16 @@ void Renderer::draw(){
     glDisable(GL_DEPTH_TEST);
 
     if (bDrawMenu){
-        setupShading("font");
-        displayDebug();
 
         /*
          *	Draw all Buttons
          */
 
         draw2D();
+
+
+        setupShading("font");
+        displayDebug();
 
         #ifdef BDEBUGRENDERER
         checkOpenGLError("post-draw2D");
@@ -1629,7 +1631,7 @@ void Renderer::displayDebug(){
     }
 */
     sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
-    drawText(writestring,screenX-screenX*0.75,20 );
+    drawText(writestring,screenX-80*0.9,10 );
 
     return;
 }
