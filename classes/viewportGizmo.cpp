@@ -5,6 +5,7 @@
 #include "input.h"
 ViewportGizmo::ViewportGizmo(){
 
+    name="View Gizmo";
     textureID="viewportGizmo";
     bTextured=true;
     sceneShaderID="texture";
@@ -29,8 +30,8 @@ ViewportGizmo::~ViewportGizmo(){}
 void ViewportGizmo::setup(){
 
     BasicButton::setup();
-    scale.x=100;
-    scale.y=80;
+    scale.x=50;
+    scale.y=40;
 
 }
 
@@ -53,6 +54,8 @@ void ViewportGizmo::update(double deltaTime){
 
     //construct matrix
     Matrix4f myMatrix=sceneData->controller->controlledActor->baseMatrix;
+    myMatrix.setTranslation(Vector3f(0,0,0));
+    myMatrix = myMatrix.inverse();
     myMatrix.setTranslation(Vector3f(250,600,0));
     glMultMatrixf(myMatrix);
 
@@ -119,19 +122,18 @@ void ViewportGizmo::clickedLeft(){
         sceneData->controller->controlledActor->setRotation(Vector3f(0,0,-1),Vector3f(0,1,0),Vector3f(1,0,0));
     }
 
-    if (cubeSide==3){   //top
+    if (cubeSide==4){   //top
         newV=sceneData->controller->controlledActor->location + Vector3f(0,-1* oldV.length(),0);
         sceneData->controller->controlledActor->setRotation(Vector3f(1,0,0),Vector3f(0,0,1),Vector3f(0,-1,0));
         //add a tiny bit of rotation, so we don't deadlock...
         sceneData->controller->controlledActor->addRotation(-1.0, sceneData->controller->controlledActor->xAxis);
 
     }
-/*
-    if (cubeSide==4){   //bottom
+
+    if (cubeSide==3){   //bottom
         newV=sceneData->controller->controlledActor->location + Vector3f(0,1* oldV.length(),0);
         sceneData->controller->controlledActor->setRotation(Vector3f(1,0,0),Vector3f(0,0,-1),Vector3f(0,1,0));
     }
-*/
 
     if (cubeSide==5){   //left
         newV=sceneData->controller->controlledActor->location + Vector3f(-1* oldV.length(),0,0);

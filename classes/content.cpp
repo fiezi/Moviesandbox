@@ -57,8 +57,8 @@ void Content::setup(){
     ViewportGizmo *but;
 
     but= new ViewportGizmo;
-    but->setLocation(Vector3f( 800, 100, 0.0));
-    but->setRotation(Vector3f(30,30,30));
+    but->setLocation(Vector3f( renderer->screenX-80, 12, 0.0));
+    //but->setRotation(Vector3f(30,30,30));
     //but->setScale(Vector3f(20,20,20));
     //but->sceneShaderID="color";
     //but->textureID="grid_solid";
@@ -97,7 +97,7 @@ void Content::setup(){
 
     yPos+=40;
 
-    createSysMenu(xPos,yPos);
+    //createSysMenu(xPos,yPos);
 
     createInspectors();
 
@@ -143,6 +143,7 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPermanentList=true;
     lbut->name="File";
     lbut->bDrawName=true;
     lbut->color=menuColor;
@@ -164,12 +165,12 @@ void Content::createMenuBar(){
     lbut->listType.push_back("10SaveButton");
     lbut->listName.push_back("Save");
     lbut->listParent.push_back("PARENT");
-/*
+
     lbut->listType.push_back("12WindowButton");
     lbut->listName.push_back("Preferences");
     lbut->listIcon.push_back("icon_system");
     lbut->listParent.push_back("PARENT");
-*/
+
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Quit");
     lbut->listParent.push_back("PARENT");
