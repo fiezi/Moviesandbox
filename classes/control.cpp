@@ -1,7 +1,7 @@
 #include "control.h"
 #include "input.h"
 #include "sceneData.h"
-#include "physicsActor.h"
+//#include "physicsActor.h"
 #include "calligraphyFilter.h"
 #include "navTool.h"
 #include "particleSelectTool.h"
@@ -196,14 +196,14 @@ cout << "stopping simulation..." << endl;
     nodeTree.clear();
 
     for (uint i=0;i<sceneData->actorList.size();i++){
-      PhysicsActor * phys = dynamic_cast<PhysicsActor*>(sceneData->actorList[i]);
-      if (!phys){
+//      PhysicsActor * phys = dynamic_cast<PhysicsActor*>(sceneData->actorList[i]);
+//      if (!phys){
         sceneData->actorList[i]->transformMatrix=sceneData->actorList[i]->initialTransform;
         sceneData->actorList[i]->baseMatrix=calcMatrix(sceneData->actorList[i]);
         sceneData->actorList[i]->matrixToVectors();
 
         sceneData->actorList[i]->stop();
-      }
+//      }
     }
 
     //update navTool once!

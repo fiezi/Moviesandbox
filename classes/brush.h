@@ -2,7 +2,7 @@
 #define H_BRUSH
 
 #include "actor.h"
-#include "ragDoll.h"
+//#include "ragDoll.h"
 
 
 class ParticleSystem;

@@ -4,7 +4,7 @@
 #include "renderer.h"
 #include "input.h"
 #include "boneActor.h"
-#include "physicsActor.h"
+//#include "physicsActor.h"
 #include "meshData.h"
 
 SkeletalActor::SkeletalActor(){
@@ -54,6 +54,7 @@ ParticleSystem::registerProperties();
 void SkeletalActor::postLoad(){
 
     //TODO:problem with actorList referencing!
+    /*
     if (bPhysicsBones){          //remove geoms and bodys so we don't create ODE errors
         if (bones.size()>0){
             for (int i=0; i<(int)bones.size();i++){
@@ -67,7 +68,7 @@ void SkeletalActor::postLoad(){
         }
         bones.clear();
     }
-
+    */
 
     //always remove bones here if we have any!
     //NO DON'T!! It will kill all references!
@@ -221,7 +222,7 @@ void SkeletalActor::updateShaders(){
 
     //remove our own transformations from the bone transforms!
     Matrix4f initialMatrix = baseMatrix.inverse();
-
+/*
     if (bPhysicsBones){
         for (int i=0;i<(int)bones.size();i++){
 
@@ -234,11 +235,14 @@ void SkeletalActor::updateShaders(){
                 boneTransforms[i]= (renderer->cameraMatrix * bones[i]->transformMatrix) * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix;
             }
         }
-    }else{
+    }else
+
+    */
+    //{
         for (int i=0;i<(int)bones.size();i++){
                 boneTransforms[i]=  initialMatrix * bones[i]->baseMatrix * *sceneData->vboList[vboMeshID]->bones[i]->invBoneMatrix * *sceneData->vboList[vboMeshID]->bindShapeMatrix;
         }
-    }
+    //}
 
 
 }
@@ -264,7 +268,7 @@ void SkeletalActor::stop(){
       return;
 
     //all this is just for physicsbones! And deprecated!
-
+/*
         if (bones.size()>0){
             for (int i=0; i<(int)bones.size();i++){
                 if (bones[i]){
@@ -328,6 +332,7 @@ void SkeletalActor::stop(){
     }
 
     bDelayedConvert=true;
+*/
 }
 
 
@@ -374,7 +379,7 @@ void SkeletalActor::remove(){
 
 void SkeletalActor::convertToPhysicsBones(){
 
-
+/*
     vector<Actor*> oldBones;
 
     bones.swap(oldBones);
@@ -453,6 +458,8 @@ void SkeletalActor::convertToPhysicsBones(){
     }
 
     bPhysicsBones=true;
+
+    */
 }
 
 void SkeletalActor::create(){sceneData->addActor(this);}

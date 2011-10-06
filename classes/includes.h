@@ -29,7 +29,8 @@ using namespace std;
 #include "tinyxml.h"
 #include "tinystr.h"
 
-#include "ode.h"
+//removed for now...
+//#include "ode.h"
 
 #include "FreeImage.h"
 

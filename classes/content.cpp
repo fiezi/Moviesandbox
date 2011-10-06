@@ -16,8 +16,8 @@
 #include "console.h"
 
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "flexGrid.h"
 #include "interpolationHelper.h"
 

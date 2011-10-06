@@ -56,8 +56,6 @@
 			<Add directory="external\freetype" />
 			<Add directory="external\quicktime\CIncludes" />
 			<Add directory="external\ofVideo" />
-			<Add directory="external\ode\include\ode" />
-			<Add directory="external\ode\include\" />
 		</Compiler>
 		<Linker>
 			<Add option="external/quicktime/Libraries/qtmlClient.lib" />
@@ -68,7 +66,6 @@
 			<Add library="gdi32" />
 			<Add library="wsock32" />
 			<Add library="ws2_32" />
-			<Add library="external\ode\lib\libode_single.a" />
 			<Add library="external\freeImage\FreeImage.lib" />
 			<Add library="external\freetype\lib\win32\freetype.a" />
 			<Add directory="external\glee\lib" />
@@ -450,12 +447,6 @@
 		<Unit filename="classes\performActionNode.h">
 			<Option virtualFolder="Nodes\" />
 		</Unit>
-		<Unit filename="classes\physicsActor.cpp">
-			<Option virtualFolder="Actors\" />
-		</Unit>
-		<Unit filename="classes\physicsActor.h">
-			<Option virtualFolder="Actors\" />
-		</Unit>
 		<Unit filename="classes\pickWorldButton.cpp">
 			<Option virtualFolder="Buttons\BasicInterface\" />
 		</Unit>
@@ -487,12 +478,6 @@
 		</Unit>
 		<Unit filename="classes\propsWidget.h">
 			<Option virtualFolder="Buttons\PropsWidget\" />
-		</Unit>
-		<Unit filename="classes\ragDoll.cpp">
-			<Option virtualFolder="Actors\" />
-		</Unit>
-		<Unit filename="classes\ragDoll.h">
-			<Option virtualFolder="Actors\" />
 		</Unit>
 		<Unit filename="classes\renderer.cpp">
 			<Option virtualFolder="core\" />
@@ -799,27 +784,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="external\glee\GLee.h" />
-		<Unit filename="external\ode\include\ode\collision.h" />
-		<Unit filename="external\ode\include\ode\collision_space.h" />
-		<Unit filename="external\ode\include\ode\collision_trimesh.h" />
-		<Unit filename="external\ode\include\ode\common.h" />
-		<Unit filename="external\ode\include\ode\compatibility.h" />
-		<Unit filename="external\ode\include\ode\contact.h" />
-		<Unit filename="external\ode\include\ode\error.h" />
-		<Unit filename="external\ode\include\ode\export-dif.h" />
-		<Unit filename="external\ode\include\ode\mass.h" />
-		<Unit filename="external\ode\include\ode\matrix.h" />
-		<Unit filename="external\ode\include\ode\memory.h" />
-		<Unit filename="external\ode\include\ode\misc.h" />
-		<Unit filename="external\ode\include\ode\objects.h" />
-		<Unit filename="external\ode\include\ode\ode.h" />
-		<Unit filename="external\ode\include\ode\odeconfig.h" />
-		<Unit filename="external\ode\include\ode\odecpp.h" />
-		<Unit filename="external\ode\include\ode\odecpp_collision.h" />
-		<Unit filename="external\ode\include\ode\odeinit.h" />
-		<Unit filename="external\ode\include\ode\odemath.h" />
-		<Unit filename="external\ode\include\ode\rotation.h" />
-		<Unit filename="external\ode\include\ode\timer.h" />
 		<Unit filename="external\ofTrueTypeFont\ofTrueTypeFont.cpp" />
 		<Unit filename="external\ofTrueTypeFont\ofTrueTypeFont.h" />
 		<Unit filename="external\ofVideo\ofQtUtils.cpp" />

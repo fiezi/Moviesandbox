@@ -7,8 +7,8 @@
 
 //actors
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "skeletalActor.h"
 #include "hitBox.h"
 #include "cameraActor.h"
@@ -200,9 +200,11 @@ Renderer::~Renderer(){
             glDeleteRenderbuffersEXT(1, &multiSample_db);
             glDeleteFramebuffersEXT(1, &multiSample_fb);
 
+/*
     dSpaceDestroy(collisionSpace);
     dWorldDestroy(physicsWorld);
     dCloseODE();
+*/
 }
 
 Renderer* Renderer::getInstance(){
@@ -393,6 +395,7 @@ void Renderer::setup(){
 
 void Renderer::physicsSetup(){
 
+/*
     physicsWorld = dWorldCreate();          //create a default physics world
     collisionSpace = dHashSpaceCreate(0);   //create a default collision space
     dWorldSetGravity (physicsWorld,0,-9.81,0);
@@ -408,6 +411,7 @@ void Renderer::physicsSetup(){
 
     dInitODE();
     dWorldSetQuickStepNumIterations(physicsWorld,120);
+*/
 }
 
 
@@ -424,7 +428,7 @@ void Renderer::update(float deltaTime){
 void Renderer::physicsUpdate(){
 
 	// Detect collision
-	dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
+	//dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
 
 	// Step world
 	/*
@@ -433,12 +437,12 @@ void Renderer::physicsUpdate(){
     else
      {
     */
-      dWorldQuickStep(physicsWorld, 0.01);
+      //dWorldQuickStep(physicsWorld, 0.01);
       //super-accurate but sloooooow:
 	  //dWorldStep(physicsWorld,0.01f);
 	  // Remove all temporary collision joints now that the world has been stepped
-	  dJointGroupEmpty(jointGroup);
-      physicsTime=deltaTime;
+	 // dJointGroupEmpty(jointGroup);
+     // physicsTime=deltaTime;
 	//  }
 
 }
@@ -641,8 +645,9 @@ void Renderer::checkFBOStatus(){
     }
 }
 
-
+/*
 void Renderer::handleCollisionBetween(void * data, dGeomID o0, dGeomID o1){
+
 
 		// Create an array of dContact objects to hold the contact joints
 
@@ -684,7 +689,7 @@ void Renderer::handleCollisionBetween(void * data, dGeomID o0, dGeomID o1){
 		}
 
 }
-
+*/
 //************************************************************
 //
 //  Drawing to the screen - Actors, Buttons and RenderToTexture

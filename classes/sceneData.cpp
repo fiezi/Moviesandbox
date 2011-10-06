@@ -10,8 +10,8 @@
 
 //actors
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "skeletalActor.h"
 #include "hitBox.h"
 #include "cameraActor.h"
@@ -149,8 +149,8 @@ void SceneData::fillGlobalLists(){
     //createActorID(new VideoTextureActor);
     createActorID(new ParticleSystem);
     createActorID(new ParticleSpray);
-    createActorID(new PhysicsActor);
-    createActorID(new RagDoll);
+//    createActorID(new PhysicsActor);
+//    createActorID(new RagDoll);
     createActorID(new SkeletalActor);
     createActorID(new SkeletalHead);
     createActorID(new Brush);
@@ -325,7 +325,7 @@ void SceneData::setup(){
     input=Input::getInstance();
 
     //do this first, so we don't get an error when initialising our physicsActor in the global list!
-	renderer->physicsSetup();
+//	renderer->physicsSetup();
 
         //generate Class and Type Lists
     fillGlobalLists();
