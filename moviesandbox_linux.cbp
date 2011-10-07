@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Moviesandbox" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="core/;dataHandlers/;Actors/;Actors/;classes/;Actors/;classes/;Buttons/Special/;Buttons/Inspectors/;Buttons/BasicInterface/;Nodes/;Tools/;Buttons/BoneWidget/;Tools/brushFilters/;Buttons/MainMenu/;Buttons/DrawingWidget/;Buttons/ActorMenu/;Buttons/PropsWidget/;Buttons/timeline/;Buttons/;Buttons/SelectWidget/;Buttons/NavWidget/;" />
+		<Build>
+			<Target title="debug">
+				<Option output="Moviesandbox" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-Wno-multichar" />
+					<Add option="-DBDEBUGRENDERER" />
+				</Compiler>
+			</Target>
+			<Target title="release">
+				<Option output="Moviesandbox" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Option projectIncludeDirsRelation="2" />
+				<Compiler>
+					<Add option="-march=pentium4" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
+					<Add option="-O2" />
+					<Add option="-O1" />
+					<Add option="-O" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-DOSC_HOST_LITTLE_ENDIAN" />
+			<Add directory="classes" />
+			<Add directory="classes/linux" />
+			<Add directory="resources" />
+			<Add directory="shaders" />
+			<Add directory="external" />
+			<Add directory="external/vMath" />
+			<Add directory="external/tinyXml" />
+			<Add directory="external/ofTrueTypeFont" />
+			<Add directory="external/ofxPerlin" />
+			<Add directory="external/oscpack" />
+			<Add directory="external/freetype" />
+		</Compiler>
+		<Linker>
+			<Add option="-lglut" />
+			<Add option="-lGLU" />
+			<Add option="-lglee" />
+			<Add option="-lfreeimage" />
+			<Add option="-lfreetype" />
+			<Add directory="external/glee/lib" />
+			<Add directory="external/fmodex/lib" />
+			<Add directory="external/ode/lib/releasedll" />
+			<Add directory="external/ode/lib/releaselib" />
+			<Add directory="../msb20" />
+		</Linker>
+		<Unit filename="classes/action.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/action.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/actor.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/actor.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/assetInspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/assetInspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/assignButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/assignButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/attachToNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/attachToNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/base64Encode.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/basicButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/basicButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/boneActor.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/boneActor.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/boneTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/boneTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/boneWidget.cpp">
+			<Option virtualFolder="Buttons/BoneWidget/" />
+		</Unit>
+		<Unit filename="classes/boneWidget.h">
+			<Option virtualFolder="Buttons/BoneWidget/" />
+		</Unit>
+		<Unit filename="classes/boolButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/boolButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/brush.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/brush.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/brushFilter.cpp">
+			<Option virtualFolder="Tools/brushFilters/" />
+		</Unit>
+		<Unit filename="classes/brushFilter.h">
+			<Option virtualFolder="Tools/brushFilters/" />
+		</Unit>
+		<Unit filename="classes/brushInspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/brushInspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/calligraphyFilter.cpp">
+			<Option virtualFolder="Tools/brushFilters/" />
+		</Unit>
+		<Unit filename="classes/calligraphyFilter.h">
+			<Option virtualFolder="Tools/brushFilters/" />
+		</Unit>
+		<Unit filename="classes/cameraActor.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/cameraActor.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/character.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/character.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/characterController.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/characterController.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/colladaLoader.cpp">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/colladaLoader.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/colorPickButton.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/colorPickButton.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/console.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/console.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/consoleCommandNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/consoleCommandNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/content.cpp" />
+		<Unit filename="classes/content.h" />
+		<Unit filename="classes/control.cpp" />
+		<Unit filename="classes/control.h" />
+		<Unit filename="classes/createActionButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createActionButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createActorButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createActorButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createNodeButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createNodeButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createPrefabButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/createPrefabButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/drawTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/drawTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/drawingWidget.cpp">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/drawingWidget.h">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/gridTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/gridTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/hitBox.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/hitBox.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/importBitmapButton.cpp">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/importBitmapButton.h">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/includes.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/input.cpp">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/input.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/inputConnectButton.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/inputConnectButton.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/inspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/inspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/inspectorManager.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/inspectorManager.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/interpolateNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/interpolateNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/interpolationHelper.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="classes/interpolationHelper.h" />
+		<Unit filename="classes/keyInputNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/keyInputNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/layer.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/layer.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/layerInspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/layerInspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/linux/platformIncludes.h" />
+		<Unit filename="classes/listButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/listButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/loadBrushButton.cpp">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/loadBrushButton.h">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/loadButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/loadButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/loadDrawSkeletonButton.cpp">
+			<Option virtualFolder="Buttons/BoneWidget/" />
+		</Unit>
+		<Unit filename="classes/loadDrawSkeletonButton.h">
+			<Option virtualFolder="Buttons/BoneWidget/" />
+		</Unit>
+		<Unit filename="classes/loadDrawingButton.cpp">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/loadDrawingButton.h">
+			<Option virtualFolder="Buttons/DrawingWidget/" />
+		</Unit>
+		<Unit filename="classes/loadNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/loadNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/main.cpp">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/main.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/menuBar.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/menuBar.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/meshData.cpp">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/meshData.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/morphSpriteMeshNode.cpp" />
+		<Unit filename="classes/morphSpriteMeshNode.h" />
+		<Unit filename="classes/moveButton.cpp">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/moveButton.h">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/msbLight.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/msbLight.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/msbObject.cpp" />
+		<Unit filename="classes/msbObject.h" />
+		<Unit filename="classes/msbTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/msbTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/navTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/navTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/navWidget.cpp">
+			<Option virtualFolder="Buttons/NavWidget/" />
+		</Unit>
+		<Unit filename="classes/navWidget.h">
+			<Option virtualFolder="Buttons/NavWidget/" />
+		</Unit>
+		<Unit filename="classes/node.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/node.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/nodeIO.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/nodeIO.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/orbitTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/orbitTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/particleSelectTool.cpp" />
+		<Unit filename="classes/particleSelectTool.h" />
+		<Unit filename="classes/particleSpray.cpp" />
+		<Unit filename="classes/particleSpray.h" />
+		<Unit filename="classes/particleSystem.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/particleSystem.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/performActionNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/performActionNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/pickWorldButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/pickWorldButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/pilot.cpp" />
+		<Unit filename="classes/pilot.h" />
+		<Unit filename="classes/primitivesInspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/primitivesInspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/propertyAssignButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/propertyAssignButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/propertyInspector.cpp">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/propertyInspector.h">
+			<Option virtualFolder="Buttons/Inspectors/" />
+		</Unit>
+		<Unit filename="classes/propsWidget.cpp">
+			<Option virtualFolder="Buttons/PropsWidget/" />
+		</Unit>
+		<Unit filename="classes/propsWidget.h">
+			<Option virtualFolder="Buttons/PropsWidget/" />
+		</Unit>
+		<Unit filename="classes/renderer.cpp">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/renderer.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/rootNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/rootNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/rotateButton.cpp">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/rotateButton.h">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/saveButton.cpp">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/saveButton.h">
+			<Option virtualFolder="Buttons/MainMenu/" />
+		</Unit>
+		<Unit filename="classes/sceneData.cpp">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/sceneData.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/selectTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/selectTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/selectWidget.cpp">
+			<Option virtualFolder="Buttons/SelectWidget/" />
+		</Unit>
+		<Unit filename="classes/selectWidget.h">
+			<Option virtualFolder="Buttons/SelectWidget/" />
+		</Unit>
+		<Unit filename="classes/setAnimationNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setAnimationNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setBackgroundNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setBackgroundNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setBaseButton.cpp">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/setBaseButton.h">
+			<Option virtualFolder="Buttons/ActorMenu/" />
+		</Unit>
+		<Unit filename="classes/setHiddenNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setHiddenNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setPropertyNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setPropertyNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setWalkTargetNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/setWalkTargetNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/skeletalActor.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/skeletalActor.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/skeletalHead.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/skeletalHead.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/skinTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/skinTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/sliderButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/sliderButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/spawnTool.cpp">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/spawnTool.h">
+			<Option virtualFolder="Tools/" />
+		</Unit>
+		<Unit filename="classes/spriteCharacter.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/spriteCharacter.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/spriteMeshLoader.cpp">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/spriteMeshLoader.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/spriteMeshLoaderXML.cpp">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/spriteMeshLoaderXML.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/stopAnimNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/stopAnimNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/switchCameraNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/switchCameraNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/tabbedListButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/tabbedListButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/textInputButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/textInputButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/textfile.cpp">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/textfile.h">
+			<Option virtualFolder="dataHandlers/" />
+		</Unit>
+		<Unit filename="classes/timelineButton.cpp">
+			<Option virtualFolder="Buttons/timeline/" />
+		</Unit>
+		<Unit filename="classes/timelineButton.h">
+			<Option virtualFolder="Buttons/timeline/" />
+		</Unit>
+		<Unit filename="classes/timelineInspector.cpp">
+			<Option virtualFolder="Buttons/timeline/" />
+		</Unit>
+		<Unit filename="classes/timelineInspector.h">
+			<Option virtualFolder="Buttons/timeline/" />
+		</Unit>
+		<Unit filename="classes/triggerActorNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/triggerActorNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/triggerEventNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/triggerEventNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/udpInput.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/udpInput.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/userPopUp.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/userPopUp.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/vectorInputButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/vectorInputButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/viewportGizmo.cpp">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/viewportGizmo.h">
+			<Option virtualFolder="Buttons/Special/" />
+		</Unit>
+		<Unit filename="classes/waitForEventNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/waitForEventNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/waitForTimerNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/waitForTimerNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/walkToNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/walkToNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/widget.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/widget.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/windowButton.cpp">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/windowButton.h">
+			<Option virtualFolder="Buttons/BasicInterface/" />
+		</Unit>
+		<Unit filename="classes/x1600Renderer.cpp">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="classes/x1600Renderer.h">
+			<Option virtualFolder="core/" />
+		</Unit>
+		<Unit filename="config.xml" />
+		<Unit filename="external/freeglut/freeglut.h" />
+		<Unit filename="external/freeglut/freeglut_ext.h" />
+		<Unit filename="external/freeglut/freeglut_std.h" />
+		<Unit filename="external/freeglut/glut.h" />
+		<Unit filename="external/freetype/freetype/config/ftconfig.h" />
+		<Unit filename="external/freetype/freetype/config/ftheader.h" />
+		<Unit filename="external/freetype/freetype/config/ftmodule.h" />
+		<Unit filename="external/freetype/freetype/config/ftoption.h" />
+		<Unit filename="external/freetype/freetype/config/ftstdlib.h" />
+		<Unit filename="external/freetype/freetype/freetype.h" />
+		<Unit filename="external/freetype/freetype/ftadvanc.h" />
+		<Unit filename="external/freetype/freetype/ftbbox.h" />
+		<Unit filename="external/freetype/freetype/ftbdf.h" />
+		<Unit filename="external/freetype/freetype/ftbitmap.h" />
+		<Unit filename="external/freetype/freetype/ftcache.h" />
+		<Unit filename="external/freetype/freetype/ftchapters.h" />
+		<Unit filename="external/freetype/freetype/ftcid.h" />
+		<Unit filename="external/freetype/freetype/fterrdef.h" />
+		<Unit filename="external/freetype/freetype/fterrors.h" />
+		<Unit filename="external/freetype/freetype/ftgasp.h" />
+		<Unit filename="external/freetype/freetype/ftglyph.h" />
+		<Unit filename="external/freetype/freetype/ftgxval.h" />
+		<Unit filename="external/freetype/freetype/ftgzip.h" />
+		<Unit filename="external/freetype/freetype/ftimage.h" />
+		<Unit filename="external/freetype/freetype/ftincrem.h" />
+		<Unit filename="external/freetype/freetype/ftlcdfil.h" />
+		<Unit filename="external/freetype/freetype/ftlist.h" />
+		<Unit filename="external/freetype/freetype/ftlzw.h" />
+		<Unit filename="external/freetype/freetype/ftmac.h" />
+		<Unit filename="external/freetype/freetype/ftmm.h" />
+		<Unit filename="external/freetype/freetype/ftmodapi.h" />
+		<Unit filename="external/freetype/freetype/ftmoderr.h" />
+		<Unit filename="external/freetype/freetype/ftotval.h" />
+		<Unit filename="external/freetype/freetype/ftoutln.h" />
+		<Unit filename="external/freetype/freetype/ftpfr.h" />
+		<Unit filename="external/freetype/freetype/ftrender.h" />
+		<Unit filename="external/freetype/freetype/ftsizes.h" />
+		<Unit filename="external/freetype/freetype/ftsnames.h" />
+		<Unit filename="external/freetype/freetype/ftstroke.h" />
+		<Unit filename="external/freetype/freetype/ftsynth.h" />
+		<Unit filename="external/freetype/freetype/ftsystem.h" />
+		<Unit filename="external/freetype/freetype/fttrigon.h" />
+		<Unit filename="external/freetype/freetype/fttypes.h" />
+		<Unit filename="external/freetype/freetype/ftwinfnt.h" />
+		<Unit filename="external/freetype/freetype/ftxf86.h" />
+		<Unit filename="external/freetype/freetype/t1tables.h" />
+		<Unit filename="external/freetype/freetype/ttnameid.h" />
+		<Unit filename="external/freetype/freetype/tttables.h" />
+		<Unit filename="external/freetype/freetype/tttags.h" />
+		<Unit filename="external/freetype/freetype/ttunpat.h" />
+		<Unit filename="external/freetype/ft2build.h" />
+		<Unit filename="external/ofTrueTypeFont/ofTrueTypeFont.cpp" />
+		<Unit filename="external/ofTrueTypeFont/ofTrueTypeFont.h" />
+		<Unit filename="external/ofxPerlin/ofxPerlin.cpp" />
+		<Unit filename="external/ofxPerlin/ofxPerlin.h" />
+		<Unit filename="external/oscpack/ip/IpEndpointName.cpp" />
+		<Unit filename="external/oscpack/ip/IpEndpointName.h" />
+		<Unit filename="external/oscpack/ip/NetworkingUtils.h" />
+		<Unit filename="external/oscpack/ip/PacketListener.h" />
+		<Unit filename="external/oscpack/ip/TimerListener.h" />
+		<Unit filename="external/oscpack/ip/UdpSocket.h" />
+		<Unit filename="external/oscpack/ip/posix/NetworkingUtils.cpp" />
+		<Unit filename="external/oscpack/ip/posix/UdpSocket.cpp" />
+		<Unit filename="external/oscpack/osc/MessageMappingOscPacketListener.h" />
+		<Unit filename="external/oscpack/osc/OscException.h" />
+		<Unit filename="external/oscpack/osc/OscHostEndianness.h" />
+		<Unit filename="external/oscpack/osc/OscOutboundPacketStream.cpp" />
+		<Unit filename="external/oscpack/osc/OscOutboundPacketStream.h" />
+		<Unit filename="external/oscpack/osc/OscPacketListener.h" />
+		<Unit filename="external/oscpack/osc/OscPrintReceivedElements.cpp" />
+		<Unit filename="external/oscpack/osc/OscPrintReceivedElements.h" />
+		<Unit filename="external/oscpack/osc/OscReceivedElements.cpp" />
+		<Unit filename="external/oscpack/osc/OscReceivedElements.h" />
+		<Unit filename="external/oscpack/osc/OscTypes.cpp" />
+		<Unit filename="external/oscpack/osc/OscTypes.h" />
+		<Unit filename="external/tinyXml/tinystr.cpp" />
+		<Unit filename="external/tinyXml/tinystr.h" />
+		<Unit filename="external/tinyXml/tinyxml.cpp" />
+		<Unit filename="external/tinyXml/tinyxml.h" />
+		<Unit filename="external/tinyXml/tinyxmlerror.cpp" />
+		<Unit filename="external/tinyXml/tinyxmlparser.cpp" />
+		<Unit filename="external/vMath/vmath.cpp" />
+		<Unit filename="external/vMath/vmath.h" />
+		<Unit filename="resources/basic.library" />
+		<Unit filename="resources/scenes/blank.scene" />
+		<Unit filename="shaders/aliveTexture.frag" />
+		<Unit filename="shaders/aliveTexture.vert" />
+		<Unit filename="shaders/color.frag" />
+		<Unit filename="shaders/color.vert" />
+		<Unit filename="shaders/colorAlphaID.frag" />
+		<Unit filename="shaders/colorAlphaID.vert" />
+		<Unit filename="shaders/drawing.frag" />
+		<Unit filename="shaders/drawing.vert" />
+		<Unit filename="shaders/font.frag" />
+		<Unit filename="shaders/font.vert" />
+		<Unit filename="shaders/illustration.frag" />
+		<Unit filename="shaders/illustration.vert" />
+		<Unit filename="shaders/kinectHeightField.frag" />
+		<Unit filename="shaders/kinectHeightField.vert" />
+		<Unit filename="shaders/particleHeightField.frag" />
+		<Unit filename="shaders/particleHeightField.vert" />
+		<Unit filename="shaders/post/deferredLight.frag" />
+		<Unit filename="shaders/post/dof.frag" />
+		<Unit filename="shaders/post/dof.vert" />
+		<Unit filename="shaders/post/post.frag" />
+		<Unit filename="shaders/post/post.vert" />
+		<Unit filename="shaders/skeletal.frag" />
+		<Unit filename="shaders/skeletal.vert" />
+		<Unit filename="shaders/skeletalCab.frag" />
+		<Unit filename="shaders/skeletalCab.vert" />
+		<Unit filename="shaders/skeletalIllustration.frag" />
+		<Unit filename="shaders/skeletalIllustration.vert" />
+		<Unit filename="shaders/skinning.frag" />
+		<Unit filename="shaders/skinning.vert" />
+		<Unit filename="shaders/texture.frag" />
+		<Unit filename="shaders/texture.vert" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
