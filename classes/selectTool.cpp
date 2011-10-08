@@ -78,20 +78,38 @@ void SelectTool::mousePressed(int btn){
 
     if (input->worldTarget==sceneData->aGizmo->xAxisGizmo){
         bClickedonGizmo=true;
+        sceneData->aGizmo->moveAxis=&(sceneData->selectedActors[0]->xAxis);
         sceneData->aGizmo->beginGizmoing();
-        sceneData->aGizmo->moveAxis=Vector3f(-1,0,0);
     }
 
     if (input->worldTarget==sceneData->aGizmo->yAxisGizmo){
         bClickedonGizmo=true;
+        sceneData->aGizmo->moveAxis=&(sceneData->selectedActors[0]->yAxis);
         sceneData->aGizmo->beginGizmoing();
-        sceneData->aGizmo->moveAxis=Vector3f(0,1,0);
     }
 
     if (input->worldTarget==sceneData->aGizmo->zAxisGizmo){
         bClickedonGizmo=true;
+        sceneData->aGizmo->moveAxis=&(sceneData->selectedActors[0]->zAxis);
         sceneData->aGizmo->beginGizmoing();
-        sceneData->aGizmo->moveAxis=Vector3f(0,0,-1);
+    }
+
+    if (input->worldTarget==sceneData->aGizmo->xRotateGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->rotAxis=&(sceneData->selectedActors[0]->zAxis);
+        sceneData->aGizmo->beginGizmoing();
+    }
+
+    if (input->worldTarget==sceneData->aGizmo->yRotateGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->rotAxis=&(sceneData->selectedActors[0]->xAxis);
+        sceneData->aGizmo->beginGizmoing();
+    }
+
+    if (input->worldTarget==sceneData->aGizmo->zRotateGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->rotAxis=&(sceneData->selectedActors[0]->yAxis);
+        sceneData->aGizmo->beginGizmoing();
     }
 
 }

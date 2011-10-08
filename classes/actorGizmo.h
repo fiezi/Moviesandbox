@@ -11,7 +11,12 @@ public:
     Actor*      yAxisGizmo;
     Actor*      zAxisGizmo;
 
-    Vector3f   moveAxis;
+    Actor*      xRotateGizmo;
+    Actor*      yRotateGizmo;
+    Actor*      zRotateGizmo;
+
+    Vector3f*   moveAxis;
+    Vector3f*   rotAxis;
 
     bool        bGizmoing;
 

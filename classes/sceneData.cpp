@@ -701,53 +701,7 @@ void SceneData::addGizmos(){
 
     aGizmo= new ActorGizmo;
     helperList.push_back(aGizmo);
-    //create 3 arrows
-    //connect them all to master gizmo
-    aGizmo->xAxisGizmo=new Actor;
-    aGizmo->xAxisGizmo->name="xAxisGizmo";
-    aGizmo->xAxisGizmo->objectID=-10.0f;
-    aGizmo->xAxisGizmo->setLocation(Vector3f(1,0,0));
-    aGizmo->xAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
-    aGizmo->xAxisGizmo->drawType=DRAW_CUBE;
-    aGizmo->xAxisGizmo->setBase(aGizmo);
-    aGizmo->xAxisGizmo->bRemoveable=false;
-    helperList.push_back(aGizmo->xAxisGizmo);
-
-
-    //aGizmo->xAxisGizmo->bTextured=true;
-    //aGizmo->xAxisGizmo->sceneShaderID="texture";
-    //aGizmo->xAxisGizmo->textureID="icon_base";
-
-
-
-    aGizmo->yAxisGizmo=new Actor;
-    aGizmo->yAxisGizmo->name="yAxisGizmo";
-    aGizmo->yAxisGizmo->objectID=-11.0f;
-    aGizmo->yAxisGizmo->setLocation(Vector3f(0,1,0));
-    aGizmo->yAxisGizmo->setRotation(Vector3f(0,0,90));
-    aGizmo->yAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
-    aGizmo->yAxisGizmo->drawType=DRAW_CUBE;
-    aGizmo->yAxisGizmo->setBase(aGizmo);
-    aGizmo->yAxisGizmo->bRemoveable=false;
-    helperList.push_back(aGizmo->yAxisGizmo);
-
-
-    aGizmo->zAxisGizmo=new Actor;
-    aGizmo->zAxisGizmo->name="zAxisGizmo";
-    aGizmo->zAxisGizmo->objectID=-12.0f;
-    aGizmo->zAxisGizmo->setLocation(Vector3f(0,0,-1));
-    aGizmo->zAxisGizmo->setRotation(Vector3f(0,90,0));
-    aGizmo->zAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
-    aGizmo->zAxisGizmo->drawType=DRAW_CUBE;
-    aGizmo->zAxisGizmo->setBase(aGizmo);
-    aGizmo->zAxisGizmo->bRemoveable=false;
-    helperList.push_back(aGizmo->zAxisGizmo);
-
-
-    //create 3 planes - later
-
-    //master gizmo updates position and serves as base to all gizmo parts
-    //also executes all gizmo functionality
+    aGizmo->setup();
 
 }
 

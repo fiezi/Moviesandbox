@@ -2247,12 +2247,18 @@ void Renderer::pick(int x, int y){
     //Actor Gizmo
     if ((int)floor(mousePos[1])==-10)
         input->worldTarget=sceneData->aGizmo->xAxisGizmo;
-
     if ((int)floor(mousePos[1])==-11)
         input->worldTarget=sceneData->aGizmo->yAxisGizmo;
-
     if ((int)floor(mousePos[1])==-12)
         input->worldTarget=sceneData->aGizmo->zAxisGizmo;
+
+
+    if ((int)floor(mousePos[1])==-20)
+        input->worldTarget=sceneData->aGizmo->xRotateGizmo;
+    if ((int)floor(mousePos[1])==-21)
+        input->worldTarget=sceneData->aGizmo->yRotateGizmo;
+    if ((int)floor(mousePos[1])==-22)
+        input->worldTarget=sceneData->aGizmo->zRotateGizmo;
 
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos
