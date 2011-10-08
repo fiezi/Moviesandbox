@@ -63,7 +63,7 @@ void ListButton::assembleList(){
     Vector3f startListLoc=listLoc;
 
     if (bPermanentList && (int)listButton.size()>0){
-        for (int i=0;i<listButton.size();i++)
+        for (int i=0;i<(int)listButton.size();i++)
                 listButton[i]->bHidden=false;
         return;
     }

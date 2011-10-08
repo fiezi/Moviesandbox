@@ -1,6 +1,6 @@
 
 
-#include "SetWalkTargetNode.h"
+#include "setWalkTargetNode.h"
 #include "control.h"
 #include "renderer.h"
 #include "character.h"

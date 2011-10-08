@@ -243,12 +243,6 @@
 		<Unit filename="classes\drawingWidget.h">
 			<Option virtualFolder="Buttons\DrawingWidget\" />
 		</Unit>
-		<Unit filename="classes\flexGrid.cpp">
-			<Option virtualFolder="Actors\" />
-		</Unit>
-		<Unit filename="classes\flexGrid.h">
-			<Option virtualFolder="Actors\" />
-		</Unit>
 		<Unit filename="classes\glut.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

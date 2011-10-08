@@ -12,7 +12,6 @@
 #include "node.h"
 #include "action.h"
 #include "textfile.h"
-#include "flexGrid.h"
 
 #include "msbLight.h"
 

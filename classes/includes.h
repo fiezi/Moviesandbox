@@ -160,7 +160,8 @@ struct externalInputData{
             CloseHandle( processId.hThread );
         }
 
-#else
+#endif
+#ifdef TARGET_MACOSX
 
         pid_t processId;
 
@@ -168,6 +169,41 @@ struct externalInputData{
 
             if ((processId = fork()) == 0) {
                 char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
+                char * const argv[] = { app, NULL };
+                if (execve(app, argv, NULL) < 0) {
+                    perror("execv error:");
+                }
+            } else if (processId < 0) {
+                perror("fork error");
+            }
+            cout << "started task "<<taskName<<endl;
+        }
+
+        void stopProgram(){
+            //taken from: http://www.yolinux.com/TUTORIALS/ForkExecProcesses.html
+
+            int  killReturn = killpg( processId, SIGKILL);  // Kill child process group
+
+            if( killReturn == ESRCH)      // pid does not exist
+            {
+               cout << "Group does not exist!" << endl;
+            }
+            else if( killReturn == EPERM) // No permission to send signal
+            {
+               cout << "No permission to send signal!" << endl;
+            }
+            else
+               cout << "closing task " << taskName << endl;
+        }
+#endif
+#ifdef TARGET_LINUX
+
+        pid_t processId;
+
+        void startProgram(){
+
+            if ((processId = fork()) == 0) {
+                char app[] = "tools/msbKinect/msbKinect";
                 char * const argv[] = { app, NULL };
                 if (execve(app, argv, NULL) < 0) {
                     perror("execv error:");
@@ -213,6 +249,10 @@ struct key{
 #endif
 
 #ifdef TARGET_MACOSX
+#define DIRECTORY_SEPARATION "/"
+#endif
+
+#ifdef TARGET_LINUX
 #define DIRECTORY_SEPARATION "/"
 #endif
 

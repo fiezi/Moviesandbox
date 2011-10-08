@@ -127,15 +127,26 @@ void selectRenderer(){
 
 	bool bGLCompatibilityShader=false;
 
+
 	//checking for extensions and shaders:
     if (!GLEE_ARB_point_sprite){
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
 		std::cout << " not supporting point sprites \n";
 		exit(0);
 	}
+
+    if (!GLEE_VERSION_2_0){
+		std::cout << "OGL less than version 2.0" << endl;
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
+		exit(0);
+    }
+
     if (!(GLEE_ARB_vertex_shader && GLEE_ARB_fragment_shader)){
 		std::cout << "GLSL unsupported \n";
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
 		exit(0);
 	}
+
     // and framebuffer  objects
 	// verify FBOs are supported (otherwise we get FuBar'd Objects)
 
@@ -173,6 +184,9 @@ void selectRenderer(){
 }
 
 int main(int argc, char** argv){
+
+
+
 
 	glutInit(&argc, argv);
 

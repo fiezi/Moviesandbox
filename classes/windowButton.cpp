@@ -49,7 +49,7 @@ void WindowButton::assembleList(){
     }
 
     if (listButton.size()>0)
-        for (int i=0;i<listButton.size();i++)
+        for (int i=0;i<(int)listButton.size();i++)
             listButton[i]->remove();
 
     listButton.clear();
@@ -126,7 +126,7 @@ void WindowButton::trigger(MsbObject* other){
         }
 
         if (listButton.size()>0)
-            for (int i=0;i<listButton.size();i++){
+            for (int i=0;i<(int)listButton.size();i++){
                 listButton[i]->bPermanent=false;
                 listButton[i]->remove();
             }

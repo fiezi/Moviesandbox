@@ -7,6 +7,7 @@
 SelectTool::SelectTool(){
 
 bKeepSelection=false;
+bClickedonGizmo=false;
 }
 
 SelectTool::~SelectTool(){}
@@ -75,6 +76,24 @@ void SelectTool::keyReleased(int key){
 
 void SelectTool::mousePressed(int btn){
 
+    if (input->worldTarget==sceneData->aGizmo->xAxisGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->beginGizmoing();
+        sceneData->aGizmo->moveAxis=Vector3f(-1,0,0);
+    }
+
+    if (input->worldTarget==sceneData->aGizmo->yAxisGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->beginGizmoing();
+        sceneData->aGizmo->moveAxis=Vector3f(0,1,0);
+    }
+
+    if (input->worldTarget==sceneData->aGizmo->zAxisGizmo){
+        bClickedonGizmo=true;
+        sceneData->aGizmo->beginGizmoing();
+        sceneData->aGizmo->moveAxis=Vector3f(0,0,-1);
+    }
+
 }
 
 void SelectTool::mouseReleased(int btn){
@@ -96,11 +115,15 @@ void SelectTool::mouseReleased(int btn){
 
 			//any Button selects!
 			if (btn==MOUSEBTNLEFT || btn==MOUSEBTNRIGHT){
-				if (!bKeepSelection) selectActors(btn, input->worldTarget);
+				if (!bKeepSelection && !bClickedonGizmo ) selectActors(btn, input->worldTarget);
 			}
 
 		}
 
+    if (bClickedonGizmo){
+        bClickedonGizmo=false;
+        sceneData->aGizmo->endGizmoing();
+    }
 }
 
 void SelectTool::mouseDragged(int btn){
@@ -115,7 +138,13 @@ void SelectTool::update(double deltaTime){
 
 void SelectTool::selectActors(int btn, Actor* other){
 
+    if (other)
+        cout << "to be selected name:  " << other->name << " ***************************************************" << endl;
+
     //don't do anything to selection if we're just finishing a move or rotate
+    if (input->worldTarget==sceneData->aGizmo->xAxisGizmo)
+        return;
+
     if (sceneData->actorMenu && sceneData->actorMenu->listButton.size()>0)
         return;
 

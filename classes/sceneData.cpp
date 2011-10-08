@@ -28,6 +28,8 @@
 
 #include "msbLight.h"
 
+#include "actorGizmo.h"
+
 //#include "videoTextureActor.h"
 
 //buttons
@@ -103,6 +105,7 @@
 #include "loadNode.h"
 #include "layer.h"
 
+#include "viewportGizmo.h"
 //animation
 #include "action.h"
 #include "particleSpray.h"
@@ -164,6 +167,9 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new MsbLight);
 
+    createActorID(new ActorGizmo);
+
+
     #ifdef TARGET_WIN32
     createActorID(new VideoTextureActor);
     #endif
@@ -223,6 +229,9 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new WindowButton);
 
+    createActorID(new ViewportGizmo);
+
+
     //nodes and actions
     createActorID(new Action);
 
@@ -271,10 +280,12 @@ SceneData::SceneData(){
 
     grid=NULL;                        //direct pointer to Grid
     brush=NULL;                       //direct pointer to Brush
+    aGizmo=NULL;
 
     drawTool=NULL;
     navTool=NULL;
     gridTool=NULL;
+
 
 	frames=0;
     currentTime=0.0;
@@ -525,6 +536,8 @@ void SceneData::createScene(){
     //add one grid - allow for adding more!
     addGrid();
 
+    addGizmos();
+
     input->setup();          //controller gets created here!
     controller->setup();
 
@@ -565,6 +578,7 @@ void SceneData::createScene(){
 
     //shared memory texture
     renderer->setup();
+
 }
 
 void SceneData::update(float deltaTime){
@@ -683,7 +697,59 @@ void SceneData::addGrid(){
     helperList.push_back(brush);
 }
 
+void SceneData::addGizmos(){
 
+    aGizmo= new ActorGizmo;
+    helperList.push_back(aGizmo);
+    //create 3 arrows
+    //connect them all to master gizmo
+    aGizmo->xAxisGizmo=new Actor;
+    aGizmo->xAxisGizmo->name="xAxisGizmo";
+    aGizmo->xAxisGizmo->objectID=-10.0f;
+    aGizmo->xAxisGizmo->setLocation(Vector3f(1,0,0));
+    aGizmo->xAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
+    aGizmo->xAxisGizmo->drawType=DRAW_CUBE;
+    aGizmo->xAxisGizmo->setBase(aGizmo);
+    aGizmo->xAxisGizmo->bRemoveable=false;
+    helperList.push_back(aGizmo->xAxisGizmo);
+
+
+    //aGizmo->xAxisGizmo->bTextured=true;
+    //aGizmo->xAxisGizmo->sceneShaderID="texture";
+    //aGizmo->xAxisGizmo->textureID="icon_base";
+
+
+
+    aGizmo->yAxisGizmo=new Actor;
+    aGizmo->yAxisGizmo->name="yAxisGizmo";
+    aGizmo->yAxisGizmo->objectID=-11.0f;
+    aGizmo->yAxisGizmo->setLocation(Vector3f(0,1,0));
+    aGizmo->yAxisGizmo->setRotation(Vector3f(0,0,90));
+    aGizmo->yAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
+    aGizmo->yAxisGizmo->drawType=DRAW_CUBE;
+    aGizmo->yAxisGizmo->setBase(aGizmo);
+    aGizmo->yAxisGizmo->bRemoveable=false;
+    helperList.push_back(aGizmo->yAxisGizmo);
+
+
+    aGizmo->zAxisGizmo=new Actor;
+    aGizmo->zAxisGizmo->name="zAxisGizmo";
+    aGizmo->zAxisGizmo->objectID=-12.0f;
+    aGizmo->zAxisGizmo->setLocation(Vector3f(0,0,-1));
+    aGizmo->zAxisGizmo->setRotation(Vector3f(0,90,0));
+    aGizmo->zAxisGizmo->setScale(Vector3f(1.0,0.1,0.1));
+    aGizmo->zAxisGizmo->drawType=DRAW_CUBE;
+    aGizmo->zAxisGizmo->setBase(aGizmo);
+    aGizmo->zAxisGizmo->bRemoveable=false;
+    helperList.push_back(aGizmo->zAxisGizmo);
+
+
+    //create 3 planes - later
+
+    //master gizmo updates position and serves as base to all gizmo parts
+    //also executes all gizmo functionality
+
+}
 
 int SceneData::readSharedMemory(){
 
@@ -1475,6 +1541,27 @@ void SceneData::getAllScenes(){
     return;
 
 #endif
+
+#ifdef TARGET_LINUX
+    //TODO: only list .scene files on Linux!!
+	string dir=startProject+DIRECTORY_SEPARATION;
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+	    //if (strcmp(dirp->d_name,".scene")){
+            savedScenes.push_back(string(dirp->d_name));
+            cout << "found a scene: "<< string(dirp->d_name) << endl;
+	    //}
+    }
+    closedir(dp);
+    return;
+
+#endif
 }
 
 void SceneData::getAllImages(){
@@ -1665,6 +1752,9 @@ string SceneData::openFileDialog(){
 #ifdef TARGET_MACOSX
 string SceneData::openFileDialog(){
 
+    //source: http://paste.lisp.org/display/18561
+    //and: http://forum.openframeworks.cc/index.php?topic=955.0
+
 	NavDialogCreationOptions dialogOptions;
 	NavDialogRef dialog;
 	NavReplyRecord replyRecord;
@@ -1738,5 +1828,107 @@ string SceneData::openFileDialog(){
 	return finalURL;
 }
 #endif
+
+#ifdef TARGET_LINUX
+
+//from ofxFenster ofSystemUtils.cpp
+
+ static gboolean closeGTK(GtkWidget *widget){
+     //gtk_widget_destroy(widget);
+     gtk_main_quit();
+     return (FALSE);
+ }
+
+ static void initGTK(){
+     int argc=0; char **argv = NULL;
+     gtk_init (&argc, &argv);
+
+ }
+
+ static void startGTK(GtkWidget *dialog){
+     gtk_init_add( (GSourceFunc) closeGTK, NULL );
+     gtk_quit_add_destroy(1,GTK_OBJECT(dialog));
+     //g_timeout_add(10, (GSourceFunc) destroyWidgetGTK, (gpointer) dialog);
+     gtk_main();
+ }
+
+
+string SceneData::openFileDialog(){
+
+    initGTK();
+
+//    GdkDisplay* myDisplay=gdk_x11_lookup_xdisplay(RootWindow);
+
+
+
+    string results;
+   const gchar* button_name = "";
+   GtkWidget *dialog = gtk_file_chooser_dialog_new ("yay!",
+                           NULL,
+                           GTK_FILE_CHOOSER_ACTION_OPEN,
+                           button_name, GTK_RESPONSE_ACCEPT,
+                           GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                           NULL);
+
+     gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog),"myName");
+
+     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+         results = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+     }
+     startGTK(dialog);
+     return results;
+
+
+
+/*
+    GtkWidget *toplevel = gtk_widget_get_toplevel (dummy);
+   if (gtk_widget_is_toplevel (toplevel))
+     {
+      cout << gtk_widget_get_name(toplevel) << endl;
+      exit(0);
+     }
+*/
+
+}
+
+/*
+string SceneData::saveFileDialog(){
+
+    GtkWidget *dialog;
+
+     dialog = gtk_file_chooser_dialog_new ("Save File",
+     				      parent_window,
+     				      GTK_FILE_CHOOSER_ACTION_SAVE,
+     				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+     				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+     				      NULL);
+     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+
+     if (user_edited_a_new_document)
+       {
+         gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), default_folder_for_saving);
+         gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "Untitled document");
+       }
+     else
+       gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename_for_existing_document);
+
+
+     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+       {
+         char *filename;
+
+         filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+         save_to_file (filename);
+         g_free (filename);
+       }
+
+     gtk_widget_destroy (dialog);
+
+
+}
+*/
+#endif
+
+
 
 

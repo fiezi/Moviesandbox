@@ -8,6 +8,7 @@ class SelectTool: public MsbTool{
 public:
 
     bool bKeepSelection;
+    bool bClickedonGizmo;
 
     SelectTool();
     virtual ~SelectTool();

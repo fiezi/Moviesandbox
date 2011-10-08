@@ -12,12 +12,6 @@ ViewportGizmo::ViewportGizmo(){
     viewport_fb = 0;
     cubeSide=0;
 
-    //create a 100x100 texture
-    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,100,100);
-
-    //also, create an FBO
-    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,100,false, "viewportGizmo");
-
     texRotation=Vector3f(180,0,0);
     texTranslation=Vector3f(0,1,0);
     texScale=Vector3f(1,1,1);
@@ -30,6 +24,13 @@ ViewportGizmo::~ViewportGizmo(){}
 void ViewportGizmo::setup(){
 
     BasicButton::setup();
+    //create a 100x100 texture
+    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,100,100);
+
+    //also, create an FBO
+    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,100,false, "viewportGizmo");
+
+
     scale.x=50;
     scale.y=40;
 

@@ -1236,58 +1236,14 @@ void Renderer::draw3D(Layer* currentLayer){
             if (!sceneData->helperList[i]->bHidden){
 
                 if (sceneData->helperList[i]->bPickable){
-
                     //no backface stuff for brush!
-                    if (sceneData->helperList[i]->name=="brush"){
-                        drawActor(sceneData->helperList[i]);
-                        continue;
-                    }
-                    glEnable(GL_CULL_FACE);
-
-                    // Draw Front faces
-                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
-
-                    Vector4f myColor=sceneData->helperList[i]->color;
-
-                    // Draw Back faces;
-                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
-
-                    glCullFace(GL_FRONT);
-                    drawActor(sceneData->helperList[i]);
-
-                    sceneData->helperList[i]->color=myColor;
-
-                    glDisable(GL_CULL_FACE);
-
                     glDrawBuffers(2, drawBuffers);
                 }
                 else{
                     //don't draw in Z or draw normals if we're not pickable!
                     glDrawBuffers(1, drawBuffers);
-
-                    if (sceneData->helperList[i]->name=="brush"){
-                        drawActor(sceneData->helperList[i]);
-                        glDrawBuffers(2, drawBuffers);
-                        continue;
-                    }
-                    glEnable(GL_CULL_FACE);
-
-                    // Draw Front faces
-                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
-
-                    Vector4f myColor=sceneData->helperList[i]->color;
-
-                    // Draw Back faces;
-                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
-
-                    glCullFace(GL_FRONT);
-                    drawActor(sceneData->helperList[i]);
-
-                    sceneData->helperList[i]->color=myColor;
-                    glDisable(GL_CULL_FACE);
-
                     glDrawBuffers(2, drawBuffers);
                 }
             }
@@ -1801,6 +1757,7 @@ void Renderer::drawBoundingBox(Vector3f lowerLeftBack,Vector3f upperRightFront, 
 
 }
 
+
 void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color, bool bCentered){
 
 
@@ -2282,11 +2239,20 @@ void Renderer::pick(int x, int y){
     else
         input->worldTarget=NULL;
 
-    //special stuff
+    ///Pickinbg Helpers
     //grid
     if ((int)floor(mousePos[1])==-2)
         input->worldTarget=sceneData->grid;
 
+    //Actor Gizmo
+    if ((int)floor(mousePos[1])==-10)
+        input->worldTarget=sceneData->aGizmo->xAxisGizmo;
+
+    if ((int)floor(mousePos[1])==-11)
+        input->worldTarget=sceneData->aGizmo->yAxisGizmo;
+
+    if ((int)floor(mousePos[1])==-12)
+        input->worldTarget=sceneData->aGizmo->zAxisGizmo;
 
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos

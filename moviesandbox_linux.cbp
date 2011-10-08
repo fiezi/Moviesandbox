@@ -38,6 +38,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="`pkg-config --cflags gtk+-2.0 `" />
 			<Add option="-DOSC_HOST_LITTLE_ENDIAN" />
 			<Add directory="classes" />
 			<Add directory="classes/linux" />
@@ -57,6 +58,7 @@
 			<Add option="-lglee" />
 			<Add option="-lfreeimage" />
 			<Add option="-lfreetype" />
+			<Add option="`pkg-config --libs gtk+-2.0 `" />
 			<Add directory="external/glee/lib" />
 			<Add directory="external/fmodex/lib" />
 			<Add directory="external/ode/lib/releasedll" />

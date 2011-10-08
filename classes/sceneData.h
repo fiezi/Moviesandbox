@@ -11,9 +11,10 @@
 #include "node.h"
 #include "action.h"
 #include "textfile.h"
-#include "flexGrid.h"
 
 #include "msbLight.h"
+
+#include "actorGizmo.h"
 
 #include "control.h"
 #include "inspectorManager.h"
@@ -168,6 +169,7 @@ public:
 
         Actor* grid;                        //direct pointer to Grid
         Brush* brush;                       //direct pointer to Brush
+        ActorGizmo* aGizmo;                 //direct pointer to actorGizmo
 
         NavTool*            navTool;        //pointer to navTool for convenience
         DrawTool*           drawTool;       //pointer to drawTool for convenience
@@ -226,6 +228,7 @@ public:
         virtual void addLayer(string layerName);
         virtual void addGrid();
         virtual void addBrush();
+        virtual void addGizmos();
 
         virtual int readSharedMemory();
 

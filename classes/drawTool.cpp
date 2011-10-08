@@ -404,7 +404,8 @@ void DrawTool::createNewDrawing(bool bUnnamed){
         string myName="untitled";
         char buffer [16];
         cout << "amount untitled drawings: " << sceneData->numberOfUntitledDrawings << endl;
-        itoa(sceneData->numberOfUntitledDrawings, buffer,10);
+        sprintf(buffer,"%d",sceneData->numberOfUntitledDrawings);
+        //itoa(, ,10);
         myName=myName+buffer;
         brush->drawing->name=myName;
         sceneData->numberOfUntitledDrawings++;
