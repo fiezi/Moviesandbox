@@ -213,6 +213,8 @@ void Actor::setup(){
  //   matrixToVectors();
 }
 
+void Actor::mouseOver(){}
+
 void Actor::trigger(MsbObject* other){
 
 

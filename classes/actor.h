@@ -171,6 +171,9 @@ public:
        virtual void updateShaders();                // uniform updates
        virtual void draw();                         // sets up rendering flags and transformations
 
+       //callback for highlighting
+       virtual void mouseOver();
+
        //drawType functions - the actual glBegin() stuff is in here
        virtual void drawSprite();
        virtual void drawPlane();

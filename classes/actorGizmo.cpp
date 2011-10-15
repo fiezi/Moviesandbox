@@ -44,7 +44,7 @@ void ActorGizmo::setup(){
     xRotateGizmo->sceneShaderID="texture";
     xRotateGizmo->textureID="rotateArrow";
     xRotateGizmo->drawType=DRAW_PLANE;
-    xRotateGizmo->color=Vector4f(0.7,0.7,0.7,1);
+    xRotateGizmo->color=Vector4f(1.0,0.0,0.0,1);
     sceneData->helperList.push_back(xRotateGizmo);
 
     yRotateGizmo=new Actor;
@@ -59,7 +59,7 @@ void ActorGizmo::setup(){
     yRotateGizmo->sceneShaderID="texture";
     yRotateGizmo->textureID="rotateArrow";
     yRotateGizmo->drawType=DRAW_PLANE;
-    yRotateGizmo->color=Vector4f(0.6,0.6,0.6,1);
+    yRotateGizmo->color=Vector4f(0.0,1.0,0.0,1);
     sceneData->helperList.push_back(yRotateGizmo);
 
     zRotateGizmo=new Actor;
@@ -74,7 +74,7 @@ void ActorGizmo::setup(){
     zRotateGizmo->sceneShaderID="texture";
     zRotateGizmo->textureID="rotateArrow";
     zRotateGizmo->drawType=DRAW_PLANE;
-    zRotateGizmo->color=Vector4f(0.65,0.65,0.65,1);
+    zRotateGizmo->color=Vector4f(0.0,0.0,1.0,1);
     sceneData->helperList.push_back(zRotateGizmo);
 
     //create 3 arrows
@@ -153,8 +153,52 @@ void ActorGizmo::update(double deltaTime){
 
     Actor::update(deltaTime);
 
-
+    //positioning and rotating when a group of actors are selected
     if (sceneData->selectedActors.size()>0){
+
+    //highlighting and un-highlighting
+
+        if (input->startPressLeftBtn==0){
+
+            //movement
+            if (input->worldTarget==xAxisGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                xAxisGizmo->color=COLOR_RED;
+            }
+
+            if (input->worldTarget==yAxisGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                yAxisGizmo->color=COLOR_GREEN;
+            }
+
+            if (input->worldTarget==zAxisGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                zAxisGizmo->color=COLOR_BLUE;
+            }
+
+            //rotation
+            if (input->worldTarget==xRotateGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                xRotateGizmo->color=COLOR_RED;
+            }
+
+            if (input->worldTarget==yRotateGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                yRotateGizmo->color=COLOR_GREEN;
+            }
+
+            if (input->worldTarget==zRotateGizmo){
+                input->worldTarget->color=COLOR_YELLOW;
+            }else{
+                zRotateGizmo->color=COLOR_BLUE;
+            }
+        }
+
 
         xAxisGizmo->bHidden=false;
         yAxisGizmo->bHidden=false;
@@ -196,31 +240,35 @@ void ActorGizmo::update(double deltaTime){
         Vector3f camDistance=location - sceneData->controller->controlledActor->location;
         float dist=camDistance.length();
 
-        float lr;
 
-        //TODO: what if y-axis?
-        if (input->mouseVector.x>0)
-            lr=-1.0;
-        else
-            lr=1.0;
+        //camera's y-Axis is our screen yAxis
+        Vector3f camerayAxis = sceneData->controller->controlledActor->yAxis;
+        Vector3f cameraxAxis = sceneData->controller->controlledActor->xAxis;
 
-        //if (xAxis.dotProduct(sceneData->controller->controlledActor->zAxis)<0)
-        //    lr*=-1;
+        Vector3f mouseToCamera = -camerayAxis* input->mouseVector.y+cameraxAxis*input->mouseVector.x;
 
 
-        cout <<  "is it? " << xAxis.dotProduct(sceneData->controller->controlledActor->zAxis) << " and lr " << lr << endl;
+        mouseToCamera.normalize();
 
-
-        if (bGizmoing)
+        float lr=0.0;
+        //actual movement/rotation
+        if (bGizmoing){
             //this is how it kinda behaves in unity, so let's haveit like this...
             for (int i=0;i<(int)sceneData->selectedActors.size();i++){
-                if (moveAxis)
+                if (moveAxis){
+                    lr=-mouseToCamera.dotProduct(*moveAxis);
+                    if (lr != lr) lr=0.0;
                     sceneData->selectedActors[i]->setLocation(sceneData->selectedActors[i]->location+ (*moveAxis) * 0.001 * abs(dist) * input->mouseVector.length()* lr );
-                if (rotAxis)
+                }
+                if (rotAxis){
+                    lr=-1.0;
+                    if (input->mouseVector.x>0.0)
+                      lr=1.0;
                     sceneData->selectedActors[i]->addRotation(0.02*abs(dist)  * input->mouseVector.length()* lr, *rotAxis);
-                //sceneData->selectedActors[i]->addRotation(0.02*abs(dist)  * input->mouseVector.length()* lr, Vector3f(0,1,0));
-            //sceneData->selectedActors[0]->setLocation(sceneData->selectedActors[0]->location+Vector3f(0.001*abs(dist)* moveAxis.x * input->mouseVector.x,  0.001*abs(dist)* moveAxis.y * input->mouseVector.y,   0.001*abs(dist) * moveAxis.z * input->mouseVector.x));
+                }
             }
+        }
+
     }else{
         xAxisGizmo->bHidden=true;
         yAxisGizmo->bHidden=true;

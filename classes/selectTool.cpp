@@ -152,6 +152,8 @@ void SelectTool::mouseDragged(int btn){
 void SelectTool::update(double deltaTime){
 
   MsbTool::update(deltaTime);
+
+
 }
 
 void SelectTool::selectActors(int btn, Actor* other){

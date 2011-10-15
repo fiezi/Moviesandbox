@@ -90,6 +90,11 @@ void Input::update(double deltaTime){
     BasicButton *myButton;
     hudTarget=NULL;
 
+    if (worldTarget){
+        worldTarget->mouseOver();
+    }
+
+
     if (sceneData->staticButton){
         sceneData->staticButton->update(deltaTime);
         focusButton=sceneData->staticButton;

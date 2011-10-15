@@ -1229,7 +1229,7 @@ void Renderer::draw3D(Layer* currentLayer){
     checkOpenGLError("draw3D draw non-pickable...");
     #endif
 
-	//draw helpers - brush, grid, etc... if we're not running
+	//draw helpers - brush, grid, actorGizmo, etc... if we're not running
     if (!sceneData->controller->bRunning){
 
         for (int i=0;i<(int)sceneData->helperList.size();i++){
