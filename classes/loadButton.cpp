@@ -21,13 +21,12 @@ void LoadButton::clickedLeft(){
     listProp.clear();
     listIcon.clear();
 
-    bDrawName=true;
     sceneData->getAllScenes();
 
     assembleLoadList();
 
     ListButton::clickedLeft();
-    bDrawName=false;
+
 }
 
 void LoadButton::assembleLoadList(){

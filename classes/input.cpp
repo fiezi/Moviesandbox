@@ -121,9 +121,13 @@ void Input::update(double deltaTime){
         if (mouseX > myButton->location.x && mouseX < myButton->location.x + myButton->scale.x){
             if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y){
                 hudTarget=myButton;
-                hudTarget->mouseOver();
             }
         }
+    }
+
+    //only one hudTarget should mouseOver at a time!
+    if (hudTarget){
+        hudTarget->mouseOver();
     }
 }
 

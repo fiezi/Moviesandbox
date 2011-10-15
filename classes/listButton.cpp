@@ -28,6 +28,7 @@ backgroundButton=NULL;
 bPermanentList=false;
 bDrawListNames=false;
 bListOpen=false;
+bPartOfMenu=false;
 
 listColor=Vector4f(1,1,1,1);
 listShader="texture";
@@ -41,13 +42,11 @@ void ListButton::setup(){
 
 void ListButton::clickedLeft(){
 
-    cout << "clicked! " << name << endl;
-
-
   BasicButton::clickedLeft();
 
-  //destroy all buttons that have higher depth than mine!
-  input->deselectButtons(level);
+  //destroy all buttons that have higher depth than mine - if we are part of a menu!
+  if (!bPartOfMenu)
+    input->deselectButtons(level);
 
   if (listButton.size()==0 || bPermanentList){
     assembleList();
@@ -127,9 +126,10 @@ void ListButton::assembleList(){
         }
 
         if (bPermanentList)
-        listButton[i]->bPermanent=true;
+            listButton[i]->bPermanent=true;
 
-
+        if (bPartOfMenu)
+            listButton[i]->bPartOfMenu=true;
 
         placeButton(i,i);
         listButton[i]->setup();

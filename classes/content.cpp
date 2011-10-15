@@ -143,6 +143,7 @@ void Content::createMenuBar(){
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPermanentList=true;
+    lbut->bPartOfMenu=true;
     lbut->name="File";
     lbut->bDrawName=true;
     lbut->color=menuColor;
@@ -184,6 +185,7 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
     lbut->name="Edit";
     lbut->bDrawName=true;
     lbut->color=menuColor;
@@ -208,6 +210,7 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
     lbut->name="Tools";
     lbut->bDrawName=true;
     lbut->color=menuColor;

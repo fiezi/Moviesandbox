@@ -28,6 +28,9 @@ public:
         bool bResetAfterDrag;                   //sets button back to initial location after finished dragging
         bool bTriggerWhileDragging;             //triggers parent while dragging
 
+        bool bPartOfMenu;                       //will not deselect previously opened buttons
+
+
         string tooltip;                         //a tooltip to show when mouse hovers over button
         Vector2f tooltipOffset;                 //where to draw the tooltip
         Vector2f drawNameOffset;                 //where to draw the name in case we draw that too
