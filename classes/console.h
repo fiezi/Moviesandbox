@@ -27,6 +27,8 @@ public:
     void dropBird(string args);
     void setZero(string args);
     void teleport(string args);
+    void loadScene(string args);
+    void loadProject(string args);
 
 
 

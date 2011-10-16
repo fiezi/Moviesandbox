@@ -127,6 +127,10 @@ public:
         std::string  startProject;          //project to load at startup
         std::string  library;               //basic content xml location - meshes, shaders, textures, etc...
 
+        std::string  currentScene;         //our currently loaded scene
+
+        std::string  exe_path;              //directory of the executable
+
         //lists
         vector <Actor*> actorList;          //all created actors go here
         vector <Actor*> helperList;         //brush and grid go here
@@ -255,7 +259,17 @@ public:
         void loadTextures(std::string path, std::string filename);
         void loadShaders(std::string path, std::string filename);
 
+        void loadScene(string sceneName, bool bStart=false);
+        void loadProject(string projectName, bool bStart=false);
+
+        void saveScene(std::string sceneName, bool bStart=false);
+
+        void newScene();
+        void newProject(std::string projectName);
+
         void addToLibrary(TiXmlElement* myElement);
+
+
 
         //directory stuff
         void getAllDrawings();
@@ -269,7 +283,9 @@ public:
         float setToRange(float min, float max, float value);
 
         //File IO
-        string openFileDialog();
+        string openFileDialog(string ext="*");
+
+        string saveFileDialog(string ext="*");
 
 
 };

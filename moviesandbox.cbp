@@ -68,6 +68,7 @@
 			<Add library="ws2_32" />
 			<Add library="external\freeImage\FreeImage.lib" />
 			<Add library="external\freetype\lib\win32\freetype.a" />
+			<Add library="comdlg32" />
 			<Add directory="external\glee\lib" />
 			<Add directory="external\fmodex\lib" />
 			<Add directory="external\ode\lib\releasedll" />

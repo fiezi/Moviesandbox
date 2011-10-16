@@ -159,17 +159,57 @@ void Content::createMenuBar(){
     lbut->listButtonSpacing=Vector3f(0,0,0);
 
     lbut->listType.push_back("10LoadButton");
-    lbut->listName.push_back("Load");
+    lbut->listName.push_back("New Scene");
     lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWSCENE");
 
-    lbut->listType.push_back("10SaveButton");
-    lbut->listName.push_back("Save");
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Scene...");
     lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("LOADSCENELIST");
+    //lbut->listProp.push_back("SCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene As...");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENEAS");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("New Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWPROJECT");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("LOADPROJECT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
 
     lbut->listType.push_back("12WindowButton");
     lbut->listName.push_back("Preferences");
     lbut->listIcon.push_back("icon_system");
     lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Quit");

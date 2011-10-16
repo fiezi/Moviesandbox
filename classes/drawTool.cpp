@@ -248,13 +248,14 @@ void DrawTool::erase(){
 
     cout << "erasing!" << endl;
 
-    calcLoc=brush->location-brush->drawing->location;
+    //calcLoc=brush->location-brush->drawing->location;
+    calcLocation();
 
     for (int i=0;i<(int)sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++)
       {
       Vector4f loc=sceneData->vboList[brush->drawing->vboMeshID]->vData[i].location;
       Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
-      if (brush->scale.x * 0.1>distance.length())
+      if (brush->scale.x * 0.25>distance.length())
           brush->drawing->deleteParticle(i);
       }
     sceneData->numParticles--;

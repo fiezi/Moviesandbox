@@ -21,11 +21,52 @@ void LoadButton::clickedLeft(){
     listProp.clear();
     listIcon.clear();
 
-    sceneData->getAllScenes();
 
-    assembleLoadList();
+    if (buttonProperty=="NEWSCENE"){
+        sceneData->newScene();
+        return;
+    }
 
-    ListButton::clickedLeft();
+    if (buttonProperty=="SAVESCENE"){
+        sceneData->saveAll(sceneData->currentScene);
+        return;
+    }
+
+    if (buttonProperty=="SAVESCENEAS"){
+        string fileName=sceneData->saveFileDialog(".scene");
+        if (fileName=="NULL")
+            return;
+
+        sceneData->saveScene(fileName);
+        return;
+    }
+
+    if (buttonProperty=="LOADSCENELIST"){
+        sceneData->getAllScenes();
+        assembleLoadList();
+        ListButton::clickedLeft();
+        return;
+    }
+
+    if (buttonProperty=="LOADSCENE"){
+        string myScene=sceneData->openFileDialog(".scene");
+        sceneData->loadScene(myScene,false);
+    }
+
+    if (buttonProperty=="NEWPROJECT"){
+        string myProject=sceneData->saveFileDialog("");
+        sceneData->newProject(myProject);
+    }
+
+    if (buttonProperty=="LOADPROJECT"){
+        string myProject=sceneData->openFileDialog(".project");
+        if (myProject=="NULL")
+            return;
+        sceneData->loadProject(myProject,false);
+    }
+
+
+
 
 }
 
@@ -53,6 +94,7 @@ void LoadButton::trigger(MsbObject* other){
 void LoadButton::loadFile(string filename, bool bStart){
 
     sceneData->loadAll(filename);
+
     if (bStart){
         sceneData->controller->startMovie();
     }

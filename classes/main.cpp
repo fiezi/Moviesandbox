@@ -219,7 +219,7 @@ void endFileLog(){
 
 }
 
-int main(int argc, char** argv){
+int main(int argc, char* argv[]){
 
     startFileLog();
 
@@ -236,8 +236,20 @@ int main(int argc, char** argv){
     sceneDataManager=SceneData::getInstance();
 	inputManager=Input::getInstance();
 
+#ifdef TARGET_WIN32
+
+    TCHAR szEXEPath[MAX_PATH];
+    GetModuleFileName(NULL,szEXEPath,MAX_PATH);
+    sceneDataManager->exe_path= szEXEPath;
+
+    sceneDataManager->exe_path = sceneDataManager->exe_path.substr(0, sceneDataManager->exe_path.find("Moviesandbox.exe")-1);  // Remove app name from string
+    sceneDataManager->exe_path+= DIRECTORY_SEPARATION;
+
+#endif
+
     //loading preferences
     sceneDataManager->setup();
+
     sceneDataManager->loadPreferences();
 
     //init renderer
