@@ -628,7 +628,6 @@ void SceneData::update(float deltaTime){
 
 	input->resetInputVectors();
 
-
     glutPostRedisplay();
 }
 

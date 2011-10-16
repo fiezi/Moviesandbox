@@ -183,10 +183,45 @@ void selectRenderer(){
 
 }
 
+
+
+streambuf *psbuf, *backup;
+ofstream filestr;
+
+
+void startFileLog(){
+
+    //setup cout to file
+
+    cout << "starting file log..." << endl;
+
+    filestr.open ("logfile.txt");
+
+    backup = cout.rdbuf();     // back up cout's streambuf
+
+    psbuf = filestr.rdbuf();   // get file's streambuf
+    cout.rdbuf(psbuf);         // assign streambuf to cout
+
+    cout << "Moviesandbox logfile ********************************* " << endl;
+
+    //timestamp
+    time_t rawtime;
+    time ( &rawtime );
+    cout << "Current local time is: " << ctime (&rawtime) << endl;
+
+}
+
+void endFileLog(){
+
+    cout.rdbuf(backup);        // restore cout's original streambuf
+
+    filestr.close();
+
+}
+
 int main(int argc, char** argv){
 
-
-
+    startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -254,7 +289,9 @@ int main(int argc, char** argv){
 	SetSystemUIMode(kUIModeAllHidden, NULL);
 #endif
 
+
     glutMainLoop();
+
 
     delete(renderManager);
 

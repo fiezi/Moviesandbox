@@ -136,10 +136,13 @@ public:
         vector <BasicButton*> saveableButtonList;    //all saveable Buttons go here
         vector <Node*> nodeList;            //all created nodes go here
         vector <Layer*> layerList;              //all Layers
+
+        //debug message list
+        vector <string> debugMessages;
+
+        //data maps
         map <string, Action*> actionList;    //all actions
         map <string, externalInputData*> externalInputList;    //all external programs for data input
-
-        //map <string, ObjFile> meshList;     //old Mesh List
         map <string, MeshData*> vboList;  //new Vertex Buffer Object List
         map <string, textureObject*> textureList;   //all loaded textures go here
         map <string, shaderObject*> shaderList;    //all loaded shaders go here
@@ -151,6 +154,7 @@ public:
         Vector4f backgroundColor;
 
         int frames;                         //amount of frames rendered
+
         double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
               physicsTime;                 //time for physics step (sometimes deltaTime is too small to advance physics...)

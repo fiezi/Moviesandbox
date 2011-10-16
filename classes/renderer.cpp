@@ -1594,6 +1594,13 @@ void Renderer::displayDebug(){
     sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
     drawText(writestring,screenX-80*0.9,10 );
 
+
+    //displaying the last couple of debug messages
+    int listEnd=(int)sceneData->debugMessages.size()-1;
+
+    for (int i=listEnd;i>0;i--)
+        drawText(sceneData->debugMessages[i],screenX-300*0.9,100 - (listEnd-i)*10 );
+
     return;
 }
 

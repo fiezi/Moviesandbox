@@ -70,8 +70,6 @@ void Content::setup(){
 
     createMonitors();
 
-    createConsole();
-
     //offset for left hand side menu
     int yPos=48;
     int xPos=2;
@@ -102,6 +100,8 @@ void Content::setup(){
 
     //should be last, because it should be over all other buttons!
     createMenuBar();
+
+    createConsole();
 
  }
 
@@ -217,6 +217,8 @@ void Content::createMenuBar(){
     lbut->setLocation(lbut->location);
     sceneData->buttonList.push_back(lbut);
 
+
+
 }
 
 void Content::createConsole(){
@@ -225,9 +227,12 @@ void Content::createConsole(){
 
     //console
     but= new Console;
-    but->setLocation(Vector3f( 0, renderer->screenY-but->scale.y, 0));
+    but->setLocation(Vector3f( 320, 0, 0));
     but->bTextured=false;
     but->sceneShaderID="color";
+    but->scale.x=64;
+    but->scale.y=16;
+    but->color=COLOR_YELLOW;
     but->setup();
     sceneData->console=(Console*)but;
     sceneData->buttonList.push_back(but);

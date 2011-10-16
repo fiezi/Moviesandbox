@@ -9,6 +9,12 @@ using namespace std;
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <sstream>
+#include <fstream>
+#include <ostream>
+#include <time.h>
+//#include <strstream>
+
 #include <typeinfo>
 #include <string.h>
 
