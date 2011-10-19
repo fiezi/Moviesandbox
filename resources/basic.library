@@ -99,6 +99,9 @@
     <Texture textureID="sprite_light" filename="sprite_light.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="sprite_bone" filename="sprite_bone.tga" bAlpha="1" bWrap="1"/>
 
+    <Texture textureID="arrow" filename="arrow.tga" bAlpha="1" bWrap="1"/>
+    <Texture textureID="rotateArrow" filename="rotateArrow.tga" bAlpha="1" bWrap="1"/>
+
 
 
  <!-- Actions -->

@@ -147,7 +147,7 @@ createMemberID("SCALE", &scale, this,true,"17VectorInputButton");
 createMemberID("ORIENTATION", &orientation, this,false);    //let's not show the orientation as editable property!
 createMemberID("PIVOTLOCATION", &pivotLocation, this,true,"17VectorInputButton");
 
-createMemberID("TRANSFORMMATRIX",&transformMatrix,this,false);
+createMemberID("TRANSFORMMATRIX",&transformMatrix,this,true);
 createMemberID("SCALEMATRIX",&scaleMatrix,this,false);
 
 createMemberID("BASE",&base,this,true,"13SetBaseButton");
@@ -212,6 +212,8 @@ void Actor::setup(){
  //   baseMatrix=calcMatrix(this);
  //   matrixToVectors();
 }
+
+void Actor::mouseOver(){}
 
 void Actor::trigger(MsbObject* other){
 

@@ -12,7 +12,6 @@
 #include "node.h"
 #include "action.h"
 #include "textfile.h"
-#include "flexGrid.h"
 
 #include "msbLight.h"
 
@@ -60,10 +59,12 @@ public:
        int numSamples;                      //number of multisamples
 
        //Physics using ODE
+       /* - disabled for now
        dWorldID physicsWorld;              // our physics world
        dSpaceID collisionSpace;            // using ODE collision
        dJointGroupID jointGroup;           // a joint group
        dGeomID groundPlane;                // our ground plane
+       */
        bool bUpdatePhysics;                // call physicsUpdate or not
        bool bDebug;                        //Debug mode, will check for OpenGL Errors
 
@@ -250,7 +251,7 @@ public:
        bool checkOpenGLError(string preText=" ", bool bPrint=true);
 
     //has to be static from physics!
-       static void handleCollisionBetween(void * data, dGeomID o0, dGeomID o1);
+      // static void handleCollisionBetween(void * data, dGeomID o0, dGeomID o1);
 
       };
 

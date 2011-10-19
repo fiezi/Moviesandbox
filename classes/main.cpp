@@ -127,15 +127,26 @@ void selectRenderer(){
 
 	bool bGLCompatibilityShader=false;
 
+
 	//checking for extensions and shaders:
     if (!GLEE_ARB_point_sprite){
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
 		std::cout << " not supporting point sprites \n";
 		exit(0);
 	}
+
+    if (!GLEE_VERSION_2_0){
+		std::cout << "OGL less than version 2.0" << endl;
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
+		exit(0);
+    }
+
     if (!(GLEE_ARB_vertex_shader && GLEE_ARB_fragment_shader)){
 		std::cout << "GLSL unsupported \n";
+        cout << "GLee error:" << GLeeGetErrorString() << endl;
 		exit(0);
 	}
+
     // and framebuffer  objects
 	// verify FBOs are supported (otherwise we get FuBar'd Objects)
 
@@ -172,7 +183,45 @@ void selectRenderer(){
 
 }
 
-int main(int argc, char** argv){
+
+
+streambuf *psbuf, *backup;
+ofstream filestr;
+
+
+void startFileLog(){
+
+    //setup cout to file
+
+    cout << "starting file log..." << endl;
+
+    filestr.open ("logfile.txt");
+
+    backup = cout.rdbuf();     // back up cout's streambuf
+
+    psbuf = filestr.rdbuf();   // get file's streambuf
+    cout.rdbuf(psbuf);         // assign streambuf to cout
+
+    cout << "Moviesandbox logfile ********************************* " << endl;
+
+    //timestamp
+    time_t rawtime;
+    time ( &rawtime );
+    cout << "Current local time is: " << ctime (&rawtime) << endl;
+
+}
+
+void endFileLog(){
+
+    cout.rdbuf(backup);        // restore cout's original streambuf
+
+    filestr.close();
+
+}
+
+int main(int argc, char* argv[]){
+
+    startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -187,8 +236,20 @@ int main(int argc, char** argv){
     sceneDataManager=SceneData::getInstance();
 	inputManager=Input::getInstance();
 
+#ifdef TARGET_WIN32
+
+    TCHAR szEXEPath[MAX_PATH];
+    GetModuleFileName(NULL,szEXEPath,MAX_PATH);
+    sceneDataManager->exe_path= szEXEPath;
+
+    sceneDataManager->exe_path = sceneDataManager->exe_path.substr(0, sceneDataManager->exe_path.find("Moviesandbox.exe")-1);  // Remove app name from string
+    sceneDataManager->exe_path+= DIRECTORY_SEPARATION;
+
+#endif
+
     //loading preferences
     sceneDataManager->setup();
+
     sceneDataManager->loadPreferences();
 
     //init renderer
@@ -240,7 +301,9 @@ int main(int argc, char** argv){
 	SetSystemUIMode(kUIModeAllHidden, NULL);
 #endif
 
+
     glutMainLoop();
+
 
     delete(renderManager);
 

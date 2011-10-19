@@ -11,9 +11,10 @@
 #include "node.h"
 #include "action.h"
 #include "textfile.h"
-#include "flexGrid.h"
 
 #include "msbLight.h"
+
+#include "actorGizmo.h"
 
 #include "control.h"
 #include "inspectorManager.h"
@@ -126,6 +127,10 @@ public:
         std::string  startProject;          //project to load at startup
         std::string  library;               //basic content xml location - meshes, shaders, textures, etc...
 
+        std::string  currentScene;         //our currently loaded scene
+
+        std::string  exe_path;              //directory of the executable
+
         //lists
         vector <Actor*> actorList;          //all created actors go here
         vector <Actor*> helperList;         //brush and grid go here
@@ -135,10 +140,13 @@ public:
         vector <BasicButton*> saveableButtonList;    //all saveable Buttons go here
         vector <Node*> nodeList;            //all created nodes go here
         vector <Layer*> layerList;              //all Layers
+
+        //debug message list
+        vector <string> debugMessages;
+
+        //data maps
         map <string, Action*> actionList;    //all actions
         map <string, externalInputData*> externalInputList;    //all external programs for data input
-
-        //map <string, ObjFile> meshList;     //old Mesh List
         map <string, MeshData*> vboList;  //new Vertex Buffer Object List
         map <string, textureObject*> textureList;   //all loaded textures go here
         map <string, shaderObject*> shaderList;    //all loaded shaders go here
@@ -150,6 +158,7 @@ public:
         Vector4f backgroundColor;
 
         int frames;                         //amount of frames rendered
+
         double currentTime,                 //time since program start,
               deltaTime,                   //time since last frame
               physicsTime;                 //time for physics step (sometimes deltaTime is too small to advance physics...)
@@ -168,6 +177,7 @@ public:
 
         Actor* grid;                        //direct pointer to Grid
         Brush* brush;                       //direct pointer to Brush
+        ActorGizmo* aGizmo;                 //direct pointer to actorGizmo
 
         NavTool*            navTool;        //pointer to navTool for convenience
         DrawTool*           drawTool;       //pointer to drawTool for convenience
@@ -226,6 +236,7 @@ public:
         virtual void addLayer(string layerName);
         virtual void addGrid();
         virtual void addBrush();
+        virtual void addGizmos();
 
         virtual int readSharedMemory();
 
@@ -248,7 +259,17 @@ public:
         void loadTextures(std::string path, std::string filename);
         void loadShaders(std::string path, std::string filename);
 
+        void loadScene(string sceneName, bool bStart=false);
+        void loadProject(string projectName, bool bStart=false);
+
+        void saveScene(std::string sceneName, bool bStart=false);
+
+        void newScene();
+        void newProject(std::string projectName);
+
         void addToLibrary(TiXmlElement* myElement);
+
+
 
         //directory stuff
         void getAllDrawings();
@@ -262,7 +283,9 @@ public:
         float setToRange(float min, float max, float value);
 
         //File IO
-        string openFileDialog();
+        string openFileDialog(string ext="*");
+
+        string saveFileDialog(string ext="*");
 
 
 };

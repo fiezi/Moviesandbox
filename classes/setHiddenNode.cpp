@@ -1,6 +1,6 @@
 
 
-#include "SetHiddenNode.h"
+#include "setHiddenNode.h"
 #include "control.h"
 #include "renderer.h"
 

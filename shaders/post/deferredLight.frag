@@ -146,9 +146,9 @@ vec4 computeLight(){
     //colorLight=vec4(dFdy(zPos),0,0,1);
     //return colorLight;
 
-    zPos=zPos * 8.0;
-    //vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),1.0));
-    vec3 NN= (vec3(dFdx(zPos), dFdy(zPos),1.0));
+    //zPos=zPos * 8.0;
+    vec3 NN= normalize(vec3(dFdx(zPos), dFdy(zPos),0.25));
+    //vec3 NN= (vec3(dFdx(zPos), dFdy(zPos),0.250));
 
     vec4 debug=vec4(0.0,0.0,0.0,1.0);
     //debug.xyz=fragWorld.xyz;

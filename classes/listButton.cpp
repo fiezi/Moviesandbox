@@ -28,6 +28,7 @@ backgroundButton=NULL;
 bPermanentList=false;
 bDrawListNames=false;
 bListOpen=false;
+bPartOfMenu=false;
 
 listColor=Vector4f(1,1,1,1);
 listShader="texture";
@@ -43,12 +44,11 @@ void ListButton::clickedLeft(){
 
   BasicButton::clickedLeft();
 
-  //destroy all buttons that have higher depth than mine!
-  input->deselectButtons(level);
-  bListOpen=false;
+  //destroy all buttons that have higher depth than mine - if we are part of a menu!
+  if (!bPartOfMenu)
+    input->deselectButtons(level);
 
-  if (listButton.size()==0){
-    cout << "clicked!" << endl;
+  if (listButton.size()==0 || bPermanentList){
     assembleList();
     bListOpen=true;
   }
@@ -60,6 +60,12 @@ void ListButton::assembleList(){
     listOffsetX=0;
 
     Vector3f startListLoc=listLoc;
+
+    if (bPermanentList && (int)listButton.size()>0){
+        for (int i=0;i<(int)listButton.size();i++)
+                listButton[i]->bHidden=false;
+        return;
+    }
 
     for (int i=0;i<(int)listType.size();i++){
         cout << "creating list..." << endl;
@@ -120,9 +126,10 @@ void ListButton::assembleList(){
         }
 
         if (bPermanentList)
-        listButton[i]->bPermanent=true;
+            listButton[i]->bPermanent=true;
 
-
+        if (bPartOfMenu)
+            listButton[i]->bPartOfMenu=true;
 
         placeButton(i,i);
         listButton[i]->setup();
@@ -267,10 +274,8 @@ void ListButton::update(double deltaTime){
 
 void ListButton::deselect(int depth){
 
-    if (listButton.size()>0){// && !listButton[0]->bPermanent){
-        cout << "clearing list..." << endl;
-        listButton.clear();
-        }
+
+    bListOpen=false;
 
     //get rid of scrollButton if we're not permanent!
     if (scrollBar){
@@ -278,6 +283,19 @@ void ListButton::deselect(int depth){
         scrollBar->remove();
         scrollBar=NULL;
     }
+
+    if (bPermanentList){
+        for (int i=0;i<(int)listButton.size();i++){
+            listButton[i]->bHidden=true;
+        }
+
+    }
+
+    else if (listButton.size()>0){// && !listButton[0]->bPermanent){
+      cout << "clearing list..." << endl;
+      listButton.clear();
+    }
+
 
     //remove myself from screen if I am not a menu item!
     //will be determined by depth

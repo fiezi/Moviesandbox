@@ -3,6 +3,7 @@
 #include "renderer.h"
 
 
+
 //loaders and the like
 #include "colladaLoader.h"
 #include "spriteMeshLoader.h"
@@ -10,8 +11,8 @@
 
 //actors
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "skeletalActor.h"
 #include "hitBox.h"
 #include "cameraActor.h"
@@ -24,9 +25,12 @@
 
 #ifdef TARGET_WIN32
     #include "videoTextureActor.h"
+    #include "direct.h"
 #endif
 
 #include "msbLight.h"
+
+#include "actorGizmo.h"
 
 //#include "videoTextureActor.h"
 
@@ -103,6 +107,7 @@
 #include "loadNode.h"
 #include "layer.h"
 
+#include "viewportGizmo.h"
 //animation
 #include "action.h"
 #include "particleSpray.h"
@@ -149,8 +154,8 @@ void SceneData::fillGlobalLists(){
     //createActorID(new VideoTextureActor);
     createActorID(new ParticleSystem);
     createActorID(new ParticleSpray);
-    createActorID(new PhysicsActor);
-    createActorID(new RagDoll);
+//    createActorID(new PhysicsActor);
+//    createActorID(new RagDoll);
     createActorID(new SkeletalActor);
     createActorID(new SkeletalHead);
     createActorID(new Brush);
@@ -163,6 +168,9 @@ void SceneData::fillGlobalLists(){
     createActorID(new CharacterController);
 
     createActorID(new MsbLight);
+
+    createActorID(new ActorGizmo);
+
 
     #ifdef TARGET_WIN32
     createActorID(new VideoTextureActor);
@@ -223,6 +231,9 @@ void SceneData::fillGlobalLists(){
 
     createActorID(new WindowButton);
 
+    createActorID(new ViewportGizmo);
+
+
     //nodes and actions
     createActorID(new Action);
 
@@ -264,6 +275,10 @@ SceneData::SceneData(){
     currentLayer=0;
     startProject="NULL";
     startSceneFilename="NULL";
+    currentScene="NULL";
+
+    exe_path="NULL";
+
     currentShader="color";                //currently bound shader
 
     backgroundTex="NULL";
@@ -271,10 +286,12 @@ SceneData::SceneData(){
 
     grid=NULL;                        //direct pointer to Grid
     brush=NULL;                       //direct pointer to Brush
+    aGizmo=NULL;
 
     drawTool=NULL;
     navTool=NULL;
     gridTool=NULL;
+
 
 	frames=0;
     currentTime=0.0;
@@ -325,7 +342,7 @@ void SceneData::setup(){
     input=Input::getInstance();
 
     //do this first, so we don't get an error when initialising our physicsActor in the global list!
-	renderer->physicsSetup();
+//	renderer->physicsSetup();
 
         //generate Class and Type Lists
     fillGlobalLists();
@@ -388,7 +405,7 @@ void SceneData::loadPreferences(){
     //now load the configuration
     cout << "loading render settings" << endl;
 
-    element=hRoot.FirstChild( "Rendersettings" ).Element();
+    element=hRoot.FirstChild( "Settings" ).Element();
 
     int val=0;
     double dVal=0.0;
@@ -450,8 +467,6 @@ void SceneData::loadPreferences(){
     //setting start scene
     startProject=element->Attribute("StartProject");
 
-    startSceneFilename=element->Attribute("StartSceneFile");
-
     //setting external Program connections
     element=hRoot.FirstChild( "ExternalInput" ).Element();
     while(element){
@@ -488,6 +503,12 @@ void SceneData::loadPreferences(){
         TiXmlElement * untitled = new TiXmlElement ("untitled");
         untitled->SetAttribute("amount", 0);
         root->LinkEndChild(untitled);
+
+        TiXmlElement * startSceneXml = new TiXmlElement ("StartScene");
+        startSceneXml->SetAttribute("name", "blank.scene");
+        startSceneFilename="blank.scene";
+        root->LinkEndChild(startSceneXml);
+
         myLib.LinkEndChild( root );
         myLib.SaveFile( startProject + "/" + "my.project");
 
@@ -498,6 +519,21 @@ void SceneData::loadPreferences(){
 
         #ifdef TARGET_MACOSX
         #endif
+
+    }else{
+
+        //get our start scene
+        TiXmlHandle hDoc(&myLib);
+        TiXmlElement * element;
+        TiXmlHandle hRoot(0);
+        element=hDoc.FirstChildElement().Element();
+        // should always have a valid root but handle gracefully if it doesn't
+        if (!element) return;
+
+        // save this for later
+        hRoot=TiXmlHandle(element);
+        element=hRoot.FirstChild( "StartScene" ).Element();
+        startSceneFilename=element->Attribute("name");
 
     }
 
@@ -524,6 +560,8 @@ void SceneData::createScene(){
 
     //add one grid - allow for adding more!
     addGrid();
+
+    addGizmos();
 
     input->setup();          //controller gets created here!
     controller->setup();
@@ -565,6 +603,7 @@ void SceneData::createScene(){
 
     //shared memory texture
     renderer->setup();
+
 }
 
 void SceneData::update(float deltaTime){
@@ -613,7 +652,6 @@ void SceneData::update(float deltaTime){
     renderer->update(deltaTime);
 
 	input->resetInputVectors();
-
 
     glutPostRedisplay();
 }
@@ -683,7 +721,13 @@ void SceneData::addGrid(){
     helperList.push_back(brush);
 }
 
+void SceneData::addGizmos(){
 
+    aGizmo= new ActorGizmo;
+    helperList.push_back(aGizmo);
+    aGizmo->setup();
+
+}
 
 int SceneData::readSharedMemory(){
 
@@ -894,7 +938,10 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
         selectedActors.clear();
     }
 
+    //update currentScene
+    currentScene=fileName;
 
+    //get full path
     string stringName=startProject + "/";
     stringName.append(fileName);
 
@@ -1062,17 +1109,7 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
     // save this for later
     hRoot=TiXmlHandle(element);
 
-/*
-    for (int i=0;i<numberOfUntitledDrawings;i++){
-        string myName="untitled";
-        char buffer [16];
-        itoa(i, buffer,10);
-        myName=myName+buffer;
-        spriteMeshLoader->loadSpriteMesh(path+"/untitled/"+myName, myName);
-        cout << "loading untitled drawing: " << myName << endl;
 
-    }
-*/
     //***********************************************************************
     //Load OBJs
     //***********************************************************************
@@ -1328,6 +1365,121 @@ void SceneData::loadActionList(std::string path, string fileName){
 
 }
 
+
+void SceneData::newScene(){
+
+    //loading blank scene
+    string oldStartProject=startProject;
+
+    startProject="resources/scenes/";
+    loadAll("blank.scene");
+
+    startProject=oldStartProject;
+
+}
+
+
+void SceneData::newProject(std::string projectName){
+
+    //create a directory
+    string command="mkdir ";
+    command+=projectName;
+    system(command.c_str());
+
+    startProject=projectName;
+    //create blank scene
+
+    //go to exe_path directory before closing and reloading
+    cout << "switching to exe path..." << exe_path << endl;
+    chdir(exe_path.c_str());
+    newScene();
+
+    currentScene="blank.scene";
+    startSceneFilename="blank.scene";
+
+    //save blank scene
+    saveAll(currentScene);
+
+    //load bogus project to create
+    loadProject(projectName+DIRECTORY_SEPARATION);
+}
+
+
+void SceneData::saveScene(std::string sceneName, bool bStart){
+
+    cout << "scene name is: " << sceneName << endl;
+    //strip directory path from string
+    size_t found=sceneName.rfind(DIRECTORY_SEPARATION);
+    sceneName=sceneName.substr(found);
+
+    saveAll(sceneName);
+}
+
+void SceneData::loadScene(std::string sceneName, bool bStart){
+
+    cout << "scene name is: " << sceneName << endl;
+    //strip directory path from string
+    size_t found=sceneName.rfind(DIRECTORY_SEPARATION);
+    sceneName=sceneName.substr(found);
+
+    loadAll(sceneName);
+
+}
+
+
+void SceneData::loadProject(std::string projectName, bool bStart){
+
+
+    size_t found=projectName.rfind(DIRECTORY_SEPARATION);
+    projectName=projectName.substr(0,found);
+
+    //also replace all \\ with / just in case
+    replace(projectName.begin(), projectName.end(), '\\', '/');
+
+    cout << "setting new project name: " << projectName << endl;
+    cout << "************************************************************" << endl;
+
+    startProject=projectName;
+
+
+    //go to exe_path directory before closing and reloading
+    cout << "switching to exe path..." << exe_path << endl;
+    chdir(exe_path.c_str());
+
+    //open config.xml to re-write startProject
+    TiXmlDocument doc( "config.xml" );
+    if (!doc.LoadFile()) {
+        cout << "Cannot find config file, or config file corrupt. Exiting..." << endl;
+        exit(0);
+        }
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    //***********************************************************************
+    //Get the "Moviesandbox" element
+    //***********************************************************************
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+    element=hRoot.FirstChild( "Settings" ).Element();
+    element->SetAttribute("StartProject", startProject.c_str());
+    cout << "saving config..." << endl;
+
+    doc.SaveFile( "config.xml" );
+
+    //restarting
+    externalInputList["moviesandbox"]->startProgram();
+    exit(0);
+
+}
+
+
 void SceneData::addToLibrary(TiXmlElement* myElement){
 
     TiXmlDocument doc( startProject + "/my.project" );
@@ -1455,6 +1607,9 @@ void SceneData::getAllScenes(){
 		FindClose( hFind);
 	}
 
+    for (int i=0;i<(int)savedScenes.size();i++)
+        cout << "found scene: " << savedScenes[i] << endl;
+
 #endif
 
 #ifdef TARGET_MACOSX
@@ -1468,12 +1623,27 @@ void SceneData::getAllScenes(){
     }
 
 	while ((dirp = readdir(dp)) != NULL) {
-		if (strcmp(dirp->d_name, ".") == 0)
-			continue;
-		if (strcmp(dirp->d_name, "..") == 0)
-			continue; 
-		if (strstr(dirp->d_name, ".scene"))
+	    if (dirp->d_name.contains(".scene"))
             savedScenes.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return;
+
+#endif
+
+#ifdef TARGET_LINUX
+    //TODO: only list .scene files on Linux!!
+	string dir=startProject+DIRECTORY_SEPARATION;
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return;
+    }
+
+	while ((dirp = readdir(dp)) != NULL) {
+            savedScenes.push_back(string(dirp->d_name));
+            cout << "found a scene: "<< string(dirp->d_name) << endl;
     }
     closedir(dp);
     return;
@@ -1620,7 +1790,7 @@ float SceneData::setToRange(float min, float max, float value){
 
 
 #ifdef TARGET_WIN32
-string SceneData::openFileDialog(){
+string SceneData::openFileDialog(string ext){
 
 
     string myFileName;
@@ -1664,10 +1834,59 @@ string SceneData::openFileDialog(){
 
     return myFileName;
 }
+
+
+#include <locale>
+
+std::string convertWideToNarrow( const wchar_t *s, char dfault = '?', const std::locale& loc = std::locale() ){
+  std::ostringstream stm;
+
+  while( *s != L'\0' ) {
+    stm << std::use_facet< std::ctype<wchar_t> >( loc ).narrow( *s++, dfault );
+  }
+  return stm.str();
+}
+
+string SceneData::saveFileDialog(string ext){
+
+
+    wchar_t fileName[MAX_PATH] = L"";
+    char * extension;
+    OPENFILENAMEW ofn;
+    memset(&ofn, 0, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    HWND hwnd = WindowFromDC(wglGetCurrentDC());
+    ofn.hwndOwner = hwnd;
+    ofn.hInstance = GetModuleHandle(0);
+    ofn.nMaxFileTitle = 31;
+    ofn.lpstrFile = fileName;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.lpstrFilter = L"All Files (*.*)\0*.*\0";
+    ofn.lpstrDefExt = L"";  // we could do .rxml here?
+    ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
+    ofn.lpstrTitle = L"Select Output File";
+
+    string filePath;
+    if (GetSaveFileNameW(&ofn)){
+        filePath = convertWideToNarrow(fileName);
+        if (filePath.find(".scene")==string::npos)
+        filePath+=ext;
+
+        return filePath;
+
+    }else
+
+        return "NULL";
+
+}
+
 #endif
 
 #ifdef TARGET_MACOSX
-string SceneData::openFileDialog(){
+string SceneData::openFileDialog(string ext){
+
+    //source: http://paste.lisp.org/display/18561
+    //and: http://forum.openframeworks.cc/index.php?topic=955.0
 
 	NavDialogCreationOptions dialogOptions;
 	NavDialogRef dialog;
@@ -1742,5 +1961,107 @@ string SceneData::openFileDialog(){
 	return finalURL;
 }
 #endif
+
+#ifdef TARGET_LINUX
+
+//from ofxFenster ofSystemUtils.cpp
+
+ static gboolean closeGTK(GtkWidget *widget){
+     //gtk_widget_destroy(widget);
+     gtk_main_quit();
+     return (FALSE);
+ }
+
+ static void initGTK(){
+     int argc=0; char **argv = NULL;
+     gtk_init (&argc, &argv);
+
+ }
+
+ static void startGTK(GtkWidget *dialog){
+     gtk_init_add( (GSourceFunc) closeGTK, NULL );
+     gtk_quit_add_destroy(1,GTK_OBJECT(dialog));
+     //g_timeout_add(10, (GSourceFunc) destroyWidgetGTK, (gpointer) dialog);
+     gtk_main();
+ }
+
+
+string SceneData::openFileDialog(string ext){
+
+    initGTK();
+
+//    GdkDisplay* myDisplay=gdk_x11_lookup_xdisplay(RootWindow);
+
+
+
+    string results;
+   const gchar* button_name = "";
+   GtkWidget *dialog = gtk_file_chooser_dialog_new ("yay!",
+                           NULL,
+                           GTK_FILE_CHOOSER_ACTION_OPEN,
+                           button_name, GTK_RESPONSE_ACCEPT,
+                           GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                           NULL);
+
+     gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog),"myName");
+
+     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+         results = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+     }
+     startGTK(dialog);
+     return results;
+
+
+
+/*
+    GtkWidget *toplevel = gtk_widget_get_toplevel (dummy);
+   if (gtk_widget_is_toplevel (toplevel))
+     {
+      cout << gtk_widget_get_name(toplevel) << endl;
+      exit(0);
+     }
+*/
+
+}
+
+/*
+string SceneData::saveFileDialog(){
+
+    GtkWidget *dialog;
+
+     dialog = gtk_file_chooser_dialog_new ("Save File",
+     				      parent_window,
+     				      GTK_FILE_CHOOSER_ACTION_SAVE,
+     				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+     				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+     				      NULL);
+     gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+
+     if (user_edited_a_new_document)
+       {
+         gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), default_folder_for_saving);
+         gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "Untitled document");
+       }
+     else
+       gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename_for_existing_document);
+
+
+     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+       {
+         char *filename;
+
+         filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+         save_to_file (filename);
+         g_free (filename);
+       }
+
+     gtk_widget_destroy (dialog);
+
+
+}
+*/
+#endif
+
+
 
 

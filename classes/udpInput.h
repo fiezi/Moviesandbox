@@ -53,6 +53,11 @@ public:
 	pthread_t udpThread;
 #endif
 
+#ifdef TARGET_LINUX
+	pthread_mutex_t mutex;
+	pthread_t udpThread;
+#endif
+
     //************************************************************
     //Constructor/Destructor
     //************************************************************
@@ -92,6 +97,10 @@ public:
 #endif
 
 #ifdef TARGET_MACOSX
+	static void *ThreadStaticEntryPoint(void * pThis){
+#endif
+
+#ifdef TARGET_LINUX
 	static void *ThreadStaticEntryPoint(void * pThis){
 #endif
 

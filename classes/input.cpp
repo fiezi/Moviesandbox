@@ -90,6 +90,11 @@ void Input::update(double deltaTime){
     BasicButton *myButton;
     hudTarget=NULL;
 
+    if (worldTarget){
+        worldTarget->mouseOver();
+    }
+
+
     if (sceneData->staticButton){
         sceneData->staticButton->update(deltaTime);
         focusButton=sceneData->staticButton;
@@ -116,9 +121,15 @@ void Input::update(double deltaTime){
         if (mouseX > myButton->location.x && mouseX < myButton->location.x + myButton->scale.x){
             if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y){
                 hudTarget=myButton;
-                hudTarget->mouseOver();
             }
         }
+    }
+
+
+
+    //only one hudTarget should mouseOver at a time!
+    if (hudTarget){
+        hudTarget->mouseOver();
     }
 }
 
@@ -157,6 +168,15 @@ void Input::pressedMouse(int button,int state,int x, int y){
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
 #endif
+
+
+#ifdef TARGET_LINUX
+        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+            bShiftDown=true;
+        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+            bCtrlDown=true;
+#endif
+
 	//some MOUSE INFO
     //boolean flags and
     //counting the frames we pressed the button - makes it easy to check against!
@@ -243,15 +263,21 @@ void Input::moveMouse(int x, int y){
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
-
-
 	#endif
 
 	#ifdef TARGET_MACOSX
-
 		bShiftDown=CGEventSourceKeyState(0,(CGKeyCode)56);
 		bCtrlDown=CGEventSourceKeyState(0,(CGKeyCode)59);
 	#endif
+
+    #ifdef TARGET_LINUX
+        bShiftDown=false;
+        bCtrlDown=false;
+        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+            bShiftDown=true;
+        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+            bCtrlDown=true;
+    #endif
 
 	mouseVector.x=x-mouseX;
 	mouseVector.y=(y-mouseY)*sceneData->invertMouse;
@@ -289,6 +315,16 @@ void Input::dragMouse(int x, int y){
 		bCtrlDown=CGEventSourceKeyState(0,(CGKeyCode)59);
 
 	#endif
+
+    #ifdef TARGET_LINUX
+        bShiftDown=false;
+        bCtrlDown=false;
+        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+            bShiftDown=true;
+        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+            bCtrlDown=true;
+    #endif
+
 
 	if (dragButton && dragButton->bDragable){
 	  dragButton->mouseDrag();
@@ -362,6 +398,15 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
     #endif
 
+    #ifdef TARGET_LINUX
+        bShiftDown=false;
+        bCtrlDown=false;
+        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+            bShiftDown=true;
+        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+            bCtrlDown=true;
+    #endif
+
         lastKey=key;
 
         sceneData->controller->currentTool->keyPressed(key);
@@ -431,6 +476,17 @@ void Input::specialKeyDown(int key, int x, int y){
         bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
         bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
     #endif
+
+    #ifdef TARGET_LINUX
+        bShiftDown=false;
+        bCtrlDown=false;
+        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+            bShiftDown=true;
+        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+            bCtrlDown=true;
+    #endif
+
+
 }
 
 
@@ -694,6 +750,10 @@ void Input::confineMouse(){
 
 
 #ifdef TARGET_WIN32
+    glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
+#endif
+
+#ifdef TARGET_LINUX
     glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
 #endif
 

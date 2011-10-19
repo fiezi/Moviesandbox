@@ -16,9 +16,8 @@
 #include "console.h"
 
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
-#include "flexGrid.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "interpolationHelper.h"
 
 #include "createActorButton.h"
@@ -57,8 +56,8 @@ void Content::setup(){
     ViewportGizmo *but;
 
     but= new ViewportGizmo;
-    but->setLocation(Vector3f( 800, 100, 0.0));
-    but->setRotation(Vector3f(30,30,30));
+    but->setLocation(Vector3f( renderer->screenX-80, 12, 0.0));
+    //but->setRotation(Vector3f(30,30,30));
     //but->setScale(Vector3f(20,20,20));
     //but->sceneShaderID="color";
     //but->textureID="grid_solid";
@@ -70,8 +69,6 @@ void Content::setup(){
 
 
     createMonitors();
-
-    createConsole();
 
     //offset for left hand side menu
     int yPos=48;
@@ -97,12 +94,14 @@ void Content::setup(){
 
     yPos+=40;
 
-    createSysMenu(xPos,yPos);
+    //createSysMenu(xPos,yPos);
 
     createInspectors();
 
     //should be last, because it should be over all other buttons!
     createMenuBar();
+
+    createConsole();
 
  }
 
@@ -143,6 +142,8 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPermanentList=true;
+    lbut->bPartOfMenu=true;
     lbut->name="File";
     lbut->bDrawName=true;
     lbut->color=menuColor;
@@ -158,18 +159,58 @@ void Content::createMenuBar(){
     lbut->listButtonSpacing=Vector3f(0,0,0);
 
     lbut->listType.push_back("10LoadButton");
-    lbut->listName.push_back("Load");
+    lbut->listName.push_back("New Scene");
     lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWSCENE");
 
-    lbut->listType.push_back("10SaveButton");
-    lbut->listName.push_back("Save");
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Scene...");
     lbut->listParent.push_back("PARENT");
-/*
+    lbut->listProp.push_back("LOADSCENELIST");
+    //lbut->listProp.push_back("SCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene As...");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENEAS");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("New Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWPROJECT");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("LOADPROJECT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
     lbut->listType.push_back("12WindowButton");
     lbut->listName.push_back("Preferences");
     lbut->listIcon.push_back("icon_system");
     lbut->listParent.push_back("PARENT");
-*/
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Quit");
     lbut->listParent.push_back("PARENT");
@@ -184,6 +225,7 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
     lbut->name="Edit";
     lbut->bDrawName=true;
     lbut->color=menuColor;
@@ -208,11 +250,14 @@ void Content::createMenuBar(){
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
     lbut->name="Tools";
     lbut->bDrawName=true;
     lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     sceneData->buttonList.push_back(lbut);
+
+
 
 }
 
@@ -222,9 +267,12 @@ void Content::createConsole(){
 
     //console
     but= new Console;
-    but->setLocation(Vector3f( 0, renderer->screenY-but->scale.y, 0));
+    but->setLocation(Vector3f( 320, 0, 0));
     but->bTextured=false;
     but->sceneShaderID="color";
+    but->scale.x=64;
+    but->scale.y=16;
+    but->color=COLOR_YELLOW;
     but->setup();
     sceneData->console=(Console*)but;
     sceneData->buttonList.push_back(but);

@@ -7,8 +7,8 @@
 
 //actors
 #include "particleSystem.h"
-#include "physicsActor.h"
-#include "ragDoll.h"
+//#include "physicsActor.h"
+//#include "ragDoll.h"
 #include "skeletalActor.h"
 #include "hitBox.h"
 #include "cameraActor.h"
@@ -200,9 +200,11 @@ Renderer::~Renderer(){
             glDeleteRenderbuffersEXT(1, &multiSample_db);
             glDeleteFramebuffersEXT(1, &multiSample_fb);
 
+/*
     dSpaceDestroy(collisionSpace);
     dWorldDestroy(physicsWorld);
     dCloseODE();
+*/
 }
 
 Renderer* Renderer::getInstance(){
@@ -393,6 +395,7 @@ void Renderer::setup(){
 
 void Renderer::physicsSetup(){
 
+/*
     physicsWorld = dWorldCreate();          //create a default physics world
     collisionSpace = dHashSpaceCreate(0);   //create a default collision space
     dWorldSetGravity (physicsWorld,0,-9.81,0);
@@ -408,6 +411,7 @@ void Renderer::physicsSetup(){
 
     dInitODE();
     dWorldSetQuickStepNumIterations(physicsWorld,120);
+*/
 }
 
 
@@ -424,7 +428,7 @@ void Renderer::update(float deltaTime){
 void Renderer::physicsUpdate(){
 
 	// Detect collision
-	dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
+	//dSpaceCollide(collisionSpace,NULL,&Renderer::handleCollisionBetween);
 
 	// Step world
 	/*
@@ -433,12 +437,12 @@ void Renderer::physicsUpdate(){
     else
      {
     */
-      dWorldQuickStep(physicsWorld, 0.01);
+      //dWorldQuickStep(physicsWorld, 0.01);
       //super-accurate but sloooooow:
 	  //dWorldStep(physicsWorld,0.01f);
 	  // Remove all temporary collision joints now that the world has been stepped
-	  dJointGroupEmpty(jointGroup);
-      physicsTime=deltaTime;
+	 // dJointGroupEmpty(jointGroup);
+     // physicsTime=deltaTime;
 	//  }
 
 }
@@ -641,8 +645,9 @@ void Renderer::checkFBOStatus(){
     }
 }
 
-
+/*
 void Renderer::handleCollisionBetween(void * data, dGeomID o0, dGeomID o1){
+
 
 		// Create an array of dContact objects to hold the contact joints
 
@@ -684,7 +689,7 @@ void Renderer::handleCollisionBetween(void * data, dGeomID o0, dGeomID o1){
 		}
 
 }
-
+*/
 //************************************************************
 //
 //  Drawing to the screen - Actors, Buttons and RenderToTexture
@@ -1224,65 +1229,21 @@ void Renderer::draw3D(Layer* currentLayer){
     checkOpenGLError("draw3D draw non-pickable...");
     #endif
 
-	//draw helpers - brush, grid, etc... if we're not running
+	//draw helpers - brush, grid, actorGizmo, etc... if we're not running
     if (!sceneData->controller->bRunning){
 
         for (int i=0;i<(int)sceneData->helperList.size();i++){
             if (!sceneData->helperList[i]->bHidden){
 
                 if (sceneData->helperList[i]->bPickable){
-
                     //no backface stuff for brush!
-                    if (sceneData->helperList[i]->name=="brush"){
-                        drawActor(sceneData->helperList[i]);
-                        continue;
-                    }
-                    glEnable(GL_CULL_FACE);
-
-                    // Draw Front faces
-                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
-
-                    Vector4f myColor=sceneData->helperList[i]->color;
-
-                    // Draw Back faces;
-                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
-
-                    glCullFace(GL_FRONT);
-                    drawActor(sceneData->helperList[i]);
-
-                    sceneData->helperList[i]->color=myColor;
-
-                    glDisable(GL_CULL_FACE);
-
                     glDrawBuffers(2, drawBuffers);
                 }
                 else{
                     //don't draw in Z or draw normals if we're not pickable!
                     glDrawBuffers(1, drawBuffers);
-
-                    if (sceneData->helperList[i]->name=="brush"){
-                        drawActor(sceneData->helperList[i]);
-                        glDrawBuffers(2, drawBuffers);
-                        continue;
-                    }
-                    glEnable(GL_CULL_FACE);
-
-                    // Draw Front faces
-                    glCullFace(GL_BACK);
                     drawActor(sceneData->helperList[i]);
-
-                    Vector4f myColor=sceneData->helperList[i]->color;
-
-                    // Draw Back faces;
-                    sceneData->helperList[i]->color=Vector4f(0,0,0,1);
-
-                    glCullFace(GL_FRONT);
-                    drawActor(sceneData->helperList[i]);
-
-                    sceneData->helperList[i]->color=myColor;
-                    glDisable(GL_CULL_FACE);
-
                     glDrawBuffers(2, drawBuffers);
                 }
             }
@@ -1633,6 +1594,13 @@ void Renderer::displayDebug(){
     sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
     drawText(writestring,screenX-80*0.9,10 );
 
+
+    //displaying the last couple of debug messages
+    int listEnd=(int)sceneData->debugMessages.size()-1;
+
+    for (int i=listEnd;i>0;i--)
+        drawText(sceneData->debugMessages[i],screenX-300*0.9,100 - (listEnd-i)*10 );
+
     return;
 }
 
@@ -1795,6 +1763,7 @@ void Renderer::drawBoundingBox(Vector3f lowerLeftBack,Vector3f upperRightFront, 
         glDisableClientState( GL_VERTEX_ARRAY );
 
 }
+
 
 void Renderer::drawPlane(float x1,float  y1,float  x2,float  y2, Vector4f color, bool bCentered){
 
@@ -2277,11 +2246,26 @@ void Renderer::pick(int x, int y){
     else
         input->worldTarget=NULL;
 
-    //special stuff
+    ///Pickinbg Helpers
     //grid
     if ((int)floor(mousePos[1])==-2)
         input->worldTarget=sceneData->grid;
 
+    //Actor Gizmo
+    if ((int)floor(mousePos[1])==-10)
+        input->worldTarget=sceneData->aGizmo->xAxisGizmo;
+    if ((int)floor(mousePos[1])==-11)
+        input->worldTarget=sceneData->aGizmo->yAxisGizmo;
+    if ((int)floor(mousePos[1])==-12)
+        input->worldTarget=sceneData->aGizmo->zAxisGizmo;
+
+
+    if ((int)floor(mousePos[1])==-20)
+        input->worldTarget=sceneData->aGizmo->xRotateGizmo;
+    if ((int)floor(mousePos[1])==-21)
+        input->worldTarget=sceneData->aGizmo->yRotateGizmo;
+    if ((int)floor(mousePos[1])==-22)
+        input->worldTarget=sceneData->aGizmo->zRotateGizmo;
 
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos

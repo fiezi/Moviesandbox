@@ -25,6 +25,8 @@ BasicButton::BasicButton(){
     bResetAfterDrag=true;
     bTriggerWhileDragging=false;
 
+    bPartOfMenu=false;
+
     tooltip="";
     tooltipOffset=Vector2f(0,0);
 

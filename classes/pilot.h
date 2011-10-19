@@ -45,6 +45,10 @@ public:
 	pthread_mutex_t * mutex;
 #endif
 
+#ifdef TARGET_LINUX
+	pthread_mutex_t * mutex;
+#endif
+
     std::string     name;               //simple identifier
 
     Pilot();

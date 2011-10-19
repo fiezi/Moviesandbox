@@ -1,9 +1,9 @@
 #ifndef H_WINDOWBUTTON
 #define H_WINDOWBUTTON
 
-#include "widget.h"
+#include "listButton.h"
 
-class WindowButton: public Widget{
+class WindowButton: public ListButton{
 
 public:
 
@@ -17,10 +17,12 @@ public:
     virtual void setup();
 
     virtual void assembleList();
-
+/*
     virtual void closeWidget();
-
+*/
     virtual void deselect(int depth);
+
+    virtual void trigger(MsbObject* other);
 
     virtual void create();
 };

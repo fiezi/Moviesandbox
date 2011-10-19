@@ -1,8 +1,8 @@
 
 
-#include <interpolateNode.h>
-#include <control.h>
-#include <input.h>
+#include "interpolateNode.h"
+#include "control.h"
+#include "input.h"
 
 InterpolateNode::InterpolateNode(){
 

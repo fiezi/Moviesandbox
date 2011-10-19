@@ -6,7 +6,6 @@
 #include "spriteMeshLoader.h"
 #include "drawingWidget.h"
 #include "brushFilter.h"
-#include "stdlib.h"
 
 
 DrawTool::DrawTool(){
@@ -249,13 +248,14 @@ void DrawTool::erase(){
 
     cout << "erasing!" << endl;
 
-    calcLoc=brush->location-brush->drawing->location;
+    //calcLoc=brush->location-brush->drawing->location;
+    calcLocation();
 
     for (int i=0;i<(int)sceneData->vboList[brush->drawing->vboMeshID]->vData.size();i++)
       {
       Vector4f loc=sceneData->vboList[brush->drawing->vboMeshID]->vData[i].location;
       Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
-      if (brush->scale.x * 0.1>distance.length())
+      if (brush->scale.x * 0.25>distance.length())
           brush->drawing->deleteParticle(i);
       }
     sceneData->numParticles--;
@@ -405,7 +405,8 @@ void DrawTool::createNewDrawing(bool bUnnamed){
         string myName="untitled";
         char buffer [16];
         cout << "amount untitled drawings: " << sceneData->numberOfUntitledDrawings << endl;
-        sprintf(buffer, "%d",sceneData->numberOfUntitledDrawings);
+        sprintf(buffer,"%d",sceneData->numberOfUntitledDrawings);
+        //itoa(, ,10);
         myName=myName+buffer;
         brush->drawing->name=myName;
         sceneData->numberOfUntitledDrawings++;

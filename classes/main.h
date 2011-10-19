@@ -4,6 +4,15 @@
 #include "includes.h"
 #include "input.h"
 #include "base64Encode.h"
+
+
+#include <sstream>
+#include <fstream>
+#include <ostream>
+#include <ctime>
+#include <strstream>
+
+
 /*
 
 Variables
