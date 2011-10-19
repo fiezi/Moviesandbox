@@ -252,7 +252,7 @@ void Renderer::initWindow(int x, int y, string windowName){
 
     if (bFullscreen)
       {
-      // windowXxwindowY, 32bit pixel depth, 60Hz refresh rate
+      // windowX x windowY, 32bit pixel depth, 60Hz refresh rate
       char* gmString  = new char[64];
       sprintf(gmString," %ix%i:32@60",windowX,windowY);
       glutGameModeString( gmString );
@@ -282,8 +282,11 @@ void Renderer::reDrawScreen(int w, int h){
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
+
+	//TODO: maybe make non-power-of-2 textures
 	// Set the viewport to be the entire window
 	glViewport(0, 0, w, h);
+	//glViewport(0, 0, w, w);
 
 	// Set the correct perspective.
 	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
@@ -702,6 +705,8 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 //setup Projection
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+	//gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
+	//gluPerspective(fov,(screenY==0)?(1):((float)scene_size/scene_size),nearClip,farClip);
 	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
 
 
@@ -829,7 +834,9 @@ void Renderer::draw(){
             /// Post-Production
             /////////////////////////////////////////////////////
 
+            //TODO: non-power-of-2 FBO?
             glViewport (0, 0, screenX, screenY);
+            //glViewport (0, 0, screenX, screenY);
 
             sceneData->layerList[i]->textureID=sceneData->layerList[i]->sceneTextureID;
             if (bDOF)
@@ -989,6 +996,7 @@ void Renderer::drawSceneTexture(){
 
     glPushAttrib(GL_VIEWPORT_BIT);
 
+    //glViewport (0, 0, screenX, screenY);
     glViewport (0, 0, scene_size, scene_size);
 
     glMatrixMode(GL_MODELVIEW);

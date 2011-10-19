@@ -56,7 +56,7 @@ void Content::setup(){
     ViewportGizmo *but;
 
     but= new ViewportGizmo;
-    but->setLocation(Vector3f( renderer->screenX-80, 12, 0.0));
+    but->setLocation(Vector3f( renderer->screenX-100, 2, 0.0));
     //but->setRotation(Vector3f(30,30,30));
     //but->setScale(Vector3f(20,20,20));
     //but->sceneShaderID="color";

@@ -25,14 +25,14 @@ void ViewportGizmo::setup(){
 
     BasicButton::setup();
     //create a 100x100 texture
-    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,100,100);
+    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,50,50);
 
     //also, create an FBO
-    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,100,false, "viewportGizmo");
+    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,50,false, "viewportGizmo");
 
 
     scale.x=50;
-    scale.y=40;
+    scale.y=50;
 
 }
 
@@ -41,7 +41,7 @@ void ViewportGizmo::update(double deltaTime){
         //setup FBO
 
     glPushAttrib(GL_VIEWPORT_BIT);
-    glViewport(0,0,200,200);
+    glViewport(0,0,100,80);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, viewport_fb);
     glDrawBuffers(1,renderer->drawBuffers);
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -74,6 +74,9 @@ void ViewportGizmo::mouseOver(){
 
     renderer->setupOrthoCamera();
 
+    //texTranslation.x-=0.01;
+
+
     GLuint pickTexture;
     //setup picking texture!
     glGenTextures(1, &pickTexture);
@@ -94,7 +97,7 @@ void ViewportGizmo::mouseOver(){
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 
-    //cout << cubeSide << "aa:v " << cubeRead[0] << " " << cubeRead[1] << " " << cubeRead[2] << endl;
+    cout << cubeSide << "aa:v " << cubeRead[0] << " " << cubeRead[1] << " " << cubeRead[2] << endl;
 
 }
 
@@ -140,6 +143,7 @@ void ViewportGizmo::clickedLeft(){
         newV=sceneData->controller->controlledActor->location + Vector3f(-1* oldV.length(),0,0);
         sceneData->controller->controlledActor->setRotation(Vector3f(0,0,1),Vector3f(0,1,0),Vector3f(-1,0,0));
     }
+
 
     driftV= newV-oldV;
 
