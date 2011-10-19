@@ -19,6 +19,7 @@ class Widget: public ListButton{
 public:
 
     Vector3f    widgetLocation;
+    //TODO: WidgetOpen is redundant to bListOpen now...
     bool        bWidgetOpen;            //is this widget open?
     bool        bToggleWidget;          //does this widget close when another widget opens?
 

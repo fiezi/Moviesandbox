@@ -13,6 +13,7 @@ public:
                                                     //mode 2: circular
                                                     //mode 3: straight up
                                                     //mode 4: box, right - used for texture browser
+                                                    //mode 4: straight down
 
     float radius;                                   //for radial menu
     float maxRadius;                                //for radial menu
@@ -23,16 +24,16 @@ public:
     float listOffsetX;                              //used for non-standard-sized listButtons in placeButton
     float listOffsetY;                              //used for non-standard-sized listButtons in placeButton
 
+
     int listColumns;
 
-    Vector3f listButtonDistance;                    //distance between listButtons
+    Vector3f listButtonSpacing;                    //spacing between listButtons
     Vector3f listLoc;                               //list position
 
     Vector3f listSize;                              //size of all buttons in screen-coordinates
     float scrollSize;                               //size of scrollbar
     float listDisplaySize;                          //how much of the list is to be displayed in screen-coordinates
 
-    bool bRelativeListLocation;                     //list position is relative to listbutton
 
     std::vector <std::string> listType;            //registers the types of Buttons you want the list to populate
     std::vector <std::string> listProp;            //the buttonProperty for each Button in the List
@@ -44,10 +45,13 @@ public:
 
     SliderButton* scrollBar;                      //holds the scroll button;
 
+    BasicButton* backgroundButton;                 //for list background/area
+
     bool bPermanentList;                           //make listButtons permanent = undeletable
                                                    //you must manually clean them up then!
-
+    bool bRelativeListLocation;                     //list position is relative to listbutton
     bool bDrawListNames;                           //draws names for listbuttons
+    bool bListOpen;                                //is the list currently on display or not?
 
     Vector4f listColor;                            //color of the buttons in the list
     string listShader;                             //shader to use (usually color or texture)

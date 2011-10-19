@@ -237,7 +237,6 @@ void PrimitivesInspector::NodeTab::assembleList(){
     mine->listName.push_back("SetBackground");
     mine->listName.push_back("MorphSpriteMesh");
     mine->listName.push_back("load new");
-    mine->listName.push_back("place UDPInput");
 
     mine->listProp.push_back("8RootNode");
     mine->listProp.push_back("16WaitForTimerNode");
@@ -259,10 +258,9 @@ void PrimitivesInspector::NodeTab::assembleList(){
     mine->listProp.push_back("17SetBackgroundNode");
     mine->listProp.push_back("19MorphSpriteMeshNode");
     mine->listProp.push_back("8LoadNode");
-    mine->listProp.push_back("8UdpInput");
 
-
-    for (int i=0; i<(int)mine->listProp.size(); i++){
+    int i;
+    for (i=0; i<(int)mine->listProp.size(); i++){
         mine->sceneData->actorInfo["16CreateNodeButton"].actorReference->create();
         mine->listButton.push_back(mine->sceneData->buttonList.back());
 
@@ -291,6 +289,38 @@ void PrimitivesInspector::NodeTab::assembleList(){
         mine->listButton[i]->initialLocation=mine->listButton[i]->location;
 
     }
+
+    //add udpInput as non-node at the end
+    mine->listName.push_back("UDPInput");
+    mine->listProp.push_back("8UdpInput");
+    mine->sceneData->actorInfo["17CreateActorButton"].actorReference->create();
+    mine->listButton.push_back(mine->sceneData->buttonList.back());
+
+
+        mine->listButton[i]->name=mine->listName[i];
+        mine->listButton[i]->buttonProperty=mine->listProp[i];
+        mine->listButton[i]->textureID="icon_base";
+
+        mine->listButton[i]->level=mine->level+1;
+        mine->listButton[i]->bDrawName=true;
+        mine->listButton[i]->color=Vector4f(1,1,1,1.0);
+        mine->listButton[i]->bPermanent=true;
+        mine->listButton[i]->bDragable=true;
+
+            mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
+            if (mine->listWidth>0)
+                mine->listButton[i]->scale.x=mine->listWidth;
+
+            //leave room for name beneath icon
+            if (mine->listHeight>0)
+                mine->listButton[i]->scale.y=mine->listHeight-16.0;
+
+        mine->listButton[i]->setup();
+        mine->placeButton(i,i);
+        //set this because we want to drag buttons around!
+        mine->listButton[i]->initialLocation=mine->listButton[i]->location;
+
+
 
     cout << "NodeInspector: our Button list is: "<< mine->listButton.size() <<" elements long..." << endl;
 

@@ -11,6 +11,8 @@ public:
     float focus;
     bool bCameraShake;
 
+    int oldTool;
+
     SwitchCameraNode();
     ~SwitchCameraNode();
 

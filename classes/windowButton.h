@@ -7,8 +7,6 @@ class WindowButton: public Widget{
 
 public:
 
-    BasicButton* backgroundButton;
-
     vector<string> tabNames;                   //tab names of all tabs for this window
 
     int currentTab;                                 //currently selected tab

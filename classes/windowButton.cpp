@@ -14,7 +14,7 @@ WindowButton::WindowButton(){
     bRelativeListLocation=false;
     listLoc.x=renderer->screenX/2-300;
     listLoc.y=renderer->screenY/2-200;
-    listButtonDistance.x=80.0;
+    listButtonSpacing.x=80.0;
 
     currentTab=0;
 
@@ -25,7 +25,7 @@ WindowButton::WindowButton(){
     listHeight = 16;
     listColumns = 3;
 
-    name="Settings";
+    name="Preferences";
 
     registerProperties();
 
@@ -103,7 +103,7 @@ void WindowButton::closeWidget(){
 
 void WindowButton::deselect(int depth){
 
-    if (!((Widget*)parent)->bWidgetOpen){
+    if (!((ListButton*)parent)->bListOpen){
         //un-permanentize our buttons if our parent widget closes...
         for (int i=0;i<(int)listButton.size();i++){
             listButton[i]->bPermanent=false;

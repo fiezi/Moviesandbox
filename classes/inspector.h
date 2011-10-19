@@ -27,7 +27,6 @@ public:
 
     vector<BasicButton*> inspectorButtons;      //special inspector buttons, like "import", etc...
 
-    BasicButton* backgroundButton;
     InspectorManager* myManager;
 
 

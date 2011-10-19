@@ -70,6 +70,7 @@ public:
     Vector3f    keyVector,          //delta!!!!
                 mouseVector,        //delta!!!!
                 mouse3D,
+                center3D,
                 lastMouse3D;            //mouse position in 3D coordinates (uses picking)
 
 

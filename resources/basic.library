@@ -98,7 +98,7 @@
 
     <Texture textureID="sprite_light" filename="sprite_light.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="sprite_bone" filename="sprite_bone.tga" bAlpha="1" bWrap="1"/>
-    
+
 
 
  <!-- Actions -->
@@ -110,6 +110,7 @@
 
 
     <Shader shaderID="color" vertexShaderFilename="color.vert" fragmentShaderFilename="color.frag" />
+    <Shader shaderID="colorAlphaID" vertexShaderFilename="colorAlphaID.vert" fragmentShaderFilename="colorAlphaID.frag" />
     <Shader shaderID="aliveTexture" vertexShaderFilename="aliveTexture.vert" fragmentShaderFilename="aliveTexture.frag" />
     <Shader shaderID="illustration" vertexShaderFilename="illustration.vert" fragmentShaderFilename="illustration.frag" />
     <Shader shaderID="drawing" vertexShaderFilename="drawing.vert" fragmentShaderFilename="drawing.frag" />

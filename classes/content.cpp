@@ -45,19 +45,37 @@
 
 #include "spriteCharacter.h"
 
+#include "viewportGizmo.h"
+#include "menuBar.h"
+
 void Content::setup(){
 
     renderer=Renderer::getInstance();
     input=Input::getInstance();
     sceneData=SceneData::getInstance();
 
+    ViewportGizmo *but;
+
+    but= new ViewportGizmo;
+    but->setLocation(Vector3f( 800, 100, 0.0));
+    but->setRotation(Vector3f(30,30,30));
+    //but->setScale(Vector3f(20,20,20));
+    //but->sceneShaderID="color";
+    //but->textureID="grid_solid";
+    //but->vboMeshID="cube";
+    but->setup();
+    //but->drawType=DRAW_VBOMESH;
+    //but->drawType=DRAW_CUBE;
+    sceneData->buttonList.push_back(but);
+
+
     createMonitors();
 
     createConsole();
 
     //offset for left hand side menu
-    int yPos=10;
-    int xPos=10;
+    int yPos=48;
+    int xPos=2;
 
     createSelectButton(xPos,yPos);
 
@@ -83,8 +101,120 @@ void Content::setup(){
 
     createInspectors();
 
+    //should be last, because it should be over all other buttons!
+    createMenuBar();
 
  }
+
+
+void Content::createMenuBar(){
+
+/*
+    MenuBar* menu=new MenuBar;
+    menu->setLocation(Vector3f( 0, 0, 0.0));
+    menu->setup();
+    sceneData->buttonList.push_back(menu);
+  */
+    Vector4f menuColor=Vector4f(0.6,0.6,0.6,1.0);
+
+    //background...
+    BasicButton* but =new MenuBar;
+    sceneData->buttonList.push_back(but);
+
+    but->scale.x=renderer->screenX;
+    but->scale.y=16;
+    but->location.x=0;
+    but->location.y=0;
+
+    but->sceneShaderID="color";
+	but->textureID="icon_flat";
+    but->level=0;
+    but->bPermanent=true;
+    but->name="";
+    but->color=menuColor;
+    but->setLocation(but->location);
+
+    ListButton* lbut=new ListButton;
+
+    lbut->location.x= 0;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->name="File";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=but;
+    lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("10SaveButton");
+    lbut->listName.push_back("Save");
+    lbut->listParent.push_back("PARENT");
+/*
+    lbut->listType.push_back("12WindowButton");
+    lbut->listName.push_back("Preferences");
+    lbut->listIcon.push_back("icon_system");
+    lbut->listParent.push_back("PARENT");
+*/
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Quit");
+    lbut->listParent.push_back("PARENT");
+
+    sceneData->buttonList.push_back(lbut);
+
+    lbut=new ListButton;
+    lbut->location.x= 64;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->name="Edit";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=but;
+    //fill list and set to parent!
+    lbut->listWidth=64;
+    lbut->listHeight=16;
+
+/*
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Quit");
+    lbut->listParent.push_back("PARENT");
+*/
+    sceneData->buttonList.push_back(lbut);
+
+    lbut=new ListButton;
+    lbut->location.x= 128;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->name="Tools";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    sceneData->buttonList.push_back(lbut);
+
+}
 
 void Content::createConsole(){
 
@@ -563,13 +693,15 @@ void Content::createSysMenu(int x, int y){
 
 void Content::createInspectors(){
 
+    int yPos= 48;
+
     ListButton* lbut;
 
     lbut= new PropertyInspector;
     lbut->location.x=renderer->screenX-30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->location.y=0;
+    lbut->location.y=yPos;
     lbut->name="propertyInspector";
 
     sceneData->buttonList.push_back(lbut);
@@ -577,7 +709,7 @@ void Content::createInspectors(){
 
     lbut= new BrushInspector;
     lbut->location.x=renderer->screenX-30;
-    lbut->location.y=30;
+    lbut->location.y=yPos+30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->textureID="icon_brush";
@@ -588,7 +720,7 @@ void Content::createInspectors(){
 
     lbut= new AssetInspector;
     lbut->location.x=renderer->screenX-30;
-    lbut->location.y=60;
+    lbut->location.y=yPos+60;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->textureID="icon_props";
@@ -599,7 +731,7 @@ void Content::createInspectors(){
 
     lbut= new PrimitivesInspector;
     lbut->location.x=renderer->screenX-30;
-    lbut->location.y=90;
+    lbut->location.y=yPos+90;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->textureID="icon_prefab";
@@ -611,7 +743,7 @@ void Content::createInspectors(){
 
     lbut= new LayerInspector;
     lbut->location.x=renderer->screenX-30;
-    lbut->location.y=180;
+    lbut->location.y=yPos+180;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->textureID="icon_layers";

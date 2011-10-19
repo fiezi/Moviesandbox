@@ -16,16 +16,18 @@ listOffsetY=0;
 
 bRelativeListLocation=true;
 listLoc=Vector3f(0,0,0);
-listButtonDistance=Vector3f(2,2,0);
+listButtonSpacing=Vector3f(2,2,0);
 
 scrollSize=128.0;
 listDisplaySize=300.0;
 
 listColumns=1;
 scrollBar=NULL;
+backgroundButton=NULL;
 
 bPermanentList=false;
 bDrawListNames=false;
+bListOpen=false;
 
 listColor=Vector4f(1,1,1,1);
 listShader="texture";
@@ -43,10 +45,12 @@ void ListButton::clickedLeft(){
 
   //destroy all buttons that have higher depth than mine!
   input->deselectButtons(level);
+  bListOpen=false;
 
   if (listButton.size()==0){
     cout << "clicked!" << endl;
     assembleList();
+    bListOpen=true;
   }
 
 }
@@ -106,7 +110,7 @@ void ListButton::assembleList(){
         listButton[i]->sceneShaderID=listShader;
 
         if (i>0 && listButton[i-1]->bIndividualListSize){
-            listLoc.y+=listButton[i-1]->scale.y-listHeight;// + listButtonDistance.y;
+            listLoc.y+=listButton[i-1]->scale.y-listHeight;// + listButtonSpacing.y;
         }
         if (!listButton[i]->bIndividualListSize){
             if (listWidth>0)
@@ -182,11 +186,11 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
 
         case 0:                     //to the right and down
             if (bRelativeListLocation){
-                loc.x=location.x+listLoc.x+scale.x+listButtonDistance.x;
-                loc.y=location.y+listLoc.y+drawPosition*(listHeight+listButtonDistance.y) + listOffsetY;
+                loc.x=location.x+listLoc.x+scale.x+listButtonSpacing.x;
+                loc.y=location.y+listLoc.y+drawPosition*(listHeight+listButtonSpacing.y) + listOffsetY;
             }else{
                 loc.x=listLoc.x;
-                loc.y=listLoc.y+drawPosition*(listHeight+listButtonDistance.y)  + listOffsetY;
+                loc.y=listLoc.y+drawPosition*(listHeight+listButtonSpacing.y)  + listOffsetY;
             }
             listButton[buttonNumber]->setLocation(loc);
             break;
@@ -209,13 +213,25 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
         case 3:                       //straight upwards
             if (bRelativeListLocation){
                 loc.x=listLoc.x+location.x;
-                loc.y=listLoc.y+location.y-scale.y-drawPosition*(listHeight+listButtonDistance.y) - listOffsetY;
+                loc.y=listLoc.y+location.y-scale.y-drawPosition*(listHeight+listButtonSpacing.y) - listOffsetY;
             }else{
                 loc.x=listLoc.x;
-                loc.y=listLoc.y-scale.y-drawPosition*(listHeight+listButtonDistance.y) - listOffsetY;
+                loc.y=listLoc.y-scale.y-drawPosition*(listHeight+listButtonSpacing.y) - listOffsetY;
             }
             listButton[buttonNumber]->setLocation(loc);
             break;
+
+        case 5:                     //straight Down
+            if (bRelativeListLocation){
+                loc.x=location.x+listLoc.x+listButtonSpacing.x;
+                loc.y=location.y+listLoc.y+drawPosition*(listHeight+listButtonSpacing.y) + listOffsetY+ scale.y;
+            }else{
+                loc.x=listLoc.x;
+                loc.y=listLoc.y+drawPosition*(listHeight+listButtonSpacing.y)  + listOffsetY + scale.y;
+            }
+            listButton[buttonNumber]->setLocation(loc);
+            break;
+
 
         case 4:                       //box, right - used for texture browser
             //find row
@@ -224,14 +240,16 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
             int column = drawPosition%listColumns;
 
             if (bRelativeListLocation){
-                loc.x=listLoc.x + location.x + scale.x + column * (listWidth+listButtonDistance.x);
-                loc.y=listLoc.y + location.y + row * (listHeight+listButtonDistance.y) + listOffsetY;
+                loc.x=listLoc.x + location.x + scale.x + column * (listWidth+listButtonSpacing.x);
+                loc.y=listLoc.y + location.y + row * (listHeight+listButtonSpacing.y) + listOffsetY;
             }else{
-                loc.x=listLoc.x + scale.x + column * (listWidth+listButtonDistance.x);
-                loc.y=listLoc.y + row * (listHeight+listButtonDistance.y) + listOffsetY;
+                loc.x=listLoc.x + scale.x + column * (listWidth+listButtonSpacing.x);
+                loc.y=listLoc.y + row * (listHeight+listButtonSpacing.y) + listOffsetY;
             }
             listButton[buttonNumber]->setLocation(loc);
             break;
+
+
     }
     listButton[buttonNumber]->initialLocation=listButton[buttonNumber]->location;
 }

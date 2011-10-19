@@ -13,6 +13,8 @@ public:
     virtual void setup();
     virtual void reset();
 
+    void createMenuBar();
+
     void createMonitors();
 
     void createConsole();
