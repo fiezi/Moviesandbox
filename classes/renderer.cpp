@@ -261,7 +261,7 @@ void Renderer::initWindow(int x, int y, string windowName){
       }
     else
       {
-      glutInitWindowSize(windowX,windowY);
+      glutInitWindowSize(screenX,screenY);
       glutInitWindowPosition(x,y);
       glutCreateWindow(windowName.c_str());
       }
@@ -276,6 +276,9 @@ void Renderer::reDrawScreen(int w, int h){
 	if(h == 0)
 		h = 1;
 
+
+    cout << "redrawing... height:" << h << " width: "<<w << endl;
+
 //	float ratio = 1.0* w / h;
 
 	// Reset the coordinate system before modifying
@@ -287,6 +290,36 @@ void Renderer::reDrawScreen(int w, int h){
 	// Set the viewport to be the entire window
 	glViewport(0, 0, w, h);
 	//glViewport(0, 0, w, w);
+
+
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
+        sceneData->layerList[i]->scale=Vector3f(w,-h,1.0);
+        sceneData->layerList[i]->location.y=h;
+        sceneData->layerList[i]->setLocation(sceneData->layerList[i]->location);
+    }
+
+    Vector3f screenDelta=Vector3f(w-screenX,h-screenY,0);
+
+    //update all inspectors and timeline too!
+    for (int i=0;i<(int)sceneData->inspectorManager->inspectors.size();i++){
+        Inspector* mI=sceneData->inspectorManager->inspectors[i];
+        mI->addLocation(screenDelta);
+        mI->initialLocation=mI->location;
+
+        //update all list contents, backgrounds and inspectorButtons
+        mI->backgroundButton->addLocation(screenDelta);
+        //mI->scrollButton->addLocation(screenDelta);
+        for (int j=0;j<(int)mI->inspectorButtons.size();j++)
+            mI->inspectorButtons[j]->addLocation(screenDelta);
+        for (int j=0;j<(int) mI->listButton.size();j++)
+            mI->listButton[j]->addLocation(screenDelta);
+
+
+    }
+
+    screenX=w;
+    screenY=h;
+
 
 	// Set the correct perspective.
 	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
@@ -2285,8 +2318,8 @@ void Renderer::pick(int x, int y){
 
     input->mouse3D= sceneData->controller->location;
     input->mouse3D+= sceneData->controller->zAxis * zPos;
-    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)windowX - 0.5) * zPos * 1.1);
-    input->mouse3D+= sceneData->controller->yAxis * (((float)(windowY-input->mouseY)/(float)windowY - 0.5) *zPos * screenY/scene_size * 1.1);
+    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos * 1.1);
+    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos * screenY/scene_size * 1.1);
 
    ///Center 3D Position
     //Calculate mouse 3D position from zPos
@@ -2294,6 +2327,8 @@ void Renderer::pick(int x, int y){
     //float zPos=( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
     zPos=centerInfo[2];
 
+
+    cout << "mouse3D " << input->mouse3D << endl;
     //cout << "center: " << zPos << endl;
 
     input->center3D= sceneData->controller->location;

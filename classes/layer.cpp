@@ -37,7 +37,7 @@ void Layer::setup(){
     location.x=0.0f;
     location.y=renderer->screenY;
     location.z=-10;
-    scale=Vector3f(renderer->windowX,-renderer->screenY,1.0);
+    scale=Vector3f(renderer->screenX,-renderer->screenY,1.0);
     bScreenOverlay=true;
 
 }
