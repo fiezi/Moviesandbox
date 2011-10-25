@@ -900,6 +900,26 @@ void SceneData::saveAll(std::string filename){
     cout << "saving filename: " << saveString << endl;
 
     doc.SaveFile( saveString );
+
+    //set project as startupProject
+    TiXmlDocument myLib( startProject + "/" + "my.project" );
+    myLib.LoadFile();
+    //get our start scene
+    TiXmlHandle hDoc(&myLib);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+    element=hRoot.FirstChild( "StartScene" ).Element();
+
+    element->SetAttribute("name", filename);
+    myLib.SaveFile( startProject + "/" + "my.project");
+
+
 }
 
 void SceneData::loadAll(std::string fileName, bool bCleanUp){

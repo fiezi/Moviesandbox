@@ -82,6 +82,82 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 			 }
 
 
+            ///Control Brush directly!
+
+              if (partAsString=="brush"){
+
+                adressPart = strtok(NULL, "/");
+
+                //get pointer to al the arguments
+                osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+
+                //counter for all inputs
+                unsigned int numInputs=0;
+
+                //Get MUTEX
+                #ifdef TARGET_WIN32
+                WaitForSingleObject( *mutex, INFINITE );
+                #endif
+                #ifdef TARGET_MACOSX
+                pthread_mutex_lock(mutex);
+                #endif
+                while(adressPart!=NULL){
+
+                    partAsString=adressPart;
+
+                    if (partAsString=="vector3f" ){
+
+                        cout << "first Argument: " << (arg)->AsFloat() << endl;
+                        float x=0.0;
+                        float y=0.0;
+                        float z=0.0;
+
+                        x=(arg++)->AsFloat();
+                        y=(arg++)->AsFloat();
+                        z=(arg++)->AsFloat();
+
+                        sceneData->brush->setLocation(Vector3f(x,y,z));
+
+                      }//end if vector3f
+
+
+                      else if (partAsString=="new"){
+
+                        if (sceneData->controller->currentTool != sceneData->drawTool){
+                            sceneData->controller->switchTool(TOOL_DRAW);
+                        }
+
+                        sceneData->drawTool->bMouseControlled=false;
+                        sceneData->drawTool->createNewDrawing();
+                      }
+
+                      else if (partAsString=="draw"){
+
+                        if (sceneData->controller->currentTool != sceneData->drawTool){
+                            sceneData->controller->switchTool(TOOL_DRAW);
+                        }
+
+                        //TODO: hack to draw without mouse movement
+                        input->mouseVector=Vector3f(1,1,1);
+
+
+                        sceneData->drawTool->paint();
+                      }
+                //move to next part in address
+                adressPart = strtok(NULL, "/");
+                }//end while
+
+                #ifdef TARGET_WIN32
+                ReleaseMutex( *mutex );
+                #endif
+                #ifdef TARGET_MACOSX
+				 pthread_mutex_unlock(mutex);
+                #endif
+
+            }//end /brush
+
+
+
               if (partAsString=="pilot")
                 {
 

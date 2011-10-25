@@ -74,6 +74,7 @@ void SaveButton::trigger(MsbObject* other){
 void SaveButton::saveFile(string filename){
 
     sceneData->saveAll(filename);
+
 }
 
 void SaveButton::create(){sceneData->addButton(this);}

@@ -32,7 +32,8 @@ void DrawTool::start(){
 
     MsbTool::start();
 
-
+    //always start mousecontrolled!
+    bMouseControlled=true;
     //highlightButton(highlightBtn);
 
     //if we have an actor selcted that is a drawing, use that as our new drawing
@@ -181,7 +182,8 @@ void DrawTool::update(double deltaTime){
 
     MsbTool::update(deltaTime);
 
-    brush->setLocation(input->mouse3D);
+    if (bMouseControlled)
+        brush->setLocation(input->mouse3D);
 
     if (brush->drawing){
         brush->drawing->bPickable=true;
