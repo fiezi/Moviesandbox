@@ -1645,7 +1645,7 @@ void SceneData::getAllScenes(){
     }
 
 	while ((dirp = readdir(dp)) != NULL) {
-	    if (dirp->d_name.contains(".scene"))
+	    //if (dirp->d_name.contains(".scene"))
             savedScenes.push_back(string(dirp->d_name));
     }
     closedir(dp);
@@ -1982,6 +1982,90 @@ string SceneData::openFileDialog(string ext){
 
 	return finalURL;
 }
+
+string SceneData::saveFileDialog(string ext){
+
+
+    short fRefNumOut;
+    FSRef output_file;
+    OSStatus err;
+	
+    NavDialogCreationOptions options;
+    NavGetDefaultDialogCreationOptions( &options );
+	
+    options.optionFlags = kNavNoTypePopup + kNavSupportPackages + kNavAllowOpenPackages;
+    options.modality = kWindowModalityAppModal;
+	
+    options.optionFlags = kNavDefaultNavDlogOptions;
+    options.message = CFStringCreateWithCString(NULL, "testOne", kCFStringEncodingASCII);;
+    options.saveFileName = CFStringCreateWithCString(NULL, "testTwo", kCFStringEncodingASCII);
+    NavDialogRef dialog;
+	
+    err = NavCreatePutFileDialog(&options, '.mov', 'Moov', NULL, NULL, &dialog);
+	
+	
+    err = NavDialogRun(dialog);
+	
+    NavUserAction action;
+    action = NavDialogGetUserAction( dialog );
+
+    if (action == kNavUserActionNone || action == kNavUserActionCancel) {
+		
+        return "NULL";
+    }
+	
+    // get dialog reply
+    NavReplyRecord reply;
+    err = NavDialogGetReply(dialog, &reply);
+    if ( err != noErr )
+        return "NULL";
+	
+    if ( reply.replacing )
+    {
+        printf("need to replace\n");
+    }
+	
+    AEKeyword keyword;
+    DescType actual_type;
+    Size actual_size;
+    FSRef output_dir;
+    err = AEGetNthPtr(&(reply.selection), 1, typeFSRef, &keyword, &actual_type,
+                      &output_dir, sizeof(output_file), &actual_size);
+	
+    //printf("AEGetNthPtr returned %i\n", err );
+	
+	
+    CFURLRef cfUrl = CFURLCreateFromFSRef( kCFAllocatorDefault, &output_dir );
+    CFStringRef cfString = NULL;
+    if ( cfUrl != NULL )
+    {
+        cfString = CFURLCopyFileSystemPath( cfUrl, kCFURLPOSIXPathStyle );
+        CFRelease( cfUrl );
+    }
+	
+    // copy from a CFString into a local c string (http://www.carbondev.com/site/?page=CStrings+)
+    const int kBufferSize = 255;
+	
+    char folderURL[kBufferSize];
+    Boolean bool1 = CFStringGetCString(cfString,folderURL,kBufferSize,kCFStringEncodingMacRoman);
+	
+    char fileName[kBufferSize];
+    Boolean bool2 = CFStringGetCString(reply.saveFileName,fileName,kBufferSize,kCFStringEncodingMacRoman);
+	
+    // append strings together
+	
+    string url1 = folderURL;
+    string url2 = fileName;
+    string finalURL = url1 + "/" + url2;
+	
+    printf("url %s\n", finalURL.c_str());
+	
+    // cleanup dialog
+    NavDialogDispose(dialog);
+	
+	return finalURL;
+}
+
 #endif
 
 #ifdef TARGET_LINUX
@@ -2046,7 +2130,7 @@ string SceneData::openFileDialog(string ext){
 
 }
 
-/*
+
 string SceneData::saveFileDialog(){
 
     GtkWidget *dialog;
@@ -2081,7 +2165,7 @@ string SceneData::saveFileDialog(){
 
 
 }
-*/
+
 #endif
 
 
