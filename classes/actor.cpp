@@ -229,6 +229,16 @@ void Actor::setLocation(Vector3f loc){
 
 }
 
+void Actor::addLocation(Vector3f loc){
+
+    transformMatrix.setTranslation(location + loc);
+    baseMatrix=calcMatrix(this);
+    matrixToVectors();
+
+}
+
+
+
 void Actor::setRotation(Vector3f rot){
 
     Vector3f relTranslation=transformMatrix.getTranslation();

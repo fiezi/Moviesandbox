@@ -411,12 +411,14 @@ void SceneData::loadPreferences(){
     double dVal=0.0;
     string mStr;
 
+    //TODO: phase out, will bring in later...
     //resolution
+    /*
     element->Attribute("WindowSizeX", &val);
     renderer->windowX=val;
     element->Attribute("WindowSizeY", &val);
     renderer->windowY=val;
-
+    */
     //renderscreen
     element->Attribute("ScreenSizeX", &val);
     renderer->screenX=val;

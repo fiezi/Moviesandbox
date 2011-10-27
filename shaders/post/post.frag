@@ -211,11 +211,11 @@ vec4 smudge(vec2 coord){
         //    smudge=vec2(0.2,0.1);
 
 
-		vec4 smudgeColor=gl_FragColor;// * texture2D(shadowTex,texCoord);
+		vec4 smudgeColor=gl_FragData[0];// * texture2D(shadowTex,texCoord);
 
 
 		if (objectID<0.0)
-			return gl_FragColor;
+			return gl_FragData[0];
 
 		for (int i=0;i<int(smudgeSamples);i++){
 			vec2 myCoord = vec2(texCoord.x + float(i) * smudge.x * myStep,texCoord.y + float(i) * smudge.y * myStep);

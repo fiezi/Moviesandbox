@@ -7,6 +7,7 @@ Pilot::Pilot(){
 
 input=Input::getInstance();
 sceneData=SceneData::getInstance();
+renderer=Renderer::getInstance();
 parent=NULL;
 mutex=NULL;
 
@@ -161,6 +162,8 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
               if (partAsString=="pilot")
                 {
 
+                //cout << "got pilot!" << endl;
+
                 //and once more, so we move forward
                 adressPart = strtok(NULL, "/");
 
@@ -188,6 +191,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                         Matrix4f matrixContainer;
 
                         for (int i=0; i<16;i++){
+                            //cout << "transfering dataPoint: " << i << " at frame: " << renderer->frames << endl;
                             matrixContainer.data[i]=(arg++)->AsFloat();
                             }
 

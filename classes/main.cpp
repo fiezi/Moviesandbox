@@ -34,7 +34,7 @@ static bool SetPopUp(HWND hWnd)
 
 void draw(){renderManager->draw();}
 void idle(){sceneDataManager->update(renderManager->deltaTime);}
-void reDrawScreen(int w, int h){renderManager->reDrawScreen(renderManager->screenX, renderManager->screenY);}
+void reDrawScreen(int w, int h){renderManager->reDrawScreen(w, h);}
 
 void mouseButton(int button,int state,int x, int y){inputManager->pressedMouse(button,state,x,y);}
 void dragMotion(int x, int y){inputManager->dragMouse(x,y);}

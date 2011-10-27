@@ -191,6 +191,7 @@ public:
 
        //transformation functions - please always call!
        virtual void setLocation(Vector3f loc);          //set translation
+       virtual void addLocation(Vector3f loc);          //add to current translation
        virtual void setAbsoluteLocation(Vector3f loc);          //set translation
        virtual void setRotation(Vector3f rot);          //set rotation
        virtual void setRotation(Vector3f xA, Vector3f yA, Vector3f zA); //set rotation from 3 axis
