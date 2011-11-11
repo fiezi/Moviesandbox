@@ -110,7 +110,8 @@ vec4 calcFragmentWorldSpace(){
 vec4 computeLight(){
 
     //add all previous lighting calculations (from other lights) here:
-    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
+    //vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord * lighting_size/scene_size);
+    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
 
     //light in world space
     vec4 lightPos=gl_LightSource[0].position;
@@ -118,7 +119,7 @@ vec4 computeLight(){
 
     //transform both to eye space
     vec4 fragWorld= cameraMatrix * fragWorldLoc;
-
+    fragWorld=fragWorld/fragWorld.w;
     //fragWorld.z=-(fragWorld.z);// * -30.0;
     //fragWorld.z*=65536.0;
     //return (vec4(fragWorld.z,fragWorld.z,fragWorld.z,1.0)/10.0 );
@@ -208,11 +209,13 @@ vec4 shadowMapping(){
     vec4 ssShadow=shadowCoord/shadowCoord.w;
     ssShadow=ssShadow * 0.5 + 0.5;
 
+    ssShadow.xy = ssShadow.xy;
+
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
 
         //this leads to hard edges. Maybe we can soften them up a bit?
 
-            vec4 shadowColor=blur3(shadowTex, ssShadow.xy);
+            vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
             //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.x;
             //myLight +=max(0.0,(1.0 - falloff))	* computeLight();

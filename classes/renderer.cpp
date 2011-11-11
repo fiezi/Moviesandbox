@@ -961,6 +961,7 @@ void Renderer::drawBackground(){
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
+    //glViewport (0, 0, shadow_size, shadow_size);
     glViewport (0, 0, shadow_size, shadow_size);
 
     //setup projection

@@ -99,7 +99,9 @@ void ImportBitmapButton::loadFile(string filename){
             str.append("_back.tga");
             //fullName.append(str);
             //fullName.append("asian_back.tga");
-            myBitmap = FreeImage_Load(FIF_TARGA,filename.c_str(),0);
+            cout << "filename to load is: " << str << endl;
+
+            myBitmap = FreeImage_Load(FIF_TARGA,str.c_str(),0);
             if (!myBitmap){
                 cout << "Error loading bitmap!" << endl;
                 return;

@@ -217,6 +217,9 @@ void Content::createMenuBar(){
 
     sceneData->buttonList.push_back(lbut);
 
+
+    /** EDIT MENU  **/
+
     lbut=new ListButton;
     lbut->location.x= 64;
     lbut->scale.x=64;
@@ -235,12 +238,16 @@ void Content::createMenuBar(){
     lbut->listWidth=64;
     lbut->listHeight=16;
 
-/*
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Quit");
+    lbut->listName.push_back("ScaleZ 0.5");
     lbut->listParent.push_back("PARENT");
-*/
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("ScaleZ 2.0");
+    lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
+
+    /** TOOLS MENU **/
 
     lbut=new ListButton;
     lbut->location.x= 128;

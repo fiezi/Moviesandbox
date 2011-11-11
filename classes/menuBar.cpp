@@ -43,6 +43,14 @@ void MenuBar::trigger(MsbObject* other){
         exit(0);
     }
 
+    if (other->name=="ScaleZ 0.5"){
+        sceneData->drawTool->scaleZ(0.5);
+    }
+
+    if (other->name=="ScaleZ 2.0"){
+        sceneData->drawTool->scaleZ(2.0);
+    }
+
 }
 
 

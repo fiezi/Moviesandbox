@@ -77,9 +77,13 @@ void main(){
     //apply bone transformations
     if (bones[0]<0)
         myMat=mat4(1.0);
+
+
     for (int i=0; i< 4; i++){
             myMat+= boneTransforms[bones[i]] * weights[i];
         }
+
+
 
     vec4 world=myMat * myVertex;
     world/=world.w;
@@ -95,6 +99,8 @@ void main(){
     //  gl_PointSize=0.0;
 
     //3D positions
+
+
 
     zPos=gl_Position.z;
 
