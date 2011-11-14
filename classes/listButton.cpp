@@ -44,7 +44,7 @@ void ListButton::clickedLeft(){
 
   BasicButton::clickedLeft();
 
-  //destroy all buttons that have higher depth than mine - if we are part of a menu!
+  //destroy all buttons that have higher depth than mine - if we are not part of a menu!
   if (!bPartOfMenu)
     input->deselectButtons(level);
 
@@ -67,8 +67,9 @@ void ListButton::assembleList(){
         return;
     }
 
-    for (int i=0;i<(int)listType.size();i++){
         cout << "creating list..." << endl;
+
+    for (int i=0;i<(int)listType.size();i++){
 
         sceneData->actorInfo[listType[i]].actorReference->create();
         listButton.push_back(sceneData->buttonList.back());

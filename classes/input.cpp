@@ -722,7 +722,8 @@ void Input::deselectButtons(int depth){
 cout << "deselecting!" << endl;
 
     if (sceneData->actorMenu){
-      sceneData->actorMenu->deselect(depth);
+      sceneData->actorMenu->deselect(0);
+      sceneData->actorMenu=NULL;
     }
 
     vector<BasicButton*>::iterator it;

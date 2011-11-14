@@ -247,6 +247,35 @@ void Content::createMenuBar(){
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
 
+    /** DRAW MENU  **/
+
+    lbut=new ListButton;
+    lbut->location.x= 64;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
+    lbut->name="Edit";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=but;
+    //fill list and set to parent!
+    lbut->listWidth=64;
+    lbut->listHeight=16;
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("ScaleZ 0.5");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("ScaleZ 2.0");
+    lbut->listParent.push_back("PARENT");
+    sceneData->buttonList.push_back(lbut);
+
     /** TOOLS MENU **/
 
     lbut=new ListButton;

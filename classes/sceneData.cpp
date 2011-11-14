@@ -639,8 +639,9 @@ void SceneData::update(float deltaTime){
 	}
 
     //for actor menu animation
-    if (actorMenu)
+    if (actorMenu){
         actorMenu->update(deltaTime);
+    }
 
 	input->update(deltaTime);
 
@@ -817,10 +818,12 @@ void SceneData::createActorMenu(){
     Actor* myActor=input->worldTarget;
 
 	//make actor menu if we don't have one, else clean it up
-	if (actorMenu)
+	if (actorMenu){
 		actorMenu->deselect(0);
-	else
+		actorMenu=NULL;
+	}else{
 		actorMenu=new ListButton;
+	}
 
 	actorMenu->setLocation( Vector3f( input->mouseX, input->mouseY, 0.0 ) );
 	actorMenu->listDisplayMode=2;
@@ -829,6 +832,7 @@ void SceneData::createActorMenu(){
 	actorMenu->listIcon.assign(myActor->menuIcon.begin(),myActor->menuIcon.end());
 	actorMenu->listProp.assign(myActor->menuProp.begin(),myActor->menuProp.end());
 	actorMenu->parent=myActor;
+	actorMenu->bPartOfMenu=true;
 	actorMenu->clickedLeft();
 }
 
@@ -1989,52 +1993,52 @@ string SceneData::saveFileDialog(string ext){
     short fRefNumOut;
     FSRef output_file;
     OSStatus err;
-	
+
     NavDialogCreationOptions options;
     NavGetDefaultDialogCreationOptions( &options );
-	
+
     options.optionFlags = kNavNoTypePopup + kNavSupportPackages + kNavAllowOpenPackages;
     options.modality = kWindowModalityAppModal;
-	
+
     options.optionFlags = kNavDefaultNavDlogOptions;
     options.message = CFStringCreateWithCString(NULL, "testOne", kCFStringEncodingASCII);;
     options.saveFileName = CFStringCreateWithCString(NULL, "testTwo", kCFStringEncodingASCII);
     NavDialogRef dialog;
-	
+
     err = NavCreatePutFileDialog(&options, '.mov', 'Moov', NULL, NULL, &dialog);
-	
-	
+
+
     err = NavDialogRun(dialog);
-	
+
     NavUserAction action;
     action = NavDialogGetUserAction( dialog );
 
     if (action == kNavUserActionNone || action == kNavUserActionCancel) {
-		
+
         return "NULL";
     }
-	
+
     // get dialog reply
     NavReplyRecord reply;
     err = NavDialogGetReply(dialog, &reply);
     if ( err != noErr )
         return "NULL";
-	
+
     if ( reply.replacing )
     {
         printf("need to replace\n");
     }
-	
+
     AEKeyword keyword;
     DescType actual_type;
     Size actual_size;
     FSRef output_dir;
     err = AEGetNthPtr(&(reply.selection), 1, typeFSRef, &keyword, &actual_type,
                       &output_dir, sizeof(output_file), &actual_size);
-	
+
     //printf("AEGetNthPtr returned %i\n", err );
-	
-	
+
+
     CFURLRef cfUrl = CFURLCreateFromFSRef( kCFAllocatorDefault, &output_dir );
     CFStringRef cfString = NULL;
     if ( cfUrl != NULL )
@@ -2042,27 +2046,27 @@ string SceneData::saveFileDialog(string ext){
         cfString = CFURLCopyFileSystemPath( cfUrl, kCFURLPOSIXPathStyle );
         CFRelease( cfUrl );
     }
-	
+
     // copy from a CFString into a local c string (http://www.carbondev.com/site/?page=CStrings+)
     const int kBufferSize = 255;
-	
+
     char folderURL[kBufferSize];
     Boolean bool1 = CFStringGetCString(cfString,folderURL,kBufferSize,kCFStringEncodingMacRoman);
-	
+
     char fileName[kBufferSize];
     Boolean bool2 = CFStringGetCString(reply.saveFileName,fileName,kBufferSize,kCFStringEncodingMacRoman);
-	
+
     // append strings together
-	
+
     string url1 = folderURL;
     string url2 = fileName;
     string finalURL = url1 + "/" + url2;
-	
+
     printf("url %s\n", finalURL.c_str());
-	
+
     // cleanup dialog
     NavDialogDispose(dialog);
-	
+
 	return finalURL;
 }
 

@@ -76,7 +76,7 @@ void SelectTool::keyReleased(int key){
 
 void SelectTool::mousePressed(int btn){
 
-    if (btn=MOUSEBTNLEFT){
+    if (btn==MOUSEBTNLEFT && !sceneData->actorMenu){
 
         if (input->worldTarget==sceneData->aGizmo->xAxisGizmo){
             bClickedonGizmo=true;
@@ -129,8 +129,10 @@ void SelectTool::mouseReleased(int btn){
 			//right Button creates menu if on selected actor
 			if (btn==MOUSEBTNRIGHT && input->worldTarget->name!="ground"){
 			    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
-                    if (input->worldTarget==sceneData->selectedActors[i])
+                    if (input->worldTarget==sceneData->selectedActors[i]){
                         sceneData->createActorMenu();
+                        return;
+                    }
 			    }
 			    //also create menu when right-clicking on gizmos
 			    if (input->worldTarget == sceneData->aGizmo->xAxisGizmo ||
@@ -141,9 +143,10 @@ void SelectTool::mouseReleased(int btn){
                     input->worldTarget == sceneData->aGizmo->yRotateGizmo ||
                     input->worldTarget == sceneData->aGizmo->zRotateGizmo
                     ){
-
-                    sceneData->createActorMenu();
-
+                        //trickery! worldTarget should be our actor to spawn menu for, not the gizmo!
+                        input->worldTarget=sceneData->selectedActors[0];
+                        sceneData->createActorMenu();
+                        return;
                     }
 			}
 
