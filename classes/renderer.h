@@ -17,8 +17,6 @@
 
 #include "ofTrueTypeFont.h"
 
-
-
 #define BUFSIZE 512
 #define FPSBUFFERSIZE 10
 
@@ -241,7 +239,7 @@ public:
        bool LoadTextureTGA( string filename, bool wrap, bool bAlpha, string texID );
        bool createEmptyTexture( string texID, GLuint colorFormat, GLuint type, int width, int height);
 
-       bool copyMemoryToTexture(void* originBuffer,string texName, float width,float height);
+       bool copyMemoryToTexture(void* originBuffer,string texName, float width,float height,bool bHighZRes=false);
 
        bool loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName);
 

@@ -123,7 +123,7 @@
     #include <conio.h>
     #include <tchar.h>
 
-    TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
+    TCHAR szName[]=TEXT("Global\\KinectSharedMemory");
 
 #else
 
@@ -131,7 +131,7 @@
 
 #endif
 
-#define BUF_SIZE 640*480*4*32
+#define BUF_SIZE 640*480*4*sizeof(unsigned char)
 
 
 //static link
@@ -759,7 +759,7 @@ int SceneData::readSharedMemory(){
 
    if (pBuf != NULL)
    {
-        renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 640,480);
+        renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 640,480,false);
 
         UnmapViewOfFile((void*)pBuf);
         CloseHandle(hMapFile);
@@ -788,7 +788,7 @@ int SceneData::readSharedMemory(){
 	// once the file is mapped, we can dispose of the filehandle
 	close(fd);
 
-	renderer->copyMemoryToTexture((void*)sourcebuffer,"sharedMemory", 640,480);
+	renderer->copyMemoryToTexture((void*)sourcebuffer,"sharedMemory", 640,480, false);
 
 	if (sourcebuffer)
 		munmap(sourcebuffer, BUF_SIZE);

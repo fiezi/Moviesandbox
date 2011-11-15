@@ -234,23 +234,32 @@ void Content::createMenuBar(){
     lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=but;
+    lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
     //fill list and set to parent!
-    lbut->listWidth=64;
+    lbut->listWidth=128;
     lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
 
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("ScaleZ 0.5");
+    lbut->listName.push_back("Cut");
     lbut->listParent.push_back("PARENT");
 
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("ScaleZ 2.0");
+    lbut->listName.push_back("Copy");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Paste");
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
 
     /** DRAW MENU  **/
 
     lbut=new ListButton;
-    lbut->location.x= 64;
+    lbut->location.x= 128;
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="color";
@@ -258,14 +267,19 @@ void Content::createMenuBar(){
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPartOfMenu=true;
-    lbut->name="Edit";
+    lbut->name="Draw";
     lbut->bDrawName=true;
     lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=but;
+     lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
     //fill list and set to parent!
-    lbut->listWidth=64;
+    lbut->listWidth=128;
     lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("ScaleZ 0.5");
@@ -279,7 +293,7 @@ void Content::createMenuBar(){
     /** TOOLS MENU **/
 
     lbut=new ListButton;
-    lbut->location.x= 128;
+    lbut->location.x= 196;
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="color";

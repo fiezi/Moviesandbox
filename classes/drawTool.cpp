@@ -182,15 +182,20 @@ void DrawTool::update(double deltaTime){
 
     MsbTool::update(deltaTime);
 
-    if (bMouseControlled)
-        brush->setLocation(input->mouse3D);
+    int buffer=(renderer->frames%BRUSHBUFFER);
+    brushLocBuffer[buffer]=input->mouse3D;
+    Vector3f bufferedBrushLoc;
+    for (int i=0;i<BRUSHBUFFER;i++){
+        bufferedBrushLoc+=brushLocBuffer[i]/BRUSHBUFFER;
+    }
 
-    if (brush->drawing){
-        brush->drawing->bPickable=true;
-        brush->drawing->bZTest=true;
-        brush->drawing->bZWrite=true;
+
+    if (bMouseControlled){
+        //buffer brush location!
+        brush->setLocation(bufferedBrushLoc);
 
     }
+
 
     if (bDrawing){
         if (bPressLeft)
@@ -198,13 +203,22 @@ void DrawTool::update(double deltaTime){
         if (bPressRight)
             erase();
     }
+
+
+
+    if (brush->drawing && !bDrawing){
+        brush->drawing->bPickable=true;
+        brush->drawing->bZTest=true;
+        brush->drawing->bZWrite=true;
+
+    }
 }
 
 void DrawTool::paint(){
 
-    //brush->drawing->bPickable=false;
-    //brush->drawing->bZTest=false;
-    //brush->drawing->bZWrite=false;
+    brush->drawing->bPickable=false;
+    brush->drawing->bZTest=true;
+    brush->drawing->bZWrite=false;
 
     if (fabs(input->mouseVector.length())==0.0)
         return;
@@ -213,6 +227,7 @@ void DrawTool::paint(){
         return;
 
     calcLocation();
+
     vertexData myVData;
 	vertexData oldVData;
 
@@ -236,13 +251,13 @@ void DrawTool::paint(){
 
     //adjust bounding box
 
-    brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,myVData.location.x);
-    brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,myVData.location.y);
-    brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,myVData.location.z);
+    brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
+    brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
+    brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
 
-    brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,myVData.location.x);
-    brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,myVData.location.y);
-    brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,myVData.location.z);
+    brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
+    brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
+    brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
 
 }
 

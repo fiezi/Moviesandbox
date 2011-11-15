@@ -554,7 +554,6 @@ void AssetInspector::trigger(MsbObject* other){
 
     if (other->name=="Import Kinect"){
         if (bKinectToolOpen){
-            //TODO: move these functions to drawTool!
             importKinect();
             other->color=COLOR_WHITE;
             closeKinectTool();
@@ -573,64 +572,93 @@ void AssetInspector::trigger(MsbObject* other){
 void AssetInspector::closeKinectTool(){
 
     sceneData->externalInputList["kinectInput"]->stopProgram();
+    clickedLeft();
 
 }
 
-void AssetInspector::openKinectTool(){
+void AssetInspector::openKinectTool(bool bHighZRes){
 
     if (!sceneData->brush->drawing){
-        //TODO: maybe make this optional?
         sceneData->drawTool->createNewDrawing(true);
-
-        //sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
-        //return;
     }
+
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;
     sceneData->brush->drawing->textureID="sharedMemory";
     sceneData->brush->drawing->sceneShaderID="kinectHeightfield";
     sceneData->brush->drawing->particleAngleScale=256;
+    sceneData->brush->drawing->particleScale=12;
+     sceneData->brush->drawing->setScale(Vector3f(3,3,3));
+    if (!sceneData->textureList["sharedMemory"] ){
+        if (bHighZRes)
+            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_FLOAT,1024,512);
+        else
+            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
+
+    }
 
     sceneData->externalInputList["kinectInput"]->startProgram();
     inspectorButtons[1]->color=Vector4f(1,1,0,1);
     bKinectToolOpen=true;
 }
 
-void AssetInspector::importKinect(){
+void AssetInspector::importKinect(bool bHighZRes){
 
-            static float kinectContent[1024*1024*4];
+            //TODO: this needs to change for HighRez!
+            static unsigned char kinectContent[1024*512*4];
+            //static float kinectContentFloat[1024*512*4];
 
             glBindTexture(GL_TEXTURE_2D,sceneData->textureList["sharedMemory"]->texture);
-            glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&kinectContent);
+            if (bHighZRes)
+                glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&kinectContent);
+            else
+                glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_UNSIGNED_BYTE,&kinectContent);
+
             glBindTexture(GL_TEXTURE_2D,0);
+
+            sceneData->controller->switchTool(TOOL_DRAW);
 
             sceneData->brush->drawing->drawType=DRAW_PARTICLES;
             sceneData->brush->drawing->bTextured=false;
             sceneData->brush->drawing->textureID="NULL";
             sceneData->brush->drawing->sceneShaderID="color";
             sceneData->brush->drawing->bPickable=true;
-            sceneData->brush->drawing->particleScale=2;
-            for (int i=0;i<1024*1024*4;i+=4){
+            sceneData->brush->drawing->particleScale=1;
+            sceneData->brush->drawing->particleAngleScale=0;
+            Vector3f oldScale=sceneData->brush->drawing->scale;
+            sceneData->brush->drawing->setScale(Vector3f(1,1,1));
+
+            for (int i=0;i<1024*512*4;i+=4){
                 Vector3f myLoc;
-                myLoc.z=kinectContent[i+3] * 10.0f;
+                myLoc.z= kinectContent[i+3];
+                myLoc.z/=255.0f ;
+                myLoc.z*=8.0f;
                 if (myLoc.z==0.0f)
                     continue;
-                myLoc.x= (i/4)%1024;
-                myLoc.y= (int)((i/4)/1024 );
+                myLoc.x= (i/4)%1024 - 512;
+                myLoc.y= (int)((i/4)/1024 ) - 256;
 
-                myLoc.x=myLoc.x/1024.0f - 0.5f;
-                myLoc.y=myLoc.y/1024.0f - 0.5f;
+                myLoc.x=myLoc.x/512.0f;
+                myLoc.y=(myLoc.y/512.0f ) ;
+
 
                 myLoc.x*=myLoc.z;
                 myLoc.y*=myLoc.z;
 
+
                 sceneData->brush->setLocation(myLoc);
-                sceneData->brush->color=Vector4f(kinectContent[i],kinectContent[i+1],kinectContent[i+2],1.0);
-                sceneData->brush->normalMode=NORMAL_FRONT;
+                sceneData->brush->color=Vector4f(kinectContent[i]/255.0,kinectContent[i+1]/255.0,kinectContent[i+2]/255.0,1.0);
                 input->mouseVector.x=1.0f;
 
                 sceneData->drawTool->paint();
             }
+            sceneData->brush->drawing->setScale(oldScale);
+            sceneData->brush->drawing->bPickable=true;
+            sceneData->brush->drawing->bZTest=true;
+            sceneData->brush->drawing->bZWrite=true;
+            sceneData->drawTool->save();
+            sceneData->controller->switchTool(TOOL_SELECT);
+
 }
 
 void AssetInspector::create(){sceneData->addButton(this);}

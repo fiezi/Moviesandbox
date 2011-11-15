@@ -55,12 +55,10 @@ void main(){
     //float pS= myVertex.w;
     myVertex.w=1.0;
 
-    N =  gl_NormalMatrix * gl_Normal;
-
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
     myVertex.z=gl_FrontColor.a*8.0;
     myVertex.x=myVertex.x*myVertex.z;// + 0.5 * sin (time   *0.001 + myVertex.y);
-    myVertex.y=myVertex.y*myVertex.z;
+    myVertex.y=myVertex.y*myVertex.z * 0.5 ;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 

@@ -38,55 +38,6 @@ void BrushFilter::filter(vertexData* myVData){
     myVData->location=Vector4f(parent->calcLoc.x,parent->calcLoc.y,parent->calcLoc.z,parent->brush->scale.x*0.1);
 
 
-//TODO: No more need for nomal generation! Also leave out biNormal, as we can get that from dFdx!
-
-        //myVData->normal=input->worldNormal;
-/*
-    vertexData oldData;
-    oldData.normal=Vector3f(0,0,0);
-    oldData.location=Vector4f(0,0,0,brush->scale.x*0.1);
-
-    if (sceneData->vboList[brush->drawing->vboMeshID]->vData.size()>0)
-        oldData=sceneData->vboList[brush->drawing->vboMeshID]->vData.back();
-
-    Vector4f pDistance=myVData->location - oldData.location;
-    //this is the drawing vector
-    Vector3f pDist3=Vector3f(pDistance.x,pDistance.y,pDistance.z);
-    pDist3.normalize();
-
-
-
-
-
-    switch (brush->normalMode){
-
-        case NORMAL_UP:
-
-            if (brush->bNormalFollowDrawing){
-                    myVData->normal=sceneData->grid->zAxis.crossProduct(pDist3);
-                    //cout << "normal: " << myVData->normal << endl;
-            }else{
-                myVData->normal=sceneData->grid->yAxis;
-            }
-            break;
-
-
-        case NORMAL_FRONT:
-
-            if (brush->bNormalFollowDrawing){
-                myVData->normal=pDist3.crossProduct(sceneData->grid->yAxis);
-            }else{
-                myVData->normal=sceneData->grid->zAxis;
-            }
-            break;
-
-        case NORMAL_WORLD:
-
-            myVData->normal=input->worldNormal;
-    }
-
-*/
-
     myVData->color=brush->color;
 
     //standard bone references - nothing (set to -1)
@@ -101,11 +52,6 @@ void BrushFilter::filter(vertexData* myVData){
 	if (abs(myVData->secondaryColor.y)>0.9)
 		myAxis=Vector3f(0.0,0.0,1.0);
 
-//	Vector3f biNormal=input->mouse3D - oldMouse3D;
-//	biNormal.normalize();
-//	myVData->normal=biNormal.crossProduct(myAxis);
-//  myVData->normal=myAxis * 0.0;
-//	myVData->secondaryColor=biNormal;
 
 	oldMouse3D=input->mouse3D;
 

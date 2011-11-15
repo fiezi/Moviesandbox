@@ -76,7 +76,7 @@ void SelectTool::keyReleased(int key){
 
 void SelectTool::mousePressed(int btn){
 
-    if (btn==MOUSEBTNLEFT && !sceneData->actorMenu){
+    if (btn==MOUSEBTNLEFT && !sceneData->actorMenu && !input->hudTarget){
 
         if (input->worldTarget==sceneData->aGizmo->xAxisGizmo){
             bClickedonGizmo=true;

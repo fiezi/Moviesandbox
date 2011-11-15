@@ -7,6 +7,8 @@
 #include "brushFilter.h"
 
 
+#define BRUSHBUFFER 4
+
 class DrawTool: public MsbTool{
 
 public:
@@ -18,6 +20,8 @@ public:
     bool bMouseControlled;
     bool bDrawing;
 	bool bStartStroke;
+
+    Vector3f brushLocBuffer[16];
 
     vector<BrushFilter*> filters;
 

@@ -60,9 +60,9 @@ public:
 
     virtual void trigger(MsbObject* other);
 
-    virtual void openKinectTool();
+    virtual void openKinectTool(bool bHighZRes=false);
     virtual void closeKinectTool();
-    virtual void importKinect();
+    virtual void importKinect(bool bHighZRes=false);
 
     virtual void create();
 };

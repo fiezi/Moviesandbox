@@ -420,8 +420,6 @@ void Renderer::setup(){
     checkOpenGLError("glEnables Error check...");
     #endif
 
-    //shared memory texture
-    createEmptyTexture("sharedMemory",GL_RGBA,GL_FLOAT,1024,1024);
 
     //This was used for the promo video to get better framerates for kinect live-feed.
     //will make it in some time, but not now...
@@ -2473,6 +2471,7 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
     //generate buffer up to 1024x1024x4
     static unsigned char texBuff[1024*1024*4];
     static float floatTexBuff[1024*1024*4];
+    static short shortTexBuff[1024*1024*4];
 
     //create gradient
     for (int i=0;i<width*height*channels;i++){
@@ -2497,11 +2496,13 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
 
     //build the texture
     if (dataType==GL_UNSIGNED_BYTE)
-        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, texBuff );
-    else if (dataType==GL_FLOAT)
-        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, &floatTexBuff );
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_UNSIGNED_BYTE, &texBuff );
+    else if (dataType==GL_FLOAT )
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_FLOAT, &floatTexBuff );
+    else if (dataType==GL_SHORT)
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, &shortTexBuff );
     else{
-        cout << "ERROR: datatype not supported, must be GL_UNSIGNED_BYTE or GL_FLOAT" << endl;
+        cout << "ERROR: datatype not supported, must be GL_UNSIGNED_BYTE or GL_FLOAT or GL_SHORT" << endl;
         return 0;
     }
 
@@ -2514,14 +2515,19 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
     return true;
 }
 
-bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float width, float height){
+bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float width, float height, bool bHighZRes){
 
         if (!originBuffer)
             return 0;
 
         glBindTexture(GL_TEXTURE_2D,sceneData->textureList[texName]->texture);
         //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
-        glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - width)/2.0 ,(screenX - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);
+       // glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - width)/2.0 ,(screenX - height)/2.0 ,width,height,GL_RGBA, GL_UNSIGNED_BYTE,(unsigned char*)originBuffer);
+        if (bHighZRes)
+            glTexSubImage2D(GL_TEXTURE_2D,0,(scene_size - width)/2.0 ,(scene_size - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);
+    else
+            glTexSubImage2D(GL_TEXTURE_2D,0,(1024 - width)/2.0 ,(512 - height)/2.0 ,width,height,GL_RGBA, GL_UNSIGNED_BYTE,(unsigned char*)originBuffer);
+
         glBindTexture(GL_TEXTURE_2D,0);
         return 1;
 }

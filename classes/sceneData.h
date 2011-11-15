@@ -22,10 +22,6 @@
 #include "console.h"
 
 
-#define BUFSIZE 512
-
-
-
 using namespace std;
 
 class MeshData;

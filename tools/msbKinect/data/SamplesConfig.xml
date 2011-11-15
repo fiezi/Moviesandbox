@@ -3,10 +3,11 @@
 		<!-- Add licenses here 
 		<License vendor="vendor" key="key"/>
 		-->
+			<License vendor="PrimeSense" key="0KOIk2JeIBYClPWVnMoRKn5cdY4="/>
 	</Licenses>
-	<Log writeToConsole="false" writeToFile="false">
+	<Log writeToConsole="true" writeToFile="false">
 		<!-- 0 - Verbose, 1 - Info, 2 - Warning, 3 - Error (default) -->
-		<LogLevel value="3"/>
+		<LogLevel value="1"/>
 		<Masks>
 			<Mask name="ALL" on="true"/>
 		</Masks>
@@ -14,21 +15,21 @@
 		</Dumps>
 	</Log>
 	<ProductionNodes>
-		<Node type="Image" name="Image1">
+		<!--
+    <Node type="Image" name="Image1">
 			<Configuration>
 				<MapOutputMode xRes="640" yRes="480" FPS="30"/>
 				<Mirror on="true"/>
 			</Configuration>
 		</Node>
+		-->
 		<Node type="Depth" name="Depth1">
 			<Configuration>
 				<MapOutputMode xRes="640" yRes="480" FPS="30"/>
 				<Mirror on="true"/>
 			</Configuration>
 		</Node>
-		<!--
-		<Node type="Audio" name="Audio1">
-		</Node>
-		-->
+	  
+    <Node type="User" />
 	</ProductionNodes>
 </OpenNI>
