@@ -625,38 +625,62 @@ void AssetInspector::importKinect(bool bHighZRes){
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->particleScale=1;
             sceneData->brush->drawing->particleAngleScale=0;
+            sceneData->brush->setScale(Vector3f(1,1,1));
             Vector3f oldScale=sceneData->brush->drawing->scale;
+            Matrix4f oldTransform = sceneData->brush->drawing->baseMatrix;
+
+            sceneData->brush->drawing->baseMatrix.identity();
+
+/*
+            //set to 0 0 0
+            sceneData->brush->drawing->transformMatrix.identity();
+            sceneData->brush->drawing->matrixToVectors();
+            sceneData->brush->drawing->update(0.0);
             sceneData->brush->drawing->setScale(Vector3f(1,1,1));
+            sceneData->brush->drawing->update(0.0);
+*/
 
             for (int i=0;i<1024*512*4;i+=4){
                 Vector3f myLoc;
                 myLoc.z= kinectContent[i+3];
                 myLoc.z/=255.0f ;
-                myLoc.z*=8.0f;
-                if (myLoc.z==0.0f)
+
+                //don't draw extremes
+                if (myLoc.z==0.0f || myLoc.z> 0.99f)
                     continue;
-                myLoc.x= (i/4)%1024 - 512;
-                myLoc.y= (int)((i/4)/1024 ) - 256;
 
-                myLoc.x=myLoc.x/512.0f;
-                myLoc.y=(myLoc.y/512.0f ) ;
+                myLoc.z*=8.0f;
+                float x= (i/4)%1024 - 512;
+                float y= (int)((i/4)/1024 ) - 256;
 
 
-                myLoc.x*=myLoc.z;
-                myLoc.y*=myLoc.z;
+                myLoc.x=x/512.0f;
+                myLoc.y =y/512.0f;
+
+
+                myLoc.x*=myLoc.z * 1.5;
+                myLoc.y*=myLoc.z * 1.5;
 
 
                 sceneData->brush->setLocation(myLoc);
                 sceneData->brush->color=Vector4f(kinectContent[i]/255.0,kinectContent[i+1]/255.0,kinectContent[i+2]/255.0,1.0);
                 input->mouseVector.x=1.0f;
 
-                sceneData->drawTool->paint();
+                //only draw the 640x480 that we actually  get from the kinect!
+                if (x>-320 && x<320 && y>-240 && y<240 )
+                    sceneData->drawTool->paint();
             }
+            sceneData->brush->drawing->baseMatrix=oldTransform;
+            /*
+            sceneData->brush->drawing->transformMatrix=oldTransform;
+            sceneData->brush->drawing->matrixToVectors();
+            sceneData->brush->drawing->update(0.0);
             sceneData->brush->drawing->setScale(oldScale);
+            sceneData->brush->drawing->update(0.0);
+            */
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->bZTest=true;
             sceneData->brush->drawing->bZWrite=true;
-            sceneData->drawTool->save();
             sceneData->controller->switchTool(TOOL_SELECT);
 
 }

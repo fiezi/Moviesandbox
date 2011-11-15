@@ -69,6 +69,7 @@ void DrawTool::start(){
 void DrawTool::stop(){
 
     MsbTool::stop();
+    save();
     brush->bHidden=true;
 
     bDrawing=false;

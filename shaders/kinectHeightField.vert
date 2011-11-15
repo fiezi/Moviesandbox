@@ -60,9 +60,14 @@ void main(){
     myVertex.x=myVertex.x*myVertex.z;// + 0.5 * sin (time   *0.001 + myVertex.y);
     myVertex.y=myVertex.y*myVertex.z * 0.5 ;
 
+    //myVertex.x*=0.7;
+    //myVertex.y*=0.7;
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_PointSize= pointSize();
+    if (gl_FrontColor.a>0.99)
+        gl_PointSize= 0.0;
+    else
+        gl_PointSize= pointSize();
     zPos=gl_Position.z;
 
 }
