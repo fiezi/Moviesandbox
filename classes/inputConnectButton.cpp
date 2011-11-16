@@ -6,16 +6,16 @@
 
 InputConnectButton::InputConnectButton(){
 
-scale.x=15;
-scale.y=15;
-scale.z=1;
-bDrawName=true;
+    scale.x=32;
+    scale.y=12;
+    scale.z=1;
+    bDrawName=true;
 }
 InputConnectButton::~InputConnectButton(){}
 
 
 void InputConnectButton::setup(){
-BasicButton::setup();
+    BasicButton::setup();
 
 }
 
@@ -23,33 +23,46 @@ void InputConnectButton::update(double deltaTime){}
 
 void InputConnectButton::trigger(MsbObject* other){
 
-//cast for parent
-UdpInput* p=(UdpInput*)parent;
+    //cast for parent
+    UdpInput* p=(UdpInput*)parent;
 
-p->targetActors[listPosition]=(Actor*)other;
-p->targetProperties[listPosition]=buttonProperty;
+    //allow disconnecting!
+    if (other==NULL){
+        p->targetActors[listPosition]=NULL;
+        p->targetProperties[listPosition]="NULL";
 
-cout << "connected " << p->targetActors[listPosition]-> name << " at " << p->targetProperties[listPosition] << endl;
+    }else{
+
+        p->targetActors[listPosition]=(Actor*)other;
+        p->targetProperties[listPosition]=buttonProperty;
+
+        cout << "connected " << p->targetActors[listPosition]-> name << " at " << p->targetProperties[listPosition] << endl;
+
+    }
 }
 
 
 void InputConnectButton::mouseOver(){
 
-BasicButton::mouseOver();
+    BasicButton::mouseOver();
 }
 
 void InputConnectButton::mouseDrag(){}
 void InputConnectButton::clickedLeft(){}
-void InputConnectButton::clickedRight(){}
+void InputConnectButton::clickedRight(){
+
+    //right click deselects!
+    trigger(NULL);
+}
 
 void InputConnectButton::focusClick(){
 
-BasicButton::focusClick();
+    BasicButton::focusClick();
 }
 
 void InputConnectButton::deselect(int depth){
 
-BasicButton::deselect(depth);
+    BasicButton::deselect(depth);
 }
 
 void InputConnectButton::create(){sceneData->addButton(this);}

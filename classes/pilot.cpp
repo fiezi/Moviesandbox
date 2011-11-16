@@ -198,16 +198,16 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                         //cout << matrixContainer << endl;
 
                         if (parent->inputConnectButtons.size()==numInputs){
-                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,1.0),"vector3f", numInputs);
+                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vector3f", numInputs);
                           }
                         //we already have a button ->this is the actual update
                         else{
                             char value[64];
 
 
-                            //visual representation ->mapping the location part of the matrix to visuals
+                            //visual representation ->mapping the x-Axis part of the matrix to visuals
                             Vector3f matrixLoc=matrixContainer.getTranslation();
-                            parent->inputConnectButtons[numInputs]->color=Vector4f(matrixLoc.x,matrixLoc.y,matrixLoc.z,1.0);
+                            parent->inputConnectButtons[numInputs]->color=Vector4f(matrixLoc.x,matrixLoc.y,matrixLoc.z,parent->inputConnectButtons[numInputs]->color.a);
 
                             //update value
                             //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.
@@ -226,40 +226,40 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 
                         else if (partAsString=="matrix3f"){
 
-                            //cout << "found rotation matrix!" << endl;
+                                //cout << "found rotation matrix!" << endl;
 
-                        Matrix3f matrixContainer;
+                            Matrix3f matrixContainer;
 
-                        for (int i=0; i<9;i++){
-                            matrixContainer.data[i]=(arg++)->AsFloat();
-                            }
+                            for (int i=0; i<9;i++){
+                                matrixContainer.data[i]=(arg++)->AsFloat();
+                                }
 
-                        //cout << matrixContainer << endl;
+                            //cout << matrixContainer << endl;
 
-                        if (parent->inputConnectButtons.size()==numInputs){
-                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,1.0),"vector3f", numInputs);
-                          }
-                        //we already have a button ->this is the actual update
-                        else{
-                            char value[64];
+                            if (parent->inputConnectButtons.size()==numInputs){
+                              parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vector3f", numInputs);
+                              }
+                            //we already have a button ->this is the actual update
+                            else{
+                                char value[64];
 
 
-                            //visual representation ->mapping the location part of the matrix to visuals
-                            Vector3f matrixLoc=Vector3f(matrixContainer.data[0], matrixContainer.data[1], matrixContainer.data[2]);
-                            parent->inputConnectButtons[numInputs]->color=Vector4f(matrixLoc.x,matrixLoc.y,matrixLoc.z,1.0);
+                                //visual representation ->mapping the location part of the matrix to visuals
+                                Vector3f matrixLoc=Vector3f(matrixContainer.data[0], matrixContainer.data[1], matrixContainer.data[2]);
+                                parent->inputConnectButtons[numInputs]->color=Vector4f(matrixLoc.x,matrixLoc.y,matrixLoc.z,parent->inputConnectButtons[numInputs]->color.a);
 
-                            //update value
-                            //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.
-                            //we could create a faster Pilot that transforms locations directly as a subclass...
-                            sprintf(value,"mat3f %f %f %f %f %f %f %f %f %f",
-                                                matrixContainer.data[0], matrixContainer.data[1], matrixContainer.data[2],
-                                                matrixContainer.data[3], matrixContainer.data[4], matrixContainer.data[5],
-                                                matrixContainer.data[6], matrixContainer.data[7], matrixContainer.data[8]);
+                                //update value
+                                //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.
+                                //we could create a faster Pilot that transforms locations directly as a subclass...
+                                sprintf(value,"mat3f %f %f %f %f %f %f %f %f %f",
+                                                    matrixContainer.data[0], matrixContainer.data[1], matrixContainer.data[2],
+                                                    matrixContainer.data[3], matrixContainer.data[4], matrixContainer.data[5],
+                                                    matrixContainer.data[6], matrixContainer.data[7], matrixContainer.data[8]);
 
-                            parent->targetValues[numInputs]=value;
+                                parent->targetValues[numInputs]=value;
 
-                            //cout << "converted a Matrix: " << value << " for input: " << numInputs << endl;
-                            }
+                                //cout << "converted a Matrix: " << value << " for input: " << numInputs << endl;
+                                }
                         }
 
 
@@ -279,7 +279,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                         //cout << vectorContainer << endl;
                         //encountered a new input -> we need to create a button for this!
                         if (parent->inputConnectButtons.size()==numInputs){
-                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,1.0),"vector3f", numInputs);
+                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vector3f", numInputs);
                           }
                         //we already have a button ->this is the actual update
                         else{
@@ -287,7 +287,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 
 
                             //visual representation
-                            parent->inputConnectButtons[numInputs]->color=Vector4f(x,y,z,1.0);
+                            parent->inputConnectButtons[numInputs]->color=Vector4f(x,y,z,parent->inputConnectButtons[numInputs]->color.a);
 
                             //map values
                             if (parent->targetMin.size()>numInputs && parent->targetMin[numInputs]!=NULL){
@@ -313,7 +313,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 
                     else if (partAsString=="float"){
                         if (parent->inputConnectButtons.size()==numInputs)                          {
-                          parent->createNewInputConnect(Vector4f(0.3,1.0,0.3,1.0),"float", numInputs);
+                          parent->createNewInputConnect(Vector4f(0.3,1.0,0.3,0.25),"float", numInputs);
                           arg++;
                           }
                         else{
@@ -322,7 +322,7 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
 
                           //cout << number << endl;
                           //update color of button for visual representation
-                          parent->inputConnectButtons[numInputs]->color=Vector4f(number,number,number,1.0);
+                          parent->inputConnectButtons[numInputs]->color=Vector4f(number,number,number,parent->inputConnectButtons[numInputs]->color.a);
 
                           //map values
                           number=sceneData->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x,number);
@@ -333,6 +333,20 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                           sprintf(value,"float %f",number);
                           parent->targetValues[numInputs]=value;
                           }
+                      }
+
+                    else if (partAsString == "kinectSkeleton"){
+                        if (parent->inputConnectButtons.size()==numInputs)                          {
+                          parent->createNewInputConnect(Vector4f(0.8,1.0,0.2,0.25),"KinectSkeleton", numInputs);
+                          //no arguments attached! Do not skip args!
+                          //arg++;
+                          }
+                         else{
+                            //update value
+                            //not sure if we need a value here! This is just bogus!
+                            parent->targetValues[numInputs]="string NULL";
+                        }
+
                       }
                 adressPart = strtok(NULL, "/");
                 numInputs++;

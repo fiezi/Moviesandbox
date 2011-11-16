@@ -83,16 +83,8 @@ void UdpInput::setup(){
 
     //here you will be able to choose from different Pilots! Hopefully...
     //TODO: needs a bit more work to make this easier/automated (with "create" method)
-    if (pilotType=="multiTouchPilot")
-      {
-      //interpreter=new MultiTouchPilot;
-      //cout << "created a multiTouch thingy" << endl;
-      }
-    else
-      {
       interpreter=new Pilot;
       cout << "created a simple pilot" << endl;
-      }
 
     //setup pilot for threading
 
@@ -143,10 +135,12 @@ void UdpInput::setup(){
 void UdpInput::update(double deltaTime){
 
 
+    //move inputConnections with us
     for (int i=0;i<(int)inputConnectButtons.size();i++){
         inputConnectButtons[i]->setLocation(location + Vector3f(0, scale.y+5+ i*20, 0) );
 
-
+        //set alpha value low to indicate non-connectedness!
+        inputConnectButtons[i]->color.a=0.25;
         }
 
     for (unsigned int i=0; i<targetValues.size();i++){
@@ -154,20 +148,23 @@ void UdpInput::update(double deltaTime){
             targetProperties[i]!="NULL" &&
             targetValues[i]!="NULL"){
 
+                //set alpha value to indicate active!!
+                inputConnectButtons[i]->color.a=1.0;
                 memberID* mID = &(targetActors[i]->property[targetProperties[i]]);
 
-                //cout << "property " << targetProperties[i] << " in " << targetActors[i]->name << endl;
-
-                //cout << "targetValue: " << targetValues[i] << endl;
+                if (!mID){
+                    cout << "UDPINPUT... Something went wrong with our properties. Does the variable exist?" << endl;
+                    return;
+                }
 
                 //need special handling for location and rotation so we can move the ragdoll or other complex systems
                 //also, strings only really compare well with other strings, thus the somewhat odd variable declaration...
                 string locationString="LOCATION";
                 string rotationString="ROTATION";
-                if (!mID){
-                    cout << "WAAAAAAAHHHHHHH..." << endl;
-                    return;
-                }
+
+                //adding a quick way to connect whole skeletons given a kinect input
+                string skeletonString="BONES";
+
 
                 if (mID->memberName==locationString){
                     targetActors[i]->setLocation(readVector3f((char*)targetValues[i].c_str()));
@@ -183,7 +180,59 @@ void UdpInput::update(double deltaTime){
                         if (targetActors[i]->bDebug && sceneData->controller->bRunning)
                             cout << "setting UDPInput rotation now..." << renderer->frames <<endl;
                     }
-                }
+                }else if (mID->memberName==skeletonString){
+                    //we anticipate a very distinct set of values and will automatically assign bone-matrices according to a naming convention
+                    //naming convention can be found here:
+                    //http://wiki.moviesandbox.net/index.php?title=Naming_Conventions
+                    SkeletalActor* skel = (SkeletalActor*)targetActors[i];
+                    for (int b=0;b<skel->bones.size();b++){
+                           //convert to uppercase
+                            string myName=skel->bones[b]->name;
+                            std::transform(myName.begin(), myName.end(),myName.begin(), ::toupper);
+
+                            //we skip to the corresponding value, which is also transmitted for manual connection in other inputConnectButtons...
+                            //the +1 comes from skipping over our own targetValue.
+                            if (myName=="LEFTSHOULDER" || myName=="LEFT_SHOULDER")   //2
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+2].c_str()));
+                            if (myName=="LEFTELBOW" || myName=="LEFT_ELBOW")   //3
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+3].c_str()));
+                            if (myName=="LEFTHAND" || myName=="LEFT_HAND")   //4
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+4].c_str()));
+
+
+
+                            if (myName=="RIGHTSHOULDER" || myName=="RIGHT_SHOULDER")   //5
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+5].c_str()));
+                            if (myName=="RIGHTELBOW" || myName=="RIGHT_ELBOW")   //6
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+6].c_str()));
+                            if (myName=="RIGHTHAND" || myName=="RIGHT_HAND")   //7
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+7].c_str()));
+
+
+                            if (myName=="SPINE" || myName=="TORSO")   //8
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+8].c_str()));
+
+
+                            if (myName=="LEFTHIP" || myName=="LEFT_HIP")   //9
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+9].c_str()));
+                            if (myName=="RIGHTHIP" || myName=="RIGHT_HIP")   //10
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+10].c_str()));
+
+                            if (myName=="LEFTKNEE" || myName=="LEFT_KNEE")   //11
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+11].c_str()));
+                            if (myName=="LEFTFOOT" || myName=="LEFT_FOOT")   //12
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+12].c_str()));
+
+                            if (myName=="RIGHTKNEE" || myName=="RIGHT_KNEE")   //13
+                                    skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+13].c_str()));
+                            //if (myName=="RIGHTFOOT" || myName=="RIGHT_FOOT")   //14
+                            //        skel->bones[b]->transformMatrix=(readMatrix4f((char*)targetValues[i+1+14].c_str()));
+
+
+                    } //end all bones
+
+
+                } //end special bone stuff
                 //this is the standard way of assigning properties
                 else{
                     memberFromString(mID,targetValues[i]);

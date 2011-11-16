@@ -192,7 +192,8 @@ public:
 
        virtual void remove();                           //removes the actor from actorList and frees memory.
 
-       bool isA(string className);                      //check against specific classname
+       bool isA(string className);                      //check against specific classname      - DANGEROUS! AND WRONG! NEED TO REIMPLEMENT!
+
 };
 
 
