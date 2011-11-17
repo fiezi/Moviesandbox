@@ -45,7 +45,7 @@ void main(){
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
                                                     //this here is an approximation
-  gl_PointSize= pointSize() * screensize/scene_size * (45.0*45.0)/(fov*fov);
+  gl_PointSize= pointSize() * (45.0*45.0)/(fov*fov);
 
   zPos=gl_Position.z;
 

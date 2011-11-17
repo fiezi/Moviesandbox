@@ -533,6 +533,14 @@ void Actor::updateShaders(){
         glUniform1fARB(myShader->uniforms["scene_size"], (float)renderer->scene_size);
     }
 
+    if (myShader->uniforms.find("screenX") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["screenX"], (float)renderer->screenX);
+    }
+
+    if (myShader->uniforms.find("screenY") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["screenY"], (float)renderer->screenY);
+    }
+
     if (myShader->uniforms.find("fov") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["fov"], (float)renderer->fov);
     }

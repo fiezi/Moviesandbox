@@ -28,7 +28,7 @@ void ViewportGizmo::setup(){
     renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,50,50);
 
     //also, create an FBO
-    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,50,false, "viewportGizmo");
+    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,50,50,false, "viewportGizmo");
 
 
     scale.x=50;

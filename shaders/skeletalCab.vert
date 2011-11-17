@@ -100,7 +100,7 @@ void main(){
     float myTime=time;
 
     //Point Size
-    gl_PointSize= pointSize() * (1.45+0.45* cos(0.00031* myTime + objectID +xC +myVertex.y)) * screensize/scene_size;
+    gl_PointSize= pointSize() * (1.45+0.45* cos(0.00031* myTime + objectID +xC +myVertex.y));
 
   	//smudging and pixel Position
 	smudge=gl_NormalMatrix * gl_SecondaryColor.rgb;

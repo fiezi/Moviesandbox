@@ -175,6 +175,7 @@ vec4 computeDOF() {
 void main(void){
 
     gl_FragColor=computeDOF();
+       //gl_FragDepth=texture2D(depthTex,texCoord).r;
     gl_FragColor.a=1.0;
 
 }

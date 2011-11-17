@@ -250,12 +250,13 @@ void Renderer::initWindow(int x, int y, string windowName){
 
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 
+      char* gmString  = new char[64];
+      sprintf(gmString," %ix%i:32@60",screenX,screenY);
+      glutGameModeString( gmString );
+
     if (bFullscreen)
       {
       // windowX x windowY, 32bit pixel depth, 60Hz refresh rate
-      char* gmString  = new char[64];
-      sprintf(gmString," %ix%i:32@60",windowX,windowY);
-      glutGameModeString( gmString );
       // start fullscreen game mode
       glutEnterGameMode();
       }
@@ -378,6 +379,7 @@ void Renderer::setup(){
     //frame buffer objects
     //always need them with layer system!
 
+   /*
 	//buffer to copy from for FSAA multisampling in FBOs
 	createFBO(&multiSample_fb, NULL, &multiSample_db, scene_size, false, "multisampleBuffer");
 
@@ -385,6 +387,14 @@ void Renderer::setup(){
     createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
     createFBO(&scene_fb, &scene_tx, NULL, scene_size, false, "scene");
+*/
+//buffer to copy from for FSAA multisampling in FBOs
+	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
+
+    //framebuffer and texture to store global lighting and shadow information
+    createFBO(&lighting_fb, &lighting_tx, NULL, screenX, screenY, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size,shadow_size, false, "shadow");
+    createFBO(&scene_fb, &scene_tx, NULL, screenX, screenY, false, "scene");
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("FBO Error check...");
@@ -486,7 +496,7 @@ void Renderer::physicsUpdate(){
 
 
 
-void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name){
+void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSizeX, int fbSizeY, bool bDepth, string name){
     //-------------------------------------------------------
     // framebuffer object
 
@@ -509,9 +519,9 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_color);
 
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
 
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
@@ -520,25 +530,25 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 			glGenRenderbuffersEXT(1, &multiSample_depth);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_depth);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
             glGenRenderbuffersEXT(1, &multiSample_pick);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_pick);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
             glGenRenderbuffersEXT(1, &multiSample_lightData);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_lightData);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
 			//DEPTH COMPONENT
@@ -546,9 +556,9 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glGenRenderbuffersEXT(1, &multiSample_db);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_db);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_DEPTH_COMPONENT, fbSize, fbSize);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY);
 
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
@@ -581,7 +591,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
-            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSize, fbSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -592,8 +602,8 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             cout << "no depth in FBO!" << name << endl;
             // attach colorBuffer to a texture
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_FLOAT, NULL);
-            //glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSize, fbSize, 0, GL_RGBA, GL_BYTE, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_FLOAT, NULL);
+            //glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_BYTE, NULL);
 
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -609,7 +619,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             if (fbDepth){
                 glGenRenderbuffersEXT(1, fbDepth);
                 glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, *fbDepth);
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSize, fbSize);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY);
 
                 glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
@@ -846,7 +856,8 @@ void Renderer::draw(){
 
         //draw into FBO for post-production
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, sceneData->layerList[i]->sceneFBO);
-        glViewport (0, 0, scene_size, scene_size);
+        //glViewport (0, 0, scene_size, scene_size);
+        glViewport (0, 0, screenX, screenY);
 
         //Draw Background here
         drawBackground();
@@ -1031,8 +1042,8 @@ void Renderer::drawSceneTexture(){
 
     glPushAttrib(GL_VIEWPORT_BIT);
 
-    //glViewport (0, 0, screenX, screenY);
-    glViewport (0, 0, scene_size, scene_size);
+    glViewport (0, 0, screenX, screenY);
+    //glViewport (0, 0, scene_size, scene_size);
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -1069,7 +1080,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 
         //meta blitting - zPos, ObjectID, vertexID
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
@@ -1077,7 +1088,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 	}
 
     //cleanup
@@ -1115,7 +1126,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
         glPushAttrib(GL_VIEWPORT);
-        glViewport (0, 0, lighting_size, lighting_size);
+        //glViewport (0, 0, lighting_size, lighting_size);
+        glViewport (0, 0, screenX, screenY);
 
 
         //set our textureID to lighting pass
@@ -2265,15 +2277,19 @@ void Renderer::pick(int x, int y){
 
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
-    float xRatio=(float)scene_size/(float)screenX;
-    float yRatio=(float)scene_size/(float)screenY;
+//    float xRatio=(float)scene_size/(float)screenX;
+//   float yRatio=(float)scene_size/(float)screenY;
+
+    float xRatio=1.0;
+    float yRatio=1.0;
 
 
 
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
 
-    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (scene_size/2.0),(int) (scene_size/2.0) ,1 ,1 );
+    //glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (scene_size/2.0),(int) (scene_size/2.0) ,1 ,1 );
+    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (screenX/2.0),(int) (screenY/2.0) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&centerInfo);
 
     //Shader writes data as follows:

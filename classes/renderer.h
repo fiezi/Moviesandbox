@@ -189,7 +189,7 @@ public:
        virtual void physicsUpdate();
 
 
-       virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSize, bool bDepth, string name);
+       virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSizeX, int fbSizeY, bool bDepth, string name);
        virtual void checkFBOStatus();
 
        virtual void draw();

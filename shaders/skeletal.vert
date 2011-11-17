@@ -92,7 +92,7 @@ void main(){
     gl_Position=myPosition;
 
     //Point Size
-    gl_PointSize=pointSize() * screensize/scene_size;
+    gl_PointSize=pointSize();
 
     //make unskinned particles go away!
     //if (bones[0]<0)

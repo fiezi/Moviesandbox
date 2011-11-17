@@ -96,7 +96,7 @@ void main(){
 
     //apply bone transformations
     gl_Position=gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
-    gl_PointSize= pointSize() * screensize/scene_size * (45.0*45.0)/(fov*fov);
+    gl_PointSize= pointSize() * (45.0*45.0)/(fov*fov);
 
 
     zPos=gl_Position.z;

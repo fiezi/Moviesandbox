@@ -673,11 +673,18 @@ void SceneData::addLayer(string layerName){
 		lay->lightDataTextureID=lay->name+"_lightData";
 
         layerList.push_back(lay);
+        /*
         renderer->createFBO(&(lay->sceneFBO), &(lay->sceneTex), NULL, renderer->scene_size, false, lay->sceneTextureID);
         renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->colorTextureID);
         renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->scene_size, false, lay->depthTextureID);
         renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->scene_size, false, lay->pickTextureID);
 		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->scene_size, false, lay->lightDataTextureID);
+*/
+        renderer->createFBO(&(lay->sceneFBO), &(lay->sceneTex), NULL, renderer->screenX,renderer->screenY, false, lay->sceneTextureID);
+        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->screenX,renderer->screenY, false, lay->colorTextureID);
+        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->screenX,renderer->screenY, false, lay->depthTextureID);
+        renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->screenX,renderer->screenY, false, lay->pickTextureID);
+		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->screenX,renderer->screenY, false, lay->lightDataTextureID);
         currentLayer=layerList.size()-1;
 
         cout << "Added new Layer:" << layerName << endl;

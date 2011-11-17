@@ -51,7 +51,7 @@ void main(){
     //vec4 myPos = gl_ModelViewMatrix * myVertex;
     //myPos=myPos/myPos.w;
 
-    gl_PointSize= pointSize() * screensize/scene_size;
+    gl_PointSize= pointSize();
 
     //zPos from 0 to 1, then from 0 to 65536.0!
     zPos=gl_Position.z;

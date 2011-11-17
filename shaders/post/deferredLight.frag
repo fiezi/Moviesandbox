@@ -2,7 +2,8 @@ uniform float time;
 uniform float screensize;
 uniform float lighting_size;
 uniform float shadow_size;
-uniform float scene_size;
+uniform float screenX;
+uniform float screenY;
 
 uniform float nearClip;
 uniform float farClip;
@@ -32,7 +33,7 @@ varying vec2 texCoord;
 
 float lightDistance = 100.0;
 
-const float specularExp = 128.0;
+const float specularExp = 16.0;
 
 vec4 fragWorldLoc;
 float zPos;
@@ -99,8 +100,8 @@ vec4 calcFragmentWorldSpace(){
     fW.xyz= camLoc;
     //fW.xyz+= camZ * (1.0+zPosScreen);
     fW.xyz+= camZ * (zPos);
-    fW.xyz-= camX * ((gl_FragCoord.x/scene_size - 0.5) * zPos);// * 1.1);
-    fW.xyz+= camY * ((gl_FragCoord.y/scene_size - 0.5) * zPos * 768.0/scene_size);// * 1.1);
+    fW.xyz-= camX * ((gl_FragCoord.x/screenX - 0.5) * zPos);
+    fW.xyz+= camY * ((gl_FragCoord.y/screenY- 0.5) * zPos );
 
     //fW.y-=camLoc.y;
     return fW;
@@ -194,10 +195,6 @@ vec4 shadowMapping(){
         return myLight;
     }
 
-
-
-
-	//vec4 pixelPosition=texture2D(pickTex,texCoord );
 	vec4 pixelPosition=fragWorldLoc;
     pixelPosition.w=1.0;
 
@@ -207,6 +204,8 @@ vec4 shadowMapping(){
     vec4 shadowCoord =   lightProjectionMatrix * lightViewMatrix * pixelPosition ;
 
     vec4 ssShadow=shadowCoord/shadowCoord.w;
+
+
     ssShadow=ssShadow * 0.5 + 0.5;
 
     ssShadow.xy = ssShadow.xy;
@@ -215,8 +214,8 @@ vec4 shadowMapping(){
 
         //this leads to hard edges. Maybe we can soften them up a bit?
 
-            vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
-            //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
+            //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
+            vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
             float falloff = (shadowCoord.z) - shadowColor.x;
             //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
             //myLight += computeLight();
@@ -239,7 +238,7 @@ void main(){
 
     fragWorldLoc=calcFragmentWorldSpace();
     //load old lighting data
-    gl_FragColor=texture2D(tex, texCoord * lighting_size/scene_size);
+    gl_FragColor=texture2D(tex, texCoord);
     //gl_FragColor=vec4(0.0,0.0,0.0,1.0);
     //gl_FragColor+=computeLight();
     gl_FragColor+=shadowMapping();

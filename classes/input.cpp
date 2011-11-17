@@ -618,6 +618,15 @@ void Input::keyUp(unsigned char key,int x,int y){
 
         }
 
+        //switch fullscreen
+        if (key=='F'){
+            if (renderer->bFullscreen){
+                glutLeaveGameMode();
+            }else{
+                glutEnterGameMode();
+            }
+            renderer->bFullscreen=!renderer->bFullscreen;
+        }
 
 
 
