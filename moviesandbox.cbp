@@ -837,6 +837,7 @@
 		<Unit filename="shaders\particleHeightField.frag" />
 		<Unit filename="shaders\particleHeightField.vert" />
 		<Unit filename="shaders\post\deferredLight.frag" />
+		<Unit filename="shaders\post\deferredLight.vert" />
 		<Unit filename="shaders\post\dof.frag" />
 		<Unit filename="shaders\post\dof.vert" />
 		<Unit filename="shaders\post\post.frag" />

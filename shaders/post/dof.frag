@@ -1,6 +1,8 @@
 uniform float time;
 
 uniform float scene_size;
+uniform float screenX;
+uniform float screenY;
 uniform sampler2D tex;
 uniform sampler2D depthTex;
 
@@ -27,7 +29,7 @@ varying vec2 texCoord;
 
 vec4 blur(sampler2D myTex,vec2 tc){
 
-      float spread=1.0/scene_size  * min(8.0,max(4.0,texture2D(depthTex,texCoord).x/50.0));
+      float spread=1.0/screenX  * min(8.0,max(4.0,texture2D(depthTex,texCoord).x/50.0));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
       tc_offset[1]=spread * vec2(-1.0,-2.0);
@@ -92,7 +94,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/1024.0;
+      float spread=1.0/screenX;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);

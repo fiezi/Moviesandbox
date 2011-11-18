@@ -51,10 +51,11 @@ void Layer::updateShaders(){
     shaderObject* myShader= sceneData->shaderList[sceneShaderID];
 
     if (myShader->uniforms.find("screenX") != myShader->uniforms.end()){
-        GLint screenSize[4];
-        glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
-        glUniform1fARB(myShader->uniforms["screenX"], (float)screenSize[2]);
-        glUniform1fARB(myShader->uniforms["screenY"], (float)screenSize[3]);
+        glUniform1fARB(myShader->uniforms["screenX"], renderer->screenX);
+    }
+
+    if (myShader->uniforms.find("screenY") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["screenY"], renderer->screenY);
     }
 
    #ifdef BDEBUGRENDERER

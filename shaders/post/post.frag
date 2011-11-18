@@ -263,6 +263,12 @@ void main(void){
 
     gl_FragDepth=texture2D(pickTex,texCoord).r;
 
+    if (gl_FragCoord.x>screenX/2.0-1.0 && gl_FragCoord.x<screenX/2.0+1.0 )
+        gl_FragData[0].r=1.0;
+
+    if (gl_FragCoord.y>screenY/2.0-1.0 && gl_FragCoord.y<screenY/2.0+1.0 )
+        gl_FragData[0].r=1.0;
+
     ///debug stuff
     //gl_FragData[0]/=3.0;
     //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;

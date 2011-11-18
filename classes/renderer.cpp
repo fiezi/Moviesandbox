@@ -251,12 +251,12 @@ void Renderer::initWindow(int x, int y, string windowName){
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 
       char* gmString  = new char[64];
+      // screenX screenY, 32bit pixel depth, 60Hz refresh rate
       sprintf(gmString," %ix%i:32@60",screenX,screenY);
       glutGameModeString( gmString );
 
     if (bFullscreen)
       {
-      // windowX x windowY, 32bit pixel depth, 60Hz refresh rate
       // start fullscreen game mode
       glutEnterGameMode();
       }
@@ -859,9 +859,11 @@ void Renderer::draw(){
         //glViewport (0, 0, scene_size, scene_size);
         glViewport (0, 0, screenX, screenY);
 
+       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         //Draw Background here
-        drawBackground();
-        glClear(GL_DEPTH_BUFFER_BIT);
+       drawBackground();
+       //glClear(GL_DEPTH_BUFFER_BIT);
 
         //then, draw our final composite
         drawButton(sceneData->layerList[i]);
@@ -879,7 +881,6 @@ void Renderer::draw(){
             /// Post-Production
             /////////////////////////////////////////////////////
 
-            //TODO: non-power-of-2 FBO?
             glViewport (0, 0, screenX, screenY);
             //glViewport (0, 0, screenX, screenY);
 
@@ -896,6 +897,8 @@ void Renderer::draw(){
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 //            glGenerateMipmapEXT(GL_TEXTURE_2D);
             drawButton(sceneData->layerList[i]);
+
+
     }//end for loop through layers
 
 
@@ -965,7 +968,9 @@ void Renderer::drawBackground(){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, sceneData->textureList[sceneData->backgroundTex]->texture);
 
+    glDepthMask(GL_FALSE);
     drawPlane(0,0,screenX,screenY);
+    glDepthMask(GL_TRUE);
 
 }
 
@@ -973,8 +978,8 @@ void Renderer::drawBackground(){
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
-    //glViewport (0, 0, shadow_size, shadow_size);
     glViewport (0, 0, shadow_size, shadow_size);
+    //glViewport (0, 0, screenX, screenY);
 
     //setup projection
     glMatrixMode(GL_PROJECTION);

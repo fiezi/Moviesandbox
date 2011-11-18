@@ -132,7 +132,7 @@
 
     <Shader shaderID="dof" vertexShaderFilename="post/dof.vert" fragmentShaderFilename="post/dof.frag" />
     <Shader shaderID="post" vertexShaderFilename="post/post.vert" fragmentShaderFilename="post/post.frag" />
-    <Shader shaderID="deferredLight" vertexShaderFilename="post/post.vert" fragmentShaderFilename="post/deferredLight.frag" />
+    <Shader shaderID="deferredLight" vertexShaderFilename="post/deferredLight.vert" fragmentShaderFilename="post/deferredLight.frag" />
 
 
 </Moviesandbox>

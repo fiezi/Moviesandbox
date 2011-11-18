@@ -581,6 +581,7 @@ void Input::keyUp(unsigned char key,int x,int y){
         // reload all shaders!
         if (key=='S')
                sceneData->loadShaders("shaders/","resources/basic.library");
+
         // reload all basic textures!
         if (key=='X')
                sceneData->loadTextures("resources/icons/","resources/basic.library");
