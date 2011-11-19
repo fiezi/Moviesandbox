@@ -992,6 +992,7 @@ void Renderer::drawShadows(MsbLight* myLight){
         gluPerspective(myLight->fov, 1.0f, nearClip, myLight->lightDistance);             //this sets the framing of the light!
 
         glGetFloatv(GL_PROJECTION_MATRIX,lightProjectionMatrix);
+        lightProjectionMatrixInverse=lightProjectionMatrix.inverse();
 
         //setup camera
         glMatrixMode(GL_MODELVIEW);
@@ -1006,6 +1007,7 @@ void Renderer::drawShadows(MsbLight* myLight){
             0.0f, 1.0f, 0.0f);
 
             glGetFloatv(GL_MODELVIEW_MATRIX,lightViewMatrix);
+            lightViewMatrixInverse=lightViewMatrix.inverse();
 
 
     //glDisable(GL_BLEND);
@@ -1019,6 +1021,19 @@ void Renderer::drawShadows(MsbLight* myLight){
 
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
+
+        //set up texture matrix?
+        glMatrixMode(GL_TEXTURE);
+        glActiveTexture(GL_TEXTURE2);
+        glLoadIdentity();
+        //move from  -1,1 to 0,1
+        glTranslatef(0.5,0.5,0.5);
+        glScalef(0.5,0.5,0.5);
+        glMultMatrixf(lightProjectionMatrix);
+        glMultMatrixf(lightViewMatrix);
+        //glMultMatrixf(inverseCameraMatrix);
+        glMatrixMode(GL_MODELVIEW);
+
 
         draw3D(sceneData->layerList[i]);
 

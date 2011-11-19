@@ -118,6 +118,12 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("lightViewMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightViewMatrix"],1,false,(GLfloat*)renderer->lightViewMatrix);
 
+    if (myShader->uniforms.find("lightViewMatrixInverse") != myShader->uniforms.end())
+        glUniformMatrix4fv(myShader->uniforms["lightViewMatrixInverse"],1,false,(GLfloat*)renderer->lightViewMatrixInverse);
+
+    if (myShader->uniforms.find("lightProjectionMatrixInverse") != myShader->uniforms.end())
+        glUniformMatrix4fv(myShader->uniforms["lightProjectionMatrixInverse"],1,false,(GLfloat*)renderer->lightProjectionMatrixInverse);
+
     if (myShader->uniforms.find("lightProjectionMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightProjectionMatrix"],1,false,(GLfloat*)renderer->lightProjectionMatrix);
 

@@ -159,7 +159,9 @@ public:
         Matrix4f camViewProjMatrix;
 
         Matrix4f lightViewMatrix;
+        Matrix4f lightViewMatrixInverse;
         Matrix4f lightProjectionMatrix;
+        Matrix4f lightProjectionMatrixInverse;
         Matrix4f lightViewProjMatrix;
 
         ofTrueTypeFont*   verdana;

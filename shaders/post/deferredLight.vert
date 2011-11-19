@@ -7,6 +7,7 @@ uniform mat4 cameraMatrix;
 uniform mat4 projectionMatrix;
 
 varying vec2 texCoord;
+varying vec2 shadowCoord;
 
 //light position stuff
 
@@ -18,6 +19,8 @@ void main(){
 
 	gl_Position = ftransform();
 	texCoord=gl_MultiTexCoord0.xy;
+	shadowCoord=gl_TextureMatrix[2] * gl_ModelViewMatrix * gl_Vertex;
+	shadowCoord=gl_MultiTexCoord0.xy;
 
 
    lightColor= gl_LightSource[0].diffuse.rgb;
