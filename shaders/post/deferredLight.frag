@@ -204,8 +204,10 @@ vec4 shadowMapping(){
     //pixelPosition.xy/=(-zPosScreen);
 
     vec4 pixelPosition=vec4((texCoord.x-0.5)*1.45, (texCoord.y-0.5)* 0.80, (-zPos) * 1.0, 1.0 )  ;
-    pixelPosition.xy*=zPos;
 
+    //return abs(vec4(pixelPosition.x,pixelPosition.y,pixelPosition.z/1.0,1.0)/1.0);
+
+    pixelPosition.xy*=zPos;
 
     pixelPosition=cameraInverse * pixelPosition;
     pixelPosition/=pixelPosition.w;
@@ -225,30 +227,33 @@ vec4 shadowMapping(){
     //transform light to image space!
     //vec4 ssShadow=lightProjectionMatrix * lightViewMatrix * pixelPosition;
 
-    //return abs(vec4(shadowCoord.x,shadowCoord.y,shadowCoord.z/1.0,1.0)/10.0);
-
+    //return abs(vec4(shadowCoord.x,shadowCoord.y,shadowCoord.z*1.0,1.0)/5.0);
+    shadowCoord.z*=0.30;
     vec2 ssShadow=shadowCoord.xy;
 
 
-    ssShadow=ssShadow * 0.5 + 0.5;
+    ssShadow.xy=(ssShadow.xy * 0.5 + 0.5);
+    //ssShadow=(ssShadow * 0.5 + 0.5)* 1.0;
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
 
             //this leads to hard edges. Maybe we can soften them up a bit?
 
+            //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
             vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
             //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy);
 
-            //return (vec4(pixelPosition.z - shadowColor.x)*100000000.0);
-            float falloff = pixelPosition.z - shadowColor.x;
+            //return (vec4(shadowColor.x)/10.0);
+            return (vec4(shadowCoord.z - shadowColor.x)/10.0);
+            float falloff = shadowCoord.z - shadowColor.x;
             //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
             //myLight += computeLight();
-            if (falloff<=-12.0)
+            if (falloff<0)
                 //myLight+=vec4(1.0);
                 //myLight.x=shadowCoord.z/20.0;
                 myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.x-falloff)/(0.1*shadowColor.x) ) ) ) * computeLight( );
-    }
-
+    }else
+            return computeLight();
   return myLight;
 }
 
