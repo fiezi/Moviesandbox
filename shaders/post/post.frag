@@ -66,7 +66,8 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/600.0  * 8.0/texture2D(myTex , tc).a;
+      //float spread=1.0/600.0  * 8.0/texture2D(myTex , tc).a;
+      float spread=0.5/screenX;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -252,8 +253,8 @@ void main(void){
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
-        vec4 lightData=texture2D(shadowTex,texCoord);
         //vec4 lightData=texture2D(shadowTex,texCoord);
+        vec4 lightData=blur3(shadowTex,texCoord);
         gl_FragData[0]*=lightData;
     }
 
@@ -263,13 +264,14 @@ void main(void){
 
     gl_FragDepth=texture2D(pickTex,texCoord).r;
 
+    ///debug stuff
+/*
     if (gl_FragCoord.x>screenX/2.0-1.0 && gl_FragCoord.x<screenX/2.0+1.0 )
         gl_FragData[0].r=1.0;
 
     if (gl_FragCoord.y>screenY/2.0-1.0 && gl_FragCoord.y<screenY/2.0+1.0 )
         gl_FragData[0].r=1.0;
-
-    ///debug stuff
+*/
     //gl_FragData[0]/=3.0;
     //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
     //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;
