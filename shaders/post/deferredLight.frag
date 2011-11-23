@@ -48,12 +48,34 @@ float zPosScreen;
 
     float PI = 3.14159265358979323846264;
 
+float unpackToFloat(vec4 value){
+
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec3 value){
+
+	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec2 value){
+
+	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+
 
 vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX;//   * texture2D(myTex , tc).a/32.0;
+      float spread=2.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*512.0/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -84,33 +106,11 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 
 
-float unpackToFloat(vec4 value){
-
-	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
-
-float unpackToFloat(vec3 value){
-
-	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
-
-float unpackToFloat(vec2 value){
-
-	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
-
-
 ///pixelPosition in eyeSpace ( pixel on ground plane stays the same independent of camera's distance to ground plane )
 void getPixelLoc(){
 
     //zPos = texture2D(depthTex,texCoord).r;
-    zPos= unpackToFloat(texture2D(depthTex,texCoord).rg) * 512.0;
+    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * 512.0;
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
@@ -213,7 +213,7 @@ vec4 shadowMapping(){
     //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
     //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
-    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
+    vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     shadowColor.x = unpackToFloat(shadowColor.rg) * 512.0;
 

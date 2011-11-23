@@ -163,15 +163,18 @@ Renderer::Renderer(){
 
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
-    lighting_size = 512;
+    lighting_size = 1.0;
+
+    shadow_tx = 0;
+    shadow_fb = 0;
+    shadow_size = 2.0;
 
     depth_tx = 0;
     depth_fb = 0;
-    depth_size = 512;
 
     scene_tx = 0;
     scene_fb = 0;
-    scene_size = 512;
+    scene_size = 1.0;
 
     multiSample_fb = 0;
     multiSample_db = 0;
@@ -243,8 +246,7 @@ void Renderer::registerProperties(){
     createMemberID("FOV",&fov,this);
 
     createMemberID("LIGHTING_SIZE",&lighting_size,this);
-
-    createMemberID("DEPTH_SIZE",&depth_size,this);
+    createMemberID("SHADOW_SIZE",&shadow_size,this);
 
     createMemberID("SCENE_SIZE",&scene_size,this);
 
@@ -396,9 +398,9 @@ void Renderer::setup(){
 	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
 
     //framebuffer and texture to store global lighting and shadow information
-    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/1.5, screenY/1.5, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
-    createFBO(&shadow_fb, &shadow_tx, NULL, screenX/2.0,screenY/2.0, false, "shadow");
-    createFBO(&scene_fb, &scene_tx, NULL, screenX, screenY, false, "scene");
+    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&shadow_fb, &shadow_tx, NULL, screenX/shadow_size,screenY/shadow_size, false, "shadow");
+    createFBO(&scene_fb, &scene_tx, NULL, screenX/scene_size, screenY/scene_size, false, "scene");
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("FBO Error check...");
@@ -983,7 +985,7 @@ void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
     //glViewport (0, 0, shadow_size, shadow_size);
-    glViewport (0, 0, screenX/2.0, screenY/2.0);
+    glViewport (0, 0, screenX/shadow_size, screenY/shadow_size);
 
     //setup projection
     glMatrixMode(GL_PROJECTION);
@@ -1035,7 +1037,7 @@ void Renderer::drawShadows(MsbLight* myLight){
       glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, shadow_fb );
       glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-      glBlitFramebufferEXT( 0, 0, screenX/2.0, screenY/2.0, 0, 0, screenX/2.0, screenY/2.0, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+      glBlitFramebufferEXT( 0, 0, screenX/shadow_size, screenY/shadow_size, 0, 0, screenX/shadow_size, screenY/shadow_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 
     }
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
@@ -1138,7 +1140,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         glPushAttrib(GL_VIEWPORT);
         //glViewport (0, 0, lighting_size, lighting_size);
-        glViewport (0, 0, screenX/1.5, screenY/1.5);
+        glViewport (0, 0, screenX/lighting_size, screenY/lighting_size);
 
 
         //set our textureID to lighting pass

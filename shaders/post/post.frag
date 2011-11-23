@@ -254,13 +254,13 @@ void main(void){
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
         //vec4 lightData=texture2D(shadowTex,texCoord);
-        vec4 lightData=blur3(shadowTex,texCoord);
+        vec4 lightData=texture2D(shadowTex,texCoord);
         gl_FragData[0]*=lightData;
     }
 
     ///Ambient Occlusion
-    if (bSSAO)
-        gl_FragData[0].rgb*=computeAO().rgb ;
+    //if (bSSAO)
+     //   gl_FragData[0].rgb*=computeAO().rgb ;
 
    // gl_FragDepth=texture2D(pickTex,texCoord).r;
 

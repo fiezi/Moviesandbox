@@ -105,21 +105,20 @@ public:
 
         GLuint  lighting_tx;                 // the lightTexture we read from
         GLuint  lighting_fb;                 // the lightFBO we bind
-        int     lighting_size;                //resolution for the lighting pass
+        float     lighting_size;                //resolution for the lighting pass
 
         GLuint  shadow_tx;                   // the shadowTexture we read from
         GLuint  shadow_fb;                   // the shadowFBO we bind
-        int     shadow_size;
+        float    shadow_size;
 
         //Frame Buffer Object for Depth Rendering
         GLuint  depth_tx;
         GLuint  depth_fb;
-        int     depth_size;
 
 
         GLuint  scene_tx;
         GLuint  scene_fb;
-        int     scene_size;
+        float    scene_size;
 
         //Frame Buffer Object for Right Eye Rendering
 
