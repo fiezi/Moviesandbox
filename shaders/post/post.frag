@@ -262,7 +262,7 @@ void main(void){
     if (bSSAO)
         gl_FragData[0].rgb*=computeAO().rgb ;
 
-    gl_FragDepth=texture2D(pickTex,texCoord).r;
+   // gl_FragDepth=texture2D(pickTex,texCoord).r;
 
     ///debug stuff
 /*

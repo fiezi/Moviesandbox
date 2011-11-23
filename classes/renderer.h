@@ -95,6 +95,9 @@ public:
        Vector3f lightLoc;                  //light Location
        Vector3f ambient;                   //ambient Light
 
+        //depth precision
+        GLenum depthPrecision;      //amount of bits for depth operations - usually GL_RGBA8 or GL_RGBA16
+
         //picking
         GLuint pickTexture;
 

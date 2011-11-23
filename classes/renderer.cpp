@@ -157,6 +157,10 @@ Renderer::Renderer(){
     eyeDistance=0.10;
     bkgOffset = 50.0;
 
+    depthPrecision = GL_RGBA8;
+    //depthPrecision = GL_RGBA16F_ARB;
+    //depthPrecision = GL_RGBA32F;
+
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
     lighting_size = 512;
@@ -364,7 +368,7 @@ void Renderer::setup(){
     glGenTextures(1, &pickTexture);
     glBindTexture(GL_TEXTURE_2D, pickTexture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F_ARB,  1, 1, 0, GL_BGRA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  1, 1, 0, GL_BGRA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
@@ -508,7 +512,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
     glGetIntegerv(GL_MAX_SAMPLES_EXT,&maxsamples);
 
     //Multisample type - needs to be minimum 16 bit for picking and lighting calculations
-	GLenum sampleType=GL_RGBA16F_ARB;
+	//GLenum sampleType=GL_RGBA16F_ARB;
 	//GLenum sampleType=GL_RGBA;
 	//GLenum sampleType=GL_RGBA32F_ARB;
 
@@ -520,9 +524,9 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_color);
 
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, depthPrecision, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthPrecision, fbSizeX, fbSizeY);
 
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
@@ -531,25 +535,25 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 			glGenRenderbuffersEXT(1, &multiSample_depth);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_depth);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, depthPrecision, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthPrecision, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
             glGenRenderbuffersEXT(1, &multiSample_pick);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_pick);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, depthPrecision, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthPrecision, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
             glGenRenderbuffersEXT(1, &multiSample_lightData);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_lightData);
             if (bMultisample)
-                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, depthPrecision, fbSizeX, fbSizeY);
             else
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, sampleType, fbSizeX, fbSizeY);
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, depthPrecision, fbSizeX, fbSizeY);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
 			//DEPTH COMPONENT
@@ -593,8 +597,8 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
             glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
             glFramebufferTexture2DEXT (GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, *fbTexture, 0);
@@ -603,13 +607,13 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             cout << "no depth in FBO!" << name << endl;
             // attach colorBuffer to a texture
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_FLOAT, NULL);
-            //glTexImage2D(GL_TEXTURE_2D, 0, sampleType,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_BYTE, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_FLOAT, NULL);
+            //glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_BYTE, NULL);
 
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 //            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -2301,57 +2305,59 @@ void Renderer::pick(int x, int y){
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&centerInfo);
 
     //Shader writes data as follows:
-    //gl_FragData[1]=vec4(zPos,objectID,vIDOne,vIDTwo);
+    //gl_FragData[1]=vec4(zPos,zPos,objectID,objectID);
+
+    Vector2f vec=Vector2f(mousePos[2],mousePos[1]);
+	float zPos= (vec.y + vec.x * 1.0/256.0) * 512.0;
+
+    Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
+	int ob = floor((obj.y + obj.x/256.0) * 65536.0 -100.0);
+
+//	cout << "z Value: "<< zPos << " obj:" << ob << endl;
 
     ///Picking
     //get ObjectID and find worldTarget
-    if (mousePos[1]>=0){
-        int aID=(int)ceil(mousePos[1]);
-        if ((int) sceneData->actorList.size() > aID)
-            input->worldTarget=sceneData->actorList[aID];
+    if (ob>=0){
+        if ((int) sceneData->actorList.size() > ob)
+            input->worldTarget=sceneData->actorList[ob];
     }
     else
         input->worldTarget=NULL;
 
-    ///Pickinbg Helpers
+    ///Picking Helpers
     //grid
-    if ((int)floor(mousePos[1])==-2)
+    if ((int)ob==-2)
         input->worldTarget=sceneData->grid;
 
     //Actor Gizmo
-    if ((int)floor(mousePos[1])==-10)
+    if (ob==-10)
         input->worldTarget=sceneData->aGizmo->xAxisGizmo;
-    if ((int)floor(mousePos[1])==-11)
+    if (ob==-11)
         input->worldTarget=sceneData->aGizmo->yAxisGizmo;
-    if ((int)floor(mousePos[1])==-12)
+    if (ob==-12)
         input->worldTarget=sceneData->aGizmo->zAxisGizmo;
 
 
-    if ((int)floor(mousePos[1])==-20)
+    if (ob==-20)
         input->worldTarget=sceneData->aGizmo->xRotateGizmo;
-    if ((int)floor(mousePos[1])==-21)
+    if (ob==-21)
         input->worldTarget=sceneData->aGizmo->yRotateGizmo;
-    if ((int)floor(mousePos[1])==-22)
+    if (ob==-22)
         input->worldTarget=sceneData->aGizmo->zRotateGizmo;
 
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos
 
-    //float zPos=( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
-    float zPos=mousePos[2];
-
-    //cout << "pick: " << zPos << mousePos[1] << " " << mousePos[2] << endl;
-
     input->mouse3D= sceneData->controller->location;
     input->mouse3D+= sceneData->controller->zAxis * zPos;
-    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos * 1.1);
-    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos * screenY/scene_size * 1.1);
+    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos* 1.1);
+    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos * screenY/scene_size ) * 0.55;
 
    ///Center 3D Position
     //Calculate mouse 3D position from zPos
 
-    //float zPos=( (mousePos[1]* 256.0)+ 256.0 * (mousePos[2]* 256.0) )* 1000.0/65536.0;
-    zPos=centerInfo[2];
+    Vector2f cen=Vector2f(centerInfo[2],centerInfo[1]);
+	zPos= (vec.y + vec.x * 1.0/256.0) * 512.0;
 
     input->center3D= sceneData->controller->location;
     input->center3D+= sceneData->controller->zAxis * zPos;
@@ -2407,9 +2413,9 @@ GLuint Renderer::LoadTextureRAW( const char * filename,int size, int wrap ){
 
     // when texture area is small, bilinear filter the closest mipmap
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                     GL_LINEAR_MIPMAP_NEAREST );
+                     GL_NEAREST );
     // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
     // if wrap is true, the texture wraps over at the edges (repeat)
     //       ... false, the texture ends at the edges (clamp)
@@ -2513,9 +2519,9 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
     glBindTexture( GL_TEXTURE_2D, tex );
 
     // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
     // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
     //the texture ends at the edges (clamp)
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP );

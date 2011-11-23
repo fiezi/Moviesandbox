@@ -23,13 +23,36 @@ varying vec2 texCoord;
 
 ***********************************************/
 
+
+float unpackToFloat(vec4 value){
+
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec3 value){
+
+	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec2 value){
+
+	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
 /*
 *   5x5 Kernel Gaussian Blur
 */
 
 vec4 blur(sampler2D myTex,vec2 tc){
 
-      float spread=1.0/screenX  * min(8.0,max(4.0,texture2D(depthTex,texCoord).x/50.0));
+      float spread=1.0/screenX  * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/20.0)));
+      //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
       tc_offset[1]=spread * vec2(-1.0,-2.0);
@@ -94,7 +117,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX;
+      float spread=1.0/screenX * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -129,7 +152,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 vec4 computeDOF() {
 
-    vec4 depthValue= texture2D(depthTex, texCoord);
+    vec4 depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*512.0;
 
     if (depthValue.x<=0.0)
         depthValue.x=65536.0;

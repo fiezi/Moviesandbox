@@ -83,11 +83,35 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 }
 
 
+
+float unpackToFloat(vec4 value){
+
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec3 value){
+
+	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec2 value){
+
+	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+
 ///pixelPosition in eyeSpace ( pixel on ground plane stays the same independent of camera's distance to ground plane )
 void getPixelLoc(){
 
     //zPos = texture2D(depthTex,texCoord).r;
-    zPos = blur3(depthTex,texCoord ).r;
+    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * 512.0;
+    //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
     pixelPos=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
@@ -155,6 +179,8 @@ vec4 computeLight(){
 
 vec4 shadowMapping(){
 
+
+    // return(vec4(zPos));
     vec4 myLight=vec4(0.0,0.0,0.0,0.0);
 
    if (gl_LightSource[0].spotCutoff==0.0){
@@ -188,9 +214,12 @@ vec4 shadowMapping(){
 
     //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
     vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
+    //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
+    shadowColor.x = unpackToFloat(shadowColor.rg) * 512.0;
+
     //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
 
-    //return abs(vec4(shadowColor.r)/100.0);
+    //return abs(vec4(shadowColor.r)*10.0);
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
             float falloff = shadowCoord.z - shadowColor.x;

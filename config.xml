@@ -7,7 +7,7 @@
     bFullScreen="0"
     BackgroundTex="grey_bkg"
     bDrawLighting="1"
-    bMultisample="1"
+    bMultisample="0"
     numSamples="2"
     ShadowSize="512"
     LightingSize="512"
