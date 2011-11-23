@@ -12,13 +12,10 @@ uniform sampler2D depthTex; // rendered normals and depth texture
 uniform sampler2D shadowTex; // rendered shadow textures - 256x256 (shadow resolution)
 
 uniform mat4 lightViewMatrix;
-uniform mat4 lightViewMatrixInverse;
 uniform mat4 lightProjectionMatrix;
-uniform mat4 lightProjectionMatrixInverse;
+
 uniform mat4 cameraMatrix;
 uniform mat4 cameraInverse;
-uniform mat4 projectionMatrix;
-uniform mat4 projectionInverse;
 
 
 uniform vec3 camLoc;
@@ -28,13 +25,13 @@ uniform vec3 camZ;
 
 
 varying vec2 texCoord;
-varying vec2 shadowCoord;
 
 //light position stuff
 
 varying vec3 lightColor;
 varying vec4 lightPos;
 varying float lightZScreen;
+varying mat4 lightSpaceMat;
 
 const float specularExp = 160.0;
 
@@ -56,8 +53,8 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      //float spread=1.0/screenX;//   * texture2D(myTex , tc).a/32.0;
-      float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
+      float spread=1.0/screenX;//   * texture2D(myTex , tc).a/32.0;
+      //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -89,10 +86,12 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 ///pixelPosition in eyeSpace ( pixel on ground plane stays the same independent of camera's distance to ground plane )
 void getPixelLoc(){
 
-    //zPos = texture2D(depthTex,texCoord ).r;
+    //zPos = texture2D(depthTex,texCoord).r;
     zPos = blur3(depthTex,texCoord ).r;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
-    pixelPos=(vec4(texCoord.x-0.5, texCoord.y-0.5, zPos,1.0)/zPosScreen)/10.0;
+    //pixel in screen space
+    pixelPos=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
+    //pixelPos=(vec4(texCoord.x-0.5, texCoord.y-0.5, zPos,1.0)/zPosScreen)/10.0;
     pixelPos.w=1.0;
 }
 
@@ -103,26 +102,38 @@ vec4 computeLight(){
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
 
-    float xDist= (lightPos.x/16.0 - pixelPos.x); //* screenX/screenY;
-    float yDist= (lightPos.y/9.0 - pixelPos.y);//* screenY/screenX;
-    float zDist= (lightPos.z /10.0- pixelPos.z)/100.0;
 
-    vec3 lightDirection=vec3(-xDist,-yDist,zDist);
-    vec3 lightDirectionNormalized =normalize(lightDirection);
+    vec4 pp=pixelPos*(-zPos/10.0);
+    //pp.z/=zPos;
+
+
+    float xDist= (lightPos.x/10.0 - pp.x); //* screenX/screenY;
+    float yDist= (lightPos.y/10.0 - pp.y);//* screenY/screenX;
+    float zDist= (lightPos.z /10.0- pp.z)/100.0;
+
+
+
+    vec3 lightDirection=vec3(-xDist,-yDist,zDist/1.0);
     float lightDistance=length(lightDirection)*10.0;
+
+    vec3 lightDirectionNormalized =normalize(lightDirection);
 
     //return here if we're out of range!
     if (lightDistance>gl_LightSource[0].linearAttenuation)
-        return vec4(0.0,0.0,0.0,1.0);
+       return vec4(0.0,0.0,0.0,1.0);
 
     //normal in Eye Space is the difference in z
     //we exagerrate along z - because differences become more significant with higher z
-    float dx= dFdx(zPos)/(zPos*zPos);
-    float dy= dFdy(zPos)/(zPos*zPos);
-    vec3 pixelNormal=normalize(vec3(dx,dy,0.0001));
+    //float dy= dFdy(zPos)/(zPos*zPos);
+    float dy= dFdy(zPos);
+    float dx= dFdx(zPos);
+    //return vec4 (dx,dy,0.0,1.0) * 10.0;
+    //return vec4 (dy) * 10.0;
+
+    vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)));
 
     //diffuse is dot Product of lightdirection on pixel normal
-	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );
+	float lightDotPixel = max(0.0,(dot(pixelNormal,(lightDirectionNormalized)) )  );
 	colorLight.rgb += 1.0 * lightColor * lightDotPixel;
 
     //specular is exaggeration of tight angles
@@ -135,6 +146,7 @@ vec4 computeLight(){
     //falloff
     float falloff = max(0.0,(gl_LightSource[0].linearAttenuation-lightDistance)/gl_LightSource[0].linearAttenuation);
     colorLight= colorLight * falloff;
+
 
     return colorLight;
 }
@@ -149,94 +161,40 @@ vec4 shadowMapping(){
         myLight+=computeLight( );
         return myLight;
     }
-/*
-    vec3 xAxis =vec3(cameraMatrix[0][0],cameraMatrix[1][0], cameraMatrix[2][0]);
-    vec3 yAxis =vec3(cameraMatrix[0][1],cameraMatrix[1][1], cameraMatrix [2][1]);
-    vec3 zAxis =vec3(cameraMatrix[0][2],cameraMatrix[1][2], cameraMatrix [2][2]);
-    vec4 camLoc = cameraMatrix[3];
-    camLoc.xyz+=zAxis * zPos;
-    camLoc.xyz-=xAxis * (texCoord.x-0.5) * zPos;
-    camLoc.xyz+=yAxis * (texCoord.y-0.5) * zPos;
-*/
 
-    vec4 fW = vec4(1.0);
-    fW.xyz=camLoc;
-    fW.xyz+=camZ * zPos;
-    fW.xyz-=camX * (texCoord.x-0.5)  * zPos;
-    fW.xyz+=camY * (texCoord.y -0.5) * zPos;
-
-
-    vec4 sCoord = vec4(1.0);
-
-    //convert from screen space to eye space
-    sCoord.z=(-texture2D(shadowTex,shadowCoord).r) ;
-    float zCoordScreen=farClip/ (farClip - sCoord.z * (farClip- nearClip));
-
-    sCoord.xy=shadowCoord.xy;
-    sCoord.xy=(shadowCoord.xy  - 0.5) * 2.0;
-    sCoord.xy/=zCoordScreen;
-    sCoord.w=1.0;
-
-    //convert to world Space
-    //sCoord=lightProjectionMatrixInverse * sCoord;
-    sCoord=lightViewMatrixInverse * sCoord;
-    //sCoord= lightViewMatrixInverse * sCoord;
-    //sCoord=lightProjectionMatrixInverse * sCoord;
-    sCoord/=sCoord.w;
-    //return abs(vec4(sCoord.x,sCoord.y,sCoord.z,1.0)/10.0);
-
-
-    //convert to Camera Space
-    sCoord=cameraMatrix * sCoord;
-    sCoord/=sCoord.w;
-    //return abs(vec4(0.0,0.0,sCoord.z-pixelPos.z,1.0)/100.0);
-
-    //sCoord=sCoord * 0.5 + 0.5;
-
-    //return vec4(shadowCoord.x,shadowCoord.y,0,1.0)/1.0;
-    //return texture2D(shadowTex,shadowCoord).r/10.0;
-    //return vec4(sCoord.x,sCoord.y,sCoord.z,1.0)/1.0;
-
-
-
-    //vec4 pixelPosition=vec4((texCoord.x), texCoord.y, zPos, 1.0 );
-
-    //vec4 pixelPosition=vec4((texCoord.x-0.5)*1.0, (texCoord.y-0.5)*1.0, (1.0/zPosScreen)*1.0 , 1.0 )  ;
-    //pixelPosition.xy/=(-zPosScreen);
 
     //where do these numbers come from? and what do they want from us?
-    vec4 pixelPosition=vec4((texCoord.x-0.5)*1.45, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 )  ;
 
+    //for 1280 * 720
+    //vec4 pixelPosition=vec4((texCoord.x-0.5)*1.45, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 )  ;
 
+    //for 1024 * 768
+    //vec4 pixelPosition=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, (-zPos) * 1.0, 1.0 )  ;
+    vec4 pixelPosition=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, (-zPos) * 1.0, 1.0 )  ;
     pixelPosition.xy*=zPos;
 
-    pixelPosition=cameraInverse * pixelPosition;
-    pixelPosition/=pixelPosition.w;
 
-    //return abs(vec4(0.0,pixelPosition.y,0.0,1.0)/10.0);
-    //return abs(vec4(pixelPosition.x,pixelPosition.y,pixelPosition.z/1.0,1.0)/3.0);
-
+    //Matrix transform to light space - our pixel. Matrices are computed once and can be done in CPU or vertex shader
+    vec4 shadowCoord =   lightSpaceMat*pixelPosition ;
+   vec2 ssShadow=shadowCoord.xy/shadowCoord.w;
 
 
-    //Matrix transform to light space - our pixel
-    vec4 shadowCoord =   lightProjectionMatrix * lightViewMatrix *  pixelPosition ;
-    vec2 ssShadow=shadowCoord.xy/shadowCoord.w;
+        ssShadow=(ssShadow* 0.5)   + 0.5;
 
+    //ssShadow.x*=-1.0;
+    //return abs(vec4(ssShadow.x,0.0,0.0,1.0)/1.0);
+    //return (vec4(0.0,ssShadow.y,0.0,1.0)/1.0);
+    //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
-    ssShadow=(ssShadow * 0.5 + 0.5) ;
-
+    //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
     vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
 
-    if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
+    //return abs(vec4(shadowColor.r)/100.0);
 
+    if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
             float falloff = shadowCoord.z - shadowColor.x;
-            //myLight +=max(0.0,(1.0 - falloff))	* computeLight();
-            //myLight += computeLight();
             if (falloff<1.0)
-                //myLight+=computeLight();
-                //myLight+=vec4(1.0);
-                //myLight.x=shadowCoord.z/20.0;
                 myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.x-falloff)/(0.1*shadowColor.x) ) ) ) * computeLight( );
                 myLight *=1.0-(abs (ssShadow.x-0.5) * 2.0);
                 myLight *=1.0-(abs (ssShadow.y-0.5) * 2.0);

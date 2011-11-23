@@ -393,7 +393,8 @@ void Renderer::setup(){
 
     //framebuffer and texture to store global lighting and shadow information
     createFBO(&lighting_fb, &lighting_tx, NULL, screenX, screenY, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
-    createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size,shadow_size, false, "shadow");
+    //createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size,shadow_size, false, "shadow");
+    createFBO(&shadow_fb, &shadow_tx, NULL, screenX,screenY, false, "shadow");
     createFBO(&scene_fb, &scene_tx, NULL, screenX, screenY, false, "scene");
 
     #ifdef BDEBUGRENDERER
@@ -978,8 +979,8 @@ void Renderer::drawBackground(){
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
-    glViewport (0, 0, shadow_size, shadow_size);
-    //glViewport (0, 0, screenX, screenY);
+    //glViewport (0, 0, shadow_size, shadow_size);
+    glViewport (0, 0, screenX, screenY);
 
     //setup projection
     glMatrixMode(GL_PROJECTION);
@@ -1022,19 +1023,6 @@ void Renderer::drawShadows(MsbLight* myLight){
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
 
-        //set up texture matrix?
-        glMatrixMode(GL_TEXTURE);
-        glActiveTexture(GL_TEXTURE2);
-        glLoadIdentity();
-        //move from  -1,1 to 0,1
-        glTranslatef(0.5,0.5,0.5);
-        glScalef(0.5,0.5,0.5);
-        glMultMatrixf(lightProjectionMatrix);
-        glMultMatrixf(lightViewMatrix);
-        //glMultMatrixf(inverseCameraMatrix);
-        glMatrixMode(GL_MODELVIEW);
-
-
         draw3D(sceneData->layerList[i]);
 
 
@@ -1044,7 +1032,7 @@ void Renderer::drawShadows(MsbLight* myLight){
       glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, shadow_fb );
       glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-      glBlitFramebufferEXT( 0, 0, shadow_size, shadow_size, 0, 0, shadow_size, shadow_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+      glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
 
     }
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
