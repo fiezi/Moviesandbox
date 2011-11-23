@@ -396,7 +396,7 @@ void Renderer::setup(){
 	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
 
     //framebuffer and texture to store global lighting and shadow information
-    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/1.0, screenY/1.0, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/1.5, screenY/1.5, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&shadow_fb, &shadow_tx, NULL, screenX/2.0,screenY/2.0, false, "shadow");
     createFBO(&scene_fb, &scene_tx, NULL, screenX, screenY, false, "scene");
 
@@ -1138,7 +1138,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
 
         glPushAttrib(GL_VIEWPORT);
         //glViewport (0, 0, lighting_size, lighting_size);
-        glViewport (0, 0, screenX/1.0, screenY/1.0);
+        glViewport (0, 0, screenX/1.5, screenY/1.5);
 
 
         //set our textureID to lighting pass

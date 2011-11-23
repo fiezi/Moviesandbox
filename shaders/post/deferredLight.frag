@@ -110,7 +110,7 @@ float unpackToFloat(vec2 value){
 void getPixelLoc(){
 
     //zPos = texture2D(depthTex,texCoord).r;
-    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * 512.0;
+    zPos= unpackToFloat(texture2D(depthTex,texCoord).rg) * 512.0;
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
@@ -213,7 +213,7 @@ vec4 shadowMapping(){
     //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
     //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
-    vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     shadowColor.x = unpackToFloat(shadowColor.rg) * 512.0;
 
