@@ -51,7 +51,7 @@ void CreateActorButton::finishDrag(){
         else{
             newActor->sceneShaderID="color";
 		}
-        newActor->drawType=sceneData->vboList[vboMeshID]->drawType;
+        newActor->drawType=DRAW_VBOMESH;
     }
 
 
@@ -102,7 +102,7 @@ void CreateActorButton::clickedLeft(){
             newActor->sceneShaderID="color";
 		}
 
-        newActor->drawType=sceneData->vboList[vboMeshID]->drawType;
+        newActor->drawType=DRAW_VBOMESH;
     }
     cout << "created new actor..." << endl;
 

@@ -1993,7 +1993,7 @@ void Renderer::drawParticles (Actor* a){
     if (!myMesh && myMesh->vData.size()==0)
         return;
 
-    if (myMesh->bTextured)
+    if (myMesh->meshType==MESH_POINTSPRITE)
         glEnable( GL_POINT_SPRITE_ARB );
 
     if (myMesh->vData.size()>0){
@@ -2073,7 +2073,7 @@ void Renderer::drawParticles (Actor* a){
           }
       }
 
-      if (myMesh->bTextured)
+      if (myMesh->meshType==MESH_POINTSPRITE)
         glDisable(GL_POINT_SPRITE_ARB);
 }
 
@@ -2211,7 +2211,7 @@ void Renderer::createKinectWall( float resolution ){
     myMesh->texCoordPerVertexCount=3;
     myMesh->verticesPerShapeCount=4;
     myMesh->vertexInterpretation=GL_POINTS;
-    myMesh->drawType=DRAW_VBOMESH;
+    myMesh->meshType=MESH_VBO;
 
     float width=1.5;
     float height=1.5;

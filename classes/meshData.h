@@ -1,9 +1,13 @@
 #ifndef H_MESHDATA
 #define H_MESHDATA
 
-#include "actor.h"
+#include "msbObject.h"
 
-class MeshData: public Actor{
+#define MESH_VBO 0
+#define MESH_POINTSPRITE 1
+
+
+class MeshData: public MsbObject{
 
 public:
 
@@ -30,6 +34,8 @@ public:
     int boneCount;                          //how many bones
     int texCoordPerVertexCount;             //how many texture coordinaes per vertex?
     int verticesPerShapeCount;              //TODO: should be "numbers per Vertex count" - 3 or 4
+    int meshType;                               //how to interpret data? Used by renderer to determine spritemesh and could be used for triangulation or similar things...
+
     GLenum  vertexInterpretation;           //vertices interpreted as QUADS or TRIANGLES
     std::vector<bone*>   bones;
     Matrix4f* bindShapeMatrix;              //points to an array of bone matrices (according to number of bones in boneCount)
@@ -51,6 +57,5 @@ public:
 
     virtual void update(double deltaTime);
 
-    virtual void create();
 };
 #endif // MESHDATA

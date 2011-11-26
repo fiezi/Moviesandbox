@@ -79,7 +79,7 @@ void BoneTool::stop(){
 
 
 	//save vbo and reload, then assign to this actor and switch drawmode to VBO
-    sceneData->drawTool->save();
+    //sceneData->drawTool->save();
 
 	skel->drawType=DRAW_VBOMESH;
 

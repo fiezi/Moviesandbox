@@ -530,7 +530,7 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
     myMesh->texCoordPerVertexCount=3;
     myMesh->verticesPerShapeCount=4;
     myMesh->vertexInterpretation=GL_POINTS;
-    myMesh->drawType=DRAW_VBOMESH;
+    myMesh->meshType=MESH_VBO;
     sceneData->vboList[meshID]=myMesh;
 
     //allow spritemeshes without vertices!

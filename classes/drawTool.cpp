@@ -221,6 +221,7 @@ void DrawTool::paint(){
     brush->drawing->bZTest=true;
     brush->drawing->bZWrite=false;
 
+
     if (fabs(input->mouseVector.length())==0.0)
         return;
 

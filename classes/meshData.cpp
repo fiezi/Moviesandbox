@@ -12,11 +12,10 @@ bEditable=true;
 boneCount=0;
 texCoordPerVertexCount=3;
 verticesPerShapeCount=4;
+
+meshType=MESH_VBO;
 vertexInterpretation=GL_POINTS;
 bindShapeMatrix=NULL;
-
-drawType=DRAW_PARTICLES;
-
 
 lowerLeftBack=Vector3f(0,0,0);
 upperRightFront=Vector3f(0,0,0);
@@ -27,16 +26,15 @@ registerProperties();
 MeshData::~MeshData(){}
 
 void MeshData::registerProperties(){
-Actor::registerProperties();
+    MsbObject::registerProperties();
 }
 
 void MeshData::setup(){
 
-Actor::setup();
+    MsbObject::setup();
 }
 
 void MeshData::trigger(MsbObject* other){}
 
 void MeshData::update(double deltaTime){}
 
-void MeshData::create(){sceneData->addActor(this);}

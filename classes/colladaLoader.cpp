@@ -36,7 +36,7 @@ bool ColladaLoader::loadColladaMesh( string filename, string meshID ){
     if (!doc.LoadFile()) return false;
 
     sceneData->vboList[meshID]=new MeshData;
-    sceneData->vboList[meshID]->drawType=DRAW_VBOMESH;
+    sceneData->vboList[meshID]->meshType=MESH_VBO;
 
     TiXmlHandle hDoc(&doc);
     TiXmlElement * element;
