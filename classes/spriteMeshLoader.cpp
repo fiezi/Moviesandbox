@@ -31,20 +31,25 @@ SpriteMeshLoader::~SpriteMeshLoader(){
 
 
 
-bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing){
+bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing, string meshName){
 
-    //generate arrays from location
 
-	MeshData* myMesh=sceneData->vboList[myDrawing->vboMeshID];
+    //always replace slashes - tinyXML likes the regular slash!
+    replace(filename.begin(), filename.end(), '\\', '/');
+
+	//generate arrays from actor containing drawing
+    MeshData* myMesh=sceneData->vboList[myDrawing->vboMeshID];
 
 	vertexCount=myMesh->vData.size();
 
 	vertices=new Vector4f[vertexCount];
 
 	//TODO: change to 8 bit unsigned Integer!
+	//no more saving normals!
+	//no more saving secondary colors
 	colors=new Vector4f[vertexCount];
-	secondaryColors=new Vector3f[vertexCount];
-	normals=new Vector3f[vertexCount];
+	//secondaryColors=new Vector3f[vertexCount];
+	//normals=new Vector3f[vertexCount];
 
 	texCoords=new Vector3f[vertexCount];
 
@@ -56,11 +61,11 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
 
     for (int i=0;i<(int)vertexCount;i++){
 		vertices[i]=myMesh->vData[i].location;
-        normals[i]=myMesh->vData[i].normal;
+        //normals[i]=myMesh->vData[i].normal;
 
         texCoords[i]=Vector3f(myMesh->vData[i].texCoord);
         colors[i]=myMesh->vData[i].color;
-        secondaryColors[i]=myMesh->vData[i].secondaryColor;
+        //secondaryColors[i]=myMesh->vData[i].secondaryColor;
 
         vertexWeights[i]=myMesh->vData[i].vertexWeights;
         boneReference[i]=myMesh->vData[i].boneReferences;
@@ -77,8 +82,8 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
         saveVertices(root);
         delete(vertices);
 
-        saveNormals(root);
-        delete(normals);
+        //saveNormals(root);
+        //delete(normals);
 
         saveTexCoords(root);
         delete(texCoords);
@@ -86,8 +91,8 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
         saveColors(root);
         delete(colors);
 
-        saveSecondaryColors(root);
-        delete(secondaryColors);
+        //saveSecondaryColors(root);
+        //delete(secondaryColors);
 
         saveBoneReferences(root);
         delete(boneReference);
@@ -104,7 +109,10 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
 
 
 	//createVBOs(myDrawing->vboMeshID);
-	loadSpriteMesh(filename, myDrawing->vboMeshID);
+
+	//load into new name!
+	loadSpriteMesh(filename, meshName);
+
     return true;
 }
 
@@ -390,9 +398,9 @@ bool SpriteMeshLoader::createVBOs(string meshID){
 
     GLuint vertexIDBuffer=0;
     GLuint vertexBuffer=0;
-    GLuint normalBuffer=0;
+    //GLuint normalBuffer=0;
     GLuint colorBuffer=0;
-    GLuint secondaryColorBuffer=0;
+    //GLuint secondaryColorBuffer=0;
     GLuint texCoordBuffer=0;
     GLuint vertexWeightsBuffer=0;
     GLuint boneReferenceBuffer=0;
@@ -406,8 +414,8 @@ bool SpriteMeshLoader::createVBOs(string meshID){
 	sceneData->vboList[meshID]->vertexWeightsObject.clear();
 	sceneData->vboList[meshID]->boneReferenceObject.clear();
     sceneData->vboList[meshID]->colorBufferObject.clear();
-    sceneData->vboList[meshID]->secondaryColorBufferObject.clear();
-    sceneData->vboList[meshID]->normalBufferObject.clear();
+    //sceneData->vboList[meshID]->secondaryColorBufferObject.clear();
+    //sceneData->vboList[meshID]->normalBufferObject.clear();
     sceneData->vboList[meshID]->texCoordBufferObject.clear();
 
     cout << "setting up vertexCount" << endl;
@@ -463,6 +471,9 @@ bool SpriteMeshLoader::createVBOs(string meshID){
 
     sceneData->vboList[meshID]->colorBufferObject.push_back(colorBuffer);
 
+
+    /*
+	//secondary Color Buffer
 	glGenBuffersARB(1, &secondaryColorBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, secondaryColorBuffer);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &secondaryColors[0].r , GL_STATIC_DRAW_ARB);
@@ -475,7 +486,7 @@ bool SpriteMeshLoader::createVBOs(string meshID){
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, vertexCount*sizeof(Vector3f), &normals[0].x , GL_STATIC_DRAW_ARB);
 
     sceneData->vboList[meshID]->normalBufferObject.push_back(normalBuffer);
-
+    */
     //texCoord Buffer
     glGenBuffersARB(1, &texCoordBuffer);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, texCoordBuffer);
@@ -537,12 +548,12 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
     if (hRoot.FirstChild("vertices").Element()){
         loadVertices(meshID, hRoot.FirstChild("vertices").Element());
         //TODO: remove normal loading!
-        loadNormals(meshID, hRoot.FirstChild("normals").Element());
+        //loadNormals(meshID, hRoot.FirstChild("normals").Element());
         loadTexCoords(meshID, hRoot.FirstChild("texCoords").Element());
 
         loadColors(meshID, hRoot.FirstChild("colors").Element());
         //TODO: remove secondary colors!
-        loadSecondaryColors(meshID, hRoot.FirstChild("secondaryColors").Element());
+        //loadSecondaryColors(meshID, hRoot.FirstChild("secondaryColors").Element());
 
         loadBoneReferences(meshID, hRoot.FirstChild("boneReferences").Element());
         loadVertexWeights(meshID, hRoot.FirstChild("vertexWeights").Element());
@@ -561,9 +572,9 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
 	for (int i=0;i<vertexCount;i++){
         vertexData myVData;
         myVData.location=vertices[i];
-        myVData.normal=normals[i];
+        //myVData.normal=normals[i];
         myVData.color=colors[i];
-        myVData.secondaryColor=secondaryColors[i];
+        //myVData.secondaryColor=secondaryColors[i];
         myVData.birth=0.0f;
         myVData.texCoord=texCoords[i];
         myVData.vertexWeights=vertexWeights[i];
@@ -578,10 +589,10 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
 
         //now free our resources:
         delete(vertices);
-        delete(normals);
+        //delete(normals);
         delete(texCoords);
         delete(colors);
-        delete(secondaryColors);
+        //delete(secondaryColors);
         delete(vertexWeights);
         delete(boneReference);
     }

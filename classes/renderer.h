@@ -78,8 +78,6 @@ public:
 
        int      screenX,
                 screenY,
-                windowX,
-                windowY,
 				windowPosX,
 				windowPosY,
                 fov;

@@ -254,6 +254,14 @@ void Content::createMenuBar(){
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Paste");
     lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Delete");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Group");
+    lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
 
     /** DRAW MENU  **/
@@ -287,6 +295,18 @@ void Content::createMenuBar(){
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("ScaleZ 2.0");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Combine Drawings");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Split from Drawing");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Save Drawing As...");
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
 

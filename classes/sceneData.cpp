@@ -1558,7 +1558,7 @@ void SceneData::saveScene(std::string sceneName, bool bStart){
 
     cout << "scene name is: " << sceneName << endl;
     //strip directory path from string
-    size_t found=sceneName.rfind(DIRECTORY_SEPARATION);
+    size_t found=sceneName.rfind(DIRECTORY_SEPARATION) +1;
     sceneName=sceneName.substr(found);
 
     saveAll(sceneName);
@@ -1569,7 +1569,7 @@ void SceneData::loadScene(std::string sceneName, bool bStart){
 
     cout << "scene name is: " << sceneName << endl;
     //strip directory path from string
-    size_t found=sceneName.rfind(DIRECTORY_SEPARATION);
+    size_t found=sceneName.rfind(DIRECTORY_SEPARATION) +1;
     sceneName=sceneName.substr(found);
 
     loadAll(sceneName);
@@ -1609,7 +1609,7 @@ void SceneData::saveMeshes(){
                     cout << "path: " << myPath << endl;
                     cout << "name: " << name << endl;
 
-                    spriteMeshLoader->saveSpriteMesh(startProject+"/"+myPath+name+".spriteMesh", skel);
+                    spriteMeshLoader->saveSpriteMesh(startProject+"/"+myPath+name+".spriteMesh", skel, name);
 
 
                     //open my.library and append this mesh!

@@ -3,6 +3,8 @@ uniform sampler2D sceneTex;
 uniform vec4 postColor;
 uniform bool bComputeLight;
 uniform float objectID;
+uniform float farClip;
+
 varying float zPos;
 varying float pSize;
 varying vec4 pixelPos;
@@ -48,35 +50,10 @@ vec2 packToVec2(float value){
 
 void main(){
 
-    gl_FragData[0]=gl_Color;
+        gl_FragData[0]=gl_Color;
 
-/*
-    if (!bComputeLight)
-        gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
-*/
-
-/*
-	vec2 myPixelPos=pixelPos.xy * 768.0;
-	vec2 pixelDist=myPixelPos-gl_FragCoord.xy;
-	pixelDist=pixelDist/(pSize);
-
-	float myDist=length(pixelDist * 2.0);
-
-
-	if (myDist>1.0){
-		gl_FragDepth=1.0;
-		}
-	else{
-		gl_FragDepth=gl_FragCoord.z;
-	}
-
-    gl_FragData[0]=gl_Color;
-
-
-*/
-        gl_FragData[1].xy=packToVec2(zPos/512.0);
+        gl_FragData[1].xy=packToVec2(zPos/farClip);
         gl_FragData[1].zw=packToVec2((objectID+100.0)/65536.0);
 
-    //gl_FragData[1]=vec4(zPos ,objectID ,0.0,0.0 );
 }
 

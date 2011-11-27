@@ -2,6 +2,7 @@ uniform sampler2D tex;
 uniform vec4 postColor;
 uniform bool bComputeLight;
 uniform float objectID;
+uniform float farClip;
 
 varying vec3 N;
 varying float backSide;
@@ -66,7 +67,7 @@ void main(){
         //gl_FragData[1]=vec4(dFdx(gl_FragCoord.z)*65536.0 ,dFdy(gl_FragCoord.z)*65536.0 , 0.0,zPos);
     }
 
-     gl_FragData[1].xy=packToVec2(zPos/512.0);
+     gl_FragData[1].xy=packToVec2(zPos/farClip);
      gl_FragData[1].zw=packToVec2((objectID+100.0)/65536.0);
      //gl_FragData[1]=vec4(zPos/255.0 ,mod(zPos,255.0),objectID, 0.0 );
    //gl_FragData[1]=vec4( zPos, objectID, 0.0, 0.0 );

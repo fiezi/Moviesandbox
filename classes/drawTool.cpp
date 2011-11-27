@@ -163,7 +163,7 @@ void DrawTool::selectActors(int btn, Actor* other){
         input->deselectActors();
         brush->drawing=skel;
         skel->drawType=DRAW_PARTICLES;
-        skel->sceneShaderID="drawing";   //also important!
+        skel->sceneShaderID="color";   //also important!
     }
     else{
 
@@ -427,7 +427,7 @@ void DrawTool::createNewDrawing(bool bUnnamed){
     //setup drawing
     brush->drawing = (SkeletalActor*)brush->spawn("13SkeletalActor");
     brush->drawing->drawType=DRAW_PARTICLES;
-    brush->drawing->sceneShaderID="drawing";
+    brush->drawing->sceneShaderID="color";
     brush->drawing->setLocation(input->lastMouse3D);
     brush->drawing->update(0.0);
     cout << "New Drawing: " << brush->drawing->location << endl;

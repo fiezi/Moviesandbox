@@ -75,7 +75,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*512.0/16.0;
+      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -110,7 +110,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 void getPixelLoc(){
 
     //zPos = texture2D(depthTex,texCoord).r;
-    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * 512.0;
+    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * farClip;
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
@@ -213,9 +213,9 @@ vec4 shadowMapping(){
     //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
     //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
-    vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
-    shadowColor.x = unpackToFloat(shadowColor.rg) * 512.0;
+    shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
     //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
 

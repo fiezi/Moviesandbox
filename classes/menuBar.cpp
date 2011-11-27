@@ -3,6 +3,7 @@
 #include "menuBar.h"
 #include "renderer.h"
 #include "input.h"
+#include "spriteMeshLoader.h"
 MenuBar::MenuBar(){
 
     registerProperties();
@@ -50,6 +51,43 @@ void MenuBar::trigger(MsbObject* other){
     if (other->name=="ScaleZ 2.0"){
         sceneData->drawTool->scaleZ(2.0);
     }
+
+    if (other->name=="Save Drawing As..."){
+
+        if (sceneData->selectedActors.size()>0 ){
+             SkeletalActor* skel = dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
+            if (!skel){
+                cout << "selected drawing not valid" << endl;
+                return;
+            }
+            string filename = sceneData->saveFileDialog(".spriteMesh");
+
+            //TODO: this only for windows! Make a function out of this!
+            size_t found=filename.rfind(DIRECTORY_SEPARATION)+1;
+            string smallName=filename.substr(found);
+            found=smallName.rfind('.');
+            smallName=smallName.substr(0,found);
+
+
+            sceneData->spriteMeshLoader->saveSpriteMesh(filename, skel, smallName);
+
+             TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
+            newMesh->SetAttribute("meshID",smallName);
+            newMesh->SetAttribute("meshFilename",filename);
+            sceneData->addToLibrary(newMesh);
+            free(newMesh);
+        }else{
+            cout << "no drawing selected for saving" << endl;
+            return;
+        }
+
+    }
+
+    if (other->name== "Merge Drawings"){
+
+        sceneData->drawTool->mergeDrawings();
+    }
+
 
 }
 

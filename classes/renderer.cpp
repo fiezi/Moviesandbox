@@ -141,12 +141,11 @@ Renderer::Renderer(){
     ambient=Vector3f(1,1,1);
 
     nearClip=0.2;
-    farClip=1000;
+    farClip=128.0;
 
     screenX=0;
     screenY=0;
-    windowX=0;
-    windowY=0;
+
 	windowPosX=0;
 	windowPosY=0;
     fov=45;
@@ -385,15 +384,6 @@ void Renderer::setup(){
     //frame buffer objects
     //always need them with layer system!
 
-   /*
-	//buffer to copy from for FSAA multisampling in FBOs
-	createFBO(&multiSample_fb, NULL, &multiSample_db, scene_size, false, "multisampleBuffer");
-
-    //framebuffer and texture to store global lighting and shadow information
-    createFBO(&lighting_fb, &lighting_tx, NULL, scene_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
-    createFBO(&shadow_fb, &shadow_tx, NULL, shadow_size, false, "shadow");
-    createFBO(&scene_fb, &scene_tx, NULL, scene_size, false, "scene");
-*/
 //buffer to copy from for FSAA multisampling in FBOs
 	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
 
@@ -598,10 +588,10 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
             glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
             glFramebufferTexture2DEXT (GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, *fbTexture, 0);
         }
         else{
@@ -611,10 +601,10 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_FLOAT, NULL);
             //glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_BYTE, NULL);
 
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+ //           glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 //            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 //            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -628,10 +618,6 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
                 glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY);
 
                 glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-
-                //glGenFramebuffersEXT (1, fbObject);
-                //glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, *fbObject);
-
 
                 // attach renderbuffer
                 glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, *fbDepth);
@@ -984,7 +970,6 @@ void Renderer::drawBackground(){
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
-    //glViewport (0, 0, shadow_size, shadow_size);
     glViewport (0, 0, screenX/shadow_size, screenY/shadow_size);
 
     //setup projection
@@ -1023,7 +1008,6 @@ void Renderer::drawShadows(MsbLight* myLight){
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
-        //glClearColor( 0.0f, 1.0f, 0.0f, 1.0f );
 
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
@@ -1051,12 +1035,13 @@ void Renderer::drawShadows(MsbLight* myLight){
 
  }
 
+
+
 void Renderer::drawSceneTexture(){
 
     glPushAttrib(GL_VIEWPORT_BIT);
 
     glViewport (0, 0, screenX, screenY);
-    //glViewport (0, 0, scene_size, scene_size);
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -1093,7 +1078,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_LINEAR );
 
         //meta blitting - zPos, ObjectID, vertexID
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
@@ -1101,7 +1086,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_LINEAR );
 	}
 
     //cleanup
@@ -2306,7 +2291,7 @@ void Renderer::pick(int x, int y){
     //gl_FragData[1]=vec4(zPos,zPos,objectID,objectID);
 
     Vector2f vec=Vector2f(mousePos[2],mousePos[1]);
-	float zPos= (vec.y + vec.x * 1.0/256.0) * 512.0;
+	float zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
 
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
 	int ob = floor((obj.y + obj.x/256.0) * 65536.0 -100.0);
@@ -2356,7 +2341,7 @@ void Renderer::pick(int x, int y){
     //Calculate mouse 3D position from zPos
 
     Vector2f cen=Vector2f(centerInfo[2],centerInfo[1]);
-	zPos= (vec.y + vec.x * 1.0/256.0) * 512.0;
+	zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
 
     input->center3D= sceneData->controller->location;
     input->center3D+= sceneData->controller->zAxis * zPos;

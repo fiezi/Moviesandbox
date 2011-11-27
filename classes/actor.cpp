@@ -523,12 +523,6 @@ void Actor::updateShaders(){
         glUniform4fARB(myShader->uniforms["postColor"], color.r, color.g, color.b, color.a );
 
     //transmit scene width/height
-    if (myShader->uniforms.find("screensize") != myShader->uniforms.end()){
-        GLint screenSize[4];
-        glGetIntegerv(GL_VIEWPORT,(GLint*)&screenSize);
-        glUniform1fARB(myShader->uniforms["screensize"], (float)screenSize[2]);
-    }
-
     if (myShader->uniforms.find("scene_size") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["scene_size"], (float)renderer->scene_size);
     }
@@ -539,6 +533,10 @@ void Actor::updateShaders(){
 
     if (myShader->uniforms.find("screenY") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["screenY"], (float)renderer->screenY);
+    }
+
+    if (myShader->uniforms.find("farClip") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["farClip"], (float)renderer->farClip);
     }
 
     if (myShader->uniforms.find("fov") != myShader->uniforms.end()){

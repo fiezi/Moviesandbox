@@ -3,6 +3,9 @@ uniform float time;
 uniform float scene_size;
 uniform float screenX;
 uniform float screenY;
+
+uniform float farClip;
+
 uniform sampler2D tex;
 uniform sampler2D depthTex;
 
@@ -51,7 +54,7 @@ float unpackToFloat(vec2 value){
 
 vec4 blur(sampler2D myTex,vec2 tc){
 
-      float spread=1.0/screenX  * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/20.0)));
+      float spread=1.0/screenX  * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/20.0)));
       //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
@@ -117,7 +120,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
+      float spread=1.0/screenX * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/50.0)));
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -152,7 +155,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 vec4 computeDOF() {
 
-    vec4 depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*512.0;
+    vec4 depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
 
     if (depthValue.x<=0.0)
         depthValue.x=65536.0;
