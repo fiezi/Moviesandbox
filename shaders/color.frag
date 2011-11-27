@@ -13,6 +13,11 @@ varying float vID;
 */
 
 
+/*
+These are from a discussion on gamedev.net - all credit goes to unknown people at a lost codesampler thread, Ysaneya for explaining and jamesw and gjaegy for reposting
+http://www.gamedev.net/topic/442138-packing-a-float-into-a-a8r8g8b8-texture-shader/
+*/
+
 float unpackToFloat(vec4 value){
 
 	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
@@ -52,6 +57,7 @@ vec2 packToVec2(float value){
 
 void main(){
 
+    //gl_FragData[0]=gl_Color * postColor;
     gl_FragData[0]=gl_Color * postColor;
 
     gl_FragData[1].xy=packToVec2(zPos/512.0);

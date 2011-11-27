@@ -255,7 +255,7 @@ void main(void){
     if (bLighting){// && !bSmudge){
         //vec4 lightData=texture2D(shadowTex,texCoord);
         vec4 lightData=texture2D(shadowTex,texCoord);
-        gl_FragData[0]*=lightData;
+        gl_FragData[0]*=2.0*lightData;
     }
 
     ///Ambient Occlusion

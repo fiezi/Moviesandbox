@@ -411,14 +411,7 @@ void SceneData::loadPreferences(){
     double dVal=0.0;
     string mStr;
 
-    //TODO: phase out, will bring in later...
-    //resolution
-    /*
-    element->Attribute("WindowSizeX", &val);
-    renderer->windowX=val;
-    element->Attribute("WindowSizeY", &val);
-    renderer->windowY=val;
-    */
+
     //renderscreen
     element->Attribute("ScreenSizeX", &val);
     renderer->screenX=val;
@@ -542,6 +535,127 @@ void SceneData::loadPreferences(){
 
 }
 
+
+void SceneData::savePreferences(){
+
+ cout << "Loading Config file" <<endl;
+
+    TiXmlDocument doc( "config.xml" );
+    if (!doc.LoadFile()) {
+        cout << "Cannot find config file, or config file corrupt. Exiting..." << endl;
+        exit(0);
+        }
+
+
+    TiXmlHandle hDoc(&doc);
+    TiXmlElement * element;
+    TiXmlHandle hRoot(0);
+
+    //***********************************************************************
+    //Get the "Moviesandbox" element
+    //***********************************************************************
+    element=hDoc.FirstChildElement().Element();
+    // should always have a valid root but handle gracefully if it doesn't
+    if (!element) return;
+
+    // save this for later
+    hRoot=TiXmlHandle(element);
+
+    //now load the configuration
+    cout << "getting render settings" << endl;
+
+    element=hRoot.FirstChild( "Settings" ).Element();
+
+    int val=0;
+    double dVal=0.0;
+    string mStr;
+
+
+    //renderscreen
+    element->SetAttribute("ScreenSizeX", renderer->screenX);
+    element->SetAttribute("ScreenSizeY", renderer->screenY);
+
+    //fullscreen on/off
+    element->SetAttribute("bFullScreen", renderer->bFullscreen);
+    element->SetAttribute("BackgroundTex", backgroundTex);
+
+
+    //light drawing on/off
+    element->SetAttribute("bDrawLighting", renderer->bDrawLighting);
+
+    //stereo Render on/off
+    element->SetAttribute("bRenderStereo", renderer->bRenderStereo);
+
+    //multisampling on/off
+    element->SetAttribute("bMultisample", renderer->bMultisample);
+
+    element->SetAttribute("numSamples", renderer->numSamples);
+
+    //rendertarget texture resolutions
+    element->SetAttribute("ShadowSize", renderer->shadow_size);
+
+    element->SetAttribute("LightingSize", renderer->lighting_size);
+
+    element->SetAttribute("SceneSize", renderer->scene_size);
+
+
+    element->SetAttribute("MouseSensitivity",mouseSensitivity);
+    element->SetAttribute("MoveSpeed", moveSpeed);
+
+    element->SetAttribute("FOV", renderer->fov);
+
+    //setting start scene
+    element->SetAttribute("StartProject",startProject);
+
+
+    //check for my.project and create if not exists
+
+    TiXmlDocument myLib( startProject+ "/" + "my.project" );
+
+    if (!myLib.LoadFile()){
+
+        TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+        myLib.LinkEndChild( decl );
+        TiXmlElement * root = new TiXmlElement( "Moviesandbox" );
+
+        TiXmlElement * untitled = new TiXmlElement ("untitled");
+        untitled->SetAttribute("amount", 0);
+        root->LinkEndChild(untitled);
+
+        TiXmlElement * startSceneXml = new TiXmlElement ("StartScene");
+        startSceneXml->SetAttribute("name", "blank.scene");
+        startSceneFilename="blank.scene";
+        root->LinkEndChild(startSceneXml);
+
+        myLib.LinkEndChild( root );
+        myLib.SaveFile( startProject + "/" + "my.project");
+
+        #ifdef TARGET_WIN32
+        string myName=startProject + "/" +"untitled";
+        CreateDirectory(myName.c_str(),NULL);
+        #endif
+
+        #ifdef TARGET_MACOSX
+        #endif
+
+    }else{
+
+        //get our start scene
+        TiXmlHandle hDoc(&myLib);
+        TiXmlElement * element;
+        TiXmlHandle hRoot(0);
+        element=hDoc.FirstChildElement().Element();
+        // should always have a valid root but handle gracefully if it doesn't
+        if (!element) return;
+
+        // save this for later
+        hRoot=TiXmlHandle(element);
+        element=hRoot.FirstChild( "StartScene" ).Element();
+        element->SetAttribute("name",startSceneFilename);
+
+    }
+
+}
 
 //************************************************************
 //
@@ -873,8 +987,11 @@ void SceneData::makeWarningPopUp(string message, Actor* parent){
 //**************************************************************************************
 // loading
 
-//TODO: load textures/meshes/stuff seperately or save it always too!
 void SceneData::saveAll(std::string filename){
+
+    //also save all Meshes at this time
+    saveMeshes();
+
 
     TiXmlDocument doc;
     TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
@@ -931,7 +1048,6 @@ void SceneData::saveAll(std::string filename){
 
     element->SetAttribute("name", filename);
     myLib.SaveFile( startProject + "/" + "my.project");
-
 
 }
 
@@ -1446,6 +1562,7 @@ void SceneData::saveScene(std::string sceneName, bool bStart){
     sceneName=sceneName.substr(found);
 
     saveAll(sceneName);
+    currentScene=sceneName;
 }
 
 void SceneData::loadScene(std::string sceneName, bool bStart){
@@ -1459,6 +1576,55 @@ void SceneData::loadScene(std::string sceneName, bool bStart){
 
 }
 
+
+void SceneData::saveMeshes(){
+
+        cout << "startProject: " << startProject << endl;
+
+
+        //go through all MeshData and see if we have unsaved meshes
+        map<string,MeshData*>::iterator it;
+
+        string name="NULL";
+        MeshData* myMesh=NULL;
+
+//        for ( it=vboList.begin(); it!= vboList.end(); it++){
+        for (int i=0;i<actorList.size();i++){
+
+                SkeletalActor* skel=dynamic_cast<SkeletalActor*>(actorList[i]);
+                name = actorList[i]->vboMeshID;
+                if (skel!=NULL && name !="NULL")
+                    myMesh = vboList[name];
+
+                cout << "checking if we need to save spritemesh " << name << endl;
+
+                if (myMesh && myMesh->bUnsavedChanges){
+
+                    string myPath="";
+                    if (name.find("untitled")!=string::npos && (int)name.find("untitled")==0){
+                        myPath+="untitled/";
+                    }
+
+                    cout << "startProject: " << startProject << endl;
+                    cout << "path: " << myPath << endl;
+                    cout << "name: " << name << endl;
+
+                    spriteMeshLoader->saveSpriteMesh(startProject+"/"+myPath+name+".spriteMesh", skel);
+
+
+                    //open my.library and append this mesh!
+                    TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
+                    myElement->SetAttribute("meshID",name);
+                    myElement->SetAttribute("meshFilename",myPath+name+".spriteMesh");
+                    addToLibrary(myElement);
+
+                    free(myElement);
+                    cout << "yes, saving spritemesh " << name << endl;
+                    myMesh->bUnsavedChanges=false;
+                }
+        }
+
+}
 
 void SceneData::loadProject(std::string projectName, bool bStart){
 

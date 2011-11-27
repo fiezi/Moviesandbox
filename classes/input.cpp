@@ -571,6 +571,10 @@ void Input::keyUp(unsigned char key,int x,int y){
           renderer->bUpdatePhysics=!renderer->bUpdatePhysics;
         */
 
+    //Ctrl-S saves current scene
+    if (key==19)
+        sceneData->saveAll(sceneData->currentScene);
+
     ///Hotkeys
 
         //trigger selected actor

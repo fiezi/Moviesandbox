@@ -98,6 +98,8 @@ void BoneTool::mouseReleased(int btn){
     if (!brush->drawing)
         return;
     SpawnTool::mouseReleased(btn);
+
+
 }
 
 void BoneTool::keyReleased(int key){
@@ -122,7 +124,6 @@ void BoneTool::keyReleased(int key){
 void BoneTool::postSpawn(Actor* myActor){
 
 
-
     BoneActor* bone=(BoneActor*)myActor;
     if (brush->drawing->bones.size()>0)
         bone->base=brush->drawing->bones[brush->drawing->bones.size()-1];
@@ -137,10 +138,13 @@ void BoneTool::postSpawn(Actor* myActor){
     bone->setAbsoluteLocation(input->mouse3D);
 
     cout << "creating bone " << bone->name << endl;
+
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
 }
 
 void BoneTool::save(){
 
+/*
 		SkeletalActor* skel=brush->drawing;
 		sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+skel->vboMeshID+".spriteMesh",skel);
 
@@ -150,4 +154,5 @@ void BoneTool::save(){
 		myElement->SetAttribute("meshFilename",skel->vboMeshID+".spriteMesh");
 		sceneData->addToLibrary(myElement);
 		free(myElement);
+*/
 }

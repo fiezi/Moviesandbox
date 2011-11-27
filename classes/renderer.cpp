@@ -167,7 +167,7 @@ Renderer::Renderer(){
 
     shadow_tx = 0;
     shadow_fb = 0;
-    shadow_size = 2.0;
+    shadow_size = 1.0;
 
     depth_tx = 0;
     depth_fb = 0;
@@ -2290,8 +2290,6 @@ void Renderer::pick(int x, int y){
 
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
-//    float xRatio=(float)scene_size/(float)screenX;
-//   float yRatio=(float)scene_size/(float)screenY;
 
     float xRatio=1.0;
     float yRatio=1.0;
@@ -2301,7 +2299,6 @@ void Renderer::pick(int x, int y){
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
 
-    //glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (scene_size/2.0),(int) (scene_size/2.0) ,1 ,1 );
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (screenX/2.0),(int) (screenY/2.0) ,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&centerInfo);
 
@@ -2314,7 +2311,7 @@ void Renderer::pick(int x, int y){
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
 	int ob = floor((obj.y + obj.x/256.0) * 65536.0 -100.0);
 
-//	cout << "z Value: "<< zPos << " obj:" << ob << endl;
+	//cout << "z Value: "<< zPos << " obj:" << ob << endl;
 
     ///Picking
     //get ObjectID and find worldTarget
@@ -2352,7 +2349,8 @@ void Renderer::pick(int x, int y){
     input->mouse3D= sceneData->controller->location;
     input->mouse3D+= sceneData->controller->zAxis * zPos;
     input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos* 1.1);
-    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos * screenY/scene_size ) * 0.55;
+    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
+
 
    ///Center 3D Position
     //Calculate mouse 3D position from zPos
@@ -2558,8 +2556,8 @@ bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float wi
         //glPixelTransferf(GL_RED_SCALE,1.0/8192.0);
        // glTexSubImage2D(GL_TEXTURE_2D,0,(screenX - width)/2.0 ,(screenX - height)/2.0 ,width,height,GL_RGBA, GL_UNSIGNED_BYTE,(unsigned char*)originBuffer);
         if (bHighZRes)
-            glTexSubImage2D(GL_TEXTURE_2D,0,(scene_size - width)/2.0 ,(scene_size - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);
-    else
+            glTexSubImage2D(GL_TEXTURE_2D,0,(1024 - width)/2.0 ,(512 - height)/2.0 ,width,height,GL_RGBA, GL_FLOAT,(float*)originBuffer);
+        else
             glTexSubImage2D(GL_TEXTURE_2D,0,(1024 - width)/2.0 ,(512 - height)/2.0 ,width,height,GL_RGBA, GL_UNSIGNED_BYTE,(unsigned char*)originBuffer);
 
         glBindTexture(GL_TEXTURE_2D,0);

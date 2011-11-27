@@ -75,7 +75,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=2.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*512.0/16.0;
+      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*512.0/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -157,7 +157,7 @@ vec4 computeLight(){
     vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)));
 
     //diffuse is dot Product of lightdirection on pixel normal
-	float lightDotPixel = max(0.0,(dot(pixelNormal,(lightDirectionNormalized)) )  );
+	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );
 	colorLight.rgb += 1.0 * lightColor * lightDotPixel;
 
     //specular is exaggeration of tight angles

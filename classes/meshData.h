@@ -31,6 +31,8 @@ public:
     bool bVertexColor;                      //uses vertex color object - COLLADA doesn't use this usually
     bool bEditable;                         //can be changed within MSB - COLLADA cannot be changed for now
 
+    bool bUnsavedChanges;           //any changes that have not been saved yet?
+
     int boneCount;                          //how many bones
     int texCoordPerVertexCount;             //how many texture coordinaes per vertex?
     int verticesPerShapeCount;              //TODO: should be "numbers per Vertex count" - 3 or 4

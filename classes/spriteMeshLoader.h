@@ -30,7 +30,7 @@ class SpriteMeshLoader: public MsbObject{
         SpriteMeshLoader();
         virtual ~SpriteMeshLoader();
 
-        bool saveSpriteMesh ( string filename, SkeletalActor* myDrawing );
+        bool saveSpriteMesh ( string filename, SkeletalActor* myDrawing);
 
         void saveVertices(TiXmlElement* root);
         void saveNormals(TiXmlElement* root);

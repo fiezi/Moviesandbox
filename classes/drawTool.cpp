@@ -248,6 +248,7 @@ void DrawTool::paint(){
 
     sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
 
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
     //count particles
     sceneData->numParticles++;
 
@@ -278,12 +279,22 @@ void DrawTool::erase(){
           brush->drawing->deleteParticle(i);
       }
     sceneData->numParticles--;
+
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
 }
 
 //we have a separate directory for untitled drawings!
 void DrawTool::save(){
 
+/*
 		SkeletalActor* skel=brush->drawing;
+
+		if (!skel){
+            cout << "no drawing selected, nothing to save..." << endl;
+            return;
+		}
+
+
 		string myPath="";
 		if (skel->vboMeshID.find("untitled")!=string::npos && (int)skel->vboMeshID.find("untitled")==0){
             myPath+="untitled/";
@@ -296,6 +307,8 @@ void DrawTool::save(){
 		myElement->SetAttribute("meshID",skel->vboMeshID);
 		myElement->SetAttribute("meshFilename",myPath+skel->vboMeshID+".spriteMesh");
         sceneData->addToLibrary(myElement);
+*/
+
 }
 
 void DrawTool::scaleZ(float factor){

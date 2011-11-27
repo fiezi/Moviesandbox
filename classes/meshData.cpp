@@ -9,6 +9,8 @@ bIsHead=false;
 bVertexColor=true;
 bEditable=true;
 
+bUnsavedChanges= false;
+
 boneCount=0;
 texCoordPerVertexCount=3;
 verticesPerShapeCount=4;
@@ -21,6 +23,9 @@ lowerLeftBack=Vector3f(0,0,0);
 upperRightFront=Vector3f(0,0,0);
 center=Vector3f(0,0,0);
 registerProperties();
+
+sceneData=SceneData::getInstance();
+renderer=Renderer::getInstance();
 }
 
 MeshData::~MeshData(){}
@@ -37,4 +42,5 @@ void MeshData::setup(){
 void MeshData::trigger(MsbObject* other){}
 
 void MeshData::update(double deltaTime){}
+
 

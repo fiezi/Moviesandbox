@@ -223,6 +223,7 @@ public:
         virtual void fillGlobalLists();                  //for RTTY - generate actorInfo
 
         virtual void loadPreferences();                  //first thing called when program starts
+        virtual void savePreferences();                 //save render settings, current scene, etc...
 
         virtual void createScene();
 
@@ -259,6 +260,7 @@ public:
         void loadProject(string projectName, bool bStart=false);
 
         void saveScene(std::string sceneName, bool bStart=false);
+        void saveMeshes();
 
         void newScene();
         void newProject(std::string projectName);

@@ -220,6 +220,8 @@ void SkinTool::paint(){
         }//end particles in brushrange
 
     }//end all particles
+
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
 }
 
 
