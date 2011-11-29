@@ -135,7 +135,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
+      float spread=2.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -204,9 +204,7 @@ void main(){
       for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
 
-    getPixelLoc();
-
-    gl_FragColor=computeNormals();
-    //gl_FragColor=vec4(1.0,0.5,0.5,1.0);
+    gl_FragColor=blur3(tex,texCoord);
+    gl_FragColor.a=1.0;
 
 }

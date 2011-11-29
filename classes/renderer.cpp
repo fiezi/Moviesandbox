@@ -152,6 +152,9 @@ Renderer::Renderer(){
     fov=45;
     focus=25.0;
 
+    normalBlur=1;
+    dofBlur=1;
+
     frustumTop=0.083;
     frustumBottom=-0.083;
     eyeDistance=0.10;
@@ -1082,6 +1085,8 @@ void Renderer::drawNormals(Layer* layer){
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
         //glPopAttrib();
 
+        for (i=0;i<normalBlur;i++)
+            blurTexture(layer,"normals",normal_fb);
 }
 
 /// Lighting

@@ -134,6 +134,7 @@
     <Shader shaderID="post" vertexShaderFilename="post/post.vert" fragmentShaderFilename="post/post.frag" />
     <Shader shaderID="deferredLight" vertexShaderFilename="post/deferredLight.vert" fragmentShaderFilename="post/deferredLight.frag" />
     <Shader shaderID="ssNormal" vertexShaderFilename="post/ssNormal.vert" fragmentShaderFilename="post/ssNormal.frag" />
+    <Shader shaderID="ssBlur" vertexShaderFilename="post/ssBlur.vert" fragmentShaderFilename="post/ssBlur.frag" />
 
 
 </Moviesandbox>

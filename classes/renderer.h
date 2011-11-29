@@ -77,6 +77,9 @@ public:
 
        float focus;                         //camera focus distance
 
+        int normalBlur;                    //smoothing of normals
+        int dofBlur;                            //blurriness of DOF
+
        int      screenX,
                 screenY,
 				windowPosX,

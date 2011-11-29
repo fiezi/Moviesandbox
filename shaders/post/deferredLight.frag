@@ -218,7 +218,7 @@ vec4 computeLight(){
      //  return vec4(0.0,0.0,0.0,1.0);
 
 
-    vec3 pixelNormal=blur5(normalTex,texCoord).xyz;
+    vec3 pixelNormal=blur3(normalTex,texCoord).xyz;
 
 
     //diffuse is dot Product of lightdirection on pixel normal

@@ -170,7 +170,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 void getPixelLoc(){
 
     vec2 tc=texCoord;
-    zPos= unpackToFloat(blur5(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc).rg) * (farClip);
 
 }
 
