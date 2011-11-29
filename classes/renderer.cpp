@@ -1085,8 +1085,8 @@ void Renderer::drawNormals(Layer* layer){
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
         //glPopAttrib();
 
-        for (i=0;i<normalBlur;i++)
-            blurTexture(layer,"normals",normal_fb);
+        for (int i=0;i<normalBlur;i++)
+            performShader(layer,"normals",normal_fb,"ssBlur");
 }
 
 /// Lighting
@@ -1118,11 +1118,6 @@ void Renderer::drawDeferredLighting(Layer* layer){
         glViewport (0, 0, screenX/lighting_size, screenY/lighting_size);
 
 
-        //set our textureID to lighting pass
-        layer->textureID="lighting";
-        //set our shader to
-        layer->sceneShaderID="deferredLight";
-
         ///loop from here for every shadowed light!
 
 
@@ -1137,8 +1132,9 @@ void Renderer::drawDeferredLighting(Layer* layer){
             glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
 
 
-            if (sceneData->lightList[i]->bCastShadows)
+            if (sceneData->lightList[i]->bCastShadows){
                 drawShadows(sceneData->lightList[i]);
+            }
 
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-drawShadow");
@@ -1147,6 +1143,12 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //setup 2D camera again!
             setupOrthoCamera();
 
+/*
+            if (sceneData->lightList[i]->bCastShadows){
+                for (int b=0;b<10;b++)
+                    performShader(layer,"shadow",shadow_fb, "shadowBlur");
+            }
+*/
            //bind depth
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, layer->depthTex);
@@ -1168,6 +1170,13 @@ void Renderer::drawDeferredLighting(Layer* layer){
             glClear( GL_DEPTH_BUFFER_BIT );
 
             //draw using lighting_tx as base texture!
+
+            //set our textureID to lighting pass
+            layer->textureID="lighting";
+            //set our shader to
+            layer->sceneShaderID="deferredLight";
+
+
             drawButton(layer);
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
@@ -1245,6 +1254,7 @@ void Renderer::drawShadows(MsbLight* myLight){
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 	glDrawBuffers(2,drawBuffers);
     //draw all objects of all layers for this light
+    //TODO: this does a double loop through all layers!
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
@@ -1266,7 +1276,6 @@ void Renderer::drawShadows(MsbLight* myLight){
     }
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
 
-
         glPopMatrix();
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
@@ -1279,7 +1288,7 @@ void Renderer::drawShadows(MsbLight* myLight){
 
 ///blur Pass
 
-void Renderer::blurTexture(Layer* layer, string textureID, GLuint renderFBO){
+void Renderer::performShader(Layer* layer, string textureID, GLuint renderFBO, string shaderName){
 
 
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, renderFBO);
@@ -1297,7 +1306,7 @@ void Renderer::blurTexture(Layer* layer, string textureID, GLuint renderFBO){
         //set our textureID to lighting pass
         layer->textureID=textureID;
         //set our shader to
-        layer->sceneShaderID="ssBlur";
+        layer->sceneShaderID=shaderName;
 
         //draw using depthTextureID as base texture!
         drawButton(layer);

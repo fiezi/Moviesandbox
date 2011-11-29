@@ -842,6 +842,8 @@
 		<Unit filename="shaders\post\dof.vert" />
 		<Unit filename="shaders\post\post.frag" />
 		<Unit filename="shaders\post\post.vert" />
+		<Unit filename="shaders\post\shadowBlur.frag" />
+		<Unit filename="shaders\post\shadowBlur.vert" />
 		<Unit filename="shaders\post\ssBlur.frag" />
 		<Unit filename="shaders\post\ssBlur.vert" />
 		<Unit filename="shaders\post\ssNormal.frag" />

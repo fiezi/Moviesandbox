@@ -1,45 +1,9 @@
 uniform float time;
-uniform float screensize;
-uniform float shadow_size;
 uniform float screenX;
-uniform float screenY;
-
-uniform float nearClip;
-uniform float farClip;
-
-uniform sampler2D tex; // rendered scene 512*512 (lighting resolution)
-uniform sampler2D depthTex; // rendered normals and depth texture
-uniform sampler2D shadowTex; // rendered shadow textures - 256x256 (shadow resolution)
-
-uniform mat4 lightViewMatrix;
-uniform mat4 lightProjectionMatrix;
-
-uniform mat4 cameraMatrix;
-uniform mat4 cameraInverse;
-
-
-uniform vec3 camLoc;
-uniform vec3 camX;
-uniform vec3 camY;
-uniform vec3 camZ;
+uniform sampler2D tex;
 
 
 varying vec2 texCoord;
-
-//light position stuff
-
-varying vec3 lightColor;
-varying vec4 lightPos;
-varying float lightZScreen;
-varying mat4 lightSpaceMat;
-
-const float specularExp = 32.0;
-
-//pixel position stuff
-vec4 pixelPos;
-float zPos;
-float zPosScreen;
-
 
 // blur variables
 
@@ -47,27 +11,6 @@ float zPosScreen;
     vec2 tc_offset[25];
 
     float PI = 3.14159265358979323846264;
-
-float unpackToFloat(vec4 value){
-
-	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
-
-float unpackToFloat(vec3 value){
-
-	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
-
-float unpackToFloat(vec2 value){
-
-	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
-
-	return dot(value, bitSh);
-}
 
 
 vec4 blur5(sampler2D myTex,vec2 tc){
@@ -126,7 +69,7 @@ vec4 blur5(sampler2D myTex,vec2 tc){
                         (26.0 * (sample[7] + sample[11] + sample[13] + sample[17])) +
                         (41.0 * sample[12])
                         )/ 273.0;
-      blurredColor.a=1.0;
+      //blurredColor.a=1.0;
       return(blurredColor);
 }
 
@@ -135,7 +78,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=2.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
+      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -166,38 +109,6 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 
 
-///pixelPosition in eyeSpace ( pixel on ground plane stays the same independent of camera's distance to ground plane )
-void getPixelLoc(){
-
-    vec2 tc=texCoord;
-    zPos= unpackToFloat(blur5(depthTex,tc).rg) * (farClip);
-
-}
-
-
-
-vec4 computeNormals(){
-
-
-    //normal in Eye Space is the difference in z
-    //we exagerrate along z - because differences become more significant with higher z
-    //float dx= dFdx(zPos)/(zPos*zPos);
-    //float dy= dFdy(zPos)/(zPos*zPos);
-    float dy= dFdy(zPos);
-    float dx= dFdx(zPos);
-    //return vec4 (dx,dy,0.0,1.0) * 1.0;
-    //return vec4 (fwidth(zPos)) * 1.0;
-    //return vec4 (dy) * 10.0;
-
-    //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(dx,dy,0.001));
-
-    return (vec4(pixelNormal.xyz,1.0)/1.0);
-}
-
-
-
-
 void main(){
 
 
@@ -205,6 +116,5 @@ void main(){
             tc_offset[i]=vec2(0.0,0.0);
 
     gl_FragColor=blur3(tex,texCoord);
-    gl_FragColor.a=1.0;
 
 }

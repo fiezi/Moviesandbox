@@ -1,12 +1,6 @@
 uniform float time;
+uniform float screenX;
 
-uniform float nearClip;
-uniform float farClip;
-
-uniform mat4 cameraMatrix;
-uniform mat4 cameraInverse;
-uniform mat4 lightViewMatrix;
-uniform mat4 lightProjectionMatrix;
 
 varying vec2 texCoord;
 

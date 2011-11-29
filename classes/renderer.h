@@ -223,7 +223,7 @@ public:
        virtual void drawNormals(Layer* layer);
        virtual void drawDeferredLighting(Layer* layer);
 
-        virtual void blurTexture(Layer* layer, string textureID, GLuint renderFBO);
+       virtual void performShader(Layer* layer, string textureID, GLuint renderFBO, string shaderName);
 
        virtual void displayDebug();
 
