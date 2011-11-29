@@ -1058,7 +1058,6 @@ void Renderer::drawBackground(){
 
 void Renderer::drawNormals(Layer* layer){
 
-        bShadowPass=true;
 
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, normal_fb);
 
@@ -1201,6 +1200,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
 }
 
 
+///Shadow Rendering
+
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
@@ -1270,6 +1271,38 @@ void Renderer::drawShadows(MsbLight* myLight){
  }
 
 
+
+///blur Pass
+
+void Renderer::blurTexture(Layer* layer, string textureID, GLuint renderFBO){
+
+
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, renderFBO);
+
+        //glPushAttrib(GL_VIEWPORT);
+        glViewport (0, 0, screenX, screenY);
+
+        glDrawBuffers(1,drawBuffers);
+
+        //glClearColor( 0.0f, 1.0f, 0.0f, 1.0f );
+
+        //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
+        //set our textureID to lighting pass
+        layer->textureID=textureID;
+        //set our shader to
+        layer->sceneShaderID="ssBlur";
+
+        //draw using depthTextureID as base texture!
+        drawButton(layer);
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+        //glPopAttrib();
+
+
+
+}
 
 
 

@@ -220,6 +220,8 @@ public:
        virtual void drawNormals(Layer* layer);
        virtual void drawDeferredLighting(Layer* layer);
 
+        virtual void blurTexture(Layer* layer, string textureID, GLuint renderFBO);
+
        virtual void displayDebug();
 
        virtual void drawBone(float width, float height, float depth);
