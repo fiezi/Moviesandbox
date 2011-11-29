@@ -39,6 +39,7 @@ public:
 //    virtual void update(double deltaTime);
 
     virtual void setup();
+    virtual void update(double deltaTime);
     virtual void createInspectorButtons();
 
     virtual void refreshList();

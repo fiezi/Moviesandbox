@@ -190,7 +190,7 @@ vec4 computeNormals(){
     //return vec4 (dy) * 10.0;
 
     //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(dx,dy,0.001));
+    vec3 pixelNormal=normalize(vec3(dx,dy,0.05));
 
     return (vec4(pixelNormal.xyz,1.0)/1.0);
 }

@@ -16,6 +16,9 @@ LoadButton::~LoadButton(){}
 
 void LoadButton::clickedLeft(){
 
+    //when doing file stuff, always go back to .exe directory!
+    sceneData->switchToExePath();
+
     listType.clear();
     listName.clear();
     listProp.clear();
@@ -33,7 +36,7 @@ void LoadButton::clickedLeft(){
     }
 
     if (buttonProperty=="SAVESCENEAS"){
-        string fileName=sceneData->saveFileDialog(".scene");
+        string fileName=sceneData->saveFileDialog("scene");
         if (fileName=="NULL")
             return;
 
@@ -49,19 +52,20 @@ void LoadButton::clickedLeft(){
     }
 
     if (buttonProperty=="LOADSCENE"){
-        string myScene=sceneData->openFileDialog(".scene");
+        string myScene=sceneData->openFileDialog("scene");
         sceneData->loadScene(myScene,false);
     }
 
     if (buttonProperty=="NEWPROJECT"){
-        string myProject=sceneData->saveFileDialog("");
+        string myProject=sceneData->saveFileDialog("project");
         sceneData->newProject(myProject);
     }
 
     if (buttonProperty=="LOADPROJECT"){
-        string myProject=sceneData->openFileDialog(".project\0\0" );
+        string myProject=sceneData->openFileDialog("project" );
         if (myProject=="NULL")
             return;
+        //myProject=+"/";
         sceneData->loadProject(myProject,false);
     }
 

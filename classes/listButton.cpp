@@ -170,7 +170,7 @@ void ListButton::createScrollBar(){
 
 void ListButton::placeScrollBar(){
 
-		scrollBar->setLocation( Vector3f( location.x+scale.x+listButton[0]->scale.x+2, scrollBar->location.y=location.y, 0 ) );
+		scrollBar->setLocation( Vector3f( location.x+scale.x+listButton[0]->scale.x+2, location.y, 0 ) );
 }
 
 

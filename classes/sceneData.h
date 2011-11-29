@@ -280,6 +280,8 @@ public:
         float convertToGrid(float nonGrid);
         float setToRange(float min, float max, float value);
 
+        void switchToExePath();
+
         //File IO
         string openFileDialog(string ext="*");
 

@@ -25,8 +25,6 @@
 
 #ifdef TARGET_WIN32
 
-    //this one is for string to wchar_t conversion!
-    //#include "Vcclr.h"
 
     #include "videoTextureActor.h"
     #include "direct.h"
@@ -1637,12 +1635,9 @@ void SceneData::loadProject(std::string projectName, bool bStart){
     cout << "setting new project name: " << projectName << endl;
     cout << "************************************************************" << endl;
 
-    startProject=projectName;
+    startProject=projectName+"/";
 
-
-    //go to exe_path directory before closing and reloading
-    cout << "switching to exe path..." << exe_path << endl;
-    chdir(exe_path.c_str());
+    switchToExePath();
 
     //open config.xml to re-write startProject
     TiXmlDocument doc( "config.xml" );
@@ -1987,6 +1982,14 @@ float SceneData::setToRange(float min, float max, float value){
 }
 
 
+void SceneData::switchToExePath(){
+
+    //go to exe_path directory before closing and reloading
+    cout << "switching to exe path..." << exe_path << endl;
+    chdir(exe_path.c_str());
+
+}
+
 #ifdef TARGET_WIN32
 string SceneData::openFileDialog(string ext){
 
@@ -2010,6 +2013,21 @@ string SceneData::openFileDialog(string ext){
     // Copy string to wstring.
     std::copy(ext.begin(), ext.end(), wext.begin());
 
+    wext=L"Projects\0 *.projects\0\0";
+    const wchar_t* pr=L"Projects\0*.project";
+    const wchar_t* sc=L"Scenes\0*.scene";
+    const wchar_t* me=L"Projects\0*.spriteMesh";
+    const wchar_t* te=L"Projects\0*.tga";
+    const wchar_t* ac=L"Projects\0*.action";
+
+    const wchar_t* select;
+
+    if (ext=="project") select = pr;
+    if (ext=="scene") select = sc;
+
+
+    //wext+=L"\0";
+
     // Load shell32 dll
     HMODULE hModule = LoadLibrary( "Shell32.dll" );
     if( !hModule ){
@@ -2021,7 +2039,7 @@ string SceneData::openFileDialog(string ext){
     GetFileNameFromBrowse GetFileNameFromBrowsePtr = ( GetFileNameFromBrowse )GetProcAddress( hModule, "GetFileNameFromBrowse" );
 
     // Show browse dialog
-    if( GetFileNameFromBrowsePtr && GetFileNameFromBrowsePtr( 0, wszPath, MAX_PATH, 0, 0, wext.c_str(), L"Load Project" )){
+    if( GetFileNameFromBrowsePtr && GetFileNameFromBrowsePtr( 0, wszPath, MAX_PATH, 0, 0,select , L"Load Project" )){
 
         int i = 0;
         while (wszPath[i] != 0)

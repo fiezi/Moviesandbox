@@ -34,6 +34,12 @@ void LayerInspector::setup(){
 }
 
 
+void LayerInspector::update(double deltaTime){
+
+    Inspector::update(deltaTime);
+    listDisplaySize= renderer->screenY-(location.y + 2.0* listHeight);
+}
+
 void LayerInspector::createInspectorButtons(){
 
     /*
