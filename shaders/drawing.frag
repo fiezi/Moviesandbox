@@ -1,6 +1,7 @@
 uniform vec4 postColor;
 uniform float objectID;
 uniform float farClip;
+uniform float nearClip;
 
 uniform bool bComputeLight;
 uniform float screensize;
@@ -53,7 +54,7 @@ void main(){
 
     gl_FragData[0]=gl_Color * postColor;
 
-    gl_FragData[1].xy=packToVec2(zPos/farClip);
+    gl_FragData[1].xy=packToVec2(zPos/(farClip-nearClip));
     gl_FragData[1].zw=packToVec2((objectID+100.0)/65536.0);
 }
 

@@ -9,7 +9,6 @@ uniform float particleAngleScale;
 uniform float objectID;
 
 varying float zPos;
-varying vec4 picking;
 
 /*
 *   Point Size
@@ -43,8 +42,6 @@ void main(){
 
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
     myVertex.z=gl_FrontColor.r*5.0;
-    //myVertex.x=myVertex.x*myVertex.z;
-    //myVertex.y=myVertex.y*myVertex.z;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 

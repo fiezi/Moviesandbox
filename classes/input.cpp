@@ -710,7 +710,7 @@ void Input::specialKeyUp (int key,int x, int y){
     }
 
     if (key==GLUT_KEY_F6){
-        renderer->bDrawSmudge=!renderer->bDrawSmudge;
+        renderer->bDrawNormals=!renderer->bDrawNormals;
         return;
     }
 

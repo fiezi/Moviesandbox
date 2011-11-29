@@ -1,6 +1,8 @@
 attribute float vertexID;
-uniform float screensize;
-uniform float scene_size;
+uniform float screenX;
+uniform float screenY;
+uniform float farClip;
+uniform float nearClip;
 
 uniform float time;
 uniform float particleMultiplier;
@@ -10,6 +12,8 @@ uniform float fov;
 
 varying float zPos;
 varying float vID;
+varying float pSize;
+varying vec2 coord;
 
 /*
 *   Point Size
@@ -36,20 +40,28 @@ float pointSize(){
 
 void main(){
 
-  gl_FrontColor=gl_Color;
+    gl_FrontColor=gl_Color;
 
-  //reset gl_Vertex coordinate or we create weird distortions!
-  vec4 myVertex=gl_Vertex;
-  myVertex.w=1.0;
+    //reset gl_Vertex coordinate or we create weird distortions!
+    vec4 myVertex=gl_Vertex;
+    myVertex.w=1.0;
 
-  gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
+    gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
                                                     //this here is an approximation
-  gl_PointSize= pointSize()  * (45.0*45.0)/(fov*fov);
+    gl_PointSize= pointSize();//  * (45.0*45.0)/(fov*fov);
 
-  zPos=gl_Position.z;
+    pSize=gl_PointSize;///screenX;
 
-  vID=vertexID;
+    zPos=gl_Position.z;
+
+    zPos/=farClip;
+
+    vID=vertexID;
+    vec4 pixelPos= gl_Position;
+    pixelPos /= pixelPos.w;
+    pixelPos= pixelPos * 0.5 + 0.5;
+    coord=pixelPos.xy;
 }
 
 

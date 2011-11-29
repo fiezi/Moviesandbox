@@ -539,6 +539,10 @@ void Actor::updateShaders(){
         glUniform1fARB(myShader->uniforms["farClip"], (float)renderer->farClip);
     }
 
+    if (myShader->uniforms.find("nearClip") != myShader->uniforms.end()){
+        glUniform1fARB(myShader->uniforms["nearClip"], (float)renderer->nearClip);
+    }
+
     if (myShader->uniforms.find("fov") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["fov"], (float)renderer->fov);
     }

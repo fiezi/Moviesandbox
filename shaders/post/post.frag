@@ -7,13 +7,13 @@ uniform float screenY;
 uniform bool bSSAO;
 uniform bool bLighting;
 uniform bool bSmudge;
+uniform bool bDrawNormals;
 uniform bool bDrawColor;
 
 uniform sampler2D tex;
 uniform sampler2D depthTex;
-uniform sampler2D pickTex;
 uniform sampler2D shadowTex; // rendered shadow texture
-uniform sampler2D fxTex; //rendered picking texture
+uniform sampler2D normalTex; //screen space normals
 
 uniform mat4 lightViewMatrix;
 uniform mat4 lightProjectionMatrix;
@@ -83,10 +83,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       for (int i=0 ; i<9 ; i++)
       {
-        if (ceil(texture2D(pickTex , tc + tc_offset[i]).a) == objectID)
             sample[i]=texture2D(myTex , tc + tc_offset[i]);
-        else
-            sample[i]=texture2D(myTex , tc);
       }
 
       vec4 blurredColor=(
@@ -107,19 +104,44 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 ***********************************************/
 
+
+
+float unpackToFloat(vec4 value){
+
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec3 value){
+
+	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+float unpackToFloat(vec2 value){
+
+	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+
+
 /*
 *   read Pixel Info
 */
 
 vec4 readPixelInfo( in vec2 coord ) {
 
-    return  texture2D( depthTex, coord ) ;
+   return  vec4(texture2D( normalTex, coord ).xyz,  unpackToFloat(texture2D( depthTex, coord ).rg) );
 
 }
 
-vec4 readObjectInfo( in vec2 coord ) {
+float readObjectInfo( in vec2 coord ) {
 
-    return  texture2D( pickTex, coord ) ;
+    return  texture2D( depthTex, coord ).ba ;
 
 }
 /*
@@ -167,7 +189,7 @@ vec4 computeAO(){
     float depth = pixelInfo.a;
     vec3 n1=pixelInfo.xyz;
 
-    if (floor(readObjectInfo(texCoord).a)<0.0)
+    if (floor(readObjectInfo(texCoord))<0.0)
         return vec4(1.0,1.0,1.0,1.0);
 
 
@@ -201,7 +223,7 @@ vec4 computeAO(){
 
 vec4 smudge(vec2 coord){
 
-
+/*
 		float smudgeSamples=16.0;
 		float myStep=1.0/scene_size;
         myStep=myStep* texture2D(depthTex, texCoord).a;
@@ -232,6 +254,8 @@ vec4 smudge(vec2 coord){
 		//smudgeColor.b=0.0;
 
 		return smudgeColor;
+		*/
+		return vec4(1.0);
 }
 
 /*
@@ -248,15 +272,16 @@ void main(void){
     ///lighting only
         gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
-    objectID=ceil(texture2D(pickTex,texCoord).a);
 
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
-        //vec4 lightData=texture2D(shadowTex,texCoord);
         vec4 lightData=texture2D(shadowTex,texCoord);
-        gl_FragData[0]*=2.0*lightData;
+        gl_FragData[0]*=1.0*lightData;
     }
+
+    if (bDrawNormals)
+        gl_FragData[0]=texture2D(normalTex,texCoord);
 
     ///Ambient Occlusion
     //if (bSSAO)

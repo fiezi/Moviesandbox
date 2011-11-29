@@ -7,9 +7,10 @@ uniform float screenY;
 uniform float nearClip;
 uniform float farClip;
 
-uniform sampler2D tex; // rendered scene 512*512 (lighting resolution)
-uniform sampler2D depthTex; // rendered normals and depth texture
-uniform sampler2D shadowTex; // rendered shadow textures - 256x256 (shadow resolution)
+uniform sampler2D tex; // rendered scene
+uniform sampler2D depthTex; // rendered depth texture
+uniform sampler2D shadowTex; // rendered shadow textures
+uniform sampler2D normalTex; // rendered normal texture
 
 uniform mat4 lightViewMatrix;
 uniform mat4 lightProjectionMatrix;
@@ -33,7 +34,7 @@ varying vec4 lightPos;
 varying float lightZScreen;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 160.0;
+const float specularExp = 32.0;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -69,6 +70,66 @@ float unpackToFloat(vec2 value){
 	return dot(value, bitSh);
 }
 
+
+vec4 blur5(sampler2D myTex,vec2 tc){
+
+      float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
+      //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
+
+      tc_offset[0]=spread * vec2(-2.0,-2.0);
+      tc_offset[1]=spread * vec2(-1.0,-2.0);
+      tc_offset[2]=spread * vec2(0.0,-2.0);
+      tc_offset[3]=spread * vec2(1.0,-2.0);
+      tc_offset[4]=spread * vec2(2.0,-2.0);
+
+      tc_offset[5]=spread * vec2(-2.0,-1.0);
+      tc_offset[6]=spread * vec2(-1.0,-1.0);
+      tc_offset[7]=spread * vec2(0.0,-1.0);
+      tc_offset[8]=spread * vec2(1.0,-1.0);
+      tc_offset[9]=spread * vec2(2.0,-1.0);
+
+      tc_offset[10]=spread * vec2(-2.0,0.0);
+      tc_offset[11]=spread * vec2(-1.0,0.0);
+      tc_offset[12]=spread * vec2(0.0,0.0);
+      tc_offset[13]=spread * vec2(1.0,0.0);
+      tc_offset[14]=spread * vec2(2.0,0.0);
+
+      tc_offset[15]=spread * vec2(-2.0,1.0);
+      tc_offset[16]=spread * vec2(-1.0,1.0);
+      tc_offset[17]=spread * vec2(0.0,1.0);
+      tc_offset[18]=spread * vec2(1.0,1.0);
+      tc_offset[19]=spread * vec2(2.0,1.0);
+
+      tc_offset[20]=spread * vec2(-2.0,2.0);
+      tc_offset[21]=spread * vec2(-1.0,2.0);
+      tc_offset[22]=spread * vec2(0.0,2.0);
+      tc_offset[23]=spread * vec2(1.0,2.0);
+      tc_offset[24]=spread * vec2(2.0,2.0);
+
+
+      vec4 sample[25];
+
+      for (int i=0 ; i<25 ; i++)
+      {
+        sample[i]=texture2D(myTex , tc + tc_offset[i]);
+      }
+
+      vec4 blurredColor=(
+                        (1.0 * (sample[0] + sample[4] + sample[20] + sample[24])) +
+
+                        (4.0 * (sample[1] + sample[3] + sample[5] + sample[9] +
+                               sample[15] + sample[19] + sample[21] + sample[23])) +
+
+                        (7.0 * (sample[2] + sample[10] + sample[14] + sample[22])) +
+
+                        (16.0 * (sample[6] + sample[8] + sample[16] + sample[18])) +
+
+                        (26.0 * (sample[7] + sample[11] + sample[13] + sample[17])) +
+                        (41.0 * sample[12])
+                        )/ 273.0;
+      blurredColor.a=1.0;
+      return(blurredColor);
+}
 
 
 vec4 blur3(sampler2D myTex, vec2 tc){
@@ -110,7 +171,14 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 void getPixelLoc(){
 
     //zPos = texture2D(depthTex,texCoord).r;
-    zPos= unpackToFloat(blur3(depthTex,texCoord).rg) * farClip;
+
+    vec2 tc=texCoord;
+
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    //zPos= unpackToFloat(texture2D(depthTex,tc)) * (farClip);
+
+
+    //zPos= unpackToFloat(texture2D(depthTex,texCoord)) * (farClip-nearClip);
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
@@ -122,6 +190,9 @@ void getPixelLoc(){
 
 
 vec4 computeLight(){
+
+
+    //return vec4(zPos/100.0);
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
@@ -143,18 +214,12 @@ vec4 computeLight(){
     vec3 lightDirectionNormalized =normalize(lightDirection);
 
     //return here if we're out of range!
-    if (lightDistance>gl_LightSource[0].linearAttenuation)
-       return vec4(0.0,0.0,0.0,1.0);
+    //if (lightDistance>gl_LightSource[0].linearAttenuation)
+     //  return vec4(0.0,0.0,0.0,1.0);
 
-    //normal in Eye Space is the difference in z
-    //we exagerrate along z - because differences become more significant with higher z
-    //float dy= dFdy(zPos)/(zPos*zPos);
-    float dy= dFdy(zPos);
-    float dx= dFdx(zPos);
-    //return vec4 (dx,dy,0.0,1.0) * 10.0;
-    //return vec4 (dy) * 10.0;
 
-    vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)));
+    vec3 pixelNormal=blur5(normalTex,texCoord).xyz;
+
 
     //diffuse is dot Product of lightdirection on pixel normal
 	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );

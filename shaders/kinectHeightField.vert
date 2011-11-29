@@ -1,17 +1,12 @@
 uniform sampler2D tex;
-//uniform sampler2D displacementTex;
-//uniform sampler2D normalTex;
 
 uniform float time;
-uniform mat4 cameraInverse;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
 
 varying float zPos;
-varying vec4 picking;
 
-varying vec3 N;
 /*
 *   Point Size
 */
@@ -60,8 +55,6 @@ void main(){
     myVertex.x=myVertex.x*myVertex.z;// + 0.5 * sin (time   *0.001 + myVertex.y);
     myVertex.y=myVertex.y*myVertex.z * 0.5 ;
 
-    //myVertex.x*=0.7;
-    //myVertex.y*=0.7;
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
     if (gl_FrontColor.a>0.99)

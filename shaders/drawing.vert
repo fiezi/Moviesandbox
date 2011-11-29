@@ -10,9 +10,9 @@ uniform float objectID;
 
 varying float zPos;
 varying vec4 pixelPos;
-varying float pSize;
 varying float bTubeNormal;
 varying float vID;
+varying float pSize;
 
 /*
 *   Point Size

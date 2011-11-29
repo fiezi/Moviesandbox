@@ -24,8 +24,13 @@
 #include "characterController.h"
 
 #ifdef TARGET_WIN32
+
+    //this one is for string to wchar_t conversion!
+    //#include "Vcclr.h"
+
     #include "videoTextureActor.h"
     #include "direct.h"
+
 #endif
 
 #include "msbLight.h"
@@ -702,10 +707,10 @@ void SceneData::createScene(){
     loadActionList("resources/actions/",library);
 
     //load project library
-    loadMeshes(startProject+"/",startProject+"/my.project");          //this one also sets the number of untitled drawings!
-    loadTextures(startProject+"/",startProject+"/my.project");
-    loadShaders(startProject+"/",startProject+"/my.project");
-    loadActionList(startProject+"/",startProject+"/my.project");
+    loadMeshes(startProject,startProject+"my.project");          //this one also sets the number of untitled drawings!
+    loadTextures(startProject,startProject+"my.project");
+    loadShaders(startProject,startProject+"my.project");
+    loadActionList(startProject,startProject+"my.project");
 
 
     //then load scene
@@ -787,18 +792,10 @@ void SceneData::addLayer(string layerName){
 		lay->lightDataTextureID=lay->name+"_lightData";
 
         layerList.push_back(lay);
-        /*
-        renderer->createFBO(&(lay->sceneFBO), &(lay->sceneTex), NULL, renderer->scene_size, false, lay->sceneTextureID);
-        renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->scene_size, false, lay->colorTextureID);
-        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->scene_size, false, lay->depthTextureID);
-        renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->scene_size, false, lay->pickTextureID);
-		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->scene_size, false, lay->lightDataTextureID);
-*/
+
         renderer->createFBO(&(lay->sceneFBO), &(lay->sceneTex), NULL, renderer->screenX,renderer->screenY, false, lay->sceneTextureID);
         renderer->createFBO(&(lay->colorFBO), &(lay->colorTex), NULL, renderer->screenX,renderer->screenY, false, lay->colorTextureID);
-        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->screenX,renderer->screenY, false, lay->depthTextureID);
-        renderer->createFBO(&(lay->pickFBO),  &(lay->pickTex),  NULL, renderer->screenX,renderer->screenY, false, lay->pickTextureID);
-		renderer->createFBO(&(lay->lightDataFBO),  &(lay->lightDataTex),  NULL, renderer->screenX,renderer->screenY, false, lay->lightDataTextureID);
+        renderer->createFBO(&(lay->depthFBO), &(lay->depthTex), NULL, renderer->screenX/renderer->lighting_size,renderer->screenY/renderer->lighting_size, false, lay->depthTextureID);
         currentLayer=layerList.size()-1;
 
         cout << "Added new Layer:" << layerName << endl;
@@ -1085,6 +1082,8 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
         }
         //clean selection stuff!
         selectedActors.clear();
+
+        input->worldTarget=NULL;
     }
 
     //update currentScene
@@ -1242,7 +1241,7 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
 
 void SceneData::loadMeshes(std::string path, std::string fileName){
 
-    cout<< "loading project: " << fileName << " from path: " << path << endl;
+    cout<< "loading meshes from project: " << fileName << " from path: " << path << endl;
 
     TiXmlDocument doc(fileName);
     if (!doc.LoadFile()) return;
@@ -1282,8 +1281,8 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("ColladaMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        colladaLoader->loadColladaMesh(path+"/"+meshFileName, meshID);
-        cout << "loading mesh " << meshID << endl;
+        colladaLoader->loadColladaMesh(path+meshFileName, meshID);
+        cout << "loaded mesh " << meshID << " from path " << path+meshFileName << endl;
       }
 
     //***********************************************************************
@@ -1293,8 +1292,8 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        spriteMeshLoader->loadSpriteMesh(path+"/"+meshFileName, meshID);
-        cout << "loading sprite mesh " << meshID << endl;
+        spriteMeshLoader->loadSpriteMesh(path+meshFileName, meshID);
+        cout << "loaded sprite mesh " << meshID << " from path " << path+meshFileName << endl;
       }
 
       element=hRoot.FirstChild( "SpriteMeshXML" ).Element();
@@ -1302,7 +1301,7 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
         spriteMeshLoaderXML->loadSpriteMesh(path+"/"+meshFileName, meshID);
-        cout << "loading legacy XML sprite mesh " << meshID << endl;
+        cout << "loading legacy XML sprite mesh " << meshID << " from path " << path+meshFileName << endl;
       }
 
     //load number of untitled drawings
@@ -1507,7 +1506,7 @@ void SceneData::loadActionList(std::string path, string fileName){
     //***********************************************************************
       element=hRoot.FirstChild( "Action" ).Element();
       for ( ; element!=NULL ;element=element->NextSiblingElement("Action")){
-        string actionFileName=path+ "/" + element->Attribute("actionFilename");
+        string actionFileName=path+ element->Attribute("actionFilename");
         loadAction(path,actionFileName);
         cout << "loading action " << actionFileName << endl;
       }
@@ -2006,17 +2005,23 @@ string SceneData::openFileDialog(string ext){
     // from open dialog also holds the selected file name
     wchar_t wszPath[MAX_PATH] = L".";
 
+    std::wstring wext(ext.length(), L' '); // Make room for characters
+
+    // Copy string to wstring.
+    std::copy(ext.begin(), ext.end(), wext.begin());
+
     // Load shell32 dll
     HMODULE hModule = LoadLibrary( "Shell32.dll" );
     if( !hModule ){
        return "NULL";
     }
 
+
     // Get procedure address
     GetFileNameFromBrowse GetFileNameFromBrowsePtr = ( GetFileNameFromBrowse )GetProcAddress( hModule, "GetFileNameFromBrowse" );
 
     // Show browse dialog
-    if( GetFileNameFromBrowsePtr && GetFileNameFromBrowsePtr( 0, wszPath, MAX_PATH, 0, 0, L"", L"Nibu Open" )){
+    if( GetFileNameFromBrowsePtr && GetFileNameFromBrowsePtr( 0, wszPath, MAX_PATH, 0, 0, wext.c_str(), L"Load Project" )){
 
         int i = 0;
         while (wszPath[i] != 0)

@@ -44,6 +44,7 @@ public:
 
        bool bRenderStereo,                  //render stereoscpic into Framebuffers
             bDrawLighting,                  //include Lights and Shadows in Rendering
+            bDrawNormals,                   //draw screen space normals for debugging
             bDrawSmudge,                  //include Lights and Shadows in Rendering
             bDrawNodes,                     //draw nodes
             bDrawMenu,                      //show menu in 3D renderer
@@ -96,6 +97,12 @@ public:
         //depth precision
         GLenum depthPrecision;      //amount of bits for depth operations - usually GL_RGBA8 or GL_RGBA16
 
+        //texture filtering
+        GLenum texFilter;                   //usually GL_NEAREST or GL_LINEAR
+
+        //FBO data format
+        GLenum dataType;                   //usually GL_INTEGER or GL_FLOAT
+
         //picking
         GLuint pickTexture;
 
@@ -104,6 +111,10 @@ public:
         GLuint  lighting_tx;                 // the lightTexture we read from
         GLuint  lighting_fb;                 // the lightFBO we bind
         float     lighting_size;                //resolution for the lighting pass
+
+        GLuint  normal_tx;                 // the lightTexture we read from
+        GLuint  normal_fb;                 // the lightFBO we bind
+        float    normal_size;                //resolution for the lighting pass
 
         GLuint  shadow_tx;                   // the shadowTexture we read from
         GLuint  shadow_fb;                   // the shadowFBO we bind
@@ -190,6 +201,7 @@ public:
        virtual void update(float deltaTime);
        virtual void physicsUpdate();
 
+       virtual void setupFBOs();
 
        virtual void createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSizeX, int fbSizeY, bool bDepth, string name);
        virtual void checkFBOStatus();
@@ -205,6 +217,7 @@ public:
        virtual void drawButton(BasicButton* b);
 
        virtual void drawShadows(MsbLight* myLight);
+       virtual void drawNormals(Layer* layer);
        virtual void drawDeferredLighting(Layer* layer);
 
        virtual void displayDebug();

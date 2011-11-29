@@ -5,6 +5,7 @@ uniform mat4 cameraInverse;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
+uniform float farClip;
 
 varying float zPos;
 varying vec4 picking;
@@ -54,7 +55,7 @@ void main(){
     gl_PointSize= pointSize();
 
     //zPos from 0 to 1, then from 0 to 65536.0!
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
     //zPos=myPos.z;
 
 }

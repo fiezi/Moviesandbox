@@ -842,6 +842,8 @@
 		<Unit filename="shaders\post\dof.vert" />
 		<Unit filename="shaders\post\post.frag" />
 		<Unit filename="shaders\post\post.vert" />
+		<Unit filename="shaders\post\ssNormal.frag" />
+		<Unit filename="shaders\post\ssNormal.vert" />
 		<Unit filename="shaders\skeletal.frag" />
 		<Unit filename="shaders\skeletal.vert" />
 		<Unit filename="shaders\skeletalCab.frag" />

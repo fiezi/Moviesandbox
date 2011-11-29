@@ -1,18 +1,44 @@
 uniform sampler2D sceneTex;
+uniform float objectID;
+uniform float farClip;
 
 uniform vec4 postColor;
 uniform bool bComputeLight;
-varying vec3 N;
-varying float zPos;
-varying vec4 picking;
-varying vec3 smudge;
-varying float pSize;
-varying vec4 pixelPos;
-varying float bTubeNormal;
 
-varying float vID;
+varying float zPos;
 
 float PI = 3.14159265358979323846264;
+
+
+vec4 packToVec4(float value){
+
+   const vec4 bitSh = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
+   const vec4 bitMsk = vec4(0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0);
+   vec4 res = fract(value * bitSh);
+   res -= res.xxyz * bitMsk;
+
+   return res;
+}
+
+vec3 packToVec3(float value){
+
+   const vec3 bitSh = vec3(256.0 * 256.0, 256.0, 1.0);
+   const vec3 bitMsk = vec3(0.0, 1.0 / 256.0, 1.0 / 256.0);
+   vec3 res = fract(value * bitSh);
+   res -= res.xxy * bitMsk;
+
+   return res;
+}
+
+vec2 packToVec2(float value){
+
+   const vec2 bitSh = vec2(256.0, 1.0);
+   const vec2 bitMsk = vec2(0.0, 1.0 / 256.0);
+   vec2 res = fract(value * bitSh);
+   res -= res.xxy * bitMsk;
+
+   return res;
+}
 
 /*
 *   Main
@@ -23,63 +49,16 @@ void main(){
     gl_FragData[0]= gl_Color * postColor;
     //gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
-	gl_FragData[1]=vec4(N.x ,N.y , N.z,zPos);
-
-    if (!bComputeLight)
-        gl_FragData[1]=vec4(-100.0 ,0.0 ,0.0, zPos );
+     gl_FragData[1].xy=packToVec2(zPos/farClip);
+     gl_FragData[1].zw=packToVec2((objectID+100.0)/65536.0);
 
     if (mod(gl_FragCoord.x,10.0)>5.0 + 2.0*sin(zPos) && mod(gl_FragCoord.y,8.0)>4.0+ 2.0*sin(zPos)){
-        gl_FragData[1].y=0.0;
+        gl_FragData[0]*=0.0;
+        gl_FragData[0].a=1.0;
         //gl_FragData[0].xyz=gl_FragData[0].xyz * gl_FragData[0].xyz;
     }
 
-/*
-	vec2 myPixelPos=pixelPos.xy * 768.0;
-	vec2 pixelDist=myPixelPos-gl_FragCoord.xy;
-	pixelDist=pixelDist/(pSize);
 
-	float myDist=length(pixelDist * 2.0);
-
-
-	if (myDist>1.0){
-		gl_FragDepth=1.0;
-		}
-	else{
-		gl_FragDepth=gl_FragCoord.z;
-	}
-
-    gl_FragData[0]=gl_Color;
-
-	//Normal calculation, as in a tube...
-	//normal on top of our tube points up -> is our N
-	//normal to the right points to N cross smudge
-	//normal to the left points to negative N cross smudge
-	//normal downwards points negative N
-
-	//also: depending on smudge going in or out, it's all different!
-/*
-	vec3 biNormal= smudge;
-	vec3 NcrossS = cross( -N, biNormal );
-
-	float flip = 1.0;
-
-	if (NcrossS.x>0.0)
-			flip = -1.0;
-
-	vec3 tubeNormal= flip * (sin(pixelDist.x * PI/4.0) * NcrossS + sin(pixelDist.y * PI/4.0)  * -N);
-
-	//gl_FragData[0].rgb=tubeNormal;
-	if (bTubeNormal>0.0)
-		gl_FragData[1]=vec4(tubeNormal.x ,tubeNormal.y , tubeNormal.z,zPos);
-	else {
-		gl_FragData[1]=vec4(1.0 ,0.0 , 0.0,zPos);
-	}
-*/
-
-    gl_FragData[2]=picking;
-
-    gl_FragData[3]=vec4(smudge.x,smudge.y,0.0,vID);
-    //gl_FragData[3]=vec4(0.0,0.0,0.0,vID);
 
 
 }

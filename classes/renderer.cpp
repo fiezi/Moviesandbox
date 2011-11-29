@@ -122,6 +122,7 @@ Renderer::Renderer(){
     lastShader="NULL";
 
     bDrawLighting=true;
+    bDrawNormals=false;
     bDrawSmudge=false;
     bRenderStereo=true;
     bDrawMenu=true;
@@ -160,9 +161,19 @@ Renderer::Renderer(){
     //depthPrecision = GL_RGBA16F_ARB;
     //depthPrecision = GL_RGBA32F;
 
+    texFilter = GL_LINEAR;
+    //texFilter = GL_NEAREST;
+
+    dataType= GL_FLOAT;
+    dataType= GL_INT;
+
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
     lighting_size = 1.0;
+
+    normal_tx = 0; // the light texture
+    normal_fb = 0; // the framebuffer object to render to that texture
+    normal_size = 1.0;
 
     shadow_tx = 0;
     shadow_fb = 0;
@@ -253,7 +264,7 @@ void Renderer::registerProperties(){
 
 void Renderer::initWindow(int x, int y, string windowName){
 
-    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL | GLUT_MULTISAMPLE);
 
       char* gmString  = new char[64];
       // screenX screenY, 32bit pixel depth, 60Hz refresh rate
@@ -381,21 +392,8 @@ void Renderer::setup(){
 	cout << "max colorbuffers: " << maxColorBuffers << endl;
 
 
-    //frame buffer objects
-    //always need them with layer system!
-
-//buffer to copy from for FSAA multisampling in FBOs
-	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
-
-    //framebuffer and texture to store global lighting and shadow information
-    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
-    createFBO(&shadow_fb, &shadow_tx, NULL, screenX/shadow_size,screenY/shadow_size, false, "shadow");
-    createFBO(&scene_fb, &scene_tx, NULL, screenX/scene_size, screenY/scene_size, false, "scene");
-
-    #ifdef BDEBUGRENDERER
-    checkOpenGLError("FBO Error check...");
-    #endif
-
+    //setup frameBufferObject
+    setupFBOs();
 
     //enable Blending for everyone!
     glEnable(GL_BLEND);
@@ -490,7 +488,24 @@ void Renderer::physicsUpdate(){
 
 }
 
+void Renderer::setupFBOs(){
 
+    //frame buffer objects
+    //always need them with layer system!
+
+    //buffer to copy from for FSAA multisampling in FBOs
+	createFBO(&multiSample_fb, NULL, &multiSample_db, screenX, screenY, false, "multisampleBuffer");
+
+    //framebuffer and texture to store global lighting and shadow information
+    createFBO(&lighting_fb, &lighting_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&normal_fb, &normal_tx, NULL, screenX/normal_size, screenY/normal_size, false, "normals"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&shadow_fb, &shadow_tx, NULL, screenX/shadow_size,screenY/shadow_size, false, "shadow");
+    createFBO(&scene_fb, &scene_tx, NULL, screenX/scene_size, screenY/scene_size, false, "scene");
+
+    #ifdef BDEBUGRENDERER
+    checkOpenGLError("FBO Error check...");
+    #endif
+}
 
 void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, int fbSizeX, int fbSizeY, bool bDepth, string name){
     //-------------------------------------------------------
@@ -585,11 +600,13 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glGenFramebuffersEXT (1, fbObject);
             glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, *fbObject);
 
-            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+            //glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
-            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, fbSizeX, fbSizeY, 0, GL_DEPTH_COMPONENT, dataType, NULL);
+            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texFilter);
+            //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
             glFramebufferTexture2DEXT (GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, *fbTexture, 0);
@@ -598,13 +615,13 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             cout << "no depth in FBO!" << name << endl;
             // attach colorBuffer to a texture
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-            glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_FLOAT, NULL);
+            glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, dataType, NULL);
             //glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, GL_BYTE, NULL);
 
  //           glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 //            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, texFilter);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, texFilter);
 //            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 
             glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
@@ -776,6 +793,8 @@ void Renderer::setupOrthoCamera(){
 }
 
 
+///Actual Rendering
+
 
 void Renderer::draw(){
 
@@ -829,6 +848,9 @@ void Renderer::draw(){
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
 
+        //draw screen space normals
+        drawNormals(sceneData->layerList[i]);
+
     #ifdef BDEBUGRENDERER
     checkOpenGLError("init finalFrame");
     #endif
@@ -848,7 +870,6 @@ void Renderer::draw(){
 
         //draw into FBO for post-production
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, sceneData->layerList[i]->sceneFBO);
-        //glViewport (0, 0, scene_size, scene_size);
         glViewport (0, 0, screenX, screenY);
 
        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -874,7 +895,6 @@ void Renderer::draw(){
             /////////////////////////////////////////////////////
 
             glViewport (0, 0, screenX, screenY);
-            //glViewport (0, 0, screenX, screenY);
 
             sceneData->layerList[i]->textureID=sceneData->layerList[i]->sceneTextureID;
             if (bDOF)
@@ -935,6 +955,74 @@ void Renderer::draw(){
     frames++;
 }
 
+void Renderer::drawSceneTexture(){
+
+    glPushAttrib(GL_VIEWPORT_BIT);
+
+    glViewport (0, 0, screenX, screenY);
+
+    glMatrixMode(GL_MODELVIEW);
+
+	float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
+
+    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
+
+    glDrawBuffers(1,drawBuffers);
+
+    //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
+
+        glClear( GL_COLOR_BUFFER_BIT |
+                 GL_DEPTH_BUFFER_BIT );
+
+
+        //disable blending for second buffer
+
+        glDisableIndexedEXT(GL_BLEND,1);
+
+        glActiveTexture(GL_TEXTURE0);
+
+		 //drawbuffers are set up here!
+        draw3D(sceneData->layerList[i]);
+
+
+        //color blitting
+        glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
+        glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
+
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
+        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
+
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
+
+        //meta blitting - zPos and ObjectID
+        glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
+
+        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
+        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
+
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
+	}
+
+    //cleanup
+    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
+    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
+
+    if (!sceneData->controller->bRunning)
+        pick(input->mouseX,input->mouseY);
+
+	draw3DTime=glutGet(GLUT_ELAPSED_TIME) - draw3DTime;
+
+    //TODO:draw brush here?
+
+    glPopAttrib();
+    //now draw the resulting image into a quad!
+}
+
+
 
 void Renderer::drawBackground(){
 
@@ -966,7 +1054,153 @@ void Renderer::drawBackground(){
 
 }
 
-// this renders the scene from the view of each light
+///Screen Space Normals
+
+void Renderer::drawNormals(Layer* layer){
+
+        bShadowPass=true;
+
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, normal_fb);
+
+        //glPushAttrib(GL_VIEWPORT);
+        glViewport (0, 0, screenX, screenY);
+
+        glDrawBuffers(1,drawBuffers);
+
+        //glClearColor( 0.0f, 1.0f, 0.0f, 1.0f );
+
+        //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+
+        //set our textureID to lighting pass
+        layer->textureID=layer->depthTextureID;
+        //set our shader to
+        layer->sceneShaderID="ssNormal";
+
+        //draw using depthTextureID as base texture!
+        drawButton(layer);
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+        //glPopAttrib();
+
+}
+
+/// Lighting
+
+void Renderer::drawDeferredLighting(Layer* layer){
+
+
+        //don't draw lights when calculating light...
+        if (!sceneData->controller->bRunning){
+            for (int i=0;i<(int)sceneData->lightList.size(); i++){
+                sceneData->lightList[i]->drawType=DRAW_NULL;
+            }
+        }
+
+        bShadowPass=true;
+        //preserve our unlit color content
+        string oldTextureID=layer->textureID;
+
+        //bind lighting base texture and clear it
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
+
+        glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
+        glPushAttrib(GL_VIEWPORT);
+        glViewport (0, 0, screenX/lighting_size, screenY/lighting_size);
+
+
+        //set our textureID to lighting pass
+        layer->textureID="lighting";
+        //set our shader to
+        layer->sceneShaderID="deferredLight";
+
+        ///loop from here for every shadowed light!
+
+
+        for (int i=0;i<(int)sceneData->lightList.size(); i++){
+
+
+            float castShadow=(float)sceneData->lightList[i]->bCastShadows;
+            //update light
+            glLightfv(GL_LIGHT0,GL_POSITION,&sceneData->lightList[i]->location.x);
+            glLightfv(GL_LIGHT0,GL_DIFFUSE,&sceneData->lightList[i]->color.r);
+            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&sceneData->lightList[i]->lightDistance);
+            glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
+
+
+            if (sceneData->lightList[i]->bCastShadows)
+                drawShadows(sceneData->lightList[i]);
+
+            #ifdef BDEBUGRENDERER
+            checkOpenGLError("post-drawShadow");
+            #endif
+
+            //setup 2D camera again!
+            setupOrthoCamera();
+
+           //bind depth
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, layer->depthTex);
+
+            //set shadowTexture (might not have one)
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, shadow_tx);
+
+
+            ///light&shadow rendering
+
+            //render lighting pass into lighting FBO
+            glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
+
+            glDrawBuffers(1,drawBuffers);
+
+            glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+
+            glClear( GL_DEPTH_BUFFER_BIT );
+
+            //draw using lighting_tx as base texture!
+            drawButton(layer);
+
+            glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
+        }             //repeat for every shadowed light!
+
+        if (!sceneData->controller->bRunning){
+            for (int i=0;i<(int)sceneData->lightList.size(); i++){
+                sceneData->lightList[i]->drawType=DRAW_SPRITE;
+            }
+        }
+
+        //set our textureID to lighting pass
+        layer->textureID=oldTextureID;
+        //set our shader to
+        layer->sceneShaderID="post";
+
+        //do texture binds for post-shader!
+
+        //bind depth
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, layer->depthTex);
+//        glGenerateMipmapEXT(GL_TEXTURE_2D);
+
+        //set shadowTexture (might not have one)
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, lighting_tx);
+
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, normal_tx);
+
+
+        bShadowPass=false;
+        glPopAttrib();
+}
+
+
 void Renderer::drawShadows(MsbLight* myLight){
 
     glPushAttrib(GL_VIEWPORT_BIT);
@@ -1021,7 +1255,7 @@ void Renderer::drawShadows(MsbLight* myLight){
       glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, shadow_fb );
       glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-      glBlitFramebufferEXT( 0, 0, screenX/shadow_size, screenY/shadow_size, 0, 0, screenX/shadow_size, screenY/shadow_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+      glBlitFramebufferEXT( 0, 0, screenX/shadow_size, screenY/shadow_size, 0, 0, screenX/shadow_size, screenY/shadow_size, GL_COLOR_BUFFER_BIT, texFilter );
 
     }
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, 0);
@@ -1036,187 +1270,6 @@ void Renderer::drawShadows(MsbLight* myLight){
  }
 
 
-
-void Renderer::drawSceneTexture(){
-
-    glPushAttrib(GL_VIEWPORT_BIT);
-
-    glViewport (0, 0, screenX, screenY);
-
-    glMatrixMode(GL_MODELVIEW);
-
-	float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
-
-    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-
-    glDrawBuffers(1,drawBuffers);
-
-    //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-
-    for (int i=0;i<(int)sceneData->layerList.size();i++){
-
-        glClear( GL_COLOR_BUFFER_BIT |
-                 GL_DEPTH_BUFFER_BIT );
-
-
-        //disable blending for second buffer
-
-        glDisableIndexedEXT(GL_BLEND,1);
-
-        glActiveTexture(GL_TEXTURE0);
-
-		 //drawbuffers are set up here!
-        draw3D(sceneData->layerList[i]);
-
-
-        //color blitting
-
-        glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
-        glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_LINEAR );
-
-        //meta blitting - zPos, ObjectID, vertexID
-        glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_LINEAR );
-	}
-
-    //cleanup
-    glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
-    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
-    if (!sceneData->controller->bRunning)
-        pick(input->mouseX,input->mouseY);
-
-	draw3DTime=glutGet(GLUT_ELAPSED_TIME) - draw3DTime;
-
-    //TODO:draw brush here?
-
-    glPopAttrib();
-    //now draw the resulting image into a quad!
-}
-
-
-
-void Renderer::drawDeferredLighting(Layer* layer){
-
-        bShadowPass=true;
-        //preserve our unlit color content
-        string oldTextureID=layer->textureID;
-
-        //bind lighting base texture and clear it
-        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
-
-        glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-
-        glClear( GL_COLOR_BUFFER_BIT |
-                 GL_DEPTH_BUFFER_BIT );
-
-        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
-
-        glPushAttrib(GL_VIEWPORT);
-        //glViewport (0, 0, lighting_size, lighting_size);
-        glViewport (0, 0, screenX/lighting_size, screenY/lighting_size);
-
-
-        //set our textureID to lighting pass
-        layer->textureID="lighting";
-        //set our shader to
-        layer->sceneShaderID="deferredLight";
-
-        ///loop from here for every shadowed light!
-
-        if (!sceneData->controller->bRunning){
-            for (int i=0;i<(int)sceneData->lightList.size(); i++){
-                sceneData->lightList[i]->drawType=DRAW_NULL;
-            }
-        }
-
-        for (int i=0;i<(int)sceneData->lightList.size(); i++){
-
-            //don't draw lights when calculating light...
-
-            float castShadow=(float)sceneData->lightList[i]->bCastShadows;
-            //update light
-            glLightfv(GL_LIGHT0,GL_POSITION,&sceneData->lightList[i]->location.x);
-            glLightfv(GL_LIGHT0,GL_DIFFUSE,&sceneData->lightList[i]->color.r);
-            glLightfv(GL_LIGHT0,GL_LINEAR_ATTENUATION,&sceneData->lightList[i]->lightDistance);
-            glLightfv(GL_LIGHT0,GL_SPOT_CUTOFF,&castShadow);
-
-
-            if (sceneData->lightList[i]->bCastShadows)
-                drawShadows(sceneData->lightList[i]);
-
-            #ifdef BDEBUGRENDERER
-            checkOpenGLError("post-drawShadow");
-            #endif
-
-            //setup 2D camera again!
-            setupOrthoCamera();
-
-           //bind depth
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-//            glGenerateMipmapEXT(GL_TEXTURE_2D);
-
-            //set shadowTexture (might not have one)
-            glActiveTexture(GL_TEXTURE3);
-            glBindTexture(GL_TEXTURE_2D, shadow_tx);
-
-
-            ///light&shadow rendering
-
-            //render lighting pass into lighting FBO
-            glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
-
-            glDrawBuffers(1,drawBuffers);
-
-            glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-
-            glClear( GL_DEPTH_BUFFER_BIT );
-
-            //draw using lighting_tx as base texture!
-            drawButton(layer);
-
-            glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
-
-        }             //repeat for every shadowed light!
-
-        if (!sceneData->controller->bRunning){
-            for (int i=0;i<(int)sceneData->lightList.size(); i++){
-                sceneData->lightList[i]->drawType=DRAW_SPRITE;
-            }
-        }
-
-        //set our textureID to lighting pass
-        layer->textureID=oldTextureID;
-        //set our shader to
-        layer->sceneShaderID="post";
-
-        //do texture binds for post-shader!
-
-        //bind depth
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, layer->depthTex);
-//        glGenerateMipmapEXT(GL_TEXTURE_2D);
-
-        //set shadowTexture (might not have one)
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, lighting_tx);
-
-
-        bShadowPass=false;
-        glPopAttrib();
-}
 
 
 
@@ -2296,8 +2349,6 @@ void Renderer::pick(int x, int y){
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
 	int ob = floor((obj.y + obj.x/256.0) * 65536.0 -100.0);
 
-	//cout << "z Value: "<< zPos << " obj:" << ob << endl;
-
     ///Picking
     //get ObjectID and find worldTarget
     if (ob>=0){
@@ -2396,10 +2447,9 @@ GLuint Renderer::LoadTextureRAW( const char * filename,int size, int wrap ){
     glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 
     // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                     GL_NEAREST );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
     // if wrap is true, the texture wraps over at the edges (repeat)
     //       ... false, the texture ends at the edges (clamp)
@@ -2438,9 +2488,9 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
     glBindTexture( GL_TEXTURE_2D, texture );
 
     // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,texFilter );
     // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter );
 
     // if wrap is true, the texture wraps over at the edges (repeat)
     //       ... false, the texture ends at the edges (clamp)
@@ -2503,9 +2553,9 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
     glBindTexture( GL_TEXTURE_2D, tex );
 
     // when texture area is small, bilinear filter the closest mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texFilter );
     // when texture area is large, bilinear filter the first mipmap
-    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texFilter );
 
     //the texture ends at the edges (clamp)
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,GL_CLAMP );

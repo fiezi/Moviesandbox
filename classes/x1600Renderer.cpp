@@ -56,7 +56,7 @@ void X1600Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_LINEAR );
+        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, texFilter );
 
 		//cleanup
 		glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );

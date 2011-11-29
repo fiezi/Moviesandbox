@@ -59,7 +59,7 @@ void LoadButton::clickedLeft(){
     }
 
     if (buttonProperty=="LOADPROJECT"){
-        string myProject=sceneData->openFileDialog(".project");
+        string myProject=sceneData->openFileDialog(".project\0\0" );
         if (myProject=="NULL")
             return;
         sceneData->loadProject(myProject,false);

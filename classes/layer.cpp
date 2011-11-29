@@ -103,17 +103,14 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("depthTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["depthTex"], 1);
 
-    if (myShader->uniforms.find("pickTex") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["pickTex"], 2);
-
     if (myShader->uniforms.find("shadowTex") != myShader->uniforms.end())
-        glUniform1i(myShader->uniforms["shadowTex"], 3);
+        glUniform1i(myShader->uniforms["shadowTex"], 2);
 
-    if (myShader->uniforms.find("fxTex") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["fxTex"], 4);
+    if (myShader->uniforms.find("normalTex") != myShader->uniforms.end())
+        glUniform1iARB(myShader->uniforms["normalTex"], 3);
 
-    if (myShader->uniforms.find("multiTex") != myShader->uniforms.end())
-        glUniform1iARB(myShader->uniforms["multiTex"], 5);
+
+
 
     if (myShader->uniforms.find("lightViewMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["lightViewMatrix"],1,false,(GLfloat*)renderer->lightViewMatrix);
@@ -154,6 +151,9 @@ void Layer::updateShaders(){
 
     if (myShader->uniforms.find("bDrawColor") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bDrawColor"],renderer->bDrawColor);
+
+    if (myShader->uniforms.find("bDrawNormals") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bDrawNormals"],renderer->bDrawNormals);
 
     if (myShader->uniforms.find("focus") != myShader->uniforms.end())
         glUniform1f(myShader->uniforms["focus"],renderer->focus);
