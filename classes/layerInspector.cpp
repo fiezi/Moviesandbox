@@ -9,6 +9,9 @@ LayerInspector::LayerInspector(){
     newLayer=NULL;
     listHeight=12;
     listWidth=200;
+    scrollSize=350.0;
+    listDisplaySize=400;
+
     registerProperties();
 }
 
@@ -37,7 +40,7 @@ void LayerInspector::setup(){
 void LayerInspector::update(double deltaTime){
 
     Inspector::update(deltaTime);
-    listDisplaySize= renderer->screenY-(location.y + 2.0* listHeight);
+    //listDisplaySize= renderer->screenY-(location.y + 2.0* listHeight);
 }
 
 void LayerInspector::createInspectorButtons(){
@@ -261,6 +264,12 @@ void LayerInspector::assembleList(){
             listButton.push_back(a);
             placeButton(listButton.size()-1,listButton.size()-1);
         }
+
+    if (listButton.size()>0)
+        listSize.y=listButton[listButton.size()-1]->location.y+listButton[listButton.size()-1]->scale.y;
+    else
+        listSize.y=0;
+
     }
 
 }

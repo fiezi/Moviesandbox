@@ -168,7 +168,7 @@ Renderer::Renderer(){
     //texFilter = GL_NEAREST;
 
     dataType= GL_FLOAT;
-    dataType= GL_INT;
+    //dataType= GL_INT;
 
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
@@ -383,7 +383,7 @@ void Renderer::setup(){
     glGenTextures(1, &pickTexture);
     glBindTexture(GL_TEXTURE_2D, pickTexture);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  1, 1, 0, GL_BGRA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  1, 1, 0, GL_BGRA, dataType, NULL);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
@@ -2381,11 +2381,11 @@ void Renderer::pick(int x, int y){
 
 
 
-    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX * xRatio),(int) ((screenY-input->mouseY)*yRatio) ,1 ,1 );
-    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&mousePos);
+    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX),(int) (screenY-input->mouseY) ,1 ,1 );
+    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,dataType,&mousePos);
 
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (screenX/2.0),(int) (screenY/2.0) ,1 ,1 );
-    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,GL_FLOAT,&centerInfo);
+    glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,dataType,&centerInfo);
 
     //Shader writes data as follows:
     //gl_FragData[1]=vec4(zPos,zPos,objectID,objectID);
@@ -2394,7 +2394,11 @@ void Renderer::pick(int x, int y){
 	float zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
 
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
-	int ob = floor((obj.y + obj.x/256.0) * 65536.0 -100.0);
+	float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
+	int ob = floor( (obj.y + obj.x/255.0) * 1024.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
+
+
+    //cout << "objectID: " << raw << endl;
 
     ///Picking
     //get ObjectID and find worldTarget

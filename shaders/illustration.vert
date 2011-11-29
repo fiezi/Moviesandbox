@@ -1,13 +1,12 @@
 attribute float vertexID;
-uniform float screensize;
-uniform float scene_size;
 
 uniform float time;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
+
 varying float zPos;
-varying float vID;
+varying float oID;
 
 /*
 *   Point Size
@@ -49,9 +48,10 @@ void main(){
 
   gl_PointSize= pointSize() * (1.15+0.15* sin(0.001* time + objectID +xC+myVertex.y));
 
-  zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
-  vID=vertexID;
+
 }
 
 

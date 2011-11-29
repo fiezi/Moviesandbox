@@ -1,6 +1,6 @@
 uniform float time;
 uniform float lighting_size;
-uniform float scene_size;
+uniform float farClip;
 uniform float screenX;
 uniform float screenY;
 
@@ -108,7 +108,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 float unpackToFloat(vec4 value){
 
-	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+	const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
 
 	return dot(value, bitSh);
 }
@@ -135,13 +135,13 @@ float unpackToFloat(vec2 value){
 
 vec4 readPixelInfo( in vec2 coord ) {
 
-   return  vec4(texture2D( normalTex, coord ).xyz,  unpackToFloat(texture2D( depthTex, coord ).rg) );
+   return  vec4(texture2D( normalTex, coord ).xyz,  unpackToFloat(texture2D( depthTex, coord ).rg)* farClip );
 
 }
 
 float readObjectInfo( in vec2 coord ) {
 
-    return  texture2D( depthTex, coord ).ba ;
+    return  unpackToFloat(texture2D( depthTex, coord ).ba)*1024.0 - 100.0 ;
 
 }
 /*
@@ -284,8 +284,8 @@ void main(void){
         gl_FragData[0]=texture2D(normalTex,texCoord);
 
     ///Ambient Occlusion
-    //if (bSSAO)
-     //   gl_FragData[0].rgb*=computeAO().rgb ;
+    if (bSSAO)
+       gl_FragData[0].rgb*=computeAO().rgb ;
 
    // gl_FragDepth=texture2D(pickTex,texCoord).r;
 

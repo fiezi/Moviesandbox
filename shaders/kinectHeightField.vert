@@ -1,11 +1,13 @@
 uniform sampler2D tex;
 
+uniform float farClip;
 uniform float time;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
 
 varying float zPos;
+varying float oID;
 
 /*
 *   Point Size
@@ -61,6 +63,8 @@ void main(){
         gl_PointSize= 0.0;
     else
         gl_PointSize= pointSize();
-    zPos=gl_Position.z;
+
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
 }

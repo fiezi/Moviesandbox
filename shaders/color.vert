@@ -2,7 +2,6 @@ attribute float vertexID;
 uniform float screenX;
 uniform float screenY;
 uniform float farClip;
-uniform float nearClip;
 
 uniform float time;
 uniform float particleMultiplier;
@@ -11,9 +10,8 @@ uniform float objectID;
 uniform float fov;
 
 varying float zPos;
-varying float vID;
-varying float pSize;
-varying vec2 coord;
+varying float oID;
+
 
 /*
 *   Point Size
@@ -51,17 +49,10 @@ void main(){
                                                     //this here is an approximation
     gl_PointSize= pointSize();//  * (45.0*45.0)/(fov*fov);
 
-    pSize=gl_PointSize;///screenX;
 
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
-    zPos/=farClip;
-
-    vID=vertexID;
-    vec4 pixelPos= gl_Position;
-    pixelPos /= pixelPos.w;
-    pixelPos= pixelPos * 0.5 + 0.5;
-    coord=pixelPos.xy;
 }
 
 

@@ -6,12 +6,9 @@ uniform float objectID;
 uniform float farClip;
 
 varying float zPos;
-varying float pSize;
-varying vec4 pixelPos;
+varying float oID;
 
-varying float vID;
 
-float PI = 3.14159265358979323846264;
 
 /*
 *   Main
@@ -20,8 +17,8 @@ float PI = 3.14159265358979323846264;
 
 vec4 packToVec4(float value){
 
-   const vec4 bitSh = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
-   const vec4 bitMsk = vec4(0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0);
+   const vec4 bitSh = vec4(255.0 * 255.0 * 255.0, 255.0 * 255.0, 255.0, 1.0);
+   const vec4 bitMsk = vec4(0.0, 1.0 / 255.0, 1.0 / 255.0, 1.0 / 255.0);
    vec4 res = fract(value * bitSh);
    res -= res.xxyz * bitMsk;
 
@@ -30,8 +27,8 @@ vec4 packToVec4(float value){
 
 vec3 packToVec3(float value){
 
-   const vec3 bitSh = vec3(256.0 * 256.0, 256.0, 1.0);
-   const vec3 bitMsk = vec3(0.0, 1.0 / 256.0, 1.0 / 256.0);
+   const vec3 bitSh = vec3(255.0 * 255.0, 255.0, 1.0);
+   const vec3 bitMsk = vec3(0.0, 1.0 / 255.0, 1.0 / 255.0);
    vec3 res = fract(value * bitSh);
    res -= res.xxy * bitMsk;
 
@@ -40,10 +37,10 @@ vec3 packToVec3(float value){
 
 vec2 packToVec2(float value){
 
-   const vec2 bitSh = vec2(256.0, 1.0);
-   const vec2 bitMsk = vec2(0.0, 1.0 / 256.0);
+   const vec2 bitSh = vec2(255.0, 1.0);
+   const vec2 bitMsk = vec2(0.0, 1.0 / 255.0);
    vec2 res = fract(value * bitSh);
-   res -= res.xxy * bitMsk;
+   res -= res.xx * bitMsk;
 
    return res;
 }
@@ -52,8 +49,8 @@ void main(){
 
         gl_FragData[0]=gl_Color;
 
-        gl_FragData[1].xy=packToVec2(zPos/farClip);
-        gl_FragData[1].zw=packToVec2((objectID+100.0)/65536.0);
+        gl_FragData[1].xy=packToVec2(zPos);
+        gl_FragData[1].zw=packToVec2(oID);
 
 }
 

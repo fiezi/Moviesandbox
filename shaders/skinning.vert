@@ -11,12 +11,11 @@ uniform float particleAngleScale;
 
 uniform mat4 cameraInverse;
 uniform float objectID;
-uniform float screensize;
-uniform float scene_size;
+uniform float farClip;
 uniform float fov;
 
 varying float zPos;
-varying float vID;
+varying float oID;
 
 int bones[4];
 float weights[4];
@@ -99,9 +98,9 @@ void main(){
     gl_PointSize= pointSize() * (45.0*45.0)/(fov*fov);
 
 
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
-    vID=vertexID;
 }
 
 

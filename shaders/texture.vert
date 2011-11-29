@@ -8,10 +8,7 @@ uniform float objectID;
 uniform float farClip;
 
 varying float zPos;
-varying vec4 picking;
-
-varying vec3 N;
-varying float backSide;
+varying float oID;
 
 /*
 *   Point Size
@@ -46,16 +43,11 @@ void main(){
     vec4 myVertex=gl_Vertex;
     myVertex.w=1.0;
 
-    N =  gl_NormalMatrix * gl_Normal;
-
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
-    //vec4 myPos = gl_ModelViewMatrix * myVertex;
-    //myPos=myPos/myPos.w;
 
     gl_PointSize= pointSize();
 
-    //zPos from 0 to 1, then from 0 to 65536.0!
     zPos=gl_Position.z/farClip;
-    //zPos=myPos.z;
+    oID= (objectID+100.0) /1024.0;
 
 }

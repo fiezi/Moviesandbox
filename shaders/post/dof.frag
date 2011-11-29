@@ -29,7 +29,7 @@ varying vec2 texCoord;
 
 float unpackToFloat(vec4 value){
 
-	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+	const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
 
 	return dot(value, bitSh);
 }
@@ -155,10 +155,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 vec4 computeDOF() {
 
-    vec4 depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
-
-    if (depthValue.x<=0.0)
-        depthValue.x=65536.0;
+    float depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
 
     vec4 blurPart=blur(tex, texCoord);
 
@@ -181,7 +178,7 @@ vec4 computeDOF() {
   //linear focus
     float focusDepth=focus/5.0 +1.0;
     //get depth distance to focus:
-    float combine=abs(depthValue.x-focus);
+    float combine=abs(depthValue-focus);
     //clamp focus:
     combine=min(focusDepth,combine);
 

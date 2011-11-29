@@ -1,6 +1,5 @@
 uniform sampler2D tex;
-uniform float screensize;
-uniform float scene_size;
+uniform float farClip;
 
 uniform float time;
 uniform mat4 cameraInverse;
@@ -9,6 +8,7 @@ uniform float particleAngleScale;
 uniform float objectID;
 
 varying float zPos;
+varying float oID;
 
 /*
 *   Point Size
@@ -47,6 +47,7 @@ void main(){
 
     gl_PointSize= pointSize();
 
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
 }

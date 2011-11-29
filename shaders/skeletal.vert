@@ -1,5 +1,4 @@
-uniform float screensize;
-uniform float scene_size;
+uniform float farClip;
 
 attribute float vertexID;
 
@@ -15,10 +14,7 @@ uniform mat4 cameraInverse;
 uniform float objectID;
 
 varying float zPos;
-varying float pSize;
-varying vec4 pixelPos;
-
-varying float vID;
+varying float oID;
 
 int bones[4];
 float weights[4];
@@ -88,8 +84,7 @@ void main(){
     vec4 world=myMat * myVertex;
     world/=world.w;
 
-    vec4 myPosition=gl_ProjectionMatrix * gl_ModelViewMatrix * world;
-    gl_Position=myPosition;
+    gl_Position=gl_ProjectionMatrix * gl_ModelViewMatrix * world;
 
     //Point Size
     gl_PointSize=pointSize();
@@ -98,22 +93,12 @@ void main(){
     //if (bones[0]<0)
     //  gl_PointSize=0.0;
 
-    //3D positions
-
-
-
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
 
     gl_FrontColor=gl_Color;
 
-	pixelPos= myPosition;
-	pixelPos /= pixelPos.w;
-	pixelPos= pixelPos * 0.5 + 0.5;
-
-	pSize=gl_PointSize;
-
-    vID=vertexID;
 }
 
 

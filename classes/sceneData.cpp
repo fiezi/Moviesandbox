@@ -1019,7 +1019,7 @@ void SceneData::saveAll(std::string filename){
       root->LinkEndChild(nodeElement);
       }
 
-    string saveString=startProject + "/";
+    string saveString=startProject;
     saveString.append(filename);
 
     cout << "saving filename: " << saveString << endl;
@@ -1027,7 +1027,7 @@ void SceneData::saveAll(std::string filename){
     doc.SaveFile( saveString );
 
     //set project as startupProject
-    TiXmlDocument myLib( startProject + "/" + "my.project" );
+    TiXmlDocument myLib( startProject + "my.project" );
     myLib.LoadFile();
     //get our start scene
     TiXmlHandle hDoc(&myLib);
@@ -1042,7 +1042,7 @@ void SceneData::saveAll(std::string filename){
     element=hRoot.FirstChild( "StartScene" ).Element();
 
     element->SetAttribute("name", filename);
-    myLib.SaveFile( startProject + "/" + "my.project");
+    myLib.SaveFile( startProject +"my.project");
 
 }
 

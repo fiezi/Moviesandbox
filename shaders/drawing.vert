@@ -1,7 +1,6 @@
 attribute float vertexID;
 
-uniform float screensize;
-uniform float scene_size;
+uniform float farClip;
 
 uniform float time;
 uniform float particleMultiplier;
@@ -9,6 +8,7 @@ uniform float particleAngleScale;
 uniform float objectID;
 
 varying float zPos;
+varying float oID;
 varying vec4 pixelPos;
 varying float bTubeNormal;
 varying float vID;
@@ -53,7 +53,8 @@ void main(){
 
   pSize=gl_PointSize;
 
-  zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
 
 

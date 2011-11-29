@@ -1,5 +1,4 @@
-uniform float screensize;
-uniform float scene_size;
+uniform float farClip;
 
 attribute float vertexID;
 
@@ -15,6 +14,8 @@ uniform mat4 cameraInverse;
 uniform float objectID;
 
 varying float zPos;
+varying float oID;
+
 
 int bones[4];
 float weights[4];
@@ -96,7 +97,8 @@ void main(){
 
      //3D positions
 
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
     gl_FrontColor=gl_Color;
 }
