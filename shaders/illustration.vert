@@ -4,6 +4,8 @@ uniform float time;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
+uniform float farClip;
+
 
 varying float zPos;
 varying float oID;

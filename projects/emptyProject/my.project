@@ -1,7 +1,5 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <untitled amount="2" />
-    <StartScene name="saveTest.scene" />
-    <SpriteMesh meshID="untitled1" meshFilename="untitled/untitled1.spriteMesh" />
-    <SpriteMesh meshID="untitled0" meshFilename="untitled/untitled0.spriteMesh" />
+    <untitled amount="0" />
+    <StartScene name="blank.scene" />
 </Moviesandbox>

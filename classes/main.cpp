@@ -221,7 +221,7 @@ void endFileLog(){
 
 int main(int argc, char* argv[]){
 
-    //startFileLog();
+   startFileLog();
 
 	glutInit(&argc, argv);
 
