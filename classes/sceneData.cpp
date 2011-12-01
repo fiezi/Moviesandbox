@@ -492,7 +492,7 @@ void SceneData::loadPreferences(){
         //for now, just windows and OSX
 #ifdef TARGET_WIN32
         string myTaskLocation=element->Attribute("filenameWin32");
-#elseif TARGET_MACOSX
+#elif TARGET_MACOSX
         string myTaskLocation=element->Attribute("filenameOSX");
 #else
         string myTaskLocation=element->Attribute("filenameLinux");
@@ -2121,7 +2121,7 @@ string SceneData::saveFileDialog(string ext){
     if (GetSaveFileNameW(&ofn)){
         filePath = convertWideToNarrow(fileName);
         if (filePath.find(".scene")==string::npos)
-        filePath+=ext;
+            filePath+="."+ext;
 
         return filePath;
 
