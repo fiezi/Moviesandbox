@@ -286,6 +286,11 @@ void Input::moveMouse(int x, int y){
 	mouseY=y;
 
 
+    #ifdef TARGET_LINUX
+    //mouse confinement is kinda broken in LINUX
+    return;
+    #endif
+
 	if (bConfineMouse){
 
        if (mouseX>renderer->screenX/2+200 || mouseX < renderer->screenX/2-200)
@@ -340,6 +345,10 @@ void Input::dragMouse(int x, int y){
 	mouseY=y;
 
 
+    #ifdef TARGET_LINUX
+    //mouse confinement is kinda broken in LINUX
+    return;
+    #endif
 
 	if (bConfineMouse){
 
