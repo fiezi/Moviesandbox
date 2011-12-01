@@ -1532,12 +1532,20 @@ void SceneData::newProject(std::string projectName){
     command+=projectName;
     system(command.c_str());
 
-    startProject=projectName;
+	//make untitled directory
+	command+=DIRECTORY_SEPARATION;
+	command+="untitled";
+    system(command.c_str());
+
+    startProject=projectName + "/";
     //create blank scene
 
     //go to exe_path directory before closing and reloading
     cout << "switching to exe path..." << exe_path << endl;
     chdir(exe_path.c_str());
+	
+	
+	
     newScene();
 
     currentScene="blank.scene";
@@ -1547,7 +1555,7 @@ void SceneData::newProject(std::string projectName){
     saveAll(currentScene);
 
     //load bogus project to create
-    loadProject(projectName+DIRECTORY_SEPARATION);
+    loadProject(startProject);
 }
 
 
@@ -1606,7 +1614,7 @@ void SceneData::saveMeshes(){
                     cout << "path: " << myPath << endl;
                     cout << "name: " << name << endl;
 
-                    spriteMeshLoader->saveSpriteMesh(startProject+"/"+myPath+name+".spriteMesh", skel, name);
+                    spriteMeshLoader->saveSpriteMesh(startProject+myPath+name+".spriteMesh", skel, name);
 
 
                     //open my.library and append this mesh!
@@ -2171,7 +2179,7 @@ string SceneData::openFileDialog(string ext){
 	const int kBufferSize = 255;
 
 	char folderURL[kBufferSize];
-	Boolean bool1 = CFStringGetCString(cfString,folderURL,kBufferSize,kCFStringEncodingMacRoman);
+	CFStringGetCString(cfString,folderURL,kBufferSize,kCFStringEncodingMacRoman);
 
 	// append strings together
 
@@ -2186,7 +2194,6 @@ string SceneData::openFileDialog(string ext){
 string SceneData::saveFileDialog(string ext){
 
 
-    short fRefNumOut;
     FSRef output_file;
     OSStatus err;
 
@@ -2197,8 +2204,8 @@ string SceneData::saveFileDialog(string ext){
     options.modality = kWindowModalityAppModal;
 
     options.optionFlags = kNavDefaultNavDlogOptions;
-    options.message = CFStringCreateWithCString(NULL, "testOne", kCFStringEncodingASCII);;
-    options.saveFileName = CFStringCreateWithCString(NULL, "testTwo", kCFStringEncodingASCII);
+    options.message = CFStringCreateWithCString(NULL,ext.c_str(), kCFStringEncodingASCII);;
+    options.saveFileName = CFStringCreateWithCString(NULL, "", kCFStringEncodingASCII);
     NavDialogRef dialog;
 
     err = NavCreatePutFileDialog(&options, '.mov', 'Moov', NULL, NULL, &dialog);

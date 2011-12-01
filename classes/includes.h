@@ -168,9 +168,10 @@ struct externalInputData{
         void startProgram(){
 
             if ((processId = fork()) == 0) {
-                char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
-                char * const argv[] = { app, NULL };
-                if (execve(app, argv, NULL) < 0) {
+                char* exePath = (char*)filename.c_str();
+				//char app[] = "tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect";
+                char * const argv[] = { exePath, NULL };
+                if (execve(exePath, argv, NULL) < 0) {
                     perror("execv error:");
                 }
             } else if (processId < 0) {

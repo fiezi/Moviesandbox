@@ -81,6 +81,7 @@ void SkeletalActor::postLoad(){
     cout << "SkeletalActor Name: " << name << endl;
     cout << "SkeletalActor vboID: " << vboMeshID << endl;
 
+	//TODO: this is the breaking point for unknown meshID!!
 	if (sceneData->vboList[vboMeshID]->boneCount>0){
 		boneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
 		invBoneTransforms=new Matrix4f[sceneData->vboList[vboMeshID]->boneCount];
