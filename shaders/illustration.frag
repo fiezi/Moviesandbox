@@ -1,7 +1,5 @@
 uniform vec4 postColor;
 uniform float objectID;
-uniform float farClip;
-uniform bool bComputeLight;
 
 varying float zPos;
 varying float oID;
