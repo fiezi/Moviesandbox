@@ -178,6 +178,8 @@ struct externalInputData{
                 perror("fork error");
             }
             cout << "started task "<<taskName<<endl;
+
+
         }
 
         void stopProgram(){
@@ -204,15 +206,17 @@ struct externalInputData{
         void startProgram(){
 
             if ((processId = fork()) == 0) {
-                char app[] = "tools/msbKinect/msbKinect";
-                char * const argv[] = { app, NULL };
-                if (execve(app, argv, NULL) < 0) {
+                //char app[] = ;
+                //clean up glut so we can create a new one!
+                //glutExit();
+                char * const argv[] = { (char*)filename.c_str(), NULL };
+                if (execve(filename.c_str(), argv, NULL) < 0) {
                     perror("execv error:");
                 }
             } else if (processId < 0) {
                 perror("fork error");
             }
-            cout << "started task "<<taskName<<endl;
+            cout << "started task "<<filename<<endl;
         }
 
         void stopProgram(){

@@ -77,6 +77,12 @@
 		<Unit filename="classes/actor.h">
 			<Option virtualFolder="Actors/" />
 		</Unit>
+		<Unit filename="classes/actorGizmo.cpp">
+			<Option virtualFolder="Actors/" />
+		</Unit>
+		<Unit filename="classes/actorGizmo.h">
+			<Option virtualFolder="Actors/" />
+		</Unit>
 		<Unit filename="classes/assetInspector.cpp">
 			<Option virtualFolder="Buttons/Inspectors/" />
 		</Unit>

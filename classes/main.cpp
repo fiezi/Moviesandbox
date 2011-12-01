@@ -225,6 +225,9 @@ int main(int argc, char* argv[]){
 
 	glutInit(&argc, argv);
 
+    sceneDataManager=SceneData::getInstance();
+	//sceneDataManager->externalInputList["moviesandbox"]->startProgram();
+
 #ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
 #endif
@@ -233,8 +236,7 @@ int main(int argc, char* argv[]){
 
     selectRenderer();
 
-    sceneDataManager=SceneData::getInstance();
-	inputManager=Input::getInstance();
+    inputManager=Input::getInstance();
 
 #ifdef TARGET_WIN32
 

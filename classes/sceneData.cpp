@@ -137,6 +137,22 @@
 #define BUF_SIZE 640*480*4*sizeof(unsigned char)
 
 
+
+#ifdef TARGET_LINUX
+//from ofxFenster ofSystemUtils.cpp
+
+ static gboolean closeGTK(GtkWidget *widget){
+     gtk_widget_destroy(widget);
+     //gtk_main_quit();
+     return (FALSE);
+ }
+
+ static void initGTK(){
+     int argc=0; char **argv = NULL;
+     gtk_init (&argc, &argv);
+ }
+
+ #endif
 //static link
 SceneData* SceneData::sceneDataInstance=NULL;
 
@@ -356,6 +372,9 @@ void SceneData::setup(){
 
     inspectorManager=new InspectorManager;
 	controller=new Control;
+#ifdef TARGET_LINUX
+    initGTK();  //should only be called once, no?
+#endif
 
 }
 
@@ -473,8 +492,10 @@ void SceneData::loadPreferences(){
         //for now, just windows and OSX
 #ifdef TARGET_WIN32
         string myTaskLocation=element->Attribute("filenameWin32");
-#else
+#elseif TARGET_MACOSX
         string myTaskLocation=element->Attribute("filenameOSX");
+#else
+        string myTaskLocation=element->Attribute("filenameLinux");
 #endif
 
         externalInputList[myTaskName]=new externalInputData;
@@ -1543,9 +1564,9 @@ void SceneData::newProject(std::string projectName){
     //go to exe_path directory before closing and reloading
     cout << "switching to exe path..." << exe_path << endl;
     chdir(exe_path.c_str());
-	
-	
-	
+
+
+
     newScene();
 
     currentScene="blank.scene";
@@ -2277,38 +2298,27 @@ string SceneData::saveFileDialog(string ext){
 
 #ifdef TARGET_LINUX
 
-//from ofxFenster ofSystemUtils.cpp
 
- static gboolean closeGTK(GtkWidget *widget){
-     //gtk_widget_destroy(widget);
-     gtk_main_quit();
-     return (FALSE);
- }
-
- static void initGTK(){
-     int argc=0; char **argv = NULL;
-     gtk_init (&argc, &argv);
-
- }
 
  static void startGTK(GtkWidget *dialog){
+
      gtk_init_add( (GSourceFunc) closeGTK, NULL );
      gtk_quit_add_destroy(1,GTK_OBJECT(dialog));
      //g_timeout_add(10, (GSourceFunc) destroyWidgetGTK, (gpointer) dialog);
      gtk_main();
+
  }
 
 
 string SceneData::openFileDialog(string ext){
 
-    initGTK();
 
-//    GdkDisplay* myDisplay=gdk_x11_lookup_xdisplay(RootWindow);
+    //GdkDisplay* myDisplay=gdk_x11_lookup_xdisplay(RootWindow);
 
 
 
     string results;
-   const gchar* button_name = "";
+   const gchar* button_name = "load";
    GtkWidget *dialog = gtk_file_chooser_dialog_new ("yay!",
                            NULL,
                            GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -2321,7 +2331,8 @@ string SceneData::openFileDialog(string ext){
      if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
          results = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
      }
-     startGTK(dialog);
+     gtk_widget_destroy (dialog);
+     //startGTK(dialog);
      return results;
 
 
@@ -2338,38 +2349,49 @@ string SceneData::openFileDialog(string ext){
 }
 
 
-string SceneData::saveFileDialog(){
+string SceneData::saveFileDialog(string ext){
+
+
 
     GtkWidget *dialog;
 
      dialog = gtk_file_chooser_dialog_new ("Save File",
-     				      parent_window,
+     				      NULL,
      				      GTK_FILE_CHOOSER_ACTION_SAVE,
      				      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
      				      GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
      				      NULL);
      gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
 
-     if (user_edited_a_new_document)
-       {
-         gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), default_folder_for_saving);
-         gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "Untitled document");
-       }
-     else
-       gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename_for_existing_document);
+         //gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), ".");
+         gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog), "newScene.scene");
 
+         //gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (dialog), filename_for_existing_document);
+
+    string myFile;
+
+     //response = chooser.run()
+     // if response == gtk.RESPONSE_OK: filename = chooser.get_filename()
+     // chooser.destroy()
+     //   return filename
 
      if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
        {
-         char *filename;
+         //char *filename;
 
-         filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-         save_to_file (filename);
-         g_free (filename);
+        myFile =gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+
+        cout << "chose file:" << myFile << endl;
+
        }
+    else{
+        myFile="NULL";
+    }
 
      gtk_widget_destroy (dialog);
 
+
+     return myFile;
 
 }
 

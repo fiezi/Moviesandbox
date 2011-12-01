@@ -643,6 +643,8 @@ void Input::keyUp(unsigned char key,int x,int y){
             sceneData->actorList.push_back(bone);
         }
 
+
+
     ///debug:
 
        cout << "pressed key: " << (int)key << endl;
