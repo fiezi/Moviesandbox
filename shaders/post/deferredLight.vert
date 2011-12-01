@@ -14,7 +14,6 @@ varying vec2 texCoord;
 
 varying vec3 lightColor;
 varying vec4 lightPos;
-varying float lightZScreen;
 varying mat4 lightSpaceMat;
 
 void main(){
@@ -37,7 +36,7 @@ void main(){
 
 
 
-    lightZScreen=farClip/ (farClip - lightPos.z * (farClip- nearClip));
+    float lightZScreen=farClip/ (farClip - lightPos.z * (farClip- nearClip));
     lightPos/=(lightZScreen) ;
 
 	gl_FrontColor = gl_Color;

@@ -31,7 +31,6 @@ varying vec2 texCoord;
 
 varying vec3 lightColor;
 varying vec4 lightPos;
-varying float lightZScreen;
 varying mat4 lightSpaceMat;
 
 const float specularExp = 32.0;
@@ -45,7 +44,7 @@ float zPosScreen;
 // blur variables
 
 
-    vec2 tc_offset[25];
+    
 
     float PI = 3.14159265358979323846264;
 
@@ -73,7 +72,13 @@ float unpackToFloat(vec2 value){
 
 vec4 blur5(sampler2D myTex,vec2 tc){
 
-      float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
+     
+	  vec2 tc_offset[25];
+
+		for (int i=0;i<25;i++)
+            tc_offset[i]=vec2(0.0,0.0);
+      
+	    float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
       //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
@@ -134,7 +139,12 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 
 vec4 blur3(sampler2D myTex, vec2 tc){
 
-      vec4 sample[9];
+		vec2 tc_offset[25];
+
+		for (int i=0;i<25;i++)
+            tc_offset[i]=vec2(0.0,0.0);
+      
+	  vec4 sample[9];
 
       float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
@@ -151,18 +161,28 @@ vec4 blur3(sampler2D myTex, vec2 tc){
       tc_offset[7]=spread * vec2(0.0,-1.0);
       tc_offset[8]=spread * vec2(1.0,-1.0);
 
-      for (int i=0 ; i<9 ; i++)
-      {
-        sample[i]=texture2D(myTex , tc + tc_offset[i]);
-      }
+
+		sample[0]=texture2D(myTex ,tc + tc_offset[0] );
+		sample[1]=texture2D(myTex ,tc + tc_offset[1] );
+		sample[2]=texture2D(myTex ,tc + tc_offset[2] );
+		sample[3]=texture2D(myTex ,tc + tc_offset[3] );
+		sample[4]=texture2D(myTex ,tc + tc_offset[4] );
+		sample[5]=texture2D(myTex ,tc + tc_offset[5] );
+		sample[6]=texture2D(myTex ,tc + tc_offset[6] );
+		sample[7]=texture2D(myTex ,tc + tc_offset[7] );
+		sample[8]=texture2D(myTex ,tc + tc_offset[8] );
+
+
+
 
       vec4 blurredColor=(
                          sample[0] + (2.0* sample[1]) + sample[2] +
                          (2.0*sample[3]) + sample[4] + (2.0*sample[5]) +
                          sample[6] + (2.0* sample[7]) + sample[8]
                         )/ 13.0;
-      //blurredColor.a=1.0;
-      return(blurredColor);
+  
+
+      return blurredColor;
 }
 
 
@@ -174,7 +194,7 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc).rg) * (farClip);
     //zPos= unpackToFloat(texture2D(depthTex,tc)) * (farClip);
 
 
@@ -192,34 +212,29 @@ void getPixelLoc(){
 vec4 computeLight(){
 
 
-    //return vec4(zPos/100.0);
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
 
+	//colorLight=vec4(1.0,1.0,1.0,1.0);
 
     vec4 pp=pixelPos*(-zPos/10.0);
     //pp.z/=zPos;
 
-
+	
     float xDist= (lightPos.x/10.0 - pp.x); //* screenX/screenY;
     float yDist= (lightPos.y/10.0 - pp.y);//* screenY/screenX;
     float zDist= (lightPos.z /10.0- pp.z)/100.0;
 
+//	return vec4(xDist,yDist,zDist,1.0);
 
 
     vec3 lightDirection=vec3(-xDist,-yDist,zDist/1.0);
-    float lightDistance=length(lightDirection)*10.0;
+    float lightDistance=length(lightDirection)*1.0;
 
     vec3 lightDirectionNormalized =normalize(lightDirection);
 
-    //return here if we're out of range!
-    //if (lightDistance>gl_LightSource[0].linearAttenuation)
-     //  return vec4(0.0,0.0,0.0,1.0);
-
-
     vec3 pixelNormal=blur3(normalTex,texCoord).xyz;
-
 
     //diffuse is dot Product of lightdirection on pixel normal
 	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );
@@ -236,6 +251,9 @@ vec4 computeLight(){
     float falloff = max(0.0,(gl_LightSource[0].linearAttenuation-lightDistance)/gl_LightSource[0].linearAttenuation);
     colorLight= colorLight * falloff;
 
+    //return here if we're out of range!
+    if (lightDistance>gl_LightSource[0].linearAttenuation)
+       colorLight= vec4(0.0,0.0,0.0,1.0);
 
     return colorLight;
 }
@@ -301,16 +319,11 @@ vec4 shadowMapping(){
 void main(){
 
 
-      for (int i=0;i<25;i++)
-            tc_offset[i]=vec2(0.0,0.0);
+      
 
     getPixelLoc();
-    //load old lighting data
-    gl_FragColor=texture2D(tex, texCoord);
+    //add old lighting data
+    gl_FragColor=texture2D(tex, texCoord) + shadowMapping();
+	
 
-    //gl_FragColor+=computeLight();
-
-    gl_FragColor+=shadowMapping();
-
-    //gl_FragColor.a=1.0;
 }

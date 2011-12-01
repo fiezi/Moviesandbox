@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <Settings ScreenSizeX="1024" ScreenSizeY="768" bRenderStereo="0" bFullScreen="0" BackgroundTex="grey_bkg" bDrawLighting="1" bMultisample="0" numSamples="2" ShadowSize="2.0" LightingSize="1.5" SceneSize="1.0" MouseSensitivity="0.04" MoveSpeed="8.0" FOV="45" StartProject="/Users/fiezi/Moviesandbox/projects/test/" />
+    <Settings ScreenSizeX="1024" ScreenSizeY="768" bRenderStereo="0" bFullScreen="0" BackgroundTex="grey_bkg" bDrawLighting="1" bMultisample="0" numSamples="2" ShadowSize="2.0" LightingSize="1.5" SceneSize="1.0" MouseSensitivity="0.04" MoveSpeed="8.0" FOV="45" StartProject="projects/emptyProject/" />
     <ExternalInput taskName="moviesandbox" filenameWin32="./Moviesandbox.exe" filenameOSX="./Moviesandbox.app/Contents/MacOS/Moviesandbox" />
     <ExternalInput taskName="kinectInput" filenameWin32="tools/msbKinect/msbKinect.exe" filenameOSX="tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect" />
     <ExternalInput taskName="audioInput" filenameWin32="tools/AudioTool.exe" filenameOSX="NULL" />

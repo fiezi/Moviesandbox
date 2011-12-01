@@ -20,9 +20,8 @@ X1600Renderer::~X1600Renderer(){
 
 void X1600Renderer::drawSceneTexture(){
 
-    glPushAttrib(GL_VIEWPORT_BIT);
 
-    glViewport (0, 0, scene_size, scene_size);
+    glViewport (0, 0, screenX, screenY);
 
     glMatrixMode(GL_MODELVIEW);
 
@@ -56,7 +55,7 @@ void X1600Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, texFilter );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
 
 		//cleanup
 		glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
@@ -87,25 +86,7 @@ void X1600Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-/*
-        //picking blitting
-        glReadBuffer(GL_COLOR_ATTACHMENT2_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->pickFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-        //lightInfo blitting
-
-        glReadBuffer(GL_COLOR_ATTACHMENT3_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->lightDataFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-*/
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
     }
 	glEnable(GL_BLEND);
 
@@ -118,7 +99,6 @@ void X1600Renderer::drawSceneTexture(){
 
 	pick(input->mouseX,input->mouseY);
 
-    glPopAttrib();
     //now draw the resulting image into a quad!
 }
 

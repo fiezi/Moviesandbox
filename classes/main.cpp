@@ -123,9 +123,9 @@ void createSplashScreen(){
 }
 
 
-void selectRenderer(){
+void selectRenderer(bool bCompat){
 
-	bool bGLCompatibilityShader=false;
+	bool bGLCompatibilityShader=bCompat;
 
 
 	//checking for extensions and shaders:
@@ -170,7 +170,7 @@ void selectRenderer(){
 		exit(0);
 	}
 
-
+	
 	//set instance, since we already created our Renderer...
 	if (bGLCompatibilityShader){
 		renderManager=X1600Renderer::getInstance();
@@ -221,7 +221,8 @@ void endFileLog(){
 
 int main(int argc, char* argv[]){
 
-    //startFileLog();
+	
+    startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -231,7 +232,13 @@ int main(int argc, char* argv[]){
 
     createSplashScreen();
 
-    selectRenderer();
+	//TODO: make proper command line parameters...
+	if (argc>1)
+		selectRenderer(true);
+	else 
+		selectRenderer(false);
+	
+
 
     sceneDataManager=SceneData::getInstance();
 	inputManager=Input::getInstance();
