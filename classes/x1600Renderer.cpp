@@ -20,105 +20,84 @@ X1600Renderer::~X1600Renderer(){
 
 void X1600Renderer::drawSceneTexture(){
 
-    glPushAttrib(GL_VIEWPORT_BIT);
-
-    glViewport (0, 0, scene_size, scene_size);
-
+	glViewport (0, 0, screenX, screenY);
+	
     glMatrixMode(GL_MODELVIEW);
-
-
+	
+	
     for (int i=0;i<(int)sceneData->layerList.size();i++){
-
-
+		
+		
 		glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-
+		
 		glDrawBuffers(1, drawBuffers);
-
+		
         glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-
-
+		
+		
         glClear( GL_COLOR_BUFFER_BIT |
 				GL_DEPTH_BUFFER_BIT );
-
+		
 		glEnable(GL_BLEND);
-
+		
 		glActiveTexture(GL_TEXTURE0);
-
+		
         //drawbuffers are set up here!
         drawColor3D(sceneData->layerList[i]);
-
-
+		
+		
         //color blitting
-
+		
         glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, multiSample_fb );
         glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
+		
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->colorFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, texFilter );
-
+		
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
+		
 		//cleanup
 		glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
 		glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
 		glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
+		
         //disable blending for second and third buffer and re-render
-
-
+		
+		
 		glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-
+		
 		glDrawBuffers(2, drawBuffers);
-
+		
         glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
-
-
+		
+		
         glClear( GL_COLOR_BUFFER_BIT |
 				GL_DEPTH_BUFFER_BIT );
-
+		
 		//TODO: ATI BUG
 		glDisable(GL_BLEND);
-
+		
         drawData3D(sceneData->layerList[i]);
-
+		
         //depth blitting
         glReadBuffer(GL_COLOR_ATTACHMENT1_EXT);
-
+		
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-/*
-        //picking blitting
-        glReadBuffer(GL_COLOR_ATTACHMENT2_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->pickFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-
-        //lightInfo blitting
-
-        glReadBuffer(GL_COLOR_ATTACHMENT3_EXT);
-
-        glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->lightDataFBO );
-        glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-
-        glBlitFramebufferEXT( 0, 0, scene_size, scene_size, 0, 0, scene_size, scene_size, GL_COLOR_BUFFER_BIT, GL_NEAREST );
-*/
+		
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, texFilter );
     }
 	glEnable(GL_BLEND);
-
+	
     //draw brush here?
-
+	
     //cleanup
     glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0 );
     glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0 );
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0 );
-
+	
 	pick(input->mouseX,input->mouseY);
-
-    glPopAttrib();
+	
     //now draw the resulting image into a quad!
 }
 

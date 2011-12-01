@@ -109,8 +109,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 344464096;
-			PBXWorkspaceStateSaveDate = 344464096;
+			PBXPerProjectTemplateStateSaveDate = 344470104;
+			PBXWorkspaceStateSaveDate = 344470104;
 		};
 		perUserProjectItems = {
 			1805E8CB132AF30600DF1107 /* PBXTextBookmark */ = 1805E8CB132AF30600DF1107 /* PBXTextBookmark */;
@@ -133,8 +133,6 @@
 			1826A55714881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55714881DA300DBAEA6 /* PBXTextBookmark */;
 			1826A55814881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55814881DA300DBAEA6 /* PBXTextBookmark */;
 			1826A55914881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55914881DA300DBAEA6 /* PBXTextBookmark */;
-			1826A55A14881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55A14881DA300DBAEA6 /* PBXTextBookmark */;
-			1826A55B14881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55B14881DA300DBAEA6 /* PBXTextBookmark */;
 			18390A58145A00740008AD89 /* PBXTextBookmark */ = 18390A58145A00740008AD89 /* PBXTextBookmark */;
 			18390A59145A00740008AD89 /* PBXTextBookmark */ = 18390A59145A00740008AD89 /* PBXTextBookmark */;
 			18390A6C145A02570008AD89 /* PBXTextBookmark */ = 18390A6C145A02570008AD89 /* PBXTextBookmark */;
@@ -173,6 +171,9 @@
 			18E637FC13422CC400B675F8 /* PBXTextBookmark */ = 18E637FC13422CC400B675F8 /* PBXTextBookmark */;
 			18E637FD13422CC400B675F8 /* PBXTextBookmark */ = 18E637FD13422CC400B675F8 /* PBXTextBookmark */;
 			18E6380F13422E0700B675F8 /* PBXTextBookmark */ = 18E6380F13422E0700B675F8 /* PBXTextBookmark */;
+			18E9CAC11488330C00628972 /* PBXTextBookmark */ = 18E9CAC11488330C00628972 /* PBXTextBookmark */;
+			18E9CAC21488330C00628972 /* PBXBookmark */ = 18E9CAC21488330C00628972 /* PBXBookmark */;
+			18E9CAD01488339500628972 /* PBXTextBookmark */ = 18E9CAD01488339500628972 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 181161FD10CB3714007AE094 /* Source Control */;
 		userBuildSettings = {
@@ -1246,7 +1247,7 @@
 	};
 	1826A53214881D0F00DBAEA6 /* deferredLight.frag */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {966, 4290}}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 4654}}";
 			sepNavSelRange = "{798, 0}";
 			sepNavVisRange = "{0, 926}";
 		};
@@ -1303,26 +1304,6 @@
 		rLoc = 0;
 		rType = 0;
 		vrLen = 897;
-		vrLoc = 0;
-	};
-	1826A55A14881DA300DBAEA6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1826A53214881D0F00DBAEA6 /* deferredLight.frag */;
-		name = "deferredLight.frag: 38";
-		rLen = 0;
-		rLoc = 798;
-		rType = 0;
-		vrLen = 1531;
-		vrLoc = 6024;
-	};
-	1826A55B14881DA300DBAEA6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1826A53214881D0F00DBAEA6 /* deferredLight.frag */;
-		name = "deferredLight.frag: 38";
-		rLen = 0;
-		rLoc = 798;
-		rType = 0;
-		vrLen = 926;
 		vrLoc = 0;
 	};
 	18390A4E145A00390008AD89 /* actorGizmo.h */ = {
@@ -1480,7 +1461,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 			"PBXLSLaunchAction-0" = {
 				PBXLSLaunchAction = 0;
@@ -1570,12 +1551,6 @@
 		name = post.frag;
 		path = /Users/fiezi/Moviesandbox/shaders/post/post.frag;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {971, 3666}}";
-			sepNavSelRange = "{2867, 0}";
-			sepNavVisRange = "{2497, 1130}";
-			sepNavWindowFrame = "{{52, 0}, {998, 878}}";
-		};
 	};
 	186069DA11771CC3008D43C2 /* skeletal.frag */ = {
 		uiCtxt = {
@@ -1701,9 +1676,9 @@
 	};
 	188BAF0011F2E15F00DCCD15 /* x1600Renderer.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {984, 3354}}";
-			sepNavSelRange = "{6446, 0}";
-			sepNavVisRange = "{5964, 482}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 2964}}";
+			sepNavSelRange = "{2457, 0}";
+			sepNavVisRange = "{0, 856}";
 			sepNavWindowFrame = "{{49, 0}, {743, 878}}";
 		};
 	};
@@ -2012,6 +1987,30 @@
 		rType = 0;
 		vrLen = 1044;
 		vrLoc = 193;
+	};
+	18E9CAC11488330C00628972 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1826A53214881D0F00DBAEA6 /* deferredLight.frag */;
+		name = "deferredLight.frag: 38";
+		rLen = 0;
+		rLoc = 798;
+		rType = 0;
+		vrLen = 926;
+		vrLoc = 0;
+	};
+	18E9CAC21488330C00628972 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 188BAF0011F2E15F00DCCD15 /* x1600Renderer.cpp */;
+	};
+	18E9CAD01488339500628972 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 188BAF0011F2E15F00DCCD15 /* x1600Renderer.cpp */;
+		name = "x1600Renderer.cpp: 102";
+		rLen = 0;
+		rLoc = 2457;
+		rType = 0;
+		vrLen = 856;
+		vrLoc = 0;
 	};
 	18F1DF93110EBB7700C671FC /* basic.library */ = {
 		uiCtxt = {

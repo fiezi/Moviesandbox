@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -267,6 +265,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>08FB7794FE84155DC02AAC07</string>
+								<string>18B96FBA1112D51D00530AA6</string>
 								<string>1AB674ADFE9D54B511CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
@@ -275,6 +274,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>17</integer>
 									<integer>6</integer>
 									<integer>0</integer>
 								</array>
@@ -310,12 +310,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>deferredLight.frag</string>
+								<string>x1600Renderer.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -323,11 +325,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>deferredLight.frag</string>
+										<string>x1600Renderer.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>1826A55B14881DA300DBAEA6</string>
+										<string>18E9CAD01488339500628972</string>
 										<key>history</key>
 										<array>
 											<string>186B7F0D13118A200061F401</string>
@@ -388,7 +390,8 @@
 											<string>1826A55714881DA300DBAEA6</string>
 											<string>1826A55814881DA300DBAEA6</string>
 											<string>1826A55914881DA300DBAEA6</string>
-											<string>1826A55A14881DA300DBAEA6</string>
+											<string>18E9CAC11488330C00628972</string>
+											<string>18E9CAC21488330C00628972</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -446,9 +449,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>1826A51A14881C2A00DBAEA6</string>
+				<string>18E9CAC41488330C00628972</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>1826A51B14881C2A00DBAEA6</string>
+				<string>18E9CAC51488330C00628972</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -586,11 +589,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1826A52514881C5A00DBAEA6</string>
-		<string>1826A52614881C5A00DBAEA6</string>
-		<string>186B7ECC131180D60061F401</string>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>18E9CACE1488330C00628972</string>
+		<string>18E9CACF1488330C00628972</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>186B7ECC131180D60061F401</string>
 		<string>/Users/fiezi/Moviesandbox/Moviesandbox.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -615,7 +618,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>main.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -632,8 +635,6 @@
 							<string>345pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -673,7 +674,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>186B7ECC131180D60061F401</string>
-				<string>1826A50E14881C2000DBAEA6</string>
+				<string>18E9CAC61488330C00628972</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -795,13 +796,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>1826A50F14881C2000DBAEA6</string>
+				<string>18E9CAC71488330C00628972</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>1826A51014881C2000DBAEA6</string>
-				<string>1826A51114881C2000DBAEA6</string>
-				<string>1826A51214881C2000DBAEA6</string>
-				<string>1826A51314881C2000DBAEA6</string>
-				<string>1826A51414881C2000DBAEA6</string>
+				<string>18E9CAC81488330C00628972</string>
+				<string>18E9CAC91488330C00628972</string>
+				<string>18E9CACA1488330C00628972</string>
+				<string>18E9CACB1488330C00628972</string>
+				<string>18E9CACC1488330C00628972</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -920,8 +921,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -957,7 +956,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>1826A52014881C4B00DBAEA6</string>
+				<string>18E9CACD1488330C00628972</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
@@ -967,7 +966,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
