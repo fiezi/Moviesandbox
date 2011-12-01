@@ -8,7 +8,7 @@
     <SpriteMesh meshID="teapot" meshFilename="teapot.spriteMesh" />
     <SpriteMesh meshID="cube" meshFilename="cube.spriteMesh" />
 
-    <SpriteMesh meshID="std_skeleton" meshFilename="std_Skeleton.spriteMesh"/>
+    <SpriteMesh meshID="std_skeleton" meshFilename="std_skeleton.spriteMesh"/>
 
 
  <!-- Textures -->
