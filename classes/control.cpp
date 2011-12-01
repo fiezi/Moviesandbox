@@ -11,7 +11,7 @@
 
 Constructor
 
-****************************/
+***************************/
 
 bool Control::bRunning=false;
 

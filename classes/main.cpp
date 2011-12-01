@@ -220,21 +220,12 @@ void endFileLog(){
 }
 
 int main(int argc, char* argv[]){
-<<<<<<< HEAD
 
 	
     startFileLog();
 
 	glutInit(&argc, argv);
-=======
 
-   startFileLog();
-
-	glutInit(&argc, argv);
->>>>>>> 96f565aa9f13cc6b10d6fcb5d95920e9ca9b80d8
-
-    sceneDataManager=SceneData::getInstance();
-	//sceneDataManager->externalInputList["moviesandbox"]->startProgram();
 
 #ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
@@ -249,22 +240,7 @@ int main(int argc, char* argv[]){
 		selectRenderer(false);
 	
 
-
-<<<<<<< HEAD
     sceneDataManager=SceneData::getInstance();
-	inputManager=Input::getInstance();
-
-#ifdef TARGET_WIN32
-
-    TCHAR szEXEPath[MAX_PATH];
-    GetModuleFileName(NULL,szEXEPath,MAX_PATH);
-    sceneDataManager->exe_path= szEXEPath;
-
-    sceneDataManager->exe_path = sceneDataManager->exe_path.substr(0, sceneDataManager->exe_path.find("Moviesandbox.exe")-1);  // Remove app name from string
-    sceneDataManager->exe_path+= DIRECTORY_SEPARATION;
-
-#endif
-=======
     inputManager=Input::getInstance();
 
 #ifdef TARGET_WIN32
@@ -277,7 +253,6 @@ int main(int argc, char* argv[]){
     sceneDataManager->exe_path+= DIRECTORY_SEPARATION;
 
 #endif
->>>>>>> 96f565aa9f13cc6b10d6fcb5d95920e9ca9b80d8
 
     //loading preferences
     sceneDataManager->setup();

@@ -20,6 +20,26 @@
 		1815BA0C11EA166600D3A7B9 /* selectTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815B9FF11EA166600D3A7B9 /* selectTool.cpp */; };
 		1815BA0D11EA166600D3A7B9 /* skinTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0111EA166600D3A7B9 /* skinTool.cpp */; };
 		1815BA0E11EA166600D3A7B9 /* spawnTool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1815BA0311EA166600D3A7B9 /* spawnTool.cpp */; };
+		1826A54014881D0F00DBAEA6 /* aliveTexture.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A52B14881D0F00DBAEA6 /* aliveTexture.frag */; };
+		1826A54114881D0F00DBAEA6 /* aliveTexture.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A52C14881D0F00DBAEA6 /* aliveTexture.vert */; };
+		1826A54214881D0F00DBAEA6 /* colorAlphaID.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A52D14881D0F00DBAEA6 /* colorAlphaID.frag */; };
+		1826A54314881D0F00DBAEA6 /* colorAlphaID.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A52E14881D0F00DBAEA6 /* colorAlphaID.vert */; };
+		1826A54414881D0F00DBAEA6 /* kinectHeightField.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A52F14881D0F00DBAEA6 /* kinectHeightField.frag */; };
+		1826A54514881D0F00DBAEA6 /* kinectHeightField.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53014881D0F00DBAEA6 /* kinectHeightField.vert */; };
+		1826A54614881D0F00DBAEA6 /* deferredLight.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53214881D0F00DBAEA6 /* deferredLight.frag */; };
+		1826A54714881D0F00DBAEA6 /* deferredLight.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53314881D0F00DBAEA6 /* deferredLight.vert */; };
+		1826A54814881D0F00DBAEA6 /* dof.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53414881D0F00DBAEA6 /* dof.frag */; };
+		1826A54914881D0F00DBAEA6 /* dof.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53514881D0F00DBAEA6 /* dof.vert */; };
+		1826A54A14881D0F00DBAEA6 /* post.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53614881D0F00DBAEA6 /* post.frag */; };
+		1826A54B14881D0F00DBAEA6 /* post.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53714881D0F00DBAEA6 /* post.vert */; };
+		1826A54C14881D0F00DBAEA6 /* shadowBlur.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53814881D0F00DBAEA6 /* shadowBlur.frag */; };
+		1826A54D14881D0F00DBAEA6 /* shadowBlur.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53914881D0F00DBAEA6 /* shadowBlur.vert */; };
+		1826A54E14881D0F00DBAEA6 /* ssBlur.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53A14881D0F00DBAEA6 /* ssBlur.frag */; };
+		1826A54F14881D0F00DBAEA6 /* ssBlur.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53B14881D0F00DBAEA6 /* ssBlur.vert */; };
+		1826A55014881D0F00DBAEA6 /* ssNormal.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53C14881D0F00DBAEA6 /* ssNormal.frag */; };
+		1826A55114881D0F00DBAEA6 /* ssNormal.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53D14881D0F00DBAEA6 /* ssNormal.vert */; };
+		1826A55214881D0F00DBAEA6 /* skeletalCab.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53E14881D0F00DBAEA6 /* skeletalCab.frag */; };
+		1826A55314881D0F00DBAEA6 /* skeletalCab.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1826A53F14881D0F00DBAEA6 /* skeletalCab.vert */; };
 		18315DB311178EE900304F2E /* freeimage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18315DB211178EE900304F2E /* freeimage.a */; };
 		18390A53145A00390008AD89 /* actorGizmo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18390A4D145A00390008AD89 /* actorGizmo.cpp */; };
 		18390A54145A00390008AD89 /* menuBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18390A4F145A00390008AD89 /* menuBar.cpp */; };
@@ -140,9 +160,6 @@
 		186069E111771CC3008D43C2 /* color.vert in Sources */ = {isa = PBXBuildFile; fileRef = 186069D211771CC3008D43C2 /* color.vert */; };
 		186069E211771CC3008D43C2 /* font.frag in Sources */ = {isa = PBXBuildFile; fileRef = 186069D311771CC3008D43C2 /* font.frag */; };
 		186069E311771CC3008D43C2 /* font.vert in Sources */ = {isa = PBXBuildFile; fileRef = 186069D411771CC3008D43C2 /* font.vert */; };
-		186069E411771CC3008D43C2 /* deferredLight.frag in Sources */ = {isa = PBXBuildFile; fileRef = 186069D611771CC3008D43C2 /* deferredLight.frag */; };
-		186069E611771CC3008D43C2 /* post.frag in Sources */ = {isa = PBXBuildFile; fileRef = 186069D811771CC3008D43C2 /* post.frag */; };
-		186069E711771CC3008D43C2 /* post.vert in Sources */ = {isa = PBXBuildFile; fileRef = 186069D911771CC3008D43C2 /* post.vert */; };
 		186069E811771CC3008D43C2 /* skeletal.frag in Sources */ = {isa = PBXBuildFile; fileRef = 186069DA11771CC3008D43C2 /* skeletal.frag */; };
 		186069E911771CC3008D43C2 /* skeletal.vert in Sources */ = {isa = PBXBuildFile; fileRef = 186069DB11771CC3008D43C2 /* skeletal.vert */; };
 		186069EA11771CC3008D43C2 /* skinning.frag in Sources */ = {isa = PBXBuildFile; fileRef = 186069DC11771CC3008D43C2 /* skinning.frag */; };
@@ -397,6 +414,26 @@
 		1815BA0211EA166600D3A7B9 /* skinTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skinTool.h; path = classes/skinTool.h; sourceTree = "<group>"; };
 		1815BA0311EA166600D3A7B9 /* spawnTool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = spawnTool.cpp; path = classes/spawnTool.cpp; sourceTree = "<group>"; };
 		1815BA0411EA166600D3A7B9 /* spawnTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = spawnTool.h; path = classes/spawnTool.h; sourceTree = "<group>"; };
+		1826A52B14881D0F00DBAEA6 /* aliveTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = aliveTexture.frag; path = shaders/aliveTexture.frag; sourceTree = "<group>"; };
+		1826A52C14881D0F00DBAEA6 /* aliveTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = aliveTexture.vert; path = shaders/aliveTexture.vert; sourceTree = "<group>"; };
+		1826A52D14881D0F00DBAEA6 /* colorAlphaID.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = colorAlphaID.frag; path = shaders/colorAlphaID.frag; sourceTree = "<group>"; };
+		1826A52E14881D0F00DBAEA6 /* colorAlphaID.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = colorAlphaID.vert; path = shaders/colorAlphaID.vert; sourceTree = "<group>"; };
+		1826A52F14881D0F00DBAEA6 /* kinectHeightField.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = kinectHeightField.frag; path = shaders/kinectHeightField.frag; sourceTree = "<group>"; };
+		1826A53014881D0F00DBAEA6 /* kinectHeightField.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = kinectHeightField.vert; path = shaders/kinectHeightField.vert; sourceTree = "<group>"; };
+		1826A53214881D0F00DBAEA6 /* deferredLight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferredLight.frag; sourceTree = "<group>"; };
+		1826A53314881D0F00DBAEA6 /* deferredLight.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferredLight.vert; sourceTree = "<group>"; };
+		1826A53414881D0F00DBAEA6 /* dof.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = dof.frag; sourceTree = "<group>"; };
+		1826A53514881D0F00DBAEA6 /* dof.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = dof.vert; sourceTree = "<group>"; };
+		1826A53614881D0F00DBAEA6 /* post.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = post.frag; sourceTree = "<group>"; };
+		1826A53714881D0F00DBAEA6 /* post.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = post.vert; sourceTree = "<group>"; };
+		1826A53814881D0F00DBAEA6 /* shadowBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadowBlur.frag; sourceTree = "<group>"; };
+		1826A53914881D0F00DBAEA6 /* shadowBlur.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shadowBlur.vert; sourceTree = "<group>"; };
+		1826A53A14881D0F00DBAEA6 /* ssBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssBlur.frag; sourceTree = "<group>"; };
+		1826A53B14881D0F00DBAEA6 /* ssBlur.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssBlur.vert; sourceTree = "<group>"; };
+		1826A53C14881D0F00DBAEA6 /* ssNormal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssNormal.frag; sourceTree = "<group>"; };
+		1826A53D14881D0F00DBAEA6 /* ssNormal.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ssNormal.vert; sourceTree = "<group>"; };
+		1826A53E14881D0F00DBAEA6 /* skeletalCab.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalCab.frag; path = shaders/skeletalCab.frag; sourceTree = "<group>"; };
+		1826A53F14881D0F00DBAEA6 /* skeletalCab.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalCab.vert; path = shaders/skeletalCab.vert; sourceTree = "<group>"; };
 		18315DB211178EE900304F2E /* freeimage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = freeimage.a; sourceTree = "<group>"; };
 		18315DB911178F4700304F2E /* FreeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeImage.h; sourceTree = "<group>"; };
 		18390A4D145A00390008AD89 /* actorGizmo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = actorGizmo.cpp; path = classes/actorGizmo.cpp; sourceTree = "<group>"; };
@@ -507,9 +544,6 @@
 		186069D211771CC3008D43C2 /* color.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = color.vert; path = shaders/color.vert; sourceTree = "<group>"; };
 		186069D311771CC3008D43C2 /* font.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = font.frag; path = shaders/font.frag; sourceTree = "<group>"; };
 		186069D411771CC3008D43C2 /* font.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = font.vert; path = shaders/font.vert; sourceTree = "<group>"; };
-		186069D611771CC3008D43C2 /* deferredLight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = deferredLight.frag; sourceTree = "<group>"; };
-		186069D811771CC3008D43C2 /* post.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = post.frag; sourceTree = "<group>"; };
-		186069D911771CC3008D43C2 /* post.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = post.vert; sourceTree = "<group>"; };
 		186069DA11771CC3008D43C2 /* skeletal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletal.frag; path = shaders/skeletal.frag; sourceTree = "<group>"; };
 		186069DB11771CC3008D43C2 /* skeletal.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletal.vert; path = shaders/skeletal.vert; sourceTree = "<group>"; };
 		186069DC11771CC3008D43C2 /* skinning.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skinning.frag; path = shaders/skinning.frag; sourceTree = "<group>"; };
@@ -1177,6 +1211,14 @@
 		186069D011771CAC008D43C2 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				1826A53E14881D0F00DBAEA6 /* skeletalCab.frag */,
+				1826A53F14881D0F00DBAEA6 /* skeletalCab.vert */,
+				1826A52B14881D0F00DBAEA6 /* aliveTexture.frag */,
+				1826A52C14881D0F00DBAEA6 /* aliveTexture.vert */,
+				1826A52D14881D0F00DBAEA6 /* colorAlphaID.frag */,
+				1826A52E14881D0F00DBAEA6 /* colorAlphaID.vert */,
+				1826A52F14881D0F00DBAEA6 /* kinectHeightField.frag */,
+				1826A53014881D0F00DBAEA6 /* kinectHeightField.vert */,
 				18487E46134A8769004E7D00 /* illustration.frag */,
 				18487E47134A8769004E7D00 /* illustration.vert */,
 				18487E48134A8769004E7D00 /* skeletalIllustration.frag */,
@@ -1203,9 +1245,18 @@
 		186069D511771CC3008D43C2 /* post */ = {
 			isa = PBXGroup;
 			children = (
-				186069D611771CC3008D43C2 /* deferredLight.frag */,
-				186069D811771CC3008D43C2 /* post.frag */,
-				186069D911771CC3008D43C2 /* post.vert */,
+				1826A53214881D0F00DBAEA6 /* deferredLight.frag */,
+				1826A53314881D0F00DBAEA6 /* deferredLight.vert */,
+				1826A53414881D0F00DBAEA6 /* dof.frag */,
+				1826A53514881D0F00DBAEA6 /* dof.vert */,
+				1826A53614881D0F00DBAEA6 /* post.frag */,
+				1826A53714881D0F00DBAEA6 /* post.vert */,
+				1826A53814881D0F00DBAEA6 /* shadowBlur.frag */,
+				1826A53914881D0F00DBAEA6 /* shadowBlur.vert */,
+				1826A53A14881D0F00DBAEA6 /* ssBlur.frag */,
+				1826A53B14881D0F00DBAEA6 /* ssBlur.vert */,
+				1826A53C14881D0F00DBAEA6 /* ssNormal.frag */,
+				1826A53D14881D0F00DBAEA6 /* ssNormal.vert */,
 			);
 			name = post;
 			path = shaders/post;
@@ -1627,9 +1678,6 @@
 				186069E111771CC3008D43C2 /* color.vert in Sources */,
 				186069E211771CC3008D43C2 /* font.frag in Sources */,
 				186069E311771CC3008D43C2 /* font.vert in Sources */,
-				186069E411771CC3008D43C2 /* deferredLight.frag in Sources */,
-				186069E611771CC3008D43C2 /* post.frag in Sources */,
-				186069E711771CC3008D43C2 /* post.vert in Sources */,
 				186069E811771CC3008D43C2 /* skeletal.frag in Sources */,
 				186069E911771CC3008D43C2 /* skeletal.vert in Sources */,
 				186069EA11771CC3008D43C2 /* skinning.frag in Sources */,
@@ -1674,6 +1722,26 @@
 				18390A53145A00390008AD89 /* actorGizmo.cpp in Sources */,
 				18390A54145A00390008AD89 /* menuBar.cpp in Sources */,
 				18390A55145A00390008AD89 /* viewportGizmo.cpp in Sources */,
+				1826A54014881D0F00DBAEA6 /* aliveTexture.frag in Sources */,
+				1826A54114881D0F00DBAEA6 /* aliveTexture.vert in Sources */,
+				1826A54214881D0F00DBAEA6 /* colorAlphaID.frag in Sources */,
+				1826A54314881D0F00DBAEA6 /* colorAlphaID.vert in Sources */,
+				1826A54414881D0F00DBAEA6 /* kinectHeightField.frag in Sources */,
+				1826A54514881D0F00DBAEA6 /* kinectHeightField.vert in Sources */,
+				1826A54614881D0F00DBAEA6 /* deferredLight.frag in Sources */,
+				1826A54714881D0F00DBAEA6 /* deferredLight.vert in Sources */,
+				1826A54814881D0F00DBAEA6 /* dof.frag in Sources */,
+				1826A54914881D0F00DBAEA6 /* dof.vert in Sources */,
+				1826A54A14881D0F00DBAEA6 /* post.frag in Sources */,
+				1826A54B14881D0F00DBAEA6 /* post.vert in Sources */,
+				1826A54C14881D0F00DBAEA6 /* shadowBlur.frag in Sources */,
+				1826A54D14881D0F00DBAEA6 /* shadowBlur.vert in Sources */,
+				1826A54E14881D0F00DBAEA6 /* ssBlur.frag in Sources */,
+				1826A54F14881D0F00DBAEA6 /* ssBlur.vert in Sources */,
+				1826A55014881D0F00DBAEA6 /* ssNormal.frag in Sources */,
+				1826A55114881D0F00DBAEA6 /* ssNormal.vert in Sources */,
+				1826A55214881D0F00DBAEA6 /* skeletalCab.frag in Sources */,
+				1826A55314881D0F00DBAEA6 /* skeletalCab.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
