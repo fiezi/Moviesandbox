@@ -76,9 +76,15 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 
 vec4 blur3(sampler2D myTex, vec2 tc){
 
-      vec4 sample[9];
 
-      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
+		vec2 tc_offset[25];
+
+		for (int i=0;i<25;i++)
+            tc_offset[i]=vec2(0.0,0.0);
+      
+	  vec4 sample[9];
+
+      float spread=2.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
       //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
@@ -93,18 +99,29 @@ vec4 blur3(sampler2D myTex, vec2 tc){
       tc_offset[7]=spread * vec2(0.0,-1.0);
       tc_offset[8]=spread * vec2(1.0,-1.0);
 
-      for (int i=0 ; i<9 ; i++)
-      {
-        sample[i]=texture2D(myTex , tc + tc_offset[i]);
-      }
+
+		sample[0]=texture2D(myTex ,tc + tc_offset[0] );
+		sample[1]=texture2D(myTex ,tc + tc_offset[1] );
+		sample[2]=texture2D(myTex ,tc + tc_offset[2] );
+		sample[3]=texture2D(myTex ,tc + tc_offset[3] );
+		sample[4]=texture2D(myTex ,tc + tc_offset[4] );
+		sample[5]=texture2D(myTex ,tc + tc_offset[5] );
+		sample[6]=texture2D(myTex ,tc + tc_offset[6] );
+		sample[7]=texture2D(myTex ,tc + tc_offset[7] );
+		sample[8]=texture2D(myTex ,tc + tc_offset[8] );
+
+
+
 
       vec4 blurredColor=(
                          sample[0] + (2.0* sample[1]) + sample[2] +
                          (2.0*sample[3]) + sample[4] + (2.0*sample[5]) +
                          sample[6] + (2.0* sample[7]) + sample[8]
                         )/ 13.0;
-      //blurredColor.a=1.0;
-      return(blurredColor);
+  
+
+      return blurredColor;
+
 }
 
 
