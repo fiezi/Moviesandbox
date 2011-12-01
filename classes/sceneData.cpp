@@ -492,9 +492,12 @@ void SceneData::loadPreferences(){
         //for now, just windows and OSX
 #ifdef TARGET_WIN32
         string myTaskLocation=element->Attribute("filenameWin32");
-#elseif TARGET_MACOSX
+#endif
+#ifdef  TARGET_MACOSX
         string myTaskLocation=element->Attribute("filenameOSX");
-#else
+#endif
+
+#ifdef  TARGET_LINUX
         string myTaskLocation=element->Attribute("filenameLinux");
 #endif
 
