@@ -91,20 +91,20 @@ void createSplashScreen(){
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(256,256);
 
-   int screenX=1024;
-   int screenY=768;
+   int windowX=1024;
+   int windowY=768;
 
 #ifdef WIN32
 
     // width
-   screenX = GetSystemMetrics(SM_CXSCREEN);
+   windowX = GetSystemMetrics(SM_CXSCREEN);
    // height
-   screenY = GetSystemMetrics(SM_CYSCREEN);
+   windowY = GetSystemMetrics(SM_CYSCREEN);
 
 
 #endif
 
-	glutInitWindowPosition(screenX/2-256,screenY/2-120);
+	glutInitWindowPosition(windowX/2-256,windowY/2-120);
 
 	splashWindow=glutCreateWindow("loading");
 
@@ -170,7 +170,7 @@ void selectRenderer(bool bCompat){
 		exit(0);
 	}
 
-	
+
 	//set instance, since we already created our Renderer...
 	if (bGLCompatibilityShader){
 		renderManager=X1600Renderer::getInstance();
@@ -221,8 +221,8 @@ void endFileLog(){
 
 int main(int argc, char* argv[]){
 
-	
-    startFileLog();
+
+    //startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -236,9 +236,9 @@ int main(int argc, char* argv[]){
 	//TODO: make proper command line parameters...
 	if (argc>1)
 		selectRenderer(true);
-	else 
+	else
 		selectRenderer(false);
-	
+
 
     sceneDataManager=SceneData::getInstance();
     inputManager=Input::getInstance();

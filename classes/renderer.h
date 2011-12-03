@@ -80,11 +80,13 @@ public:
         int normalBlur;                    //smoothing of normals
         int dofBlur;                            //blurriness of DOF
 
-       int      screenX,
-                screenY,
-				windowPosX,
-				windowPosY,
-                fov;
+       int      screenX,                     //x-resolution of 3D rendered area
+                screenY,                        //y-resolution of 3D rendered area
+				windowPosX,                   // OS window position
+				windowPosY,                  // OS window position
+				windowX,                        //window width
+				windowY,                        //window height
+                fov;                                  //field of view
 
        int frames;                         //amount of frames rendered
 
@@ -245,7 +247,7 @@ public:
 
 
        virtual void setupCamera(bool bCalculateMatrices);
-       virtual void setupOrthoCamera();
+       virtual void setupOrthoCamera(int width, int height);
        virtual void setupShading(string shaderName);
        virtual void setupTexturing(string texName, Actor* a=NULL, GLenum texChannel=GL_TEXTURE0);
 

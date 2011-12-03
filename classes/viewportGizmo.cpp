@@ -49,7 +49,7 @@ void ViewportGizmo::update(double deltaTime){
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
 
-    renderer->setupOrthoCamera();
+    renderer->setupOrthoCamera(renderer->screenX,renderer->screenY);
     renderer->setupShading("colorAlphaID");
     updateShaders();
 
@@ -72,7 +72,7 @@ void ViewportGizmo::mouseOver(){
 
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, viewport_fb);
 
-    renderer->setupOrthoCamera();
+    renderer->setupOrthoCamera(renderer->screenX,renderer->screenY);
 
     //texTranslation.x-=0.01;
 

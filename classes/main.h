@@ -19,8 +19,8 @@ Variables
 
 *********************************/
 
-const int screenX=640;
-const int screenY=480;
+const int windowX=640;
+const int windowY=480;
 
 Renderer*    renderManager;
 Input*       inputManager;

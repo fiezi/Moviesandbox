@@ -434,6 +434,12 @@ void SceneData::loadPreferences(){
     string mStr;
 
 
+    //windowSize
+    element->Attribute("WindowSizeX", &val);
+    renderer->windowX=val;
+    element->Attribute("WindowSizeY", &val);
+    renderer->windowY=val;
+
     //renderscreen
     element->Attribute("ScreenSizeX", &val);
     renderer->screenX=val;
@@ -597,6 +603,10 @@ void SceneData::savePreferences(){
     double dVal=0.0;
     string mStr;
 
+
+    //windowSize
+    element->SetAttribute("WindowSizeX", renderer->screenX);
+    element->SetAttribute("WindowSizeY", renderer->screenY);
 
     //renderscreen
     element->SetAttribute("ScreenSizeX", renderer->screenX);
@@ -981,7 +991,7 @@ void SceneData::makeUserPopUp(string text, Actor* parent){
 
     staticButton=(BasicButton*)actorInfo["9UserPopUp"].actorReference;
     ((UserPopUp*)staticButton)->bWaitForInput=true;
-    staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+    staticButton->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
     staticButton->color=Vector4f(0.0,0.0,1.0,1.0);
     staticButton->name=text;
     staticButton->parent=parent;

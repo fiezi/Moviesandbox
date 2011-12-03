@@ -136,7 +136,7 @@ void TimelineInspector::createInspectorButtons(){
     SliderButton* mySlider = new SliderButton;
     mySlider->parent=this;
     mySlider->bVertical=false;
-    mySlider->scale.x=renderer->screenX-location.x - (2*listWidth+2);
+    mySlider->scale.x=renderer->windowX-location.x - (2*listWidth+2);
     mySlider->scale.y=5;
     mySlider->color=Vector4f(0.3,0.3,0.3,1.0);
     mySlider->sceneShaderID="color";
@@ -220,7 +220,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     ///scaling
     nameButton->scale=Vector3f( listWidth+96, listHeight, 0);
     makeAction->scale=Vector3f( listWidth, listHeight, 0);
-    tlBtn->scale=Vector3f( renderer->screenX - location.x, listHeight, 0);
+    tlBtn->scale=Vector3f( renderer->windowX- location.x, listHeight, 0);
 
     ///locations
     Vector3f loc;
@@ -336,7 +336,7 @@ void TimelineInspector::trigger(MsbObject* other){
         }
         //use MAKEUSERPOPUP here!!!
         sceneData->staticButton=(BasicButton*)sceneData->actorInfo["18CreateActionButton"].actorReference;
-        sceneData->staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+        sceneData->staticButton->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
         sceneData->staticButton->color=Vector4f(1.0,1.0,0.0,1.0);
         sceneData->staticButton->name="name your action";
         sceneData->staticButton->parent=tlBtn;

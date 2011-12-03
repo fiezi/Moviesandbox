@@ -61,7 +61,7 @@ void SelectTool::keyReleased(int key){
         //create Prefab
     if (key=='P'){
         sceneData->staticButton=(BasicButton*)sceneData->actorInfo["18CreatePrefabButton"].actorReference;
-        sceneData->staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+        sceneData->staticButton->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
         sceneData->staticButton->color=COLOR_BLUE;
         sceneData->staticButton->name="name your prefab";
         sceneData->staticButton->clickedLeft();
@@ -249,7 +249,7 @@ void SelectTool::makeGroup(){
         messageWindow->bMessageWindow=true;
         messageWindow->parent=sceneData->selectedActors[0];
         messageWindow->buttonProperty="GROUPID";
-        messageWindow->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+        messageWindow->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
         messageWindow->scale=Vector3f(100,50,1);
         messageWindow->sceneShaderID="color";
         input->focusButton=messageWindow;

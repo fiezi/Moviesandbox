@@ -14,8 +14,8 @@ WindowButton::WindowButton(){
     backgroundButton=NULL;
 
     bRelativeListLocation=false;
-    listLoc.x=renderer->screenX/2-300;
-    listLoc.y=renderer->screenY/2-200;
+    listLoc.x=renderer->windowX/2-300;
+    listLoc.y=renderer->windowY/2-200;
     listButtonSpacing.x=80.0;
 
     currentTab=0;

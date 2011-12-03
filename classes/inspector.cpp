@@ -54,12 +54,12 @@ void Inspector::setup(){
 
     if (tabHeight==0){
         backgroundButton->scale.x=350;
-        backgroundButton->scale.y=renderer->screenY-location.y;
+        backgroundButton->scale.y=renderer->windowY-location.y;
         backgroundButton->location.x=location.x+scale.x;
         backgroundButton->location.y=location.y;
     }else{
-        backgroundButton->scale.x=renderer->screenX;
-        backgroundButton->scale.y=renderer->screenY;
+        backgroundButton->scale.x=renderer->windowX;
+        backgroundButton->scale.y=renderer->windowY;
         backgroundButton->location.x=location.x;
         backgroundButton->location.y=location.y+scale.y;
     }

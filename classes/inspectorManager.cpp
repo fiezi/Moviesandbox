@@ -53,6 +53,14 @@ void InspectorManager::inspectorClosed(Inspector * other){
 
 }
 
+void InspectorManager::closeAll(){
+
+    for (int i=0;i<inspectors.size();i++){
+        if (inspectors[i]->bOpen)
+            inspectors[i]->clickedLeft();
+    }
+}
+
 void InspectorManager::update(double deltaTime){
 
   Actor::update(deltaTime);

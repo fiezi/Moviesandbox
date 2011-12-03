@@ -24,6 +24,7 @@ public:
     virtual void inspectorOpened(Inspector* other);
     virtual void inspectorClosed(Inspector* other);
 
+    virtual void closeAll();
 
     virtual void update(double deltaTime);
 

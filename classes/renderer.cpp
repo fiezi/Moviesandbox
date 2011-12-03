@@ -147,6 +147,9 @@ Renderer::Renderer(){
     screenX=0;
     screenY=0;
 
+    windowX=1024;
+    windowY=768;
+
 	windowPosX=0;
 	windowPosY=0;
     fov=45;
@@ -281,7 +284,7 @@ void Renderer::initWindow(int x, int y, string windowName){
       }
     else
       {
-      glutInitWindowSize(screenX,screenY);
+      glutInitWindowSize(windowX,windowY);
       glutInitWindowPosition(x,y);
       glutCreateWindow(windowName.c_str());
       }
@@ -296,29 +299,21 @@ void Renderer::reDrawScreen(int w, int h){
 	if(h == 0)
 		h = 1;
 
+    sceneData->inspectorManager->closeAll();
 
     cout << "redrawing... height:" << h << " width: "<<w << endl;
 
 //	float ratio = 1.0* w / h;
 
-	// Reset the coordinate system before modifying
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-
-	//TODO: maybe make non-power-of-2 textures
-	// Set the viewport to be the entire window
-	glViewport(0, 0, w, h);
-	//glViewport(0, 0, w, w);
 
 
     for (int i=0;i<(int)sceneData->layerList.size();i++){
-        sceneData->layerList[i]->scale=Vector3f(w,-h,1.0);
-        sceneData->layerList[i]->location.y=h;
-        sceneData->layerList[i]->setLocation(sceneData->layerList[i]->location);
+        //sceneData->layerList[i]->scale=Vector3f(w,-h,1.0);
+        //sceneData->layerList[i]->location.y=h;
+        //sceneData->layerList[i]->setLocation(sceneData->layerList[i]->location);
     }
 
-    Vector3f screenDelta=Vector3f(w-screenX,h-screenY,0);
+    Vector3f screenDelta=Vector3f(w-windowX,h-windowY,0);
 
     //update all inspectors and timeline too!
     for (int i=0;i<(int)sceneData->inspectorManager->inspectors.size();i++){
@@ -337,17 +332,10 @@ void Renderer::reDrawScreen(int w, int h){
 
     }
 
-    screenX=w;
-    screenY=h;
+    windowX=w;
+    windowY=h;
 
 
-	// Set the correct perspective.
-	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
-    glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(sceneData->controller->controlledActor->location.x, sceneData->controller->controlledActor->location.y,sceneData->controller->controlledActor->location.z,
-		      sceneData->controller->lookPoint.x,sceneData->controller->lookPoint.y,sceneData->controller->lookPoint.z,
-			  sceneData->controller->upPoint.x, sceneData->controller->upPoint.y,sceneData->controller->upPoint.z);
 }
 
 
@@ -763,7 +751,8 @@ void Renderer::setupCamera(bool bCalculateMatrices){
     glLoadIdentity();
 	//gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
 	//gluPerspective(fov,(screenY==0)?(1):((float)scene_size/scene_size),nearClip,farClip);
-	gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
+	//gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
+	gluPerspective(fov,(float)windowX/windowY,nearClip,farClip);
 
 
 //setup camera
@@ -783,12 +772,12 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 }
 
 
-void Renderer::setupOrthoCamera(){
+void Renderer::setupOrthoCamera(int width, int height){
 
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0,screenX,screenY,0,-10000,10000);
+    glOrtho(0,width,height,0,-10000,10000);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -829,12 +818,6 @@ void Renderer::draw(){
     /// 2D Elements from here
     /////////////////////////////////////////////////////
 
-    /*
-	 *	Set Ortho viewing transformation
-	 */
-
-    setupOrthoCamera();
-
 
 	/////////////////////////////////////////////////////
     /// Final Composite
@@ -847,11 +830,17 @@ void Renderer::draw(){
     checkOpenGLError("pre-Lighting");
     #endif
 
+    /*
+	 *	Set Ortho viewing transformation
+	 */
+
+    setupOrthoCamera(screenX,screenY);
 
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
+        glViewport (0, 0, screenX, screenY);
 
-        //draw screen space normals
+        //draw screen space normals into texture
         drawNormals(sceneData->layerList[i]);
 
     #ifdef BDEBUGRENDERER
@@ -861,7 +850,7 @@ void Renderer::draw(){
         sceneData->layerList[i]->textureID=sceneData->layerList[i]->colorTextureID;
 
 		if (bDrawLighting){
-            drawDeferredLighting(sceneData->layerList[i]);
+            drawDeferredLighting(sceneData->layerList[i]);  //draws lights into texture
         }
         else{
             sceneData->layerList[i]->sceneShaderID="texture";
@@ -897,7 +886,9 @@ void Renderer::draw(){
             /// Post-Production
             /////////////////////////////////////////////////////
 
-            glViewport (0, 0, screenX, screenY);
+            //for final composite, setup viewport to whole window
+            glViewport (0, 0, windowX, windowY);
+//            glViewport (0, 0, screenX, screenY);
 
             sceneData->layerList[i]->textureID=sceneData->layerList[i]->sceneTextureID;
             if (bDOF)
@@ -906,7 +897,7 @@ void Renderer::draw(){
                 sceneData->layerList[i]->sceneShaderID="texture";
 
 
-            //bind depth        drawButton(sceneData->layerList[i]);
+            //bind depth
 
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
@@ -917,7 +908,7 @@ void Renderer::draw(){
     }//end for loop through layers
 
 
-
+   setupOrthoCamera(windowX,windowY);
 
 
     #ifdef BDEBUGRENDERER
@@ -1141,7 +1132,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
             #endif
 
             //setup 2D camera again!
-            setupOrthoCamera();
+            setupOrthoCamera(screenX,screenY);
 
 /*
             if (sceneData->lightList[i]->bCastShadows){
@@ -1745,14 +1736,14 @@ void Renderer::displayDebug(){
     }
 */
     sprintf(writestring,"FPS: %4.2f",1000.0/deltaTime);
-    drawText(writestring,screenX-80*0.9,10 );
+    drawText(writestring,windowX-80*0.9,10 );
 
 
     //displaying the last couple of debug messages
     int listEnd=(int)sceneData->debugMessages.size()-1;
 
     for (int i=listEnd;i>0;i--)
-        drawText(sceneData->debugMessages[i],screenX-300*0.9,100 - (listEnd-i)*10 );
+        drawText(sceneData->debugMessages[i],windowX-300*0.9,100 - (listEnd-i)*10 );
 
     return;
 }
@@ -2376,12 +2367,7 @@ void Renderer::pick(int x, int y){
     //create small picking texture
     glBindTexture(GL_TEXTURE_2D,pickTexture);
 
-    float xRatio=1.0;
-    float yRatio=1.0;
-
-
-
-    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX),(int) (screenY-input->mouseY) ,1 ,1 );
+    glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (input->mouseX  * screenX/windowX ) ,(int) (screenY-(input->mouseY  * screenY/windowY)  ),1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_BGRA,dataType,&mousePos);
 
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,(int) (screenX/2.0),(int) (screenY/2.0) ,1 ,1 );

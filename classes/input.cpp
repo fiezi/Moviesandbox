@@ -773,27 +773,27 @@ void Input::deselectActors(){
 
 void Input::confineMouse(){
 
-
+return;
 
 #ifdef TARGET_WIN32
-    glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
+    glutWarpPointer(renderer->windowX/2,renderer->windowY/2);
 #endif
 
 #ifdef TARGET_LINUX
-    glutWarpPointer(renderer->screenX/2,renderer->screenY/2);
+    glutWarpPointer(renderer->windowX/2,renderer->windowY/2);
 #endif
 
 #ifdef TARGET_MACOSX
 	CGPoint myPoint;
-	    int centerX=renderer->screenX/2;
-	    int centerY=renderer->screenY/2;
+	    int centerX=renderer->windowX/2;
+	    int centerY=renderer->windowY/2;
 	myPoint.x=centerX+renderer->windowPosX;
 	myPoint.y=centerY+renderer->windowPosY;
 	CGDisplayMoveCursorToPoint( CGMainDisplayID (),myPoint);
 #endif
 
-	mouseX=renderer->screenX/2;
-	mouseY=renderer->screenY/2;
+	mouseX=renderer->windowX/2;
+	mouseY=renderer->windowY/2;
 
 }
 
