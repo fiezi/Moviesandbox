@@ -44,6 +44,8 @@ void MenuBar::trigger(MsbObject* other){
         exit(0);
     }
 
+    //Drawing Menu
+
     if (other->name=="ScaleZ 0.5"){
         sceneData->drawTool->scaleZ(0.5);
     }
@@ -88,6 +90,33 @@ void MenuBar::trigger(MsbObject* other){
         sceneData->drawTool->mergeDrawings();
     }
 
+    //View Menu
+
+
+    if (other->name=="Toggle Nodes (F2)"){
+
+        renderer->bDrawNodes=!renderer->bDrawNodes;
+    }
+
+    if (other->name=="Color Only (F3)"){
+        renderer->bDrawLighting=!renderer->bDrawLighting;
+    }
+
+    if (other->name=="Toggle SSAO (F4)"){
+            renderer->bSSAO=!renderer->bSSAO;
+    }
+
+    if (other->name=="Toggle Lighting (F5)"){
+            renderer->bDrawColor=!renderer->bDrawColor;
+    }
+
+    if (other->name=="Toggle Normals (F6)"){
+            renderer->bDrawNormals=!renderer->bDrawNormals;
+    }
+
+    if (other->name=="Toggle PostPro (F7)"){
+             renderer->bDOF=!renderer->bDOF;
+    }
 
 }
 

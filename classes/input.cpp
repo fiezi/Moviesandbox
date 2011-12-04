@@ -698,11 +698,12 @@ void Input::specialKeyUp (int key,int x, int y){
         keyVector.z=0;
         bPressedMovementKeys=false;
     }
-
+/*
     if (key==GLUT_KEY_F1){
         renderer->bDrawMenu=!renderer->bDrawMenu;
         return;
     }
+*/
 
     if (key==GLUT_KEY_F2){
         renderer->bDrawNodes=!renderer->bDrawNodes;

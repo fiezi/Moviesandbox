@@ -299,10 +299,61 @@ void Content::createMenuBar(){
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
 
-    /** TOOLS MENU **/
+   /** VIEW MENU  **/
 
     lbut=new ListButton;
     lbut->location.x= 196;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
+    lbut->name="View";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=but;
+     lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Nodes (F2)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Color Only (F3)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle SSAO (F4)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Lighting (F5)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Normals (F6)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle PostPro (F7)");
+    lbut->listParent.push_back("PARENT");
+
+    sceneData->buttonList.push_back(lbut);
+
+    /** TOOLS MENU **/
+
+    lbut=new ListButton;
+    lbut->location.x= 256;
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="color";
