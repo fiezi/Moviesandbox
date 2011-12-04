@@ -21,6 +21,8 @@
 #include "listButton.h"
 #include "console.h"
 
+#include "menuBar.h"
+
 
 using namespace std;
 
@@ -179,8 +181,10 @@ public:
         DrawTool*           drawTool;       //pointer to drawTool for convenience
         GridTool*           gridTool;       //pointer to gridTool for convenience
 
-        Control*            controller;
-        Console*            console;
+        Control*            controller;     //pointer to controller
+        Console*            console;        //pointer to console
+
+        MenuBar*        menuBar;        //pointer to menubar
 
         InspectorManager*   inspectorManager;
         ListButton*         actorMenu;     //holds buttonlist for an Actor we clicked on

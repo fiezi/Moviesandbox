@@ -7,6 +7,9 @@ class SliderButton: public BasicButton{
 
 public:
 
+    Vector4f slidePointColor;
+    Vector4f highlightColor;
+
     float sliderValue;
     bool bVertical;
     bool bFlipValue;

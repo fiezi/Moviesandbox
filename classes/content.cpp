@@ -56,15 +56,8 @@ void Content::setup(){
     ViewportGizmo *but;
 
     but= new ViewportGizmo;
-    but->setLocation(Vector3f( renderer->screenX-100, 2, 0.0));
-    //but->setRotation(Vector3f(30,30,30));
-    //but->setScale(Vector3f(20,20,20));
-    //but->sceneShaderID="color";
-    //but->textureID="grid_solid";
-    //but->vboMeshID="cube";
+    but->setLocation(Vector3f( renderer->windowX-100, 2, 0.0));
     but->setup();
-    //but->drawType=DRAW_VBOMESH;
-    //but->drawType=DRAW_CUBE;
     sceneData->buttonList.push_back(but);
 
 
@@ -108,17 +101,13 @@ void Content::setup(){
 
 void Content::createMenuBar(){
 
-/*
-    MenuBar* menu=new MenuBar;
-    menu->setLocation(Vector3f( 0, 0, 0.0));
-    menu->setup();
-    sceneData->buttonList.push_back(menu);
-  */
+
     Vector4f menuColor=Vector4f(0.6,0.6,0.6,1.0);
 
     //background...
     BasicButton* but =new MenuBar;
     sceneData->buttonList.push_back(but);
+    sceneData->menuBar=(MenuBar*)but;
 
     but->scale.x=renderer->screenX;
     but->scale.y=16;

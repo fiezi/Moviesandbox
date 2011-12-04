@@ -7,6 +7,8 @@
 SliderButton::SliderButton(){
 
 sliderValue=0;
+slidePointColor=Vector4f(0.2,0.2,0.2,1.0);
+highlightColor=Vector4f(0.8,0.4,0.4,1.0);
 bVertical=true;
 bFlipValue=false;
 tooltip="slide to change Value";
@@ -31,7 +33,8 @@ void SliderButton::update(double deltaTime){
 
 void SliderButton::mouseOver(){
 
-BasicButton::mouseOver();
+    BasicButton::mouseOver();
+    bHighlight=true;
 }
 
 void SliderButton::mouseDrag(){
@@ -48,11 +51,13 @@ else{   //TODO horizontal slider needs min/max stuff
     }
 
 parent->trigger(this);
+bHighlight=true;
 }
 
 void SliderButton::finishDrag(){
 
 input->dragButton=NULL;
+bHighlight=false;
 }
 
 void SliderButton::clickedLeft(){
@@ -88,7 +93,13 @@ BasicButton::drawPlane();
 
 scale.y-=addedScale;
 
-glColor3f(0.9,0.9,0.9);
+    if (bHighlight)
+        glColor4f(highlightColor.x,highlightColor.y,highlightColor.z, highlightColor.a);
+    else
+        glColor4f(slidePointColor.x,slidePointColor.y,slidePointColor.z, slidePointColor.a);
+
+    bHighlight=false;
+
 if (bVertical)
     {
      float slidePoint=sliderValue*scale.y;
@@ -96,13 +107,13 @@ if (bVertical)
 
     glBegin(GL_QUADS);
         glTexCoord2f(0.0,0.0);
-        glVertex3f(0.0,slidePoint,0.0);
+        glVertex3f(0.0,slidePoint,100.0);
         glTexCoord2f(1.0,0.0);
-        glVertex3f(0.0,slidePoint+scale.y*0.1,0.0);
+        glVertex3f(0.0,slidePoint+scale.y*0.1,100.0);
         glTexCoord2f(1.0,1.0);
-        glVertex3f(scale.x,slidePoint+scale.y*0.1,0.0);
+        glVertex3f(scale.x,slidePoint+scale.y*0.1,100.0);
         glTexCoord2f(0.0,1.0);
-        glVertex3f(scale.x,slidePoint,0.0);
+        glVertex3f(scale.x,slidePoint,100.0);
     glEnd();
     }
 
@@ -113,13 +124,13 @@ else
 
     glBegin(GL_QUADS);
 		glTexCoord2f(0,0.0);
-		glVertex3f(slidePoint,0.0,0.0);
+		glVertex3f(slidePoint,0.0,100.0);
         glTexCoord2f(1.0,0.0);
-        glVertex3f(slidePoint+scale.x*0.1,0,0.0);
+        glVertex3f(slidePoint+scale.x*0.1,0,100.0);
         glTexCoord2f(1.0,1.0);
-		glVertex3f(slidePoint+scale.x*0.1,scale.y,0.0);
+		glVertex3f(slidePoint+scale.x*0.1,scale.y,100.0);
         glTexCoord2f(0.0,1.0);
-		glVertex3f(slidePoint,scale.y,0.0);
+		glVertex3f(slidePoint,scale.y,100.0);
 	glEnd();
     }
 }

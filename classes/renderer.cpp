@@ -301,6 +301,8 @@ void Renderer::reDrawScreen(int w, int h){
 
     sceneData->inspectorManager->closeAll();
 
+    sceneData->menuBar->scale.x=w;
+
     cout << "redrawing... height:" << h << " width: "<<w << endl;
 
 //	float ratio = 1.0* w / h;
@@ -1482,6 +1484,7 @@ void Renderer::drawButton(BasicButton* b){
     if (b->drawType==DRAW_PLANE){
         glTranslatef(b->location.x,b->location.y,b->location.z);
         drawPlane(0.0, 0.0, b->scale.x, b->scale.y, b->color);
+        b->drawPlane();
     }
    //3D buttons do much more!
     if (b->drawType==DRAW_TEA){

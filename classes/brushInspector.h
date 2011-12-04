@@ -8,9 +8,12 @@ class BrushInspector: public Inspector{
 
 public:
 
-    vector<AssignButton*>   colorSwatches;
-    int                     currentSwatch;
-    int                     numSwatches;
+    BasicButton*                            brushViz;
+    vector<AssignButton*>      colorSwatches;
+    int                                             currentSwatch;
+    int                                             numSwatches;
+
+
 
     BrushInspector();
     virtual ~BrushInspector();

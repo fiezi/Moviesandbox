@@ -311,7 +311,6 @@ SceneData::SceneData(){
     navTool=NULL;
     gridTool=NULL;
 
-
 	frames=0;
     currentTime=0.0;
 	deltaTime=0.0;
@@ -328,6 +327,8 @@ SceneData::SceneData(){
 
     controller=NULL;
     console=NULL;
+
+    menuBar=NULL;
 
     inspectorManager=NULL;
     actorMenu=NULL;

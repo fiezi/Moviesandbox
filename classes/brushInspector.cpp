@@ -13,6 +13,8 @@ level=0;
 currentSwatch=0;
 numSwatches=5;
 
+brushViz=0;
+
 registerProperties();
 }
 
@@ -89,6 +91,21 @@ void BrushInspector::createInspectorButtons(){
     sceneData->buttonList.push_back(brushIntensityBtn);
     inspectorButtons.push_back(brushIntensityBtn);
 
+    brushViz = new BasicButton;
+    brushViz->name="brushViz";
+    brushViz->parent=this;
+    brushViz->bPermanent=true;
+    brushViz->level=level+1;
+    brushViz->bDrawName=false;
+    brushViz->setLocation(location+Vector3f(40,240,0)   );
+    brushViz->initialLocation=brushViz->location;
+    brushViz->scale=Vector3f(32,32,1);
+    brushViz->color=COLOR_WHITE;
+    brushViz->textureID="brushTwo";
+
+    sceneData->buttonList.push_back(brushViz);
+    inspectorButtons.push_back(brushViz);
+
 
     ///Grid specific buttons
 
@@ -135,20 +152,6 @@ void BrushInspector::createInspectorButtons(){
         sceneData->buttonList.push_back(gridAssign);
         inspectorButtons.push_back(gridAssign);
 
-        gridAssign = new AssignButton;
-        gridAssign->name="flip Grid";
-        gridAssign->parent=this;
-        gridAssign->bPermanent=true;
-        gridAssign->level=level+1;
-        gridAssign->setLocation(location+Vector3f(140,350,0));
-        gridAssign->initialLocation=gridAssign->location;
-        gridAssign->scale=Vector3f(32,32,1);
-        gridAssign->textureID="icon_gridZY";
-        gridAssign->color=Vector4f(1,1,1,1);
-
-        sceneData->buttonList.push_back(gridAssign);
-        inspectorButtons.push_back(gridAssign);
-
 }
 
 void BrushInspector::refreshList(){
@@ -188,21 +191,12 @@ void BrushInspector::trigger(MsbObject* other){
         sceneData->gridTool->keyReleased('.');
     }
 
-    if (other->name=="flip Grid"){
-
-        if (sceneData->gridTool->gridRot==GRID_Z)
-            sceneData->grid->addRotation(180,Vector3f(1,0,0));
-        else
-            sceneData->grid->addRotation(180,Vector3f(0,1,0));
-
-    }
-
     if (other->name=="brush scale"){
-        sceneData->brush->scale.x= pow(0.4+ ((SliderButton*)other)->sliderValue,2.0) ;
-    }
+        sceneData->brush->scale.x= pow(4.0 * ((SliderButton*)other)->sliderValue,2.0) *1.0 + 0.1;
+      }
 
     if (other->name=="brush intensity"){
-        sceneData->brush->intensity=min(1.0, 0.01 + ((SliderButton*)other)->sliderValue);
+        sceneData->brush->intensity=min(1.0, 0.01 + ((SliderButton*)other)->sliderValue * 1.1); //slightly exaggerate slidervalue so we can get to 1.0 earlier!
     }
 
     if (other->name=="pick Color"){
@@ -221,9 +215,9 @@ void BrushInspector::trigger(MsbObject* other){
                         sceneData->selectedActors[i]->color=other->color;
                     }
             }
-        }else if (sceneData->controller->tool==TOOL_DRAW){
-            sceneData->brush->color=other->color;
         }
+
+        sceneData->brush->color=other->color;
 
         for (int i=0;i<numSwatches;i++){
             colorSwatches[i]->textureID="icon_flat";
@@ -232,6 +226,12 @@ void BrushInspector::trigger(MsbObject* other){
         }
         ((Actor*)other)->textureID="icon_base";
     }
+
+    //update brush preview
+     brushViz->color=sceneData->brush->color;
+     brushViz->color.a=sceneData->brush->intensity+ 0.1;
+     brushViz->scale.x=sceneData->brush->scale.x * 5.0 + 10.0;
+     brushViz->scale.y=sceneData->brush->scale.x * 5.0 +10.0;
 
 }
 

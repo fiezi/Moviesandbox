@@ -200,8 +200,12 @@ void SkinTool::paint(){
         //find out where the brush is in relation to the particle
         Vector4f loc=sceneData->vboList[skel->vboMeshID]->vData[pID].location;
         //TODO: skip z for now...
-        //Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
-        Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,calcLoc.z);
+        Vector3f distance;
+
+        if (input->bShiftDown)
+            distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);     //incorporate Z-Distance in skinning when holding Shift
+        else
+            distance=calcLoc - Vector3f(loc.x,loc.y,calcLoc.z); //ignore Z-Distance (as if drqawing in 2D) for skinning
 
         ///within brush range
         if (brush->scale.x * 0.1>distance.length()){
@@ -242,7 +246,7 @@ void SkinTool::singleSkin(int pID,int boneID){
     //cout << "bSize: " << bSize << endl;
 
     //depending on brush size, fade intensity to edge of brush
-    float intensity=max( (bSize-distance), 0.0f);
+    float intensity=brush->intensity * max( (bSize-distance), 0.0f);
     //intensity=0.1;
 
     // see if this particle already has weights painted on

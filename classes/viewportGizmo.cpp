@@ -38,6 +38,9 @@ void ViewportGizmo::setup(){
 
 void ViewportGizmo::update(double deltaTime){
 
+
+    setLocation(Vector3f( renderer->windowX-100, 2, 0.0));
+
         //setup FBO
 
     glPushAttrib(GL_VIEWPORT_BIT);
