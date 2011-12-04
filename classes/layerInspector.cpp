@@ -12,6 +12,8 @@ LayerInspector::LayerInspector(){
     scrollSize=350.0;
     listDisplaySize=400;
 
+    name="LayerInspector";
+
     registerProperties();
 }
 
@@ -135,35 +137,38 @@ void LayerInspector::HelpersTab::assembleList(){
     //make assignbutton for brush
     //make assignbutton for grid
     //make assignbutton for controller
-        BasicButton* l= new AssignButton;
+        AssignButton* l= new AssignButton;
         m->sceneData->buttonList.push_back(l);
         l->name="Brush";
+        m->actorButtons.push_back(l);
         m->listButton.push_back(l);
 
         l= new AssignButton;
         m->sceneData->buttonList.push_back(l);
         l->name="Controller";
+        m->actorButtons.push_back(l);
         m->listButton.push_back(l);
 
         l= new AssignButton;
         m->sceneData->buttonList.push_back(l);
         l->name="Grid";
+        m->actorButtons.push_back(l);
         m->listButton.push_back(l);
 
         for (int i=0;i<(int)m->listButton.size();i++){
-            l=m->listButton[i];
-            l->parent=m;
-            l->level=m->level+1;
-            l->bDrawName=true;
-            l->color=Vector4f(0.8,0.6,0.6,1.0);
+            BasicButton* b=m->listButton[i];
+            b->parent=m;
+            b->level=m->level+1;
+            b->bDrawName=true;
+            b->color=Vector4f(0.8,0.6,0.6,1.0);
 
-            l->bPermanent=true;
-            l->sceneShaderID="color";
+            b->bPermanent=true;
+            b->sceneShaderID="color";
 
             if (m->listWidth>0)
-                l->scale.x=m->listWidth;
+                b->scale.x=m->listWidth;
             if (m->listHeight>0)
-                l->scale.y=m->listHeight;
+                b->scale.y=m->listHeight;
 
             m->placeButton(i,i);
         }
@@ -185,10 +190,12 @@ void LayerInspector::HelpersTab::trigger(MsbObject* other){
 void LayerInspector::clearLists(){
 
     for (int i=0;i<(int)actorButtons.size();i++){
+        actorButtons[i]->bPermanent=false;
         actorButtons[i]->remove();
     }
 
     for (int i=0;i<(int)layerButtons.size();i++){
+        layerButtons[i]->bPermanent=false;
         layerButtons[i]->remove();
     }
 
@@ -196,6 +203,7 @@ void LayerInspector::clearLists(){
         scrollBar->remove();
         scrollBar=NULL;
     }
+
     listButton.clear();
     actorButtons.clear();
     layerButtons.clear();
@@ -218,8 +226,8 @@ void LayerInspector::assembleList(){
         l->bDrawName=true;
         l->color=Vector4f(0.8,0.6,0.6,1.0);
 
-		//actions are just set to be visible, not actually created!
-        l->bHidden=true;
+		//layers are just set to be visible, not actually created!
+        l->bHidden=false;
         l->bDragable=true;
         l->bPermanent=true;
         l->sceneShaderID="color";
@@ -241,13 +249,17 @@ void LayerInspector::assembleList(){
             actorReferences.push_back(sceneData->layerList[i]->actorList[j]);
 
             a->parent=this;
+            //this is a bit hackish now, but hey...
+            char buffer [50];
+            sprintf(buffer, "actor* %d",j);
+            a->buttonProperty=buffer;
 
             a->name=sceneData->layerList[i]->actorList[j]->name;
             a->color=Vector4f(0.4,0.4,0.4,1.0);
 
             a->level=level+1;
             a->bDrawName=true;
-            a->bHidden=true;
+            a->bHidden=false;
             a->bPermanent=true;
 
             //a->scale=Vector3f(tabWidth, 30.0f, 1.0f);

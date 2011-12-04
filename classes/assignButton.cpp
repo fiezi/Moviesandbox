@@ -18,6 +18,12 @@ void AssignButton::update(double deltaTime){}
 void AssignButton::mouseOver(){
 
     BasicButton::mouseOver();
+
+    //TODO:this is mainly used by LayerInspector, but might be useful somewhere else?
+        Actor* myActor=readActor( (char*) buttonProperty.c_str() );
+        if (myActor)
+            myActor->bHighlight=true;
+
 }
 
 void AssignButton::mouseDrag(){
