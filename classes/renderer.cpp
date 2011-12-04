@@ -1410,7 +1410,8 @@ void Renderer::draw3D(Layer* currentLayer){
         setupShading("color");
 
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
-            drawGizmos(currentLayer->actorList[i]);
+                if (currentLayer->actorList[i]->name!="ground" && currentLayer->actorList[i]->name!="grid")                 //don't draw gizmos for ground and grid!
+                    drawGizmos(currentLayer->actorList[i]);
         }
 
     }
@@ -2419,10 +2420,10 @@ void Renderer::pick(int x, int y){
     ///Mouse 3D Position
     //Calculate mouse 3D position from zPos
 
-    input->mouse3D= sceneData->controller->location;
-    input->mouse3D+= sceneData->controller->zAxis * zPos;
-    input->mouse3D-= sceneData->controller->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos* 1.1);
-    input->mouse3D+= sceneData->controller->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
+    input->mouse3D= sceneData->controller->controlledActor->location;
+    input->mouse3D+= sceneData->controller->controlledActor->zAxis * zPos;
+    input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos* 1.1);
+    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
 
 
    ///Center 3D Position
@@ -2431,8 +2432,8 @@ void Renderer::pick(int x, int y){
     Vector2f cen=Vector2f(centerInfo[2],centerInfo[1]);
 	zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
 
-    input->center3D= sceneData->controller->location;
-    input->center3D+= sceneData->controller->zAxis * zPos;
+    input->center3D= sceneData->controller->controlledActor->location;
+    input->center3D+= sceneData->controller->controlledActor->zAxis * zPos;
 
 
     ///VertexID

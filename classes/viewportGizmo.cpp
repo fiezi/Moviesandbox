@@ -61,6 +61,7 @@ void ViewportGizmo::update(double deltaTime){
     glMultMatrixf(myMatrix);
 
     renderer->drawCube(100.0);
+    glEnable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,0);
     glPopAttrib();
 
@@ -81,7 +82,6 @@ void ViewportGizmo::mouseOver(){
     //setup picking texture!
     glGenTextures(1, &pickTexture);
     glBindTexture(GL_TEXTURE_2D, pickTexture);
-
     glTexImage2D(GL_TEXTURE_2D, 0, renderer->depthPrecision,  1, 1, 0, GL_BGRA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -93,7 +93,18 @@ void ViewportGizmo::mouseOver(){
     glCopyTexSubImage2D(GL_TEXTURE_2D,0,0,0,input->mouseX-location.x,(location.y+scale.y)-input->mouseY,1 ,1 );
     glGetTexImage(GL_TEXTURE_2D,0,GL_RGBA,GL_FLOAT,&cubeRead[0]);
 
-    cubeSide=cubeRead[3];
+    if ((int) (cubeRead[0]*100+ 0.5)==85)
+        cubeSide=1;
+    if ((int) (cubeRead[0]*100+ 0.5)==75)
+        cubeSide=2;
+    if ((int) (cubeRead[0]*100+ 0.5)==70)
+        cubeSide=3;
+    if ((int) (cubeRead[0]*100+ 0.5)==65)
+        cubeSide=4;
+    if ((int) (cubeRead[0]*100+ 0.5)==55)
+        cubeSide=5;
+    if ((int) (cubeRead[0]*100.0 + 0.5)==90)
+        cubeSide=6;
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 
@@ -112,7 +123,8 @@ void ViewportGizmo::clickedLeft(){
 
     oldV=input->center3D;
 
-    //depending on where we clicked, this Vector hould be different
+    cout << "old Vector: " << oldV << endl;
+    //depending on where we clicked, this Vector should be different
 
     //also, switching left and right...
 

@@ -16,6 +16,10 @@ public:
 
         virtual void clickedLeft();
         virtual void clickedRight();
+
+        virtual void mouseDrag();
+        virtual void finishDrag();
+
         virtual void focusClick();
         virtual void create();
 };

@@ -30,6 +30,9 @@ Input::Input(){
     startPressLeftBtn=0,
     startPressRightBtn=0,
 
+    bWarpMouse=false;
+
+
     pressedLeft=false,
     pressedRight=false,
     pressedMiddle=false,
@@ -65,6 +68,7 @@ Input::~Input(){}
 
 void Input::registerProperties(){
 
+    createMemberID("BWARPMOUSE",&bWarpMouse,this);
 }
 
 Input* Input::getInstance(){
@@ -773,7 +777,8 @@ void Input::deselectActors(){
 
 void Input::confineMouse(){
 
-return;
+    if (!bWarpMouse)
+        return;
 
 #ifdef TARGET_WIN32
     glutWarpPointer(renderer->windowX/2,renderer->windowY/2);

@@ -188,7 +188,7 @@ void SelectTool::selectActors(int btn, Actor* other){
         return;
 
     //can select ground from layerInspector!
-    if (other->name=="ground" && input->hudTarget==NULL){
+    if ( (other->name=="ground" || other->name=="grid" )&& input->hudTarget==NULL){
         input->deselectActors();
         return;
     }

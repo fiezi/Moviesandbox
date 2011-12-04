@@ -74,7 +74,8 @@ void NavTool::mouseReleased(int btn){
 
     //reset old cursor position
 
-    glutWarpPointer(oldMousePos.x,oldMousePos.y);
+    if (input->bWarpMouse)
+        glutWarpPointer(oldMousePos.x,oldMousePos.y);
 }
 
 void NavTool::mouseDragged(int btn){

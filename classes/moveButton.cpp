@@ -5,11 +5,14 @@
 MoveButton::MoveButton(){
 
 bActive=false;
+bDragable=true;
+bResetAfterDrag=true;
 name="LOCATION";
 //fineLocation=Vector3f(0,0,0);
 }
 
 void MoveButton::update(double deltaTime){
+
     if (bActive && parent){
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 
@@ -28,10 +31,10 @@ void MoveButton::update(double deltaTime){
             }
           //don't do it twice!
         sceneData->selectedActors[i]->setLocation(loc);
-    }
-		  input->bConfineMouse=true;
+        }
 
-      }
+    input->bConfineMouse=true;
+    }
 
 }
 

@@ -5,6 +5,7 @@
 RotateButton::RotateButton(){
 
 bActive=false;
+bDragable=true;
 name="ROTATION";
 }
 
@@ -42,7 +43,6 @@ void RotateButton::update(double deltaTime){
 void RotateButton::clickedLeft(){
 
     bActive=true;
-    input->focusButton=this;
 
     Actor* actorParent=(Actor*)parent;
 
@@ -57,6 +57,21 @@ void RotateButton::clickedLeft(){
         }
     }
 
+    initialLocation=location;
+
+    if (!input->bWarpMouse){
+        scale.x=renderer->windowX;
+        scale.y=renderer->windowY;
+        location.x=0;
+        location.y=0;
+        location.z=-1000;
+        color.a=0.15;
+        setLocation(location);
+        bActive=false;
+    }
+    else
+        input->focusButton=this;
+
     glutSetCursor(GLUT_CURSOR_CYCLE);
 }
 
@@ -66,6 +81,28 @@ void RotateButton::clickedRight(){
 bActive=false;
 input->focusButton=this;
 cout << "connecting..." << input->hudTarget << endl;
+}
+
+
+void RotateButton::mouseDrag(){
+
+    cout << "dragging" <<  bActive << endl;
+    input->focusButton=NULL;
+    input->dragButton=this;
+    bActive=true;
+
+
+    //setLocation(Vector3f(input->mouseX-scale.x/2, input->mouseY-scale.y/2,0));
+
+}
+
+void RotateButton::finishDrag(){
+
+    input->focusButton=this;
+    bActive=false;
+    //setLocation(initialLocation);
+
+    cout << "finishing drag!" << endl;
 }
 
 //here we connect to the specific button we clicked on (after right clicking the rotate icon)
@@ -84,12 +121,18 @@ void RotateButton::focusClick(){
     //we've just moved the Actor
     if (bActive)
       bActive=false;
-    cout << "inActive!";
+    cout << "Rotation Button inActive! " << endl;
+
+    setLocation(initialLocation);
+    scale=Vector3f(30.0f,30.0f,30.0f);
+    color.a=1.0;
 
     fineRotation.clear();
     fineLocation.clear();
     //input->deselectActors();
     glutSetCursor(GLUT_CURSOR_INHERIT);
+
+
 }
 
 void RotateButton::create(){

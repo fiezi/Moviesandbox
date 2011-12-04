@@ -52,7 +52,9 @@ public:
                 startPressRightBtn;
 
 
-    bool        pressedLeft,             //special mouse and Keyboard Keys
+    bool    bWarpMouse;             //configurable input states
+
+    bool        pressedLeft,             //special internal mouse and Keyboard Keys (non-configurable)
                 pressedRight,
                 pressedMiddle,
                 bShiftDown,
@@ -63,6 +65,7 @@ public:
                 bKeepSelection,
                 bPressedMovementKeys,
                 bConfineMouse;
+
 
     std::string tooltip;
     std::string inputText;

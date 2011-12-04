@@ -446,6 +446,11 @@ void SceneData::loadPreferences(){
     element->Attribute("ScreenSizeY", &val);
     renderer->screenY=val;
 
+    //warp mouse cursor
+    element->Attribute("bWarpMouse", &val);
+    input->bWarpMouse=bool(val);
+
+
     //fullscreen on/off
     element->Attribute("bFullScreen", &val);
     renderer->bFullscreen=bool(val);
@@ -457,10 +462,11 @@ void SceneData::loadPreferences(){
     mStr=element->Attribute("bDrawLighting", &val);
     renderer->bDrawLighting=bool(val);
 
+/*
     //stereo Render on/off
     mStr=element->Attribute("bRenderStereo", &val);
     renderer->bRenderStereo=bool(val);
-
+*/
     //multisampling on/off
     mStr=element->Attribute("bMultisample", &val);
     renderer->bMultisample=bool(val);
@@ -612,6 +618,9 @@ void SceneData::savePreferences(){
     element->SetAttribute("ScreenSizeX", renderer->screenX);
     element->SetAttribute("ScreenSizeY", renderer->screenY);
 
+    //warp mouse cursor
+    element->SetAttribute("bWarpMouse", input->bWarpMouse);
+
     //fullscreen on/off
     element->SetAttribute("bFullScreen", renderer->bFullscreen);
     element->SetAttribute("BackgroundTex", backgroundTex);
@@ -620,9 +629,10 @@ void SceneData::savePreferences(){
     //light drawing on/off
     element->SetAttribute("bDrawLighting", renderer->bDrawLighting);
 
+/*
     //stereo Render on/off
     element->SetAttribute("bRenderStereo", renderer->bRenderStereo);
-
+*/
     //multisampling on/off
     element->SetAttribute("bMultisample", renderer->bMultisample);
 
