@@ -16,8 +16,11 @@ void MoveButton::update(double deltaTime){
     if (bActive && parent){
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 
-            Vector3f loc;
 
+        if (fineLocation.size()<=i)
+            return;
+
+         Vector3f loc;
 
           if (input->bShiftDown){
             fineLocation[i]+=Vector3f(0.0, input->mouseVector.y*0.1, 0.0);

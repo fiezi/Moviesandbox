@@ -5,7 +5,7 @@
 RotateButton::RotateButton(){
 
 bActive=false;
-bDragable=true;
+
 name="ROTATION";
 }
 
@@ -43,7 +43,6 @@ void RotateButton::update(double deltaTime){
 void RotateButton::clickedLeft(){
 
     bActive=true;
-
     Actor* actorParent=(Actor*)parent;
 
     if (actorParent==sceneData->controller){
@@ -60,6 +59,7 @@ void RotateButton::clickedLeft(){
     initialLocation=location;
 
     if (!input->bWarpMouse){
+        bDragable=true;
         scale.x=renderer->windowX;
         scale.y=renderer->windowY;
         location.x=0;
@@ -100,6 +100,7 @@ void RotateButton::finishDrag(){
 
     input->focusButton=this;
     bActive=false;
+
     //setLocation(initialLocation);
 
     cout << "finishing drag!" << endl;
@@ -129,7 +130,8 @@ void RotateButton::focusClick(){
 
     fineRotation.clear();
     fineLocation.clear();
-    //input->deselectActors();
+    bDragable=false;
+
     glutSetCursor(GLUT_CURSOR_INHERIT);
 
 
