@@ -42,16 +42,10 @@ void BrushFilter::filter(vertexData* myVData){
 
     //standard bone references - nothing (set to -1)
     myVData->boneReferences=Vector4f(-1.0,-1.0,-1.0,-1.0);
-    myVData->vertexWeights=Vector4f(0.0,0.0,0.0,0.0);;
+    myVData->vertexWeights=Vector4f(0.0,0.0,0.0,0.0);
 
     myVData->texCoord=Vector3f(0.0,0.0,0.0);     //texCoord holds color
     myVData->birth=float(glutGet(GLUT_ELAPSED_TIME))/1000.0; //particle creation time in seconds
-
-
-	Vector3f myAxis=Vector3f(0.0,1.0,0.0);
-	if (abs(myVData->secondaryColor.y)>0.9)
-		myAxis=Vector3f(0.0,0.0,1.0);
-
 
 	oldMouse3D=input->mouse3D;
 

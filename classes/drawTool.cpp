@@ -14,7 +14,7 @@ DrawTool::DrawTool(){
     bMouseControlled=true;
     bDrawing=false;
 	bStartStroke=true;
-    pNormal=Vector3f(0,1,0);
+	bPaintMesh=false;
 
     highlightBtn="Draw Particles (p)";
 }
@@ -64,6 +64,8 @@ void DrawTool::start(){
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
     brush->bHidden=false;
 
+    if (bPaintMesh)
+        brush->drawType=DRAW_VBOMESH;
 }
 
 void DrawTool::stop(){
@@ -231,36 +233,48 @@ void DrawTool::paint(){
     calcLocation();
 
     vertexData myVData;
-	vertexData oldVData;
 
-	int mySize=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
-	if (mySize>0)
-		oldVData=sceneData->vboList[brush->drawing->vboMeshID]->vData[mySize-1];
 
     //brush->drawing->bPickable=false;
     //brush->drawing->bZTest=false;
 
-    for (int i=0;i<(int)filters.size();i++){
-        filters[i]->filter(&myVData);
+    if (bPaintMesh && brush->vboMeshID!="NULL"){
+            for (int i=0;i<sceneData->vboList[brush->vboMeshID]->vData.size(); i++ ){
+
+                myVData=sceneData->vboList[brush->vboMeshID]->vData[i];
+                myVData.location.x+=input->mouse3D.x;// + myVData.location;
+                myVData.location.y+=input->mouse3D.y;// + myVData.location;
+                myVData.location.z+=input->mouse3D.z;// + myVData.location;
+                myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
+                sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
+
+            }
+    }else{
+
+
+        for (int i=0;i<(int)filters.size();i++){
+            filters[i]->filter(&myVData);
+        }
+
+        myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
+
+        sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
+
+        //count particles
+        sceneData->numParticles++;
+
+        //adjust bounding box
+
+        brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
+        brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
+        brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
+
+        brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
+        brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
+        brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
     }
 
-    myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
-
-    sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
-
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
-    //count particles
-    sceneData->numParticles++;
-
-    //adjust bounding box
-
-    brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
-    brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
-    brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
-
-    brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
-    brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
-    brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
 
 }
 

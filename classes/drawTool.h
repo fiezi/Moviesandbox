@@ -15,11 +15,11 @@ public:
 
     Brush*  brush;
     Vector3f calcLoc;
-    Vector3f pNormal;
 
     bool bMouseControlled;
     bool bDrawing;
 	bool bStartStroke;
+	bool bPaintMesh;
 
     Vector3f brushLocBuffer[16];
 
