@@ -390,6 +390,9 @@ void DrawTool::deselectAllParticles(){
 
 void DrawTool::mergeDrawings(){
 
+
+    createNewDrawing(true);
+
     //merge drawings here...
     cout << "merging selected drawings..." << endl;
 
@@ -397,7 +400,7 @@ void DrawTool::mergeDrawings(){
     for (int i=0;i<(int)sceneData->selectedActors.size();i++){
         ParticleSystem* myPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
         if (!myPS){
-            cout << "wrong actors selected! Couldn't merge, sorry." << endl;
+            cout << "selection includes non-spriteMesh! Couldn't merge, sorry." << endl;
             return;
         }
     }
@@ -405,14 +408,16 @@ void DrawTool::mergeDrawings(){
     //copy particles over
     ParticleSystem* receivePS;
     ParticleSystem* readPS;
-    receivePS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[0]);
+    receivePS=dynamic_cast<ParticleSystem*>(brush->drawing);
 
-    for (int i=1;i<(int)sceneData->selectedActors.size();i++){
+    for (int i=0;i<(int)sceneData->selectedActors.size()-1;i++){    //selected Drawing is last one on stack!
         readPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
         //copy values
         MeshData * readMesh = sceneData->vboList[readPS->vboMeshID];
         MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
         for (int i=0;i<(int)readMesh->vData.size();i++){
+
+                cout << i << endl;
             receiveMesh->vData.push_back(readMesh->vData[i]);
 
             //calculate offset between particleSystems
@@ -426,6 +431,48 @@ void DrawTool::mergeDrawings(){
             receiveMesh->vData[receiveMesh->vData.size()-1].location.w=myScale;
         }
     }
+
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
+    input->deselectActors();
+    sceneData->selectedActors.push_back(brush->drawing);
+
+}
+
+
+bool myfunction (int i, int j) {return (i>j);}
+
+void DrawTool::splitDrawing(){
+
+    ParticleSystem* receivePS;
+    ParticleSystem* readPS;
+
+    readPS=dynamic_cast<ParticleSystem*>(brush->drawing);
+
+    createNewDrawing(true);
+
+    receivePS=dynamic_cast<ParticleSystem*>(brush->drawing);
+
+        MeshData * readMesh = sceneData->vboList[readPS->vboMeshID];
+        MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
+    //sort from large to small so we don't accidentally remove particles out of order!
+
+
+    sort(brush->selectedData.begin(),brush->selectedData.end(),myfunction);
+
+
+    for (int j=0;j<(int)brush->selectedData.size();j++){
+            receiveMesh->vData.push_back(readMesh->vData[brush->selectedData[j]]);      //copy selected Data to new drawing
+            readMesh->vData.erase(readMesh->vData.begin() +brush->selectedData[j] );    //delete from original drawing
+    }
+
+    for (int i=0;i<brush->selectedData.size();i++){
+        receiveMesh->vData[i].color=brush->selectedOldColors[i];
+    }
+
+    deselectAllParticles();
+
+    sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
+
 }
 
 void DrawTool::clearDrawing(){

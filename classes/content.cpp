@@ -287,11 +287,11 @@ void Content::createMenuBar(){
     lbut->listParent.push_back("PARENT");
 
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Combine Drawings");
+    lbut->listName.push_back("Merge Drawings");
     lbut->listParent.push_back("PARENT");
 
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Split from Drawing");
+    lbut->listName.push_back("Split Drawing");
     lbut->listParent.push_back("PARENT");
 
     lbut->listType.push_back("12AssignButton");

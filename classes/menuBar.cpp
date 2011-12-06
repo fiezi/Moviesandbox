@@ -90,6 +90,11 @@ void MenuBar::trigger(MsbObject* other){
         sceneData->drawTool->mergeDrawings();
     }
 
+    if (other->name== "Split Drawing"){
+
+        sceneData->drawTool->splitDrawing();
+    }
+
     //View Menu
 
 
