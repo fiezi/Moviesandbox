@@ -88,7 +88,7 @@ void BasicButton::drawTooltip(){
             size_t pos=name.find(" ");
             myName = name.substr(pos);
         }
-        //smallify for better readability
+        //smallify for better readability - if we want to!
         string smallName=myName.substr(0,scale.x/8);
         if (smallName.size()<myName.size())
             smallName+="...";
@@ -118,6 +118,7 @@ void BasicButton::mouseDrag(){
 void BasicButton::finishDrag(){}
 
 void BasicButton::clickedLeft(){
+
 }
 
 void BasicButton::focusClick(){

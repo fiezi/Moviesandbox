@@ -2421,12 +2421,18 @@ void Renderer::pick(int x, int y){
         input->worldTarget=sceneData->aGizmo->zRotateGizmo;
 
     ///Mouse 3D Position
+
+    float normScreenX=screenX;
+    float normScreenY=screenY;
+
+    float mouseX =input->mouseX * screenX/windowX;
+    float mouseY =input->mouseY * screenY/windowY;
     //Calculate mouse 3D position from zPos
 
     input->mouse3D= sceneData->controller->controlledActor->location;
     input->mouse3D+= sceneData->controller->controlledActor->zAxis * zPos;
-    input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)input->mouseX/(float)screenX - 0.5) * zPos* 1.1);
-    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-input->mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
+    input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)mouseX/(float)screenX - 0.5) * zPos* 1.1);
+    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
 
 
    ///Center 3D Position

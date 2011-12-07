@@ -10,7 +10,11 @@ MenuBar::MenuBar(){
     scale.x=64;
     scale.y=16;
     color=Vector4f(0.6,0.6,0.6,0.8);
-    name="File";
+    name="MenuBar";
+
+    bToggledMenu=false;
+    activeMenu=-1;
+
 }
 
 MenuBar::~MenuBar(){}
@@ -18,10 +22,299 @@ MenuBar::~MenuBar(){}
 
 void MenuBar::setup(){
 
+    Vector4f menuColor=Vector4f(0.6,0.6,0.6,1.0);
+
     BasicButton::setup();
+
+    ListButton* lbut=new ListButton;
+
+    lbut->location.x= 0;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPermanentList=true;
+    lbut->bPartOfMenu=true;
+    lbut->name="File";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=this;
+    lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("New Scene");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWSCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Scene...");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("LOADSCENELIST");
+    //lbut->listProp.push_back("SCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENE");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Save Scene As...");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("SAVESCENEAS");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("New Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NEWPROJECT");
+
+    lbut->listType.push_back("10LoadButton");
+    lbut->listName.push_back("Load Project");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("LOADPROJECT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+    lbut->listType.push_back("12WindowButton");
+    lbut->listName.push_back("Preferences");
+    lbut->listIcon.push_back("icon_system");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Quit");
+    lbut->listParent.push_back("PARENT");
+
+    sceneData->buttonList.push_back(lbut);
+    menus.push_back(lbut);
+
+
+    /** EDIT MENU  **/
+
+    lbut=new ListButton;
+    lbut->location.x= 64;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPermanentList=true;
+    lbut->bPartOfMenu=true;
+    lbut->name="Edit";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=this;
+    lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Cut");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Copy");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Paste");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Delete");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Group");
+    lbut->listParent.push_back("PARENT");
+    sceneData->buttonList.push_back(lbut);
+    menus.push_back(lbut);
+
+    /** DRAW MENU  **/
+
+    lbut=new ListButton;
+    lbut->location.x= 128;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPermanentList=true;
+    lbut->bPartOfMenu=true;
+    lbut->name="Draw";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=this;
+     lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("ScaleZ 0.5");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("ScaleZ 2.0");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Merge Drawings");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Split Drawing");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Save Drawing As...");
+    lbut->listParent.push_back("PARENT");
+    sceneData->buttonList.push_back(lbut);
+    menus.push_back(lbut);
+
+   /** VIEW MENU  **/
+
+    lbut=new ListButton;
+    lbut->location.x= 196;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
+    lbut->bPermanentList=true;
+    lbut->name="View";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=this;
+     lbut->bDrawListNames=true;
+    lbut->listDisplayMode=5;//straight down
+    lbut->listShader="color";
+    lbut->listColor=menuColor;
+    //fill list and set to parent!
+    lbut->listWidth=128;
+    lbut->listHeight=16;
+    lbut->listButtonSpacing=Vector3f(0,0,0);
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Nodes (F2)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Color Only (F3)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle SSAO (F4)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Lighting (F5)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle Normals (F6)");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Toggle PostPro (F7)");
+    lbut->listParent.push_back("PARENT");
+
+    sceneData->buttonList.push_back(lbut);
+    menus.push_back(lbut);
+
+    /** TOOLS MENU **/
+
+    lbut=new ListButton;
+    lbut->location.x= 256;
+    lbut->scale.x=64;
+    lbut->scale.y=16;
+    lbut->sceneShaderID="color";
+	lbut->textureID="icon_flat";
+    lbut->level=0;
+    lbut->bPermanent=true;
+    lbut->bPartOfMenu=true;
+    lbut->bPermanentList=true;
+    lbut->name="Tools";
+    lbut->bDrawName=true;
+    lbut->color=menuColor;
+    lbut->setLocation(lbut->location);
+    lbut->parent=this;
+    sceneData->buttonList.push_back(lbut);
+    menus.push_back(lbut);
+
 }
 
-void MenuBar::update(double deltaTime){}
+void MenuBar::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
+
+
+        cout << "toggled menu: "<< bToggledMenu << endl;
+
+    //make menus behave like menus
+    if (bToggledMenu){
+
+
+        //find menu that we currently hover over
+        for (int i=0;i<menus.size();i++)
+            if (input->hudTarget==menus[i])
+                    activeMenu=i;
+
+        cout << "active menu: "<< activeMenu << endl;
+
+
+        //if we hover over a menu that is not opened
+        if (activeMenu>=0 && !menus[activeMenu]->bListOpen){
+            //close all other menus
+            for (int i=0;i<menus.size();i++)
+                if (menus[i]->bListOpen)
+                    menus[i]->deselect(0);
+
+            //open this one
+            menus[activeMenu]->clickedLeft();
+        }
+
+    }
+}
 
 void MenuBar::mouseOver(){
 
@@ -38,6 +331,14 @@ void MenuBar::focusClick(){
 
 
 void MenuBar::trigger(MsbObject* other){
+
+    //activate menu if we clicked on menu item
+    for (int i=0;i<menus.size();i++){
+        if (other==menus[i]){
+            bToggledMenu=true;
+            activeMenu=i;
+        }
+    }
 
     if (other->name=="Quit"){
 
@@ -87,11 +388,19 @@ void MenuBar::trigger(MsbObject* other){
 
     if (other->name== "Merge Drawings"){
 
+        if (sceneData->selectedActors.size()<2){
+            sceneData->makeWarningPopUp("You must have at least 2 drawings selected to merge them!", NULL);
+            return;
+        }
         sceneData->drawTool->mergeDrawings();
     }
 
     if (other->name== "Split Drawing"){
 
+        if (sceneData->brush->selectedData.size()<2){
+            sceneData->makeWarningPopUp("You must have Particles selected in order to split them from a drawing!", NULL);
+            return;
+        }
         sceneData->drawTool->splitDrawing();
     }
 
@@ -129,6 +438,7 @@ void MenuBar::trigger(MsbObject* other){
 void MenuBar::deselect(int depth){
 
     BasicButton::deselect(depth);
+    bToggledMenu=false;
 }
 
 void MenuBar::create(){sceneData->addButton(this);}

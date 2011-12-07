@@ -15,6 +15,8 @@ public:
     virtual void setup();
     virtual void update(double deltaTime);
 
+    virtual void drawTooltip();
+
     virtual void mouseOver();
 
     virtual void mouseDrag();

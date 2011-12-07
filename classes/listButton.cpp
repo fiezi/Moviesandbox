@@ -45,13 +45,17 @@ void ListButton::clickedLeft(){
   BasicButton::clickedLeft();
 
   //destroy all buttons that have higher depth than mine - if we are not part of a menu!
-  if (!bPartOfMenu)
-    input->deselectButtons(level);
+    if (!bPartOfMenu)
+        input->deselectButtons(level);
 
-  if (listButton.size()==0 || bPermanentList){
-    assembleList();
-    bListOpen=true;
-  }
+
+    if (listButton.size()==0 || bPermanentList){
+        assembleList();
+        bListOpen=true;
+    }
+
+    if (parent)
+        parent->trigger(this);
 
 }
 

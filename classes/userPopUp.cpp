@@ -27,6 +27,13 @@ void UserPopUp::update(double deltaTime){
     TextInputButton::update(deltaTime);
 }
 
+//overwrite regular button's tooltip handling
+void UserPopUp::drawTooltip(){
+
+        //smallify for better readability - if we want to!
+        renderer->drawText((char*)name.c_str(), location.x+2+ drawNameOffset.x,location.y+scale.y/2+2.0 + drawNameOffset.y);
+}
+
 void UserPopUp::mouseOver(){
 
 TextInputButton::mouseOver();

@@ -1,11 +1,15 @@
 #ifndef H_MENUBAR
 #define H_MENUBAR
 
-#include "basicButton.h"
+#include "listButton.h"
 
 class MenuBar: public BasicButton{
 
 public:
+
+    vector<ListButton*> menus;
+    bool bToggledMenu;
+    int activeMenu;
 
     MenuBar();
     virtual ~MenuBar();

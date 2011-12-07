@@ -1015,11 +1015,14 @@ void SceneData::makeUserPopUp(string text, Actor* parent){
 void SceneData::makeWarningPopUp(string message, Actor* parent){
 
     staticButton=(BasicButton*)actorInfo["9UserPopUp"].actorReference;
-    staticButton->setLocation(Vector3f(renderer->screenX/2-200,renderer->screenY/2-50,0));
+    staticButton->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
     staticButton->color=Vector4f(1.0,0.0,0.0,1.0);
     staticButton->name=message;
     staticButton->parent=parent;
-    cout << "UserInput->parent is: " << parent->name << endl;
+    if (parent)
+        cout << "UserInput->parent is: " << parent->name << endl;
+    else
+        cout << "no parent! " << endl;
     //staticButton->clickedLeft();
     buttonList.push_back(staticButton);
 }
