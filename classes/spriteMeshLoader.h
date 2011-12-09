@@ -52,7 +52,7 @@ class SpriteMeshLoader: public MsbObject{
         void loadVertexWeights ( string meshID, TiXmlElement * sourceElement );
         void loadBones ( string meshID, TiXmlElement * sourceElement );
 
-        bool createVBOs(string meshID);
+        bool createVBOs(string meshID, bool bFromFile=true);
 
 };
 

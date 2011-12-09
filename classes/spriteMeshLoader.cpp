@@ -107,11 +107,9 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
     doc.SaveFile( filename );
     doc.Clear();
 
-
-	//createVBOs(myDrawing->vboMeshID);
-
-	//load into new name!
-	loadSpriteMesh(filename, meshName);
+    //no need to load, just create VBOs!
+	createVBOs(myDrawing->vboMeshID, false);
+	//loadSpriteMesh(filename, meshName);
 
     return true;
 }
@@ -393,7 +391,7 @@ void SpriteMeshLoader::saveBones(TiXmlElement* root, SkeletalActor* myDrawing){
     }
 }
 
-bool SpriteMeshLoader::createVBOs(string meshID){
+bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
 
 
     GLuint vertexIDBuffer=0;
@@ -409,15 +407,24 @@ bool SpriteMeshLoader::createVBOs(string meshID){
 	vertexCount= myMesh->vData.size();
 
 	//clear any previous stuff...
-	sceneData->vboList[meshID]->vertexCount.clear();
-    sceneData->vboList[meshID]->vertexBufferObject.clear();
-	sceneData->vboList[meshID]->vertexWeightsObject.clear();
-	sceneData->vboList[meshID]->boneReferenceObject.clear();
-    sceneData->vboList[meshID]->colorBufferObject.clear();
-    //sceneData->vboList[meshID]->secondaryColorBufferObject.clear();
-    //sceneData->vboList[meshID]->normalBufferObject.clear();
-    sceneData->vboList[meshID]->texCoordBufferObject.clear();
-
+	if (bFromFile){
+        sceneData->vboList[meshID]->vertexCount.clear();
+        sceneData->vboList[meshID]->vertexBufferObject.clear();
+        sceneData->vboList[meshID]->vertexWeightsObject.clear();
+        sceneData->vboList[meshID]->boneReferenceObject.clear();
+        sceneData->vboList[meshID]->colorBufferObject.clear();
+        //sceneData->vboList[meshID]->secondaryColorBufferObject.clear();
+        //sceneData->vboList[meshID]->normalBufferObject.clear();
+        sceneData->vboList[meshID]->texCoordBufferObject.clear();
+    }else{
+        for (int i=0;i<vertexCount;i++){
+            vertices[i]=sceneData->vboList[meshID]->vData[i].location;
+            colors[i]=sceneData->vboList[meshID]->vData[i].color;
+            texCoords[i]=sceneData->vboList[meshID]->vData[i].texCoord;
+            vertexWeights[i]=sceneData->vboList[meshID]->vData[i].vertexWeights;
+            boneReference[i]=sceneData->vboList[meshID]->vData[i].boneReferences;
+        }
+    }
     cout << "setting up vertexCount" << endl;
 
     //vertexID Buffer

@@ -83,11 +83,15 @@ void DrawTool::stop(){
     int mySize=sceneData->vboList[skel->vboMeshID]->vData.size();
 
 	if (mySize>0 && skel->bones.size()>0){
-	    save();
-
         for (int i=0;i<(int)skel->bones.size();i++)
-            skel->bones[i]->bPickable=false;
+            skel->bones[i]->bPickable=true;
     }
+
+    //create Vertex Buffer objects for faster drawing!
+    sceneData->spriteMeshLoader->createVBOs(brush->drawing->vboMeshID,false);
+
+    //switch to vboMesh drawing mode
+    brush->drawing->drawType=DRAW_VBOMESH;
 
     //forget our drawing!
     brush->drawing=NULL;

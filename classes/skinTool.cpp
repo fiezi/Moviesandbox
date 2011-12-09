@@ -75,6 +75,9 @@ void SkinTool::stop(){
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=true;
 
+	//create vbo Data for faster drawing!
+    sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
+
 
 	skel->drawType=DRAW_VBOMESH;
 

@@ -78,8 +78,9 @@ void BoneTool::stop(){
         skel->bones[i]->bPickable=true;
 
 
-	//save vbo and reload, then assign to this actor and switch drawmode to VBO
-    //sceneData->drawTool->save();
+	//create vbo Data for faster drawing!
+    sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
+
 
 	skel->drawType=DRAW_VBOMESH;
 
