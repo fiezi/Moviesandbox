@@ -67,8 +67,10 @@ void PropertyInspector::refreshList(){
 
         if (parent!=oldParent){
 
-            tabs[currentTab]->assembleList();
-            oldParent=parent;
+        tabs[currentTab]->assembleList();
+        oldParent=parent;
+        }else{
+        //add updating of properties here...
         }
 
 }

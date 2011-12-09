@@ -296,7 +296,7 @@ void ListButton::deselect(int depth){
 
     }
 
-    else if (listButton.size()>0){// && !listButton[0]->bPermanent){
+    else if (listButton.size()>0 && !listButton[0]->bPermanent ){
       cout << "clearing list..." << endl;
       listButton.clear();
     }

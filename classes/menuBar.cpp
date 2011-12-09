@@ -288,8 +288,6 @@ void MenuBar::update(double deltaTime){
     BasicButton::update(deltaTime);
 
 
-        cout << "toggled menu: "<< bToggledMenu << endl;
-
     //make menus behave like menus
     if (bToggledMenu){
 
@@ -298,8 +296,6 @@ void MenuBar::update(double deltaTime){
         for (int i=0;i<menus.size();i++)
             if (input->hudTarget==menus[i])
                     activeMenu=i;
-
-        cout << "active menu: "<< activeMenu << endl;
 
 
         //if we hover over a menu that is not opened
