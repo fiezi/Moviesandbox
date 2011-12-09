@@ -22,8 +22,8 @@ class SpriteMeshLoader: public MsbObject{
         Vector3f* normals;                              //normal array pointer
         Vector3f* texCoords;
 
-        Vector4f* vertexWeights; //4 weights per vertex, we select the 4 most influential
-        Vector4f* boneReference; //4 bone References per vertex, we select the 4 most influential
+        Vector4f* vertexWeights;						//4 weights per vertex, we select the 4 most influential
+        Vector4f* boneReference;						//4 bone References per vertex, we select the 4 most influential
 
         int vertexCount;
 

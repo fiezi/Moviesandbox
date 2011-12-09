@@ -197,7 +197,48 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array/>
+	<array>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>189E723A1491C4AD00CD4930</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>spriteMeshLoader.h</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>189E723B1491C4AD00CD4930</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>spriteMeshLoader.h</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>189E72401491C4AD00CD4930</string>
+						<key>history</key>
+						<array>
+							<string>189E72121491C26F00CD4930</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {743, 781}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>49 56 743 822 0 0 1440 878 </string>
+			</dict>
+		</dict>
+	</array>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -267,7 +308,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>08FB7794FE84155DC02AAC07</string>
-								<string>18B96FBA1112D51D00530AA6</string>
+								<string>18B96FB41112D48600530AA6</string>
+								<string>1815BA0F11EA166D00D3A7B9</string>
+								<string>1815BA1011EA167E00D3A7B9</string>
 								<string>1AB674ADFE9D54B511CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
@@ -276,8 +319,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
-									<integer>6</integer>
+									<integer>12</integer>
+									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -317,7 +360,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>input.cpp</string>
+								<string>spriteMeshLoader.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,11 +368,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>input.cpp</string>
+										<string>spriteMeshLoader.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>185025EE148EF8BB00731D0E</string>
+										<string>189E723F1491C4AD00CD4930</string>
 										<key>history</key>
 										<array>
 											<string>186B7F0D13118A200061F401</string>
@@ -341,7 +384,6 @@
 											<string>1805E8CB132AF30600DF1107</string>
 											<string>1805E8CE132AF30600DF1107</string>
 											<string>1805E8CF132AF30600DF1107</string>
-											<string>1805E8D0132AF30600DF1107</string>
 											<string>1805E8D3132AF30600DF1107</string>
 											<string>1805E8D4132AF30600DF1107</string>
 											<string>1805E8D6132AF30600DF1107</string>
@@ -385,13 +427,17 @@
 											<string>18BE1D5B148716F100886566</string>
 											<string>1810F6DE1487604F00912F79</string>
 											<string>1826A51714881C2A00DBAEA6</string>
-											<string>1826A55614881DA300DBAEA6</string>
 											<string>1826A55714881DA300DBAEA6</string>
 											<string>1826A55814881DA300DBAEA6</string>
 											<string>1826A55914881DA300DBAEA6</string>
 											<string>18E9CAC11488330C00628972</string>
 											<string>18A8F903148B410400F7B00E</string>
-											<string>18A8F905148B410400F7B00E</string>
+											<string>189E72311491C4AD00CD4930</string>
+											<string>189E72321491C4AD00CD4930</string>
+											<string>189E72331491C4AD00CD4930</string>
+											<string>189E72341491C4AD00CD4930</string>
+											<string>189E72351491C4AD00CD4930</string>
+											<string>189E72361491C4AD00CD4930</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -449,9 +495,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>185025EF148EF8BB00731D0E</string>
+				<string>189E72381491C4AD00CD4930</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>185025F0148EF8BB00731D0E</string>
+				<string>189E72391491C4AD00CD4930</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -589,7 +635,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>189E723D1491C4AD00CD4930</string>
+		<string>189E723E1491C4AD00CD4930</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>186B7ECC131180D60061F401</string>
+		<string>189E723A1491C4AD00CD4930</string>
 		<string>/Users/fiezi/Moviesandbox/Moviesandbox.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -614,7 +665,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>spriteMeshLoader.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -631,6 +682,8 @@
 							<string>345pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -670,7 +723,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>186B7ECC131180D60061F401</string>
-				<string>185025F1148EF8BB00731D0E</string>
+				<string>189E72281491C4A900CD4930</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -766,10 +819,10 @@
 									<key>Frame</key>
 									<string>{{426, 0}, {512, 389}}</string>
 									<key>RubberWindowFrame</key>
-									<string>55 80 938 775 0 0 1440 878 </string>
+									<string>277 84 938 775 0 0 1440 878 </string>
 								</dict>
 								<key>RubberWindowFrame</key>
-								<string>55 80 938 775 0 0 1440 878 </string>
+								<string>277 84 938 775 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugSessionModule</string>
@@ -792,18 +845,18 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>18A8F909148B410400F7B00E</string>
+				<string>189E72291491C4A900CD4930</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>18A8F90A148B410400F7B00E</string>
-				<string>18A8F90B148B410400F7B00E</string>
-				<string>18A8F90C148B410400F7B00E</string>
-				<string>18A8F90D148B410400F7B00E</string>
-				<string>18A8F90E148B410400F7B00E</string>
+				<string>189E722A1491C4A900CD4930</string>
+				<string>189E722B1491C4A900CD4930</string>
+				<string>189E722C1491C4A900CD4930</string>
+				<string>189E722D1491C4A900CD4930</string>
+				<string>189E722E1491C4A900CD4930</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
 			<key>WindowString</key>
-			<string>55 80 938 775 0 0 1440 878 </string>
+			<string>277 84 938 775 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
@@ -952,7 +1005,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>18A8F90F148B410400F7B00E</string>
+				<string>189E722F1491C4A900CD4930</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

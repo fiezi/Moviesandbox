@@ -417,12 +417,27 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
         //sceneData->vboList[meshID]->normalBufferObject.clear();
         sceneData->vboList[meshID]->texCoordBufferObject.clear();
     }else{
+
+		//clean up old memory
+		delete(vertices);
+		delete(colors);
+		delete(texCoords);
+		delete(vertexWeights);
+		delete(boneReference);
+
+		//initialize new memory
+		vertices= new Vector4f[vertexCount];
+		colors= new Vector4f[vertexCount];
+		texCoords= new Vector3f[vertexCount];
+		vertexWeights= new Vector4f[vertexCount];
+		boneReference= new Vector4f[vertexCount];
+		
         for (int i=0;i<vertexCount;i++){
             vertices[i]=sceneData->vboList[meshID]->vData[i].location;
             colors[i]=sceneData->vboList[meshID]->vData[i].color;
             texCoords[i]=sceneData->vboList[meshID]->vData[i].texCoord;
-            vertexWeights[i]=sceneData->vboList[meshID]->vData[i].vertexWeights;
-            boneReference[i]=sceneData->vboList[meshID]->vData[i].boneReferences;
+			vertexWeights[i]=sceneData->vboList[meshID]->vData[i].vertexWeights;
+			boneReference[i]=sceneData->vboList[meshID]->vData[i].boneReferences;
         }
     }
     cout << "setting up vertexCount" << endl;
