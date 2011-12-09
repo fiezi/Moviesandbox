@@ -419,19 +419,21 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
     }else{
 
 		//clean up old memory
-		delete(vertices);
-		delete(colors);
-		delete(texCoords);
-		delete(vertexWeights);
-		delete(boneReference);
-
+		//TODO: properly allocate, so we can properly deallocate? This crashes in linux...
+		/*
+		delete[] colors;
+		delete[] vertices;
+		delete[] texCoords;
+		delete[] vertexWeights;
+		delete[] boneReference;
+        */
 		//initialize new memory
 		vertices= new Vector4f[vertexCount];
 		colors= new Vector4f[vertexCount];
 		texCoords= new Vector3f[vertexCount];
 		vertexWeights= new Vector4f[vertexCount];
 		boneReference= new Vector4f[vertexCount];
-		
+
         for (int i=0;i<vertexCount;i++){
             vertices[i]=sceneData->vboList[meshID]->vData[i].location;
             colors[i]=sceneData->vboList[meshID]->vData[i].color;
