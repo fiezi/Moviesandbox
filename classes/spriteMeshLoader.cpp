@@ -419,14 +419,17 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
     }else{
 
 		//clean up old memory
-		//TODO: properly allocate, so we can properly deallocate? This crashes in linux...
-		/*
-		delete[] colors;
-		delete[] vertices;
-		delete[] texCoords;
-		delete[] vertexWeights;
-		delete[] boneReference;
-        */
+        if (colors)
+            delete[] colors;
+        if (vertices)
+            delete[] vertices;
+        if (texCoords)
+            delete[] texCoords;
+        if (vertexWeights)
+            delete[] vertexWeights;
+        if (boneReference)
+            delete[] boneReference;
+
 		//initialize new memory
 		vertices= new Vector4f[vertexCount];
 		colors= new Vector4f[vertexCount];
@@ -612,14 +615,18 @@ bool SpriteMeshLoader::loadSpriteMesh( string filename, string meshID ){
         createVBOs(meshID);
 
         //now free our resources:
-        delete(vertices);
-        //delete(normals);
-        delete(texCoords);
-        delete(colors);
-        //delete(secondaryColors);
-        delete(vertexWeights);
-        delete(boneReference);
-    }
+        delete[] colors;
+		delete[] vertices;
+		delete[] texCoords;
+		delete[] vertexWeights;
+		delete[] boneReference;
+
+		colors=NULL;
+		vertices=NULL;
+		texCoords=NULL;
+		vertexWeights=NULL;
+		boneReference=NULL;
+        }
 
     cout << "after creating vbos..." << endl;
 
