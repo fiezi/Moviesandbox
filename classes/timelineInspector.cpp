@@ -30,7 +30,10 @@ TimelineInspector::TimelineInspector(){
 
     listOffsetY=70;
 
-    bDrawName=true;
+    bDrawName=false;
+
+    bRecording=false;
+    startRecordingTime=0;
 
 }
 
@@ -50,6 +53,20 @@ void TimelineInspector::update(double deltaTime){
                 removeTimeline(i/3);
         }
     }
+
+    if (bRecording){
+        for (int i=0;i<(int)timelines.size();i++){
+            int timeStep=(renderer->currentTime - startRecordingTime);
+            //TODO: make frame recording resolution a setting!
+            if (timelines[i]->keyFrames.size() * 50.0< timeStep){
+                timelines[i]->createKey(  timeStep/10.0  );
+            }
+        }
+    }else{
+        startRecordingTime=renderer->currentTime;
+    }
+
+    //timeSize= 6.0f * zoomTime;//+ 6.0f * zoomTime* timePos ;
 }
 
 
@@ -110,9 +127,10 @@ void TimelineInspector::createInspectorButtons(){
     inspectorButtons[4]->color=Vector4f(0.3,0.6,0.5,1.0);
     inspectorButtons[4]->setLocation( loc );
 
+    ///Record
     loc.x+=listWidth + 2;
-    inspectorButtons[5]->name="Focus";
-    inspectorButtons[5]->color=Vector4f(0.6,0.3,0.3,1.0);
+    inspectorButtons[5]->name="rec";
+    inspectorButtons[5]->color=Vector4f(0.5,0.5,0.5,1.0);
     inspectorButtons[5]->setLocation( loc );
 
     ///scrubber
@@ -198,6 +216,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     TimelineButton* tlBtn= new TimelineButton;
     listButton.push_back(tlBtn);
     sceneData->buttonList.push_back(tlBtn);
+    timelines.push_back(tlBtn);
 
     tlBtn->tooltip="Timeline for" + timelineActors[pos]->name;
     tlBtn->parent=this;
@@ -325,6 +344,14 @@ void TimelineInspector::trigger(MsbObject* other){
         }
       }
 
+    if (other->name=="rec"){
+        bRecording=!bRecording;
+        if (bRecording)
+            other->color=Vector4f(1.0,0.2,0.2,1.0);
+        else
+            other->color=Vector4f(0.5,0.5,0.5,1.0);
+    }
+
     //MAKE NEW ACTION!
     if (other->name=="make"){
         TimelineButton* tlBtn;
@@ -420,10 +447,9 @@ void TimelineInspector::drawTimeScale(){
 
     //how many seconds is our timeLine long?
     //this will determine how long we will draw our timeline!
-    float timeLineWidth= timeSize * secondMark;
+    float timeLineWidth= timeSize * secondMark ;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
-    //timeLineWidth = timeLineWidth / zoomTime;
 
     float startPos = timePos * timeLineWidth;
 
@@ -431,7 +457,7 @@ void TimelineInspector::drawTimeScale(){
 
 
     ///keyFrame snaps
-    int nLines = (int) ( timeLineWidth / snapToMark );
+    int nLines = (int) (  (timeLineWidth * max(1.0f,zoomTime ) +   timePos *  timeLineWidth * max(1.0f,zoomTime) ) / snapToMark );
 
     renderer->setupShading("color");
 
@@ -452,7 +478,7 @@ void TimelineInspector::drawTimeScale(){
     float zoomedSecond = secondMark;
 
     ///seconds
-    nLines = (int) ( timeLineWidth / zoomedSecond );
+    nLines = (int) ( (timeLineWidth * max(1.0f,zoomTime )  +   timePos *  timeLineWidth * max(1.0f,zoomTime )  ) / zoomedSecond );
     glLineWidth(2.0);
 
     glColor4f(0.8,0.0,0.0,1.0);
@@ -469,7 +495,7 @@ void TimelineInspector::drawTimeScale(){
 
 
     ///half seconds
-    nLines = (int) ( 2.0 * timeLineWidth  / zoomedSecond );
+    nLines = (int) ( 2.0 * (timeLineWidth * max(1.0f,zoomTime )   +   timePos *  timeLineWidth * max(1.0f,zoomTime )  )  / zoomedSecond );
     glLineWidth(2.0);
 
     glColor4f(0.6,0.4,0.4,1.0);
@@ -487,7 +513,7 @@ void TimelineInspector::drawTimeScale(){
 
     glColor4f(1.0,1.0,1.0,1.0);
 
-        for( int i = 0; i < nLines; i++){
+        for( int i = 0; i < nLines; i+=max(1,(int)zoomTime)  ){
             if (i*zoomedSecond * 0.5 > startPos){
                 char secTxt[8];
                 if (i%2==0){
@@ -503,8 +529,7 @@ void TimelineInspector::drawTimeScale(){
     glPopMatrix();
 }
 
-void TimelineInspector::zoomTimeScale( float val )
-{
+void TimelineInspector::zoomTimeScale( float val ){
 
     //if( timeScale < .1 ) timeScale = .1;
     zoomTime *= val;
@@ -539,6 +564,7 @@ void TimelineInspector::zoomTimeScale( float val )
 void TimelineInspector::removeTimeline(int i){
     cout << "removing timeline" << endl;
     timelineActors.erase(timelineActors.begin()+i);
+    timelines.erase(timelines.begin()+i);
 
 
     //name button
@@ -547,6 +573,7 @@ void TimelineInspector::removeTimeline(int i){
     listButton[i*3+1]->remove();
     //timelineButton
     listButton[i*3+2]->remove();
+
     //erase removes all between first and last, not iincluding the one pointed to by last!
 
     //move remaining timelinebuttons up!

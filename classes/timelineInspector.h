@@ -11,6 +11,7 @@ public:
 
     vector<Actor*>  timelineActors;
     vector<Action*> timelineActions;
+    vector<TimelineButton*> timelines;
 
     float   timeSize;                           //timeLine size in seconds
 
@@ -19,6 +20,10 @@ public:
     float   zoomTime;                            //zoom Level
     float   secondMark;                           //how many pixels represent a unit of time (second)
     float   snapToMark;                           //where to put the keyframe so it makes sense.
+
+    float startRecordingTime;
+
+    bool    bRecording;
 
     TimelineInspector();
     virtual ~TimelineInspector();

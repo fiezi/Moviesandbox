@@ -87,7 +87,7 @@ void TimelineButton::drawKeys(){
     float timeLineWidth= timeSize * secondMark;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
-    timeLineWidth = timeLineWidth / zoomTime;
+    //timeLineWidth = timeLineWidth / zoomTime;
 
     float startPos = timePos * timeLineWidth;
 
@@ -139,7 +139,7 @@ void TimelineButton::mouseDrag(){
    float timeLineWidth= timeSize * secondMark;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
-    timeLineWidth = timeLineWidth / zoomTime;
+    //timeLineWidth = timeLineWidth / zoomTime;
 
     float startPos = timePos * timeLineWidth;
 
@@ -158,7 +158,7 @@ void TimelineButton::mouseDrag(){
 
     if(input->pressedLeft && draggedKey){
         if (!isOccupied() ){
-            draggedKey->timeKey  = (input->mouseX-location.x)*zoomTime  + startPos;
+            draggedKey->timeKey  = (input->mouseX-location.x)*zoomTime  + startPos * zoomTime;
             draggedKey->timeKey  *= 10.0;
         }
 
@@ -176,7 +176,6 @@ void TimelineButton::clickedLeft(){
     float timeLineWidth= timeSize * secondMark;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
-    timeLineWidth = timeLineWidth / zoomTime;
 
     float startPos = timePos * timeLineWidth;
 
@@ -228,8 +227,6 @@ void TimelineButton::clickedRight(){
     float timeLineWidth= timeSize * secondMark;
 
     //now zoom in ( timeline gets wider the more we're zoomed in
-    timeLineWidth = timeLineWidth / zoomTime;
-
     float startPos = timePos * timeLineWidth; // in Pixels
 
     //check if we already have a key in this location
@@ -237,7 +234,7 @@ void TimelineButton::clickedRight(){
 
 
     if (!bOccupied){
-        createKey((input->mouseX-location.x)*zoomTime + startPos);
+        createKey((input->mouseX-location.x)*zoomTime + startPos  * zoomTime);
     }
 
 
@@ -321,7 +318,7 @@ void TimelineButton::scrub(float scrubber){
         float timeLineWidth= timeSize * secondMark;
 
         //now zoom in ( timeline gets wider the more we're zoomed in
-        timeLineWidth = timeLineWidth / zoomTime;
+        //timeLineWidth = timeLineWidth / zoomTime;
 
         float startPos = timePos * timeLineWidth;
 

@@ -667,7 +667,7 @@ void Content::createInspectors(){
 
 
     lbut= new TimelineInspector;
-    lbut->location.x=200;
+    lbut->location.x=100;
     lbut->location.y=renderer->screenY -lbut->scale.y;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
