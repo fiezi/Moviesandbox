@@ -109,8 +109,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 345096337;
-			PBXWorkspaceStateSaveDate = 345096337;
+			PBXPerProjectTemplateStateSaveDate = 345170326;
+			PBXWorkspaceStateSaveDate = 345170326;
 		};
 		perUserProjectItems = {
 			1805E8CB132AF30600DF1107 /* PBXTextBookmark */ = 1805E8CB132AF30600DF1107 /* PBXTextBookmark */;
@@ -148,14 +148,11 @@
 			186E2A8C133560F0007A8129 /* PBXTextBookmark */ = 186E2A8C133560F0007A8129 /* PBXTextBookmark */;
 			186E2B0913356E33007A8129 /* PBXTextBookmark */ = 186E2B0913356E33007A8129 /* PBXTextBookmark */;
 			189AFFAF1421EFD2009882A5 /* PBXTextBookmark */ = 189AFFAF1421EFD2009882A5 /* PBXTextBookmark */;
-			189E72121491C26F00CD4930 /* PBXBookmark */ = 189E72121491C26F00CD4930 /* PBXBookmark */;
 			189E72311491C4AD00CD4930 /* PBXTextBookmark */ = 189E72311491C4AD00CD4930 /* PBXTextBookmark */;
 			189E72321491C4AD00CD4930 /* PBXTextBookmark */ = 189E72321491C4AD00CD4930 /* PBXTextBookmark */;
 			189E72331491C4AD00CD4930 /* PBXTextBookmark */ = 189E72331491C4AD00CD4930 /* PBXTextBookmark */;
 			189E72341491C4AD00CD4930 /* PBXTextBookmark */ = 189E72341491C4AD00CD4930 /* PBXTextBookmark */;
 			189E72351491C4AD00CD4930 /* PBXTextBookmark */ = 189E72351491C4AD00CD4930 /* PBXTextBookmark */;
-			189E72361491C4AD00CD4930 /* XCBuildMessageTextBookmark */ = 189E72361491C4AD00CD4930 /* XCBuildMessageTextBookmark */;
-			189E723F1491C4AD00CD4930 /* PBXTextBookmark */ = 189E723F1491C4AD00CD4930 /* PBXTextBookmark */;
 			189E72401491C4AD00CD4930 /* PBXTextBookmark */ = 189E72401491C4AD00CD4930 /* PBXTextBookmark */;
 			18A8F903148B410400F7B00E /* PBXTextBookmark */ = 18A8F903148B410400F7B00E /* PBXTextBookmark */;
 			18AD2B18133550EA000E02E7 /* PBXTextBookmark */ = 18AD2B18133550EA000E02E7 /* PBXTextBookmark */;
@@ -163,6 +160,9 @@
 			18AD2B1A133550EA000E02E7 /* PBXTextBookmark */ = 18AD2B1A133550EA000E02E7 /* PBXTextBookmark */;
 			18AD2B1B133550EA000E02E7 /* PBXTextBookmark */ = 18AD2B1B133550EA000E02E7 /* PBXTextBookmark */;
 			18AD2B2B13355169000E02E7 /* PBXTextBookmark */ = 18AD2B2B13355169000E02E7 /* PBXTextBookmark */;
+			18B0CF171492E2B90062562E /* PBXTextBookmark */ = 18B0CF171492E2B90062562E /* PBXTextBookmark */;
+			18B0CF181492E2B90062562E /* PBXTextBookmark */ = 18B0CF181492E2B90062562E /* PBXTextBookmark */;
+			18B0CF1B1492E2B90062562E /* PBXTextBookmark */ = 18B0CF1B1492E2B90062562E /* PBXTextBookmark */;
 			18BE1D53148716F100886566 /* PBXTextBookmark */ = 18BE1D53148716F100886566 /* PBXTextBookmark */;
 			18BE1D54148716F100886566 /* PBXTextBookmark */ = 18BE1D54148716F100886566 /* PBXTextBookmark */;
 			18BE1D56148716F100886566 /* PBXTextBookmark */ = 18BE1D56148716F100886566 /* PBXTextBookmark */;
@@ -970,10 +970,9 @@
 	};
 	1811647D10CB3816007AE094 /* spriteMeshLoader.cpp */ = {
 		uiCtxt = {
-			sepNavFolds = "{\n    c =     (\n                {\n            r = \"{137, 556}\";\n            s = 0;\n        },\n                {\n            r = \"{734, 112}\";\n            s = 0;\n        },\n                {\n            r = \"{950, 2053}\";\n            s = 0;\n        },\n                {\n            r = \"{3063, 711}\";\n            s = 0;\n        },\n                {\n            r = \"{3849, 762}\";\n            s = 0;\n        },\n                {\n            r = \"{4691, 720}\";\n            s = 0;\n        },\n                {\n            r = \"{5485, 779}\";\n            s = 0;\n        },\n                {\n            r = \"{6347, 822}\";\n            s = 0;\n        },\n                {\n            r = \"{7260, 776}\";\n            s = 0;\n        },\n                {\n            r = \"{8121, 784}\";\n            s = 0;\n        },\n                {\n            r = \"{8987, 2719}\";\n            s = 0;\n        },\n                {\n            r = \"{19760, 2060}\";\n            s = 0;\n        },\n                {\n            r = \"{21904, 1287}\";\n            s = 0;\n        },\n                {\n            r = \"{23291, 761}\";\n            s = 0;\n        },\n                {\n            r = \"{24155, 773}\";\n            s = 0;\n        },\n                {\n            r = \"{25036, 783}\";\n            s = 0;\n        },\n                {\n            r = \"{25927, 826}\";\n            s = 0;\n        },\n                {\n            r = \"{26860, 695}\";\n            s = 0;\n        }\n    );\n    r = \"{0, 28528}\";\n    s = 0;\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {877, 4329}}";
-			sepNavSelRange = "{2166, 0}";
-			sepNavVisRange = "{1625, 830}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 11791}}";
+			sepNavSelRange = "{13097, 0}";
+			sepNavVisRange = "{11948, 1791}";
 			sepNavWindowFrame = "{{680, -447}, {785, 878}}";
 		};
 	};
@@ -1686,10 +1685,6 @@
 		vrLen = 596;
 		vrLoc = 509;
 	};
-	189E72121491C26F00CD4930 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 1811647E10CB3816007AE094 /* spriteMeshLoader.h */;
-	};
 	189E72311491C4AD00CD4930 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 1811641410CB3816007AE094 /* input.cpp */;
@@ -1739,25 +1734,6 @@
 		rType = 0;
 		vrLen = 1193;
 		vrLoc = 25584;
-	};
-	189E72361491C4AD00CD4930 /* XCBuildMessageTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "No match for 'operator=' in '*(((SpriteMeshLoader*)this)->SpriteMeshLoader::vertices + ((Vector4f*)(((unsigned int)i) * 16u))) = (((Vector4f*)operator new(16u)), (<anonymous>->Vector4<T>::Vector4 [with T = float](0.0f, 0.0f, 0.0f, 0.0f), <anonymous>))'";
-		fRef = 1811647D10CB3816007AE094 /* spriteMeshLoader.cpp */;
-		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 434;
-		rType = 1;
-	};
-	189E723F1491C4AD00CD4930 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1811647D10CB3816007AE094 /* spriteMeshLoader.cpp */;
-		name = "spriteMeshLoader.cpp: 435";
-		rLen = 0;
-		rLoc = 13097;
-		rType = 0;
-		vrLen = 1714;
-		vrLoc = 11988;
 	};
 	189E72401491C4AD00CD4930 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1871,6 +1847,36 @@
 		rLoc = 458;
 		rType = 0;
 		vrLen = 1223;
+		vrLoc = 0;
+	};
+	18B0CF171492E2B90062562E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1811647D10CB3816007AE094 /* spriteMeshLoader.cpp */;
+		name = "spriteMeshLoader.cpp: 436";
+		rLen = 0;
+		rLoc = 13097;
+		rType = 0;
+		vrLen = 1791;
+		vrLoc = 11948;
+	};
+	18B0CF181492E2B90062562E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1811647E10CB3816007AE094 /* spriteMeshLoader.h */;
+		name = "spriteMeshLoader.h: 20";
+		rLen = 0;
+		rLoc = 412;
+		rType = 0;
+		vrLen = 1861;
+		vrLoc = 0;
+	};
+	18B0CF1B1492E2B90062562E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1811647E10CB3816007AE094 /* spriteMeshLoader.h */;
+		name = "spriteMeshLoader.h: 26";
+		rLen = 0;
+		rLoc = 814;
+		rType = 0;
+		vrLen = 2249;
 		vrLoc = 0;
 	};
 	18BE1D53148716F100886566 /* PBXTextBookmark */ = {

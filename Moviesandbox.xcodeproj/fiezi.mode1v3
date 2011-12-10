@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>189E72401491C4AD00CD4930</string>
+						<string>18B0CF1B1492E2B90062562E</string>
 						<key>history</key>
 						<array>
-							<string>189E72121491C26F00CD4930</string>
+							<string>189E72401491C4AD00CD4930</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -360,7 +360,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>spriteMeshLoader.cpp</string>
+								<string>spriteMeshLoader.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -368,11 +368,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>spriteMeshLoader.cpp</string>
+										<string>spriteMeshLoader.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>189E723F1491C4AD00CD4930</string>
+										<string>18B0CF181492E2B90062562E</string>
 										<key>history</key>
 										<array>
 											<string>186B7F0D13118A200061F401</string>
@@ -435,9 +435,9 @@
 											<string>189E72311491C4AD00CD4930</string>
 											<string>189E72321491C4AD00CD4930</string>
 											<string>189E72331491C4AD00CD4930</string>
-											<string>189E72341491C4AD00CD4930</string>
 											<string>189E72351491C4AD00CD4930</string>
-											<string>189E72361491C4AD00CD4930</string>
+											<string>18B0CF171492E2B90062562E</string>
+											<string>189E72341491C4AD00CD4930</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -495,9 +495,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>189E72381491C4AD00CD4930</string>
+				<string>18B0CF191492E2B90062562E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>189E72391491C4AD00CD4930</string>
+				<string>18B0CF1A1492E2B90062562E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -635,8 +635,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>189E723D1491C4AD00CD4930</string>
-		<string>189E723E1491C4AD00CD4930</string>
+		<string>18B0CF241492E2B90062562E</string>
+		<string>18B0CF251492E2B90062562E</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>186B7ECC131180D60061F401</string>
@@ -665,7 +665,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>spriteMeshLoader.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -682,8 +682,6 @@
 							<string>345pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -723,7 +721,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>186B7ECC131180D60061F401</string>
-				<string>189E72281491C4A900CD4930</string>
+				<string>18B0CF1C1492E2B90062562E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -845,13 +843,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>189E72291491C4A900CD4930</string>
+				<string>18B0CF1D1492E2B90062562E</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>189E722A1491C4A900CD4930</string>
-				<string>189E722B1491C4A900CD4930</string>
-				<string>189E722C1491C4A900CD4930</string>
-				<string>189E722D1491C4A900CD4930</string>
-				<string>189E722E1491C4A900CD4930</string>
+				<string>18B0CF1E1492E2B90062562E</string>
+				<string>18B0CF1F1492E2B90062562E</string>
+				<string>18B0CF201492E2B90062562E</string>
+				<string>18B0CF211492E2B90062562E</string>
+				<string>18B0CF221492E2B90062562E</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -1005,7 +1003,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>189E722F1491C4A900CD4930</string>
+				<string>18B0CF231492E2B90062562E</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
