@@ -326,7 +326,6 @@ int main(int argc, char* argv[]){
 		[NSApp setAppleMenu:menu];
 	}
 
-//	SetSystemUIMode(kUIModeAllHidden, NULL);
 #endif
 
 
