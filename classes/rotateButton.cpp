@@ -15,6 +15,8 @@ RotateButton::~RotateButton(){}
 //TODO: implement Grid in RotateButton
 void RotateButton::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
+
     if (bActive && parent){
 
         Actor* actorParent=(Actor*)parent;
@@ -65,7 +67,8 @@ void RotateButton::clickedLeft(){
         location.x=0;
         location.y=0;
         location.z=-1000;
-        color.a=0.15;
+        buttonColor.a=0.15;
+        mouseOverColor.a=0.15;
         setLocation(location);
         bActive=false;
     }
@@ -78,9 +81,12 @@ void RotateButton::clickedLeft(){
 //this is used for connecting to an inputConnectButton
 void RotateButton::clickedRight(){
 
-bActive=false;
-input->focusButton=this;
-cout << "connecting..." << input->hudTarget << endl;
+    if (input->focusButton)
+        return;
+
+    bActive=false;
+    input->focusButton=this;
+    cout << "connecting..." << input->hudTarget << endl;
 }
 
 
@@ -126,7 +132,8 @@ void RotateButton::focusClick(){
 
     setLocation(initialLocation);
     scale=Vector3f(30.0f,30.0f,30.0f);
-    color.a=1.0;
+    buttonColor.a=1.0;
+    mouseOverColor.a=1.0;
 
     fineRotation.clear();
     fineLocation.clear();

@@ -40,12 +40,17 @@ TimelineButton::TimelineButton(){
 TimelineButton::~TimelineButton(){}
 
 void TimelineButton::setup(){
-BasicButton::setup();
-if (bSkeletalTrack)
-    skeleton=dynamic_cast<SkeletalActor*>(connectedActor);
+    BasicButton::setup();
+    if (bSkeletalTrack)
+        skeleton=dynamic_cast<SkeletalActor*>(connectedActor);
+
+    buttonColor=sceneData->timelineColor;
+    mouseOverColor=buttonColor;
 }
 
 void TimelineButton::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
 
     if (selectedKey){
         if (bSkeletalTrack){
@@ -101,9 +106,9 @@ void TimelineButton::drawKeys(){
 
         Vector4f keyColor;
         if (keyFrames[i]==selectedKey)
-            keyColor=Vector4f(1.0,0.0,0.0,1.0);
+            keyColor=sceneData->boolYesColor;
         else
-            keyColor=Vector4f(1.0,1.0,1.0,1.0);
+            keyColor=sceneData->meanButtonColor;
 
         //cout << "drawing keystuff!" << endl;
         float keySize = 10;//1/zoomTime;

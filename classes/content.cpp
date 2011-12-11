@@ -186,8 +186,9 @@ void Content::createSelectButton(int x, int y){
     lbut->tooltip="select (i)";
     lbut->setLocation(lbut->location);
     lbut->textureID="icon_select";
-    lbut->color=COLOR_RED;
     lbut->setup();
+    lbut->buttonColor=sceneData->selectedToolColor;
+
     sceneData->controller->myTools[TOOL_SELECT]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_PARTICLESELECT]->myBtn=lbut;
     sceneData->buttonList.push_back(lbut);

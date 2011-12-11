@@ -57,6 +57,12 @@ public:
         Vector4f boolNoColor;
         Vector4f boolYesColor;
 
+        Vector4f timelineButtonColor;
+        Vector4f timelineColor;
+
+        Vector4f scrollBarColor;
+        Vector4f scrollBarIndicatorColor;
+
         //*****************************************
         //Template for creating Actor IDs
         //*****************************************

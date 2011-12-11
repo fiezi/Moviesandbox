@@ -1414,8 +1414,9 @@ void Renderer::draw3D(Layer* currentLayer){
         setupShading("color");
 
         for (int i=0;i<(int)currentLayer->actorList.size();i++){
-                if (currentLayer->actorList[i]->name!="ground" && currentLayer->actorList[i]->name!="grid")                 //don't draw gizmos for ground and grid!
+                if (currentLayer->actorList[i]->name!="ground" && currentLayer->actorList[i]->name!="grid") {                //don't draw gizmos for ground and grid!
                     drawGizmos(currentLayer->actorList[i]);
+                }
         }
 
     }

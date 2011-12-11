@@ -62,6 +62,7 @@ Input::Input(){
     upDown=NULL;
     leftRight=NULL;
 
+    registerProperties();
 }
 
 Input::~Input(){}
@@ -69,6 +70,7 @@ Input::~Input(){}
 void Input::registerProperties(){
 
     createMemberID("BWARPMOUSE",&bWarpMouse,this);
+    createMemberID("WORLDTARGET",&worldTarget,this);
 }
 
 Input* Input::getInstance(){

@@ -41,11 +41,16 @@ TimelineInspector::~TimelineInspector(){}
 
 
 void TimelineInspector::setup(){
+
     Inspector::setup();
-    backgroundButton->color=Vector4f(0.4,0.4,0.4,1.0);
+
+    buttonColor=sceneData->timelineButtonColor;
+    backgroundButton->buttonColor=sceneData->menuBackgroundColor;
 }
 
 void TimelineInspector::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
 
     if (input->lastKey==127 || input->lastKey==8){
         for (int i=0;i<(int)listButton.size();i++){
@@ -92,11 +97,11 @@ void TimelineInspector::createInspectorButtons(){
         inspectorButtons[i]->parent=this;
         inspectorButtons[i]->level=level+1;
         inspectorButtons[i]->tooltip="";
-        inspectorButtons[i]->color=Vector4f(0.3,0.6,0.3,1.0);
         inspectorButtons[i]->bPermanent=true;
         inspectorButtons[i]->sceneShaderID="color";
         inspectorButtons[i]->scale=Vector3f(40,15,1);
         inspectorButtons[i]->setup();
+        inspectorButtons[i]->buttonColor=Vector4f(0.3,0.6,0.3,1.0);
     }
 
     //set names and colors
@@ -104,33 +109,33 @@ void TimelineInspector::createInspectorButtons(){
 
     loc.y+=scale.y;
     inspectorButtons[0]->name="Add";
-    inspectorButtons[0]->color=Vector4f(0.6,0.3,0.3,1.0);
+    inspectorButtons[0]->buttonColor=Vector4f(0.5,0.4,0.4,1.0);
     inspectorButtons[0]->setLocation( loc );
 
     loc.x+=listWidth + 2;
     inspectorButtons[1]->name="play";
-    inspectorButtons[1]->color=Vector4f(0.3,0.6,0.3,1.0);
+    inspectorButtons[1]->buttonColor=Vector4f(0.3,0.6,0.3,1.0);
     inspectorButtons[1]->setLocation( loc );
 
     loc.x+=listWidth + 2;
     inspectorButtons[2]->name="pause";
-    inspectorButtons[2]->color=Vector4f(0.3,0.6,0.3,1.0);
+    inspectorButtons[2]->buttonColor=Vector4f(0.3,0.6,0.3,1.0);
     inspectorButtons[2]->setLocation( loc );
 
     loc.x+=listWidth + 2;
     inspectorButtons[3]->name="zmIn";
-    inspectorButtons[3]->color=Vector4f(0.5,0.6,0.3,1.0);
+    inspectorButtons[3]->buttonColor=Vector4f(0.5,0.6,0.3,1.0);
     inspectorButtons[3]->setLocation( loc );
 
     loc.x+=listWidth + 2;
     inspectorButtons[4]->name="zmOut";
-    inspectorButtons[4]->color=Vector4f(0.3,0.6,0.5,1.0);
+    inspectorButtons[4]->buttonColor=Vector4f(0.3,0.6,0.5,1.0);
     inspectorButtons[4]->setLocation( loc );
 
     ///Record
     loc.x+=listWidth + 2;
     inspectorButtons[5]->name="rec";
-    inspectorButtons[5]->color=Vector4f(0.5,0.5,0.5,1.0);
+    inspectorButtons[5]->buttonColor=Vector4f(0.5,0.5,0.5,1.0);
     inspectorButtons[5]->setLocation( loc );
 
     ///scrubber
@@ -147,7 +152,8 @@ void TimelineInspector::createInspectorButtons(){
 
     loc.x=location.x + (2* listWidth +2) + 96;
     loc.y=location.y + 55;
-    inspectorButtons[6]->color=Vector4f(0.0,0.0,0.0,1.0);
+    inspectorButtons[6]->buttonColor=Vector4f(0.0,0.0,0.0,1.0);
+    inspectorButtons[6]->mouseOverColor=Vector4f(0.1,0.1,0.1,1.0);
     inspectorButtons[6]->setLocation( loc );
 
     ///scrolling timelines
@@ -155,13 +161,16 @@ void TimelineInspector::createInspectorButtons(){
     mySlider->parent=this;
     mySlider->bVertical=false;
     mySlider->scale.x=renderer->windowX-location.x - (2*listWidth+2);
-    mySlider->scale.y=5;
-    mySlider->color=Vector4f(0.3,0.3,0.3,1.0);
+    mySlider->scale.y=8;
     mySlider->sceneShaderID="color";
     mySlider->setLocation(Vector3f(location.x + (2*listWidth+2) +96, location.y + 47, 0) );
     mySlider->name="timePos";
     mySlider->bDrawName=false;
     mySlider->buttonProperty="timePos";
+    mySlider->setup();
+    mySlider->buttonColor=sceneData->scrollBarColor;
+    mySlider->mouseOverColor=sceneData->scrollBarColor;
+    mySlider->slidePointColor=sceneData->scrollBarIndicatorColor;
     inspectorButtons.push_back(mySlider);
     sceneData->buttonList.push_back(mySlider);
 
@@ -174,25 +183,27 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
 
     /** NAME **/
     //Button for displaying the actor's name
-    BasicButton*  nameButton = new BasicButton;
+    BasicButton*  nameButton = new AssignButton;
     sceneData->buttonList.push_back(nameButton);
     listButton.push_back(nameButton);
-
-    if (bSkeletal){
-        nameButton->name=timelineActors[pos]->name;
-        nameButton->color=Vector4f(0.3,0.3,0.3,1.0);
-        }
-    else{
-        nameButton->color=Vector4f(0.3,0.3,0.3,1.0);
-        nameButton->name=timelineActors[pos]->name;
-        }
 
     nameButton->level=level+1;
     nameButton->bDrawName=true;
     nameButton->bPermanent=true;
     nameButton->parent=this;
+
+    nameButton->buttonProperty=memberToString(&input->property["WORLDTARGET"]);
     nameButton->sceneShaderID="color";
     nameButton->setup();
+    nameButton->name=timelineActors[pos]->name;
+
+    if (bSkeletal){
+        nameButton->buttonColor=Vector4f(0.3,0.4,0.3,1.0);
+        }
+    else{
+        nameButton->buttonColor=Vector4f(0.3,0.4,0.3,1.0);
+        }
+
 
     /** MAKE ACTION **/
 
@@ -201,7 +212,6 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     listButton.push_back(makeAction);
 
     makeAction->name="make";
-    makeAction->color=Vector4f(0.3,0.3,0.6,1.0);
 
     makeAction->level=level+1;
     makeAction->bDrawName=true;
@@ -209,6 +219,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     makeAction->sceneShaderID="color";
     makeAction->parent=this;
     makeAction->setup();
+    makeAction->buttonColor=Vector4f(0.3,0.3,0.5,1.0);
 
 
     /** TIMELINE **/
@@ -222,16 +233,13 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     tlBtn->parent=this;
     tlBtn->connectedActor=timelineActors[pos];
     tlBtn->level=level+1;
+    tlBtn->bPermanent=true;
 
     if (bSkeletal){
-        tlBtn->color=Vector4f(0.3,0.3,0.4,1.0);
         tlBtn->bSkeletalTrack=true;
         }
-    else
-        tlBtn->color=Vector4f(0.3,0.3,0.3,1.0);
-
-    tlBtn->bPermanent=true;
     tlBtn->setup();
+    tlBtn->buttonColor=sceneData->timelineColor;
 
     ///add initial keyframe
     tlBtn->createKey(0.0);

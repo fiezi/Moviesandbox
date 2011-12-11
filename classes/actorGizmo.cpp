@@ -154,7 +154,7 @@ void ActorGizmo::update(double deltaTime){
     Actor::update(deltaTime);
 
     //positioning and rotating when a group of actors are selected
-    if (sceneData->selectedActors.size()>0){
+    if (sceneData->selectedActors.size()>0 && sceneData->selectedActors[0]->name!="ground" && sceneData->selectedActors[0]->name!="grid"){
 
     //highlighting and un-highlighting
 

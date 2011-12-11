@@ -163,11 +163,15 @@ void ListButton::createScrollBar(){
       sceneData->buttonList.push_back(scrollBar);
       scrollBar->sceneShaderID="color";
       scrollBar->parent=this;
-      scrollBar->scale.x=8;
+      scrollBar->scale.x=10;
       scrollBar->scale.y=scrollSize;
       scrollBar->level=level+1;
-      scrollBar->color=Vector4f(0.7,0.7,0.7,1.0);
       scrollBar->bPermanent=true;
+      scrollBar->setup();
+      scrollBar->buttonColor=sceneData->scrollBarColor;
+      scrollBar->mouseOverColor=sceneData->scrollBarColor;
+      scrollBar->slidePointColor=sceneData->scrollBarIndicatorColor;
+
       placeScrollBar();
 
       //scrollBar functionalitty:

@@ -365,7 +365,7 @@ void SceneData::setup(){
     menuBarColor=Vector4f(0.7,0.7,0.7,1.0);
 
     meanButtonColor=Vector4f(0.8,0.8,0.8,1.0);
-    mouseOverColor=Vector4f(0.6,0.6,1.0,1.0);
+    mouseOverColor=Vector4f(0.8,0.8,0.0,1.0);
     focusButtonColor=Vector4f(0.8,0.6,0.6,1.0);
 
     selectedElementColor=Vector4f(0.8,0.2,0.2,1.0);
@@ -379,6 +379,12 @@ void SceneData::setup(){
 
     boolNoColor=Vector4f(0.1,0.1,0.1,1);
     boolYesColor=Vector4f(1,0.2,0.2,1);
+
+    timelineButtonColor=Vector4f(0.7,0.5,0.0,1.0);
+    timelineColor=Vector4f(0.5,0.5,0.5,1.0);
+
+    scrollBarColor=Vector4f(0.4,0.4,0.4,1.0);
+    scrollBarIndicatorColor=Vector4f(0.5,0.5,0.5,1.0);
 
     renderer=Renderer::getInstance();
     input=Input::getInstance();

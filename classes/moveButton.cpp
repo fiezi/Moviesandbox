@@ -13,6 +13,8 @@ name="LOCATION";
 
 void MoveButton::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
+
     if (bActive && parent){
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 

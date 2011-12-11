@@ -24,6 +24,8 @@ ViewportGizmo::~ViewportGizmo(){}
 void ViewportGizmo::setup(){
 
     BasicButton::setup();
+    mouseOverColor=buttonColor;
+
     //create a 100x100 texture
     renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,50,50);
 
@@ -38,6 +40,7 @@ void ViewportGizmo::setup(){
 
 void ViewportGizmo::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
 
     setLocation(Vector3f( renderer->windowX-100, 2, 0.0));
 

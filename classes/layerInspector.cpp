@@ -65,8 +65,9 @@ void LayerInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Actors";
-    tabButton->color=selectedTabColor;
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->selectedTabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -78,8 +79,10 @@ void LayerInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Helpers";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
+
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -141,18 +144,21 @@ void LayerInspector::HelpersTab::assembleList(){
         m->sceneData->buttonList.push_back(l);
         l->name="Brush";
         m->actorButtons.push_back(l);
+        m->actorReferences.push_back(m->sceneData->brush);
         m->listButton.push_back(l);
 
         l= new AssignButton;
         m->sceneData->buttonList.push_back(l);
         l->name="Controller";
         m->actorButtons.push_back(l);
+        m->actorReferences.push_back(m->sceneData->controller);
         m->listButton.push_back(l);
 
         l= new AssignButton;
         m->sceneData->buttonList.push_back(l);
         l->name="Grid";
         m->actorButtons.push_back(l);
+        m->actorReferences.push_back(m->sceneData->grid);
         m->listButton.push_back(l);
 
         for (int i=0;i<(int)m->listButton.size();i++){
@@ -160,7 +166,6 @@ void LayerInspector::HelpersTab::assembleList(){
             b->parent=m;
             b->level=m->level+1;
             b->bDrawName=true;
-            b->color=Vector4f(0.8,0.6,0.6,1.0);
 
             b->bPermanent=true;
             b->sceneShaderID="color";
@@ -170,6 +175,8 @@ void LayerInspector::HelpersTab::assembleList(){
             if (m->listHeight>0)
                 b->scale.y=m->listHeight;
 
+            b->setup();
+            b->buttonColor=Vector4f(0.8,0.6,0.6,1.0);
             m->placeButton(i,i);
         }
 
@@ -224,7 +231,6 @@ void LayerInspector::assembleList(){
         l->name=sceneData->layerList[i]->name;
         l->level=level+1;
         l->bDrawName=true;
-        l->color=Vector4f(0.8,0.6,0.6,1.0);
 
 		//layers are just set to be visible, not actually created!
         l->bHidden=false;
@@ -238,6 +244,9 @@ void LayerInspector::assembleList(){
             l->scale.y=listHeight;
 
         //l->textureID=sceneData->layerList[i]->textureID;
+        l->setup();
+        l->buttonColor=Vector4f(0.8,0.6,0.6,1.0);
+
         listButton.push_back(l);
         placeButton(listButton.size()-1,listButton.size()-1);
 
@@ -255,15 +264,11 @@ void LayerInspector::assembleList(){
             a->buttonProperty=buffer;
 
             a->name=sceneData->layerList[i]->actorList[j]->name;
-            a->color=Vector4f(0.4,0.4,0.4,1.0);
 
             a->level=level+1;
             a->bDrawName=true;
             a->bHidden=false;
             a->bPermanent=true;
-
-            //a->scale=Vector3f(tabWidth, 30.0f, 1.0f);
-
 
             if (listWidth>0)
                 a->scale.x=listWidth;
@@ -272,7 +277,8 @@ void LayerInspector::assembleList(){
 
 
             a->sceneShaderID="color";
-            a->color=Vector4f(0.6,0.6,0.6,1);
+            a->setup();
+            a->buttonColor=sceneData->meanButtonColor;
             listButton.push_back(a);
             placeButton(listButton.size()-1,listButton.size()-1);
         }

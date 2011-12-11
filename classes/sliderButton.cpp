@@ -11,7 +11,7 @@ slidePointColor=Vector4f(0.2,0.2,0.2,1.0);
 highlightColor=Vector4f(0.8,0.4,0.4,1.0);
 bVertical=true;
 bFlipValue=false;
-tooltip="slide to change Value";
+tooltip="";
 name="SliderButton";
 scale.y=80;
 bDragable=true;
@@ -22,12 +22,13 @@ SliderButton::~SliderButton(){}
 
 
 void SliderButton::setup(){
-BasicButton::setup();
+    BasicButton::setup();
 
 }
 
 void SliderButton::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
     //todo:maybe convert tooltip to string? So we can update easily?
 
 }
