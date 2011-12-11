@@ -2,6 +2,8 @@
 #define H_IMPORTBITMAPBUTTON
 
 #include "loadButton.h"
+#include "FreeImage.h"
+
 
 class ImportBitmapButton: public LoadButton{
 

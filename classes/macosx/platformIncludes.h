@@ -15,5 +15,4 @@
 #include "glee.h"
 #include "GL/freeglut.h"
 
-
 #endif

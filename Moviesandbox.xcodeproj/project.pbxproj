@@ -185,6 +185,8 @@
 		189F843C11EA9D82009E4178 /* propsWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189F843A11EA9D82009E4178 /* propsWidget.cpp */; };
 		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
 		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
+		18FE2792149449DB00A37637 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18FE27761494486400A37637 /* MainMenu.xib */; };
+		18FE27EC149453E300A37637 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FE27EB149453E300A37637 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -442,7 +444,7 @@
 		18390A50145A00390008AD89 /* menuBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = menuBar.h; path = classes/menuBar.h; sourceTree = "<group>"; };
 		18390A51145A00390008AD89 /* viewportGizmo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viewportGizmo.cpp; path = classes/viewportGizmo.cpp; sourceTree = "<group>"; };
 		18390A52145A00390008AD89 /* viewportGizmo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viewportGizmo.h; path = classes/viewportGizmo.h; sourceTree = "<group>"; };
-		184232FC10EF6A7700AF940C /* platformIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = platformIncludes.h; path = classes/macosx/platformIncludes.h; sourceTree = "<group>"; };
+		184232FC10EF6A7700AF940C /* platformIncludes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = platformIncludes.h; path = classes/macosx/platformIncludes.h; sourceTree = "<group>"; };
 		18487E46134A8769004E7D00 /* illustration.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = illustration.frag; path = shaders/illustration.frag; sourceTree = "<group>"; };
 		18487E47134A8769004E7D00 /* illustration.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = illustration.vert; path = shaders/illustration.vert; sourceTree = "<group>"; };
 		18487E48134A8769004E7D00 /* skeletalIllustration.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = skeletalIllustration.frag; path = shaders/skeletalIllustration.frag; sourceTree = "<group>"; };
@@ -552,7 +554,7 @@
 		186069DF11771CC3008D43C2 /* texture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = texture.vert; path = shaders/texture.vert; sourceTree = "<group>"; };
 		186E2A7B13355A69007A8129 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		18754DFC1214883200F0FD48 /* base64Encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64Encode.h; sourceTree = "<group>"; };
-		1887AD561117530C009D266E /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1887AD561117530C009D266E /* main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = main.cpp; sourceTree = "<group>"; };
 		1887AD571117530C009D266E /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		188BAEFF11F2E15F00DCCD15 /* x1600Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x1600Renderer.h; sourceTree = "<group>"; };
 		188BAF0011F2E15F00DCCD15 /* x1600Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = x1600Renderer.cpp; sourceTree = "<group>"; };
@@ -634,6 +636,8 @@
 		18F2B58F10CC3F270026A20C /* libode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libode.a; sourceTree = "<group>"; };
 		18FD6C5810EA836900708EC2 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		18FD6DB010EA9B5A00708EC2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		18FE27761494486400A37637 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		18FE27EB149453E300A37637 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -653,6 +657,7 @@
 				185F485911162162007024FB /* Foundation.framework in Frameworks */,
 				185F485A11162162007024FB /* freetype.a in Frameworks */,
 				18315DB311178EE900304F2E /* freeimage.a in Frameworks */,
+				18FE27EC149453E300A37637 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,6 +681,7 @@
 				18F2B32010CC31640026A20C /* frameworks */,
 				1811650110CB38C8007AE094 /* external */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
+				18FE27761494486400A37637 /* MainMenu.xib */,
 			);
 			name = MSB_mac;
 			sourceTree = "<group>";
@@ -1452,6 +1458,7 @@
 				18DFEBC610CC144500E4FFE2 /* GLUT.framework */,
 				18F2B31B10CC315E0026A20C /* Carbon.framework */,
 				18FD6C5810EA836900708EC2 /* ApplicationServices.framework */,
+				18FE27EB149453E300A37637 /* Cocoa.framework */,
 			);
 			name = frameworks;
 			sourceTree = "<group>";
@@ -1536,6 +1543,7 @@
 				185F44D0111620F2007024FB /* Sources */,
 				185F44D1111620F2007024FB /* Frameworks */,
 				185057BD133BFE0800AA18E6 /* CopyFiles */,
+				18FE27A3149449DF00A37637 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1572,6 +1580,18 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18FE27A3149449DF00A37637 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			comments = /Users/fiezi/Moviesandbox/MainMenu.xib;
+			files = (
+				18FE2792149449DB00A37637 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		185F44D0111620F2007024FB /* Sources */ = {

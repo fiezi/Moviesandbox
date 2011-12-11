@@ -28,5 +28,9 @@
 	<real>0.0</real>
 	<key>NSHumanReadableCopyright</key>
 	<string>Friedrich Kirschner</string>
+	<key>NSMainNibFile</key>  
+    <string>MainMenu</string>  
+    <key>NSPrincipalClass</key>  
+    <string>NSApplication</string> 
 </dict>
 </plist>

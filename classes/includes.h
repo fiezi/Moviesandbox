@@ -32,9 +32,6 @@ using namespace std;
 //removed for now...
 //#include "ode.h"
 
-#include "FreeImage.h"
-
-
 ///Structs and global stuff!
 
 

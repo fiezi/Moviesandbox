@@ -1,5 +1,7 @@
 #include "input.h"
 
+#include "FreeImage.h"
+
 //loaders and the like
 #include "colladaLoader.h"
 #include "spriteMeshLoader.h"
