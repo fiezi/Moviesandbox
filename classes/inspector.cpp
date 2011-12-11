@@ -48,6 +48,8 @@ void Inspector::setup(){
 
     TabbedListButton::setup();
 
+    buttonColor=sceneData->inspectorColor;
+
     Vector4f backgroundColor=sceneData->menuBackgroundColor;
 
     backgroundButton=new BasicButton;

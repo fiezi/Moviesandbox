@@ -39,6 +39,8 @@ public:
         ///Global Colors
         Vector4f menuBarColor;
 
+        Vector4f inspectorColor;
+
         Vector4f selectedToolColor;
         Vector4f deselectedToolColor;
 

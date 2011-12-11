@@ -360,22 +360,24 @@ void SceneData::setup(){
 
     ///setup colors
     selectedToolColor=Vector4f(0.8,0.1,0.1,1.0);
-    deselectedToolColor=Vector4f(0.9,0.9,0.9,1.0);
+    deselectedToolColor=Vector4f(0.8,0.8,0.8,1.0);
 
     menuBarColor=Vector4f(0.7,0.7,0.7,1.0);
 
+    inspectorColor=Vector4f(0.6,0.6,0.6,1.0);
+
     meanButtonColor=Vector4f(0.8,0.8,0.8,1.0);
     mouseOverColor=Vector4f(0.8,0.8,0.0,1.0);
-    focusButtonColor=Vector4f(0.8,0.6,0.6,1.0);
+    focusButtonColor=Vector4f(0.7,0.7,0.5,1.0);
 
     selectedElementColor=Vector4f(0.8,0.2,0.2,1.0);
     deselectedElementColor=Vector4f(0.5,0.5,0.5,1.0);
 
 
-    menuBackgroundColor=Vector4f(0.3,0.3,0.3,1.0);
+    menuBackgroundColor=Vector4f(0.4,0.4,0.4,1.0);
 
     selectedTabColor=menuBackgroundColor;
-    tabColor=meanButtonColor;
+    tabColor=Vector4f(0.3,0.3,0.3,1.0);
 
     boolNoColor=Vector4f(0.1,0.1,0.1,1);
     boolYesColor=Vector4f(1,0.2,0.2,1);
@@ -877,7 +879,7 @@ void SceneData::addGrid(){
 
     grid= new Actor;
     grid->scale=Vector3f(50,50,50);
-    grid->texScale=Vector3f(10,10,10);
+    grid->texScale=Vector3f(3,3,3);
     grid->setLocation(Vector3f(0,25,0));
     grid->setRotation(Vector3f(0,0,0));
 

@@ -41,7 +41,7 @@ void SetBaseButton::focusClick(){
 
     BasicButton::focusClick();
 
-    if (!parent)
+    if (!parent || !input->worldTarget)
         return;
 
     if (input->worldTarget->base!=(Actor*)parent)
