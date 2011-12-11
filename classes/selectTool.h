@@ -7,6 +7,8 @@ class SelectTool: public MsbTool{
 
 public:
 
+    TiXmlElement*   clipboard;
+
     bool bKeepSelection;
     bool bClickedonGizmo;
 
@@ -29,6 +31,10 @@ public:
     virtual void selectActors(int btn, Actor* other);
     virtual void makeGroup();
     virtual void makePrefab(std::string prefabName);
+
+    virtual void pasteSelected();
+    virtual void cutSelected();
     virtual void copySelected();
+    virtual void duplicateSelected();
 };
 #endif // SELECTTOOL

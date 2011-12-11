@@ -7,6 +7,8 @@ class MenuBar: public BasicButton{
 
 public:
 
+    Vector4f menuColor;
+
     vector<ListButton*> menus;
     bool bToggledMenu;
     int activeMenu;

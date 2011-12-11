@@ -11,11 +11,14 @@ SetBaseButton::~SetBaseButton(){}
 
 
 void SetBaseButton::setup(){
-BasicButton::setup();
+    BasicButton::setup();
 
 }
 
-void SetBaseButton::update(double deltaTime){}
+void SetBaseButton::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
+}
 
 void SetBaseButton::mouseOver(){
 

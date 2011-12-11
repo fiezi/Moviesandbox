@@ -8,7 +8,6 @@ class AssetInspector: public Inspector{
 
 public:
 
-
     bool bKinectToolOpen;           //already running a kinect tool?
 
 

@@ -8,6 +8,8 @@ SelectTool::SelectTool(){
 
 bKeepSelection=false;
 bClickedonGizmo=false;
+
+clipboard=NULL;
 }
 
 SelectTool::~SelectTool(){}
@@ -72,6 +74,7 @@ void SelectTool::keyReleased(int key){
     if (key=='G' && sceneData->selectedActors.size()>1){            //shift-g
         makeGroup();
     }
+
 }
 
 void SelectTool::mousePressed(int btn){
@@ -294,9 +297,73 @@ void SelectTool::makePrefab(std::string prefabName){
 
 }
 
+void SelectTool::pasteSelected(){
+
+      TiXmlElement* element=clipboard->FirstChildElement( "Actor" );
+      string myType;
+      int listPos=sceneData->actorList.size();
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
+        myType=element->GetText();
+        Actor * A=sceneData->actorInfo[myType].actorReference;
+        A->create();
+        }
+
+
+    //then load all properties - for referencing reasons
+      element=clipboard->FirstChildElement( "Actor" );
+      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+        {
+        Actor* A=sceneData->actorList[listPos];
+        myType=element->GetText();
+        cout << "Loading property type: " << myType << endl;
+        //***********************************************************************
+        //Fill up Properties
+        //***********************************************************************
+        A->load(element);
+        A->bSelected=false; //just pasted, we are not really selected...
+        listPos++;
+        A->setup();
+        }
+}
+
+void SelectTool::cutSelected(){
+
+    if (clipboard)
+        delete clipboard;
+
+    clipboard = new TiXmlElement( "Moviesandbox" );
+
+    cout << "cutting..." << endl;
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+        TiXmlElement* saveData=sceneData->selectedActors[i]->save(clipboard);
+        clipboard->LinkEndChild(saveData);
+    }
+
+    for (int i=(int)sceneData->selectedActors.size()-1;i>-1;i--){
+        sceneData->selectedActors[i]->remove();
+
+    }
+}
+
 void SelectTool::copySelected(){
 
+    if (clipboard)
+        delete clipboard;
     cout << "copying..." << endl;
+
+    clipboard = new TiXmlElement( "Moviesandbox" );
+
+    for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+         TiXmlElement* saveData=sceneData->selectedActors[i]->save(clipboard);
+        clipboard->LinkEndChild(saveData);
+    }
+}
+
+void SelectTool::duplicateSelected(){
+
+    cout << "duplicating..." << endl;
     for (int i=0;i<(int)sceneData->selectedActors.size();i++){
         const std::type_info* myType=&(typeid(*(sceneData->selectedActors[i])));
         Actor * A=sceneData->actorInfo[myType->name()].actorReference;
@@ -310,4 +377,3 @@ void SelectTool::copySelected(){
         A->setup();
         }
 }
-

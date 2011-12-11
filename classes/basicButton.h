@@ -38,6 +38,10 @@ public:
         string buttonProperty;                  //stores a string - often used to set the property of some Actor
 
 
+        Vector4f    buttonColor;         //color to use when mouseOver
+        Vector4f    mouseOverColor;         //color to use when mouseOver
+        Vector4f    clickedColor;               //color to use when clicked
+
         int level;                              // used for submenus
 
         BasicButton();

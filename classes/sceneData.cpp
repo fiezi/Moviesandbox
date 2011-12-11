@@ -358,6 +358,28 @@ SceneData* SceneData::getInstance(){
 
 void SceneData::setup(){
 
+    ///setup colors
+    selectedToolColor=Vector4f(0.8,0.1,0.1,1.0);
+    deselectedToolColor=Vector4f(0.9,0.9,0.9,1.0);
+
+    menuBarColor=Vector4f(0.7,0.7,0.7,1.0);
+
+    meanButtonColor=Vector4f(0.8,0.8,0.8,1.0);
+    mouseOverColor=Vector4f(0.6,0.6,1.0,1.0);
+    focusButtonColor=Vector4f(0.8,0.6,0.6,1.0);
+
+    selectedElementColor=Vector4f(0.8,0.2,0.2,1.0);
+    deselectedElementColor=Vector4f(0.5,0.5,0.5,1.0);
+
+
+    menuBackgroundColor=Vector4f(0.3,0.3,0.3,1.0);
+
+    selectedTabColor=menuBackgroundColor;
+    tabColor=meanButtonColor;
+
+    boolNoColor=Vector4f(0.1,0.1,0.1,1);
+    boolYesColor=Vector4f(1,0.2,0.2,1);
+
     renderer=Renderer::getInstance();
     input=Input::getInstance();
 

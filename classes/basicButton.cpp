@@ -41,6 +41,7 @@ BasicButton::BasicButton(){
 
     bTextured=true;
     bUseShader=true;
+
     registerProperties();
 }
 
@@ -50,23 +51,31 @@ BasicButton::~BasicButton(){
        //setup functions
 void BasicButton::registerProperties(){
 
-createMemberID("LEVEL",&level,this);
-createMemberID("PARENT",&parent,this);
-createMemberID("BUTTONPROPERTY",&buttonProperty,this);
-Actor::registerProperties();
+    createMemberID("LEVEL",&level,this);
+    createMemberID("PARENT",&parent,this);
+    createMemberID("BUTTONPROPERTY",&buttonProperty,this);
+    Actor::registerProperties();
 }
 
 
 void BasicButton::setup(){
 
-tooltipOffset=Vector2f(scale.x+2,scale.y/2 +2);
+    buttonColor=sceneData->meanButtonColor;
+    mouseOverColor=sceneData->mouseOverColor;
+    clickedColor=sceneData->focusButtonColor;
 
-Actor::setup();
+    tooltipOffset=Vector2f(scale.x+2,scale.y/2 +2);
+    color=buttonColor;
+    Actor::setup();
 }
 
 void BasicButton::update(double deltaTime){
 
-Actor::update(deltaTime);
+    Actor::update(deltaTime);
+    if (this==input->focusButton)
+        color=clickedColor;
+    else
+        color=buttonColor;
 }
 
 void BasicButton::drawTooltip(){
@@ -109,7 +118,8 @@ void BasicButton::drawPlane(){
 
 void BasicButton::mouseOver(){
 
-bOver=true;              // for later rendering of tooltip!
+    bOver=true;              // for later rendering of tooltip!
+    color=mouseOverColor;
 }
 
 void BasicButton::mouseDrag(){
@@ -118,7 +128,6 @@ void BasicButton::mouseDrag(){
 void BasicButton::finishDrag(){}
 
 void BasicButton::clickedLeft(){
-
 }
 
 void BasicButton::focusClick(){

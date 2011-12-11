@@ -406,6 +406,8 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
 	MeshData* myMesh = sceneData->vboList[meshID];
 	vertexCount= myMesh->vData.size();
 
+	cout << "vertex count is: " << vertexCount <<endl;
+
 	//clear any previous stuff...
 	if (bFromFile){
         sceneData->vboList[meshID]->vertexCount.clear();
@@ -430,6 +432,15 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
         if (boneReference)
             delete[] boneReference;
 
+        //we do this for updating drawings
+        sceneData->vboList[meshID]->vertexIDObject.clear();
+        sceneData->vboList[meshID]->vertexBufferObject.clear();
+        sceneData->vboList[meshID]->vertexCount.clear();
+        sceneData->vboList[meshID]->vertexWeightsObject.clear();
+        sceneData->vboList[meshID]->boneReferenceObject.clear();
+        sceneData->vboList[meshID]->colorBufferObject.clear();
+        sceneData->vboList[meshID]->texCoordBufferObject.clear();
+
 		//initialize new memory
 		vertices= new Vector4f[vertexCount];
 		colors= new Vector4f[vertexCount];
@@ -445,6 +456,7 @@ bool SpriteMeshLoader::createVBOs(string meshID, bool bFromFile){
 			boneReference[i]=sceneData->vboList[meshID]->vData[i].boneReferences;
         }
     }
+
     cout << "setting up vertexCount" << endl;
 
     //vertexID Buffer

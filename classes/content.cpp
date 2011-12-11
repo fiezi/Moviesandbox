@@ -101,8 +101,6 @@ void Content::setup(){
 
 void Content::createMenuBar(){
 
-    Vector4f menuColor=Vector4f(0.6,0.6,0.6,1.0);
-
     //background...
     BasicButton* but =new MenuBar;
     sceneData->buttonList.push_back(but);
@@ -118,7 +116,6 @@ void Content::createMenuBar(){
     but->level=0;
     but->bPermanent=true;
     but->name="";
-    but->color=menuColor;
     but->setLocation(but->location);
     but->setup();
 

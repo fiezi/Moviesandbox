@@ -123,7 +123,6 @@ void PropertyInspector::PropTabOne::assembleList(){
             mine->listButton[i]->parent=mine->sceneData->selectedActors[0];
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->color=Vector4f(0.2,0.2,0.2,1.0);
             mine->listButton[i]->sceneShaderID="color";
 
             mine->listButton[i]->bPermanent=true;
@@ -143,6 +142,7 @@ void PropertyInspector::PropTabOne::assembleList(){
 
             mine->placeButton(i,i);
             mine->listButton[i]->setup();
+            mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
 
             i++;
         }

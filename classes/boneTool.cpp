@@ -21,8 +21,6 @@ void BoneTool::start(){
 
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
 
-    myBtn->color=COLOR_RED;
-
     brush=sceneData->brush;
     brush->bHidden=false;
 
@@ -61,7 +59,6 @@ void BoneTool::stop(){
 
     glutSetCursor(GLUT_CURSOR_INHERIT);
     brush->bHidden=true;
-    myBtn->color=COLOR_WHITE;
 
     SkeletalActor* skel=brush->drawing;
 

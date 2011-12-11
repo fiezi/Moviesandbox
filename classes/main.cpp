@@ -2,7 +2,7 @@
 #include "main.h"
 
 #ifdef TARGET_MACOSX
-#include <Cocoa/Cocoa.h>  
+#include <Cocoa/Cocoa.h>
 #endif
 
 /*
@@ -227,12 +227,12 @@ void endFileLog(){
 int main(int argc, char* argv[]){
 
 
-    startFileLog();
-	
+    //startFileLog();
+
 	glutInit(&argc, argv);
 
 
-#ifdef TARGET_MACOSX		
+#ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
 #endif
 
@@ -313,19 +313,19 @@ int main(int argc, char* argv[]){
 	//COCOA Code to get rid of GLUT Menu
 	if (NSApp){
 		NSMenu      *menu;
-		NSMenuItem  *menuItem;	
-		
+		NSMenuItem  *menuItem;
+
 		[NSApp setMainMenu:[[NSMenu alloc] init]];
-		
+
 		menu = [[NSMenu alloc] initWithTitle:@""];
-		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""]; 
-		
+		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+
 		menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
 		[menuItem setSubmenu:menu];
 		[[NSApp mainMenu] addItem:menuItem];
 		[NSApp setAppleMenu:menu];
 	}
-	
+
 //	SetSystemUIMode(kUIModeAllHidden, NULL);
 #endif
 

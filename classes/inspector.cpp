@@ -47,11 +47,14 @@ void Inspector::myTab::assembleList(){
 void Inspector::setup(){
 
     TabbedListButton::setup();
+
+    Vector4f backgroundColor=sceneData->menuBackgroundColor;
+
     backgroundButton=new BasicButton;
     sceneData->buttonList.push_back(backgroundButton);
     backgroundButton->sceneShaderID="color";
 	backgroundButton->textureID="icon_flat";
-
+    //do not do mouseOver highlighting for background of inspectors...
     if (tabHeight==0){
         backgroundButton->scale.x=350;
         backgroundButton->scale.y=renderer->windowY-location.y;
@@ -67,8 +70,11 @@ void Inspector::setup(){
     backgroundButton->level=level;
     backgroundButton->bPermanent=true;
     backgroundButton->name="";
-    backgroundButton->color=selectedTabColor;
     backgroundButton->setLocation(backgroundButton->location);
+    backgroundButton->setup();
+    backgroundButton->buttonColor=backgroundColor;
+    backgroundButton->mouseOverColor=backgroundButton->buttonColor;
+
 
     //setup tabs and fill buttonlist once
     tabs.clear();
@@ -84,6 +90,8 @@ void Inspector::setup(){
 }
 
 void Inspector::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
 
     refreshList();
 

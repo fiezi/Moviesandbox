@@ -75,6 +75,8 @@ void Action::setup(){
 }
 
 void Action::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
 }
 
 void Action::mouseOver(){

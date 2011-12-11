@@ -22,9 +22,11 @@ MenuBar::~MenuBar(){}
 
 void MenuBar::setup(){
 
-    Vector4f menuColor=Vector4f(0.6,0.6,0.6,1.0);
-
     BasicButton::setup();
+
+    menuColor=sceneData->menuBarColor;
+    buttonColor=sceneData->menuBarColor;
+    mouseOverColor=sceneData->menuBarColor;
 
     ListButton* lbut=new ListButton;
 
@@ -39,7 +41,6 @@ void MenuBar::setup(){
     lbut->bPartOfMenu=true;
     lbut->name="File";
     lbut->bDrawName=true;
-    lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=this;
     lbut->bDrawListNames=true;
@@ -110,7 +111,8 @@ void MenuBar::setup(){
 
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
-
+    lbut->setup();
+    lbut->buttonColor=menuColor;
 
     /** EDIT MENU  **/
 
@@ -126,7 +128,6 @@ void MenuBar::setup(){
     lbut->bPartOfMenu=true;
     lbut->name="Edit";
     lbut->bDrawName=true;
-    lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=this;
     lbut->bDrawListNames=true;
@@ -159,6 +160,8 @@ void MenuBar::setup(){
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
+    lbut->setup();
+    lbut->buttonColor=menuColor;
 
     /** DRAW MENU  **/
 
@@ -174,7 +177,6 @@ void MenuBar::setup(){
     lbut->bPartOfMenu=true;
     lbut->name="Draw";
     lbut->bDrawName=true;
-    lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=this;
      lbut->bDrawListNames=true;
@@ -207,6 +209,8 @@ void MenuBar::setup(){
     lbut->listParent.push_back("PARENT");
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
+    lbut->setup();
+    lbut->buttonColor=menuColor;
 
    /** VIEW MENU  **/
 
@@ -222,7 +226,6 @@ void MenuBar::setup(){
     lbut->bPermanentList=true;
     lbut->name="View";
     lbut->bDrawName=true;
-    lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=this;
      lbut->bDrawListNames=true;
@@ -260,6 +263,8 @@ void MenuBar::setup(){
 
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
+    lbut->setup();
+    lbut->buttonColor=menuColor;
 
     /** TOOLS MENU **/
 
@@ -275,11 +280,12 @@ void MenuBar::setup(){
     lbut->bPermanentList=true;
     lbut->name="Tools";
     lbut->bDrawName=true;
-    lbut->color=menuColor;
     lbut->setLocation(lbut->location);
     lbut->parent=this;
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
+    lbut->setup();
+    lbut->buttonColor=menuColor;
 
 }
 

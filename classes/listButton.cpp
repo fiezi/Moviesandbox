@@ -117,7 +117,6 @@ void ListButton::assembleList(){
         }
         listButton[i]->level=level+1;
         listButton[i]->bDrawName=bDrawListNames;
-        listButton[i]->color=listColor;
         listButton[i]->sceneShaderID=listShader;
 
         if (i>0 && listButton[i-1]->bIndividualListSize){
@@ -138,6 +137,10 @@ void ListButton::assembleList(){
 
         placeButton(i,i);
         listButton[i]->setup();
+
+        //set color after setup!
+        listButton[i]->buttonColor=listColor;
+
         cout << "placing..." << endl;
     }
 
@@ -267,6 +270,8 @@ void ListButton::placeButton(int buttonNumber, int drawPosition){
 }
 
 void ListButton::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
 
     if (listDisplayMode==2 && radius<maxRadius){
         radius+=animSpeed*deltaTime;

@@ -12,6 +12,8 @@ BoolButton::~BoolButton(){}
 
 void BoolButton::setup(){
 
+    BasicButton::setup();
+
     if (parent && buttonProperty!="NULL"){
         memberID * mID=&parent->property[buttonProperty];
         if (mID)
@@ -21,17 +23,20 @@ void BoolButton::setup(){
 
 void BoolButton::drawPlane(){
 
+    float oldScaleX= scale.x;
+    scale.x-=18;
     BasicButton::drawPlane();
+    scale.x=oldScaleX;
 
     Vector4f tfColor;
 
     if (*boolValue)
-        tfColor=Vector4f(1.0,0.0,0.0,1.0);
+        tfColor=sceneData->boolYesColor;
     else
-        tfColor=Vector4f(0.2,0.2,0.2,1.0);
+        tfColor=sceneData->boolNoColor;
 
     //draw a little square right next to the button
-    renderer->drawPlane(scale.x +2.0,0.0,scale.x+16.0+2.0,scale.y, tfColor );
+    renderer->drawPlane(scale.x -16.0,0.0,scale.x,scale.y, tfColor );
 
 }
 

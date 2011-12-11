@@ -41,6 +41,8 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->name="Primitives";
     tabButton->color=selectedTabColor;
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -54,6 +56,8 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->name="Nodes";
     tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 

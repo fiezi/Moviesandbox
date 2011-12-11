@@ -12,7 +12,11 @@ BasicButton::setup();
 
 }
 
-void PropertyAssignButton::update(double deltaTime){}
+void PropertyAssignButton::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
+
+}
 
 void PropertyAssignButton::mouseOver(){
 

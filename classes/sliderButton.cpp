@@ -28,7 +28,8 @@ BasicButton::setup();
 
 void SliderButton::update(double deltaTime){
 
-//todo:maybe convert tooltip to string? So we can update easily?
+    //todo:maybe convert tooltip to string? So we can update easily?
+
 }
 
 void SliderButton::mouseOver(){

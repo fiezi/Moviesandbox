@@ -18,15 +18,23 @@ MsbTool::~MsbTool(){}
 
 void MsbTool::setup(){
 
+
 	renderer=Renderer::getInstance();
     input=Input::getInstance();
     sceneData=SceneData::getInstance();
 
     controller=sceneData->controller;
+
+    if (myBtn)
+        myBtn->buttonColor=sceneData->deselectedToolColor;
+
 }
 
 
 void MsbTool::start(){
+
+    if (myBtn)
+        myBtn->buttonColor=sceneData->selectedToolColor;
 
     bPressLeft=false;
     bPressRight=false;
@@ -34,6 +42,9 @@ void MsbTool::start(){
 }
 
 void MsbTool::stop(){
+
+    if (myBtn)
+        myBtn->buttonColor=sceneData->deselectedToolColor;
 
     bPressLeft=false;
     bPressRight=false;

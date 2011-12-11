@@ -71,7 +71,6 @@ void DrawTool::start(){
 void DrawTool::stop(){
 
     MsbTool::stop();
-    save();
     brush->bHidden=true;
 
     bDrawing=false;
@@ -251,6 +250,14 @@ void DrawTool::paint(){
                 myVData.location.z+=input->mouse3D.z;// + myVData.location;
                 myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
                 sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
+
+                brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
+                brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
+                brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
+
+                brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
+                brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
+                brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
 
             }
     }else{

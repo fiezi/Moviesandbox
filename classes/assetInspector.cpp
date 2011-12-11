@@ -41,10 +41,11 @@ void AssetInspector::createInspectorButtons(){
     sceneData->buttonList.push_back(importButton);
     importButton->setLocation(Vector3f(location.x+30.0f,location.y+20, 0.0f));
     importButton->name="import";
-    importButton->color=Vector4f(0.8,0.8,0.8,1.0);
     importButton->bDrawName=true;
     importButton->sceneShaderID="color";
     importButton->scale.x=64;
+    importButton->setup();
+    importButton->buttonColor=sceneData->meanButtonColor;
     inspectorButtons.push_back(importButton);
 
 
@@ -58,6 +59,9 @@ void AssetInspector::createInspectorButtons(){
     importButton->tooltip="Import Kinect";
     importButton->textureID="icon_kinect";
     //importButton->bDrawName=true;
+    importButton->setup();
+    importButton->buttonColor=sceneData->meanButtonColor;
+
     inspectorButtons.push_back(importButton);
 
 
@@ -68,7 +72,8 @@ void AssetInspector::createInspectorButtons(){
     importButton->name="Import Bitmap";
     importButton->tooltip="Import Bitmap";
     importButton->textureID="icon_importBitmap";
-    //importButton->bDrawName=true;
+    importButton->setup();
+    importButton->buttonColor=sceneData->meanButtonColor;
     inspectorButtons.push_back(importButton);
 
 
@@ -82,8 +87,10 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Meshes";
-    tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
+    tabButton->buttonColor=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -95,8 +102,10 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Textures";
-    tabButton->color=Vector4f(0.7,0.8,0.8,1.0);
+    tabButton->buttonColor=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -108,8 +117,10 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Actions";
-    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
+    tabButton->buttonColor=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -121,8 +132,10 @@ void AssetInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Prefabs";
-    tabButton->color=Vector4f(0.6,0.8,0.8,1.0);
+    tabButton->buttonColor=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
+    tabButton->setup();
+    tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -180,7 +193,7 @@ void AssetInspector::MeshTab::assembleList(){
                 mine->listButton[i]->textureID="icon_props";
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
-                mine->listButton[i]->color=Vector4f(0.75,0.75,0.75,1.0);
+                mine->listButton[i]->buttonColor=Vector4f(0.75,0.75,0.75,1.0);
                 mine->listButton[i]->bPermanent=true;
                 mine->listButton[i]->bDragable=true;
                 mine->listButton[i]->parent=mine;
@@ -221,10 +234,10 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
     cout << "triggering..." << endl;
 
        for (int i=0;i<(int)mine->listButton.size();i++){
-            mine->listButton[i]->color=COLOR_WHITE;
+            mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
             if (other==mine->listButton[i]){
                 ///set vboMeshID of worldTarget to
-                if (mine->input->worldTarget){
+                if (mine->input->worldTarget && !mine->input->hudTarget){
 
                     if (mine->input->worldTarget!=mine->sceneData->grid && mine->input->worldTarget->name!="ground"){
                         Actor* a=mine->input->worldTarget;
@@ -259,7 +272,7 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
                 }
                 ///but always set the brushes mesh id!
                 mine->sceneData->brush->memberFromString(&mine->sceneData->brush->property["VBOMESHID"], mine->listButton[i]->name);
-                mine->listButton[i]->color=COLOR_RED;
+                mine->listButton[i]->buttonColor=mine->sceneData->selectedElementColor;
             }
         }
 
@@ -344,7 +357,7 @@ void AssetInspector::TextureTab::assembleList(){
             mine->listButton[i]->textureID="icon_base";
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->color=Vector4f(1,1,1,1.0);
+            mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
             mine->listButton[i]->textureID=it->first;
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
@@ -432,7 +445,7 @@ void AssetInspector::ActionTab::assembleList(){
                 mine->listButton[i]->tooltip=mine->listButton[i]->name;
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
-                mine->listButton[i]->color=Vector4f(1.0,1.0,0.0,1.0);
+                mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
                 //actions are just set to be visible, not actually created!
                 mine->listButton[i]->bHidden=false;
                 mine->listButton[i]->bDragable=true;
@@ -498,7 +511,7 @@ void AssetInspector::PrefabTab::assembleList(){
             mine->listButton[i]->textureID="icon_base";
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->color=Vector4f(0,0,1,1.0);
+            mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
             mine->listButton[i]->parent=this;
@@ -555,7 +568,7 @@ void AssetInspector::trigger(MsbObject* other){
     if (other->name=="Import Kinect"){
         if (bKinectToolOpen){
             importKinect();
-            other->color=COLOR_WHITE;
+            ((BasicButton*)other)->buttonColor=sceneData->meanButtonColor;
             closeKinectTool();
             bKinectToolOpen=false;
         }
@@ -598,7 +611,7 @@ void AssetInspector::openKinectTool(bool bHighZRes){
     }
 
     sceneData->externalInputList["kinectInput"]->startProgram();
-    inspectorButtons[1]->color=Vector4f(1,1,0,1);
+    inspectorButtons[1]->buttonColor=sceneData->focusButtonColor;
     bKinectToolOpen=true;
 }
 

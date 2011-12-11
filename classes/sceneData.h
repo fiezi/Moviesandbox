@@ -36,6 +36,27 @@ class SceneData: public MsbObject{
 public:
 
 
+        ///Global Colors
+        Vector4f menuBarColor;
+
+        Vector4f selectedToolColor;
+        Vector4f deselectedToolColor;
+
+        Vector4f meanButtonColor;
+        Vector4f mouseOverColor;
+        Vector4f focusButtonColor;
+
+        Vector4f selectedElementColor;
+        Vector4f deselectedElementColor;
+
+        Vector4f menuBackgroundColor;                               //used for inspector backgrounds
+
+        Vector4f tabColor;
+        Vector4f selectedTabColor;
+
+        Vector4f boolNoColor;
+        Vector4f boolYesColor;
+
         //*****************************************
         //Template for creating Actor IDs
         //*****************************************

@@ -6,8 +6,6 @@ TabbedListButton::TabbedListButton(){
 
 
     currentTab=0;
-    tabColor=Vector4f(0.8,0.8,0.8,1.0);
-    selectedTabColor=Vector4f(0.4,0.4,0.4,1.0);
     tabs.push_back( new Tab(this) );
 
 }
@@ -27,6 +25,8 @@ void TabbedListButton::setup(){
 
     ListButton::setup();
 
+    tabColor=sceneData->tabColor;
+    selectedTabColor=sceneData->selectedTabColor;
 }
 
 void TabbedListButton::clickedLeft(){
@@ -77,14 +77,14 @@ void TabbedListButton::trigger(MsbObject* other){
     tabs[currentTab]->trigger(other);
 
     for (int i=0;i<(int)tabTriggerButtons.size();i++)
-        tabTriggerButtons[i]->color=tabColor;
+        tabTriggerButtons[i]->buttonColor=tabColor;
 
     if ((int)tabTriggerButtons.size()>currentTab)
-        tabTriggerButtons[currentTab]->color=selectedTabColor;
+        tabTriggerButtons[currentTab]->buttonColor=selectedTabColor;
 
 }
 
 void TabbedListButton::create(){
-sceneData->addButton(this);
-std::cout << "creating a listButton!";
+    sceneData->addButton(this);
+    std::cout << "creating a listButton!";
 }

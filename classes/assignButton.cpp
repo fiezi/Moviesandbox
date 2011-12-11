@@ -9,11 +9,14 @@ AssignButton::~AssignButton(){}
 
 
 void AssignButton::setup(){
-BasicButton::setup();
+    BasicButton::setup();
 
 }
 
-void AssignButton::update(double deltaTime){}
+void AssignButton::update(double deltaTime){
+
+    BasicButton::update(deltaTime);
+}
 
 void AssignButton::mouseOver(){
 

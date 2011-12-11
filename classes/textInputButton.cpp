@@ -30,6 +30,7 @@ void TextInputButton::setup(){
 
 void TextInputButton::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
 
     if (bEditing){
         tooltip=input->inputText;
