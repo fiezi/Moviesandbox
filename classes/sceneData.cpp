@@ -382,10 +382,10 @@ void SceneData::setup(){
     boolNoColor=Vector4f(0.1,0.1,0.1,1);
     boolYesColor=Vector4f(1,0.2,0.2,1);
 
-    timelineButtonColor=Vector4f(0.7,0.5,0.0,1.0);
+    timelineButtonColor=inspectorColor;//Vector4f(0.7,0.5,0.0,1.0);
     timelineColor=Vector4f(0.5,0.5,0.5,1.0);
 
-    scrollBarColor=Vector4f(0.4,0.4,0.4,1.0);
+    scrollBarColor=Vector4f(0.3,0.3,0.3,1.0);
     scrollBarIndicatorColor=Vector4f(0.5,0.5,0.5,1.0);
 
     renderer=Renderer::getInstance();
@@ -794,6 +794,11 @@ void SceneData::createScene(){
 
     //now set up custom actors from content
     content->createActorContent();
+
+    //and update assetInspector
+    for (int i=0;i<(int)inspectorManager->inspectors.size();i++)
+        if (inspectorManager->inspectors[i]->name=="assetInspector")
+            inspectorManager->inspectors[i]->tabs[inspectorManager->inspectors[i]->currentTab]->assembleList();
 
     //shared memory texture
     renderer->setup();

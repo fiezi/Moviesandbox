@@ -11,7 +11,8 @@ PrimitivesInspector::PrimitivesInspector(){
 
     listColumns=4;
     level=0;
-    listDisplaySize=300;
+    scrollSize=250.0;
+    listDisplaySize=400;
     textureID="icon_props";
     listOffsetY=64;
 }
@@ -27,6 +28,7 @@ void PrimitivesInspector::setup(){
     tabs.push_back( new NodeTab(this) );
 
     tabs[currentTab]->assembleList();
+
 }
 
 void PrimitivesInspector::createInspectorButtons(){
@@ -39,10 +41,9 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Primitives";
-    tabButton->color=selectedTabColor;
     tabButton->bDrawName=true;
     tabButton->setup();
-    tabButton->buttonColor=sceneData->tabColor;
+    tabButton->buttonColor=sceneData->selectedTabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -54,7 +55,6 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->scale.y=16;
     tabButton->sceneShaderID="color";
     tabButton->name="Nodes";
-    tabButton->color=Vector4f(0.8,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     tabButton->setup();
     tabButton->buttonColor=sceneData->tabColor;

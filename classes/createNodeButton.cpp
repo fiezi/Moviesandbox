@@ -15,11 +15,12 @@ BasicButton::setup();
 
 void CreateNodeButton::update(double deltaTime){
 
-if (input->focusButton==this && myNode)
-  {
-  myNode->location.x=input->mouseX;
-  myNode->location.y=input->mouseY;
-  }
+    BasicButton::update(deltaTime);
+
+    if (input->focusButton==this && myNode){
+      myNode->location.x=input->mouseX;
+      myNode->location.y=input->mouseY;
+    }
 
 }
 

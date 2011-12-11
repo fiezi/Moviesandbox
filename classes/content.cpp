@@ -623,7 +623,7 @@ void Content::createInspectors(){
     lbut->location.y=yPos+30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_brush";
+    lbut->textureID="icon_brushInspector";
     lbut->name="brushInspector";
 
     sceneData->buttonList.push_back(lbut);

@@ -74,13 +74,16 @@ void TabbedListButton::deselect(int depth){
 void TabbedListButton::trigger(MsbObject* other){
 
     ListButton::trigger(other);
+    if (other==scrollBar)
+        return;
+
     tabs[currentTab]->trigger(other);
 
     for (int i=0;i<(int)tabTriggerButtons.size();i++)
-        tabTriggerButtons[i]->buttonColor=tabColor;
+        tabTriggerButtons[i]->buttonColor=sceneData->tabColor;
 
     if ((int)tabTriggerButtons.size()>currentTab)
-        tabTriggerButtons[currentTab]->buttonColor=selectedTabColor;
+        tabTriggerButtons[currentTab]->buttonColor=sceneData->selectedTabColor;
 
 }
 

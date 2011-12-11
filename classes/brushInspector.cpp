@@ -38,6 +38,9 @@ void BrushInspector::createInspectorButtons(){
     colorPick->initialLocation=colorPick->location;
     colorPick->parent=this;
 
+    colorPick->setup();
+    colorPick->buttonColor=COLOR_WHITE;
+    colorPick->mouseOverColor=COLOR_WHITE;
     sceneData->buttonList.push_back(colorPick);
     inspectorButtons.push_back(colorPick);
 
@@ -51,8 +54,8 @@ void BrushInspector::createInspectorButtons(){
         showColor->initialLocation=showColor->location;
         showColor->scale=Vector3f(32,32,1);
         showColor->textureID="icon_flat";
-        showColor->color=Vector4f(1,1,1,1);
-
+        showColor->setup();
+        showColor->buttonColor=COLOR_WHITE;
 
         sceneData->buttonList.push_back(showColor);
         inspectorButtons.push_back(showColor);
@@ -71,7 +74,12 @@ void BrushInspector::createInspectorButtons(){
     brushScaleBtn->initialLocation=brushScaleBtn->location;
     brushScaleBtn->scale=Vector3f(256,15,1);
     brushScaleBtn->textureID="icon_flat";
+    brushScaleBtn->sceneShaderID="color";
     brushScaleBtn->bVertical=false;
+    brushScaleBtn->setup();
+    brushScaleBtn->buttonColor=sceneData->scrollBarColor;
+    brushScaleBtn->mouseOverColor=sceneData->scrollBarColor;
+    brushScaleBtn->slidePointColor=sceneData->scrollBarIndicatorColor;
 
     sceneData->buttonList.push_back(brushScaleBtn);
     inspectorButtons.push_back(brushScaleBtn);
@@ -86,8 +94,12 @@ void BrushInspector::createInspectorButtons(){
     brushIntensityBtn->initialLocation=brushIntensityBtn->location;
     brushIntensityBtn->scale=Vector3f(256,15,1);
     brushIntensityBtn->textureID="icon_flat";
+    brushIntensityBtn->sceneShaderID="color";
     brushIntensityBtn->bVertical=false;
-
+    brushIntensityBtn->setup();
+    brushIntensityBtn->buttonColor=sceneData->scrollBarColor;
+    brushIntensityBtn->mouseOverColor=sceneData->scrollBarColor;
+    brushIntensityBtn->slidePointColor=sceneData->scrollBarIndicatorColor;
     sceneData->buttonList.push_back(brushIntensityBtn);
     inspectorButtons.push_back(brushIntensityBtn);
 
@@ -100,9 +112,10 @@ void BrushInspector::createInspectorButtons(){
     brushViz->setLocation(location+Vector3f(40,240,0)   );
     brushViz->initialLocation=brushViz->location;
     brushViz->scale=Vector3f(32,32,1);
-    brushViz->color=COLOR_WHITE;
     brushViz->textureID="brushTwo";
-
+    brushViz->setup();
+    brushViz->buttonColor=COLOR_WHITE;
+    brushViz->mouseOverColor=COLOR_WHITE;
     sceneData->buttonList.push_back(brushViz);
     inspectorButtons.push_back(brushViz);
 
@@ -119,7 +132,8 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
         gridAssign->textureID="icon_gridXY";
-        gridAssign->color=Vector4f(1,1,1,1);
+        gridAssign->setup();
+        gridAssign->buttonColor=sceneData->meanButtonColor;
 
         sceneData->buttonList.push_back(gridAssign);
         inspectorButtons.push_back(gridAssign);
@@ -133,7 +147,8 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
         gridAssign->textureID="icon_gridZY";
-        gridAssign->color=Vector4f(1,1,1,1);
+        gridAssign->setup();
+        gridAssign->buttonColor=sceneData->meanButtonColor;
 
         sceneData->buttonList.push_back(gridAssign);
         inspectorButtons.push_back(gridAssign);
@@ -147,7 +162,8 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
         gridAssign->textureID="icon_gridXZ";
-        gridAssign->color=Vector4f(1,1,1,1);
+        gridAssign->setup();
+        gridAssign->buttonColor=sceneData->meanButtonColor;
 
         sceneData->buttonList.push_back(gridAssign);
         inspectorButtons.push_back(gridAssign);
@@ -202,7 +218,8 @@ void BrushInspector::trigger(MsbObject* other){
     if (other->name=="pick Color"){
         cout << "triggered from pickColor!" << endl;
         color=Vector4f( max(min(color.r, 1.0f),0.0f),max(min(color.g, 1.0f),0.0f), max(min(color.b, 1.0f),0.0f), max(min(color.a, 1.0f),0.0f) );
-        colorSwatches[currentSwatch]->color=color;
+        colorSwatches[currentSwatch]->buttonColor=color;
+        colorSwatches[currentSwatch]->mouseOverColor=color;
         sceneData->brush->setColor(color);
         color=Vector4f(1.0,0.6,0.1,1.0);
     }
@@ -228,7 +245,8 @@ void BrushInspector::trigger(MsbObject* other){
     }
 
     //update brush preview
-     brushViz->color=sceneData->brush->color;
+     brushViz->buttonColor=sceneData->brush->color;
+     brushViz->mouseOverColor=sceneData->brush->color;
      brushViz->color.a=sceneData->brush->intensity+ 0.1;
      brushViz->scale.x=sceneData->brush->scale.x * 5.0 + 10.0;
      brushViz->scale.y=sceneData->brush->scale.x * 5.0 +10.0;

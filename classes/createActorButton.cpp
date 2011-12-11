@@ -139,14 +139,16 @@ void CreateActorButton::focusClick(){
 
 void CreateActorButton::update(double deltaTime){
 
-if (newActor)
-    {
-     BasicButton* myButton=dynamic_cast<BasicButton*>(newActor);
-     if (myButton)
-        newActor->setLocation(Vector3f(input->mouseX,input->mouseY, 0.0f));
+    BasicButton::update(deltaTime);
 
-     else if (input->worldTarget && input->worldTarget->bPickable)
-         newActor->setLocation(input->mouse3D);
+    if (newActor){
+
+         BasicButton* myButton=dynamic_cast<BasicButton*>(newActor);
+         if (myButton)
+            newActor->setLocation(Vector3f(input->mouseX,input->mouseY, 0.0f));
+
+         else if (input->worldTarget && input->worldTarget->bPickable)
+             newActor->setLocation(input->mouse3D);
     }
 }
 

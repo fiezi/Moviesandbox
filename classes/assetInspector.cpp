@@ -10,9 +10,11 @@
 
 AssetInspector::AssetInspector(){
 
+    name="assetInspector";
     listColumns=4;
     level=0;
-    listDisplaySize=300;
+    scrollSize=250.0;
+    listDisplaySize=500;
     textureID="icon_props";
     listOffsetY=64;
     bKinectToolOpen=false;
@@ -24,7 +26,9 @@ AssetInspector::~AssetInspector(){}
 void AssetInspector::setup(){
 
     Inspector::setup();
+    //clean up
     tabs.clear();
+
     tabs.push_back( new MeshTab(this) );
     tabs.push_back( new TextureTab(this) );
     tabs.push_back( new ActionTab(this) );
@@ -90,7 +94,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->buttonColor=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
     tabButton->setup();
-    tabButton->buttonColor=sceneData->tabColor;
+    tabButton->buttonColor=sceneData->selectedTabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
 
@@ -193,7 +197,6 @@ void AssetInspector::MeshTab::assembleList(){
                 mine->listButton[i]->textureID="icon_props";
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
-                mine->listButton[i]->buttonColor=Vector4f(0.75,0.75,0.75,1.0);
                 mine->listButton[i]->bPermanent=true;
                 mine->listButton[i]->bDragable=true;
                 mine->listButton[i]->parent=mine;
@@ -207,6 +210,8 @@ void AssetInspector::MeshTab::assembleList(){
                     mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
                 mine->listButton[i]->setup();
+                mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
+
                 mine->placeButton(i,i);
                 //set this because we want to drag buttons around!
                 mine->listButton[i]->initialLocation=mine->listButton[i]->location;
@@ -357,7 +362,6 @@ void AssetInspector::TextureTab::assembleList(){
             mine->listButton[i]->textureID="icon_base";
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
             mine->listButton[i]->textureID=it->first;
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
@@ -372,6 +376,8 @@ void AssetInspector::TextureTab::assembleList(){
                     mine->listButton[i]->scale.y=mine->listHeight-16.0;
 
             mine->listButton[i]->setup();
+            mine->listButton[i]->buttonColor=COLOR_WHITE;
+
             mine->placeButton(i,i);
             //set this because we want to drag buttons around!
             mine->listButton[i]->initialLocation=mine->listButton[i]->location;
@@ -445,9 +451,6 @@ void AssetInspector::ActionTab::assembleList(){
                 mine->listButton[i]->tooltip=mine->listButton[i]->name;
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
-                mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
-                //actions are just set to be visible, not actually created!
-                mine->listButton[i]->bHidden=false;
                 mine->listButton[i]->bDragable=true;
 
                 mine->listButton[i]->drawNameOffset.y=mine->listHeight/2.0;
@@ -461,6 +464,11 @@ void AssetInspector::ActionTab::assembleList(){
                 mine->placeButton(i,i);
                 //set this because we want to drag buttons around!
                 mine->listButton[i]->initialLocation=mine->listButton[i]->location;
+                mine->listButton[i]->setup();
+                //actions are just set to be visible, not actually created!
+                mine->listButton[i]->bHidden=false;
+                mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
+
                 i++;
                 }else{
                 cout << "problem with:" << it->first << endl;

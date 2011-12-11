@@ -7,6 +7,7 @@
 
 PropertyInspector::PropertyInspector(){
 
+    name="propertyInspector";
     bOpen=false;
     initialLocation=location;
     tabWidth=350;
@@ -20,7 +21,7 @@ PropertyInspector::PropertyInspector(){
 
     listDisplayMode=0;
     scrollSize=250.0;
-    listDisplaySize=400;
+    listDisplaySize=600;
 }
 
 PropertyInspector::~PropertyInspector(){}

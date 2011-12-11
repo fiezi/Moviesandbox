@@ -347,6 +347,12 @@ void MenuBar::trigger(MsbObject* other){
         exit(0);
     }
 
+    //Edit Menu
+    if (other->name=="Cut"){
+        //sceneData->selectTool->
+    }
+
+
     //Drawing Menu
 
     if (other->name=="ScaleZ 0.5"){
