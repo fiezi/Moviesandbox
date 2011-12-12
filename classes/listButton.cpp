@@ -87,7 +87,7 @@ void ListButton::assembleList(){
         listButton[i]->buttonProperty=listProp[i];
 
         if ((int)listIcon.size()>i && listIcon[i]!="")
-        listButton[i]->textureID=listIcon[i];
+        listButton[i]->setTextureID(listIcon[i]);
 
         //now allowing string parenting!
         //special stuff: RENDERER - parents to the renderer

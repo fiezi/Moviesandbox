@@ -43,7 +43,7 @@ void ActorGizmo::setup(){
     xRotateGizmo->bRemoveable=false;
     xRotateGizmo->bTextured=true;
     xRotateGizmo->sceneShaderID="texture";
-    xRotateGizmo->textureID="rotateArrow";
+    xRotateGizmo->setTextureID("rotateArrow");
     xRotateGizmo->drawType=DRAW_PLANE;
     xRotateGizmo->color=Vector4f(1.0,0.0,0.0,1);
     sceneData->helperList.push_back(xRotateGizmo);
@@ -59,7 +59,7 @@ void ActorGizmo::setup(){
     yRotateGizmo->bRemoveable=false;
     yRotateGizmo->bTextured=true;
     yRotateGizmo->sceneShaderID="texture";
-    yRotateGizmo->textureID="rotateArrow";
+    yRotateGizmo->setTextureID("rotateArrow");
     yRotateGizmo->drawType=DRAW_PLANE;
     yRotateGizmo->color=Vector4f(0.0,1.0,0.0,1);
     sceneData->helperList.push_back(yRotateGizmo);
@@ -75,7 +75,7 @@ void ActorGizmo::setup(){
     zRotateGizmo->bRemoveable=false;
     zRotateGizmo->bTextured=true;
     zRotateGizmo->sceneShaderID="texture";
-    zRotateGizmo->textureID="rotateArrow";
+    zRotateGizmo->setTextureID("rotateArrow");
     zRotateGizmo->drawType=DRAW_PLANE;
     zRotateGizmo->color=Vector4f(0.0,0.0,1.0,1);
     sceneData->helperList.push_back(zRotateGizmo);
@@ -93,7 +93,7 @@ void ActorGizmo::setup(){
     xAxisGizmo->bRemoveable=false;
     xAxisGizmo->bTextured=true;
     xAxisGizmo->sceneShaderID="texture";
-    xAxisGizmo->textureID="arrow";
+    xAxisGizmo->setTextureID("arrow");
     xAxisGizmo->drawType=DRAW_PLANE;
     xAxisGizmo->color=Vector4f(1,0,0,1);
     sceneData->helperList.push_back(xAxisGizmo);
@@ -110,7 +110,7 @@ void ActorGizmo::setup(){
     yAxisGizmo->bRemoveable=false;
     yAxisGizmo->bTextured=true;
     yAxisGizmo->sceneShaderID="texture";
-    yAxisGizmo->textureID="arrow";
+    yAxisGizmo->setTextureID("arrow");
     yAxisGizmo->drawType=DRAW_PLANE;
     yAxisGizmo->color=Vector4f(0.4,1,0.4,1);
     sceneData->helperList.push_back(yAxisGizmo);
@@ -127,7 +127,7 @@ void ActorGizmo::setup(){
     zAxisGizmo->bRemoveable=false;
     zAxisGizmo->bTextured=true;
     zAxisGizmo->sceneShaderID="texture";
-    zAxisGizmo->textureID="arrow";
+    zAxisGizmo->setTextureID("arrow");
     zAxisGizmo->drawType=DRAW_PLANE;
     zAxisGizmo->color=Vector4f(0.4,0.4,1,1);
     sceneData->helperList.push_back(zAxisGizmo);

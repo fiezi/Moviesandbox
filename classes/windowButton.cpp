@@ -83,7 +83,7 @@ void WindowButton::assembleList(){
 
         listButton[i]->name=it->first;
         listButton[i]->buttonProperty=it->first;
-        listButton[i]->textureID="icon_base";
+        listButton[i]->setTextureID("icon_base");
         listButton[i]->parent=renderer;
         listButton[i]->level=level+1;
         listButton[i]->bDrawName=true;

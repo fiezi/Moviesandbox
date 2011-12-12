@@ -204,6 +204,9 @@ public:
        virtual Vector3f calcEuler(Matrix4f myMatrix);   //Rotation Matrix to Euler Angles
        virtual void matrixToVectors();              //generates location vector, axis and rotation in euler angles
 
+        virtual void setTextureID(string texID);            //use this to set textureID to prevent texture load errors and Crashes to Desktop!
+
+
        //general saving and loading - repeated from MsbObject!
        virtual TiXmlElement* save(TiXmlElement *root);
        virtual TiXmlElement* saveAsPrefab(TiXmlElement *root);  //saves all properties as defined in registerProperties

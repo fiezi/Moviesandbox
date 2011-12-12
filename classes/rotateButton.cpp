@@ -19,7 +19,7 @@ void RotateButton::update(double deltaTime){
 
     if (bActive && parent){
 
-        textureID="icon_rotate";
+        setTextureID("icon_rotate");
         mouseOverColor=buttonColor;
 
         Actor* actorParent=(Actor*)parent;
@@ -76,7 +76,7 @@ void RotateButton::clickedLeft(){
     else
         input->focusButton=this;
 
-    textureID="icon_rotate";
+    setTextureID("icon_rotate");
     mouseOverColor=buttonColor;
 
     glutSetCursor(GLUT_CURSOR_CYCLE);
@@ -143,7 +143,7 @@ void RotateButton::focusClick(){
 
     glutSetCursor(GLUT_CURSOR_INHERIT);
 
-    textureID+="icon_rotate_white";
+    setTextureID("icon_rotate_white");
 
     mouseOverColor=sceneData->mouseOverColor;
 }

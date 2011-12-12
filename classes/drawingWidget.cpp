@@ -74,23 +74,23 @@ void DrawingWidget::trigger(MsbObject* other){
 
     if (other->name=="Draw Particles (b)"){
         useTool=TOOL_DRAW;
-        textureID="icon_paint";
+        setTextureID("icon_paint");
     }
 
     if (other->name=="Draw Calligraphy"){
         useTool=TOOL_CALLIGRAPHY;
-        textureID="icon_paintFancy";
+        setTextureID("icon_paintFancy");
     }
 
     if (other->name=="Draw Meshes"){
         useTool=TOOL_SPAWN;
-        textureID="icon_drawMesh";
+        setTextureID("icon_drawMesh");
     }
 
 /*
     if (other->name=="Select Particles"){
         useTool=TOOL_PARTICLESELECT;
-        textureID="icon_selectParticles";
+        setTextureID("icon_selectParticles");
     }
 
 	if (other->name=="save"){
@@ -166,7 +166,7 @@ void DrawingWidget::openKinectTool(){
     }
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;
-    sceneData->brush->drawing->textureID="sharedMemory";
+    sceneData->brush->drawing->setTextureID("sharedMemory");
     sceneData->brush->drawing->sceneShaderID="heightfield";
     sceneData->brush->drawing->particleScale=100;
 
@@ -183,7 +183,7 @@ void DrawingWidget::importKinect(){
             glBindTexture(GL_TEXTURE_2D,0);
             sceneData->brush->drawing->drawType=DRAW_PARTICLES;
             sceneData->brush->drawing->bTextured=false;
-            sceneData->brush->drawing->textureID="NULL";
+            sceneData->brush->drawing->setTextureID("NULL");
             sceneData->brush->drawing->sceneShaderID="color";
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->particleScale=2;

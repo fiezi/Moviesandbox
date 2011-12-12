@@ -15,7 +15,7 @@ void MoveButton::clickedLeft(){
 
     RotateButton::clickedLeft();
 
-    textureID="icon_move";
+    setTextureID("icon_move");
     mouseOverColor=buttonColor;
 
 }
@@ -23,7 +23,7 @@ void MoveButton::clickedLeft(){
 void MoveButton::focusClick(){
 
     RotateButton::focusClick();
-    textureID="icon_move_white";
+    setTextureID("icon_move_white");
 
 }
 
@@ -33,7 +33,7 @@ void MoveButton::update(double deltaTime){
 
     if (bActive && parent){
 
-        textureID="icon_move";
+        setTextureID("icon_move");
         mouseOverColor=buttonColor;
 
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){

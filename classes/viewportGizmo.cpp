@@ -27,14 +27,14 @@ void ViewportGizmo::setup(){
     mouseOverColor=buttonColor;
 
     //create a 100x100 texture
-    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,50,50);
+    renderer->createEmptyTexture("viewportGizmo",GL_RGBA,GL_FLOAT,84,84);
 
     //also, create an FBO
-    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,50,50,false, "viewportGizmo");
+    renderer->createFBO(&viewport_fb,&(sceneData->textureList["viewportGizmo"]->texture),&myDepthBuffer,84 ,84,false, "viewportGizmo");
 
 
-    scale.x=50;
-    scale.y=50;
+    scale.x=84;
+    scale.y=84;
 
 }
 
@@ -42,13 +42,15 @@ void ViewportGizmo::update(double deltaTime){
 
     BasicButton::update(deltaTime);
 
-    setLocation(Vector3f( renderer->windowX-100, 2, 0.0));
+    setLocation(Vector3f( renderer->windowX-100, -10, 0.0));
 
         //setup FBO
 
     glPushAttrib(GL_VIEWPORT_BIT);
-    glViewport(0,0,100,80);
+    glViewport(0,0,84 * renderer->screenX/renderer->screenY,84);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, viewport_fb);
+    //renderer->setupOrthoCamera(64,64);
+
     glDrawBuffers(1,renderer->drawBuffers);
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -63,10 +65,10 @@ void ViewportGizmo::update(double deltaTime){
     Matrix4f myMatrix=sceneData->controller->controlledActor->baseMatrix;
     myMatrix.setTranslation(Vector3f(0,0,0));
     myMatrix = myMatrix.inverse();
-    myMatrix.setTranslation(Vector3f(250,600,0));
+    myMatrix.setTranslation(Vector3f(250,400,0));
     glMultMatrixf(myMatrix);
 
-    renderer->drawCube(100.0);
+    renderer->drawCube(90.0);
     glEnable(GL_BLEND);
     glBindFramebufferEXT (GL_FRAMEBUFFER_EXT,0);
     glPopAttrib();
@@ -79,7 +81,7 @@ void ViewportGizmo::mouseOver(){
 
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, viewport_fb);
 
-    renderer->setupOrthoCamera(renderer->screenX,renderer->screenY);
+    renderer->setupOrthoCamera(64,64);
 
     //texTranslation.x-=0.01;
 
@@ -114,7 +116,7 @@ void ViewportGizmo::mouseOver(){
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 
-    cout << cubeSide << "aa:v " << cubeRead[0] << " " << cubeRead[1] << " " << cubeRead[2] << endl;
+    //cout << cubeSide << "aa:v " << cubeRead[0] << " " << cubeRead[1] << " " << cubeRead[2] << endl;
 
 }
 

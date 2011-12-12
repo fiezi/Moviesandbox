@@ -747,7 +747,15 @@ void SceneData::createScene(){
    //create base layer
     addLayer("baseLayer");
 
+
     FreeImage_Initialise();
+
+    //load basic library (we need textures for our buttons first!)
+    loadMeshes("resources/meshes/",library);
+    loadTextures("resources/icons/",library);
+    loadShaders("shaders/",library);
+    loadActionList("resources/actions/",library);
+
 
     //add Brush
     addBrush();
@@ -765,6 +773,7 @@ void SceneData::createScene(){
     drawTool=(DrawTool*)controller->myTools[TOOL_DRAW];
     gridTool=(GridTool*)controller->myTools[TOOL_GRID];
 
+
     //setting up menu
     cout << "setting up menu" << endl;
     content= new Content;
@@ -772,12 +781,6 @@ void SceneData::createScene(){
 
     //load library stuff
     getAllPrefabs();
-
-    //load basic library
-    loadMeshes("resources/meshes/",library);
-    loadTextures("resources/icons/",library);
-    loadShaders("shaders/",library);
-    loadActionList("resources/actions/",library);
 
     //load project library
     loadMeshes(startProject,startProject+"my.project");          //this one also sets the number of untitled drawings!
@@ -895,7 +898,7 @@ void SceneData::addGrid(){
     grid->bComputeLight=true;
     grid->bHidden=true;
     grid->color=Vector4f(0.5,0.5,0.5,0.8);
-    grid->textureID="grid_solid";
+    grid->setTextureID("grid_solid");
     grid->name="grid";
 
     grid->drawType=DRAW_PLANE;

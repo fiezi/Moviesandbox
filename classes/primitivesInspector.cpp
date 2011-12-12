@@ -142,7 +142,7 @@ void PrimitivesInspector::PrimitivesTab::assembleList(){
 
         mine->listButton[i]->name=mine->listName[i];
         mine->listButton[i]->buttonProperty=mine->listProp[i];
-        mine->listButton[i]->textureID=mine->listIcon[i];
+        mine->listButton[i]->setTextureID(mine->listIcon[i]);
 
         mine->listButton[i]->level=mine->level+1;
         mine->listButton[i]->bDrawName=true;
@@ -271,7 +271,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
 
         mine->listButton[i]->name=mine->listName[i];
         mine->listButton[i]->buttonProperty=mine->listProp[i];
-        mine->listButton[i]->textureID="icon_nodeMenu";
+        mine->listButton[i]->setTextureID("icon_nodeMenu");
 
         mine->listButton[i]->level=mine->level+1;
         mine->listButton[i]->bDrawName=true;
@@ -303,7 +303,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
 
         mine->listButton[i]->name=mine->listName[i];
         mine->listButton[i]->buttonProperty=mine->listProp[i];
-        mine->listButton[i]->textureID="icon_base";
+        mine->listButton[i]->setTextureID("icon_base");
 
         mine->listButton[i]->level=mine->level+1;
         mine->listButton[i]->bDrawName=true;

@@ -259,9 +259,10 @@ int main(int argc, char* argv[]){
 
 #endif
 
-    //loading preferences
+    //creating objects
     sceneDataManager->setup();
 
+    //loading preferences
     sceneDataManager->loadPreferences();
 
     //init renderer
@@ -269,7 +270,7 @@ int main(int argc, char* argv[]){
     glutHideWindow();
     renderManager->setup();
 
-    //do scene stuff
+    //load libraries and create scene
     sceneDataManager->createScene();
 
     //destroy splash screen
@@ -277,19 +278,6 @@ int main(int argc, char* argv[]){
 
     //focus back on our window
     glutShowWindow();
-/*
-    #ifdef TARGET_WIN32
-    //change the icon
-    HWND hwnd = GetForegroundWindow();
-
-    if (hwnd != NULL)
-    {
-        HINSTANCE hInst = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
-        SetClassLong(hwnd,GCL_HICON,(LONG)  LoadIcon(hInst, MAKEINTRESOURCE(MSB_ICON)));
-        SetClassLong(hwnd,GCL_HICONSM,(LONG)  LoadIcon(hInst, MAKEINTRESOURCE(MSB_ICON)));
-    }
-    #endif
-*/
 
 	glutIgnoreKeyRepeat(1);
 

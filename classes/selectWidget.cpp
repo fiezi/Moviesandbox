@@ -44,12 +44,12 @@ void SelectWidget::trigger(MsbObject* other){
 
     if (other->name=="Select Objects"){
         useTool=TOOL_SELECT;
-        textureID="icon_select";
+        setTextureID("icon_select");
     }
 
     if (other->name=="Select Particles"){
         useTool=TOOL_PARTICLESELECT;
-        textureID="icon_selectParticles";
+        setTextureID("icon_selectParticles");
     }
 
     clickedRight();

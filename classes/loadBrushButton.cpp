@@ -71,8 +71,8 @@ void LoadBrushButton::placeScrollBar(){
 
 void LoadBrushButton::loadFile(string filename){
 
-sceneData->brush->drawing->textureID=filename;
-sceneData->brush->textureID=filename;
+sceneData->brush->drawing->setTextureID(filename);
+sceneData->brush->setTextureID(filename);
 }
 
 

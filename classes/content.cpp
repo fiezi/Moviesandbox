@@ -112,7 +112,7 @@ void Content::createMenuBar(){
     but->location.y=0;
 
     but->sceneShaderID="buttonColor";
-	but->textureID="icon_flat";
+	but->setTextureID("icon_flat");
     but->level=0;
     but->bPermanent=true;
     but->name="";
@@ -164,7 +164,7 @@ void Content::createMonitors(){
     monitor->scale.x=renderer->screenX;
     monitor->scale.y=-renderer->screenY;
 
-    monitor->textureID="sceneTexture";
+    monitor->setTextureID("sceneTexture");
     monitor->name="sfx";
     monitor->sceneShaderID="post";
     monitor->sceneShaderID="buttonTexture";
@@ -185,7 +185,7 @@ void Content::createSelectButton(int x, int y){
     lbut->name="select";
     lbut->tooltip="select (i)";
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_select";
+    lbut->setTextureID("icon_select");
     lbut->setup();
     lbut->buttonColor=sceneData->selectedToolColor;
 
@@ -216,7 +216,7 @@ void Content::createNavButton(int x, int y){
     lbut->name="navigate";
     lbut->tooltip="navigate (TAB)";
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_fly";
+    lbut->setTextureID("icon_fly");
     lbut->setup();
     sceneData->controller->myTools[TOOL_NAV]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_ORBIT]->myBtn=lbut;
@@ -246,7 +246,7 @@ void Content::createGridButton(int x, int y){
     but->location.x=x;
     but->location.y=y;
     but->setLocation(but->location);
-    but->textureID="icon_grid";
+    but->setTextureID("icon_grid");
     but->setup();
     but->parent=sceneData->controller;
     sceneData->controller->myTools[TOOL_GRID]->myBtn=but;
@@ -265,7 +265,7 @@ void Content::createPropList(int x, int y){
     lbut->setLocation(lbut->location);
     //lbut->listWidth=100;
 
-    lbut->textureID="icon_props";
+    lbut->setTextureID("icon_props");
     lbut->name="propsMenu";
 
     sceneData->controller->myTools[TOOL_SPAWN]->myBtn=lbut;
@@ -326,7 +326,7 @@ void Content::createDrawWidget(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_brush";
+    lbut->setTextureID("icon_brush");
 
     //assign Widget to corresponding tools
     sceneData->controller->myTools[TOOL_DRAW]->myBtn=lbut;
@@ -410,7 +410,7 @@ void Content::createBoneWidget(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_addBones";
+    lbut->setTextureID("icon_addBones");
     sceneData->controller->myTools[TOOL_SKIN]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_BONE]->myBtn=lbut;
     lbut->setup();
@@ -472,7 +472,7 @@ void Content::createNodeList(int x, int y){
     lbut->listColor=Vector4f(0.7,0.7,0.7,1.0);
 
     lbut->bDrawListNames=true;
-    lbut->textureID="icon_nodeMenu";
+    lbut->setTextureID("icon_nodeMenu");
     lbut->name="nodeMenu";
 
     //populate nodeList
@@ -576,7 +576,7 @@ void Content::createSysMenu(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_system";
+    lbut->setTextureID("icon_system");
     lbut->name="sysMenu";
 
     lbut->listType.push_back("12WindowButton");
@@ -623,7 +623,7 @@ void Content::createInspectors(){
     lbut->location.y=yPos+30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_brushInspector";
+    lbut->setTextureID("icon_brushInspector");
     lbut->name="brushInspector";
 
     sceneData->buttonList.push_back(lbut);
@@ -634,7 +634,7 @@ void Content::createInspectors(){
     lbut->location.y=yPos+60;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_props";
+    lbut->setTextureID("icon_props");
     lbut->name="assetInspector";
 
     sceneData->buttonList.push_back(lbut);
@@ -645,7 +645,7 @@ void Content::createInspectors(){
     lbut->location.y=yPos+90;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_prefab";
+    lbut->setTextureID("icon_prefab");
     lbut->name="primitivesInspector";
 
     sceneData->buttonList.push_back(lbut);
@@ -657,7 +657,7 @@ void Content::createInspectors(){
     lbut->location.y=yPos+180;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_layers";
+    lbut->setTextureID("icon_layers");
     lbut->name="layerInspector";
 
     sceneData->buttonList.push_back(lbut);
@@ -669,7 +669,7 @@ void Content::createInspectors(){
     lbut->location.y=renderer->screenY -lbut->scale.y;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
-    lbut->textureID="icon_timeline";
+    lbut->setTextureID("icon_timeline");
     lbut->name="TimelineInspector";
 
     sceneData->controller->timeline=(TimelineInspector*)lbut;

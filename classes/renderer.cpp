@@ -855,7 +855,7 @@ void Renderer::draw(){
     checkOpenGLError("init finalFrame");
     #endif
 
-        sceneData->layerList[i]->textureID=sceneData->layerList[i]->colorTextureID;
+        sceneData->layerList[i]->setTextureID(sceneData->layerList[i]->colorTextureID);
 
 		if (bDrawLighting){
             drawDeferredLighting(sceneData->layerList[i]);  //draws lights into texture
@@ -898,7 +898,7 @@ void Renderer::draw(){
             glViewport (0, 0, windowX, windowY);
 //            glViewport (0, 0, screenX, screenY);
 
-            sceneData->layerList[i]->textureID=sceneData->layerList[i]->sceneTextureID;
+            sceneData->layerList[i]->setTextureID(sceneData->layerList[i]->sceneTextureID);
             if (bDOF)
                 sceneData->layerList[i]->sceneShaderID="dof";
             else
@@ -1074,7 +1074,7 @@ void Renderer::drawNormals(Layer* layer){
 
 
         //set our textureID to lighting pass
-        layer->textureID=layer->depthTextureID;
+        layer->setTextureID(layer->depthTextureID);
         //set our shader to
         layer->sceneShaderID="ssNormal";
 
@@ -1171,7 +1171,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //draw using lighting_tx as base texture!
 
             //set our textureID to lighting pass
-            layer->textureID="lighting";
+            layer->setTextureID("lighting");
             //set our shader to
             layer->sceneShaderID="deferredLight";
 
@@ -1189,7 +1189,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
         }
 
         //set our textureID to lighting pass
-        layer->textureID=oldTextureID;
+        layer->setTextureID(oldTextureID);
         //set our shader to
         layer->sceneShaderID="post";
 
@@ -1303,7 +1303,7 @@ void Renderer::performShader(Layer* layer, string textureID, GLuint renderFBO, s
 
 
         //set our textureID to lighting pass
-        layer->textureID=textureID;
+        layer->setTextureID(textureID);
         //set our shader to
         layer->sceneShaderID=shaderName;
 
@@ -1795,7 +1795,7 @@ void Renderer::setupTexturing(string texName, Actor* a, GLenum texChannel){
     //texture animation
     if (sceneData->textureList[texName]->nextTexture!="NULL" && currentTime - a->textTimer > sceneData->textureList[texName]->frameRate ){
         a->textTimer += sceneData->textureList[texName]->frameRate;
-        a->textureID=sceneData->textureList[texName]->nextTexture;
+        a->setTextureID(sceneData->textureList[texName]->nextTexture);
     }
 
     transformTextureMatrix(a);

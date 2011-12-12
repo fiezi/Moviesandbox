@@ -53,7 +53,7 @@ void BrushInspector::createInspectorButtons(){
         showColor->setLocation(location+Vector3f(35 + i*34,160,0));
         showColor->initialLocation=showColor->location;
         showColor->scale=Vector3f(32,32,1);
-        showColor->textureID="icon_flat";
+        showColor->setTextureID("icon_flat");
         showColor->setup();
         showColor->buttonColor=COLOR_WHITE;
 
@@ -62,7 +62,7 @@ void BrushInspector::createInspectorButtons(){
         colorSwatches.push_back(showColor);
     }
 
-    colorSwatches[0]->textureID="icon_base";
+    colorSwatches[0]->setTextureID("icon_base");
 
     SliderButton* brushScaleBtn= new SliderButton;
     brushScaleBtn->name="brush scale";
@@ -73,7 +73,7 @@ void BrushInspector::createInspectorButtons(){
     brushScaleBtn->setLocation(location+Vector3f(35,200,0));
     brushScaleBtn->initialLocation=brushScaleBtn->location;
     brushScaleBtn->scale=Vector3f(256,15,1);
-    brushScaleBtn->textureID="icon_flat";
+    brushScaleBtn->setTextureID("icon_flat");
     brushScaleBtn->sceneShaderID="color";
     brushScaleBtn->bVertical=false;
     brushScaleBtn->setup();
@@ -93,7 +93,7 @@ void BrushInspector::createInspectorButtons(){
     brushIntensityBtn->setLocation(location+Vector3f(35,220,0));
     brushIntensityBtn->initialLocation=brushIntensityBtn->location;
     brushIntensityBtn->scale=Vector3f(256,15,1);
-    brushIntensityBtn->textureID="icon_flat";
+    brushIntensityBtn->setTextureID("icon_flat");
     brushIntensityBtn->sceneShaderID="color";
     brushIntensityBtn->bVertical=false;
     brushIntensityBtn->setup();
@@ -112,7 +112,7 @@ void BrushInspector::createInspectorButtons(){
     brushViz->setLocation(location+Vector3f(40,240,0)   );
     brushViz->initialLocation=brushViz->location;
     brushViz->scale=Vector3f(32,32,1);
-    brushViz->textureID="brushTwo";
+    brushViz->setTextureID("brushTwo");
     brushViz->setup();
     brushViz->buttonColor=COLOR_WHITE;
     brushViz->mouseOverColor=COLOR_WHITE;
@@ -131,7 +131,7 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->setLocation(location+Vector3f(35,350,0));
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
-        gridAssign->textureID="icon_gridXY";
+        gridAssign->setTextureID("icon_gridXY");
         gridAssign->setup();
         gridAssign->buttonColor=sceneData->meanButtonColor;
 
@@ -146,7 +146,7 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->setLocation(location+Vector3f(70,350,0));
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
-        gridAssign->textureID="icon_gridZY";
+        gridAssign->setTextureID("icon_gridZY");
         gridAssign->setup();
         gridAssign->buttonColor=sceneData->meanButtonColor;
 
@@ -161,7 +161,7 @@ void BrushInspector::createInspectorButtons(){
         gridAssign->setLocation(location+Vector3f(105,350,0));
         gridAssign->initialLocation=gridAssign->location;
         gridAssign->scale=Vector3f(32,32,1);
-        gridAssign->textureID="icon_gridXZ";
+        gridAssign->setTextureID("icon_gridXZ");
         gridAssign->setup();
         gridAssign->buttonColor=sceneData->meanButtonColor;
 
@@ -237,11 +237,11 @@ void BrushInspector::trigger(MsbObject* other){
         sceneData->brush->color=other->color;
 
         for (int i=0;i<numSwatches;i++){
-            colorSwatches[i]->textureID="icon_flat";
+            colorSwatches[i]->setTextureID("icon_flat");
             if (other==colorSwatches[i])
                 currentSwatch=i;
         }
-        ((Actor*)other)->textureID="icon_base";
+        ((Actor*)other)->setTextureID("icon_base");
     }
 
     //update brush preview

@@ -448,6 +448,17 @@ void Actor::matrixToVectors(){
 
 /* update and draw */
 
+void Actor::setTextureID(string texID){
+
+    if (sceneData->textureList[texID])
+        textureID=texID;
+    else
+       cout << "ERROR: Texture Assignment failed. Cannot find Texture: " << texID << endl;
+
+    //textureID=texID;
+
+}
+
 
 void Actor::update(double deltaTime){
 

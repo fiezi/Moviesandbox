@@ -120,7 +120,7 @@ void PropertyInspector::PropTabOne::assembleList(){
             mine->listButton.push_back(mine->sceneData->buttonList.back());
             mine->listButton[i]->name=it->first;
             mine->listButton[i]->buttonProperty=it->first;
-            mine->listButton[i]->textureID="icon_base";
+            mine->listButton[i]->setTextureID("icon_base");
             mine->listButton[i]->parent=mine->sceneData->selectedActors[0];
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;

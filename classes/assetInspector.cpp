@@ -61,7 +61,7 @@ void AssetInspector::createInspectorButtons(){
     importButton->setLocation(Vector3f(location.x+100.0f,location.y+20, 0.0f));
     importButton->name="Import Kinect";
     importButton->tooltip="Import Kinect";
-    importButton->textureID="icon_kinect";
+    importButton->setTextureID("icon_kinect");
     //importButton->bDrawName=true;
     importButton->setup();
     importButton->buttonColor=sceneData->meanButtonColor;
@@ -75,7 +75,7 @@ void AssetInspector::createInspectorButtons(){
     importButton->setLocation(Vector3f(location.x+140.0f,location.y+20, 0.0f));
     importButton->name="Import Bitmap";
     importButton->tooltip="Import Bitmap";
-    importButton->textureID="icon_importBitmap";
+    importButton->setTextureID("icon_importBitmap");
     importButton->setup();
     importButton->buttonColor=sceneData->meanButtonColor;
     inspectorButtons.push_back(importButton);
@@ -197,7 +197,7 @@ void AssetInspector::MeshTab::assembleList(){
                 mine->listButton[i]->name="string " + it->first;
                 mine->listButton[i]->tooltip= it->first;
                 mine->listButton[i]->buttonProperty="VBOMESHID";
-                mine->listButton[i]->textureID="icon_props";
+                mine->listButton[i]->setTextureID("icon_props");
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;
                 mine->listButton[i]->bPermanent=true;
@@ -366,10 +366,10 @@ void AssetInspector::TextureTab::assembleList(){
             mine->listButton[i]->name="string " + it->first;
             mine->listButton[i]->tooltip=it->first;
             mine->listButton[i]->buttonProperty="TEXTUREID";
-            mine->listButton[i]->textureID="icon_base";
+            mine->listButton[i]->setTextureID("icon_base");
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->textureID=it->first;
+            mine->listButton[i]->setTextureID(it->first);
             mine->listButton[i]->bPermanent=true;
             mine->listButton[i]->bDragable=true;
 
@@ -523,7 +523,7 @@ void AssetInspector::PrefabTab::assembleList(){
             mine->listButton.push_back(mine->sceneData->buttonList.back());
 
             mine->listButton[i]->name=mine->sceneData->prefabs[i];
-            mine->listButton[i]->textureID="icon_base";
+            mine->listButton[i]->setTextureID("icon_base");
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
             mine->listButton[i]->buttonColor=mine->sceneData->deselectedElementColor;
@@ -612,7 +612,7 @@ void AssetInspector::openKinectTool(bool bHighZRes){
 
     sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
     sceneData->brush->drawing->bTextured=true;
-    sceneData->brush->drawing->textureID="sharedMemory";
+    sceneData->brush->drawing->setTextureID("sharedMemory");
     sceneData->brush->drawing->sceneShaderID="kinectHeightfield";
     sceneData->brush->drawing->particleAngleScale=256;
     sceneData->brush->drawing->particleScale=12;
@@ -648,7 +648,7 @@ void AssetInspector::importKinect(bool bHighZRes){
 
             sceneData->brush->drawing->drawType=DRAW_PARTICLES;
             sceneData->brush->drawing->bTextured=false;
-            sceneData->brush->drawing->textureID="NULL";
+            sceneData->brush->drawing->setTextureID("NULL");
             sceneData->brush->drawing->sceneShaderID="buttonColor";
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->particleScale=1;

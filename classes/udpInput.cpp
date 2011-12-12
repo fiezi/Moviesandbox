@@ -289,7 +289,7 @@ void UdpInput::createNewInputConnect(Vector4f btnColor, std::string btnName, uns
     myBtn->name=btnName;
     //connect directly to UDPInput - but why?
     myBtn->parent=this;
-    myBtn->textureID="icon_flat";
+    myBtn->setTextureID("icon_flat");
     myBtn->listPosition=numInputs;
     sceneData->buttonList.push_back(myBtn);
     inputConnectButtons.push_back(myBtn);

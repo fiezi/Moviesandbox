@@ -58,11 +58,11 @@ float dotProduct= camOrient.dotProduct(orientation);
 //swap textures accordingly
 
 if (dotProduct <-0.5)
-    textureID=displayTextureIDs[BACKTEXTURE];
+    setTextureID(displayTextureIDs[BACKTEXTURE]);
 if (dotProduct<0.5 && dotProduct> -0.5)
-    textureID=displayTextureIDs[LEFTTEXTURE];
+    setTextureID(displayTextureIDs[LEFTTEXTURE]);
 if (dotProduct>0.5)
-    textureID=displayTextureIDs[FRONTTEXTURE];
+    setTextureID(displayTextureIDs[FRONTTEXTURE]);
 }
 
 

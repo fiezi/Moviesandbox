@@ -46,12 +46,12 @@ void NavWidget::trigger(MsbObject* other){
 
     if (other->name=="Fly"){
         useTool=TOOL_NAV;
-        textureID="icon_fly";
+        setTextureID("icon_fly");
     }
 
     if (other->name=="Orbit"){
         useTool=TOOL_ORBIT;
-        textureID="icon_orbit";
+        setTextureID("icon_orbit");
     }
 
     clickedRight();

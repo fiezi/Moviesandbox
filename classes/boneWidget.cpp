@@ -49,12 +49,12 @@ void BoneWidget::trigger(MsbObject* other){
 
     if (other->name=="Paint Weights (z)"){
         useTool=TOOL_SKIN;
-        textureID="icon_paintWeights";
+        setTextureID("icon_paintWeights");
     }
 
     if (other->name=="Create Bone (x)"){
         useTool=TOOL_BONE;
-        textureID="icon_addBones";
+        setTextureID("icon_addBones");
     }
 
     clickedRight();

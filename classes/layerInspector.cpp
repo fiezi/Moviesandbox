@@ -243,7 +243,7 @@ void LayerInspector::assembleList(){
         if (listHeight>0)
             l->scale.y=listHeight;
 
-        //l->textureID=sceneData->layerList[i]->textureID;
+        //l->setTextureID(sceneData->layerList[i]->textureID);
         l->setup();
         l->buttonColor=Vector4f(0.8,0.6,0.6,1.0);
 

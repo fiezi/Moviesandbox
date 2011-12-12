@@ -34,7 +34,7 @@ void MenuBar::setup(){
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="buttonColor";
-	lbut->textureID="icon_flat";
+	lbut->setTextureID("icon_flat");
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPermanentList=true;
@@ -121,7 +121,7 @@ void MenuBar::setup(){
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="buttonColor";
-	lbut->textureID="icon_flat";
+	lbut->setTextureID("icon_flat");
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPermanentList=true;
@@ -170,7 +170,7 @@ void MenuBar::setup(){
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="buttonColor";
-	lbut->textureID="icon_flat";
+	lbut->setTextureID("icon_flat");
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPermanentList=true;
@@ -219,7 +219,7 @@ void MenuBar::setup(){
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="buttonColor";
-	lbut->textureID="icon_flat";
+	lbut->setTextureID("icon_flat");
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPartOfMenu=true;
@@ -273,7 +273,7 @@ void MenuBar::setup(){
     lbut->scale.x=64;
     lbut->scale.y=16;
     lbut->sceneShaderID="buttonColor";
-	lbut->textureID="icon_flat";
+	lbut->setTextureID("icon_flat");
     lbut->level=0;
     lbut->bPermanent=true;
     lbut->bPartOfMenu=true;
