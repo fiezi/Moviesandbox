@@ -126,7 +126,6 @@ void createSplashScreen(){
 	glutIdleFunc(drawSplashScreen);
 
     drawSplashScreen();
-
 }
 
 
@@ -308,6 +307,7 @@ int main(int argc, char* argv[]){
 		[NSApp setMainMenu:[[NSMenu alloc] init]];
 
 		menu = [[NSMenu alloc] initWithTitle:@""];
+		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
 		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
 
 		menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
