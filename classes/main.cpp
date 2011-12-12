@@ -228,7 +228,7 @@ void endFileLog(){
 int main(int argc, char* argv[]){
 
 
-    //startFileLog();
+    startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -268,7 +268,7 @@ int main(int argc, char* argv[]){
 
     //init renderer
     renderManager->initWindow(0,0,"Moviesandbox");
-    //glutHideWindow();
+    glutHideWindow();
     renderManager->setup();
 
     //load libraries and create scene

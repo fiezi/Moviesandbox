@@ -206,6 +206,7 @@ public:
         Brush* brush;                       //direct pointer to Brush
         ActorGizmo* aGizmo;                 //direct pointer to actorGizmo
 
+        SelectTool*         selectTool;        //pointer to selectTool for convenience
         NavTool*            navTool;        //pointer to navTool for convenience
         DrawTool*           drawTool;       //pointer to drawTool for convenience
         GridTool*           gridTool;       //pointer to gridTool for convenience

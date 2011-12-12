@@ -349,7 +349,19 @@ void MenuBar::trigger(MsbObject* other){
 
     //Edit Menu
     if (other->name=="Cut"){
-        //sceneData->selectTool->
+        sceneData->selectTool->cutSelected();
+    }
+
+    if (other->name=="Copy"){
+        sceneData->selectTool->copySelected();
+    }
+
+    if (other->name=="Paste"){
+        sceneData->selectTool->pasteSelected();
+    }
+
+    if (other->name=="Duplicate"){
+        sceneData->selectTool->duplicateSelected();
     }
 
 

@@ -769,6 +769,7 @@ void SceneData::createScene(){
     controller->setup();
 
     //set convenience pointers to drawTool and navTool in sceneData:
+    selectTool=(SelectTool*)controller->myTools[TOOL_SELECT];
     navTool=(NavTool*)controller->myTools[TOOL_NAV];
     drawTool=(DrawTool*)controller->myTools[TOOL_DRAW];
     gridTool=(GridTool*)controller->myTools[TOOL_GRID];

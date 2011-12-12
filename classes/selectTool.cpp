@@ -57,7 +57,21 @@ void SelectTool::keyReleased(int key){
 
     //copy selected ctrl-d
     if (key==4 && sceneData->selectedActors.size()>0){
+        duplicateSelected();
+    }
+
+    //cut selected
+    if (key==24&& sceneData->selectedActors.size()>0){
+        cutSelected();
+    }
+    //copy selected
+    if (key==3&& sceneData->selectedActors.size()>0){
         copySelected();
+    }
+
+    //paste selected
+    if (key==22&& sceneData->selectedActors.size()>0){
+            pasteSelected();
     }
 
         //create Prefab
