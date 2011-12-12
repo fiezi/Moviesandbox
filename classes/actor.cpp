@@ -96,8 +96,8 @@ menuProp.push_back("NULL");
 menuProp.push_back("NULL");
 menuProp.push_back("NULL");
 
-menuIcon.push_back("icon_move");
-menuIcon.push_back("icon_rotate");
+menuIcon.push_back("icon_move_white");
+menuIcon.push_back("icon_rotate_white");
 menuIcon.push_back("icon_base");
 
 menuName.push_back("LOCATION");

@@ -2443,10 +2443,8 @@ void Renderer::pick(int x, int y){
 
     input->mouse3D= sceneData->controller->controlledActor->location;
     input->mouse3D+= sceneData->controller->controlledActor->zAxis * zPos;
-    //input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)mouseX/(float)screenX - 0.5) * zPos *   1.1  );
-    //input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) * zPos *  0.85 ) ;
-    input->mouse3D-= sceneData->controller->controlledActor->xAxis * ((  mouseX/(float)screenX - 0.5 ) * zPos *   1.1   * windowAspect/renderAspect);
-    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) * zPos *  0.85 ) ;
+    input->mouse3D-= sceneData->controller->controlledActor->xAxis * ((  mouseX/(float)screenX - 0.5 ) * zPos *   0.835 *  windowAspect);
+    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) * zPos *  0.835 ) ;
 
 
    ///Center 3D Position

@@ -275,11 +275,10 @@ vec4 shadowMapping(){
     //where do these numbers come from? and what do they want from us?
 
     //for 1280 * 720
-    //vec4 pixelPosition=vec4((texCoord.x-0.5)*1.45, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 )  ;
+    vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835 * screenX/screenY, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 )  ;
 
     //for 1024 * 768
     //vec4 pixelPosition=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, (-zPos) * 1.0, 1.0 )  ;
-    vec4 pixelPosition=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, (-zPos) * 1.0, 1.0 )  ;
     pixelPosition.xy*=zPos;
 
 

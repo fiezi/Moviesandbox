@@ -11,12 +11,30 @@ name="LOCATION";
 //fineLocation=Vector3f(0,0,0);
 }
 
+void MoveButton::clickedLeft(){
+
+    RotateButton::clickedLeft();
+
+    textureID="icon_move";
+    mouseOverColor=buttonColor;
+
+}
+
+void MoveButton::focusClick(){
+
+    RotateButton::focusClick();
+    textureID="icon_move_white";
+
+}
+
 void MoveButton::update(double deltaTime){
 
     BasicButton::update(deltaTime);
 
     if (bActive && parent){
-        buttonColor.a=0.15;
+
+        textureID="icon_move";
+        mouseOverColor=buttonColor;
 
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 

@@ -9,6 +9,9 @@ public:
 
         MoveButton();
 
+        virtual void clickedLeft();
+        virtual void focusClick();
+
         virtual void update(double deltaTime);
 
         virtual void create();

@@ -18,8 +18,9 @@ void RotateButton::update(double deltaTime){
     BasicButton::update(deltaTime);
 
     if (bActive && parent){
-        buttonColor.a=0.15;
-        mouseOverColor.a=0.15;
+
+        textureID="icon_rotate";
+        mouseOverColor=buttonColor;
 
         Actor* actorParent=(Actor*)parent;
         Vector3f axis;
@@ -69,13 +70,14 @@ void RotateButton::clickedLeft(){
         location.x=0;
         location.y=0;
         location.z=-1000;
-        buttonColor.a=0.15;
-        mouseOverColor.a=0.15;
         setLocation(location);
         bActive=false;
     }
     else
         input->focusButton=this;
+
+    textureID="icon_rotate";
+    mouseOverColor=buttonColor;
 
     glutSetCursor(GLUT_CURSOR_CYCLE);
 }
@@ -134,8 +136,6 @@ void RotateButton::focusClick(){
 
     setLocation(initialLocation);
     scale=Vector3f(30.0f,30.0f,30.0f);
-    buttonColor.a=1.0;
-    mouseOverColor.a=1.0;
 
     fineRotation.clear();
     fineLocation.clear();
@@ -143,7 +143,9 @@ void RotateButton::focusClick(){
 
     glutSetCursor(GLUT_CURSOR_INHERIT);
 
+    textureID+="icon_rotate_white";
 
+    mouseOverColor=sceneData->mouseOverColor;
 }
 
 void RotateButton::create(){
