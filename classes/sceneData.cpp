@@ -1769,9 +1769,9 @@ void SceneData::loadProject(std::string projectName, bool bStart){
 
 void SceneData::addToLibrary(TiXmlElement* myElement){
 
-    TiXmlDocument doc( startProject + "/my.project" );
+    TiXmlDocument doc( startProject + "my.project" );
     if (!doc.LoadFile()){
-        cout << "could not find my.project!" << endl;
+        cout << "could not find my.project at " << startProject + "my.project" << endl;
         return;
     }
 

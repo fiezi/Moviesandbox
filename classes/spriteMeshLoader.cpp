@@ -80,25 +80,29 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
 
     if (vertexCount>0){
         saveVertices(root);
-        delete(vertices);
+        delete[] vertices;
+        vertices=NULL;
 
         //saveNormals(root);
         //delete(normals);
 
         saveTexCoords(root);
-        delete(texCoords);
+        delete[] texCoords;
+        texCoords=NULL;
 
         saveColors(root);
-        delete(colors);
-
+        delete[] colors;
+        colors=NULL;
         //saveSecondaryColors(root);
         //delete(secondaryColors);
 
         saveBoneReferences(root);
-        delete(boneReference);
+        delete[] boneReference;
+        boneReference=NULL;
 
         saveVertexWeights(root);
-        delete(vertexWeights);
+        delete[] vertexWeights;
+        vertexWeights=NULL;
     }
 
     ///Bones
@@ -107,8 +111,8 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
     doc.SaveFile( filename );
     doc.Clear();
 
-    //no need to load, just create VBOs!
-	createVBOs(myDrawing->vboMeshID, false);
+    //no need to load, just create VBOs! no need to create VBOs, i just saved...
+	//createVBOs(myDrawing->vboMeshID, false);
 	//loadSpriteMesh(filename, meshName);
 
     return true;
@@ -137,9 +141,6 @@ void SpriteMeshLoader::saveVertices(TiXmlElement* root){
         TiXmlText * vertexText = new TiXmlText( vertexString );
         vertexElement->LinkEndChild( vertexText );
         root->LinkEndChild(vertexElement);
-
-
-
 }
 
 //saves as bytes
@@ -169,7 +170,7 @@ void SpriteMeshLoader::saveNormals(TiXmlElement* root){
         normalElement->LinkEndChild( normalText );
 
         root->LinkEndChild(normalElement);
-		delete(byteNormals);
+		delete[] byteNormals;
 }
 
 //saves as integers
@@ -200,7 +201,7 @@ void SpriteMeshLoader::saveTexCoords(TiXmlElement* root){
         texElement->LinkEndChild( texText );
 
         root->LinkEndChild(texElement);
-	delete(byteCoords);
+	delete[] byteCoords;
 }
 
 //saves as bytes
@@ -231,7 +232,7 @@ void SpriteMeshLoader::saveColors(TiXmlElement* root){
 
         root->LinkEndChild(colorElement);
 
-	delete(byteColors);
+	delete[] byteColors;
 }
 
 //saves as bytes
@@ -262,7 +263,7 @@ void SpriteMeshLoader::saveSecondaryColors(TiXmlElement* root){
         secondaryColorElement->LinkEndChild( sColorText );
         root->LinkEndChild(secondaryColorElement);
 
-	delete(byteColors);
+	delete[] byteColors;
 }
 
 //saves as unsigned bytes
@@ -293,7 +294,7 @@ void SpriteMeshLoader::saveBoneReferences(TiXmlElement* root){
         boneRefElement->LinkEndChild( boneRefText );
 
         root->LinkEndChild(boneRefElement);
-	delete(byteReference);
+	delete[] byteReference;
 }
 
 // saves as integers
@@ -324,7 +325,7 @@ void SpriteMeshLoader::saveVertexWeights(TiXmlElement* root){
         vertWeightElement->LinkEndChild( weightText );
 
         root->LinkEndChild(vertWeightElement);
-	delete(byteWeights);
+	delete[] byteWeights;
 }
 
 void SpriteMeshLoader::saveBones(TiXmlElement* root, SkeletalActor* myDrawing){

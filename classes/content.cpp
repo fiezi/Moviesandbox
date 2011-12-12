@@ -183,7 +183,7 @@ void Content::createSelectButton(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->name="select";
-    lbut->tooltip="select (i)";
+    lbut->tooltip="select (v)";
     lbut->setLocation(lbut->location);
     lbut->setTextureID("icon_select");
     lbut->setup();
@@ -325,6 +325,7 @@ void Content::createDrawWidget(int x, int y){
     lbut= new DrawingWidget;
     lbut->location.x=x;
     lbut->location.y=y;
+    lbut->tooltip="draw articles (b)";
     lbut->setLocation(lbut->location);
     lbut->setTextureID("icon_brush");
 
