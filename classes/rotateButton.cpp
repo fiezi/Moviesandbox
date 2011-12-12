@@ -18,6 +18,8 @@ void RotateButton::update(double deltaTime){
     BasicButton::update(deltaTime);
 
     if (bActive && parent){
+        buttonColor.a=0.15;
+        mouseOverColor.a=0.15;
 
         Actor* actorParent=(Actor*)parent;
         Vector3f axis;

@@ -458,6 +458,10 @@ void Renderer::update(float deltaTime){
 
 	windowPosX=glutGet(GLUT_WINDOW_X);
 	windowPosY=glutGet(GLUT_WINDOW_Y);
+
+	//use depth of field when drawing and setting things up.
+    focus=(input->mouse3D-sceneData->controller->controlledActor->location).length();
+
     glutPostRedisplay();
 }
 
@@ -2428,14 +2432,21 @@ void Renderer::pick(int x, int y){
     float normScreenX=screenX;
     float normScreenY=screenY;
 
-    float mouseX =input->mouseX * screenX/windowX;
-    float mouseY =input->mouseY * screenY/windowY;
+
+    float windowAspect = (float)windowX/(float)windowY;
+    float renderAspect= (float)screenX/(float)screenY;
+
+    float mouseX =(float)input->mouseX * (float)screenX/(float)windowX;
+   float mouseY =(float)input->mouseY * (float)screenY/(float)windowY;
+
     //Calculate mouse 3D position from zPos
 
     input->mouse3D= sceneData->controller->controlledActor->location;
     input->mouse3D+= sceneData->controller->controlledActor->zAxis * zPos;
-    input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)mouseX/(float)screenX - 0.5) * zPos* 1.1);
-    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) *zPos* 0.85) ;
+    //input->mouse3D-= sceneData->controller->controlledActor->xAxis * (((float)mouseX/(float)screenX - 0.5) * zPos *   1.1  );
+    //input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) * zPos *  0.85 ) ;
+    input->mouse3D-= sceneData->controller->controlledActor->xAxis * ((  mouseX/(float)screenX - 0.5 ) * zPos *   1.1   * windowAspect/renderAspect);
+    input->mouse3D+= sceneData->controller->controlledActor->yAxis * (((float)(screenY-mouseY)/(float)screenY - 0.5) * zPos *  0.85 ) ;
 
 
    ///Center 3D Position

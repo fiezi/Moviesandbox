@@ -35,10 +35,10 @@
 	<Texture textureID="icon_drawMesh" filename="icon_drawMesh.tga" bAlpha="1" bWrap="0"/>
 	<Texture textureID="icon_brush" filename="icon_brush.tga" bAlpha="1" bWrap="0"/>
 	<Texture textureID="icon_brushInspector" filename="icon_brushInspector.tga" bAlpha="1" bWrap="0"/>
+	<Texture textureID="icon_timeline" filename="icon_timeline.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_paint" filename="icon_paint.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_paintFancy" filename="icon_paintFancy.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_ball" filename="icon_ball.tga" bAlpha="1" bWrap="0"/>
-    <Texture textureID="icon_timeline" filename="icon_nextBone.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_nodeMenu" filename="icon_nodeMenu.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_texture" filename="icon_texture.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_layers" filename="icon_layers.tga" bAlpha="1" bWrap="0"/>

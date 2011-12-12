@@ -16,6 +16,8 @@ void MoveButton::update(double deltaTime){
     BasicButton::update(deltaTime);
 
     if (bActive && parent){
+        buttonColor.a=0.15;
+
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 
 
