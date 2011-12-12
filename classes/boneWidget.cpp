@@ -47,89 +47,12 @@ void BoneWidget::closeWidget(){
 
 void BoneWidget::trigger(MsbObject* other){
 
-
-/*
-	SkeletalActor* skel=sceneData->brush->drawing;
-	if (!skel) return;
-
-
-    if (other->name=="Create Bone (b)"){
-        sceneData->controller->switchTool(TOOL_BONE);
-    }
-
-    if (other->name=="Paint Weights"){
-        if (sceneData->brush->drawing){
-            sceneData->makeWarningPopUp("saving drawing...",this);
-            renderer->draw();
-            sceneData->controller->myTools[TOOL_BONE]->save();
-            sceneData->brush->drawing->drawType=DRAW_VBOMESH;
-            sceneData->brush->drawing->reset();
-            sceneData->staticButton->focusClick();
-            input->bTextInput=false;
-        }
-        sceneData->controller->switchTool(TOOL_SKIN);
-    }
-
-
-	if (other->name=="Load Bones"){
-
-		cout << "loading bones..." << endl;
-
-		string meshID;
-		string filename=sceneData->openFileDialog();
-		//check for file ending
-		size_t found, appendix;
-		appendix=filename.find(".spriteMesh");
-		if (appendix!=string::npos){
-			//generate meshID
-			found=filename.find_last_of(DIRECTORY_SEPARATION);
-			found+=1;
-			meshID=filename.substr(found, appendix-found);
-			cout << "found following meshID:" << meshID << endl;
-		}else{
-			return;
-		}
-		//resetting bones of drawing...
-		string oldMeshID=sceneData->brush->drawing->vboMeshID;
-
-		sceneData->brush->drawing->vboMeshID=meshID;
-		sceneData->brush->drawing->reset();
-		sceneData->brush->drawing->vboMeshID=oldMeshID;
-
-		//set to skeletal if loaded mesh was skeletal too!
-		if (sceneData->vboList[meshID]->bIsSkeletal)
-			sceneData->vboList[oldMeshID]->bIsSkeletal=true;
-
-	}
-
-   if (other->name=="save"){
-        sceneData->controller->currentTool->save();
-    }
-
-    if (other->name=="save As..."){
-        cout << "creating VBO..." << endl;
-        sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
-        sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",input->inputText);
-
-		sceneData->brush->drawing->name=input->inputText;
-		sceneData->brush->drawing->vboMeshID=input->inputText;
-
-        TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
-        newMesh->SetAttribute("meshID",input->inputText);
-        newMesh->SetAttribute("meshFilename",input->inputText+".spriteMesh");
-        sceneData->addToLibrary(newMesh);
-        free(newMesh);
-    }
-
-    */
-
-
-    if (other->name=="Paint Weights"){
+    if (other->name=="Paint Weights (z)"){
         useTool=TOOL_SKIN;
         textureID="icon_paintWeights";
     }
 
-    if (other->name=="Create Bone (b)"){
+    if (other->name=="Create Bone (x)"){
         useTool=TOOL_BONE;
         textureID="icon_addBones";
     }

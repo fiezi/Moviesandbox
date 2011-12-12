@@ -109,11 +109,11 @@ void PrimitivesInspector::PrimitivesTab::assembleList(){
 
     mine->listName.push_back("Plane");
     mine->listProp.push_back("13SkeletalActor");
-    mine->listIcon.push_back("icon_props");
+    mine->listIcon.push_back("icon_plane");
 
     mine->listName.push_back("Cube");
     mine->listProp.push_back("13SkeletalActor");
-    mine->listIcon.push_back("icon_props");
+    mine->listIcon.push_back("icon_cube");
 
     mine->listName.push_back("Sprite");
     mine->listProp.push_back("13SkeletalActor");
@@ -121,7 +121,7 @@ void PrimitivesInspector::PrimitivesTab::assembleList(){
 
     mine->listName.push_back("PointPatch");
     mine->listProp.push_back("13SkeletalActor");
-    mine->listIcon.push_back("icon_props");
+    mine->listIcon.push_back("icon_pointPatch");
 
 
 //--- test video actor
@@ -271,7 +271,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
 
         mine->listButton[i]->name=mine->listName[i];
         mine->listButton[i]->buttonProperty=mine->listProp[i];
-        mine->listButton[i]->textureID="icon_base";
+        mine->listButton[i]->textureID="icon_nodeMenu";
 
         mine->listButton[i]->level=mine->level+1;
         mine->listButton[i]->bDrawName=true;

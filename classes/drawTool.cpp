@@ -16,7 +16,7 @@ DrawTool::DrawTool(){
 	bStartStroke=true;
 	bPaintMesh=false;
 
-    highlightBtn="Draw Particles (p)";
+    highlightBtn="Draw Particles (b)";
 }
 
 DrawTool::~DrawTool(){}

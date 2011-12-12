@@ -72,7 +72,7 @@ void DrawingWidget::trigger(MsbObject* other){
 
 */
 
-    if (other->name=="Draw Particles (p)"){
+    if (other->name=="Draw Particles (b)"){
         useTool=TOOL_DRAW;
         textureID="icon_paint";
     }

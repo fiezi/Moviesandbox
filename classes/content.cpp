@@ -341,7 +341,7 @@ void Content::createDrawWidget(int x, int y){
     lbut->listIcon.push_back("icon_new");
 */
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Draw Particles (p)");
+    lbut->listName.push_back("Draw Particles (b)");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paint");
 
@@ -410,7 +410,7 @@ void Content::createBoneWidget(int x, int y){
     lbut->location.x=x;
     lbut->location.y=y;
     lbut->setLocation(lbut->location);
-    lbut->textureID="icon_character";
+    lbut->textureID="icon_addBones";
     sceneData->controller->myTools[TOOL_SKIN]->myBtn=lbut;
     sceneData->controller->myTools[TOOL_BONE]->myBtn=lbut;
     lbut->setup();
@@ -418,13 +418,13 @@ void Content::createBoneWidget(int x, int y){
 
     //this way, we create new bones by clicking!
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Create Bone (b)");
+    lbut->listName.push_back("Create Bone (x)");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_addBones");
 
     //here, we skin bones
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Paint Weights");
+    lbut->listName.push_back("Paint Weights (z)");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paintWeights");
 

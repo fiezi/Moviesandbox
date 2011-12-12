@@ -187,7 +187,10 @@ void AssetInspector::MeshTab::assembleList(){
         for ( it=mine->sceneData->vboList.begin() ; it != mine->sceneData->vboList.end(); it++ ){
 
             if (it->second && it->first!="NULL"){
-
+                size_t found;
+                found = (it->first).rfind("untitled");
+                if (found!=string::npos)    //if our drawing has "untitled" in its name, do not show it!
+                    continue;
                 mine->sceneData->actorInfo["12AssignButton"].actorReference->create();
                 mine->listButton.push_back(mine->sceneData->buttonList.back());
 
@@ -353,6 +356,10 @@ void AssetInspector::TextureTab::assembleList(){
 
         for ( it=mine->sceneData->textureList.begin() ; it != mine->sceneData->textureList.end(); it++ ){
 
+            size_t found;
+            found = (it->first).rfind("icon_");
+            if (found!=string::npos)    //if our drawing has "icon_" in its name, do not show it!
+                continue;
             mine->sceneData->actorInfo["20PropertyAssignButton"].actorReference->create();
             mine->listButton.push_back(mine->sceneData->buttonList.back());
 

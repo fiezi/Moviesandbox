@@ -548,7 +548,7 @@ void Input::keyUp(unsigned char key,int x,int y){
     ///System stuff
 
         //pressed TAB
-        if (key==9){
+        if (key==9 || key =='c'){
             if (sceneData->controller->tool==TOOL_NAV || sceneData->controller->tool==TOOL_ORBIT){
                 sceneData->controller->switchTool(sceneData->controller->oldTool);
             }else{
@@ -605,7 +605,7 @@ void Input::keyUp(unsigned char key,int x,int y){
         if (key=='X')
                sceneData->loadTextures("resources/icons/","resources/basic.library");
 
-        if (key=='i')
+        if (key=='v')
             sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();
 
         /*
@@ -615,11 +615,19 @@ void Input::keyUp(unsigned char key,int x,int y){
         }
         */
 
-        if (key=='b'){
+        if (key=='x'){
             if (((BoneWidget*)sceneData->controller->myTools[TOOL_BONE]->myBtn)->bWidgetOpen){
                 sceneData->controller->switchTool(TOOL_BONE);
             }else{
                 sceneData->controller->myTools[TOOL_BONE]->myBtn->clickedLeft();
+            }
+        }
+
+        if (key=='z'){
+            if (((BoneWidget*)sceneData->controller->myTools[TOOL_SKIN]->myBtn)->bWidgetOpen){
+                sceneData->controller->switchTool(TOOL_SKIN);
+            }else{
+                sceneData->controller->myTools[TOOL_SKIN]->myBtn->clickedLeft();
             }
         }
 
@@ -629,13 +637,12 @@ void Input::keyUp(unsigned char key,int x,int y){
         }
 
         //switch to drawing
-        if (key=='p'){
+        if (key=='b'){
             if (((DrawingWidget*)sceneData->controller->myTools[TOOL_DRAW]->myBtn)->bWidgetOpen){
                 sceneData->controller->switchTool(TOOL_DRAW);
             }else{
                 sceneData->controller->myTools[TOOL_DRAW]->myBtn->clickedLeft();
             }
-
         }
 
         //switch fullscreen
@@ -649,7 +656,7 @@ void Input::keyUp(unsigned char key,int x,int y){
         }
 
 
-
+    /*
         //create bone
         if (key=='k'){
             BoneActor* bone = new BoneActor;
@@ -657,7 +664,7 @@ void Input::keyUp(unsigned char key,int x,int y){
             bone->setRotation(sceneData->controller->controlledActor->rotation);
             sceneData->actorList.push_back(bone);
         }
-
+    */
 
 
     ///debug:

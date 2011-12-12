@@ -39,6 +39,9 @@
     <Texture textureID="icon_paint" filename="icon_paint.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_paintFancy" filename="icon_paintFancy.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_ball" filename="icon_ball.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_cube" filename="icon_cube.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_plane" filename="icon_plane.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_pointPatch" filename="icon_pointPatch.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_nodeMenu" filename="icon_nodeMenu.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_texture" filename="icon_texture.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_layers" filename="icon_layers.tga" bAlpha="1" bWrap="0"/>
@@ -71,17 +74,6 @@
     <Texture textureID="grey_bkg" filename="grey_bkg.tga" bAlpha="0" bWrap="0"/>
     <Texture textureID="black_bkg" filename="black_bkg.tga" bAlpha="0" bWrap="0"/>
     <Texture textureID="nightTime" filename="nightTime.tga" bAlpha="0" bWrap="0"/>
-
-    <Texture textureID="normals_up" filename="normals_up.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_left" filename="normals_left.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_right" filename="normals_right.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_down" filename="normals_down.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_front" filename="normals_front.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_back" filename="normals_back.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_follow_drawing" filename="normals_follow_drawing.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_world" filename="normals_world.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="normals_flip" filename="normals_flip.tga" bAlpha="1" bWrap="1"/>
-
 
     <Texture textureID="icon_gridXY" filename="icon_gridXY.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="icon_gridXZ" filename="icon_gridXZ.tga" bAlpha="1" bWrap="1"/>
