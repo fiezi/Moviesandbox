@@ -325,7 +325,7 @@ void Content::createDrawWidget(int x, int y){
     lbut= new DrawingWidget;
     lbut->location.x=x;
     lbut->location.y=y;
-    lbut->tooltip="draw articles (b)";
+    lbut->tooltip="draw (b)";
     lbut->setLocation(lbut->location);
     lbut->setTextureID("icon_brush");
 
