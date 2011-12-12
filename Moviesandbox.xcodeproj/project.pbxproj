@@ -185,6 +185,10 @@
 		189F843C11EA9D82009E4178 /* propsWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189F843A11EA9D82009E4178 /* propsWidget.cpp */; };
 		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
 		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
+		18BDACD71496031E002FADE1 /* buttonColor.frag in Sources */ = {isa = PBXBuildFile; fileRef = 18BDACD31496031E002FADE1 /* buttonColor.frag */; };
+		18BDACD81496031E002FADE1 /* buttonColor.vert in Sources */ = {isa = PBXBuildFile; fileRef = 18BDACD41496031E002FADE1 /* buttonColor.vert */; };
+		18BDACD91496031E002FADE1 /* buttonTexture.frag in Sources */ = {isa = PBXBuildFile; fileRef = 18BDACD51496031E002FADE1 /* buttonTexture.frag */; };
+		18BDACDA1496031E002FADE1 /* buttonTexture.vert in Sources */ = {isa = PBXBuildFile; fileRef = 18BDACD61496031E002FADE1 /* buttonTexture.vert */; };
 		18FE27EC149453E300A37637 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FE27EB149453E300A37637 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -589,6 +593,10 @@
 		18AD2B0B13354F21000E02E7 /* msbObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msbObject.h; path = classes/msbObject.h; sourceTree = "<group>"; };
 		18AD2B0C13354F21000E02E7 /* sceneData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sceneData.cpp; sourceTree = "<group>"; };
 		18AD2B0D13354F21000E02E7 /* sceneData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sceneData.h; sourceTree = "<group>"; };
+		18BDACD31496031E002FADE1 /* buttonColor.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = buttonColor.frag; path = shaders/buttonColor.frag; sourceTree = "<group>"; };
+		18BDACD41496031E002FADE1 /* buttonColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = buttonColor.vert; path = shaders/buttonColor.vert; sourceTree = "<group>"; };
+		18BDACD51496031E002FADE1 /* buttonTexture.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = buttonTexture.frag; path = shaders/buttonTexture.frag; sourceTree = "<group>"; };
+		18BDACD61496031E002FADE1 /* buttonTexture.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = buttonTexture.vert; path = shaders/buttonTexture.vert; sourceTree = "<group>"; };
 		18CD3C9510CC825100148B92 /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLee.h; sourceTree = "<group>"; };
 		18CD3C9710CC825100148B92 /* GLee.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = GLee.a; sourceTree = "<group>"; };
 		18DFE98910CBF7DC00E4FFE2 /* freeglut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freeglut.h; sourceTree = "<group>"; };
@@ -1214,6 +1222,10 @@
 		186069D011771CAC008D43C2 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				18BDACD31496031E002FADE1 /* buttonColor.frag */,
+				18BDACD41496031E002FADE1 /* buttonColor.vert */,
+				18BDACD51496031E002FADE1 /* buttonTexture.frag */,
+				18BDACD61496031E002FADE1 /* buttonTexture.vert */,
 				1826A53E14881D0F00DBAEA6 /* skeletalCab.frag */,
 				1826A53F14881D0F00DBAEA6 /* skeletalCab.vert */,
 				1826A52B14881D0F00DBAEA6 /* aliveTexture.frag */,
@@ -1758,6 +1770,10 @@
 				1826A55114881D0F00DBAEA6 /* ssNormal.vert in Sources */,
 				1826A55214881D0F00DBAEA6 /* skeletalCab.frag in Sources */,
 				1826A55314881D0F00DBAEA6 /* skeletalCab.vert in Sources */,
+				18BDACD71496031E002FADE1 /* buttonColor.frag in Sources */,
+				18BDACD81496031E002FADE1 /* buttonColor.vert in Sources */,
+				18BDACD91496031E002FADE1 /* buttonTexture.frag in Sources */,
+				18BDACDA1496031E002FADE1 /* buttonTexture.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
