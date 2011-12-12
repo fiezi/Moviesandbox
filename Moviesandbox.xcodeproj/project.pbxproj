@@ -185,7 +185,6 @@
 		189F843C11EA9D82009E4178 /* propsWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 189F843A11EA9D82009E4178 /* propsWidget.cpp */; };
 		18AD2B0E13354F21000E02E7 /* msbObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0A13354F21000E02E7 /* msbObject.cpp */; };
 		18AD2B0F13354F21000E02E7 /* sceneData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18AD2B0C13354F21000E02E7 /* sceneData.cpp */; };
-		18FE2792149449DB00A37637 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18FE27761494486400A37637 /* MainMenu.xib */; };
 		18FE27EC149453E300A37637 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18FE27EB149453E300A37637 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -636,7 +635,6 @@
 		18F2B58F10CC3F270026A20C /* libode.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libode.a; sourceTree = "<group>"; };
 		18FD6C5810EA836900708EC2 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		18FD6DB010EA9B5A00708EC2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		18FE27761494486400A37637 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		18FE27EB149453E300A37637 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -681,7 +679,6 @@
 				18F2B32010CC31640026A20C /* frameworks */,
 				1811650110CB38C8007AE094 /* external */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
-				18FE27761494486400A37637 /* MainMenu.xib */,
 			);
 			name = MSB_mac;
 			sourceTree = "<group>";
@@ -1587,7 +1584,6 @@
 			buildActionMask = 2147483647;
 			comments = /Users/fiezi/Moviesandbox/MainMenu.xib;
 			files = (
-				18FE2792149449DB00A37637 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
