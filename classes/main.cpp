@@ -113,18 +113,20 @@ void createSplashScreen(){
 
 	splashWindow=glutCreateWindow("loading");
 
+
 #ifdef WIN32
     HWND hwnd = ::FindWindowA(0, "loading"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
     if (hwnd != NULL)
     {
         SetPopUp(hwnd);
     }
-    //for windows, we need to call this once!
-    drawSplashScreen();
 #endif
 
-
     glutDisplayFunc(drawSplashScreen);
+	glutIdleFunc(drawSplashScreen);
+
+    drawSplashScreen();
+
 }
 
 
@@ -267,7 +269,7 @@ int main(int argc, char* argv[]){
 
     //init renderer
     renderManager->initWindow(0,0,"Moviesandbox");
-    glutHideWindow();
+    //glutHideWindow();
     renderManager->setup();
 
     //load libraries and create scene
