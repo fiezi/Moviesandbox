@@ -5,7 +5,7 @@ BasicButton::BasicButton(){
     scale=Vector3f(30.0f,30.0f,30.0f);
     name="BasicButton";
     textureID="icon_base";
-    bComputeLight=false;
+    bComputeLight=true;
 
     bOver=false;
     bDrawName=false;
@@ -35,7 +35,7 @@ BasicButton::BasicButton(){
 
     level=0;
 
-    sceneShaderID="texture";
+    sceneShaderID="buttonTexture";
 
     drawType=DRAW_PLANE;
 

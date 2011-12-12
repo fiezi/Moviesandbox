@@ -98,7 +98,7 @@ void TimelineInspector::createInspectorButtons(){
         inspectorButtons[i]->level=level+1;
         inspectorButtons[i]->tooltip="";
         inspectorButtons[i]->bPermanent=true;
-        inspectorButtons[i]->sceneShaderID="color";
+        inspectorButtons[i]->sceneShaderID="buttonColor";
         inspectorButtons[i]->scale=Vector3f(40,15,1);
         inspectorButtons[i]->setup();
         inspectorButtons[i]->buttonColor=Vector4f(0.3,0.6,0.3,1.0);
@@ -147,7 +147,7 @@ void TimelineInspector::createInspectorButtons(){
     inspectorButtons[6]->bDrawName=false;
     inspectorButtons[6]->bConfineDragX=true;
 
-    inspectorButtons[6]->sceneShaderID="color";
+    inspectorButtons[6]->sceneShaderID="buttonColor";
     inspectorButtons[6]->scale=Vector3f(5,400,0);
 
     loc.x=location.x + (2* listWidth +2) + 96;
@@ -162,7 +162,7 @@ void TimelineInspector::createInspectorButtons(){
     mySlider->bVertical=false;
     mySlider->scale.x=renderer->windowX-location.x - (2*listWidth+2);
     mySlider->scale.y=8;
-    mySlider->sceneShaderID="color";
+    mySlider->sceneShaderID="buttonColor";
     mySlider->setLocation(Vector3f(location.x + (2*listWidth+2) +96, location.y + 47, 0) );
     mySlider->name="timePos";
     mySlider->bDrawName=false;
@@ -193,7 +193,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     nameButton->parent=this;
 
     nameButton->buttonProperty=memberToString(&input->property["WORLDTARGET"]);
-    nameButton->sceneShaderID="color";
+    nameButton->sceneShaderID="buttonColor";
     nameButton->setup();
     nameButton->name=timelineActors[pos]->name;
 
@@ -216,7 +216,7 @@ void TimelineInspector::addTimeline(int pos, bool bSkeletal){
     makeAction->level=level+1;
     makeAction->bDrawName=true;
     makeAction->bPermanent=true;
-    makeAction->sceneShaderID="color";
+    makeAction->sceneShaderID="buttonColor";
     makeAction->parent=this;
     makeAction->setup();
     makeAction->buttonColor=Vector4f(0.3,0.3,0.5,1.0);

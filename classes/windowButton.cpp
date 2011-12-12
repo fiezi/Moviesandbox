@@ -62,9 +62,9 @@ void WindowButton::assembleList(){
     backgroundButton->location.y=listLoc.y-20;
 
     backgroundButton->setLocation(backgroundButton->location);
-    backgroundButton->sceneShaderID="color";
+    backgroundButton->sceneShaderID="buttonColor";
     backgroundButton->bTextured=false;
-    backgroundButton->color=Vector4f(0.3,0.3,0.3,0.75);
+    backgroundButton->buttonColor=Vector4f(0.3,0.3,0.3,0.75);
 
     sceneData->buttonList.push_back(backgroundButton);
 
@@ -87,8 +87,8 @@ void WindowButton::assembleList(){
         listButton[i]->parent=renderer;
         listButton[i]->level=level+1;
         listButton[i]->bDrawName=true;
-        listButton[i]->color=Vector4f(0.2,0.2,0.2,1.0);
-        listButton[i]->sceneShaderID="color";
+        listButton[i]->buttonColor=Vector4f(0.2,0.2,0.2,1.0);
+        listButton[i]->sceneShaderID="buttonColor";
 
         listButton[i]->bPermanent=true;
 

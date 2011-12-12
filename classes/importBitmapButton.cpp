@@ -14,7 +14,7 @@ color=Vector4f(0.5,0.5,0.5,1.0);
 
 listWidth=200;
 listColor=Vector4f(0.4,0.4,0.4,1.0);
-listShader="color";
+listShader="buttonColor";
 }
 
 ImportBitmapButton::~ImportBitmapButton(){}

@@ -31,7 +31,7 @@ bListOpen=false;
 bPartOfMenu=false;
 
 listColor=Vector4f(1,1,1,1);
-listShader="texture";
+listShader="buttonTexture";
 }
 
 ListButton::~ListButton(){}
@@ -161,7 +161,7 @@ void ListButton::createScrollBar(){
     //scrollButton
       scrollBar=new SliderButton;
       sceneData->buttonList.push_back(scrollBar);
-      scrollBar->sceneShaderID="color";
+      scrollBar->sceneShaderID="buttonColor";
       scrollBar->parent=this;
       scrollBar->scale.x=10;
       scrollBar->scale.y=scrollSize;

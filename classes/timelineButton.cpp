@@ -14,7 +14,7 @@ bool sort_time_keys( key * a, key * b) {
 
 TimelineButton::TimelineButton(){
 
-    sceneShaderID="color";
+    sceneShaderID="buttonColor";
     selectedKey=NULL;
     bSkeletalTrack=false;
     bPlaying=false;

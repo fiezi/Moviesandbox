@@ -96,7 +96,7 @@ void VectorInputButton::assembleList(){
     for (int i=0;i<vecLength;i++){
        ((TextInputButton*)listButton[i])->bmIDPart=true;
        ((TextInputButton*)listButton[i])->mIDPartNumber=i;
-       listButton[i]->sceneShaderID="color";
+       listButton[i]->sceneShaderID="buttonColor";
         listButton[i]->bPermanent=bPermanent;
        listButton[i]->setup();
     }

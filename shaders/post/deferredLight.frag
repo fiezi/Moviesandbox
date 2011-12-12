@@ -44,7 +44,7 @@ float zPosScreen;
 // blur variables
 
 
-    
+
 
     float PI = 3.14159265358979323846264;
 
@@ -72,12 +72,12 @@ float unpackToFloat(vec2 value){
 
 vec4 blur5(sampler2D myTex,vec2 tc){
 
-     
+
 	  vec2 tc_offset[25];
 
 		for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
-      
+
 	    float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
       //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
@@ -143,7 +143,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 		for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
-      
+
 	  vec4 sample[9];
 
       float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
@@ -180,7 +180,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
                          (2.0*sample[3]) + sample[4] + (2.0*sample[5]) +
                          sample[6] + (2.0* sample[7]) + sample[8]
                         )/ 13.0;
-  
+
 
       return blurredColor;
 }
@@ -221,7 +221,7 @@ vec4 computeLight(){
     vec4 pp=pixelPos*(-zPos/10.0);
     //pp.z/=zPos;
 
-	
+
     float xDist= (lightPos.x/10.0 - pp.x); //* screenX/screenY;
     float yDist= (lightPos.y/10.0 - pp.y);//* screenY/screenX;
     float zDist= (lightPos.z /10.0- pp.z)/100.0;
@@ -230,7 +230,7 @@ vec4 computeLight(){
 
 
     vec3 lightDirection=vec3(-xDist,-yDist,zDist/1.0);
-    float lightDistance=length(lightDirection)*1.0;
+    float lightDistance=length(lightDirection)*10.0;
 
     vec3 lightDirectionNormalized =normalize(lightDirection);
 
@@ -319,11 +319,11 @@ vec4 shadowMapping(){
 void main(){
 
 
-      
+
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor=texture2D(tex, texCoord) + shadowMapping();
-	
+    gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+
 
 }

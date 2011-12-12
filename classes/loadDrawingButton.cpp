@@ -16,7 +16,7 @@ listHeight=20;
 
 listWidth=200;
 listColor=Vector4f(0.8,0.8,0.8,1.0);
-listShader="color";
+listShader="buttonColor";
 }
 
 LoadDrawingButton::~LoadDrawingButton(){}

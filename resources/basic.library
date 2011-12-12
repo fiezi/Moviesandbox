@@ -107,11 +107,13 @@
 
 
     <Shader shaderID="color" vertexShaderFilename="color.vert" fragmentShaderFilename="color.frag" />
+    <Shader shaderID="buttonColor" vertexShaderFilename="buttonColor.vert" fragmentShaderFilename="buttonColor.frag" />
     <Shader shaderID="colorAlphaID" vertexShaderFilename="colorAlphaID.vert" fragmentShaderFilename="colorAlphaID.frag" />
     <Shader shaderID="aliveTexture" vertexShaderFilename="aliveTexture.vert" fragmentShaderFilename="aliveTexture.frag" />
     <Shader shaderID="illustration" vertexShaderFilename="illustration.vert" fragmentShaderFilename="illustration.frag" />
     <Shader shaderID="drawing" vertexShaderFilename="drawing.vert" fragmentShaderFilename="drawing.frag" />
     <Shader shaderID="texture" vertexShaderFilename="texture.vert" fragmentShaderFilename="texture.frag" />
+    <Shader shaderID="buttonTexture" vertexShaderFilename="buttonTexture.vert" fragmentShaderFilename="buttonTexture.frag" />
     <Shader shaderID="kinectHeightfield" vertexShaderFilename="kinectHeightField.vert" fragmentShaderFilename="kinectHeightField.frag" />
     <Shader shaderID="heightfield" vertexShaderFilename="particleHeightField.vert" fragmentShaderFilename="particleHeightField.frag" />
 

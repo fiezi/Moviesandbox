@@ -46,7 +46,7 @@ void AssetInspector::createInspectorButtons(){
     importButton->setLocation(Vector3f(location.x+30.0f,location.y+20, 0.0f));
     importButton->name="import";
     importButton->bDrawName=true;
-    importButton->sceneShaderID="color";
+    importButton->sceneShaderID="buttonColor";
     importButton->scale.x=64;
     importButton->setup();
     importButton->buttonColor=sceneData->meanButtonColor;
@@ -89,7 +89,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Meshes";
     tabButton->buttonColor=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
@@ -104,7 +104,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+100.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Textures";
     tabButton->buttonColor=Vector4f(0.7,0.8,0.8,1.0);
     tabButton->bDrawName=true;
@@ -119,7 +119,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+170.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Actions";
     tabButton->buttonColor=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
@@ -134,7 +134,7 @@ void AssetInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+240.0f,location.y, 0.0f));
     tabButton->scale.x=200;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Prefabs";
     tabButton->buttonColor=Vector4f(0.6,0.8,0.8,1.0);
     tabButton->bDrawName=true;
@@ -649,7 +649,7 @@ void AssetInspector::importKinect(bool bHighZRes){
             sceneData->brush->drawing->drawType=DRAW_PARTICLES;
             sceneData->brush->drawing->bTextured=false;
             sceneData->brush->drawing->textureID="NULL";
-            sceneData->brush->drawing->sceneShaderID="color";
+            sceneData->brush->drawing->sceneShaderID="buttonColor";
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->particleScale=1;
             sceneData->brush->drawing->particleAngleScale=0;

@@ -111,7 +111,7 @@ void Content::createMenuBar(){
     but->location.x=0;
     but->location.y=0;
 
-    but->sceneShaderID="color";
+    but->sceneShaderID="buttonColor";
 	but->textureID="icon_flat";
     but->level=0;
     but->bPermanent=true;
@@ -131,10 +131,10 @@ void Content::createConsole(){
     but= new Console;
     but->setLocation(Vector3f( 320, 0, 0));
     but->bTextured=false;
-    but->sceneShaderID="color";
+    but->sceneShaderID="buttonColor";
     but->scale.x=64;
     but->scale.y=16;
-    but->color=COLOR_YELLOW;
+    but->buttonColor=COLOR_YELLOW;
     but->setup();
     sceneData->console=(Console*)but;
     sceneData->buttonList.push_back(but);
@@ -167,7 +167,7 @@ void Content::createMonitors(){
     monitor->textureID="sceneTexture";
     monitor->name="sfx";
     monitor->sceneShaderID="post";
-    monitor->sceneShaderID="texture";
+    monitor->sceneShaderID="buttonTexture";
     renderer->postOverlay=monitor;
     monitor->bScreenOverlay=true;
 

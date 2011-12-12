@@ -254,12 +254,12 @@ void SelectTool::makeGroup(){
         messageWindow->buttonProperty="GROUPID";
         messageWindow->setLocation(Vector3f(renderer->windowX/2-200,renderer->windowY/2-50,0));
         messageWindow->scale=Vector3f(100,50,1);
-        messageWindow->sceneShaderID="color";
+        messageWindow->sceneShaderID="buttonColor";
         input->focusButton=messageWindow;
         messageWindow->level=100;
         messageWindow->setup();
         messageWindow->bDrawName=true;
-        messageWindow->color=COLOR_GREEN;
+        messageWindow->buttonColor=COLOR_GREEN;
         sceneData->buttonList.push_back(messageWindow);
         messageWindow->clickedLeft();
 }

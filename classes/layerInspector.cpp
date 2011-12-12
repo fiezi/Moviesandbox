@@ -63,7 +63,7 @@ void LayerInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Actors";
     tabButton->bDrawName=true;
     tabButton->setup();
@@ -77,7 +77,7 @@ void LayerInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+100.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Helpers";
     tabButton->bDrawName=true;
     tabButton->setup();
@@ -236,7 +236,7 @@ void LayerInspector::assembleList(){
         l->bHidden=false;
         l->bDragable=true;
         l->bPermanent=true;
-        l->sceneShaderID="color";
+        l->sceneShaderID="buttonColor";
 
         if (listWidth>0)
             l->scale.x=listWidth;
@@ -276,7 +276,7 @@ void LayerInspector::assembleList(){
                 a->scale.y=listHeight;
 
 
-            a->sceneShaderID="color";
+            a->sceneShaderID="buttonColor";
             a->setup();
             a->buttonColor=sceneData->meanButtonColor;
             listButton.push_back(a);

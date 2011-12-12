@@ -124,7 +124,7 @@ void PropertyInspector::PropTabOne::assembleList(){
             mine->listButton[i]->parent=mine->sceneData->selectedActors[0];
             mine->listButton[i]->level=mine->level+1;
             mine->listButton[i]->bDrawName=true;
-            mine->listButton[i]->sceneShaderID="color";
+            mine->listButton[i]->sceneShaderID="buttonColor";
 
             mine->listButton[i]->bPermanent=true;
 

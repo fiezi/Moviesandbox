@@ -8,7 +8,7 @@ ViewportGizmo::ViewportGizmo(){
     name="View Gizmo";
     textureID="viewportGizmo";
     bTextured=true;
-    sceneShaderID="texture";
+    sceneShaderID="buttonTexture";
     viewport_fb = 0;
     cubeSide=0;
 

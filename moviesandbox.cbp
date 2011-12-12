@@ -826,6 +826,10 @@
 		<Unit filename="resources\scenes\blank.scene" />
 		<Unit filename="shaders\aliveTexture.frag" />
 		<Unit filename="shaders\aliveTexture.vert" />
+		<Unit filename="shaders\buttonColor.frag" />
+		<Unit filename="shaders\buttonColor.vert" />
+		<Unit filename="shaders\buttonTexture.frag" />
+		<Unit filename="shaders\buttonTexture.vert" />
 		<Unit filename="shaders\color.frag" />
 		<Unit filename="shaders\color.vert" />
 		<Unit filename="shaders\colorAlphaID.frag" />

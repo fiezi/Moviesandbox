@@ -9,7 +9,7 @@ UdpInput::UdpInput(){
 bAlwaysUpdate=true;
 bPermanent=true;
 bDragable=true;
-sceneShaderID="color";
+sceneShaderID="buttonColor";
 scale.x=60;
 scale.y=30;
 color=Vector4f(0.3,0.7,0.3,1.0);

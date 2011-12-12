@@ -861,7 +861,7 @@ void Renderer::draw(){
             drawDeferredLighting(sceneData->layerList[i]);  //draws lights into texture
         }
         else{
-            sceneData->layerList[i]->sceneShaderID="texture";
+            sceneData->layerList[i]->sceneShaderID="buttonTexture";
         }
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-Lighting");
@@ -902,7 +902,7 @@ void Renderer::draw(){
             if (bDOF)
                 sceneData->layerList[i]->sceneShaderID="dof";
             else
-                sceneData->layerList[i]->sceneShaderID="texture";
+                sceneData->layerList[i]->sceneShaderID="buttonTexture";
 
 
             //bind depth
@@ -1032,7 +1032,7 @@ void Renderer::drawBackground(){
     if (sceneData->backgroundTex=="NULL")
         return;
 
-    setupShading("texture");
+    setupShading("buttonTexture");
 
     //update objectID!
     shaderObject* myShader= sceneData->shaderList[currentShader];

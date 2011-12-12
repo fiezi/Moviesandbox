@@ -23,7 +23,7 @@ static bool SetPopUp(HWND hWnd)
    SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED);
    SetMenu(hWnd,NULL);
    //this is to set the drawing region for the window - to get rid of black borders!
-   HRGN hrgn = CreateRectRgn( 0, 36, 256, 296 );
+   HRGN hrgn = CreateRectRgn( 0, 36, 512, 552 );
    SetWindowRgn( hWnd, hrgn, TRUE );
 
    //NOTE: this is necessary for updating visuals!!!
@@ -57,7 +57,7 @@ void drawSplashScreen(){
     glClear(GL_COLOR | GL_DEPTH);
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0,256,256,0,-1,1);
+	glOrtho(0,512,512,0,-1,1);
 
   	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -74,13 +74,13 @@ void drawSplashScreen(){
     glVertex2f(0,0);
 
     glTexCoord2f(1,0);
-    glVertex2f(256,0);
+    glVertex2f(512,0);
 
     glTexCoord2f(1,1);
-    glVertex2f(256,256);
+    glVertex2f(512,512);
 
     glTexCoord2f(0,1);
-    glVertex2f(0,256);
+    glVertex2f(0,512);
 
     glEnd();
     glutSwapBuffers();
@@ -94,7 +94,7 @@ void drawSplashScreen(){
 void createSplashScreen(){
 
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(256,256);
+	glutInitWindowSize(512,512);
 
    int windowX=1024;
    int windowY=768;
@@ -109,7 +109,7 @@ void createSplashScreen(){
 
 #endif
 
-	glutInitWindowPosition(windowX/2-256,windowY/2-120);
+	glutInitWindowPosition(windowX/2-256,windowY/2-256);
 
 	splashWindow=glutCreateWindow("loading");
 

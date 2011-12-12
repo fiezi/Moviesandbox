@@ -33,7 +33,7 @@ void MenuBar::setup(){
     lbut->location.x= 0;
     lbut->scale.x=64;
     lbut->scale.y=16;
-    lbut->sceneShaderID="color";
+    lbut->sceneShaderID="buttonColor";
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
@@ -45,7 +45,7 @@ void MenuBar::setup(){
     lbut->parent=this;
     lbut->bDrawListNames=true;
     lbut->listDisplayMode=5;//straight down
-    lbut->listShader="color";
+    lbut->listShader="buttonColor";
     lbut->listColor=menuColor;
     //fill list and set to parent!
     lbut->listWidth=128;
@@ -120,7 +120,7 @@ void MenuBar::setup(){
     lbut->location.x= 64;
     lbut->scale.x=64;
     lbut->scale.y=16;
-    lbut->sceneShaderID="color";
+    lbut->sceneShaderID="buttonColor";
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
@@ -132,7 +132,7 @@ void MenuBar::setup(){
     lbut->parent=this;
     lbut->bDrawListNames=true;
     lbut->listDisplayMode=5;//straight down
-    lbut->listShader="color";
+    lbut->listShader="buttonColor";
     lbut->listColor=menuColor;
     //fill list and set to parent!
     lbut->listWidth=128;
@@ -169,7 +169,7 @@ void MenuBar::setup(){
     lbut->location.x= 128;
     lbut->scale.x=64;
     lbut->scale.y=16;
-    lbut->sceneShaderID="color";
+    lbut->sceneShaderID="buttonColor";
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
@@ -181,7 +181,7 @@ void MenuBar::setup(){
     lbut->parent=this;
      lbut->bDrawListNames=true;
     lbut->listDisplayMode=5;//straight down
-    lbut->listShader="color";
+    lbut->listShader="buttonColor";
     lbut->listColor=menuColor;
     //fill list and set to parent!
     lbut->listWidth=128;
@@ -218,7 +218,7 @@ void MenuBar::setup(){
     lbut->location.x= 196;
     lbut->scale.x=64;
     lbut->scale.y=16;
-    lbut->sceneShaderID="color";
+    lbut->sceneShaderID="buttonColor";
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
@@ -230,7 +230,7 @@ void MenuBar::setup(){
     lbut->parent=this;
      lbut->bDrawListNames=true;
     lbut->listDisplayMode=5;//straight down
-    lbut->listShader="color";
+    lbut->listShader="buttonColor";
     lbut->listColor=menuColor;
     //fill list and set to parent!
     lbut->listWidth=128;
@@ -267,12 +267,12 @@ void MenuBar::setup(){
     lbut->buttonColor=menuColor;
 
     /** TOOLS MENU **/
-
+/*
     lbut=new ListButton;
     lbut->location.x= 256;
     lbut->scale.x=64;
     lbut->scale.y=16;
-    lbut->sceneShaderID="color";
+    lbut->sceneShaderID="buttonColor";
 	lbut->textureID="icon_flat";
     lbut->level=0;
     lbut->bPermanent=true;
@@ -286,7 +286,7 @@ void MenuBar::setup(){
     menus.push_back(lbut);
     lbut->setup();
     lbut->buttonColor=menuColor;
-
+*/
 }
 
 void MenuBar::update(double deltaTime){

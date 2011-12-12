@@ -34,6 +34,7 @@ void ActorGizmo::setup(){
     Actor::setup();
 
     xRotateGizmo=new Actor;
+    xRotateGizmo->bComputeLight=false;
     xRotateGizmo->name="xRotateGizmo";
     xRotateGizmo->objectID=-20.0f;
     xRotateGizmo->setLocation(Vector3f(0,0,0));
@@ -48,6 +49,7 @@ void ActorGizmo::setup(){
     sceneData->helperList.push_back(xRotateGizmo);
 
     yRotateGizmo=new Actor;
+    yRotateGizmo->bComputeLight=false;
     yRotateGizmo->name="yRotateGizmo";
     yRotateGizmo->objectID=-21.0f;
     yRotateGizmo->setLocation(Vector3f(0,0,0));
@@ -63,6 +65,7 @@ void ActorGizmo::setup(){
     sceneData->helperList.push_back(yRotateGizmo);
 
     zRotateGizmo=new Actor;
+    zRotateGizmo->bComputeLight=false;
     zRotateGizmo->name="zRotateGizmo";
     zRotateGizmo->objectID=-22.0f;
     zRotateGizmo->setLocation(Vector3f(0,0,0));
@@ -80,6 +83,7 @@ void ActorGizmo::setup(){
     //create 3 arrows
     //connect them all to master gizmo
     xAxisGizmo=new Actor;
+    xAxisGizmo->bComputeLight=false;
     xAxisGizmo->name="xAxisGizmo";
     xAxisGizmo->objectID=-10.0f;
     xAxisGizmo->setLocation(Vector3f(1,0,0));
@@ -96,6 +100,7 @@ void ActorGizmo::setup(){
 
 
     yAxisGizmo=new Actor;
+    yAxisGizmo->bComputeLight=false;
     yAxisGizmo->name="yAxisGizmo";
     yAxisGizmo->objectID=-11.0f;
     yAxisGizmo->setLocation(Vector3f(0,1,0));
@@ -112,6 +117,7 @@ void ActorGizmo::setup(){
 
 
     zAxisGizmo=new Actor;
+    zAxisGizmo->bComputeLight=false;
     zAxisGizmo->name="zAxisGizmo";
     zAxisGizmo->objectID=-12.0f;
     zAxisGizmo->setLocation(Vector3f(0,0,-1));

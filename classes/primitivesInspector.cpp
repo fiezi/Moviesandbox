@@ -39,7 +39,7 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+30.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Primitives";
     tabButton->bDrawName=true;
     tabButton->setup();
@@ -53,7 +53,7 @@ void PrimitivesInspector::createInspectorButtons(){
     tabButton->setLocation(Vector3f(location.x+100.0f,location.y, 0.0f));
     tabButton->scale.x=64;
     tabButton->scale.y=16;
-    tabButton->sceneShaderID="color";
+    tabButton->sceneShaderID="buttonColor";
     tabButton->name="Nodes";
     tabButton->bDrawName=true;
     tabButton->setup();
