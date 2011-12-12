@@ -230,8 +230,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -275,7 +273,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>10</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -315,7 +313,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>renderer.cpp</string>
+								<string>Moviesandbox-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -323,11 +321,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>renderer.cpp</string>
+										<string>Moviesandbox-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>18BDACE6149603B8002FADE1</string>
+										<string>1883E06C1496469800D5AF71</string>
 										<key>history</key>
 										<array>
 											<string>186B7F0D13118A200061F401</string>
@@ -386,14 +384,14 @@
 											<string>189E72351491C4AD00CD4930</string>
 											<string>18B0CF171492E2B90062562E</string>
 											<string>1869064B1494299500B141BE</string>
-											<string>18FE27B214944EB700A37637</string>
 											<string>18FE27B314944EB700A37637</string>
 											<string>18FE27CC1494519100A37637</string>
 											<string>18FE27CD1494519100A37637</string>
 											<string>18FE27DC149452A300A37637</string>
 											<string>18FE27DD149452A300A37637</string>
 											<string>18FEFA5B1495B5920063D131</string>
-											<string>18FEFA5C1495B5920063D131</string>
+											<string>1883E06A1496469800D5AF71</string>
+											<string>1883E06B1496469800D5AF71</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -405,14 +403,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1027, 434}}</string>
+								<string>{{0, 0}, {1027, 427}}</string>
 								<key>RubberWindowFrame</key>
 								<string>154 132 1286 703 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>434pt</string>
+							<string>427pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -425,14 +423,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 439}, {1027, 223}}</string>
+								<string>{{0, 432}, {1027, 230}}</string>
 								<key>RubberWindowFrame</key>
 								<string>154 132 1286 703 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>223pt</string>
+							<string>230pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -451,9 +449,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>18BDACE7149603B8002FADE1</string>
+				<string>1883E0561496456C00D5AF71</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>18BDACE8149603B8002FADE1</string>
+				<string>1883E0571496456C00D5AF71</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -591,11 +589,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>18BDACE9149603B8002FADE1</string>
-		<string>18BDACEA149603B8002FADE1</string>
+		<string>1883E0641496460200D5AF71</string>
+		<string>1883E0651496460200D5AF71</string>
 		<string>1C78EAAD065D492600B07095</string>
-		<string>186B7ECC131180D60061F401</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>186B7ECC131180D60061F401</string>
 		<string>/Users/fiezi/Moviesandbox/Moviesandbox.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -676,7 +674,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>186B7ECC131180D60061F401</string>
-				<string>18BDACDE149603B6002FADE1</string>
+				<string>1883E0581496456C00D5AF71</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -798,13 +796,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>18BDACDF149603B6002FADE1</string>
+				<string>1883E05C1496460200D5AF71</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>18BDACE0149603B6002FADE1</string>
-				<string>18BDACE1149603B6002FADE1</string>
-				<string>18BDACE2149603B6002FADE1</string>
-				<string>18BDACE3149603B6002FADE1</string>
-				<string>18BDACE4149603B6002FADE1</string>
+				<string>1883E05D1496460200D5AF71</string>
+				<string>1883E05E1496460200D5AF71</string>
+				<string>1883E05F1496460200D5AF71</string>
+				<string>1883E0601496460200D5AF71</string>
+				<string>1883E0611496460200D5AF71</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -958,7 +956,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>18BDACE5149603B6002FADE1</string>
+				<string>1883E0621496460200D5AF71</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

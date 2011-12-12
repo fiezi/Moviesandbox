@@ -2429,15 +2429,11 @@ void Renderer::pick(int x, int y){
 
     ///Mouse 3D Position
 
-    float normScreenX=screenX;
-    float normScreenY=screenY;
-
 
     float windowAspect = (float)windowX/(float)windowY;
-    float renderAspect= (float)screenX/(float)screenY;
 
     float mouseX =(float)input->mouseX * (float)screenX/(float)windowX;
-   float mouseY =(float)input->mouseY * (float)screenY/(float)windowY;
+	float mouseY =(float)input->mouseY * (float)screenY/(float)windowY;
 
     //Calculate mouse 3D position from zPos
 
