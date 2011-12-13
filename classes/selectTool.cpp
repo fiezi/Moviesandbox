@@ -60,6 +60,9 @@ void SelectTool::keyReleased(int key){
         duplicateSelected();
     }
 
+	
+	//TODO: make MAC OS X compatible!
+	
     //cut selected
     if (key==24&& sceneData->selectedActors.size()>0){
         cutSelected();
@@ -70,7 +73,7 @@ void SelectTool::keyReleased(int key){
     }
 
     //paste selected
-    if (key==22&& sceneData->selectedActors.size()>0){
+    if (key==22){
             pasteSelected();
     }
 
@@ -357,8 +360,9 @@ void SelectTool::cutSelected(){
 
     for (int i=(int)sceneData->selectedActors.size()-1;i>-1;i--){
         sceneData->selectedActors[i]->remove();
-
     }
+	//just to make sure...
+	input->worldTarget=NULL;
 }
 
 void SelectTool::copySelected(){
