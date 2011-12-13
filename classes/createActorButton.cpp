@@ -74,6 +74,7 @@ void CreateActorButton::finishDrag(){
 
 void CreateActorButton::clickedLeft(){
 
+    //TODO: drag and drop only!
     input->focusButton=this;
 
     int myActorSize=sceneData->actorList.size();
@@ -82,15 +83,14 @@ void CreateActorButton::clickedLeft(){
     sceneData->actorInfo[buttonProperty].actorReference->create();
     if (myActorSize < (int)sceneData->actorList.size()){
         newActor=sceneData->actorList.back();
-        }
-
+    }
     else if (myButtonSize < (int) sceneData->buttonList.size()){
         newActor=sceneData->buttonList.back();
         newActor->setup();
         setLocation(initialLocation);
         //newActor=NULL;
         return;
-        }
+    }
 
 
     if (vboMeshID!="NULL" && sceneData->vboList[vboMeshID]){

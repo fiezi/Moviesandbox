@@ -5,12 +5,14 @@
 #include "input.h"
 #include "importBitmapButton.h"
 #include "assignButton.h"
+#include "boolButton.h"
 #include "colladaLoader.h"
 #include "spriteMeshLoader.h"
 
 AssetInspector::AssetInspector(){
 
     name="assetInspector";
+    tooltip="Asset Inspector";
     listColumns=4;
     level=0;
     scrollSize=250.0;
@@ -18,10 +20,18 @@ AssetInspector::AssetInspector(){
     textureID="icon_props";
     listOffsetY=64;
     bKinectToolOpen=false;
+    bShowUntitled=false;
+    bDrawName=false;
+    registerProperties();
 }
 
 AssetInspector::~AssetInspector(){}
 
+
+void AssetInspector::registerProperties(){
+
+    createMemberID("BSHOWUNTITLED",&bShowUntitled,this);
+}
 
 void AssetInspector::setup(){
 
@@ -35,6 +45,7 @@ void AssetInspector::setup(){
     tabs.push_back( new PrefabTab(this) );
 
     tabs[currentTab]->assembleList();
+
 }
 
 void AssetInspector::createInspectorButtons(){
@@ -46,8 +57,9 @@ void AssetInspector::createInspectorButtons(){
     importButton->setLocation(Vector3f(location.x+30.0f,location.y+20, 0.0f));
     importButton->name="import";
     importButton->bDrawName=true;
-    importButton->sceneShaderID="buttonColor";
-    importButton->scale.x=64;
+    importButton->sceneShaderID="buttonTexture";
+    importButton->textureID="icon_import";
+    importButton->scale.x=32;
     importButton->setup();
     importButton->buttonColor=sceneData->meanButtonColor;
     inspectorButtons.push_back(importButton);
@@ -58,7 +70,7 @@ void AssetInspector::createInspectorButtons(){
     importButton= new AssignButton;
     importButton->parent=this;
     sceneData->buttonList.push_back(importButton);
-    importButton->setLocation(Vector3f(location.x+100.0f,location.y+20, 0.0f));
+    importButton->setLocation(Vector3f(location.x+70.0f,location.y+20, 0.0f));
     importButton->name="Import Kinect";
     importButton->tooltip="Import Kinect";
     importButton->setTextureID("icon_kinect");
@@ -72,7 +84,7 @@ void AssetInspector::createInspectorButtons(){
     importButton= new ImportBitmapButton;
     importButton->parent=this;
     sceneData->buttonList.push_back(importButton);
-    importButton->setLocation(Vector3f(location.x+140.0f,location.y+20, 0.0f));
+    importButton->setLocation(Vector3f(location.x+110.0f,location.y+20, 0.0f));
     importButton->name="Import Bitmap";
     importButton->tooltip="Import Bitmap";
     importButton->setTextureID("icon_importBitmap");
@@ -80,6 +92,22 @@ void AssetInspector::createInspectorButtons(){
     importButton->buttonColor=sceneData->meanButtonColor;
     inspectorButtons.push_back(importButton);
 
+    importButton= new BoolButton;
+    importButton->parent=this;
+    sceneData->buttonList.push_back(importButton);
+    importButton->setLocation(Vector3f(location.x+tabWidth-130,location.y+28, 0.0f));
+    importButton->name="Show Untitled";
+    importButton->tooltip="";
+    importButton->buttonProperty="BSHOWUNTITLED";
+    importButton->scale.y=12;
+    importButton->scale.x=110;
+    importButton->setTextureID("icon_base");
+    importButton->bDrawName=true;
+    importButton->sceneShaderID="buttonColor";
+    importButton->setup();
+    importButton->drawNameOffset=Vector2f(0,0);
+    importButton->buttonColor=sceneData->selectedTabColor;
+    inspectorButtons.push_back(importButton);
 
 /// Tabs
 
@@ -189,7 +217,8 @@ void AssetInspector::MeshTab::assembleList(){
             if (it->second && it->first!="NULL"){
                 size_t found;
                 found = (it->first).rfind("untitled");
-                if (found!=string::npos)    //if our drawing has "untitled" in its name, do not show it!
+                AssetInspector* ass = (AssetInspector*)mine;
+                if (found!=string::npos && !ass->bShowUntitled)    //if our drawing has "untitled" in its name, do not show it!
                     continue;
                 mine->sceneData->actorInfo["12AssignButton"].actorReference->create();
                 mine->listButton.push_back(mine->sceneData->buttonList.back());
@@ -590,6 +619,11 @@ void AssetInspector::trigger(MsbObject* other){
         else{
             openKinectTool();
         }
+    }
+
+    if (other->name=="Show Untitled" && currentTab== 0){
+        cout << "switched Untitled!"<< endl;
+        tabs[currentTab]->assembleList();
     }
 
     Inspector::trigger(other);

@@ -48,6 +48,8 @@ void Inspector::setup(){
 
     TabbedListButton::setup();
 
+    tooltipOffset=Vector2f(-110,20);
+
     buttonColor=sceneData->inspectorColor;
 
     Vector4f backgroundColor=sceneData->menuBackgroundColor;

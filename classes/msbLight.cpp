@@ -14,7 +14,7 @@ MsbLight::MsbLight(){
     sceneShaderID="texture";
     drawType=DRAW_SPRITE;
     scale=Vector3f(1.0,1.0,1.0);
-    particleScale=2.5;
+    particleScale=20.0;
     shadow_fb=0;
     shadow_tx=0;
     shadow_size=renderer->shadow_size;

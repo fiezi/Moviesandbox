@@ -56,6 +56,7 @@ void BrushInspector::createInspectorButtons(){
         showColor->setTextureID("icon_flat");
         showColor->setup();
         showColor->buttonColor=COLOR_WHITE;
+        showColor->mouseOverColor=COLOR_WHITE;
 
         sceneData->buttonList.push_back(showColor);
         inspectorButtons.push_back(showColor);
@@ -248,7 +249,7 @@ void BrushInspector::trigger(MsbObject* other){
      brushViz->buttonColor=sceneData->brush->color;
      brushViz->mouseOverColor=sceneData->brush->color;
      brushViz->color.a=sceneData->brush->intensity+ 0.1;
-     brushViz->scale.x=sceneData->brush->scale.x * 5.0 + 10.0;
+     brushViz->scale.x=sceneData->brush->scale.x * 10.0 + 10.0;
      brushViz->scale.y=sceneData->brush->scale.x * 5.0 +10.0;
 
 }

@@ -43,6 +43,35 @@ void LayerInspector::update(double deltaTime){
 
     Inspector::update(deltaTime);
     //listDisplaySize= renderer->screenY-(location.y + 2.0* listHeight);
+
+
+    //check for selections and colors accordingly
+    if (!sceneData->controller->bRunning){
+
+        if (currentTab==0){
+
+           for (int i=0;i<(int)actorButtons.size();i++){
+                if (sceneData->actorList[i]->bSelected)
+                    actorButtons[i]->buttonColor=sceneData->selectedElementColor/2.0;
+                else
+                    actorButtons[i]->buttonColor=sceneData->deselectedElementColor;
+           }
+        }else{
+
+            for (int i=0;i<(int)actorButtons.size();i++)
+                actorButtons[i]->buttonColor=sceneData->deselectedElementColor;
+
+            if (actorButtons.size()<2)
+                return;
+
+            if (sceneData->grid->bSelected)
+                actorButtons[2]->buttonColor=sceneData->selectedElementColor/2.0;
+            if (sceneData->controller->bSelected)
+                actorButtons[1]->buttonColor=sceneData->selectedElementColor/2.0;
+            if (sceneData->brush->bSelected)
+                actorButtons[0]->buttonColor=sceneData->selectedElementColor/2.0;
+        }
+    }
 }
 
 void LayerInspector::createInspectorButtons(){
@@ -176,7 +205,7 @@ void LayerInspector::HelpersTab::assembleList(){
                 b->scale.y=m->listHeight;
 
             b->setup();
-            b->buttonColor=Vector4f(0.8,0.6,0.6,1.0);
+            b->buttonColor=m->sceneData->deselectedElementColor;
             m->placeButton(i,i);
         }
 
@@ -219,6 +248,8 @@ void LayerInspector::clearLists(){
 
 void LayerInspector::assembleList(){
 
+    cout << "assemblin' "<< endl;
+
     //remove all buttons
     clearLists();
 
@@ -245,6 +276,7 @@ void LayerInspector::assembleList(){
 
         //l->setTextureID(sceneData->layerList[i]->textureID);
         l->setup();
+
         l->buttonColor=Vector4f(0.8,0.6,0.6,1.0);
 
         listButton.push_back(l);
@@ -278,7 +310,7 @@ void LayerInspector::assembleList(){
 
             a->sceneShaderID="buttonColor";
             a->setup();
-            a->buttonColor=sceneData->meanButtonColor;
+            a->buttonColor=sceneData->deselectedElementColor;
             listButton.push_back(a);
             placeButton(listButton.size()-1,listButton.size()-1);
         }
@@ -315,11 +347,13 @@ void LayerInspector::trigger(MsbObject* other){
         input->deselectActors();
         //sceneData->brush->bSelected=true;
         sceneData->selectedActors.push_back(sceneData->brush);
+        sceneData->brush->bSelected=true;
     }
     if (other->name=="Controller"){
         input->deselectActors();
         //sceneData->controller->bSelected=true;
         sceneData->selectedActors.push_back(sceneData->controller);
+        sceneData->controller->bSelected=true;
     }
 
     if (other->name=="Grid"){

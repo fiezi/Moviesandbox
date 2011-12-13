@@ -43,6 +43,8 @@ void BoolButton::drawPlane(){
 void BoolButton::clickedLeft(){
 
     *boolValue=!*boolValue;
+    if (parent)
+        parent->trigger(this);
 
 }
 

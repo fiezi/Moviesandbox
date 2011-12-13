@@ -80,15 +80,16 @@ void BasicButton::update(double deltaTime){
 
 void BasicButton::drawTooltip(){
 
+
     //tooltip rendering
     if (bOver){
 
-      if(tooltip=="" && !bDrawName)
-        renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
-      else
-        renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+        if(tooltip=="" && !bDrawName)
+            renderer->drawText(name, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
+        else
+            renderer->drawText(tooltip, location.x + tooltipOffset.x , location.y + tooltipOffset.y);
     }
-    //drawname is not a tooltip! So no tooltipOffset here! Why? Let's try...
+    //drawname is not a tooltip! So no tooltipOffset here! instead, use drawNameOffset
     if (bDrawName){
 
         //get rid of prefix

@@ -9,7 +9,7 @@ class AssetInspector: public Inspector{
 public:
 
     bool bKinectToolOpen;           //already running a kinect tool?
-
+    bool bShowUntitled;
 
    class MeshTab: public Tab{
 
@@ -51,6 +51,7 @@ public:
     AssetInspector();
     virtual ~AssetInspector();
 
+    virtual void registerProperties();
     virtual void setup();
 
     virtual void createInspectorButtons();

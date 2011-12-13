@@ -54,6 +54,7 @@
     <Texture textureID="icon_prefab" filename="icon_prefab.tga" bAlpha="1" bWrap="0"/>
 
     <Texture textureID="icon_system" filename="icon_system.tga" bAlpha="1" bWrap="0"/>
+    <Texture textureID="icon_import" filename="icon_import.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_save" filename="icon_save.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_saveAs" filename="icon_saveAs.tga" bAlpha="1" bWrap="0"/>
     <Texture textureID="icon_load" filename="icon_load.tga" bAlpha="1" bWrap="0"/>
