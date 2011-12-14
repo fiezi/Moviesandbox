@@ -621,7 +621,7 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
             glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
             glTexImage2D(GL_TEXTURE_2D, 0, depthPrecision,  fbSizeX, fbSizeY, 0, GL_RGBA, dataType, NULL);
 
-            glGenerateMipmap(GL_TEXTURE_2D);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
 
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, texFilterMag);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, texFilterMin);
@@ -882,11 +882,11 @@ void Renderer::draw(){
         //set shadowTexture (might not have one)
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, lighting_tx);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, normal_tx);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
 
     #ifdef BDEBUGRENDERER
@@ -908,7 +908,7 @@ void Renderer::draw(){
         //generate mipmaps for scene Texture
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->sceneTex);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("post draw Final Frame");
@@ -1035,10 +1035,10 @@ void Renderer::drawSceneTexture(){
         //create mipmaps for color and depth
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->colorTex);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
         glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 	}
 
     //cleanup
@@ -1121,7 +1121,7 @@ void Renderer::drawNormals(Layer* layer){
         //generate MipMaps for Normals
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, normal_tx);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
 
         //for (int i=0;i<normalBlur;i++)
          //   performShader(layer,"normals",normal_fb,"ssBlur");
@@ -1187,7 +1187,7 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //set shadowTexture (might not have one) and generate MipMaps
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, shadow_tx);
-            glGenerateMipmap(GL_TEXTURE_2D);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
             ///light&shadow rendering
 
             //render lighting pass into lighting FBO
@@ -2570,7 +2570,7 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
     else
       glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGR, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
 
-    glGenerateMipmap(GL_TEXTURE_2D);
+    glGenerateMipmapEXT(GL_TEXTURE_2D);
     FreeImage_Unload(myBitmap);
 
     sceneData->textureList[texID]=new textureObject;
