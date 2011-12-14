@@ -333,10 +333,14 @@ void Renderer::reDrawScreen(int w, int h){
         //update all list contents, backgrounds and inspectorButtons
         mI->backgroundButton->addLocation(screenDelta);
         //mI->scrollButton->addLocation(screenDelta);
-        for (int j=0;j<(int)mI->inspectorButtons.size();j++)
+        for (int j=0;j<(int)mI->inspectorButtons.size();j++){
             mI->inspectorButtons[j]->addLocation(screenDelta);
-        for (int j=0;j<(int) mI->listButton.size();j++)
+            mI->inspectorButtons[j]->initialLocation=mI->inspectorButtons[j]->location;
+        }
+        for (int j=0;j<(int) mI->listButton.size();j++){
             mI->listButton[j]->addLocation(screenDelta);
+            mI->listButton[j]->initialLocation=mI->listButton[j]->location;
+        }
 
 
     }

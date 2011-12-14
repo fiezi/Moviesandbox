@@ -636,6 +636,10 @@ void Input::keyUp(unsigned char key,int x,int y){
             sceneData->controller->myTools[TOOL_GRID]->myBtn->clickedLeft();
         }
 
+        if (key=='h'){
+            sceneData->grid->bHidden=!sceneData->grid->bHidden;
+        }
+
         //switch to drawing
         if (key=='b'){
             if (((DrawingWidget*)sceneData->controller->myTools[TOOL_DRAW]->myBtn)->bWidgetOpen){

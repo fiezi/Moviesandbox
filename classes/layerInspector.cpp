@@ -129,9 +129,9 @@ void LayerInspector::refreshList(){
         if ( listSize !=laySize + actSize ){
             assembleList();
             //open
-            clickedLeft();
+            //clickedLeft();
             //close
-            clickedLeft();
+            //clickedLeft();
             //or vice versa
         }
 
