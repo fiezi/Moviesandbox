@@ -455,7 +455,7 @@ void Actor::setTextureID(string texID){
     else
        cout << "ERROR: Texture Assignment failed. Cannot find Texture: " << texID << endl;
 
-    //textureID=texID;
+    textureID=texID;
 
 }
 

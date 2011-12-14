@@ -52,10 +52,10 @@ float unpackToFloat(vec2 value){
 *   5x5 Kernel Gaussian Blur
 */
 
-vec4 blur(sampler2D myTex,vec2 tc){
+vec4 blur(sampler2D myTex,vec2 tc, float bias){
 
-      float spread=1.0/screenX  * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/20.0)));
-      //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
+      //float spread=1.0/screenX  * (1.0 + (min(6.0,max(2.0,  abs(  unpackToFloat(texture2D(depthTex,texCoord,1.0).xy)  - focus/farClip) )*100.0 )  * unpackToFloat(texture2D(depthTex,texCoord,1.0).xy) )  );
+      float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
       tc_offset[1]=spread * vec2(-1.0,-2.0);
@@ -92,7 +92,7 @@ vec4 blur(sampler2D myTex,vec2 tc){
 
       for (int i=0 ; i<25 ; i++)
       {
-        sample[i]=texture2D(myTex , tc + tc_offset[i]);
+        sample[i]=texture2D(myTex , tc + tc_offset[i],bias);
       }
 
       vec4 blurredColor=(
@@ -120,7 +120,8 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       vec4 sample[9];
 
-      float spread=1.0/screenX * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/50.0)));
+      float spread=1.0/screenX  * min(6.0,max(2.0,  abs(focus -  unpackToFloat(texture2D(depthTex,texCoord,1.0).xy))*farClip/20.0)  );
+      //float spread=2.0/screenX ;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -136,7 +137,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       for (int i=0 ; i<9 ; i++)
       {
-            sample[i]=texture2D(myTex , tc + tc_offset[i]);
+            sample[i]=texture2D(myTex , tc + tc_offset[i],1.5);
       }
 
       vec4 blurredColor=(
@@ -157,9 +158,9 @@ vec4 computeDOF() {
 
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
 
-    vec4 blurPart=blur(tex, texCoord);
+    vec4 blurPart=blur(tex, texCoord,1.0);
 
-    vec4 sharpPart=  texture2D(tex,texCoord);
+    vec4 sharpPart=  texture2D(tex,texCoord,0.0);
     sharpPart.a=1.0;
 
     //focus = 15.0+ 15.0 * sin(time * 0.0004);
@@ -200,6 +201,8 @@ vec4 computeDOF() {
 void main(void){
 
     gl_FragColor=computeDOF();
+
+    //gl_FragColor=vec4(   abs(unpackToFloat(texture2D(depthTex,texCoord,1.0).xy)  - focus/farClip ) );
        //gl_FragDepth=texture2D(depthTex,texCoord).r;
     gl_FragColor.a=1.0;
 

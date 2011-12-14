@@ -1,5 +1,6 @@
 uniform float time;
 uniform float screensize;
+uniform float lighting_size;
 uniform float shadow_size;
 uniform float screenX;
 uniform float screenY;
@@ -162,15 +163,15 @@ vec4 blur3(sampler2D myTex, vec2 tc){
       tc_offset[8]=spread * vec2(1.0,-1.0);
 
 
-		sample[0]=texture2D(myTex ,tc + tc_offset[0] );
-		sample[1]=texture2D(myTex ,tc + tc_offset[1] );
-		sample[2]=texture2D(myTex ,tc + tc_offset[2] );
-		sample[3]=texture2D(myTex ,tc + tc_offset[3] );
-		sample[4]=texture2D(myTex ,tc + tc_offset[4] );
-		sample[5]=texture2D(myTex ,tc + tc_offset[5] );
-		sample[6]=texture2D(myTex ,tc + tc_offset[6] );
-		sample[7]=texture2D(myTex ,tc + tc_offset[7] );
-		sample[8]=texture2D(myTex ,tc + tc_offset[8] );
+		sample[0]=texture2D(myTex ,tc + tc_offset[0], 1.0 );
+		sample[1]=texture2D(myTex ,tc + tc_offset[1], 1.0);
+		sample[2]=texture2D(myTex ,tc + tc_offset[2], 1.0 );
+		sample[3]=texture2D(myTex ,tc + tc_offset[3], 1.0 );
+		sample[4]=texture2D(myTex ,tc + tc_offset[4], 1.0 );
+		sample[5]=texture2D(myTex ,tc + tc_offset[5], 1.0 );
+		sample[6]=texture2D(myTex ,tc + tc_offset[6], 1.0 );
+		sample[7]=texture2D(myTex ,tc + tc_offset[7], 1.0 );
+		sample[8]=texture2D(myTex ,tc + tc_offset[8], 1.0 );
 
 
 
@@ -202,7 +203,7 @@ void getPixelLoc(){
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
     zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
-    pixelPos=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
+    pixelPos=vec4((texCoord.x-0.5) * 0.835 * screenX/screenY, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
     //pixelPos=(vec4(texCoord.x-0.5, texCoord.y-0.5, zPos,1.0)/zPosScreen)/10.0;
     pixelPos.w=1.0;
 }
@@ -274,11 +275,7 @@ vec4 shadowMapping(){
 
     //where do these numbers come from? and what do they want from us?
 
-    //for 1280 * 720
     vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835 * screenX/screenY, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 )  ;
-
-    //for 1024 * 768
-    //vec4 pixelPosition=vec4((texCoord.x-0.5) *1.1, (texCoord.y-0.5) * 0.835, (-zPos) * 1.0, 1.0 )  ;
     pixelPosition.xy*=zPos;
 
 
@@ -295,7 +292,7 @@ vec4 shadowMapping(){
     //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
     //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
-    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 

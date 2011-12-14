@@ -33,6 +33,7 @@ void main(){
 
     //light in screen space
     lightPos.xy/=lightPos.z;
+    //lightPos.xyz=2.0;
 
 
 

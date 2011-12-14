@@ -105,7 +105,10 @@ public:
         GLenum depthPrecision;      //amount of bits for depth operations - usually GL_RGBA8 or GL_RGBA16
 
         //texture filtering
-        GLenum texFilter;                   //usually GL_NEAREST or GL_LINEAR
+        GLenum texFilterMin;                    // filtering for procedural textures, usually GL_NEAREST or GL_LINEAR
+        GLenum texFilterMag;                    // filtering for procedural textures, usually GL_NEAREST or GL_LINEAR
+        GLenum texTGAFilterMin;                   //min filter for file Textures
+        GLenum texTGAFilterMag;                   //max filter for file Textures
 
         //FBO data format
         GLenum dataType;                   //usually GL_INTEGER or GL_FLOAT

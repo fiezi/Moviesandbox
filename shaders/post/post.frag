@@ -276,7 +276,7 @@ void main(void){
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
-        vec4 lightData=texture2D(shadowTex,texCoord);
+        vec4 lightData=texture2D(shadowTex,texCoord,1.0);
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not

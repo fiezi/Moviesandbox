@@ -1,6 +1,7 @@
 uniform float time;
 uniform float screensize;
 uniform float shadow_size;
+uniform float lighting_size;
 uniform float screenX;
 uniform float screenY;
 
@@ -72,8 +73,7 @@ float unpackToFloat(vec2 value){
 
 vec4 blur5(sampler2D myTex,vec2 tc){
 
-      float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
-      //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
+      float spread=1.0/screenX;
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
       tc_offset[1]=spread * vec2(-1.0,-2.0);
@@ -170,7 +170,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 void getPixelLoc(){
 
     vec2 tc=texCoord;
-    zPos= unpackToFloat(blur3(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
 }
 
@@ -207,6 +207,6 @@ void main(){
     getPixelLoc();
 
     gl_FragColor=computeNormals();
-    //gl_FragColor=vec4(1.0,0.5,0.5,1.0);
+    gl_FragColor.a=1.0;
 
 }

@@ -683,7 +683,7 @@ void AssetInspector::importKinect(bool bHighZRes){
             sceneData->brush->drawing->drawType=DRAW_PARTICLES;
             sceneData->brush->drawing->bTextured=false;
             sceneData->brush->drawing->setTextureID("NULL");
-            sceneData->brush->drawing->sceneShaderID="buttonColor";
+            sceneData->brush->drawing->sceneShaderID="color";
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->particleScale=1;
             sceneData->brush->drawing->particleAngleScale=0;
@@ -692,15 +692,6 @@ void AssetInspector::importKinect(bool bHighZRes){
             Matrix4f oldTransform = sceneData->brush->drawing->baseMatrix;
 
             sceneData->brush->drawing->baseMatrix.identity();
-
-/*
-            //set to 0 0 0
-            sceneData->brush->drawing->transformMatrix.identity();
-            sceneData->brush->drawing->matrixToVectors();
-            sceneData->brush->drawing->update(0.0);
-            sceneData->brush->drawing->setScale(Vector3f(1,1,1));
-            sceneData->brush->drawing->update(0.0);
-*/
 
             for (int i=0;i<1024*512*4;i+=4){
                 Vector3f myLoc;
@@ -733,16 +724,12 @@ void AssetInspector::importKinect(bool bHighZRes){
                     sceneData->drawTool->paint();
             }
             sceneData->brush->drawing->baseMatrix=oldTransform;
-            /*
-            sceneData->brush->drawing->transformMatrix=oldTransform;
-            sceneData->brush->drawing->matrixToVectors();
-            sceneData->brush->drawing->update(0.0);
-            sceneData->brush->drawing->setScale(oldScale);
-            sceneData->brush->drawing->update(0.0);
-            */
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->bZTest=true;
             sceneData->brush->drawing->bZWrite=true;
+
+            sceneData->spriteMeshLoader->createVBOs(sceneData->brush->drawing->vboMeshID,false);
+
             sceneData->controller->switchTool(TOOL_SELECT);
 
 }
