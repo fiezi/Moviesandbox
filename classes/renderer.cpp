@@ -2631,7 +2631,7 @@ bool Renderer::createEmptyTexture( string texName, GLuint colorFormat, GLuint da
     else if (dataType==GL_FLOAT )
         glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_FLOAT, &floatTexBuff );
     else if (dataType==GL_SHORT)
-        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, dataType, &shortTexBuff );
+        glTexImage2D( GL_TEXTURE_2D, 0, colorFormat, width, height, 0, colorFormat, GL_SHORT, &shortTexBuff );
     else{
         cout << "ERROR: datatype not supported, must be GL_UNSIGNED_BYTE or GL_FLOAT or GL_SHORT" << endl;
         return 0;

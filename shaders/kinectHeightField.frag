@@ -41,7 +41,26 @@ vec2 packToVec2(float value){
 
 void main(){
 
-    gl_FragData[0]=gl_Color;
+    vec4 objColor=gl_Color * postColor;
+
+
+
+    objColor.r=floor(objColor.r*100.0)/100.0 ;
+    objColor.r=max(0.0,objColor.r);
+
+   if (!bComputeLight){
+        if (objColor.r>0.1){
+            objColor.r-=0.004;
+        }
+        else{
+            objColor.r+=0.004;
+        }
+        objColor.a=1.0;
+   }
+
+
+    gl_FragData[0]=objColor;
+
 
     gl_FragData[0].a=1.0;
 
