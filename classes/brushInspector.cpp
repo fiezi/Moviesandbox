@@ -211,6 +211,9 @@ void BrushInspector::trigger(MsbObject* other){
 
     if (other->name=="brush scale"){
         sceneData->brush->scale.x= pow(4.0 * ((SliderButton*)other)->sliderValue,2.0) *1.0 + 0.1;
+        sceneData->brush->scale.y= pow(4.0 * ((SliderButton*)other)->sliderValue,2.0) *1.0 + 0.1;
+        sceneData->brush->scale.z= pow(4.0 * ((SliderButton*)other)->sliderValue,2.0) *1.0 + 0.1;
+        sceneData->brush->setScale(sceneData->brush->scale);
       }
 
     if (other->name=="brush intensity"){

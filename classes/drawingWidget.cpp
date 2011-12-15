@@ -74,16 +74,22 @@ void DrawingWidget::trigger(MsbObject* other){
 
     if (other->name=="Draw Particles (b)"){
         useTool=TOOL_DRAW;
+        sceneData->drawTool->bPaintMesh=false;
+        sceneData->drawTool->drawType=DRAW_SPRITE;
         setTextureID("icon_paint");
     }
 
     if (other->name=="Draw Calligraphy"){
         useTool=TOOL_CALLIGRAPHY;
+        sceneData->drawTool->bPaintMesh=false;
+        sceneData->drawTool->drawType=DRAW_SPRITE;
         setTextureID("icon_paintFancy");
     }
 
     if (other->name=="Draw Meshes"){
-        useTool=TOOL_SPAWN;
+        useTool=TOOL_DRAW;
+        sceneData->drawTool->bPaintMesh=true;
+        sceneData->drawTool->drawType=DRAW_VBOMESH;
         setTextureID("icon_drawMesh");
     }
 

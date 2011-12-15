@@ -116,12 +116,6 @@ void DrawTool::mousePressed(int btn){
 
     MsbTool::mousePressed(btn);
 
-    if (bJustCreated){
-        brush->drawing->setLocation(input->mouse3D);
-        cout << "placed drawing! " <<  brush->drawing->location << input->mouse3D << endl;
-        bJustCreated=false;
-    }
-
     if (!input->hudTarget && brush->drawing){
         bDrawing=true;
     }else{
@@ -235,6 +229,11 @@ void DrawTool::paint(){
     if (input->worldTarget==brush->drawing)
         return;
 
+    if (bJustCreated){
+        brush->drawing->setLocation(input->mouse3D);
+        cout << "placed drawing! " <<  brush->drawing->location << input->mouse3D << endl;
+        bJustCreated=false;
+    }
 
 
     calcLocation();
@@ -250,9 +249,9 @@ void DrawTool::paint(){
             for (int i=0;i<(int)sceneData->vboList[brush->vboMeshID]->vData.size(); i++ ){
 
                 myVData=sceneData->vboList[brush->vboMeshID]->vData[i];
-                myVData.location.x+=input->mouse3D.x;// + myVData.location;
-                myVData.location.y+=input->mouse3D.y;// + myVData.location;
-                myVData.location.z+=input->mouse3D.z;// + myVData.location;
+                myVData.location.w=1.0;
+                myVData.location=(brush->drawing->baseMatrix.inverse() * brush->baseMatrix * myVData.location) ;
+                myVData.location.w=sceneData->vboList[brush->vboMeshID]->vData[i].location.w *  brush->scale.x;
                 myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
                 sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
 
@@ -301,7 +300,7 @@ void DrawTool::paint(){
 
 void DrawTool::erase(){
 
-    cout << "erasing!" << endl;
+    //cout << "erasing!" << endl;
 
     //calcLoc=brush->location-brush->drawing->location;
     calcLocation();
@@ -310,7 +309,7 @@ void DrawTool::erase(){
       {
       Vector4f loc=sceneData->vboList[brush->drawing->vboMeshID]->vData[i].location;
       Vector3f distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);
-      if (brush->scale.x * 0.25>distance.length())
+      if (brush->scale.x >distance.length())
           brush->drawing->deleteParticle(i);
       }
     sceneData->numParticles--;
