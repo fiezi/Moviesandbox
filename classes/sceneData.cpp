@@ -1369,7 +1369,14 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("ColladaMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        colladaLoader->loadColladaMesh(path+meshFileName, meshID);
+        //try relative path first
+        bool worked = colladaLoader->loadColladaMesh(path+meshFileName, meshID);
+        if (!worked){
+            worked = colladaLoader->loadColladaMesh(meshFileName, meshID);
+        //then try absolute path
+            if (!worked)
+                cout <<"ERROR loading colladaMesh:" << meshFileName << endl;
+        }
         cout << "loaded mesh " << meshID << " from path " << path+meshFileName << endl;
       }
 
@@ -1380,8 +1387,16 @@ void SceneData::loadMeshes(std::string path, std::string fileName){
       for ( ; element!=NULL ;element=element->NextSiblingElement("SpriteMesh")){
         string meshID=element->Attribute("meshID");
         string meshFileName=element->Attribute("meshFilename");
-        spriteMeshLoader->loadSpriteMesh(path+meshFileName, meshID);
-        cout << "loaded sprite mesh " << meshID << " from path " << path+meshFileName << endl;
+        //try relative path first
+        bool worked = spriteMeshLoader->loadSpriteMesh(path+meshFileName, meshID);
+        //the try absolute path
+        if (!worked){
+            worked = spriteMeshLoader->loadSpriteMesh(meshFileName, meshID);
+            if (!worked)
+                cout <<"ERROR loading spriteMesh:" << meshFileName << endl;
+        }
+        if (worked)
+            cout << "loaded sprite mesh " << meshID << " from path " << path+meshFileName << endl;
       }
 
       element=hRoot.FirstChild( "SpriteMeshXML" ).Element();
