@@ -20,6 +20,7 @@ public:
     bool bDrawing;
 	bool bStartStroke;
 	bool bPaintMesh;
+	bool bJustCreated;
 
     Vector3f brushLocBuffer[16];
 

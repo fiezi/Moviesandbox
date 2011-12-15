@@ -352,6 +352,7 @@ void Actor::getAxis(Vector3f* xA, Vector3f* yA, Vector3f* zA, Matrix4f myMatrix)
     zA->z=myMatrix[10];
 
 }
+
 void Actor::setRotationFromAxis(Vector3f xA, Vector3f yA, Vector3f zA){
 
     xA.normalize();
@@ -484,9 +485,6 @@ void Actor::update(double deltaTime){
         bHighlight=false;
     }
 
-    if (bDebug)
-        cout << "setting Mover stuff now..." << renderer->frames <<endl;
-
     for (int i=0;i<(int)movers.size();i++){
         if (movers[i]!=NULL && !movers[i]->bFinished){  //if we have a mover and it hasn't finished moving yet...
             //update the mover
@@ -503,14 +501,12 @@ void Actor::update(double deltaTime){
     }
 
 
-    if (bDebug)
-        cout << "after Mover stuff..." << renderer->frames <<endl;
 
     baseMatrix=calcMatrix(this);
     matrixToVectors();
 
     if (bDebug)
-        cout << "after updating bases..." << renderer->frames <<endl;
+        cout << lowerLeftBack << endl;
 
 }
 

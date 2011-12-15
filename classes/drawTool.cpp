@@ -15,6 +15,7 @@ DrawTool::DrawTool(){
     bDrawing=false;
 	bStartStroke=true;
 	bPaintMesh=false;
+	bJustCreated=false;
 
     highlightBtn="Draw Particles (b)";
 }
@@ -115,25 +116,25 @@ void DrawTool::mousePressed(int btn){
 
     MsbTool::mousePressed(btn);
 
+    if (bJustCreated){
+        brush->drawing->setLocation(input->mouse3D);
+        cout << "placed drawing! " <<  brush->drawing->location << input->mouse3D << endl;
+        bJustCreated=false;
+    }
+
     if (!input->hudTarget && brush->drawing){
         bDrawing=true;
     }else{
         bDrawing=false;
     }
-
-
 }
 
 void DrawTool::mouseReleased(int btn){
 
     MsbTool::mouseReleased(btn);
-/*
-    if (brush->drawing){
-        brush->drawing->bPickable=true;
-        brush->drawing->bZTest=true;
-        brush->drawing->bZWrite=true;
-    }
-*/
+
+
+
     bDrawing=false;
 	bStartStroke=true;
 
@@ -222,6 +223,7 @@ void DrawTool::update(double deltaTime){
 
 void DrawTool::paint(){
 
+
     brush->drawing->bPickable=false;
     brush->drawing->bZTest=true;
     brush->drawing->bZWrite=false;
@@ -233,16 +235,19 @@ void DrawTool::paint(){
     if (input->worldTarget==brush->drawing)
         return;
 
+
+
     calcLocation();
 
     vertexData myVData;
+
 
 
     //brush->drawing->bPickable=false;
     //brush->drawing->bZTest=false;
 
     if (bPaintMesh && brush->vboMeshID!="NULL"){
-            for (int i=0;i<sceneData->vboList[brush->vboMeshID]->vData.size(); i++ ){
+            for (int i=0;i<(int)sceneData->vboList[brush->vboMeshID]->vData.size(); i++ ){
 
                 myVData=sceneData->vboList[brush->vboMeshID]->vData[i];
                 myVData.location.x+=input->mouse3D.x;// + myVData.location;
@@ -251,14 +256,16 @@ void DrawTool::paint(){
                 myVData.vertexID=sceneData->vboList[brush->drawing->vboMeshID]->vData.size();
                 sceneData->vboList[brush->drawing->vboMeshID]->vData.push_back(myVData);
 
-                brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
-                brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
-                brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
+                brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,myVData.location.x);
+                brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,myVData.location.y);
+                brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,myVData.location.z);
 
-                brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
-                brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
-                brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
+                brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,myVData.location.x);
+                brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,myVData.location.y);
+                brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,myVData.location.z);
 
+                sceneData->vboList[brush->drawing->vboMeshID]->lowerLeftBack=brush->drawing->lowerLeftBack;
+                sceneData->vboList[brush->drawing->vboMeshID]->upperRightFront=brush->drawing->upperRightFront;
             }
     }else{
 
@@ -275,14 +282,17 @@ void DrawTool::paint(){
         sceneData->numParticles++;
 
         //adjust bounding box
+        brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,myVData.location.x);
+        brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,myVData.location.y);
+        brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,myVData.location.z);
 
-        brush->drawing->lowerLeftBack.x=min(brush->drawing->lowerLeftBack.x,(brush->drawing->baseMatrix * myVData.location).x);
-        brush->drawing->lowerLeftBack.y=min(brush->drawing->lowerLeftBack.y,(brush->drawing->baseMatrix * myVData.location).y);
-        brush->drawing->lowerLeftBack.z=min(brush->drawing->lowerLeftBack.z,(brush->drawing->baseMatrix * myVData.location).z);
+        brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,myVData.location.x);
+        brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,myVData.location.y);
+        brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,myVData.location.z);
 
-        brush->drawing->upperRightFront.x=max(brush->drawing->upperRightFront.x,(brush->drawing->baseMatrix * myVData.location).x);
-        brush->drawing->upperRightFront.y=max(brush->drawing->upperRightFront.y,(brush->drawing->baseMatrix * myVData.location).y);
-        brush->drawing->upperRightFront.z=max(brush->drawing->upperRightFront.z,(brush->drawing->baseMatrix * myVData.location).z);
+        sceneData->vboList[brush->drawing->vboMeshID]->lowerLeftBack=brush->drawing->lowerLeftBack;
+        sceneData->vboList[brush->drawing->vboMeshID]->upperRightFront=brush->drawing->upperRightFront;
+
     }
 
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
@@ -477,7 +487,7 @@ void DrawTool::splitDrawing(){
             readMesh->vData.erase(readMesh->vData.begin() +brush->selectedData[j] );    //delete from original drawing
     }
 
-    for (int i=0;i<brush->selectedData.size();i++){
+    for (int i=0;i<(int)brush->selectedData.size();i++){
         receiveMesh->vData[i].color=brush->selectedOldColors[i];
     }
 
@@ -528,6 +538,7 @@ void DrawTool::createNewDrawing(bool bUnnamed){
     brush->drawing->bSelected=true;
     sceneData->selectedActors.push_back(brush->drawing);
 
+    bJustCreated=true;
 }
 
 

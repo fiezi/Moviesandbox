@@ -16,6 +16,7 @@ void MoveButton::clickedLeft(){
     RotateButton::clickedLeft();
 
     setTextureID("icon_move");
+    buttonColor.a=0.0;
     mouseOverColor=buttonColor;
 
 }

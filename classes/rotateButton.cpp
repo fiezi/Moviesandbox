@@ -21,6 +21,7 @@ void RotateButton::update(double deltaTime){
 
         setTextureID("icon_rotate");
         mouseOverColor=buttonColor;
+        mouseOverColor.a=0.0;
 
         Actor* actorParent=(Actor*)parent;
         Vector3f axis;
@@ -66,11 +67,12 @@ void RotateButton::clickedLeft(){
     if (!input->bWarpMouse){
         bDragable=true;
         scale.x=renderer->windowX;
-        scale.y=renderer->windowY;
+        scale.y=renderer->windowX;
         location.x=0;
         location.y=0;
         location.z=-1000;
         setLocation(location);
+        buttonColor.a=0.0;
         bActive=false;
     }
     else
@@ -144,7 +146,7 @@ void RotateButton::focusClick(){
     glutSetCursor(GLUT_CURSOR_INHERIT);
 
     setTextureID("icon_rotate_white");
-
+    buttonColor.a=1.0;
     mouseOverColor=sceneData->mouseOverColor;
 }
 
