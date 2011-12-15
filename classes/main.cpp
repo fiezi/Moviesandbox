@@ -129,7 +129,7 @@ void createSplashScreen(){
     HWND hwnd = ::FindWindowA(0, "loading"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
     if (hwnd != NULL)
     {
-        SetPopUp(hwnd);
+        //SetPopUp(hwnd);
     }
 #endif
 
@@ -309,7 +309,7 @@ void endFileLog(){
 int main(int argc, char* argv[]){
 
 
-    //startFileLog();
+    startFileLog();
 
 	glutInit(&argc, argv);
 
