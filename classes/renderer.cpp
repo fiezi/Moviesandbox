@@ -1618,14 +1618,14 @@ void Renderer::drawGizmos(Actor* a){
 
     glDrawBuffers(1,drawBuffers);
 
-    if (a->bSelected){
+    if (a->bSelected && sceneData->controller->currentTool!=sceneData->navTool){
             if (a->drawType==DRAW_VBOMESH || a->drawType==DRAW_PARTICLES)
                 drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
             else
                 drawBoundingBox(Vector3f(-a->scale.x,-a->scale.y,-a->scale.z)  ,Vector3f(a->scale.x,a->scale.y,a->scale.z),Vector4f(1,0,0,1));
     }
 
-    else if (a->bHighlight){
+    else if (a->bHighlight && sceneData->controller->currentTool!=sceneData->navTool){
             if (a->drawType==DRAW_VBOMESH || a->drawType==DRAW_PARTICLES)
                 drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(0.6,0.6,0.6,1));
             else
