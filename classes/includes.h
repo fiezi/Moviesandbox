@@ -205,7 +205,7 @@ struct externalInputData{
             if ((processId = fork()) == 0) {
                 //char app[] = ;
                 //clean up glut so we can create a new one!
-                //glutExit();
+
                 char * const argv[] = { (char*)filename.c_str(), NULL };
                 if (execve(filename.c_str(), argv, NULL) < 0) {
                     perror("execv error:");

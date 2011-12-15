@@ -149,7 +149,7 @@
 
  static void initGTK(){
      int argc=0; char **argv = NULL;
-     gtk_init (&argc, &argv);
+     gtk_init_check (&argc, &argv);
  }
 
  #endif
@@ -641,8 +641,6 @@ void SceneData::savePreferences(){
 
     element=hRoot.FirstChild( "Settings" ).Element();
 
-    int val=0;
-    double dVal=0.0;
     string mStr;
 
 
@@ -1686,7 +1684,7 @@ void SceneData::saveMeshes(){
         MeshData* myMesh=NULL;
 
 //        for ( it=vboList.begin(); it!= vboList.end(); it++){
-        for (int i=0;i<actorList.size();i++){
+        for (int i=0;i<(int)actorList.size();i++){
 
                 SkeletalActor* skel=dynamic_cast<SkeletalActor*>(actorList[i]);
                 name = actorList[i]->vboMeshID;
@@ -1768,8 +1766,7 @@ void SceneData::loadProject(std::string projectName, bool bStart){
 
     //restarting
     externalInputList["moviesandbox"]->startProgram();
-    exit(0);
-
+    glutLeaveMainLoop();
 }
 
 
@@ -2372,18 +2369,6 @@ string SceneData::saveFileDialog(string ext){
 #endif
 
 #ifdef TARGET_LINUX
-
-
-
- static void startGTK(GtkWidget *dialog){
-
-     gtk_init_add( (GSourceFunc) closeGTK, NULL );
-     gtk_quit_add_destroy(1,GTK_OBJECT(dialog));
-     //g_timeout_add(10, (GSourceFunc) destroyWidgetGTK, (gpointer) dialog);
-     gtk_main();
-
- }
-
 
 string SceneData::openFileDialog(string ext){
 

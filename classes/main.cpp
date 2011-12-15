@@ -51,17 +51,17 @@ void specialKey(int key, int x, int y){inputManager->specialKeyDown(key,x,y);}
 void keyboardUp(unsigned char key,int x,int y){inputManager->keyUp(key,x,y);}
 void specialKeyUp (int key,int x, int y){inputManager->specialKeyUp(key,x,y);}
 
-	
+
 
 void drawSplashScreen(){
 
 	glDisable(GL_BLEND);
-	
+
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
-	
+
 	splashTex=Renderer::LoadTextureRAW("splash.raw",512,1);
-	
+
     glClear(GL_COLOR|GL_DEPTH);
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -197,27 +197,27 @@ void selectRenderer(bool bCompat){
 
 
 void splashScreenLoop(){
-	
+
 	cout << "now loading..." << endl;
-	
+
 #ifdef TARGET_MACOSX
 	//COCOA Code to get rid of GLUT Menu
 	if (NSApp){
 		NSMenu      *menu;
 		NSMenuItem  *menuItem;
-		
+
 		[NSApp setMainMenu:[[NSMenu alloc] init]];
-		
+
 		menu = [[NSMenu alloc] initWithTitle:@""];
 		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-		
+
 		[NSApp setDelegate:NSApp];
 		[NSApp setAppleMenu:menu];
 	}
-	
+
 #endif
-	
-	
+
+
 	//creating objects
     sceneDataManager->setup();
 
@@ -227,13 +227,13 @@ void splashScreenLoop(){
 
 	//for some reason on Mac OSX, this is the earliest time we can call this for effect!
 	drawSplashScreen();
-	
+
     //init renderer
     renderManager->initWindow(0,0,"Moviesandbox");
     glutHideWindow();
     renderManager->setup();
 
-	
+
     //load libraries and create scene
     sceneDataManager->createScene();
 
@@ -266,8 +266,8 @@ void splashScreenLoop(){
 
 
 	glutPostRedisplay();
-	drawSplashScreen();		
-	
+	drawSplashScreen();
+
 }
 
 
@@ -342,9 +342,10 @@ int main(int argc, char* argv[]){
 	glutDisplayFunc(drawSplashScreen);
     glutIdleFunc(splashScreenLoop);
 
-    
+
     glutMainLoop();
 
+    cout << "exiting..." << endl;
 
     delete(renderManager);
 
