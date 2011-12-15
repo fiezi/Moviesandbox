@@ -175,8 +175,6 @@ struct externalInputData{
                 perror("fork error");
             }
             cout << "started task "<<taskName<<endl;
-
-
         }
 
         void stopProgram(){
