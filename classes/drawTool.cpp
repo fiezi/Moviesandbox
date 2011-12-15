@@ -505,17 +505,20 @@ void DrawTool::splitDrawing(){
             readMesh->vData.erase(readMesh->vData.begin() +brush->selectedData[j] );    //delete from original drawing
     }
 
+
     for (int i=0;i<(int)brush->selectedData.size();i++){
         receiveMesh->vData[i].color=brush->selectedOldColors[i];
     }
+
+    brush->selectedData.clear();
+    brush->selectedOldColors.clear();
+
 
     calcBoundingBox(receiveMesh, &receivePS->lowerLeftBack, &receivePS->upperRightFront);
     calcBoundingBox(readMesh, &readPS->lowerLeftBack, &readPS->upperRightFront);
 
     sceneData->spriteMeshLoader->createVBOs(receivePS->vboMeshID,false);
     sceneData->spriteMeshLoader->createVBOs(readPS->vboMeshID,false);
-
-    deselectAllParticles();
 
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
     input->deselectActors();
