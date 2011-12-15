@@ -13,6 +13,22 @@ void PickWorldButton::setup(){
 
 }
 
+
+void PickWorldButton::drawPlane(){
+
+        float oldScaleX= scale.x;
+        scale.x-=18;
+        BasicButton::drawPlane();
+        scale.x=oldScaleX;
+
+        Vector4f tfColor=color;
+        renderer->setupShading("buttonTexture");
+        renderer->setupTexturing("icon_pickWorld",this);
+
+        //draw a little square right next to the button
+        renderer->drawPlane(scale.x -16.0,0.0,scale.x,scale.y, color );
+}
+
 void PickWorldButton::update(double deltaTime){
 
     BasicButton::update(deltaTime);

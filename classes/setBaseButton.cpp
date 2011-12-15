@@ -20,7 +20,7 @@ void SetBaseButton::update(double deltaTime){
     BasicButton::update(deltaTime);
 }
 
-void SetBaseButton::mouseOver(){
+ void SetBaseButton::mouseOver(){
 
     BasicButton::mouseOver();
     if ( ((Actor*)parent)->base){

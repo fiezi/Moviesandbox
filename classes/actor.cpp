@@ -150,7 +150,7 @@ createMemberID("PIVOTLOCATION", &pivotLocation, this,true,"17VectorInputButton")
 createMemberID("TRANSFORMMATRIX",&transformMatrix,this,true);
 createMemberID("SCALEMATRIX",&scaleMatrix,this,false);
 
-createMemberID("BASE",&base,this,true,"13SetBaseButton");
+createMemberID("BASE",&base,this,true,"15PickWorldButton");
 createMemberID("BASEMATRIX",&baseMatrix,this,false);
 createMemberID("BASENODE",&baseNode, this,false);
 

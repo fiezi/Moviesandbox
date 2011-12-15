@@ -11,6 +11,7 @@ public:
     virtual ~PickWorldButton();
 
     virtual void setup();
+    virtual void drawPlane();
     virtual void update(double deltaTime);
 
     virtual void mouseOver();

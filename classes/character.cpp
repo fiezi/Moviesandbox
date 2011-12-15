@@ -70,7 +70,7 @@ void Character::registerProperties(){
     SkeletalActor::registerProperties();
     createMemberID("IDLEACTIONNAME",&idleActionName,this);
     createMemberID("IDLEANIMTIMESCALE",&idleAnimTimeScale,this);
-    createMemberID("WALKTARGET",&walkTarget,this);
+    createMemberID("WALKTARGET",&walkTarget,this,"15PickWorldButton");
     createMemberID("LOOKTARGET",&lookTarget,this);
     createMemberID("WALKSPEED",&walkSpeed,this);
     createMemberID("TURNSPEED",&turnSpeed,this);

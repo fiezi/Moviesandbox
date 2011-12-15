@@ -18,6 +18,7 @@
 
     <Texture textureID="icon_base" filename="icon_base.tga" bAlpha="1" bWrap="0" />
     <Texture textureID="icon_setBase" filename="icon_setBase.tga" bAlpha="1" bWrap="0" />
+    <Texture textureID="icon_pickWorld" filename="icon_pickWorld.tga" bAlpha="1" bWrap="0" />
     <Texture textureID="icon_select" filename="icon_select.tga" bAlpha="1" bWrap="0" />
     <Texture textureID="icon_advanced" filename="icon_advanced.tga" bAlpha="1" bWrap="0"/>
 
