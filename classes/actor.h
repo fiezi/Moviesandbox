@@ -205,7 +205,7 @@ public:
        virtual void matrixToVectors();              //generates location vector, axis and rotation in euler angles
 
         virtual void setTextureID(string texID);            //use this to set textureID to prevent texture load errors and Crashes to Desktop!
-
+        virtual void setMeshID(string vboID);               //use this to set vboMeshID to prevent mesh load errors and Crashes to Desktop!
 
        //general saving and loading - repeated from MsbObject!
        virtual TiXmlElement* save(TiXmlElement *root);

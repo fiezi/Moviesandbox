@@ -2119,6 +2119,10 @@ string SceneData::openFileDialog(string ext){
 
     if (ext=="project") select = pr;
     if (ext=="scene") select = sc;
+    if (ext=="mesh") select = me;
+    if (ext=="tga") select = te;
+    if (ext=="action") select = ac;
+
 
 
     //wext+=L"\0";

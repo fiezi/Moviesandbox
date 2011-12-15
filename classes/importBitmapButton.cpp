@@ -37,7 +37,7 @@ void ImportBitmapButton::clickedLeft(){
         //return;
     }
 
-    string fileName=sceneData->openFileDialog();
+    string fileName=sceneData->openFileDialog("tga");
     loadFile(fileName);
 
     //switch back to it

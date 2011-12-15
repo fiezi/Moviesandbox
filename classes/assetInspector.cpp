@@ -56,7 +56,7 @@ void AssetInspector::createInspectorButtons(){
     sceneData->buttonList.push_back(importButton);
     importButton->setLocation(Vector3f(location.x+30.0f,location.y+20, 0.0f));
     importButton->name="import";
-    importButton->bDrawName=true;
+    importButton->bDrawName=false;
     importButton->sceneShaderID="buttonTexture";
     importButton->textureID="icon_import";
     importButton->scale.x=32;
@@ -317,7 +317,7 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
 
         //TODO: also copy to project folder!
 
-        string filename=sceneData->openFileDialog();
+        string filename=mine->sceneData->openFileDialog("mesh");
         //check for file ending
         size_t found;
         found=filename.find(".dae");
@@ -325,13 +325,13 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
             //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
             string meshID=filename.substr(found+1);
-            sceneData->colladaLoader->loadColladaMesh(filename, meshID);
+            mine->sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            sceneData->addToLibrary(myElement);
+            mine->sceneData->addToLibrary(myElement);
 
         }
         found=filename.find(".DAE");
@@ -340,26 +340,29 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
            //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
             string meshID=filename.substr(found+1);
-            sceneData->colladaLoader->loadColladaMesh(filename, meshID);
+            mine->sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("ColladaMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            sceneData->addToLibrary(myElement);
+            mine->sceneData->addToLibrary(myElement);
         }
         found=filename.find(".spriteMesh");
         if (found!=string::npos){
             //generate meshID
             found=filename.find_last_of(DIRECTORY_SEPARATION);
+            //change directory separation to something tinyXML can deal with...
+
             string meshID=filename.substr(found+1);
-            sceneData->spriteMeshLoader->loadSpriteMesh(filename, meshID);
+            mine->sceneData->spriteMeshLoader->loadSpriteMesh(filename, meshID);
 
             //open my.library and append this mesh!
             TiXmlElement* myElement = new TiXmlElement("SpriteMesh");
             myElement->SetAttribute("meshID",meshID);
             myElement->SetAttribute("meshFilename",filename);
-            sceneData->addToLibrary(myElement);
+            mine->sceneData->addToLibrary(myElement);
+            assembleList();
         }
     }
 
@@ -433,7 +436,7 @@ void AssetInspector::TextureTab::assembleList(){
 void AssetInspector::TextureTab::trigger(MsbObject* other){
 
    if (other->name=="import"){
-        string filename=mine->sceneData->openFileDialog();
+        string filename=mine->sceneData->openFileDialog("tga");
 
         cout <<"importing..." << filename << endl;
 
@@ -526,7 +529,7 @@ void AssetInspector::ActionTab::trigger(MsbObject* other){
     //TODO: implement Action importing...
 
     if (other->name=="import"){
-        string fileName=sceneData->openFileDialog();
+        string fileName=sceneData->openFileDialog("action");
         cout <<"importing..." << fileName << endl;
     }
 }

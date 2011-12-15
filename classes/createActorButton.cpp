@@ -44,7 +44,7 @@ void CreateActorButton::finishDrag(){
 
     //draw new actor as VBOMESH if we have one assigned to us and we find it in the vboMeshList
     if (vboMeshID!="NULL" && sceneData->vboList[vboMeshID]){
-        newActor->vboMeshID=vboMeshID;
+        newActor->setMeshID(vboMeshID);
         if (sceneData->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
             newActor->sceneShaderID="skeletal";
 		}
@@ -94,7 +94,7 @@ void CreateActorButton::clickedLeft(){
 
 
     if (vboMeshID!="NULL" && sceneData->vboList[vboMeshID]){
-        newActor->vboMeshID=vboMeshID;
+        newActor->setMeshID(vboMeshID);
         if (sceneData->vboList[vboMeshID]->bIsSkeletal){          //see if we're skeletal and stuff...
             newActor->sceneShaderID="skeletal";
 		}

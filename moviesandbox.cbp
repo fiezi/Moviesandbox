@@ -266,10 +266,10 @@
 			<Option virtualFolder="Actors\" />
 		</Unit>
 		<Unit filename="classes\importBitmapButton.cpp">
-			<Option virtualFolder="Buttons\DrawingWidget\" />
+			<Option virtualFolder="Buttons\MainMenu\" />
 		</Unit>
 		<Unit filename="classes\importBitmapButton.h">
-			<Option virtualFolder="Buttons\DrawingWidget\" />
+			<Option virtualFolder="Buttons\MainMenu\" />
 		</Unit>
 		<Unit filename="classes\includes.h">
 			<Option virtualFolder="core\" />

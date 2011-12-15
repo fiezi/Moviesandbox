@@ -53,6 +53,9 @@ ParticleSystem::registerProperties();
 
 void SkeletalActor::postLoad(){
 
+
+    Actor::postLoad();
+
     //TODO:problem with actorList referencing!
     /*
     if (bPhysicsBones){          //remove geoms and bodys so we don't create ODE errors
@@ -147,7 +150,6 @@ void SkeletalActor::postLoad(){
         bDelayedConvert=true;
     }
 
-    Actor::postLoad();
 }
 
 void SkeletalActor::setup(){

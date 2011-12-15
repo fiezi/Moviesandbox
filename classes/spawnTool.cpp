@@ -197,7 +197,7 @@ void SpawnTool::postSpawn(Actor* myActor){
 
     cout << "Spawning..." << brush->vboMeshID << endl;
     //assign vboMeshID from Brush to new Actor
-    myActor->vboMeshID=brush->vboMeshID;
+    myActor->setMeshID(brush->vboMeshID);
     if (sceneData->vboList[brush->vboMeshID]->bIsSkeletal)
         myActor->sceneShaderID="skeletal";
 

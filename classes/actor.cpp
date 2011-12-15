@@ -200,17 +200,22 @@ void Actor::postLoad(){
     baseMatrix=calcMatrix(this);
     matrixToVectors();
     bInit=true;
+
+    //this will make sure we don't crash if we have a wrong meshID assigned!
+    setMeshID(vboMeshID);
+
     //use bounding area from vboMeshID
-    if (vboMeshID!="NULL"){
-        lowerLeftBack=sceneData->vboList[vboMeshID]->lowerLeftBack;
-        upperRightFront=sceneData->vboList[vboMeshID]->upperRightFront;
-    }
+    lowerLeftBack=sceneData->vboList[vboMeshID]->lowerLeftBack;
+    upperRightFront=sceneData->vboList[vboMeshID]->upperRightFront;
+
+
 }
 
 void Actor::setup(){
 
  //   baseMatrix=calcMatrix(this);
  //   matrixToVectors();
+
 }
 
 void Actor::mouseOver(){}
@@ -452,13 +457,22 @@ void Actor::setTextureID(string texID){
 
     if (sceneData->textureList[texID])
         textureID=texID;
-    else
+    else{
        cout << "ERROR: Texture Assignment failed. Cannot find Texture: " << texID << endl;
-
-    textureID=texID;
-
+        textureID="NULL";
+    }
 }
 
+
+void Actor::setMeshID(string vboID){
+
+    if (sceneData->vboList[vboID])
+        vboMeshID=vboID;
+    else{
+       cout << "ERROR: Mesh Assignment failed. Cannot find Mesh: " << vboID << endl;
+        vboMeshID="NULL";
+    }
+}
 
 void Actor::update(double deltaTime){
 

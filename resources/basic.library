@@ -4,6 +4,7 @@
  <!-- Meshes -->
     <ColladaMesh meshID="camera" meshFilename="cameraMesh.DAE"/>
 
+    <SpriteMesh meshID="NULL" meshFilename="NULL.spriteMesh" />
     <SpriteMesh meshID="sticky" meshFilename="sticky.spriteMesh"/>
     <SpriteMesh meshID="teapot" meshFilename="teapot.spriteMesh" />
     <SpriteMesh meshID="cube" meshFilename="cube.spriteMesh" />
