@@ -62,18 +62,56 @@ void SkinTool::stop(){
     if (!skel) return;
 
 	//determine if we're skeletal or not
-	if (skel->bones.size()>0)
+	if (skel->bones.size()>0){
 		skel->sceneShaderID="skeletal";
-    else
+		sceneData->vboList[skel->vboMeshID]->bIsSkeletal=true;
+	}else{
         skel->sceneShaderID="color";
+		sceneData->vboList[skel->vboMeshID]->bIsSkeletal=false;
+	}
 
-    for (int i=0;i<(int)skel->bones.size();i++)
+    MeshData* myData=sceneData->vboList[skel->vboMeshID];
+    myData->bones.clear();
+    myData->boneCount=0;
+
+    for (int i=0;i<(int)skel->bones.size();i++){
         skel->bones[i]->bPickable=true;
 
-	//create vbo Data for faster drawing!
-	cout <<"creating VBOs from skinning..." << endl;
-    sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
+        //setup vboMesh with bones
+        bone* vboBone = new bone;
+        myData->bones.push_back(vboBone);
 
+        vboBone->name= skel->bones[i]->name;
+         if (vboBone->name=="mouthUp")
+                myData->bIsHead=true;
+
+        //fill the MeshData object with all our DATA
+        vboBone->invBoneMatrix=new Matrix4f;
+        vboBone->boneMatrix=new Matrix4f;
+
+        *vboBone->invBoneMatrix=(skel->bones[i]->baseMatrix * skel->baseMatrix.inverse()).inverse();
+        *vboBone->boneMatrix=skel->bones[i]->transformMatrix * skel->bones[i]->originalMatrix;
+        myData->boneCount++;
+        myData->bindShapeMatrix=new Matrix4f;
+    }
+
+        //it's a little ugly but it gets the job done. Compares every bone against every other and assigns parent
+        cout << "we have: " << myData->bones.size() << " amount of bones in our drawing" << endl;
+
+        for (int i=0;i<(int)myData->bones.size();i++){
+            bone* vboBone=myData->bones[i];
+            for (int p=0;p<(int)myData->bones.size();p++){
+                if (skel->bones[p] == skel->bones[i]->base)
+                    vboBone->parentBone=myData->bones[p];               //parent found!
+            }
+        }
+
+	//create vbo Data for faster drawing!
+    sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
+    skel->postLoad();
+
+	//create vbo Data for faster drawing!
+    sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
 
 	skel->drawType=DRAW_VBOMESH;
 
@@ -156,12 +194,14 @@ void SkinTool::selectActors(int btn, Actor* other){
 
     }
 
-    //right Button creates menu if on selected actor
+    //right Button creates menu if on selected actor - no! This is highly annoying!
+    /*
     if (btn==MOUSEBTNRIGHT && input->worldTarget && input->worldTarget->bSelected){
         for (int i=0;i<(int)sceneData->selectedActors.size();i++)
             if (input->worldTarget==sceneData->selectedActors[i])
                 sceneData->createActorMenu();
     }
+    */
 
 }
 

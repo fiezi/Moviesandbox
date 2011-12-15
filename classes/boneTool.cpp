@@ -73,11 +73,14 @@ void BoneTool::stop(){
 		sceneData->vboList[skel->vboMeshID]->bIsSkeletal=false;
 	}
 
+    MeshData* myData=sceneData->vboList[skel->vboMeshID];
+    myData->bones.clear();
+    myData->boneCount=0;
+
     for (int i=0;i<(int)skel->bones.size();i++){
         skel->bones[i]->bPickable=true;
 
         //setup vboMesh with bones
-        MeshData* myData=sceneData->vboList[skel->vboMeshID];
         bone* vboBone = new bone;
         myData->bones.push_back(vboBone);
 
@@ -85,34 +88,35 @@ void BoneTool::stop(){
          if (vboBone->name=="mouthUp")
                 myData->bIsHead=true;
 
-            //fill the MeshData object with all our DATA
-            vboBone->invBoneMatrix=new Matrix4f;
-            vboBone->boneMatrix=new Matrix4f;
+        //fill the MeshData object with all our DATA
+        vboBone->invBoneMatrix=new Matrix4f;
+        vboBone->boneMatrix=new Matrix4f;
 
-            *vboBone->invBoneMatrix=(skel->bones[i]->baseMatrix * skel->baseMatrix.inverse()).inverse();
-            *vboBone->boneMatrix=skel->bones[i]->transformMatrix * skel->bones[i]->originalMatrix;
-              myData->boneCount++;
-              myData->bindShapeMatrix=new Matrix4f;
-        }
+        *vboBone->invBoneMatrix=(skel->bones[i]->baseMatrix * skel->baseMatrix.inverse()).inverse();
+        *vboBone->boneMatrix=skel->bones[i]->transformMatrix * skel->bones[i]->originalMatrix;
+        myData->boneCount++;
+        myData->bindShapeMatrix=new Matrix4f;
+    }
 
         //it's a little ugly but it gets the job done. Compares every bone against every other and assigns parent
-        for (int i=0;i<(int)skel->bones.size();i++){
-            bone* vboBone=sceneData->vboList[skel->vboMeshID]->bones[i];
-            for (uint parentPos=0;parentPos<skel->bones.size();parentPos++){
-                if (skel->bones[parentPos] == skel->bones[i]->base)
-                    vboBone->parentBone=sceneData->vboList[skel->vboMeshID]->bones[parentPos];               //parent found!
+        cout << "we have: " << myData->bones.size() << " amount of bones in our drawing" << endl;
+
+        for (int i=0;i<(int)myData->bones.size();i++){
+            bone* vboBone=myData->bones[i];
+            for (int p=0;p<(int)myData->bones.size();p++){
+                if (skel->bones[p] == skel->bones[i]->base)
+                    vboBone->parentBone=myData->bones[p];               //parent found!
             }
         }
-
-    skel->postLoad();
 
 	//create vbo Data for faster drawing!
     sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
 
+    skel->postLoad();
 
 	skel->drawType=DRAW_VBOMESH;
 
-	skel->resetBones();
+	//skel->resetBones();
 
     //revert back to our drawing as the only thing selected!
     input->deselectActors();
@@ -126,7 +130,12 @@ void BoneTool::mouseReleased(int btn){
 
     if (!brush->drawing)
         return;
-    SpawnTool::mouseReleased(btn);
+
+    //flip mouse buttons for creating bones!
+     if (btn==MOUSEBTNLEFT )
+        SpawnTool::mouseReleased(MOUSEBTNRIGHT);
+     if (btn==MOUSEBTNRIGHT )
+        SpawnTool::mouseReleased(MOUSEBTNLEFT);
 
 
 }

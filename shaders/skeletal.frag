@@ -1,13 +1,8 @@
-uniform sampler2D sceneTex;
-
 uniform vec4 postColor;
-uniform bool bComputeLight;
-uniform float objectID;
-uniform float farClip;
+uniform sampler2D sceneTex;
 
 varying float zPos;
 varying float oID;
-
 
 
 /*
@@ -47,7 +42,14 @@ vec2 packToVec2(float value){
 
 void main(){
 
-        gl_FragData[0]=gl_Color;
+
+        vec4 objColor=gl_Color * postColor;
+
+        objColor.r=floor(objColor.r*100.0)/100.0 ;
+        objColor.r=max(0.0,objColor.r);
+
+
+        gl_FragData[0]=objColor;
 
         gl_FragData[1].xy=packToVec2(zPos);
         gl_FragData[1].zw=packToVec2(oID);

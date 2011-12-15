@@ -1,5 +1,6 @@
 uniform vec4 postColor;
 uniform bool bComputeLight;
+
 uniform float objectID;
 uniform float screenX;
 uniform float screenY;
