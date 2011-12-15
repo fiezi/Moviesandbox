@@ -70,7 +70,7 @@ void Character::registerProperties(){
     SkeletalActor::registerProperties();
     createMemberID("IDLEACTIONNAME",&idleActionName,this);
     createMemberID("IDLEANIMTIMESCALE",&idleAnimTimeScale,this);
-    createMemberID("WALKTARGET",&walkTarget,this,"15PickWorldButton");
+    createMemberID("WALKTARGET",&walkTarget,this,true,"15PickWorldButton");
     createMemberID("LOOKTARGET",&lookTarget,this);
     createMemberID("WALKSPEED",&walkSpeed,this);
     createMemberID("TURNSPEED",&turnSpeed,this);
@@ -499,13 +499,32 @@ void Character::turnTowards(Actor* target, double deltaTime){
     myOrientation.normalize();
 
     float rotAmount;
+    bool bTurnLeft=false;
 
-    if (orientationToTarget.crossProduct(myOrientation).y>0.0)
+    if (orientationToTarget.crossProduct(myOrientation).y>0.0){
         rotAmount=turnSpeed * deltaTime;
-    else
+        bTurnLeft=true;
+    }
+    else{
         rotAmount=-turnSpeed * deltaTime;
+    }
+
 
     addRotation(rotAmount,yAxis);
+
+    ///TODO: super hacky! Just for release!
+
+    myOrientation = zAxis;
+
+    //check for overshooting!
+    if (orientationToTarget.crossProduct(myOrientation).y<0.0 && bTurnLeft){
+        addRotation(-rotAmount,yAxis);  //undo
+    }
+
+    if (orientationToTarget.crossProduct(myOrientation).y>0.0 && !bTurnLeft){
+        addRotation(-rotAmount,yAxis);  //undo
+    }
+
 }
 
 void Character::lookAt(Actor* target){

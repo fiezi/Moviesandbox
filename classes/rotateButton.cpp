@@ -75,8 +75,8 @@ void RotateButton::clickedLeft(){
         buttonColor.a=0.0;
         bActive=false;
     }
-    else
-        input->focusButton=this;
+
+    input->focusButton=this;
 
     setTextureID("icon_rotate");
     mouseOverColor=buttonColor;
