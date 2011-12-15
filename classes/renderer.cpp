@@ -1178,7 +1178,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
             #ifdef BDEBUGRENDERER
             checkOpenGLError("post-drawShadow");
             #endif
-
+            //setup 2D camera again!
+            setupOrthoCamera(screenX,screenY);
 
            //bind depth
             glActiveTexture(GL_TEXTURE1);
@@ -1206,12 +1207,8 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //set our shader to
             layer->sceneShaderID="deferredLight";
 
-            layer->scale/=lighting_size;
-            layer->location/=lighting_size;
-            drawButton(layer);
 
-            layer->scale*=lighting_size;
-            layer->location*=lighting_size;
+            drawButton(layer);
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 

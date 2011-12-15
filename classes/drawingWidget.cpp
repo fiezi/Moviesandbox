@@ -62,95 +62,27 @@ void DrawingWidget::closeWidget(){
 ///creates new drawing here!
 void DrawingWidget::trigger(MsbObject* other){
 
-/*
-    if (other->name=="New Drawing" && (sceneData->controller->tool==TOOL_DRAW || sceneData->controller->tool==TOOL_CALLIGRAPHY) ){
-        //save old drawing first!
-        if (sceneData->brush->drawing)
-            sceneData->controller->currentTool->save();
-        sceneData->makeUserPopUp("Name your new drawing:",this);
-    }
-
-*/
-
     if (other->name=="Draw Particles (b)"){
         useTool=TOOL_DRAW;
         sceneData->drawTool->bPaintMesh=false;
-        sceneData->drawTool->drawType=DRAW_SPRITE;
+        sceneData->brush->drawType=DRAW_SPRITE;
         setTextureID("icon_paint");
     }
 
     if (other->name=="Draw Calligraphy"){
         useTool=TOOL_CALLIGRAPHY;
         sceneData->drawTool->bPaintMesh=false;
-        sceneData->drawTool->drawType=DRAW_SPRITE;
+        sceneData->brush->drawType=DRAW_SPRITE;
         setTextureID("icon_paintFancy");
     }
 
     if (other->name=="Draw Meshes"){
         useTool=TOOL_DRAW;
         sceneData->drawTool->bPaintMesh=true;
-        sceneData->drawTool->drawType=DRAW_VBOMESH;
+        sceneData->brush->drawType=DRAW_VBOMESH;
         setTextureID("icon_drawMesh");
     }
 
-/*
-    if (other->name=="Select Particles"){
-        useTool=TOOL_PARTICLESELECT;
-        setTextureID("icon_selectParticles");
-    }
-
-	if (other->name=="save"){
-        sceneData->controller->currentTool->save();
-	}
-
-    if (other->name=="save As..."){
-        cout << "creating VBO..." << endl;
-        sceneData->spriteMeshLoader->saveSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",(SkeletalActor*)(sceneData->brush->drawing));
-        sceneData->spriteMeshLoader->loadSpriteMesh(sceneData->startProject+"/"+input->inputText+".spriteMesh",input->inputText);
-
-		sceneData->brush->drawing->name=input->inputText;
-		sceneData->brush->drawing->vboMeshID=input->inputText;
-
-        TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
-        newMesh->SetAttribute("meshID",input->inputText);
-        newMesh->SetAttribute("meshFilename",input->inputText+".spriteMesh");
-        sceneData->addToLibrary(newMesh);
-        free(newMesh);
-    }
-
-
-    if (other->name=="Select Drawing"){
-        if (input->worldTarget && input->worldTarget->name!="ground" && input->worldTarget->name!="grid"){
-            //save old drawing
-            if (sceneData->brush->drawing)
-                sceneData->drawTool->save();
-            //select new drawing
-            drawTool->stop();
-            sceneData->specialSelected=input->worldTarget;
-            sceneData->brush->drawing=(SkeletalActor*)sceneData->specialSelected;
-            drawTool->start();
-        }
-    }
-
-    if (other->name=="merge Drawings"){
-        drawTool->mergeDrawings();
-    }
-///scale paticle size
-
-    if (other->name=="scaleZ x2"){
-        drawTool->scaleZ(2.0);
-    }
-
-    if (other->name=="scaleZ x0.5"){
-        drawTool->scaleZ(0.5);
-    }
-
-
-   if (other->name=="clear Drawing"){
-        drawTool->clearDrawing();
-   }
-
-    */
 
     //close widget and select again
     clickedRight();
