@@ -60,9 +60,9 @@ void SelectTool::keyReleased(int key){
         duplicateSelected();
     }
 
-	
+
 	//TODO: make MAC OS X compatible!
-	
+
     //cut selected
     if (key==24&& sceneData->selectedActors.size()>0){
         cutSelected();
@@ -316,22 +316,26 @@ void SelectTool::makePrefab(std::string prefabName){
 
 void SelectTool::pasteSelected(){
 
-      TiXmlElement* element=clipboard->FirstChildElement( "Actor" );
-      string myType;
-      int listPos=sceneData->actorList.size();
-      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
-        {
+    if (!clipboard){
+        cout << "Nothing has been cut/copied - cannot paste!"<< endl;
+        return;
+    }
+    TiXmlElement* element=clipboard->FirstChildElement( "Actor" );
+    string myType;
+    int listPos=sceneData->actorList.size();
+    for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+    {
         cout << "next element: " << element->Value() << " " << element->GetText() <<endl;
         myType=element->GetText();
         Actor * A=sceneData->actorInfo[myType].actorReference;
         A->create();
-        }
+    }
 
 
     //then load all properties - for referencing reasons
-      element=clipboard->FirstChildElement( "Actor" );
-      for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
-        {
+    element=clipboard->FirstChildElement( "Actor" );
+    for( ; element!=NULL; element=element->NextSiblingElement("Actor"))
+    {
         Actor* A=sceneData->actorList[listPos];
         myType=element->GetText();
         cout << "Loading property type: " << myType << endl;
@@ -341,8 +345,12 @@ void SelectTool::pasteSelected(){
         A->load(element);
         A->bSelected=false; //just pasted, we are not really selected...
         listPos++;
+
+        if (!input->bShiftDown)
+            A->setLocation(input->mouse3D);
+
         A->setup();
-        }
+    }
 }
 
 void SelectTool::cutSelected(){
