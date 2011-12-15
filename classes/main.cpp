@@ -61,6 +61,7 @@ void drawSplashScreen(){
     glDisable(GL_LIGHTING);
 
 	splashTex=Renderer::LoadTextureRAW("splash.raw",512,1);
+    glClearColor(0.0,0.0,0.0,0.0);
 
     glClear(GL_COLOR|GL_DEPTH);
     glMatrixMode(GL_PROJECTION);

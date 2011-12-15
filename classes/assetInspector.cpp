@@ -323,8 +323,13 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
         found=filename.find(".dae");
         if (found!=string::npos){
             //generate meshID
-            found=filename.find_last_of(DIRECTORY_SEPARATION);
-            string meshID=filename.substr(found+1);
+            found=filename.find_last_of(DIRECTORY_SEPARATION)+1;
+            string meshID=filename.substr(found);
+            found=meshID.rfind('.');
+            meshID=meshID.substr(0,found);
+
+            replace(filename.begin(), filename.end(), '\\', '/');
+
             mine->sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
@@ -338,8 +343,13 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
         if (found!=string::npos){
             cout << "found a COLLADA mesh!" << filename << endl;
            //generate meshID
-            found=filename.find_last_of(DIRECTORY_SEPARATION);
-            string meshID=filename.substr(found+1);
+            found=filename.find_last_of(DIRECTORY_SEPARATION)+1;
+            string meshID=filename.substr(found);
+            found=meshID.rfind('.');
+            meshID=meshID.substr(0,found);
+
+            replace(filename.begin(), filename.end(), '\\', '/');
+
             mine->sceneData->colladaLoader->loadColladaMesh(filename, meshID);
 
             //open my.library and append this mesh!
@@ -351,10 +361,14 @@ void AssetInspector::MeshTab::trigger(MsbObject* other){
         found=filename.find(".spriteMesh");
         if (found!=string::npos){
             //generate meshID
-            found=filename.find_last_of(DIRECTORY_SEPARATION);
+            found=filename.find_last_of(DIRECTORY_SEPARATION)+1;
             //change directory separation to something tinyXML can deal with...
+            string meshID=filename.substr(found);
+            found=meshID.rfind('.');
+            meshID=meshID.substr(0,found);
 
-            string meshID=filename.substr(found+1);
+            replace(filename.begin(), filename.end(), '\\', '/');
+
             mine->sceneData->spriteMeshLoader->loadSpriteMesh(filename, meshID);
 
             //open my.library and append this mesh!
@@ -454,8 +468,11 @@ void AssetInspector::TextureTab::trigger(MsbObject* other){
         //generate texID
         found=filename.find_last_of(DIRECTORY_SEPARATION);
         string texID=filename.substr(found+1);
+        found=texID.rfind('.');
+        texID=texID.substr(0,found);
 
         mine->renderer->LoadTextureTGA(filename,true,true,texID);
+
         TiXmlElement * texElement = new TiXmlElement("Texture");
         texElement->SetAttribute("textureID",texID);
         texElement->SetAttribute("filename",filename);
@@ -527,11 +544,12 @@ void AssetInspector::ActionTab::assembleList(){
 void AssetInspector::ActionTab::trigger(MsbObject* other){
 
     //TODO: implement Action importing...
-
+/*
     if (other->name=="import"){
         string fileName=sceneData->openFileDialog("action");
         cout <<"importing..." << fileName << endl;
     }
+*/
 }
 
 

@@ -417,21 +417,38 @@ void MenuBar::trigger(MsbObject* other){
                 cout << "selected drawing not valid" << endl;
                 return;
             }
-            string filename = sceneData->saveFileDialog(".spriteMesh");
+            string filename = sceneData->saveFileDialog("spriteMesh");
+            size_t found=filename.rfind(".spriteMesh.spriteMesh");
+            if (found!=string::npos)
+                filename=filename.substr(0,found+11);
 
             //TODO: this only for windows! Make a function out of this!
-            size_t found=filename.rfind(DIRECTORY_SEPARATION)+1;
+            found=filename.rfind(DIRECTORY_SEPARATION)+1;
             string smallName=filename.substr(found);
             found=smallName.rfind('.');
             smallName=smallName.substr(0,found);
 
+            //make tinyXml compatible
+            replace(filename.begin(), filename.end(), '\\', '/');
+
 
             sceneData->spriteMeshLoader->saveSpriteMesh(filename, skel, smallName);
+            //need to reload or at least create vboMesh, no?
+            sceneData->spriteMeshLoader->loadSpriteMesh(filename, smallName);
 
              TiXmlElement * newMesh= new TiXmlElement("SpriteMesh");
             newMesh->SetAttribute("meshID",smallName);
             newMesh->SetAttribute("meshFilename",filename);
             sceneData->addToLibrary(newMesh);
+
+            //need to update assetInspector
+            for (int i=0;i<(int)sceneData->inspectorManager->inspectors.size();i++)
+                if (sceneData->inspectorManager->inspectors[i]->name=="assetInspector")
+                    sceneData->inspectorManager->inspectors[i]->tabs[sceneData->inspectorManager->inspectors[i]->currentTab]->assembleList();
+
+            cout << "saved and loaded new mesh" << endl;
+            sceneData->selectedActors[0]->vboMeshID=smallName;
+
             free(newMesh);
         }else{
             cout << "no drawing selected for saving" << endl;
