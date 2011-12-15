@@ -376,7 +376,11 @@ void MenuBar::trigger(MsbObject* other){
     }
 
     if (other->name=="Paste"){
+         //kinda hackish, but we want paste from the menu to paste in place...
+         bool wasShift=input->bShiftDown;
+         input->bShiftDown=true;
         sceneData->selectTool->pasteSelected();
+        input->bShiftDown=wasShift;
     }
 
     if (other->name=="Duplicate"){
