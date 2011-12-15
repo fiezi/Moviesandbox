@@ -29,3 +29,11 @@ tinyXml is included under the ZLib license as seen here: http://www.grinningliza
 vMath is included under the license in its header file, vmath.h
 quicktime, ofTrueTypeFont, ofVideo and ofxPerlin licensing is handled through openFrameworks' MIT license 
 here: http://www.openframeworks.cc/license
+
+Parts of this software use the OpenNI and PrimeSense Middleware. 
+These libraries have their own licenses and DO NOT fall under this MIT license.
+See http://www.openNI.org for more details.
+
+If you have any questions or concerns regarding the license agreement of this software, 
+or you are a lawyer and would like to give me some advice, please feel free to contact me
+at friedrich at moviesandbox dot net.
