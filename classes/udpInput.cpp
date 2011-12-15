@@ -185,7 +185,7 @@ void UdpInput::update(double deltaTime){
                     //naming convention can be found here:
                     //http://wiki.moviesandbox.net/index.php?title=Naming_Conventions
                     SkeletalActor* skel = (SkeletalActor*)targetActors[i];
-                    for (int b=0;b<skel->bones.size();b++){
+                    for (int b=0;b<(int)skel->bones.size();b++){
                            //convert to uppercase
                             string myName=skel->bones[b]->name;
                             std::transform(myName.begin(), myName.end(),myName.begin(), ::toupper);

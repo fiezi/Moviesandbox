@@ -92,9 +92,6 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                 //get pointer to al the arguments
                 osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
 
-                //counter for all inputs
-                unsigned int numInputs=0;
-
                 //Get MUTEX
                 #ifdef TARGET_WIN32
                 WaitForSingleObject( *mutex, INFINITE );

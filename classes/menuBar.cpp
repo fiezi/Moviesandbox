@@ -299,7 +299,7 @@ void MenuBar::update(double deltaTime){
 
 
         //find menu that we currently hover over
-        for (int i=0;i<menus.size();i++)
+        for (int i=0;i<(int)menus.size();i++)
             if (input->hudTarget==menus[i])
                     activeMenu=i;
 
@@ -307,7 +307,7 @@ void MenuBar::update(double deltaTime){
         //if we hover over a menu that is not opened
         if (activeMenu>=0 && !menus[activeMenu]->bListOpen){
             //close all other menus
-            for (int i=0;i<menus.size();i++)
+            for (int i=0;i<(int)menus.size();i++)
                 if (menus[i]->bListOpen)
                     menus[i]->deselect(0);
 
@@ -335,7 +335,7 @@ void MenuBar::focusClick(){
 void MenuBar::trigger(MsbObject* other){
 
     //activate menu if we clicked on menu item
-    for (int i=0;i<menus.size();i++){
+    for (int i=0;i<(int)menus.size();i++){
         if (other==menus[i]){
             bToggledMenu=true;
             activeMenu=i;

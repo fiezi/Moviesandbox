@@ -40,7 +40,7 @@ void MoveButton::update(double deltaTime){
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
 
 
-        if (fineLocation.size()<=i)
+        if ((int)fineLocation.size()<=i)
             return;
 
          Vector3f loc;

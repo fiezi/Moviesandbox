@@ -96,7 +96,7 @@ void BoneTool::stop(){
         }
 
         //it's a little ugly but it gets the job done. Compares every bone against every other and assigns parent
-        for (int i=0;i<skel->bones.size();i++){
+        for (int i=0;i<(int)skel->bones.size();i++){
             bone* vboBone=sceneData->vboList[skel->vboMeshID]->bones[i];
             for (uint parentPos=0;parentPos<skel->bones.size();parentPos++){
                 if (skel->bones[parentPos] == skel->bones[i]->base)

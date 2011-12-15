@@ -277,7 +277,7 @@ void Renderer::registerProperties(){
 
 void Renderer::initWindow(int x, int y, string windowName){
 
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL | GLUT_MULTISAMPLE);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
       char* gmString  = new char[64];
       // screenX screenY, 32bit pixel depth, 60Hz refresh rate
