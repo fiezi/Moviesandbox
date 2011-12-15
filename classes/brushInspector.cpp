@@ -249,9 +249,10 @@ void BrushInspector::trigger(MsbObject* other){
     //update brush preview
      brushViz->buttonColor=sceneData->brush->color;
      brushViz->mouseOverColor=sceneData->brush->color;
-     brushViz->color.a=sceneData->brush->intensity+ 0.1;
+     brushViz->buttonColor.a=sceneData->brush->intensity+ 0.1;
+     brushViz->mouseOverColor.a=sceneData->brush->intensity+ 0.1;
      brushViz->scale.x=sceneData->brush->scale.x * 10.0 + 10.0;
-     brushViz->scale.y=sceneData->brush->scale.x * 5.0 +10.0;
+     brushViz->scale.y=sceneData->brush->scale.x * 10.0 +10.0;
 
 }
 

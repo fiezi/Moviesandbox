@@ -215,12 +215,12 @@ void ActorGizmo::update(double deltaTime){
         zRotateGizmo->bHidden=false;
 
         //this should be in between all actors...
-        Vector3f centerLocation;
+        Matrix4f centerLocation;
         Vector3f centerAxisX,centerAxisY,centerAxisZ;
         Vector3f centerScale;
 
         for (int i=0;i<(int)sceneData->selectedActors.size();i++){
-            centerLocation+=sceneData->selectedActors[i]->location;
+            centerLocation=centerLocation * sceneData->selectedActors[i]->baseMatrix;
             centerAxisX+=sceneData->selectedActors[i]->xAxis;
             centerAxisY+=sceneData->selectedActors[i]->yAxis;
             centerAxisZ+=sceneData->selectedActors[i]->zAxis;
@@ -229,16 +229,13 @@ void ActorGizmo::update(double deltaTime){
 
         centerLocation=centerLocation * 1.0/(float)(sceneData->selectedActors.size());
         centerScale=centerScale * 1.0/(float)(sceneData->selectedActors.size());
-        centerAxisX=centerAxisX * 1.0/(float)(sceneData->selectedActors.size());
-        centerAxisY=centerAxisY * 1.0/(float)(sceneData->selectedActors.size());
-        centerAxisZ=centerAxisZ * 1.0/(float)(sceneData->selectedActors.size());
 
         centerAxisX.normalize();
         centerAxisY.normalize();
         centerAxisZ.normalize();
 
 
-        setLocation(centerLocation);
+        setLocation(centerLocation.getTranslation());
         setRotation(centerAxisX,centerAxisY,centerAxisZ);
         setScale(centerScale);
 
