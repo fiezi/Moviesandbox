@@ -295,6 +295,8 @@ SceneData::SceneData(){
     startProject="NULL";
     startSceneFilename="NULL";
     currentScene="NULL";
+    sceneTemplateName="blank.scene";
+
 
     exe_path="NULL";
 
@@ -523,6 +525,9 @@ void SceneData::loadPreferences(){
 
     element->Attribute("FOV", &dVal);
     renderer->fov=dVal;
+
+    //setting start scene
+    sceneTemplateName=element->Attribute("SceneTemplateName");
 
     //setting start scene
     startProject=element->Attribute("StartProject");
@@ -1604,8 +1609,8 @@ void SceneData::newScene(){
     //loading blank scene
     string oldStartProject=startProject;
 
-    startProject="resources/scenes/";
-    loadAll("blank.scene");
+    startProject="resources/templates/";
+    loadAll(sceneTemplateName);
 
     startProject=oldStartProject;
 

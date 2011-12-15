@@ -154,6 +154,8 @@ public:
         std::string  startProject;          //project to load at startup
         std::string  library;               //basic content xml location - meshes, shaders, textures, etc...
 
+        std::string sceneTemplateName;      //which scene file to use to generate new Scenes
+
         std::string  currentScene;         //our currently loaded scene
 
         std::string  exe_path;              //directory of the executable
