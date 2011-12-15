@@ -14,9 +14,10 @@ WindowButton::WindowButton(){
     backgroundButton=NULL;
 
     bRelativeListLocation=false;
-    listLoc.x=renderer->windowX/2-300;
+    listLoc.x=renderer->windowX/2-350;
     listLoc.y=renderer->windowY/2-200;
-    listButtonSpacing.x=80.0;
+    listButtonSpacing.x=200.0;
+    listButtonSpacing.y=40.0;
 
     currentTab=0;
 
@@ -25,7 +26,7 @@ WindowButton::WindowButton(){
 
     listWidth = 128;
     listHeight = 16;
-    listColumns = 3;
+    listColumns = 2;
 
     name="Preferences";
 
@@ -58,13 +59,15 @@ void WindowButton::assembleList(){
     backgroundButton=new BasicButton;
     backgroundButton->scale.x=700;
     backgroundButton->scale.y=400;
-    backgroundButton->location.x=listLoc.x;
+    backgroundButton->location.x=listLoc.x+100.0;
     backgroundButton->location.y=listLoc.y-20;
-
+    backgroundButton->tooltip="";
+    backgroundButton->name="";
     backgroundButton->setLocation(backgroundButton->location);
     backgroundButton->sceneShaderID="buttonColor";
     backgroundButton->bTextured=false;
-    backgroundButton->buttonColor=Vector4f(0.3,0.3,0.3,0.75);
+    backgroundButton->buttonColor=Vector4f(0.3,0.3,0.3,1.0);
+    backgroundButton->mouseOverColor=backgroundButton->buttonColor;
 
     sceneData->buttonList.push_back(backgroundButton);
 

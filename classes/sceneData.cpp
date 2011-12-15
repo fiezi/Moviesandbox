@@ -1178,7 +1178,7 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
     currentScene=fileName;
 
     //get full path
-    string stringName=startProject + "/";
+    string stringName=startProject;
     stringName.append(fileName);
 
     cout << "Loading file..." << stringName <<endl;
@@ -1632,6 +1632,13 @@ void SceneData::newScene(){
 
 void SceneData::newProject(std::string projectName){
 
+    if (projectName=="NULL"){
+        cout << "no project name selected" << endl;
+        return;
+    }
+    size_t found=projectName.rfind('.');
+    projectName=projectName.substr(0,found);
+
     //create a directory
     string command="mkdir ";
     command+=projectName;
@@ -1652,6 +1659,8 @@ void SceneData::newProject(std::string projectName){
 
 
     newScene();
+
+    cout << "set our new project to:" << startProject << endl;
 
     currentScene="blank.scene";
     startSceneFilename="blank.scene";
@@ -1738,12 +1747,12 @@ void SceneData::saveMeshes(){
 
 void SceneData::loadProject(std::string projectName, bool bStart){
 
-
-    size_t found=projectName.rfind(DIRECTORY_SEPARATION);
-    projectName=projectName.substr(0,found);
-
     //also replace all \\ with / just in case
     replace(projectName.begin(), projectName.end(), '\\', '/');
+
+    size_t found=projectName.rfind('/');
+    projectName=projectName.substr(0,found);
+
 
     cout << "setting new project name: " << projectName << endl;
     cout << "************************************************************" << endl;
