@@ -23,7 +23,7 @@ static bool SetPopUp(HWND hWnd)
    SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_COMPOSITED);
    SetMenu(hWnd,NULL);
    //this is to set the drawing region for the window - to get rid of black borders!
-   HRGN hrgn = CreateRectRgn( 0, 38, 552, 570 );
+   HRGN hrgn = CreateRectRgn( 0, 38, 548, 580 );
    SetWindowRgn( hWnd, hrgn, TRUE );
 
    //NOTE: this is necessary for updating visuals!!!

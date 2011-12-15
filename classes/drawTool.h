@@ -59,5 +59,7 @@ public:
     virtual void createNewDrawing(bool bUnnamed=false);
 
     virtual void calcLocation();
+
+    virtual void calcBoundingBox(MeshData* myMesh, Vector3f* lowerLeftBack, Vector3f* upperRightFront);
 };
 #endif // DRAWTOOL

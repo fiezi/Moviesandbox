@@ -152,12 +152,31 @@ void MenuBar::setup(){
     lbut->listParent.push_back("PARENT");
 
     lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Duplicate");
+    lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
+
+    lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Delete");
     lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("11BasicButton");
+    lbut->listName.push_back("----------------");
+    lbut->listParent.push_back("PARENT");
+    lbut->listProp.push_back("NULL");
 
     lbut->listType.push_back("12AssignButton");
     lbut->listName.push_back("Group");
     lbut->listParent.push_back("PARENT");
+
+    lbut->listType.push_back("12AssignButton");
+    lbut->listName.push_back("Ungroup");
+    lbut->listParent.push_back("PARENT");
+
     sceneData->buttonList.push_back(lbut);
     menus.push_back(lbut);
     lbut->setup();
@@ -364,6 +383,21 @@ void MenuBar::trigger(MsbObject* other){
         sceneData->selectTool->duplicateSelected();
     }
 
+    if (other->name=="Delete"){
+        for (int i=(int)sceneData->selectedActors.size()-1;i>=0;i--){
+            sceneData->selectedActors[i]->remove();
+        }
+    }
+
+    if (other->name=="Group"){
+        sceneData->selectTool->makeGroup();
+    }
+
+    if (other->name=="Ungroup"){
+        for (int i=0;i<(int)sceneData->selectedActors.size();i++){
+            sceneData->selectedActors[i]->groupID="NULL";
+        }
+    }
 
     //Drawing Menu
 

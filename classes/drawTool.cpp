@@ -412,11 +412,6 @@ void DrawTool::deselectAllParticles(){
 void DrawTool::mergeDrawings(){
 
 
-    createNewDrawing(true);
-
-    //merge drawings here...
-    cout << "merging selected drawings..." << endl;
-
     //check if we have only particleSystems selected!
     for (int i=0;i<(int)sceneData->selectedActors.size();i++){
         ParticleSystem* myPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
@@ -426,16 +421,31 @@ void DrawTool::mergeDrawings(){
         }
     }
 
+    createNewDrawing(true);
+    bJustCreated=false; //don't re-place when clicking next!
+
+    brush->drawing->transformMatrix=sceneData->selectedActors[0]->transformMatrix;
+    brush->drawing->scaleMatrix=sceneData->selectedActors[0]->scaleMatrix;
+    brush->drawing->base=sceneData->selectedActors[0]->base;
+    brush->drawing->particleScale=sceneData->selectedActors[0]->particleScale;
+
+    //calc baseMatrix
+    brush->drawing->baseMatrix=brush->drawing->calcMatrix(brush->drawing);
+
+    //merge drawings here...
+    cout << "merging selected drawings..." << endl;
+
+
     //copy particles over
     ParticleSystem* receivePS;
     ParticleSystem* readPS;
     receivePS=dynamic_cast<ParticleSystem*>(brush->drawing);
+    MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
 
-    for (int i=0;i<(int)sceneData->selectedActors.size()-1;i++){    //selected Drawing is last one on stack!
+    for (int i=0;i<(int)sceneData->selectedActors.size()-1;i++){    //new Drawing is last one on stack!
         readPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
         //copy values
         MeshData * readMesh = sceneData->vboList[readPS->vboMeshID];
-        MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
         for (int i=0;i<(int)readMesh->vData.size();i++){
 
                 cout << i << endl;
@@ -446,16 +456,18 @@ void DrawTool::mergeDrawings(){
             //taking into account that we encode scale in the 4th location value
             float myScale=readLoc.w;
             readLoc.w=1.0;
-            Vector4f locationOffset= readPS->baseMatrix * readLoc;
-            locationOffset=receivePS->baseMatrix.inverse() * locationOffset;
+            Vector4f locationOffset= readPS->baseMatrix * receivePS->baseMatrix.inverse() * readLoc;
             receiveMesh->vData[receiveMesh->vData.size()-1].location=locationOffset;
             receiveMesh->vData[receiveMesh->vData.size()-1].location.w=myScale;
         }
     }
 
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
+    sceneData->spriteMeshLoader->createVBOs(brush->drawing->vboMeshID,false);
     input->deselectActors();
     sceneData->selectedActors.push_back(brush->drawing);
+
+    calcBoundingBox(receiveMesh, &brush->drawing->lowerLeftBack, &brush->drawing->upperRightFront);
 
 }
 
@@ -469,7 +481,14 @@ void DrawTool::splitDrawing(){
 
     readPS=dynamic_cast<ParticleSystem*>(brush->drawing);
 
+
     createNewDrawing(true);
+    bJustCreated=false;
+
+    brush->drawing->transformMatrix=readPS->transformMatrix;
+    brush->drawing->scaleMatrix=readPS->scaleMatrix;
+    brush->drawing->base=readPS->base;
+    brush->drawing->particleScale=readPS->particleScale;
 
     receivePS=dynamic_cast<ParticleSystem*>(brush->drawing);
 
@@ -490,9 +509,16 @@ void DrawTool::splitDrawing(){
         receiveMesh->vData[i].color=brush->selectedOldColors[i];
     }
 
+    calcBoundingBox(receiveMesh, &receivePS->lowerLeftBack, &receivePS->upperRightFront);
+    calcBoundingBox(readMesh, &readPS->lowerLeftBack, &readPS->upperRightFront);
+
+    sceneData->spriteMeshLoader->createVBOs(receivePS->vboMeshID,false);
+    sceneData->spriteMeshLoader->createVBOs(readPS->vboMeshID,false);
+
     deselectAllParticles();
 
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
+    input->deselectActors();
 
 }
 
@@ -566,5 +592,32 @@ void DrawTool::calcLocation(){
     calcLoc = Vector3f(calc.x/calc.w , calc.y/calc.w , calc.z/calc.w);
 
 }
+
+void DrawTool::calcBoundingBox(MeshData* myMesh, Vector3f* lowerLeftBack, Vector3f* upperRightFront){
+
+        lowerLeftBack->x=0.0;
+        lowerLeftBack->y=0.0;
+        lowerLeftBack->z=0.0;
+
+        upperRightFront->x=0.0;
+        upperRightFront->y=0.0;
+        upperRightFront->z=0.0;
+
+        for (int i=0;i<(int)myMesh->vData.size();i++){
+
+            lowerLeftBack->x=min(lowerLeftBack->x,myMesh->vData[i].location.x);
+            lowerLeftBack->y=min(lowerLeftBack->y,myMesh->vData[i].location.y);
+            lowerLeftBack->z=min(lowerLeftBack->z,myMesh->vData[i].location.z);
+
+            upperRightFront->x=max(upperRightFront->x,myMesh->vData[i].location.x);
+            upperRightFront->y=max(upperRightFront->y,myMesh->vData[i].location.y);
+            upperRightFront->z=max(upperRightFront->z,myMesh->vData[i].location.z);
+
+            myMesh->lowerLeftBack=*lowerLeftBack;
+            myMesh->upperRightFront=*upperRightFront;
+        }
+
+}
+
 
 
