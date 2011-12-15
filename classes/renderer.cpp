@@ -1621,11 +1621,19 @@ void Renderer::drawGizmos(Actor* a){
 
     glDrawBuffers(1,drawBuffers);
 
-    if (a->bSelected)
-        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
+    if (a->bSelected){
+            if (a->drawType==DRAW_VBOMESH || a->drawType==DRAW_PARTICLES)
+                drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(1,0,0,1));
+            else
+                drawBoundingBox(Vector3f(-a->scale.x,-a->scale.y,-a->scale.z)  ,Vector3f(a->scale.x,a->scale.y,a->scale.z),Vector4f(1,0,0,1));
+    }
 
-    else if (a->bHighlight)
-        drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(0.6,0.6,0.6,1));
+    else if (a->bHighlight){
+            if (a->drawType==DRAW_VBOMESH || a->drawType==DRAW_PARTICLES)
+                drawBoundingBox(a->lowerLeftBack,a->upperRightFront,Vector4f(0.6,0.6,0.6,1));
+            else
+                drawBoundingBox(Vector3f(-a->scale.x,-a->scale.y,-a->scale.z)  ,Vector3f(a->scale.x,a->scale.y,a->scale.z),Vector4f(0.6,0.6,0.6,1));
+    }
 
     glDrawBuffers(2,drawBuffers);
 
@@ -2403,7 +2411,7 @@ void Renderer::pick(int x, int y){
 	float zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
 
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
-	float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
+	//float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
 	int ob = floor( (obj.y + obj.x/255.0) * 1024.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
 
 
