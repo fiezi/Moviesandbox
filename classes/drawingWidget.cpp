@@ -62,7 +62,7 @@ void DrawingWidget::closeWidget(){
 ///creates new drawing here!
 void DrawingWidget::trigger(MsbObject* other){
 
-    if (other->name=="Draw Particles (b)"){
+    if (other->name=="Draw Particles"){
         useTool=TOOL_DRAW;
         sceneData->drawTool->bPaintMesh=false;
         sceneData->brush->drawType=DRAW_SPRITE;

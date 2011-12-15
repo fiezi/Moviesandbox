@@ -335,14 +335,9 @@ void Content::createDrawWidget(int x, int y){
     lbut->setup();
     sceneData->buttonList.push_back(lbut);
 
-/*
-    lbut->listType.push_back("15PickWorldButton");
-    lbut->listName.push_back("New Drawing");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_new");
-*/
+
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Draw Particles (b)");
+    lbut->listName.push_back("Draw Particles");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paint");
 
@@ -355,52 +350,6 @@ void Content::createDrawWidget(int x, int y){
     lbut->listName.push_back("Draw Meshes");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_drawMesh");
-
-
-/*
-    lbut->listType.push_back("15PickWorldButton");
-    lbut->listName.push_back("Select Drawing");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_selectDrawing");
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Select Particles");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_selectParticles");
-
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("merge Drawings");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_mergeDrawings");
-
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("scaleZ x2");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_grow");
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("scaleZ x0.5");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_shrink");
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("save");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_save");
-
-    lbut->listType.push_back("15TextInputButton");
-    lbut->bDrawName=false;
-    lbut->listName.push_back("save As...");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_saveAs");
-
-    lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("clear Drawing");
-    lbut->listProp.push_back("NULL");
-    lbut->listIcon.push_back("icon_clearDrawing");
-*/
 }
 
 void Content::createBoneWidget(int x, int y){
@@ -419,13 +368,13 @@ void Content::createBoneWidget(int x, int y){
 
     //this way, we create new bones by clicking!
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Create Bone (x)");
+    lbut->listName.push_back("Create Bone");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_addBones");
 
     //here, we skin bones
     lbut->listType.push_back("12AssignButton");
-    lbut->listName.push_back("Paint Weights (z)");
+    lbut->listName.push_back("Paint Weights");
     lbut->listProp.push_back("NULL");
     lbut->listIcon.push_back("icon_paintWeights");
 

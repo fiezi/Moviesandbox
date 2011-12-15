@@ -9,7 +9,7 @@
 BoneWidget::BoneWidget(){
 
 name="boneWidget";
-tooltip="bones";
+tooltip="bones (x)";
 
 bWidgetOpen=false;
 listColor=Vector4f(0.8,0.8,0.8,1.0);
@@ -47,12 +47,12 @@ void BoneWidget::closeWidget(){
 
 void BoneWidget::trigger(MsbObject* other){
 
-    if (other->name=="Paint Weights (z)"){
+    if (other->name=="Paint Weights"){
         useTool=TOOL_SKIN;
         setTextureID("icon_paintWeights");
     }
 
-    if (other->name=="Create Bone (x)"){
+    if (other->name=="Create Bone"){
         useTool=TOOL_BONE;
         setTextureID("icon_addBones");
     }
