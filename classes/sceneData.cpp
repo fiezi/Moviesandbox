@@ -1781,7 +1781,7 @@ void SceneData::loadProject(std::string projectName, bool bStart){
 
     //restarting
     externalInputList["moviesandbox"]->startProgram();
-    glutLeaveMainLoop();
+	exit(0);
 }
 
 
