@@ -36,6 +36,7 @@ static bool SetPopUp(HWND hWnd)
 #endif
 
 
+GLuint splashTex;
 
 void draw(){renderManager->draw();}
 void idle(){sceneDataManager->update(renderManager->deltaTime);}
@@ -50,11 +51,18 @@ void specialKey(int key, int x, int y){inputManager->specialKeyDown(key,x,y);}
 void keyboardUp(unsigned char key,int x,int y){inputManager->keyUp(key,x,y);}
 void specialKeyUp (int key,int x, int y){inputManager->specialKeyUp(key,x,y);}
 
+	
+
 void drawSplashScreen(){
 
-    GLuint myTex=Renderer::LoadTextureRAW("splash.raw",512,1);
-
-    glClear(GL_COLOR | GL_DEPTH);
+	glDisable(GL_BLEND);
+	
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+	
+	splashTex=Renderer::LoadTextureRAW("splash.raw",512,1);
+	
+    glClear(GL_COLOR|GL_DEPTH);
     glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0,512,512,0,-1,1);
@@ -63,37 +71,39 @@ void drawSplashScreen(){
 	glLoadIdentity();
 
     glEnable(GL_TEXTURE_2D);
-    //glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, myTex);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, splashTex);
 
-    glColor3f(1.0,1.0,1.0);
+    glColor4f(1.0,1.0,1.0,1.0);
 
     glBegin(GL_QUADS);
 
     glTexCoord2f(0,0);
-    glVertex2f(0,0);
+    glVertex3f(0,0,1);
 
     glTexCoord2f(1,0);
-    glVertex2f(512,0);
+    glVertex3f(512,0,1);
 
     glTexCoord2f(1,1);
-    glVertex2f(512,512);
+    glVertex3f(512,512,1);
 
     glTexCoord2f(0,1);
-    glVertex2f(0,512);
+    glVertex3f(0,512,1);
 
     glEnd();
     glutSwapBuffers();
-    glDeleteTextures(1,&myTex);
-    //delete(renderManager);
-
-	glutPostRedisplay();
 }
 
+/*
+void redrawSplash(int w, int h){drawSplashScreen();}
+void splashSpecial(int key,int x, int y){drawSplashScreen();}
+void splashKey(unsigned char key,int x,int y){drawSplashScreen();}
+void splashMouse(int button,int state,int x, int y){drawSplashScreen();}
+*/
 
 void createSplashScreen(){
 
-    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE| GLUT_DEPTH | GLUT_RGBA );
 	glutInitWindowSize(512,512);
 
    int windowX=1024;
@@ -122,10 +132,6 @@ void createSplashScreen(){
     }
 #endif
 
-    glutDisplayFunc(drawSplashScreen);
-	glutIdleFunc(drawSplashScreen);
-
-    drawSplashScreen();
 }
 
 
@@ -191,18 +197,43 @@ void selectRenderer(bool bCompat){
 
 
 void splashScreenLoop(){
-
-  //creating objects
+	
+	cout << "now loading..." << endl;
+	
+#ifdef TARGET_MACOSX
+	//COCOA Code to get rid of GLUT Menu
+	if (NSApp){
+		NSMenu      *menu;
+		NSMenuItem  *menuItem;
+		
+		[NSApp setMainMenu:[[NSMenu alloc] init]];
+		
+		menu = [[NSMenu alloc] initWithTitle:@""];
+		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+		
+		[NSApp setDelegate:NSApp];
+		[NSApp setAppleMenu:menu];
+	}
+	
+#endif
+	
+	
+	//creating objects
     sceneDataManager->setup();
+
 
     //loading preferences
     sceneDataManager->loadPreferences();
 
+	//for some reason on Mac OSX, this is the earliest time we can call this for effect!
+	drawSplashScreen();
+	
     //init renderer
     renderManager->initWindow(0,0,"Moviesandbox");
     glutHideWindow();
     renderManager->setup();
 
+	
     //load libraries and create scene
     sceneDataManager->createScene();
 
@@ -211,6 +242,9 @@ void splashScreenLoop(){
 
     //focus back on our window
     glutShowWindow();
+
+	glutPostRedisplay();
+	drawSplashScreen();
 
 	glutIgnoreKeyRepeat(1);
 
@@ -230,26 +264,10 @@ void splashScreenLoop(){
     glutKeyboardUpFunc(keyboardUp);
     glutSpecialUpFunc(specialKeyUp);
 
-#ifdef TARGET_MACOSX
-	//COCOA Code to get rid of GLUT Menu
-	if (NSApp){
-		NSMenu      *menu;
-		NSMenuItem  *menuItem;
 
-		[NSApp setMainMenu:[[NSMenu alloc] init]];
-
-		menu = [[NSMenu alloc] initWithTitle:@""];
-		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-
-		menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
-		[menuItem setSubmenu:menu];
-		[[NSApp mainMenu] addItem:menuItem];
-		[NSApp setAppleMenu:menu];
-	}
-
-#endif
-
+	glutPostRedisplay();
+	drawSplashScreen();		
+	
 }
 
 
@@ -294,7 +312,6 @@ int main(int argc, char* argv[]){
 
 	glutInit(&argc, argv);
 
-
 #ifdef TARGET_MACOSX
 	CGSetLocalEventsSuppressionInterval(0);
 #endif
@@ -322,8 +339,10 @@ int main(int argc, char* argv[]){
 
 #endif
 
+	glutDisplayFunc(drawSplashScreen);
     glutIdleFunc(splashScreenLoop);
 
+    
     glutMainLoop();
 
 
