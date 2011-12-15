@@ -190,6 +190,68 @@ void selectRenderer(bool bCompat){
 }
 
 
+void splashScreenLoop(){
+
+  //creating objects
+    sceneDataManager->setup();
+
+    //loading preferences
+    sceneDataManager->loadPreferences();
+
+    //init renderer
+    renderManager->initWindow(0,0,"Moviesandbox");
+    glutHideWindow();
+    renderManager->setup();
+
+    //load libraries and create scene
+    sceneDataManager->createScene();
+
+    //destroy splash screen
+    glutDestroyWindow(splashWindow);
+
+    //focus back on our window
+    glutShowWindow();
+
+	glutIgnoreKeyRepeat(1);
+
+    //window stuff
+	glutIdleFunc(idle);
+    glutDisplayFunc(draw);
+	glutReshapeFunc(reDrawScreen);
+
+    //Mouse
+  	glutMouseFunc(mouseButton);
+	glutPassiveMotionFunc(mouseMotion);
+	glutMotionFunc(dragMotion);
+
+    //Keyboard
+	glutKeyboardFunc(normalKey);
+	glutSpecialFunc(specialKey);
+    glutKeyboardUpFunc(keyboardUp);
+    glutSpecialUpFunc(specialKeyUp);
+
+#ifdef TARGET_MACOSX
+	//COCOA Code to get rid of GLUT Menu
+	if (NSApp){
+		NSMenu      *menu;
+		NSMenuItem  *menuItem;
+
+		[NSApp setMainMenu:[[NSMenu alloc] init]];
+
+		menu = [[NSMenu alloc] initWithTitle:@""];
+		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+
+		menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
+		[menuItem setSubmenu:menu];
+		[[NSApp mainMenu] addItem:menuItem];
+		[NSApp setAppleMenu:menu];
+	}
+
+#endif
+
+}
+
 
 streambuf *psbuf, *backup;
 ofstream filestr;
@@ -260,64 +322,7 @@ int main(int argc, char* argv[]){
 
 #endif
 
-    //creating objects
-    sceneDataManager->setup();
-
-    //loading preferences
-    sceneDataManager->loadPreferences();
-
-    //init renderer
-    renderManager->initWindow(0,0,"Moviesandbox");
-    glutHideWindow();
-    renderManager->setup();
-
-    //load libraries and create scene
-    sceneDataManager->createScene();
-
-    //destroy splash screen
-    glutDestroyWindow(splashWindow);
-
-    //focus back on our window
-    glutShowWindow();
-
-	glutIgnoreKeyRepeat(1);
-
-    //window stuff
-	glutIdleFunc(idle);
-    glutDisplayFunc(draw);
-	glutReshapeFunc(reDrawScreen);
-
-    //Mouse
-  	glutMouseFunc(mouseButton);
-	glutPassiveMotionFunc(mouseMotion);
-	glutMotionFunc(dragMotion);
-
-    //Keyboard
-	glutKeyboardFunc(normalKey);
-	glutSpecialFunc(specialKey);
-    glutKeyboardUpFunc(keyboardUp);
-    glutSpecialUpFunc(specialKeyUp);
-
-#ifdef TARGET_MACOSX
-	//COCOA Code to get rid of GLUT Menu
-	if (NSApp){
-		NSMenu      *menu;
-		NSMenuItem  *menuItem;
-
-		[NSApp setMainMenu:[[NSMenu alloc] init]];
-
-		menu = [[NSMenu alloc] initWithTitle:@""];
-		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-		[menu addItemWithTitle:@"About Moviesandbox" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
-
-		menuItem = [[NSMenuItem alloc] initWithTitle:@"Apple" action:nil keyEquivalent:@""];
-		[menuItem setSubmenu:menu];
-		[[NSApp mainMenu] addItem:menuItem];
-		[NSApp setAppleMenu:menu];
-	}
-
-#endif
-
+    glutIdleFunc(splashScreenLoop);
 
     glutMainLoop();
 
