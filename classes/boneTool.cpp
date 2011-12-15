@@ -65,15 +65,46 @@ void BoneTool::stop(){
     if (!skel) return;
 
 	//determine if we're skeletal or not
-	//determine if we're skeletal or not
-	if (skel->bones.size()>0)
+	if (skel->bones.size()>0){
 		skel->sceneShaderID="skeletal";
-    else
+		sceneData->vboList[skel->vboMeshID]->bIsSkeletal=true;
+	}else{
         skel->sceneShaderID="color";
+		sceneData->vboList[skel->vboMeshID]->bIsSkeletal=false;
+	}
 
-    for (int i=0;i<(int)skel->bones.size();i++)
+    for (int i=0;i<(int)skel->bones.size();i++){
         skel->bones[i]->bPickable=true;
 
+        //setup vboMesh with bones
+        MeshData* myData=sceneData->vboList[skel->vboMeshID];
+        bone* vboBone = new bone;
+        myData->bones.push_back(vboBone);
+
+        vboBone->name= skel->bones[i]->name;
+         if (vboBone->name=="mouthUp")
+                myData->bIsHead=true;
+
+            //fill the MeshData object with all our DATA
+            vboBone->invBoneMatrix=new Matrix4f;
+            vboBone->boneMatrix=new Matrix4f;
+
+            *vboBone->invBoneMatrix=(skel->bones[i]->baseMatrix * skel->baseMatrix.inverse()).inverse();
+            *vboBone->boneMatrix=skel->bones[i]->transformMatrix * skel->bones[i]->originalMatrix;
+              myData->boneCount++;
+              myData->bindShapeMatrix=new Matrix4f;
+        }
+
+        //it's a little ugly but it gets the job done. Compares every bone against every other and assigns parent
+        for (int i=0;i<skel->bones.size();i++){
+            bone* vboBone=sceneData->vboList[skel->vboMeshID]->bones[i];
+            for (uint parentPos=0;parentPos<skel->bones.size();parentPos++){
+                if (skel->bones[parentPos] == skel->bones[i]->base)
+                    vboBone->parentBone=sceneData->vboList[skel->vboMeshID]->bones[parentPos];               //parent found!
+            }
+        }
+
+    skel->postLoad();
 
 	//create vbo Data for faster drawing!
     sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
@@ -130,6 +161,7 @@ void BoneTool::postSpawn(Actor* myActor){
 
     brush->drawing->bones.push_back(bone);
 
+
     char newName[64];
     bone->name+=sprintf(newName,"%i",(int)brush->drawing->bones.size()-1);
 
@@ -138,6 +170,7 @@ void BoneTool::postSpawn(Actor* myActor){
     cout << "creating bone " << bone->name << endl;
 
     sceneData->vboList[brush->drawing->vboMeshID]->bUnsavedChanges=true;
+
 }
 
 void BoneTool::save(){

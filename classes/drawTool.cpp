@@ -352,7 +352,8 @@ void DrawTool::scaleZ(float factor){
 void DrawTool::selectParticles(){
 
 
-    calcLoc=brush->location-brush->drawing->location;
+    //calcLoc=brush->location-brush->drawing->location;
+    calcLocation();
 
     MeshData* myData=sceneData->vboList[brush->drawing->vboMeshID];
 //go through all particles and see

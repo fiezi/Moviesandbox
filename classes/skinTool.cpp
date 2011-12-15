@@ -23,8 +23,6 @@ void SkinTool::start(){
 	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
     brush->bHidden=false;
 
-    myBtn->color=COLOR_RED;
-
 	//use selectedActor as drawing
 	if (sceneData->selectedActors.size()>0){
 		SkeletalActor* skel=dynamic_cast<SkeletalActor*>(sceneData->selectedActors[0]);
@@ -39,8 +37,6 @@ void SkinTool::start(){
         brush->drawing->sceneShaderID="skinning";
 		brush->drawing->drawType=DRAW_PARTICLES;
         brush->drawing->resetBones();
-        //color=highlightColor;
-        //highlight(listButton[0]);
     }
 	//no useable drawing found
     else{
@@ -60,7 +56,6 @@ void SkinTool::stop(){
     input->bKeepSelection=false;
     glutSetCursor(GLUT_CURSOR_INHERIT);
     brush->bHidden=true;
-    //lowlightButton();
 
     SkeletalActor* skel=brush->drawing;
 
@@ -76,12 +71,11 @@ void SkinTool::stop(){
         skel->bones[i]->bPickable=true;
 
 	//create vbo Data for faster drawing!
+	cout <<"creating VBOs from skinning..." << endl;
     sceneData->spriteMeshLoader->createVBOs(skel->vboMeshID,false);
 
 
 	skel->drawType=DRAW_VBOMESH;
-
-    save();
 
     //revert back to our drawing as the only thing selected!
     input->deselectActors();
@@ -177,8 +171,6 @@ void SkinTool::erase(){
 
 void SkinTool::paint(){
 
-
-
     if (fabs(input->mouseVector.length())==0.0){
         return;
     }
@@ -194,9 +186,8 @@ void SkinTool::paint(){
     for (int i=0;i<(int)skel->bones.size();i++)
         skel->bones[i]->bPickable=false;
 
-    calcLoc=brush->location-skel->location;
 
-    //calcLocation();
+    calcLocation();
 
     for (unsigned int pID=0;pID<sceneData->vboList[skel->vboMeshID]->vData.size();pID++){           //go through particles
 
@@ -205,13 +196,14 @@ void SkinTool::paint(){
         //TODO: skip z for now...
         Vector3f distance;
 
-        if (input->bShiftDown)
-            distance=calcLoc - Vector3f(loc.x,loc.y,loc.z);     //incorporate Z-Distance in skinning when holding Shift
+
+        if (!input->bShiftDown)
+            distance=Vector3f(loc.x,loc.y,loc.z)- calcLoc;     //incorporate Z-Distance in skinning when holding Shift
         else
-            distance=calcLoc - Vector3f(loc.x,loc.y,calcLoc.z); //ignore Z-Distance (as if drqawing in 2D) for skinning
+            distance=Vector3f(loc.x,loc.y,calcLoc.z)-calcLoc ; //ignore Z-Distance (as if drqawing in 2D) for skinning
 
         ///within brush range
-        if (brush->scale.x * 0.1>distance.length()){
+        if (brush->scale.x >distance.length()){
 
             ///single bone skinning
             if (sceneData->selectedActors.size()==1){
@@ -219,9 +211,9 @@ void SkinTool::paint(){
                 for (int boneID=0; boneID<(int)skel->bones.size();boneID++)
                     if (skel->bones[boneID]==sceneData->selectedActors[0]){
                         if (input->pressedRight)
-                            eraseSingleSkin(pID,boneID);                       //erase weights with this bone
+                            eraseSingleSkin(pID,boneID,distance);                       //erase weights with this bone
                         else
-                            singleSkin(pID,boneID);                       //skin particles with this bone
+                            singleSkin(pID,boneID,distance);                       //skin particles with this bone
                     }
             }
         }//end particles in brushrange
@@ -233,35 +225,28 @@ void SkinTool::paint(){
 
 
 
-
-
-void SkinTool::singleSkin(int pID,int boneID){
+void SkinTool::singleSkin(int pID,int boneID, Vector3f distance){
 
     MeshData * myData = sceneData->vboList[brush->drawing->vboMeshID];
     //find distance from brush
-    Vector3f bLoc = brush->location;
-    Vector3f pLoc=Vector3f(myData->vData[pID].location.x,myData->vData[pID].location.y,myData->vData[pID].location.z) + brush->drawing->location;
-    float bSize=brush->scale.x * 2;
-
-    float distance=fabs( (pLoc-bLoc).length() );
-
-    //cout << "distance: " << distance << endl;
-    //cout << "bSize: " << bSize << endl;
+    float bSize=brush->scale.x;
+    float dist=fabs( distance.length() );
 
     //depending on brush size, fade intensity to edge of brush
-    float intensity=brush->intensity * max( (bSize-distance), 0.0f);
+    float intensity=min(1.0f, brush->intensity * max( (bSize-dist), 0.0f));
     //intensity=0.1;
 
     // see if this particle already has weights painted on
     for (int i=0;i<4;i++){
         //if already painted in slot
         if (myData->vData[pID].vertexWeights[i]>0.0){
+                cout << "already weighted!" << endl;
             //see if it was us
             if ((int)myData->vData[pID].boneReferences[i]==boneID){
                 //and add to painting
                 myData->vData[pID].vertexWeights[i]+=intensity;
                 //we're done
-                //cout << " adding in slot: " << i << " with ID: " << boneID << "and intensity: " << intensity << endl;
+                cout << " adding to slot: " << i << " with ID: " << boneID << "and intensity: " << intensity << endl;
 
                 return;
             }
@@ -281,20 +266,17 @@ void SkinTool::singleSkin(int pID,int boneID){
     cout << "all 4 slots are taken! " << endl;
 }
 
-void SkinTool::eraseSingleSkin(int pID, int boneID){
+void SkinTool::eraseSingleSkin(int pID, int boneID, Vector3f distance){
 
 
     MeshData * myData = sceneData->vboList[brush->drawing->vboMeshID];
 
     //find distance from brush
-    Vector3f bLoc = brush->location;
-    Vector3f pLoc = Vector3f(myData->vData[pID].location.x,myData->vData[pID].location.y,myData->vData[pID].location.z) + brush->drawing->location;
-    float bSize=sceneData->brush->scale.x * 2;
-
-    float distance=fabs( (pLoc-bLoc).length() );
+    float bSize=brush->scale.x * 2.0;
+    float dist=fabs( distance.length() );
 
     //depending on brush size, fade intensity to edge of brush
-    float intensity=max( (bSize-distance), 0.0f);
+    float intensity=max( (bSize-dist), 0.0f);
 
     // see if this particle already has weights painted on
 
@@ -311,6 +293,7 @@ void SkinTool::eraseSingleSkin(int pID, int boneID){
                 if (myData->vData[pID].vertexWeights[i]==0.0)
                     myData->vData[pID].boneReferences[i]=-1;
                                 //we're done
+                        cout << "erasing..."<< endl;
                 return;
             }
 

@@ -86,8 +86,10 @@ void main(){
         if (howManyBones==3)
             gl_FrontColor.b=myWeight;
 
+
 /*
-    gl_FrontColor.r=float(boneIndices[0]);
+    gl_FrontColor.r=max(0.0,boneReferences.x);
+    gl_FrontColor.g=vertexWeights.x;
     gl_FrontColor.g=0.0;
     gl_FrontColor.b=0.0;
 */

@@ -75,7 +75,7 @@ void BrushInspector::createInspectorButtons(){
     brushScaleBtn->initialLocation=brushScaleBtn->location;
     brushScaleBtn->scale=Vector3f(256,15,1);
     brushScaleBtn->setTextureID("icon_flat");
-    brushScaleBtn->sceneShaderID="color";
+    brushScaleBtn->sceneShaderID="buttonColor";
     brushScaleBtn->bVertical=false;
     brushScaleBtn->setup();
     brushScaleBtn->buttonColor=sceneData->scrollBarColor;
@@ -95,7 +95,8 @@ void BrushInspector::createInspectorButtons(){
     brushIntensityBtn->initialLocation=brushIntensityBtn->location;
     brushIntensityBtn->scale=Vector3f(256,15,1);
     brushIntensityBtn->setTextureID("icon_flat");
-    brushIntensityBtn->sceneShaderID="color";
+    brushIntensityBtn->sceneShaderID="buttonColor";
+    brushIntensityBtn->sliderValue=1.0;
     brushIntensityBtn->bVertical=false;
     brushIntensityBtn->setup();
     brushIntensityBtn->buttonColor=sceneData->scrollBarColor;

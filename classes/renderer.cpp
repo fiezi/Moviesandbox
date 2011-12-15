@@ -2100,23 +2100,23 @@ void Renderer::drawParticles (Actor* a){
           GLfloat   *vertexIDs=&myMesh->vData[0].vertexID;
 
           GLfloat *verts=&myMesh->vData[0].location.x;
-          GLfloat *normals=&myMesh->vData[0].normal.x;
+          //GLfloat *normals=&myMesh->vData[0].normal.x;
           GLfloat *colors=&myMesh->vData[0].color.r;
-          GLfloat *secondaryColors=&myMesh->vData[0].secondaryColor.r;
+          //GLfloat *secondaryColors=&myMesh->vData[0].secondaryColor.r;
           GLfloat *vertexWeights=&myMesh->vData[0].vertexWeights.x;
           GLfloat *boneReferences=&myMesh->vData[0].boneReferences.x;
 
 
 
           glEnableClientState(GL_VERTEX_ARRAY);
-          glEnableClientState(GL_NORMAL_ARRAY);
+          //glEnableClientState(GL_NORMAL_ARRAY);
           glEnableClientState(GL_COLOR_ARRAY);
-          glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
+          //glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
 
 		  glVertexPointer(4, GL_FLOAT,sizeof(myMesh->vData[0]),verts);
-          glNormalPointer(GL_FLOAT,sizeof(myMesh->vData[0]),normals);
+          //glNormalPointer(GL_FLOAT,sizeof(myMesh->vData[0]),normals);
 		  glColorPointer(4, GL_FLOAT,sizeof(myMesh->vData[0]),colors);
-		  glSecondaryColorPointer(3, GL_FLOAT,sizeof(myMesh->vData[0]),secondaryColors);
+		  //glSecondaryColorPointer(3, GL_FLOAT,sizeof(myMesh->vData[0]),secondaryColors);
 
           #ifdef BDEBUGRENDERER
           checkOpenGLError("drawParticles Array Pointers...");
@@ -2158,9 +2158,9 @@ void Renderer::drawParticles (Actor* a){
           glDrawArrays(GL_POINTS,0,myMesh->vData.size());
 
           glDisableClientState(GL_VERTEX_ARRAY);
-          glDisableClientState(GL_NORMAL_ARRAY);
+          //glDisableClientState(GL_NORMAL_ARRAY);
           glDisableClientState(GL_COLOR_ARRAY);
-          glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
+          //glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
 
           if (indexThree>-1)
             glDisableVertexAttribArray(indexThree);

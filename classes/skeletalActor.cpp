@@ -56,31 +56,6 @@ void SkeletalActor::postLoad(){
 
     Actor::postLoad();
 
-    //TODO:problem with actorList referencing!
-    /*
-    if (bPhysicsBones){          //remove geoms and bodys so we don't create ODE errors
-        if (bones.size()>0){
-            for (int i=0; i<(int)bones.size();i++){
-                if (bones[i]){
-                        ((PhysicsActor*)bones[i])->geom=0;
-                        ((PhysicsActor*)bones[i])->body=0;
-                        ((PhysicsActor*)bones[i])->joint=0;
-                    }
-                    bones[i]->remove();
-            }
-        }
-        bones.clear();
-    }
-    */
-
-    //always remove bones here if we have any!
-    //NO DON'T!! It will kill all references!
-    /*
-    for (int i=0;i<(int)bones.size();i++){
-        bones[i]->remove();
-    }
-    bones.clear();
-    */
     cout << "SkeletalActor Name: " << name << endl;
     cout << "SkeletalActor vboID: " << vboMeshID << endl;
 

@@ -21,8 +21,8 @@ public:
     virtual void selectActors(int btn, Actor* other);
     virtual void paint();
     virtual void erase();
-    virtual void singleSkin(int pID,int boneID);
-    virtual void eraseSingleSkin(int pID,int boneID);
+    virtual void singleSkin(int pID,int boneID, Vector3f distance);
+    virtual void eraseSingleSkin(int pID,int boneID, Vector3f distance);
 
 };
 #endif // SKINTOOL

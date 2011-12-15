@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <untitled amount="2" />
+    <untitled amount="3" />
     <StartScene name="blank.scene" />
+    <SpriteMesh meshID="untitled2" meshFilename="untitled/untitled2.spriteMesh" />
     <SpriteMesh meshID="untitled1" meshFilename="untitled/untitled1.spriteMesh" />
     <SpriteMesh meshID="untitled0" meshFilename="untitled/untitled0.spriteMesh" />
 </Moviesandbox>
