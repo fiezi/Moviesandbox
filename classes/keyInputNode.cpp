@@ -11,8 +11,12 @@ KeyInputNode::KeyInputNode(){
     listProp.push_back("KEYINPUT");
     listIcon.push_back("icon_flat");
 
+
+    buttonColor=Vector4f(0.5,1.0,0.5,1.0);
+    mouseOverColor=Vector4f(0.7,1.0,0.7,1.0);
+
     registerProperties();
-    }
+}
 
 KeyInputNode::~KeyInputNode(){}
 

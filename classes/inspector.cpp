@@ -57,8 +57,7 @@ void Inspector::setup(){
     backgroundButton=new BasicButton;
     sceneData->buttonList.push_back(backgroundButton);
     backgroundButton->sceneShaderID="buttonColor";
-	backgroundButton->setTextureID("icon_flat");
-    //do not do mouseOver highlighting for background of inspectors...
+	//do not do mouseOver highlighting for background of inspectors...
     if (tabHeight==0){
         backgroundButton->scale.x=350;
         backgroundButton->scale.y=renderer->windowY-location.y;

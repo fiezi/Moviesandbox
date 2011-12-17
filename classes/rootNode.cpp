@@ -4,9 +4,11 @@
 
 RootNode::RootNode(){
 
-name="RootNode";
-color=Vector4f(0.5,0.5,1.0,1.0);
-treeStart=this;
+    name="RootNode";
+    buttonColor=Vector4f(0.5,0.5,1.0,1.0);
+    mouseOverColor=Vector4f(0.7,0.7,1.0,1.0);
+
+    treeStart=this;
 }
 
 RootNode::~RootNode(){

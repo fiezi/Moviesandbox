@@ -29,10 +29,34 @@ void CreateNodeButton::mouseOver(){
 BasicButton::mouseOver();
 }
 
-void CreateNodeButton::mouseDrag(){}
+void CreateNodeButton::mouseDrag(){
+
+    input->dragButton=this;
+    setLocation(Vector3f(input->mouseX-scale.x/2,input->mouseY-scale.y/2,0));
+}
+
+void CreateNodeButton::finishDrag(){
+
+    cout << "finish drag nodebutton" << endl;
+
+    createNewActor(buttonProperty);
+
+    //we need to do this to make it possible to generate ScriptNodes (with only one NodeIO)!!!!
+    myNode=(Node*) sceneData->nodeList.back();
+
+    cout << "referencing node: " << myNode->name << endl;
+
+    myNode->setup();
+
+    myNode->setLocation( Vector3f(input->mouseX,input->mouseY,100.0));
+
+    input->dragButton=NULL;
+}
 
 void CreateNodeButton::clickedLeft(){
 
+    BasicButton::clickedLeft();
+    return;
     input->focusButton=this;
 
     createNewActor(buttonProperty);

@@ -3,7 +3,8 @@
 
 NodeIO::NodeIO(){
 
-    color=Vector4f(0,0,0,1);
+    buttonColor=Vector4f(0,0,0,1);
+    mouseOverColor=Vector4f(0.8,0.2,0.2,1);
     minScale=Vector3f(12,12,1);
     scale=minScale;
     maxScale=Vector3f(16,16,1);
@@ -25,14 +26,15 @@ void NodeIO::setup(){
 
 void NodeIO::update(double deltaTime){
 
+    BasicButton::update(deltaTime);
 }
 
 void NodeIO::mouseOver(){
 
-BasicButton::mouseOver();
+    BasicButton::mouseOver();
 
-if (scale.length()<maxScale.length())
-  scale*=1.1;
+    if (scale.length()<maxScale.length())
+        scale*=1.1;
 }
 
 void NodeIO::drawTooltip(){
@@ -44,14 +46,14 @@ void NodeIO::drawTooltip(){
     BasicButton::drawTooltip();
 
     if (bDrawLine){
-        renderer->setupShading("color");
+        renderer->setupShading("buttonColor");
         renderer->drawLine( Vector3f(location.x,location.y,location.z),
                             Vector3f(input->mouseX,input->mouseY,0.0),
                             Vector4f(1,0,0,1),Vector4f(1,0,0,1));
     }
     else if (bConnected && ((Node*)parent)->nodeOut==this){
 
-      renderer->setupShading("color");
+      renderer->setupShading("buttonColor");
       Vector3f distance=connector->location-location;
 
         renderer->drawLine( Vector3f(scale.x/2 + location.x,scale.y/2+location.y,0),
@@ -74,7 +76,7 @@ void NodeIO::drawTooltip(){
 
 void NodeIO::drawPlane(){
 
-BasicButton::drawPlane();
+    BasicButton::drawPlane();
 
 }
 

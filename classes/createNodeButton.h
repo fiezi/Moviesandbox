@@ -18,6 +18,8 @@ public:
 
     virtual void mouseOver();
     virtual void mouseDrag();
+    virtual void finishDrag();
+
     virtual void clickedLeft();
     virtual void clickedRight();
     virtual void focusClick();

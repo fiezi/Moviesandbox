@@ -6,13 +6,16 @@
 
 UdpInput::UdpInput(){
 
+
+name="UdpInput";
 bAlwaysUpdate=true;
 bPermanent=true;
 bDragable=true;
 sceneShaderID="buttonColor";
 scale.x=60;
 scale.y=30;
-color=Vector4f(0.3,0.7,0.3,1.0);
+buttonColor=Vector4f(0.3,0.7,0.3,1.0);
+mouseOverColor=Vector4f(0.5,0.7,0.5,1.0);
 channel=0;
 //clear memory
 

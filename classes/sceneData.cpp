@@ -405,6 +405,7 @@ void SceneData::setup(){
 
     inspectorManager=new InspectorManager;
 	controller=new Control;
+	//sceneData->helperList.push_back(controller);
 #ifdef TARGET_LINUX
     initGTK();  //should only be called once, no?
 #endif
@@ -757,8 +758,6 @@ void SceneData::createScene(){
     loadMeshes("resources/meshes/",library);
     loadTextures("resources/icons/",library);
     loadShaders("shaders/",library);
-    loadActionList("resources/actions/",library);
-
 
     //add Brush
     addBrush();
@@ -786,12 +785,15 @@ void SceneData::createScene(){
     //load library stuff
     getAllPrefabs();
 
+    //delayed loading of standard actions (otherwise they will not show up in the menu!)
+    loadActionList("resources/actions/",library);
+
+
     //load project library
     loadMeshes(startProject,startProject+"my.project");          //this one also sets the number of untitled drawings!
     loadTextures(startProject,startProject+"my.project");
     loadShaders(startProject,startProject+"my.project");
     loadActionList(startProject,startProject+"my.project");
-
 
     //then load scene
     cout << "loading basic stuff..." << endl;
@@ -1185,7 +1187,11 @@ void SceneData::loadAll(std::string fileName, bool bCleanUp){
 
 
     TiXmlDocument doc( stringName );
-    if (!doc.LoadFile()) return;
+    if (!doc.LoadFile()) {
+        cout << "ERROR: could not load scene! Will create empty scene instead..." << endl;
+        newScene();
+        return;
+    }
 
 
     TiXmlHandle hDoc(&doc);

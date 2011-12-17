@@ -16,6 +16,9 @@ Node::Node(){
     listWidth=100;
     listHeight=12;
     listColor=Vector4f(0.8,0.0,0.2,1.0);
+    buttonColor=Vector4f(0.5,0.5,0.5,1.0);
+    mouseOverColor=Vector4f(0.8,0.8,0.8,1.0);
+
 
 
     nodeBranch=0;
@@ -59,14 +62,14 @@ void Node::setup(){
 
 void Node::update(double deltaTime){
 
-ListButton::update(deltaTime);
+    ListButton::update(deltaTime);
 
-if (nodeIn){
-  nodeIn->setLocation(location - Vector3f( 0, nodeIn->scale.y, 0));
-  }
-if (nodeOut){
-  nodeOut->setLocation(location + Vector3f(scale.x-nodeOut->scale.x, scale.y, 0 ) );
-  }
+    if (nodeIn){
+      nodeIn->setLocation(location - Vector3f( 0, nodeIn->scale.y, 100));
+      }
+    if (nodeOut){
+      nodeOut->setLocation(location + Vector3f(scale.x-nodeOut->scale.x, scale.y, 100 ) );
+      }
 }
 
 
@@ -89,15 +92,14 @@ void Node::connectChild(Node* connectNode){
 
 void Node::mouseOver(){
 
-    //ListButton::mouseOver();
+    ListButton::mouseOver();
     //TODO: highlight dependent Actors
 }
 
 void Node::mouseDrag(){
 
-input->dragButton=this;
-location.x=input->mouseX-scale.x/2;
-location.y=input->mouseY-scale.y/2;
+    input->dragButton=this;
+    setLocation(Vector3f(input->mouseX-scale.x/2,input->mouseY-scale.y/2,100.0));
 }
 
 void Node::clickedLeft(){
@@ -107,7 +109,7 @@ void Node::clickedLeft(){
 
 void Node::clickedRight(){
 
-ListButton::clickedLeft();
+    ListButton::clickedLeft();
 }
 
 

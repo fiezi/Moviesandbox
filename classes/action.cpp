@@ -19,7 +19,8 @@ Action::Action(){
         bTextured=true;
         textureID="icon_base";
         name="newAction";
-        color=Vector4f(1.0,1.0,0.0,1.0);
+        buttonColor=Vector4f(0.70,0.7,0.2,1.0);
+        mouseOverColor=Vector4f(0.7,0.7,0.4,1.0);
 
         inPoint=0.0;
         outPoint=0.0;
@@ -28,6 +29,7 @@ Action::Action(){
         bSkeletal=false;
         bRelative=false;
 
+        bDrawListNames=true;
 
         listType.push_back("15TextInputButton");
         listName.push_back("name");
@@ -49,12 +51,12 @@ Action::Action(){
         listProp.push_back("BSKELETAL");
         listIcon.push_back("icon_base");
 
-
+/*
         listType.push_back("15TextInputButton");
         listName.push_back("import");
         listProp.push_back("NULL");
         listIcon.push_back("icon_load");
-
+*/
         registerProperties();
 }
 

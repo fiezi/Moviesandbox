@@ -12,8 +12,6 @@ WaitForTimerNode::WaitForTimerNode(){
     listProp.push_back("WAITTIME");
     listIcon.push_back("icon_flat");
 
-    color=Vector4f(0.5,0.5,0.5,1.0);
-
     registerProperties();
 }
 

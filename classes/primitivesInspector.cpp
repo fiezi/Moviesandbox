@@ -275,6 +275,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
 
         mine->listButton[i]->level=mine->level+1;
         mine->listButton[i]->bDrawName=true;
+        mine->listButton[i]->tooltip=mine->listName[i];
         mine->listButton[i]->color=Vector4f(1,1,1,1.0);
         mine->listButton[i]->bPermanent=true;
         mine->listButton[i]->bDragable=true;

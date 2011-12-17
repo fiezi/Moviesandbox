@@ -747,15 +747,18 @@ return i;
 
 Actor* MsbObject::readActor(char* cValue){
 
-    int i=-1;
+    int i=-65536;
     if( strncmp("actor* ",cValue,7) == 0 )
         sscanf((cValue+7),"%i",&i);
 
-    //no actorOffset, as we won't be doing prefeb stuff here!
+    //no actorOffset, as we won't be doing prefab stuff here!
     if (i >= 0 && i < (int)sceneData->actorList.size()){
         return sceneData->actorList[i];
         }
 
+    if (i<0 && -i<(int)sceneData->helperList.size()+1){
+        return sceneData->helperList[(-i)-1];
+    }
     return NULL;
 }
 

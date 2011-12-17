@@ -170,7 +170,6 @@ void AssetInspector::createInspectorButtons(){
     tabButton->buttonColor=sceneData->tabColor;
     inspectorButtons.push_back(tabButton);
     tabTriggerButtons.push_back(tabButton);
-
 }
 
 void AssetInspector::refreshList(){
@@ -504,6 +503,7 @@ void AssetInspector::ActionTab::assembleList(){
                 if (it->second){
 
                 mine->listButton.push_back(it->second);
+                //mine->sceneData->buttonList.push_back(it->second);
                 mine->listButton[i]->tooltip=mine->listButton[i]->name;
                 mine->listButton[i]->level=mine->level+1;
                 mine->listButton[i]->bDrawName=true;

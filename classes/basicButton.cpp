@@ -3,6 +3,9 @@
 BasicButton::BasicButton(){
 
     scale=Vector3f(30.0f,30.0f,30.0f);
+
+    buttonColor=Vector4f(1.0,0.0,0.0,1.0);
+    mouseOverColor=Vector4f(0.0,1.0,0.0,1.0);
     name="BasicButton";
     textureID="icon_base";
     bComputeLight=true;

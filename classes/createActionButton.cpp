@@ -23,28 +23,28 @@ TextInputButton::setup();
 
 void CreateActionButton::update(double deltaTime){
 
-TextInputButton::update(deltaTime);
+    TextInputButton::update(deltaTime);
 }
 
 void CreateActionButton::mouseOver(){
 
-TextInputButton::mouseOver();
+    TextInputButton::mouseOver();
 }
 
 void CreateActionButton::mouseDrag(){
-TextInputButton::mouseDrag();
+    TextInputButton::mouseDrag();
 }
 
 void CreateActionButton::finishDrag(){
-TextInputButton::finishDrag();
+    TextInputButton::finishDrag();
 }
 
 void CreateActionButton::clickedLeft(){
-TextInputButton::clickedLeft();
+    TextInputButton::clickedLeft();
 }
 
 void CreateActionButton::clickedRight(){
-TextInputButton::clickedRight();
+    TextInputButton::clickedRight();
 }
 
 void CreateActionButton::focusClick(){
@@ -85,6 +85,11 @@ void CreateActionButton::focusClick(){
     sceneData->staticButton=NULL;
 
     sceneData->buttonList.push_back(newAction);
+    //need to update assetInspector
+    for (int i=0;i<(int)sceneData->inspectorManager->inspectors.size();i++)
+        if (sceneData->inspectorManager->inspectors[i]->name=="assetInspector")
+            sceneData->inspectorManager->inspectors[i]->tabs[sceneData->inspectorManager->inspectors[i]->currentTab]->assembleList();
+
 
     //clean up
     input->inputText="";

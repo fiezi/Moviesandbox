@@ -61,7 +61,7 @@ void Content::setup(){
     sceneData->buttonList.push_back(but);
 
 
-    createMonitors();
+    //createMonitors();
 
     //offset for left hand side menu
     int yPos=48;
