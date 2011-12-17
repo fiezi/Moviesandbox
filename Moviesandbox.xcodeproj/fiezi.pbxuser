@@ -2,7 +2,7 @@
 {
 	08FB7793FE84155DC02AAC07 /* Project object */ = {
 		activeArchitecturePreference = i386;
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Release;
 		activeExecutable = 185F44D4111620F2007024FB /* Moviesandbox */;
 		activeTarget = 185F44D2111620F2007024FB /* Moviesandbox */;
 		addToTargets = (
@@ -125,8 +125,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 345668357;
-			PBXWorkspaceStateSaveDate = 345668357;
+			PBXPerProjectTemplateStateSaveDate = 345815310;
+			PBXWorkspaceStateSaveDate = 345815310;
 		};
 		perUserProjectItems = {
 			1805E8CB132AF30600DF1107 /* PBXTextBookmark */ = 1805E8CB132AF30600DF1107 /* PBXTextBookmark */;
@@ -145,6 +145,9 @@
 			1826A55714881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55714881DA300DBAEA6 /* PBXTextBookmark */;
 			1826A55814881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55814881DA300DBAEA6 /* PBXTextBookmark */;
 			1826A55914881DA300DBAEA6 /* PBXTextBookmark */ = 1826A55914881DA300DBAEA6 /* PBXTextBookmark */;
+			18350100149CB9BA001A0DB2 /* PBXTextBookmark */ = 18350100149CB9BA001A0DB2 /* PBXTextBookmark */;
+			18350101149CB9BA001A0DB2 /* PBXTextBookmark */ = 18350101149CB9BA001A0DB2 /* PBXTextBookmark */;
+			1835010F149CBBA1001A0DB2 /* PBXTextBookmark */ = 1835010F149CBBA1001A0DB2 /* PBXTextBookmark */;
 			18390A58145A00740008AD89 /* PBXTextBookmark */ = 18390A58145A00740008AD89 /* PBXTextBookmark */;
 			18390A59145A00740008AD89 /* PBXTextBookmark */ = 18390A59145A00740008AD89 /* PBXTextBookmark */;
 			18390A6C145A02570008AD89 /* PBXTextBookmark */ = 18390A6C145A02570008AD89 /* PBXTextBookmark */;
@@ -185,8 +188,6 @@
 			18BE1D5B148716F100886566 /* PBXTextBookmark */ = 18BE1D5B148716F100886566 /* PBXTextBookmark */;
 			18D6696D14988310008A23FF /* PBXTextBookmark */ = 18D6696D14988310008A23FF /* PBXTextBookmark */;
 			18DE3A31149A7BCA00863884 /* PBXTextBookmark */ = 18DE3A31149A7BCA00863884 /* PBXTextBookmark */;
-			18DE3A32149A7BCA00863884 /* PBXTextBookmark */ = 18DE3A32149A7BCA00863884 /* PBXTextBookmark */;
-			18DE3A33149A7BCA00863884 /* PBXTextBookmark */ = 18DE3A33149A7BCA00863884 /* PBXTextBookmark */;
 			18E637D0134226EC00B675F8 /* PBXTextBookmark */ = 18E637D0134226EC00B675F8 /* PBXTextBookmark */;
 			18E637D1134226EC00B675F8 /* PBXTextBookmark */ = 18E637D1134226EC00B675F8 /* PBXTextBookmark */;
 			18E637F713422CC400B675F8 /* PBXTextBookmark */ = 18E637F713422CC400B675F8 /* PBXTextBookmark */;
@@ -701,9 +702,9 @@
 	};
 	1811641510CB3816007AE094 /* input.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {906, 2613}}";
-			sepNavSelRange = "{893, 71}";
-			sepNavVisRange = "{458, 1477}";
+			sepNavIntBoundsRect = "{{0, 0}, {966, 1599}}";
+			sepNavSelRange = "{1112, 0}";
+			sepNavVisRange = "{455, 1458}";
 		};
 	};
 	1811641810CB3816007AE094 /* inspector.cpp */ = {
@@ -1332,6 +1333,36 @@
 			sepNavSelRange = "{4419, 0}";
 			sepNavVisRange = "{4300, 540}";
 		};
+	};
+	18350100149CB9BA001A0DB2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 186E2A7B13355A69007A8129 /* config.xml */;
+		name = "config.xml: 3";
+		rLen = 0;
+		rLoc = 38;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 0;
+	};
+	18350101149CB9BA001A0DB2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1811641510CB3816007AE094 /* input.h */;
+		name = "input.h: 46";
+		rLen = 71;
+		rLoc = 893;
+		rType = 0;
+		vrLen = 1458;
+		vrLoc = 455;
+	};
+	1835010F149CBBA1001A0DB2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1811641510CB3816007AE094 /* input.h */;
+		name = "input.h: 54";
+		rLen = 0;
+		rLoc = 1112;
+		rType = 0;
+		vrLen = 1458;
+		vrLoc = 455;
 	};
 	18390A4E145A00390008AD89 /* actorGizmo.h */ = {
 		uiCtxt = {
@@ -2022,26 +2053,6 @@
 		rType = 0;
 		vrLen = 1540;
 		vrLoc = 51485;
-	};
-	18DE3A32149A7BCA00863884 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 186E2A7B13355A69007A8129 /* config.xml */;
-		name = "config.xml: 3";
-		rLen = 0;
-		rLoc = 334;
-		rType = 0;
-		vrLen = 1114;
-		vrLoc = 0;
-	};
-	18DE3A33149A7BCA00863884 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 186E2A7B13355A69007A8129 /* config.xml */;
-		name = "config.xml: 3";
-		rLen = 0;
-		rLoc = 38;
-		rType = 0;
-		vrLen = 1098;
-		vrLoc = 0;
 	};
 	18DFE98910CBF7DC00E4FFE2 /* freeglut.h */ = {
 		uiCtxt = {
