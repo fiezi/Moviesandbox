@@ -14,7 +14,6 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
-					<Add option="-Wno-multichar" />
 					<Add option="-DBDEBUGRENDERER" />
 				</Compiler>
 			</Target>
@@ -25,7 +24,6 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Compiler>
-					<Add option="-march=pentium4" />
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-O3" />
 					<Add option="-O2" />
@@ -39,6 +37,7 @@
 		</Build>
 		<Compiler>
 			<Add option="`pkg-config --cflags gtk+-2.0 `" />
+			<Add option="-Wno-multichar" />
 			<Add option="-DOSC_HOST_LITTLE_ENDIAN" />
 			<Add directory="classes" />
 			<Add directory="classes/linux" />
