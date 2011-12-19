@@ -763,7 +763,7 @@ void Renderer::setupCamera(bool bCalculateMatrices){
 	//gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
 	//gluPerspective(fov,(screenY==0)?(1):((float)scene_size/scene_size),nearClip,farClip);
 	//gluPerspective(fov,(screenY==0)?(1):((float)screenX/screenY),nearClip,farClip);
-	gluPerspective(fov,(float)windowX/windowY,nearClip,farClip);
+	gluPerspective(fov,((float)windowX)/((float)windowY),nearClip,farClip);
 
 
 //setup camera

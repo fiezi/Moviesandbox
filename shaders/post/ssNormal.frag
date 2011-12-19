@@ -131,7 +131,7 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 }
 
 
-vec4 blur3(sampler2D myTex, vec2 tc){
+vec4 blur3(sampler2D myTex, vec2 tc, float bias){
 
       vec4 sample[9];
 
@@ -152,7 +152,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       for (int i=0 ; i<9 ; i++)
       {
-        sample[i]=texture2D(myTex , tc + tc_offset[i]);
+        sample[i]=texture2D(myTex , tc + tc_offset[i], bias);
       }
 
       vec4 blurredColor=(
@@ -170,7 +170,8 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 void getPixelLoc(){
 
     vec2 tc=texCoord;
-    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    //zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc,0.5 ).rg) * (farClip);
 
 }
 
@@ -190,7 +191,7 @@ vec4 computeNormals(){
     //return vec4 (dy) * 10.0;
 
     //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(dx,dy,0.05));
+    vec3 pixelNormal=normalize(vec3(dx,dy,0.1));
 
     return (vec4(pixelNormal.xyz,1.0)/1.0);
 }

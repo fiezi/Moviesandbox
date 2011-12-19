@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<Moviesandbox>
+    <untitled amount="0" />
+    <StartScene name="bob_Drawn.scene" />
+    <Action actionFilename="argueOne.action" />
+    <Action actionFilename="clap.action" />
+    <Action actionFilename="discussOne.action" />
+    <Action actionFilename="explain.action" />
+    <Action actionFilename="pointRight.action" />
+    <Action actionFilename="talkOne.action" />
+    <Action actionFilename="waitElbow.action" />
+    <Action actionFilename="waveLeft.action" />
+</Moviesandbox>

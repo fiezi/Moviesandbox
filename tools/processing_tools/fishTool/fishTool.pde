@@ -49,7 +49,7 @@ void setup() {
    * and the port of the remote location address are the same, hence you will
    * send messages back to this sketch.
    */
-  myRemoteLocation = new NetAddress("192.168.3.105",31841);
+  myRemoteLocation = new NetAddress("127.0.0.1",31841);
   
   vectorX=new slider(200,20);
   vectorY=new slider(320,20);

@@ -138,7 +138,7 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 }
 
 
-vec4 blur3(sampler2D myTex, vec2 tc){
+vec4 blur3(sampler2D myTex, vec2 tc, float bias){
 
 		vec2 tc_offset[25];
 
@@ -163,15 +163,15 @@ vec4 blur3(sampler2D myTex, vec2 tc){
       tc_offset[8]=spread * vec2(1.0,-1.0);
 
 
-		sample[0]=texture2D(myTex ,tc + tc_offset[0], 1.0 );
-		sample[1]=texture2D(myTex ,tc + tc_offset[1], 1.0);
-		sample[2]=texture2D(myTex ,tc + tc_offset[2], 1.0 );
-		sample[3]=texture2D(myTex ,tc + tc_offset[3], 1.0 );
-		sample[4]=texture2D(myTex ,tc + tc_offset[4], 1.0 );
-		sample[5]=texture2D(myTex ,tc + tc_offset[5], 1.0 );
-		sample[6]=texture2D(myTex ,tc + tc_offset[6], 1.0 );
-		sample[7]=texture2D(myTex ,tc + tc_offset[7], 1.0 );
-		sample[8]=texture2D(myTex ,tc + tc_offset[8], 1.0 );
+		sample[0]=texture2D(myTex ,tc + tc_offset[0], bias );
+		sample[1]=texture2D(myTex ,tc + tc_offset[1], bias);
+		sample[2]=texture2D(myTex ,tc + tc_offset[2], bias );
+		sample[3]=texture2D(myTex ,tc + tc_offset[3], bias);
+		sample[4]=texture2D(myTex ,tc + tc_offset[4], bias );
+		sample[5]=texture2D(myTex ,tc + tc_offset[5], bias );
+		sample[6]=texture2D(myTex ,tc + tc_offset[6], bias );
+		sample[7]=texture2D(myTex ,tc + tc_offset[7], bias );
+		sample[8]=texture2D(myTex ,tc + tc_offset[8], bias );
 
 
 
@@ -195,7 +195,7 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    zPos= unpackToFloat(blur3(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
     //zPos= unpackToFloat(texture2D(depthTex,tc)) * (farClip);
 
 
@@ -235,7 +235,7 @@ vec4 computeLight(){
 
     vec3 lightDirectionNormalized =normalize(lightDirection);
 
-    vec3 pixelNormal=blur3(normalTex,texCoord).xyz;
+    vec3 pixelNormal=blur3(normalTex,texCoord,1.0).xyz;
 
     //diffuse is dot Product of lightdirection on pixel normal
 	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );

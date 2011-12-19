@@ -47,7 +47,14 @@ vec2 packToVec2(float value){
 
 void main(){
 
-    gl_FragData[0]= gl_Color * postColor;
+    vec4 objColor=gl_Color * postColor;
+
+
+
+    objColor.r=floor(objColor.r*100.0)/100.0 ;
+    objColor.r=max(0.0,objColor.r);
+
+    gl_FragData[0]=objColor;
 
     gl_FragData[1].xy=packToVec2(zPos);
     gl_FragData[1].zw=packToVec2(oID);
