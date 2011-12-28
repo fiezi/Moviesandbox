@@ -309,7 +309,7 @@ void endFileLog(){
 int main(int argc, char* argv[]){
 
 
-    startFileLog();
+    //startFileLog();
 
 	glutInit(&argc, argv);
 
@@ -320,11 +320,14 @@ int main(int argc, char* argv[]){
     createSplashScreen();
 
 	//TODO: make proper command line parameters...
-	if (argc>1)
+	/*
+    if (argc>1)
 		selectRenderer(true);
 	else
 		selectRenderer(false);
+     */
 
+    selectRenderer(false);
 
     sceneDataManager=SceneData::getInstance();
     inputManager=Input::getInstance();

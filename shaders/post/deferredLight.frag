@@ -217,6 +217,8 @@ vec4 computeLight(){
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
 
+    lightPos.a=1.0    
+    return lightPos;
 	//colorLight=vec4(1.0,1.0,1.0,1.0);
 
     vec4 pp=pixelPos*(-zPos/10.0);
