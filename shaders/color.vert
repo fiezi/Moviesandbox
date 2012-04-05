@@ -51,7 +51,7 @@ void main(){
 
 
     //zPos=gl_Position.z/farClip;
-    zPos=gl_Position.z/farClip;
+    //zPos=gl_Position.z/farClip;
 
     vec4 myPos= gl_ModelViewMatrix * myVertex;
     zPos=myPos.z/farClip;

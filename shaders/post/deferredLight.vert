@@ -4,6 +4,7 @@ uniform float nearClip;
 uniform float farClip;
 
 uniform mat4 projectionMatrix;
+uniform mat4 projectionInverse;
 uniform mat4 cameraMatrix;
 uniform mat4 cameraInverse;
 uniform mat4 lightViewMatrix;
@@ -29,10 +30,8 @@ void main(){
     lightPos.w=1.0;
     //light in Eye Space
     lightPos = cameraMatrix * lightPos;
-    //light in screen space
-    lightPos.xy/=(lightPos.z);
+
     float lightZScreen=farClip/ (farClip - lightPos.z * (farClip- nearClip));
-    lightPos/=-(lightZScreen) ;
     lightPos.z= 1.0/lightZScreen;
 
 
