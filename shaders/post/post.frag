@@ -48,7 +48,7 @@ varying vec2 texCoord;
 	float circleRes= 8.0;           //samples per circle
     float stepsize = 2.0;          //distance of next point in pixels
 
-	float aoMultiplier=10.0;        //progressive darkening
+	float aoMultiplier=20.0;        //progressive darkening
 	float falloff =1.015;
 
     float minDepth=0.05;           //minimum distance to take into account
@@ -302,7 +302,7 @@ void main(void){
         gl_FragData[0].r=1.0;
 */
     //gl_FragData[0]/=3.0;
-    //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
+    gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
     //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;
     //gl_FragData[0].b+=0.0001 * texture2D(depthTex, texCoord).b;
     //gl_FragData[0].a=1.0;

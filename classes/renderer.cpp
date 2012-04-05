@@ -776,6 +776,21 @@ void Renderer::setupCamera(bool bCalculateMatrices){
     if (bCalculateMatrices){
         glGetFloatv(GL_PROJECTION_MATRIX,projectionMatrix);
         glGetFloatv(GL_MODELVIEW_MATRIX,cameraMatrix);
+
+        cameraRotationMatrix[0]= cameraMatrix[0];
+        cameraRotationMatrix[1]= cameraMatrix[1];
+        cameraRotationMatrix[2]= cameraMatrix[2];
+
+        cameraRotationMatrix[3]= cameraMatrix[4];
+        cameraRotationMatrix[4]= cameraMatrix[5];
+        cameraRotationMatrix[5]= cameraMatrix[6];
+
+        cameraRotationMatrix[6]= cameraMatrix[8];
+        cameraRotationMatrix[7]= cameraMatrix[9];
+        cameraRotationMatrix[8]= cameraMatrix[10];
+
+       // inverseCameraRotationMatrix=cameraRotationMatrix.inverse();
+
         inverseCameraMatrix=cameraMatrix.inverse();
         inverseProjectionMatrix=projectionMatrix.inverse();
     }
@@ -1206,7 +1221,6 @@ void Renderer::drawDeferredLighting(Layer* layer){
             layer->setTextureID("lighting");
             //set our shader to
             layer->sceneShaderID="deferredLight";
-
 
             drawButton(layer);
 

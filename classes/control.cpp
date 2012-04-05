@@ -116,10 +116,13 @@ void Control::startMovie(){
 
 bRunning=!bRunning;
 
-if (bRunning)
-	start();
-else
-	stop();
+    if (bRunning)
+        start();
+    else{
+        stop();
+        sceneData->controller->controlledActor=sceneData->controller;
+    }
+
 }
 
 

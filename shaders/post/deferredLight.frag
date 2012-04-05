@@ -18,6 +18,11 @@ uniform mat4 lightProjectionMatrix;
 
 uniform mat4 cameraMatrix;
 uniform mat4 cameraInverse;
+uniform mat4 projectionMatrix;
+uniform mat4 projectionInverse;
+
+uniform mat4 inverseCameraRotationMatrix;
+uniform mat4 cameraRotationMatrix;
 
 
 uniform vec3 camLoc;
@@ -34,7 +39,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 32.0;
+const float specularExp = 64.0;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -195,17 +200,36 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
-    //zPos= unpackToFloat(texture2D(depthTex,tc)) * (farClip);
+    //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
 
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+
+    zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
 
     //zPos= unpackToFloat(texture2D(depthTex,texCoord)) * (farClip-nearClip);
     //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
-    zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //pixel in screen space
-    pixelPos=vec4((texCoord.x-0.5) * 0.835 * screenX/screenY, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
+    //pixelPos=vec4((texCoord.x-0.5) * 0.835 * screenX/screenY, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
     //pixelPos=(vec4(texCoord.x-0.5, texCoord.y-0.5, zPos,1.0)/zPosScreen)/10.0;
-    pixelPos.w=1.0;
+    pixelPos.z=1.0/zPosScreen;
+
+    pixelPos.y=gl_FragCoord.y/screenY - 0.5;
+    pixelPos.x=gl_FragCoord.x/screenX - 0.5;
+
+    pixelPos.xy*=pixelPos.z;
+
+     //pixelPos=projectionMatrix * pixelPos;
+    // pixelPos.xyz= -pixelPos.x * camX.xyz   + pixelPos.y * camY.xyz  + pixelPos.z * camZ.xyz   - camLoc.xyz;// + camY * pixelPos.y + camZ* pixelPos.z;
+
+
+
+    //pixelPos.xyz=camX * pixelPos.x + camY*pixelPos.y+camZ*pixelPos.z;
+    //pixelPos= cameraInverse *  pixelPos ;
+    //pixelPos.z=1.0/zPosScreen;
+    //pixelPos.x*=pixelPos.z;
+    //pixelPos.y*=pixelPos.z;
+    //pixelPos.z=zPos*zPosScreen;
+    //pixelPos.z=-zPos;
 }
 
 
@@ -216,49 +240,62 @@ vec4 computeLight(){
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
+    vec4 pp=pixelPos;//*(-zPos/10.0);
 
-    lightPos.a=1.0    
-    return lightPos;
-	//colorLight=vec4(1.0,1.0,1.0,1.0);
+    //pp.z*=0.001;
+    vec3 pixelNormal=texture2D(normalTex,texCoord,1.0).xyz;
+    pixelNormal-=0.5;
+    pixelNormal*=2.0;
+    //pixelNormal=pixelNormal.y;
 
-    vec4 pp=pixelPos*(-zPos/10.0);
-    //pp.z/=zPos;
+    pixelNormal=normalize(pixelNormal);
+    vec3 lightDirection =   pp - lightPos;
 
-
-    float xDist= (lightPos.x/10.0 - pp.x); //* screenX/screenY;
-    float yDist= (lightPos.y/10.0 - pp.y);//* screenY/screenX;
-    float zDist= (lightPos.z /10.0- pp.z)/100.0;
-
-//	return vec4(xDist,yDist,zDist,1.0);
+    vec4 lD=vec4(0.0);
+    lD.xyz=lightDirection.xyz;
 
 
-    vec3 lightDirection=vec3(-xDist,-yDist,zDist/1.0);
-    float lightDistance=length(lightDirection)*10.0;
+    lD.y = (gl_FragCoord.y/screenY*2.0-1.0) - (lightPos.y* 2.0)/lightPos.z;
+    lD.x = (gl_FragCoord.x/screenX*2.0-1.0) - (lightPos.x* 2.0)/lightPos.z;
+    lD.z=(farClip-zPos)-nearClip;
+    //lD.z= lightPos.z;
+    //lD.z=-zPosScreen * farClip* 26.0;
+    if (lightPos.z>0.0)
+        lD.z= (lightPos.z -lD.z)/lightPos.z;
+    else
+       lD.z= -(lightPos.z -lD.z)/lightPos.z;
 
-    vec3 lightDirectionNormalized =normalize(lightDirection);
+    float NdotP = dot(pixelNormal,normalize(pixelPos.xyz));
+/*
+    lD.z*=100.0;
+    lD.x*=20.0;
+    lD.y*=20.0;
+*/
 
-    vec3 pixelNormal=blur3(normalTex,texCoord,1.0).xyz;
+    float NdotC = dot(pixelNormal, camZ);
+    //float NdotL= dot(pixelNormal,normalize(lD.xyz));
+    float NdotL= dot(pixelNormal,normalize(lD.xyz));
+    //float NdotL= max(dot(pixelNormal,normalize(lD.xyz)),0.0);
+
+
+    colorLight.xyz=abs(lightPos.xyz)/1000.0;
+    colorLight.xyz=(lightDirection.xyz)/10.0;
+    colorLight.xyz=(lD.y)/1.0;
+    //colorLight.xyz=(lD)/1.0;
+    //colorLight.y=-(gl_FragCoord.y/screenY*2.0-1.0) + (lightPos.y)/10.0;
+    //colorLight.y=lightPos.y;
+   colorLight.xyz=(NdotP+NdotL);
+   colorLight.xyz=(lD.xyz)/0.10;
+
+   //colorLight.xyz=(NdotL * 100.0/length(lightDirection.xyz) );
+   colorLight.xyz=-(NdotL)*1.0;
+   //colorLight.xyz=(NdotC)*1.0;
+ //   colorLight.xyz=(pixelNormal);
 
     //diffuse is dot Product of lightdirection on pixel normal
-	float lightDotPixel = max(0.0,(dot(pixelNormal,lightDirectionNormalized) )  );
-	colorLight.rgb += 1.0 * lightColor * lightDotPixel;
-
-    //specular is exaggeration of tight angles
-
-	if( lightDotPixel > 0.0 ){
-		vec3 NH = normalize( lightDirectionNormalized +vec3(0.0,0.0,1.0) );
-        colorLight.rgb += 1.0 * lightColor * pow(max(0.0,dot(pixelNormal,NH)),specularExp);
-	}
-
-    //falloff
-    float falloff = max(0.0,(gl_LightSource[0].linearAttenuation-lightDistance)/gl_LightSource[0].linearAttenuation);
-    colorLight= colorLight * falloff;
-
-    //return here if we're out of range!
-    if (lightDistance>gl_LightSource[0].linearAttenuation)
-       colorLight= vec4(0.0,0.0,0.0,1.0);
-
     return colorLight;
+
+
 }
 
 
@@ -321,7 +358,9 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+    //gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+    gl_FragColor= computeLight();
+    //gl_FragColor= vec4(1,0,0,1);
 
 
 }

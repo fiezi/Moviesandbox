@@ -79,6 +79,13 @@ void CameraActor::update(double deltaTime){
         setLocation(location);
     }
 
+    //TODO: hack to make Cameras disappear!
+    if (Control::bRunning)
+        drawType=DRAW_NULL;
+    else
+        drawType=DRAW_VBOMESH;
+
+
     Actor::update(deltaTime);
 }
 

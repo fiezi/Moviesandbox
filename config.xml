@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <Settings WindowSizeX="1024" WindowSizeY="768" ScreenSizeX="1024" ScreenSizeY="768" bWarpMouse="0" bFullScreen="0" BackgroundTex="background" bDrawLighting="0" bMultisample="0" numSamples="2" ShadowSize="2.0" LightingSize="1.0" SceneSize="1.0" MouseSensitivity="0.08" MoveSpeed="8.0" FOV="45" SceneTemplateName="blank.scene" StartProject="projects/emptyProject/" />
+    <Settings WindowSizeX="1024" WindowSizeY="768" ScreenSizeX="1024" ScreenSizeY="768" bWarpMouse="0" bFullScreen="0" BackgroundTex="background" bDrawLighting="0" bMultisample="0" numSamples="2" ShadowSize="2.0" LightingSize="1.0" SceneSize="1.0" MouseSensitivity="0.08" MoveSpeed="8.0" FOV="45" SceneTemplateName="blank.scene" StartProject="C:/Moviesandbox/projects/youCarryMe/" />
     <ExternalInput taskName="moviesandbox" filenameWin32="./Moviesandbox.exe" filenameOSX="./Moviesandbox.app/Contents/MacOS/Moviesandbox" filenameLinux="./Moviesandbox" />
     <ExternalInput taskName="kinectInput" filenameWin32="tools/msbKinect/msbKinect.exe" filenameOSX="tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect" filenameLinux="tools/msbKinect/msbKinect" />
     <ExternalInput taskName="audioInput" filenameWin32="tools/AudioTool.exe" filenameOSX="NULL" filenameLinux="NULL" />

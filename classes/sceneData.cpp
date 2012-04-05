@@ -2204,7 +2204,7 @@ string SceneData::saveFileDialog(string ext){
 
 
     wchar_t fileName[MAX_PATH] = L"";
-    char * extension;
+    //char * extension;
     OPENFILENAMEW ofn;
     memset(&ofn, 0, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);

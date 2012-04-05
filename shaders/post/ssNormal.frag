@@ -171,7 +171,11 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
     //zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
-    zPos= unpackToFloat(blur3(depthTex,tc,0.5 ).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc,0.0 ).rg) * (farClip);
+    //zPos= unpackToFloat(blur5(depthTex,tc ).rg) * (farClip);
+    zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
+    zPos=1.0/zPosScreen;
+
 
 }
 
@@ -184,16 +188,21 @@ vec4 computeNormals(){
     //we exagerrate along z - because differences become more significant with higher z
     //float dx= dFdx(zPos)/(zPos*zPos);
     //float dy= dFdy(zPos)/(zPos*zPos);
-    float dy= dFdy(zPos);
-    float dx= dFdx(zPos);
+    float dy= dFdy(zPos * farClip);
+    float dx= dFdx(zPos * farClip);
+    //float dy= dFdy(zPos );
+    //float dx= dFdx(zPos );
     //return vec4 (dx,dy,0.0,1.0) * 1.0;
     //return vec4 (fwidth(zPos)) * 1.0;
     //return vec4 (dy) * 10.0;
 
     //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(dx,dy,0.1));
+    vec3 pixelNormal=normalize(vec3(dx,dy,10.0));
 
-    return (vec4(pixelNormal.xyz,1.0)/1.0);
+    pixelNormal*=0.5;
+    pixelNormal+=0.5;
+
+    return (vec4(pixelNormal.xyz,1.0));
 }
 
 

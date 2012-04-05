@@ -151,7 +151,7 @@ void NavTool::processMove(double deltaTime){
     sceneData->controller->upPoint=controlledActor->yAxis;
 
     //TODO: why is this necessary?
-    if (controlledActor==sceneData->controller)
-        sceneData->controller->upPoint=Vector3f(0,1,0);
+    //if (controlledActor==sceneData->controller)
+     //   sceneData->controller->upPoint=Vector3f(0,1,0);
 
 }

@@ -93,6 +93,11 @@ void DrawTool::stop(){
     //switch to vboMesh drawing mode
     brush->drawing->drawType=DRAW_VBOMESH;
 
+    //make sure we are resetting the drawing to be pickable (after importing a .tga file for example)
+    brush->drawing->bPickable=true;
+    brush->drawing->bZTest=true;
+    brush->drawing->bZWrite=true;
+
     //forget our drawing!
     brush->drawing=NULL;
 

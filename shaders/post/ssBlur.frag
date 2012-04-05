@@ -132,6 +132,7 @@ void main(){
       for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
 
-    gl_FragColor=blur3(tex,texCoord,1.0);
+    //gl_FragColor=blur5(tex,texCoord,1.0);
+    gl_FragColor=texture2D(tex,texCoord,1.0);
 
 }

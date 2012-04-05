@@ -56,6 +56,15 @@ public:
 protected:
 
     virtual void ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& remoteEndpoint );
+
+    virtual void setPropertyForSelected(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void switchCameraToSelected(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void selectPart(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void playPart(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void triggerPart(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void brushPart(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+    virtual void pilotPart(const osc::ReceivedMessage& m, char* adressPart, string partAsString);
+
     virtual void update(float deltaTime);
 
 };

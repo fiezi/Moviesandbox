@@ -173,6 +173,10 @@ public:
         Matrix4f projectionMatrix;
         Matrix4f inverseProjectionMatrix;
         Matrix4f cameraMatrix;
+
+        Matrix3f cameraRotationMatrix;
+        Matrix3f inverseCameraRotationMatrix;
+
         Matrix4f inverseCameraMatrix;
 
         Matrix4f cameraProjectionMatrix;

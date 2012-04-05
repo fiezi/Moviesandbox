@@ -163,7 +163,7 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 ((DrawTool*)sceneData->controller->currentTool)->paint();
 
             ///fill holes
-            /*
+
                 float myDepth=(float)myColor->rgbReserved;
                 float fillStep=1.0;
 
@@ -188,11 +188,11 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
 
                 if (fillDepth + fillStep/32.0f <myDepth){
                     int i=1;
-                    while    if (!sceneData->brush->drawing){
-        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
-        return;
-    }
- (fillDepth<myDepth){
+                     if (!sceneData->brush->drawing){
+                        sceneData->makeWarningPopUp("No drawing! \n please place a drawing first!", this);
+                        return;
+                    }
+                while   (fillDepth<myDepth){
                         sceneData->brush->setLocation(sceneData->brush->location+ Vector3f(0,0,fillStep/32.0f));
                         input->mouse3D=sceneData->brush->location;
 						 ((DrawTool*)sceneData->controller->currentTool)->paint();
@@ -202,7 +202,7 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
                 }
 
         ///end fill holes
-        */
+
                 //flip y and z when shift down
                 //if (input->bShiftDown){
                     //float interim=xyzNormal.y;
