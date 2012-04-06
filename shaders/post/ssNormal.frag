@@ -210,9 +210,11 @@ vec4 computeNormals(){
      xVec= dx * camX;
 
     pixelNormal=  cross(yVec,xVec)   ;
-    pixelNormal.x=sin(dx * PI);
-    pixelNormal.y=sin(dy * PI);
-    pixelNormal.z=-(zPos/(328.0));
+    //pixelNormal.x=sin(dx * PI);
+    //pixelNormal.y=sin(dy * PI);
+    pixelNormal.x=dx;
+    pixelNormal.y=dy;
+    pixelNormal.z=-(zPos/512.0);
     pixelNormal=normalize(pixelNormal);
 
     pixelNormal=-pixelNormal.x * camX + pixelNormal.y  *camY + pixelNormal.z * camZ;
