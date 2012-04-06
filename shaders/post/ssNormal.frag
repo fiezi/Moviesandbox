@@ -17,6 +17,7 @@ uniform mat4 lightProjectionMatrix;
 
 uniform mat4 cameraMatrix;
 uniform mat4 cameraInverse;
+uniform mat4 inverseCameraRotationMatrix;
 
 
 uniform vec3 camLoc;
@@ -173,8 +174,8 @@ void getPixelLoc(){
     //zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
     zPos= unpackToFloat(blur3(depthTex,tc,0.0 ).rg) * (farClip);
     //zPos= unpackToFloat(blur5(depthTex,tc ).rg) * (farClip);
-    zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
-    zPos=1.0/zPosScreen;
+    //zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
+    //zPos=1.0/zPosScreen;
 
 
 }
@@ -188,8 +189,8 @@ vec4 computeNormals(){
     //we exagerrate along z - because differences become more significant with higher z
     //float dx= dFdx(zPos)/(zPos*zPos);
     //float dy= dFdy(zPos)/(zPos*zPos);
-    float dy= dFdy(zPos );
-    float dx= dFdx(zPos );
+    float dy= dFdy(zPos);
+    float dx= dFdx(zPos);
     //float dy= dFdy(zPos );
     //float dx= dFdx(zPos );
     //return vec4 (dx,dy,0.0,1.0) * 1.0;
@@ -197,8 +198,24 @@ vec4 computeNormals(){
     //return vec4 (dy) * 10.0;
 
     //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(dx,dy,1.0));
+    vec3 pixelNormal=normalize(vec3(sin(dx * PI),sin(dy * PI),0.1));
 
+    pixelNormal.x=dx;
+    pixelNormal.y=dy;
+    pixelNormal.z=0.0;
+
+     vec3 yVec=   vec3(0,1.0-dy,0);
+     vec3 xVec=  vec3(1.0-dx,0,0) ;
+     yVec= dy * camY;
+     xVec= dx * camX;
+
+    pixelNormal=  cross(yVec,xVec)   ;
+    pixelNormal.x=sin(dx * PI);
+    pixelNormal.y=sin(dy * PI);
+    pixelNormal.z=-(zPos/(328.0));
+    pixelNormal=normalize(pixelNormal);
+
+    pixelNormal=-pixelNormal.x * camX + pixelNormal.y  *camY + pixelNormal.z * camZ;
     pixelNormal*=0.5;
     pixelNormal+=0.5;
 

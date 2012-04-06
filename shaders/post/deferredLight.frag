@@ -39,7 +39,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 64.0;
+const float specularExp = 128.0;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -56,35 +56,35 @@ float zPosScreen;
 
 float unpackToFloat(vec4 value){
 
-	const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
+const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
 
-	return dot(value, bitSh);
+return dot(value, bitSh);
 }
 
 float unpackToFloat(vec3 value){
 
-	const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
+const vec3 bitSh = vec3(1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
 
-	return dot(value, bitSh);
+return dot(value, bitSh);
 }
 
 float unpackToFloat(vec2 value){
 
-	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
 
-	return dot(value, bitSh);
+return dot(value, bitSh);
 }
 
 
 vec4 blur5(sampler2D myTex,vec2 tc){
 
 
-	  vec2 tc_offset[25];
+vec2 tc_offset[25];
 
-		for (int i=0;i<25;i++)
+for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
 
-	    float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
+float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
       //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
 
       tc_offset[0]=spread * vec2(-2.0,-2.0);
@@ -145,15 +145,15 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 
 vec4 blur3(sampler2D myTex, vec2 tc, float bias){
 
-		vec2 tc_offset[25];
+vec2 tc_offset[25];
 
-		for (int i=0;i<25;i++)
+for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
 
-	  vec4 sample[9];
+vec4 sample[9];
 
-      float spread=1.0/screenX;//  * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
-      //float spread=0.250/shadow_size;//   * texture2D(myTex , tc).a/32.0;
+      float spread=1.0/screenX;// * unpackToFloat(texture2D(myTex , tc).rg)*farClip/16.0;
+      //float spread=0.250/shadow_size;// * texture2D(myTex , tc).a/32.0;
 
       tc_offset[0]=spread * vec2(-1.0,-1.0);
       tc_offset[1]=spread * vec2(0.0,-1.0);
@@ -168,15 +168,15 @@ vec4 blur3(sampler2D myTex, vec2 tc, float bias){
       tc_offset[8]=spread * vec2(1.0,-1.0);
 
 
-		sample[0]=texture2D(myTex ,tc + tc_offset[0], bias );
-		sample[1]=texture2D(myTex ,tc + tc_offset[1], bias);
-		sample[2]=texture2D(myTex ,tc + tc_offset[2], bias );
-		sample[3]=texture2D(myTex ,tc + tc_offset[3], bias);
-		sample[4]=texture2D(myTex ,tc + tc_offset[4], bias );
-		sample[5]=texture2D(myTex ,tc + tc_offset[5], bias );
-		sample[6]=texture2D(myTex ,tc + tc_offset[6], bias );
-		sample[7]=texture2D(myTex ,tc + tc_offset[7], bias );
-		sample[8]=texture2D(myTex ,tc + tc_offset[8], bias );
+sample[0]=texture2D(myTex ,tc + tc_offset[0], bias );
+sample[1]=texture2D(myTex ,tc + tc_offset[1], bias);
+sample[2]=texture2D(myTex ,tc + tc_offset[2], bias );
+sample[3]=texture2D(myTex ,tc + tc_offset[3], bias);
+sample[4]=texture2D(myTex ,tc + tc_offset[4], bias );
+sample[5]=texture2D(myTex ,tc + tc_offset[5], bias );
+sample[6]=texture2D(myTex ,tc + tc_offset[6], bias );
+sample[7]=texture2D(myTex ,tc + tc_offset[7], bias );
+sample[8]=texture2D(myTex ,tc + tc_offset[8], bias );
 
 
 
@@ -200,36 +200,21 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
 
-    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    //zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
-    zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
-
-    //zPos= unpackToFloat(texture2D(depthTex,texCoord)) * (farClip-nearClip);
-    //zPos = blur3(depthTex,texCoord ).r * 255.0 + blur3(depthTex,texCoord ).g;
-    //pixel in screen space
-    //pixelPos=vec4((texCoord.x-0.5) * 0.835 * screenX/screenY, (texCoord.y-0.5) * 0.835, zPos,1.0) ;
-    //pixelPos=(vec4(texCoord.x-0.5, texCoord.y-0.5, zPos,1.0)/zPosScreen)/10.0;
-    pixelPos.z=1.0/zPosScreen;
-
+    pixelPos.z=(1.0-zPos);
+    //pixelPos.z=zPos;
     pixelPos.y=gl_FragCoord.y/screenY - 0.5;
     pixelPos.x=gl_FragCoord.x/screenX - 0.5;
 
     pixelPos.xy*=pixelPos.z;
 
-     //pixelPos=projectionMatrix * pixelPos;
-    // pixelPos.xyz= -pixelPos.x * camX.xyz   + pixelPos.y * camY.xyz  + pixelPos.z * camZ.xyz   - camLoc.xyz;// + camY * pixelPos.y + camZ* pixelPos.z;
 
 
+    pixelPos.z-=1.0;
 
-    //pixelPos.xyz=camX * pixelPos.x + camY*pixelPos.y+camZ*pixelPos.z;
-    //pixelPos= cameraInverse *  pixelPos ;
-    //pixelPos.z=1.0/zPosScreen;
-    //pixelPos.x*=pixelPos.z;
-    //pixelPos.y*=pixelPos.z;
-    //pixelPos.z=zPos*zPosScreen;
-    //pixelPos.z=-zPos;
 }
 
 
@@ -240,70 +225,37 @@ vec4 computeLight(){
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
-    vec4 pp=pixelPos;//*(-zPos/10.0);
 
-    //pp.z*=0.001;
-    vec3 pixelNormal=texture2D(normalTex,texCoord,1.0).xyz;
-    //vec3 pixelNormal=blur3(normalTex,texCoord,1.0).xyz;
+    vec4 pixelNormal=vec4(0,0,0,0);
+    pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
+
     pixelNormal-=0.5;
-    pixelNormal*=-2.0;
-    //pixelNormal=pixelNormal.y;
-
-    pixelNormal=normalize(pixelNormal);
-    vec3 lightDirection =   pp - lightPos;
-
-    vec4 lD=vec4(0.0);
-    lD.xyz=lightDirection.xyz;
+    pixelNormal*=2.0;
+    //pixelNormal.xy*=zPos;
+    pixelNormal.w=0.0;
+    pixelNormal.xyz=normalize(pixelNormal.xyz);
 
 
-    lD.y = (gl_FragCoord.y/screenY*2.0-1.0)* lightPos.z - (lightPos.y* 2.5) ;
-    lD.x = (gl_FragCoord.x/screenX*2.0-1.0)* lightPos.z - (lightPos.x* 1.5 * screenX/screenY);
-    lD.z=(farClip-zPos) + 10.0 * nearClip;
-    //lD.z= lightPos.z;
-    //lD.z=-zPosScreen * farClip* 26.0;
-    //lD.z= (lightPos.z -lD.z)/50.0;///lightPos.z;
-    lD.z= (lD.z - lightPos.z ) * zPos *(zPosScreen*0.2);
-    //lD.z*=zPos/400;
+    vec3 pp=-pixelPos.x *camX + pixelPos.y*camY + pixelPos.z *camZ - camLoc;
 
-    //lD.z*=zPos;
-   //lD.x*=2.0*lightPos.z;
-   //lD.y*=2.0*lightPos.z;
+    vec4 lightDirection=vec4(1.0,0.0,0.0,0.0);
+    lightDirection.xyz=pp.xyz+lightPos.xyz;
+    vec3 lightDirectionNormalized=normalize(lightDirection.xyz);
+    float NdotL=max(0.0,  dot(pixelNormal.xyz, lightDirectionNormalized )  );
 
+    //lightDirection.z/=10.0;
+    float dist= length(lightDirection);
+    float att=max( 0.0 , (gl_LightSource[0].linearAttenuation - dist)/gl_LightSource[0].linearAttenuation );
 
-    float NdotP = dot(pixelNormal,normalize(pixelPos.xyz));
+    colorLight.xyz=att * NdotL  *1.0;
 
-    float NdotC = dot(pixelNormal, camZ);
-    //float NdotL= dot(pixelNormal,normalize(lD.xyz));
-    float NdotL= max(0.0, dot(pixelNormal,normalize(lD.xyz)) );
-    //float NdotL= max(dot(pixelNormal,normalize(lD.xyz)),0.0);
+    if (NdotL>0.0){
+    vec3 NH = normalize(lightDirectionNormalized - camZ  );
+    colorLight.xyz+=1.0 * lightColor * pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
+    }
 
 
-    colorLight.xyz=abs(lightPos.xyz)/1000.0;
-    colorLight.xyz=(lightDirection.xyz)/10.0;
-    colorLight.xyz=(lD.y)/1.0;
-    //colorLight.xyz=(lD)/1.0;
-    //colorLight.y=-(gl_FragCoord.y/screenY*2.0-1.0) + (lightPos.y)/10.0;
-    //colorLight.y=lightPos.y;
-   colorLight.xyz=(NdotP+NdotL);
-   colorLight.xyz=abs(lD.y)/1.0;
 
-   //colorLight.xyz=(NdotL * 100.0/length(lightDirection.xyz) );
-   colorLight.xyz=-(NdotL)*1.0;
-   //lD.z=(farClip-zPos) + 5.0 * nearClip;
-   //lD.z= (lightPos.z -lD.z)*(lightPos.z);
-
-
-   lD.y*=2.0;
-   lD.x*=2.0;
-   lD.z*=10.0;
-
-   float lightDist=min(1.0, (1.0-abs(length(lD.xyz)/(10.0* gl_LightSource[0].linearAttenuation)  ) ) );
-   colorLight.xyz=lightDist * NdotL * 1.0 *gl_LightSource[0].diffuse ;
-
-   //colorLight.xyz=(NdotC)*1.0;
- //   colorLight.xyz=(pixelNormal);
-
-    //diffuse is dot Product of lightdirection on pixel normal
     return colorLight;
 
 
@@ -325,24 +277,33 @@ vec4 shadowMapping(){
 
     //where do these numbers come from? and what do they want from us?
 
-    vec4 pixelPosition=vec4((texCoord.x-0.5)*  screenX/screenY, (texCoord.y-0.5), (-zPos) * 1.0, 1.0 )  ;
+    vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835 * screenX/screenY, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 ) ;
     pixelPosition.xy*=zPos;
 
+
     //Matrix transform to light space - our pixel. Matrices are computed once and can be done in CPU or vertex shader
-    vec4 shadowCoord =   lightSpaceMat*pixelPosition ;
+    vec4 shadowCoord = lightSpaceMat*pixelPosition ;
    vec2 ssShadow=shadowCoord.xy/shadowCoord.w;
 
 
-        ssShadow=(ssShadow* 0.5)   + 0.5;
+        ssShadow=(ssShadow* 0.5) + 0.5;
 
+    //ssShadow.x*=-1.0;
+    //return abs(vec4(ssShadow.x,0.0,0.0,1.0)/1.0);
+    //return (vec4(0.0,ssShadow.y,0.0,1.0)/1.0);
+    //return abs(vec4( (ssShadow.x + 0.5) * 0.5,0.0,0.0,1.0)/1.0);
 
+    //vec4 shadowColor=blur3(shadowTex, texCoord.xy );
     vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
+    //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy );
+
+    //return abs(vec4(shadowColor.r)*10.0);
+
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
-            //float falloff = shadowCoord.z - shadowColor.x;
-            float falloff = shadowColor.x -shadowCoord.z;
+            float falloff = shadowCoord.z - shadowColor.x;
             if (falloff<1.0)
                 myLight+= ( min (1.0,max( 0.0,(0.1 *shadowColor.x-falloff)/(0.1*shadowColor.x) ) ) ) * computeLight( );
                 myLight *=1.0-(abs (ssShadow.x-0.5) * 2.0);
@@ -360,7 +321,8 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+    //gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+    gl_FragColor= texture2D(tex, texCoord) + computeLight();
     //gl_FragColor= computeLight();
     //gl_FragColor= vec4(1,0,0,1);
 

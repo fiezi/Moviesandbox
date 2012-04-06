@@ -47,9 +47,7 @@ void main(){
 
     gl_PointSize= pointSize();
 
-    //zPos=gl_Position.z/farClip;
-     vec4 myPos= gl_ModelViewMatrix * myVertex;
-    zPos=myPos.z/farClip;
+    zPos=gl_Position.z/farClip;
     oID= (objectID+100.0) /1024.0;
 
 }

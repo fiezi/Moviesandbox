@@ -127,20 +127,15 @@ void Layer::updateShaders(){
         glUniformMatrix4fv(myShader->uniforms["cameraMatrix"],1,false,(GLfloat*)renderer->cameraMatrix);
 
 
-
     if (myShader->uniforms.find("cameraRotationMatrix") != myShader->uniforms.end())
         glUniformMatrix4fv(myShader->uniforms["cameraRotationMatrix"],1,false,(GLfloat*)renderer->cameraRotationMatrix);
 
     if (myShader->uniforms.find("inverseCameraRotationMatrix") != myShader->uniforms.end())
-        glUniformMatrix4fv(myShader->uniforms["inverseCameraRotationMatrix"],1,false,(GLfloat*)renderer->cameraRotationMatrix);
-
-
+        glUniformMatrix4fv(myShader->uniforms["inverseCameraRotationMatrix"],1,false,(GLfloat*)renderer->inverseCameraRotationMatrix);
 
 
     if (myShader->uniforms.find("cameraInverse") != myShader->uniforms.end())
         glUniformMatrix4fvARB(myShader->uniforms["cameraInverse"], 1,false, (GLfloat*)&renderer->inverseCameraMatrix);
-
-
 
 
     if (myShader->uniforms.find("projectionMatrix") != myShader->uniforms.end())

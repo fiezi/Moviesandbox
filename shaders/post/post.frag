@@ -276,7 +276,7 @@ void main(void){
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
-        vec4 lightData=texture2D(shadowTex,texCoord,1.0);
+        vec4 lightData=texture2D(shadowTex,texCoord,1.0) ;
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
@@ -302,7 +302,7 @@ void main(void){
         gl_FragData[0].r=1.0;
 */
     //gl_FragData[0]/=3.0;
-    gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
+    //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
     //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;
     //gl_FragData[0].b+=0.0001 * texture2D(depthTex, texCoord).b;
     //gl_FragData[0].a=1.0;
