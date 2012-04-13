@@ -662,25 +662,30 @@ void AssetInspector::closeKinectTool(){
 void AssetInspector::openKinectTool(bool bHighZRes){
 
     if (!sceneData->brush->drawing){
-        sceneData->drawTool->createNewDrawing(true);
+        if (sceneData->selectedActors[0] && sceneData->selectedActors[0]->textureID=="sharedMemory"){
+            sceneData->brush->drawing=(SkeletalActor*)sceneData->selectedActors[0];
+        }
+        else{
+            sceneData->drawTool->createNewDrawing(true);
+            sceneData->brush->drawing->setScale(Vector3f(3,3,3));
+            sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
+            sceneData->brush->drawing->bTextured=true;
+            sceneData->brush->drawing->setTextureID("sharedMemory");
+            sceneData->brush->drawing->sceneShaderID="kinectHeightfield";
+            sceneData->brush->drawing->particleAngleScale=256;
+            sceneData->brush->drawing->particleScale=12;
+        }
     }
 
-    sceneData->brush->drawing->drawType=DRAW_POINTPATCH;
-    sceneData->brush->drawing->bTextured=true;
-    sceneData->brush->drawing->setTextureID("sharedMemory");
-    sceneData->brush->drawing->sceneShaderID="kinectHeightfield";
-    sceneData->brush->drawing->particleAngleScale=256;
-    sceneData->brush->drawing->particleScale=12;
-     sceneData->brush->drawing->setScale(Vector3f(3,3,3));
     if (!sceneData->textureList["sharedMemory"] ){
         if (bHighZRes)
             renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_FLOAT,1024,512);
         else
             renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
 
+        sceneData->externalInputList["kinectInput"]->startProgram();
     }
 
-    sceneData->externalInputList["kinectInput"]->startProgram();
     inspectorButtons[1]->buttonColor=sceneData->focusButtonColor;
     bKinectToolOpen=true;
 }
@@ -732,8 +737,8 @@ void AssetInspector::importKinect(bool bHighZRes){
                 myLoc.y =y/512.0f;
 
 
-                myLoc.x*=myLoc.z * 1.5;
-                myLoc.y*=myLoc.z * 1.5;
+                myLoc.x*=myLoc.z * 2.5;
+                myLoc.y*=myLoc.z *  2.5 * 0.75;
 
 
                 sceneData->brush->setLocation(myLoc);
@@ -748,7 +753,7 @@ void AssetInspector::importKinect(bool bHighZRes){
             sceneData->brush->drawing->bPickable=true;
             sceneData->brush->drawing->bZTest=true;
             sceneData->brush->drawing->bZWrite=true;
-
+            sceneData->brush->drawing->particleScale=2.5;
             sceneData->spriteMeshLoader->createVBOs(sceneData->brush->drawing->vboMeshID,false);
 
             sceneData->controller->switchTool(TOOL_SELECT);

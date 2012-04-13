@@ -183,6 +183,7 @@ void UdpInput::update(double deltaTime){
                         if (targetActors[i]->bDebug && sceneData->controller->bRunning)
                             cout << "setting UDPInput rotation now..." << renderer->frames <<endl;
                     }
+                //DIRECT KINECT TO SKELETON CONNECTION
                 }else if (mID->memberName==skeletonString){
                     //we anticipate a very distinct set of values and will automatically assign bone-matrices according to a naming convention
                     //naming convention can be found here:

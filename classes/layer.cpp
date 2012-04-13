@@ -80,16 +80,16 @@ void Layer::updateShaders(){
 
 
     if (myShader->uniforms.find("camLoc") != myShader->uniforms.end()){
-        glUniform3fARB(myShader->uniforms["camLoc"], sceneData->controller->location.x,sceneData->controller->location.y,sceneData->controller->location.z);
+        glUniform3fARB(myShader->uniforms["camLoc"], sceneData->controller->controlledActor->location.x,sceneData->controller->controlledActor->location.y,sceneData->controller->controlledActor->location.z);
     }
     if (myShader->uniforms.find("camX") != myShader->uniforms.end()){
-        glUniform3fARB(myShader->uniforms["camX"], sceneData->controller->xAxis.x,sceneData->controller->xAxis.y,sceneData->controller->xAxis.z);
+        glUniform3fARB(myShader->uniforms["camX"], sceneData->controller->controlledActor->xAxis.x,sceneData->controller->controlledActor->xAxis.y,sceneData->controller->controlledActor->xAxis.z);
     }
     if (myShader->uniforms.find("camY") != myShader->uniforms.end()){
-        glUniform3fARB(myShader->uniforms["camY"], sceneData->controller->yAxis.x,sceneData->controller->yAxis.y,sceneData->controller->yAxis.z);
+        glUniform3fARB(myShader->uniforms["camY"], sceneData->controller->controlledActor->yAxis.x,sceneData->controller->controlledActor->yAxis.y,sceneData->controller->controlledActor->yAxis.z);
     }
     if (myShader->uniforms.find("camZ") != myShader->uniforms.end()){
-        glUniform3fARB(myShader->uniforms["camZ"], sceneData->controller->zAxis.x,sceneData->controller->zAxis.y,sceneData->controller->zAxis.z);
+        glUniform3fARB(myShader->uniforms["camZ"], sceneData->controller->controlledActor->zAxis.x,sceneData->controller->controlledActor->zAxis.y,sceneData->controller->controlledActor->zAxis.z);
     }
 
 

@@ -126,6 +126,10 @@ public:
         GLuint  normal_fb;                 // the lightFBO we bind
         float    normal_size;                //resolution for the lighting pass
 
+        GLuint  normalBlur_tx;                 // the lightTexture we read from
+        GLuint  normalBlur_fb;                 // the lightFBO we bind
+
+
         GLuint  shadow_tx;                   // the shadowTexture we read from
         GLuint  shadow_fb;                   // the shadowFBO we bind
         float    shadow_size;
@@ -234,7 +238,7 @@ public:
        virtual void drawNormals(Layer* layer);
        virtual void drawDeferredLighting(Layer* layer);
 
-       virtual void performShader(Layer* layer, string textureID, GLuint renderFBO, string shaderName);
+       virtual void performShader(Layer* layer, string sourceTextureID, string destinationTextureID, GLuint renderFBO, string shaderName);
 
        virtual void displayDebug();
 

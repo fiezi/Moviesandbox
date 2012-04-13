@@ -203,9 +203,12 @@ void DrawTool::update(double deltaTime){
     }
 
 
-    if (bDrawing){
-        if (bPressLeft)
+    if (bDrawing && fabs(input->mouseVector.length())>0.0)
+    {
+
+        if (bPressLeft){
             paint();
+        }
         if (bPressRight)
             erase();
     }
@@ -227,9 +230,6 @@ void DrawTool::paint(){
     brush->drawing->bZTest=true;
     brush->drawing->bZWrite=false;
 
-
-    if (fabs(input->mouseVector.length())==0.0)
-        return;
 
     if (input->worldTarget==brush->drawing)
         return;
@@ -272,6 +272,8 @@ void DrawTool::paint(){
                 sceneData->vboList[brush->drawing->vboMeshID]->upperRightFront=brush->drawing->upperRightFront;
             }
     }else{
+
+        //interpolate along mouseVector
 
 
         for (int i=0;i<(int)filters.size();i++){

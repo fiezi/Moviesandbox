@@ -67,6 +67,7 @@ public:
        float particleScale;                         //size multiplier for particle Mesh
        float particleAngleScale;                    //angle size attenuation multiplier for particle Mesh (to fill holes)
 
+        float specularity;                          //amount of specularity in object
 
        //bounding box related
        Vector3f    lowerLeftBack,                   //point is relative to object position

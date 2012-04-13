@@ -280,7 +280,7 @@ void main(void){
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
-        if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
+        //if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
                 gl_FragData[0]*=1.0*lightData;
     }
 

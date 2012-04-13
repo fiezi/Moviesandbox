@@ -1,6 +1,7 @@
 uniform float time;
 uniform float screenX;
 uniform sampler2D tex;
+uniform sampler2D depthTex; // rendered normals and depth texture
 
 
 varying vec2 texCoord;
@@ -13,7 +14,7 @@ varying vec2 texCoord;
     float PI = 3.14159265358979323846264;
 
 
-vec4 blur5(sampler2D myTex,vec2 tc){
+vec4 blur5(sampler2D myTex,vec2 tc, float bias){
 
       float spread=1.0/screenX;// * min(0.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*farClip/100.0)));
       //float spread=2.0/screenX ;// * min(8.0,max(4.0,unpackToFloat(texture2D(depthTex,texCoord).xy*512/50.0)));
@@ -53,7 +54,7 @@ vec4 blur5(sampler2D myTex,vec2 tc){
 
       for (int i=0 ; i<25 ; i++)
       {
-        sample[i]=texture2D(myTex , tc + tc_offset[i]);
+        sample[i]=texture2D(myTex , tc + tc_offset[i], bias);
       }
 
       vec4 blurredColor=(
@@ -132,7 +133,9 @@ void main(){
       for (int i=0;i<25;i++)
             tc_offset[i]=vec2(0.0,0.0);
 
-    //gl_FragColor=blur5(tex,texCoord,1.0);
-    gl_FragColor=texture2D(tex,texCoord,1.0);
+
+    //gl_FragData[0]=blur5(tex,gl_TexCoord[0].st,0.0);
+    gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,1.0);
+    //gl_FragData[0]=vec4(1,0,0,1);
 
 }

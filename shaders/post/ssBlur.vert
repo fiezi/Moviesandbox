@@ -9,8 +9,7 @@ varying vec2 texCoord;
 
 void main(){
 
+    gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;	gl_FrontColor = gl_Color;
 	gl_Position = ftransform();
-	texCoord=gl_MultiTexCoord0.xy;
-	gl_FrontColor = gl_Color;
 
 }

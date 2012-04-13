@@ -7,7 +7,7 @@
 #include "brushFilter.h"
 
 
-#define BRUSHBUFFER 4
+#define BRUSHBUFFER 10
 
 class DrawTool: public MsbTool{
 

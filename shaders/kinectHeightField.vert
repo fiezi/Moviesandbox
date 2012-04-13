@@ -55,7 +55,7 @@ void main(){
     gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
     myVertex.z=gl_FrontColor.a*8.0;
     myVertex.x=myVertex.x*myVertex.z;// + 0.5 * sin (time   *0.001 + myVertex.y);
-    myVertex.y=myVertex.y*myVertex.z * 0.5 ;
+    myVertex.y=myVertex.y*myVertex.z* 0.35;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 

@@ -45,6 +45,7 @@ collisionCubeSize=1.0f;
 particleScale=2.0f;
 particleAngleScale = 0.0f;
 
+specularity = 0.0f;
 transitionTime=0.5f;
 
 base=NULL;
@@ -159,6 +160,8 @@ createMemberID("GROUPID",&groupID, this);
 createMemberID("CUBESIZE",&collisionCubeSize, this);
 createMemberID("PARTICLESCALE",&particleScale, this);
 createMemberID("PARTICLEANGLESCALE",&particleAngleScale, this);
+
+createMemberID("SPECULARITY",&specularity, this);
 
 createMemberID("COLOR", &color, this,true,"17VectorInputButton");
 

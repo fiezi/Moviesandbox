@@ -396,7 +396,7 @@ void TimelineInspector::trigger(MsbObject* other){
         TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
         doc.LinkEndChild( decl );
         doc.LinkEndChild(myAction);
-        string stringName="resources/actions/"+tlBtn->connectedAction->name+".action";
+        string stringName=sceneData->startProject+sceneData->myPath+tlBtn->connectedAction->name+".action";
         doc.SaveFile(stringName);
 
         tlBtn->disconnectAction();

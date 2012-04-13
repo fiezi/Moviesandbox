@@ -18,8 +18,8 @@ varying mat4 lightSpaceMat;
 
 void main(){
 
-gl_Position = ftransform();
-texCoord=gl_MultiTexCoord0.xy;
+    gl_Position = ftransform();
+    texCoord=gl_MultiTexCoord0.xy;
 
     lightSpaceMat= lightProjectionMatrix * lightViewMatrix * cameraInverse ;
    lightColor= gl_LightSource[0].diffuse.rgb;

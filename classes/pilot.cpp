@@ -245,7 +245,7 @@ void Pilot::switchCameraToSelected(const osc::ReceivedMessage& m, char* adressPa
     sceneData->updateView();
 
     //TODO: for depth of field and FOV
-    CameraActor* cA=dynamic_cast<CameraActor*>(sceneData->selectedActors[0]);
+    //CameraActor* cA=dynamic_cast<CameraActor*>(sceneData->selectedActors[0]);
 
 #ifdef TARGET_WIN32
     ReleaseMutex( *mutex );
@@ -275,7 +275,7 @@ void Pilot::selectPart(const osc::ReceivedMessage& m, char* adressPart, string p
 
                 input->deselectActors();
 
-                for (int i=0;i<sceneData->actorList.size();i++){
+                for (int i=0;i<(int)sceneData->actorList.size();i++){
                     if (sceneData->actorList[i]->name==s){
                         sceneData->actorList[i]->bSelected=true;
                         sceneData->selectedActors.push_back(sceneData->actorList[i]);

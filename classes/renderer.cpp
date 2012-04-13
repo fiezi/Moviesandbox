@@ -144,7 +144,7 @@ Renderer::Renderer(){
     ambient=Vector3f(1,1,1);
 
     nearClip=0.2;
-    farClip=128.0;
+    farClip=512.0;
 
     screenX=0;
     screenY=0;
@@ -157,7 +157,7 @@ Renderer::Renderer(){
     fov=45;
     focus=25.0;
 
-    normalBlur=1;
+    normalBlur=10;
     dofBlur=1;
 
     frustumTop=0.083;
@@ -165,8 +165,8 @@ Renderer::Renderer(){
     eyeDistance=0.10;
     bkgOffset = 50.0;
 
-    depthPrecision = GL_RGBA8;
-    //depthPrecision = GL_RGBA16F_ARB;
+    //depthPrecision = GL_RGBA8;
+    depthPrecision = GL_RGBA16F_ARB;
     //depthPrecision = GL_RGBA32F;
 
     texFilterMin = GL_LINEAR_MIPMAP_LINEAR;
@@ -185,6 +185,10 @@ Renderer::Renderer(){
     normal_tx = 0; // the light texture
     normal_fb = 0; // the framebuffer object to render to that texture
     normal_size = 1.0;
+
+    normalBlur_tx = 0; // the light texture
+    normalBlur_fb = 0; // the framebuffer object to render to that texture
+
 
     shadow_tx = 0;
     shadow_fb = 0;
@@ -507,6 +511,7 @@ void Renderer::setupFBOs(){
     //framebuffer and texture to store global lighting and shadow information
     createFBO(&lighting_fb, &lighting_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&normal_fb, &normal_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "normals"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&normalBlur_fb, &normalBlur_tx, NULL, screenX, screenY, false, "normalsBlurred"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&shadow_fb, &shadow_tx, NULL, screenX/shadow_size,screenY/shadow_size, false, "shadow");
     createFBO(&scene_fb, &scene_tx, NULL, screenX/scene_size, screenY/scene_size, false, "scene");
 
@@ -1108,7 +1113,7 @@ void Renderer::drawNormals(Layer* layer){
 
         glDrawBuffers(1,drawBuffers);
 
-        glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+        glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 
@@ -1126,9 +1131,12 @@ void Renderer::drawNormals(Layer* layer){
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, normal_tx);
         glGenerateMipmapEXT(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
 
-        //for (int i=0;i<normalBlur;i++)
-         //   performShader(layer,"normals",normal_fb,"ssBlur");
+        for (int i=0;i<normalBlur;i++){
+            performShader(layer,"normals","normalsBlurred",normalBlur_fb,"ssBlur");
+            performShader(layer,"normalsBlurred","normals",normal_fb,"ssBlur");
+        }
 }
 
 /// Lighting
@@ -1305,17 +1313,20 @@ void Renderer::drawShadows(MsbLight* myLight){
 
 ///blur Pass
 
-void Renderer::performShader(Layer* layer, string textureID, GLuint renderFBO, string shaderName){
+void Renderer::performShader(Layer* layer, string sourceTextureID, string destinationTextureID, GLuint renderFBO, string shaderName){
 
 
+        glViewport (0, 0, screenX/lighting_size,screenY/lighting_size);
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, renderFBO);
-
-        glViewport (0, 0, screenX, screenY);
 
         glDrawBuffers(1,drawBuffers);
 
+        glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
         //set our textureID to
-        layer->setTextureID(textureID);
+        layer->setTextureID(sourceTextureID);
+
         //set our shader to
         layer->sceneShaderID=shaderName;
 
@@ -1324,8 +1335,37 @@ void Renderer::performShader(Layer* layer, string textureID, GLuint renderFBO, s
 
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
 
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, sceneData->textureList[destinationTextureID]->texture);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
+/*
+        glViewport (0, 0, screenX/lighting_size,screenY/lighting_size);
+         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, normalBlur_fb);
+
+        glDrawBuffers(1,drawBuffers);
+
+        glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 
+        //set our textureID to lighting pass
+        layer->setTextureID(layer->depthTextureID);
+        //set our shader to
+        layer->sceneShaderID="ssNormal";
+
+        //draw using depthTextureID as base texture!
+        drawButton(layer);
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
+        //generate MipMaps for Normals
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, normalBlur_tx);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, 0);
+*/
 }
 
 
@@ -2408,7 +2448,7 @@ void Renderer::pick(int x, int y){
     //gl_FragData[1]=vec4(zPos,zPos,objectID,objectID);
 
     Vector2f vec=Vector2f(mousePos[2],mousePos[1]);
-	float zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
+	float zPos= (vec.y + vec.x * 1.0/255.0) * farClip;
 
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
 	//float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
@@ -2464,10 +2504,10 @@ void Renderer::pick(int x, int y){
 
 
    ///Center 3D Position
-    //Calculate mouse 3D position from zPos
+    //Calculate center 3D position from zPos
 
     Vector2f cen=Vector2f(centerInfo[2],centerInfo[1]);
-	zPos= (vec.y + vec.x * 1.0/256.0) * farClip;
+	zPos= (vec.y + vec.x * 1.0/255.0) * farClip;
 
     input->center3D= sceneData->controller->controlledActor->location;
     input->center3D+= sceneData->controller->controlledActor->zAxis * zPos;
