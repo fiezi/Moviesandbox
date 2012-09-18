@@ -27,8 +27,8 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
               char* myAdress=(char*)m.AddressPattern();
               char* adressPart = strtok(myAdress, "/"); // Splits spaces between words in st
 
-              //cout << "got a new message!" << endl;
-              //cout << adressPart << endl;
+              cout << "got a new message!" << endl;
+              cout << adressPart << endl;
 
               //seems to be necessary for comparison?
               std::string partAsString=adressPart;

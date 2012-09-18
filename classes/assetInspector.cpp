@@ -662,7 +662,7 @@ void AssetInspector::closeKinectTool(){
 void AssetInspector::openKinectTool(bool bHighZRes){
 
     if (!sceneData->brush->drawing){
-        if (sceneData->selectedActors[0] && sceneData->selectedActors[0]->textureID=="sharedMemory"){
+        if (sceneData->selectedActors.size()>0 && sceneData->selectedActors[0]->textureID=="sharedMemory"){
             sceneData->brush->drawing=(SkeletalActor*)sceneData->selectedActors[0];
         }
         else{

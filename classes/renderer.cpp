@@ -433,7 +433,7 @@ void Renderer::setup(){
     #endif
 
     //TODO: should sharedMem always be created on startup?
-            createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
+            //createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
 
 
     //This was used for the promo video to get better framerates for kinect live-feed.
