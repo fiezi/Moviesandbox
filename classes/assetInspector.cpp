@@ -661,6 +661,16 @@ void AssetInspector::closeKinectTool(){
 
 void AssetInspector::openKinectTool(bool bHighZRes){
 
+    if (!sceneData->textureList["sharedMemory"] ){
+        if (bHighZRes)
+            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_FLOAT,1024,512);
+        else
+            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
+    }
+
+    if (!bKinectToolOpen)
+        sceneData->externalInputList["kinectInput"]->startProgram();
+
     if (!sceneData->brush->drawing){
         if (sceneData->selectedActors.size()>0 && sceneData->selectedActors[0]->textureID=="sharedMemory"){
             sceneData->brush->drawing=(SkeletalActor*)sceneData->selectedActors[0];
@@ -675,15 +685,6 @@ void AssetInspector::openKinectTool(bool bHighZRes){
             sceneData->brush->drawing->particleAngleScale=256;
             sceneData->brush->drawing->particleScale=12;
         }
-    }
-
-    if (!sceneData->textureList["sharedMemory"] ){
-        if (bHighZRes)
-            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_FLOAT,1024,512);
-        else
-            renderer->createEmptyTexture("sharedMemory",GL_RGBA, GL_UNSIGNED_BYTE,1024,512);
-
-        sceneData->externalInputList["kinectInput"]->startProgram();
     }
 
     inspectorButtons[1]->buttonColor=sceneData->focusButtonColor;
