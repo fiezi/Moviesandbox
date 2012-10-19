@@ -60,6 +60,12 @@ void CameraActor::trigger(MsbObject* other){
 
 void CameraActor::update(double deltaTime){
 
+    //TODO: hack to make Cameras disappear!
+    if (Control::bRunning)
+        drawType=DRAW_NULL;
+    if (!Control::bRunning && !bPossessed)
+        drawType=DRAW_VBOMESH;
+
     if (bPossessed)
         sceneData->updateView();
 
@@ -79,11 +85,7 @@ void CameraActor::update(double deltaTime){
         setLocation(location);
     }
 
-    //TODO: hack to make Cameras disappear!
-    if (Control::bRunning)
-        drawType=DRAW_NULL;
-    else
-        drawType=DRAW_VBOMESH;
+
 
 
     Actor::update(deltaTime);
