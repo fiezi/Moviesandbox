@@ -27,8 +27,8 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
               char* myAdress=(char*)m.AddressPattern();
               char* adressPart = strtok(myAdress, "/"); // Splits spaces between words in st
 
-              cout << "got a new message!" << endl;
-              cout << adressPart << endl;
+              //cout << "got a new message!" << endl;
+              //cout << adressPart << endl;
 
               //seems to be necessary for comparison?
               std::string partAsString=adressPart;
@@ -529,7 +529,7 @@ void Pilot::pilotPart(const osc::ReceivedMessage& m, char* adressPart, string pa
                         //cout << vectorContainer << endl;
                         //encountered a new input -> we need to create a button for this!
                         if (parent->inputConnectButtons.size()==numInputs){
-                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vector3f", numInputs);
+                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vec3f", numInputs);
                           }
                         //we already have a button ->this is the actual update
                         else{
@@ -554,6 +554,56 @@ void Pilot::pilotPart(const osc::ReceivedMessage& m, char* adressPart, string pa
                             //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.
                             //we could create a faster Pilot that transforms locations directly as a subclass...
                             sprintf(value,"vec3f %f %f %f",vectorContainer.x, vectorContainer.y, vectorContainer.z);
+                            parent->targetValues[numInputs]=value;
+
+                            //cout << "converted a Vector: " << value << " for input: " << numInputs << endl;
+                            }
+
+                      }
+
+                      else if (partAsString=="vector4f" ){
+
+                        //cout << "first Argument: " << (arg)->AsFloat() << endl;
+                        float x=0.0;
+                        float y=0.0;
+                        float z=0.0;
+                        float w=0.0;
+
+                        Vector4f vectorContainer= Vector4f (0,0,0,0);
+                        x=(arg++)->AsFloat();
+                        y=(arg++)->AsFloat();
+                        z=(arg++)->AsFloat();
+                        w=(arg++)->AsFloat();
+
+                        //cout << vectorContainer << endl;
+                        //encountered a new input -> we need to create a button for this!
+                        if (parent->inputConnectButtons.size()==numInputs){
+                          parent->createNewInputConnect(Vector4f(1.0,0.3,0.3,0.25),"vec4f", numInputs);
+                          }
+                        //we already have a button ->this is the actual update
+                        else{
+                            char value[64];
+
+
+                            //visual representation
+                            parent->inputConnectButtons[numInputs]->color=Vector4f(x,y,z,parent->inputConnectButtons[numInputs]->color.a);
+
+                            //map values
+                            if (parent->targetMin.size()>numInputs && parent->targetMin[numInputs]!=NULL){
+
+                                vectorContainer.x=sceneData->setToRange(parent->targetMin[numInputs].x,parent->targetMax[numInputs].x, x);
+                                vectorContainer.y=sceneData->setToRange(parent->targetMin[numInputs].y,parent->targetMax[numInputs].y, y);
+                                vectorContainer.z=sceneData->setToRange(parent->targetMin[numInputs].z,parent->targetMax[numInputs].z, z);
+                                vectorContainer.w=sceneData->setToRange(parent->targetMin[numInputs].w,parent->targetMax[numInputs].w, w);
+                                //cout << "mapping the values to " << parent->targetRange[numInputs] << endl;
+                            }
+                            else
+                                cout << "something's wrong with the targetMin/Max stuff!" << endl;
+
+                            //update value
+                            //here we convert back into a string, which is slow, but very versatile, as it can be assigned to any property of any actor if it fits its type.
+                            //we could create a faster Pilot that transforms locations directly as a subclass...
+                            sprintf(value,"vec4f %f %f %f %f",vectorContainer.x, vectorContainer.y, vectorContainer.z, vectorContainer.w);
                             parent->targetValues[numInputs]=value;
 
                             //cout << "converted a Vector: " << value << " for input: " << numInputs << endl;

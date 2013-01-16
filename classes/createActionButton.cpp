@@ -76,7 +76,7 @@ void CreateActionButton::focusClick(){
         TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
         doc.LinkEndChild( decl );
         doc.LinkEndChild(myAction);
-        string stringName="resources/actions/"+newAction->name+".action";
+        string stringName=sceneData->startProject+newAction->name+".action";
         doc.SaveFile(stringName);
 
     //cleanUp

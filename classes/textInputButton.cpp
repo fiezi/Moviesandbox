@@ -75,7 +75,7 @@ void TextInputButton::clickedRight(){
 
     input->focusButton=this;
 
-    cout << "connecting..." << input->hudTarget << endl;
+    cout << "connecting..." << input->hudTarget->name << endl;
 
 }
 
@@ -90,6 +90,7 @@ void TextInputButton::focusClick(){
         cout << "connecting with: " << input->hudTarget << endl;
         input->hudTarget->buttonProperty=buttonProperty;                //which property do we want to connect?
         input->hudTarget->trigger(parent);                          //which actor do we want to connect
+        cout << "connecting property: " << buttonProperty << endl;
 
     }else{
 

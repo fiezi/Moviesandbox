@@ -170,7 +170,7 @@ void Action:: remove(){
 void Action::importAction(string filename){
 
 
-    string stringName="resources/actions/";
+    string stringName=sceneData->startProject;
     stringName.append(filename);
 
     TiXmlDocument doc( stringName );
