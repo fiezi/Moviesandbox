@@ -603,9 +603,11 @@ void Input::keyUp(unsigned char key,int x,int y){
                sceneData->loadShaders(sceneData->startProject,sceneData->startProject+"my.project");
         }
 
-        // reload all basic textures!
-        if (key=='X')
+        // reload all textures!
+        if (key=='X'){
                sceneData->loadTextures("resources/icons/","resources/basic.library");
+               sceneData->loadTextures(sceneData->startProject,sceneData->startProject+"my.project");
+        }
 
         if (key=='v')
             sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();
