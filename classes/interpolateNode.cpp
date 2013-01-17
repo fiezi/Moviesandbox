@@ -60,7 +60,9 @@ void InterpolateNode::stop(){
 void InterpolateNode::execute(){
 
 
-    if (bNeedMover){
+        cout << "executing Interpolation..." << endl;
+
+    //if (bNeedMover){
         InterpolationHelper* lerp= new InterpolationHelper;
         lerp->bInterpolateActor=true;
         lerp->moveActor=moveActor;
@@ -72,10 +74,10 @@ void InterpolateNode::execute(){
         lerp->bLinear=false;
         moveActor->movers.push_back(lerp);
         bNeedMover=false;
-    }else{
+    //}else{
 
         nextNode();
-    }
+    //}
     //TODO: if (bWaitForMoveActor && moveActor->mover)
 
 }

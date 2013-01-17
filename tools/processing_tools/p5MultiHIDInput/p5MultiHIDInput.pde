@@ -67,14 +67,7 @@ void setup() {
   vectorY=new slider(320,20);
   vectorZ=new slider(440,20);
 
- // List all the available serial ports
- //println(Serial.list());
- // I know that the first port in the serial list on my mac
- // is always my  Arduino, so I open Serial.list()[0].
- // Open whatever port is the one you're using.
- //myPort = new Serial(this, Serial.list()[0], 9600);
- // don't generate a serialEvent() unless you get a newline character:
- //myPort.bufferUntil('\n');
+ 
 
   controll = ControllIO.getInstance(this);
   controll.printDevices();
@@ -85,19 +78,6 @@ void setup() {
   println( joypad.getNumberOfSliders() );
 }
 
-void serialEvent (Serial myPort) {
- // get the ASCII string:
-  String inString = myPort.readStringUntil('\n');
- 
-  if (inString != null) {
-    // trim off any whitespace:
-    inString = trim(inString);
-    // convert to an int and map to the screen height:
-    inByte = float(inString); 
-    inByte = map(inByte, 0, 1023, 0, 1.0); 
-   }
- }
- 
 void draw() {
   background(128);  
   
@@ -105,31 +85,19 @@ void draw() {
   vectorY.draw();
   vectorZ.draw();
 
-mouseReleased();
+  sendUDP();
 }
 
 
-void mouseReleased() {
+void sendUDP() {
   /* in the following different ways of creating osc messages are shown by example */
-//  OscMessage myMessage = new OscMessage("/pilot/vector3f/vector3f");
   OscMessage myMessage = new OscMessage("/pilot/float/vector3f");
   
-  //head
-  if (bUseArduino){
-    myMessage.add(inByte); /* add a float value to the osc message */
-    myMessage.add(0.0); /* add vector x component to the osc message */
-    myMessage.add(1.0-inByte); /* add vector y component to the osc message */
-    myMessage.add(0.0); /* add vector z component to the osc message */
-    }
-  else{
     myMessage.add(vectorX.value/50.0); /* add a float to the osc message */
-  //  myMessage.add(vectorY.value/50.0); /* add a float to the osc message */
-  //  myMessage.add(vectorZ.value/50.0); /* add a float to the osc message */
-  
+ 
     myMessage.add(vectorX.value/2.0 -5.0); /* add a float to the osc message */
     myMessage.add(vectorZ.value/2.0); /* add a float to the osc message */
     myMessage.add(vectorY.value/1.0 - 10); /* add a float to the osc message */
-    }
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation); 
 }

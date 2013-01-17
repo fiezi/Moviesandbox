@@ -598,8 +598,10 @@ void Input::keyUp(unsigned char key,int x,int y){
                 sceneData->selectedActors[0]->trigger(NULL);
 
         // reload all shaders!
-        if (key=='S')
+        if (key=='S'){
                sceneData->loadShaders("shaders/","resources/basic.library");
+               sceneData->loadShaders(sceneData->startProject,sceneData->startProject+"my.project");
+        }
 
         // reload all basic textures!
         if (key=='X')
