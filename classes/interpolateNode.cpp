@@ -13,6 +13,7 @@ targetActor=NULL;
 moveTime=1.0;
 
 bNeedMover=true;
+bTurnOnFly=false;
 
 listType.push_back("15PickWorldButton");
 listName.push_back("moveActor");
@@ -29,6 +30,12 @@ listName.push_back("moveTime");
 listProp.push_back("MOVETIME");
 listIcon.push_back("icon_flat");
 
+
+listType.push_back("10BoolButton");
+listName.push_back("turnOnFly");
+listProp.push_back("BTURNONFLY");
+listIcon.push_back("icon_flat");
+
 color=Vector4f(0.5,0.5,0.5,1.0);
 registerProperties();
 }
@@ -41,6 +48,7 @@ Node::registerProperties();
 createMemberID("MOVETIME",&moveTime,this);
 createMemberID("MOVEACTOR",&moveActor,this);
 createMemberID("TARGETACTOR",&targetActor,this);
+createMemberID("BTURNONFLY",&bTurnOnFly,this);
 }
 
 void InterpolateNode::start(){
@@ -74,6 +82,10 @@ void InterpolateNode::execute(){
         lerp->bLinear=false;
         moveActor->movers.push_back(lerp);
         bNeedMover=false;
+
+        if (bTurnOnFly)
+            sceneData->controller->myTools[TOOL_NAV]->myBtn->clickedLeft();
+
     //}else{
 
         nextNode();

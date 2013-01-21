@@ -13,6 +13,8 @@ public:
 
     float moveTime;
     bool bNeedMover;
+    //hack for turning differently...
+    bool bTurnOnFly;
 
     InterpolateNode();
     ~InterpolateNode();
