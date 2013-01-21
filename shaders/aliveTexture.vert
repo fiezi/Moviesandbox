@@ -5,12 +5,11 @@ uniform mat4 cameraInverse;
 uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
+uniform float farClip;
 
 varying float zPos;
-varying vec4 picking;
+varying float oID;
 
-varying vec3 N;
-varying float backSide;
 
 /*
 *   Point Size
@@ -35,6 +34,7 @@ float pointSize(){
 *   Main
 */
 
+
 void main(){
 
     //texturing
@@ -43,18 +43,17 @@ void main(){
 
     //reset gl_Vertex coordinate or we create weird distortions!
     vec4 myVertex=gl_Vertex;
-    myVertex.x+=0.01 * sin(time * 0.0001 + myVertex.y+objectID);
-    myVertex.y+=0.01 * sin(time * 0.001 + myVertex.z);
-    myVertex.w=1.0;
-
-    N =  gl_NormalMatrix * gl_Normal;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
+    myVertex.x+=0.01 * sin(time * 0.001 + myVertex.y+objectID);
+    myVertex.y+=0.2 * sin(time * 0.002 + gl_Position.x);
+    myVertex.w=1.0;
+
+    gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
     gl_PointSize= pointSize();
 
-    picking =  cameraInverse * gl_ModelViewMatrix * myVertex ;
-    picking.w = objectID;
-    zPos=gl_Position.z;
+    zPos=gl_Position.z/farClip;
+    oID= (objectID+100.0) /1024.0;
 
 }

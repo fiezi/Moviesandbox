@@ -158,7 +158,7 @@ vec4 computeDOF() {
 
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
 
-    vec4 blurPart=blur(tex, texCoord,3.0);
+    vec4 blurPart=blur(tex, texCoord,1.0);
 
     vec4 sharpPart=  texture2D(tex,texCoord,0.0);
     sharpPart.a=1.0;
@@ -177,7 +177,7 @@ vec4 computeDOF() {
 */
 
   //linear focus
-    float focusDepth=focus/5.0 +1.0;
+    float focusDepth=focus/2.0 +1.0;
     //get depth distance to focus:
     float combine=abs(depthValue-focus);
     //clamp focus:

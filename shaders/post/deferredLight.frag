@@ -249,11 +249,12 @@ vec4 computeLight(){
     float att=max( 0.0 , (gl_LightSource[0].linearAttenuation - dist)/gl_LightSource[0].linearAttenuation );
 
     colorLight.xyz=att * NdotL  *1.0 * lightColor;
+    //colorLight.xyz= NdotL  *1.0 * lightColor;
 
 
     if (NdotL>0.0 && specularExp >0){
     vec3 NH = normalize(lightDirectionNormalized - camZ  );
-    colorLight.xyz+=1.0 * lightColor * pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
+    colorLight.xyz*=1.0 * lightColor * pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
     }
 
 
@@ -290,20 +291,19 @@ vec4 shadowMapping(){
 
         ssShadow=(ssShadow* 0.5) + 0.5;
 
-    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,1.0 );
-   // vec4 shadowColor=blur3(shadowTex, ssShadow.xy,0.0 );
+   // vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
+    vec4 shadowColor=blur3(shadowTex, ssShadow.xy,1.0 );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
             float falloff = shadowCoord.z - shadowColor.x;
             if (falloff<1.0 ){
-                myLight+= abs( min (1.0,max( 0.0,(0.1 *shadowColor.x-falloff)/(0.1*shadowColor.x) ) ) ) * computeLight( );
+                myLight+= abs( min (1.0,max( 0.0,(1.0 *shadowColor.x-falloff)/(1.0*shadowColor.x) ) ) ) * computeLight( );
                 myLight *=1.0-abs( (ssShadow.x-0.5) * 2.0);
                 //myLight *=1.0-abs( (ssShadow.y-0.5) * 2.0);
             }
     }else
             myLight+= 0.0;
-
   return myLight;
 }
 
@@ -315,7 +315,11 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor= texture2D(tex, texCoord)+ shadowMapping();
+    gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
+    //gl_FragColor.r=min(1.15,gl_FragColor.r);
+    //gl_FragColor.g=min(1.15,gl_FragColor.g);
+    //gl_FragColor.b=min(1.15,gl_FragColor.b);
+    //gl_FragColor= shadowMapping();
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
     //gl_FragColor= computeLight();
     //gl_FragColor= vec4(1,0,0,1);

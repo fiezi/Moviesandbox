@@ -56,7 +56,7 @@ void main(){
     objColor.r=max(0.0,objColor.r);
 
    //transparency...
-    if (objColor.a < 0.1){
+    if (objColor.a < 0.9){
         discard;
     }else{
         gl_FragDepth=gl_FragCoord.z;

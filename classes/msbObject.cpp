@@ -215,73 +215,103 @@ void MsbObject::memberFromString(memberID *mID,string value){
     //for this, in order to not mix up vector components and full vectors, let's check first
 
     if (testForVector3Component(cValue)){
-        if (setVector3PropertyTo (mID, readVector3fComponent(cValue)))
+        if (setVector3PropertyTo (mID, readVector3fComponent(cValue))){
+            free(cValue);
             return;
+        }
     }
 
 
     if (testForVector4Component(cValue)){
-        if (setVector4PropertyTo (mID, readVector4fComponent(cValue)))
+        if (setVector4PropertyTo (mID, readVector4fComponent(cValue))){
+            free(cValue);
             return;
+        }
     }
 
     //give special priority to locations and other vectors!
-    if (setPropertyTo (mID, readVector3f(cValue)))
+    if (setPropertyTo (mID, readVector3f(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readVector4f(cValue)))
+    }
+    if (setPropertyTo (mID, readVector4f(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readMatrix4f(cValue)))
+    }
+    if (setPropertyTo (mID, readMatrix4f(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readBool(cValue)))
+    }
+    if (setPropertyTo (mID, readBool(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readGLuint(cValue)))
+    }
+    if (setPropertyTo (mID, readGLuint(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readInt(cValue)))
+    }
+    if (setPropertyTo (mID, readInt(cValue))){
+        free(cValue);
         return;
-    if (setPropertyTo (mID, readFloat(cValue)))
+    }
+    if (setPropertyTo (mID, readFloat(cValue))){
+        free(cValue);
         return;
+    }
 
-
-    if (setStringPropertyTo(mID, readString(cValue)))
+    if (setStringPropertyTo(mID, readString(cValue))){
+        free(cValue);
         return;
+    }
 
-    if (setNodePropertyTo(mID, readNode(cValue)))
+    if (setNodePropertyTo(mID, readNode(cValue))){
+        free(cValue);
         return;
-
-    if (setActorPropertyTo(mID, readActor(cValue)))
+    }
+    if (setActorPropertyTo(mID, readActor(cValue))){
+        free(cValue);
         return;
+    }
 
     ///vectors
 
 
-    if (setVecPropertyTo (mID,readVecString(cValue)))
+    if (setVecPropertyTo (mID,readVecString(cValue))){
+        free(cValue);
         return;
+    }
 
     cValue = new char [value.size()+1];
     strcpy (cValue, value.c_str());
 
-    if (setVecPropertyTo (mID,readVecActor(cValue)))
+    if (setVecPropertyTo (mID,readVecActor(cValue))){
+        free(cValue);
         return;
+    }
 
     cValue = new char [value.size()+1];
     strcpy (cValue, value.c_str());
 
-    if (setVecPropertyTo (mID,readVecNode(cValue)))
+    if (setVecPropertyTo (mID,readVecNode(cValue))){
+        free(cValue);
         return;
+    }
 
     cValue = new char [value.size()+1];
     strcpy (cValue, value.c_str());
 
-    if (setVecPropertyTo (mID,readVecVector3f(cValue)))
+    if (setVecPropertyTo (mID,readVecVector3f(cValue))){
+        free(cValue);
         return;
-
+    }
     cValue = new char [value.size()+1];
     strcpy (cValue, value.c_str());
 
-    if (setVecPropertyTo (mID,readVecVector4f(cValue)))
+    if (setVecPropertyTo (mID,readVecVector4f(cValue))){
+        free(cValue);
         return;
-
-    delete(cValue);
+    }
+    free(cValue);
 }
 
 //TODO: I am sure this can be done much nicer...

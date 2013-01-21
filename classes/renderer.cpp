@@ -261,6 +261,7 @@ void Renderer::registerProperties(){
     createMemberID("BUSEBLENDING",&bUseBlending, this,true,"10BoolButton");
     createMemberID("BMULTISAMPLE",&bMultisample,this,false);
     createMemberID("BSSAO",&bSSAO,this,true,"10BoolButton");
+
     createMemberID("BDRAWCOLOR",&bDrawColor,this,true,"10BoolButton");
     createMemberID("BSHADOWPASS",&bShadowPass,this,true,"10BoolButton");
     createMemberID("BDOF",&bDOF,this,true,"10BoolButton");
@@ -2614,7 +2615,8 @@ bool Renderer::LoadTextureTGA( string filename, bool wrap, bool bAlpha, string t
 
     // build our texture and mipmaps
     if (bAlpha)
-      glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
+      glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
+      //glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGBA, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGRA, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
     else
       glTexImage2D( GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB, FreeImage_GetWidth(myBitmap), FreeImage_GetHeight(myBitmap), 0, GL_BGR, GL_UNSIGNED_BYTE, FreeImage_GetBits(myBitmap) );
 

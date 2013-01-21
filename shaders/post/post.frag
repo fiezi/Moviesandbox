@@ -49,10 +49,10 @@ varying vec2 texCoord;
     float stepsize = 2.0;          //distance of next point in pixels
 
 	float aoMultiplier=20.0;        //progressive darkening
-	float falloff =1.015;
+	float falloff =1.00015;
 
-    float minDepth=0.05;           //minimum distance to take into account
-    float maxDepth=10.0;            //maximum distance to take into account
+    float minDepth=0.005;           //minimum distance to take into account
+    float maxDepth=10000.0;            //maximum distance to take into account
 
 
     float aspect =45.0;             //field of view ratio
@@ -277,10 +277,11 @@ void main(void){
     //if we have negative values in our first channel, we are unlit!
     if (bLighting){// && !bSmudge){
         vec4 lightData=texture2D(shadowTex,texCoord,1.0) ;
+        //vec4 lightData=blur3(shadowTex,texCoord) ;
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
-        //if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
+        if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
                 gl_FragData[0]*=1.0*lightData;
     }
 
@@ -301,6 +302,12 @@ void main(void){
     if (gl_FragCoord.y>screenY/2.0-1.0 && gl_FragCoord.y<screenY/2.0+1.0 )
         gl_FragData[0].r=1.0;
 */
+
+    ///GreyScale
+    float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
+    //gl_FragData[0].rgb=vec3(greyValue);
+
+
     //gl_FragData[0]/=3.0;
     //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
     //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;

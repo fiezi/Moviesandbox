@@ -299,6 +299,7 @@ void UdpInput::createNewInputConnect(Vector4f btnColor, std::string btnName, uns
     inputConnectButtons.push_back(myBtn);
     myBtn->setup();
 
+    cout << "generating new InputConnectButton..." << endl;
 
     //create a field for the actor target reference - use NULL
     if (numInputs>=targetActors.size())
