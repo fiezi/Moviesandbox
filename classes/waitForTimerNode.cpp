@@ -42,18 +42,22 @@ bIsCounting=false;
 
 void WaitForTimerNode::execute(){
 
-//cout << "waiting... " << passedTime << endl;
-bIsCounting=true;
-if (passedTime>=waitTime)
-  Node::nextNode();
+    cout << "waiting... " << passedTime << endl;
+    bIsCounting=true;
+    if (passedTime>=waitTime){
+      passedTime=0.0;
+      bIsCounting=false;
+      Node::nextNode();
+    }
 }
 
 void WaitForTimerNode::update(double deltaTime){
 
-Node::update(deltaTime);
+    Node::update(deltaTime);
 
-if (bIsCounting)
-  passedTime+=deltaTime/1000;
+    if (bIsCounting)
+      passedTime+=deltaTime/1000;
+
 }
 
 void WaitForTimerNode::create(){
