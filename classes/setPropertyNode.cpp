@@ -6,21 +6,24 @@
 
 SetPropertyNode::SetPropertyNode(){
 
+    name="SetProp";
     applyTo=NULL;
     propertyToSet="";
     propValue="";
 
     listType.push_back("15PickWorldButton");
-    listName.push_back("APPLYTO");
+    listName.push_back("applyTo");
+    listProp.push_back("APPLYTO");
     listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
-    listName.push_back("PROPERTYTOSET");
+    listName.push_back("PropName");
     listProp.push_back("PROPERTYTOSET");
     listIcon.push_back("icon_flat");
 
-//    listType.push_back("15TextInputButton");
-//    listName.push_back("PROPVALUE");
+    listType.push_back("15TextInputButton");
+    listName.push_back("PropValue");
+    listProp.push_back("PROPVALUE");
 
     registerProperties();
 }
@@ -47,8 +50,14 @@ Node::stop();
 
 void SetPropertyNode::execute(){
 
+    //make copy of string, so we don't change the original!
+    string s=propValue;
+    replace (s.begin(), s.end(),'_',' ');
+
     if (propertyToSet!="")
-        applyTo->memberFromString(&applyTo->property[propertyToSet],propValue);
+        applyTo->memberFromString(&applyTo->property[propertyToSet],s);
+
+    nextNode();
 }
 
 

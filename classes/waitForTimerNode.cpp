@@ -54,9 +54,9 @@ void WaitForTimerNode::execute(){
 void WaitForTimerNode::update(double deltaTime){
 
     Node::update(deltaTime);
-
+    //cout << "updating..." << passedTime << endl;
     if (bIsCounting)
-      passedTime+=deltaTime/1000;
+      passedTime+=deltaTime/1000.0;
 
 }
 

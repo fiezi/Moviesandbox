@@ -518,29 +518,53 @@ void Input::keyUp(unsigned char key,int x,int y){
     ///W,A,S,D movement Q,E for up/down
 
         if (key=='a' && keyVector.x==-1){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.x=0;
                bPressedMovementKeys=false;
         }
         if (key=='d' && keyVector.x==1){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.x=0;
                bPressedMovementKeys=false;
         }
 
         if (key=='q'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.y=0;
                bPressedMovementKeys=false;
         }
         if (key=='e'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.y=0;
                bPressedMovementKeys=false;
         }
 
         if (key=='w'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                Input::keyVector.z=0;
                bPressedMovementKeys=false;
         }
 
         if (key=='s'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.z=0;
                bPressedMovementKeys=false;
         }
@@ -570,6 +594,10 @@ void Input::keyUp(unsigned char key,int x,int y){
         //pressed Delete!!!
         //TODO: this is also implemented in selectTool! Only need one!
         if (key==127 || key==8){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             if (hudTarget){
                 Node* n=dynamic_cast<Node*>(hudTarget);
                 if (n)  {
@@ -599,18 +627,31 @@ void Input::keyUp(unsigned char key,int x,int y){
 
         // reload all shaders!
         if (key=='S'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                sceneData->loadShaders("shaders/","resources/basic.library");
                sceneData->loadShaders(sceneData->startProject,sceneData->startProject+"my.project");
         }
 
         // reload all textures!
         if (key=='X'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
                sceneData->loadTextures("resources/icons/","resources/basic.library");
                sceneData->loadTextures(sceneData->startProject,sceneData->startProject+"my.project");
         }
 
-        if (key=='v')
+        if (key=='v'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();
+        }
 
         /*
         if (key=='b'){
@@ -620,6 +661,10 @@ void Input::keyUp(unsigned char key,int x,int y){
         */
 
         if (key=='x'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             if (((BoneWidget*)sceneData->controller->myTools[TOOL_BONE]->myBtn)->bWidgetOpen){
                 sceneData->controller->switchTool(TOOL_BONE);
             }else{
@@ -628,6 +673,11 @@ void Input::keyUp(unsigned char key,int x,int y){
         }
 
         if (key=='z'){
+
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             if (((BoneWidget*)sceneData->controller->myTools[TOOL_SKIN]->myBtn)->bWidgetOpen){
                 sceneData->controller->switchTool(TOOL_SKIN);
             }else{
@@ -637,15 +687,26 @@ void Input::keyUp(unsigned char key,int x,int y){
 
         //switch to grid
         if (key=='g'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             sceneData->controller->myTools[TOOL_GRID]->myBtn->clickedLeft();
         }
 
         if (key=='h'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
             sceneData->grid->bHidden=!sceneData->grid->bHidden;
         }
 
         //switch to drawing
         if (key=='b'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             if (((DrawingWidget*)sceneData->controller->myTools[TOOL_DRAW]->myBtn)->bWidgetOpen){
                 sceneData->controller->switchTool(TOOL_DRAW);
             }else{
@@ -655,6 +716,10 @@ void Input::keyUp(unsigned char key,int x,int y){
 
         //switch fullscreen
         if (key=='F'){
+                //added for security
+                if (sceneData->controller->bRunning)
+                    return;
+
             if (renderer->bFullscreen){
                 glutLeaveGameMode();
             }else{

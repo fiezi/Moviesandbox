@@ -8,6 +8,7 @@
 LoadNode::LoadNode(){
 
 fileName="NULL";
+name="loadNext";
 registerProperties();
 
     listType.push_back("15TextInputButton");

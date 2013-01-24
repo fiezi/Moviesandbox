@@ -404,6 +404,10 @@ void Renderer::setup(){
     //setup frameBufferObject
     setupFBOs();
 
+    GLint maxPSize;
+    glGetIntegerv(GL_POINT_SIZE_MAX, &maxPSize);
+    cout << "Maximum Point Size:" << maxPSize << endl;
+
     //enable Blending for everyone!
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
