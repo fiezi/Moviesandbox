@@ -264,6 +264,7 @@ void Input::pressedMouse(int button,int state,int x, int y){
 void Input::moveMouse(int x, int y){
 
 
+
 	#ifdef TARGET_WIN32
 
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);

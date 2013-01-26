@@ -85,6 +85,8 @@ void Node::connectChild(Node* connectNode){
             nodeOut->connector=childNode->nodeIn;
             nodeOut->bConnected=true;
             childNode->nodeIn->bConnected=true;
+            //do vice versa connection!
+            childNode->nodeIn->connector=nodeOut;
             }
         }
 
@@ -231,6 +233,8 @@ void Node::remove(){
         if (sceneData->nodeList[i]==this)
           sceneData->nodeList.erase(sceneData->nodeList.begin()+i);
     }
+
+    cout << "deleting node: " << name << " on position: " <<location << endl;
 
     if (nodeIn)
         nodeIn->remove();

@@ -35,6 +35,7 @@ void NodeIO::mouseOver(){
 
     if (scale.length()<maxScale.length())
         scale*=1.1;
+
 }
 
 void NodeIO::drawTooltip(){
@@ -113,12 +114,13 @@ BasicButton::focusClick();
 
 
 
-connector=dynamic_cast<NodeIO *>(input->hudTarget);
+connector=dynamic_cast<NodeIO*>(input->hudTarget);
 
 if (connector)
   {
-  connectNode=(Node *)connector->parent;
-  myNode=(Node *)parent;
+  connectNode=(Node*)connector->parent;
+  myNode=(Node*)parent;
+
   //Out to in!
   if (myNode->nodeOut==this && connectNode->nodeIn==connector)
     {
@@ -134,6 +136,7 @@ if (connector)
     connector->connector=this;              //link back
     connector->bConnected=true;
     }
+
   //In to Out!
   if (myNode->nodeIn==this && connectNode->nodeOut==connector)
     {
