@@ -8,6 +8,7 @@
 NavTool::NavTool(){
 
     bOverrideOldState=false;
+    oldBDrawNodes=false;
 }
 
 NavTool::~NavTool(){}
@@ -25,6 +26,9 @@ void NavTool::start(){
     oldMousePos.y=input->mouseY;
 
     myBtn->color=COLOR_RED;
+    oldBDrawNodes=renderer->bDrawNodes;
+    renderer->bDrawNodes=false;
+
     processMove(0.0);
     processRotation(0.0);
 
@@ -37,6 +41,8 @@ void NavTool::stop(){
 
     //reset color of navigation button
     myBtn->color=COLOR_WHITE;
+
+    renderer->bDrawNodes=oldBDrawNodes;
 
     processMove(0.0);
     glutWarpPointer(oldMousePos.x,oldMousePos.y);

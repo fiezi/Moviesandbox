@@ -312,6 +312,8 @@ void Input::moveMouse(int x, int y){
 
 void Input::dragMouse(int x, int y){
 
+
+
 	#ifdef TARGET_WIN32
 
         bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);

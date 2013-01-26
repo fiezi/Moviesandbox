@@ -830,8 +830,6 @@ void Renderer::draw(){
         drawStereoscopic();
     }
     */
-
-
 	drawSceneTexture();
 
 
@@ -1383,6 +1381,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
     glDrawBuffers(2, drawBuffers);
 
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     //draw color
 
@@ -2459,8 +2458,6 @@ void Renderer::pick(int x, int y){
 	//float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
 	int ob = floor( (obj.y + obj.x/255.0) * 1024.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
 
-
-    //cout << "objectID: " << raw << endl;
 
     ///Picking
     //get ObjectID and find worldTarget

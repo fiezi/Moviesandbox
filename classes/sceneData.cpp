@@ -303,7 +303,7 @@ SceneData::SceneData(){
     currentShader="color";                //currently bound shader
 
     backgroundTex="NULL";
-    backgroundColor=Vector4f(0.9,0.9,0.9,1);
+    backgroundColor=Vector4f(0.0,0.0,0.0,0.0);
 
     grid=NULL;                        //direct pointer to Grid
     brush=NULL;                       //direct pointer to Brush

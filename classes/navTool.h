@@ -8,6 +8,7 @@ class NavTool: public MsbTool{
 public:
 
     Vector2f oldMousePos;
+    bool oldBDrawNodes;
 
     NavTool();
     virtual ~NavTool();
