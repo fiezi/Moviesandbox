@@ -116,10 +116,11 @@ void Control::startMovie(){
 
 bRunning=!bRunning;
 
-    if (bRunning)
+    if (bRunning){
         //always draw nodes when running! Otherwise WaitForTimer won't work!
         renderer->bDrawNodes=true;
         start();
+    }
     else{
         stop();
         sceneData->controller->controlledActor=sceneData->controller;

@@ -379,29 +379,42 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
     if (!bTextInput){
 
         if (key=='d'){
+                if (sceneData->controller->bRunning)
+                    return;
+
                keyVector.x=1;
                bPressedMovementKeys=true;
         }
         if (key=='a'){
+                if (sceneData->controller->bRunning)
+                    return;
                keyVector.x=-1;
                bPressedMovementKeys=true;
         }
 
         if (key=='q'){
+                if (sceneData->controller->bRunning)
+                    return;
                keyVector.y=1;
                bPressedMovementKeys=true;
         }
         if (key=='e'){
+                if (sceneData->controller->bRunning)
+                    return;
                keyVector.y=-1;
                bPressedMovementKeys=true;
         }
 
 
         if (key=='w'){
+                if (sceneData->controller->bRunning)
+                    return;
                keyVector.z=-1;
                bPressedMovementKeys=true;
         }
         if (key=='s'){
+                if (sceneData->controller->bRunning)
+                    return;
                keyVector.z=1;
                bPressedMovementKeys=true;
         }
