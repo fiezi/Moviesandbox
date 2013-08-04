@@ -46,8 +46,8 @@ void main(){
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    myVertex.x+=0.01 * sin(time * 0.001 + myVertex.y+objectID);
-    myVertex.y+=0.2 * sin(time * 0.002 + gl_Position.x);
+    myVertex.x+=0.01 * sin(time * 0.1 + myVertex.y+objectID);
+    myVertex.y+=0.2 * sin(time * 0.2 + gl_Position.x);
     myVertex.w=1.0;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;

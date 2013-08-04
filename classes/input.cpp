@@ -380,68 +380,56 @@ void Input::normalKeyDown(unsigned char key, int x, int y){
     ///W,A,S,D for movement Q,E for up/down
 
     if (!bTextInput){
+        if (!sceneData->controller->bRunning){
 
-        if (key=='d'){
-                if (sceneData->controller->bRunning)
-                    return;
+            if (key=='d'){
+                   keyVector.x=1;
+                   bPressedMovementKeys=true;
+            }
+            if (key=='a'){
+                   keyVector.x=-1;
+                   bPressedMovementKeys=true;
+            }
 
-               keyVector.x=1;
-               bPressedMovementKeys=true;
+            if (key=='q'){
+                   keyVector.y=1;
+                   bPressedMovementKeys=true;
+            }
+            if (key=='e'){
+                   keyVector.y=-1;
+                   bPressedMovementKeys=true;
+            }
+
+
+            if (key=='w'){
+                   keyVector.z=-1;
+                   bPressedMovementKeys=true;
+            }
+            if (key=='s'){
+                   keyVector.z=1;
+                   bPressedMovementKeys=true;
+            }
+
+        #ifdef TARGET_WIN32
+
+            bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
+            bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
+            bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
+        #endif
+
+        #ifdef TARGET_LINUX
+            bShiftDown=false;
+            bCtrlDown=false;
+            if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
+                bShiftDown=true;
+            if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
+                bCtrlDown=true;
+        #endif
         }
-        if (key=='a'){
-                if (sceneData->controller->bRunning)
-                    return;
-               keyVector.x=-1;
-               bPressedMovementKeys=true;
-        }
-
-        if (key=='q'){
-                if (sceneData->controller->bRunning)
-                    return;
-               keyVector.y=1;
-               bPressedMovementKeys=true;
-        }
-        if (key=='e'){
-                if (sceneData->controller->bRunning)
-                    return;
-               keyVector.y=-1;
-               bPressedMovementKeys=true;
-        }
-
-
-        if (key=='w'){
-                if (sceneData->controller->bRunning)
-                    return;
-               keyVector.z=-1;
-               bPressedMovementKeys=true;
-        }
-        if (key=='s'){
-                if (sceneData->controller->bRunning)
-                    return;
-               keyVector.z=1;
-               bPressedMovementKeys=true;
-        }
-
-	#ifdef TARGET_WIN32
-
-        bShiftDown=((GetKeyState( VK_SHIFT ) & 0x80) > 0);
-        bCtrlDown=((GetKeyState( VK_CONTROL ) & 0x80) > 0);
-        bAltDown=((GetKeyState( VK_MENU ) & 0x80) > 0);
-    #endif
-
-    #ifdef TARGET_LINUX
-        bShiftDown=false;
-        bCtrlDown=false;
-        if (glutGetModifiers()==GLUT_ACTIVE_SHIFT)
-            bShiftDown=true;
-        if (glutGetModifiers()==GLUT_ACTIVE_CTRL)
-            bCtrlDown=true;
-    #endif
 
         lastKey=key;
 
         sceneData->controller->currentTool->keyPressed(key);
-
     }
     else{
 
@@ -533,62 +521,191 @@ void Input::keyUp(unsigned char key,int x,int y){
 
     ///W,A,S,D movement Q,E for up/down
 
-        if (key=='a' && keyVector.x==-1){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+        if (!sceneData->controller->bRunning){
 
-               keyVector.x=0;
-               bPressedMovementKeys=false;
-        }
-        if (key=='d' && keyVector.x==1){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+                if (key=='a' && keyVector.x==-1){
+                       keyVector.x=0;
+                       bPressedMovementKeys=false;
+                }
+                if (key=='d' && keyVector.x==1){
+                       keyVector.x=0;
+                       bPressedMovementKeys=false;
+                }
 
-               keyVector.x=0;
-               bPressedMovementKeys=false;
-        }
+                if (key=='q'){
+                       keyVector.y=0;
+                       bPressedMovementKeys=false;
+                }
+                if (key=='e'){
+                       keyVector.y=0;
+                       bPressedMovementKeys=false;
+                }
 
-        if (key=='q'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+                if (key=='w'){
 
-               keyVector.y=0;
-               bPressedMovementKeys=false;
-        }
-        if (key=='e'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+                       Input::keyVector.z=0;
+                       bPressedMovementKeys=false;
+                }
 
-               keyVector.y=0;
-               bPressedMovementKeys=false;
-        }
+                if (key=='s'){
+                       keyVector.z=0;
+                       bPressedMovementKeys=false;
+                }
 
-        if (key=='w'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+                //Ctrl-S saves current scene
+                if (key==19)
+                    sceneData->saveAll(sceneData->currentScene);
 
-               Input::keyVector.z=0;
-               bPressedMovementKeys=false;
-        }
+                //pressed c for camera!
+                if (key =='c'){
+                    if (sceneData->controller->tool==TOOL_NAV || sceneData->controller->tool==TOOL_ORBIT){
+                        sceneData->controller->switchTool(sceneData->controller->oldTool);
+                    }else{
+                        sceneData->controller->myTools[TOOL_NAV]->myBtn->clickedLeft();
+                    }
 
-        if (key=='s'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
+                }
 
-               keyVector.z=0;
-               bPressedMovementKeys=false;
-        }
+                //pressed Delete!!!
+                //TODO: this is also implemented in selectTool! Only need one!
+                if (key==127 || key==8){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
 
+                    if (hudTarget){
+                        Node* n=dynamic_cast<Node*>(hudTarget);
+                        if (n)  {
+                            deselectButtons(0);
+                            n->remove();
+                        }
+                    hudTarget=NULL;
+                    }
+                }
+
+                //enable physics simulation p
+                /*
+                if (key=='P')                               //pressed s
+                  renderer->bUpdatePhysics=!renderer->bUpdatePhysics;
+                */
+
+                // reload all shaders!
+                if (key=='S'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                       sceneData->loadShaders("shaders/","resources/basic.library");
+                       sceneData->loadShaders(sceneData->startProject,sceneData->startProject+"my.project");
+                }
+
+                // reload all textures!
+                if (key=='X'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                       sceneData->loadTextures("resources/icons/","resources/basic.library");
+                       sceneData->loadTextures(sceneData->startProject,sceneData->startProject+"my.project");
+                }
+
+                if (key=='v'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();
+                }
+
+                /*
+                if (key=='b'){
+                    renderer->bUseBlending=!renderer->bUseBlending;
+                    cout << "switched blending to: "<<renderer->bUseBlending << endl;
+                }
+                */
+
+                if (key=='x'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    if (((BoneWidget*)sceneData->controller->myTools[TOOL_BONE]->myBtn)->bWidgetOpen){
+                        sceneData->controller->switchTool(TOOL_BONE);
+                    }else{
+                        sceneData->controller->myTools[TOOL_BONE]->myBtn->clickedLeft();
+                    }
+                }
+
+                if (key=='z'){
+
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    if (((BoneWidget*)sceneData->controller->myTools[TOOL_SKIN]->myBtn)->bWidgetOpen){
+                        sceneData->controller->switchTool(TOOL_SKIN);
+                    }else{
+                        sceneData->controller->myTools[TOOL_SKIN]->myBtn->clickedLeft();
+                    }
+                }
+
+                //switch to grid
+                if (key=='g'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    sceneData->controller->myTools[TOOL_GRID]->myBtn->clickedLeft();
+                }
+
+                if (key=='h'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+                    sceneData->grid->bHidden=!sceneData->grid->bHidden;
+                }
+
+                //switch to drawing
+                if (key=='b'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    if (((DrawingWidget*)sceneData->controller->myTools[TOOL_DRAW]->myBtn)->bWidgetOpen){
+                        sceneData->controller->switchTool(TOOL_DRAW);
+                    }else{
+                        sceneData->controller->myTools[TOOL_DRAW]->myBtn->clickedLeft();
+                    }
+                }
+
+                //switch fullscreen
+                if (key=='F'){
+                        //added for security
+                        if (sceneData->controller->bRunning)
+                            return;
+
+                    if (renderer->bFullscreen){
+                        glutLeaveGameMode();
+                    }else{
+                        glutEnterGameMode();
+                    }
+                    renderer->bFullscreen=!renderer->bFullscreen;
+                }
+
+
+            /*
+                //create bone
+                if (key=='k'){
+                    BoneActor* bone = new BoneActor;
+                    bone->setLocation(sceneData->controller->controlledActor->location);
+                    bone->setRotation(sceneData->controller->controlledActor->rotation);
+                    sceneData->actorList.push_back(bone);
+                }
+            */
+       }
     ///System stuff
 
-        //pressed TAB
-        if (key==9 || key =='c'){
+        if (key==9){
             if (sceneData->controller->tool==TOOL_NAV || sceneData->controller->tool==TOOL_ORBIT){
                 sceneData->controller->switchTool(sceneData->controller->oldTool);
             }else{
@@ -607,32 +724,7 @@ void Input::keyUp(unsigned char key,int x,int y){
         if (key==' ')
           sceneData->controller->startMovie();
 
-        //pressed Delete!!!
-        //TODO: this is also implemented in selectTool! Only need one!
-        if (key==127 || key==8){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
 
-            if (hudTarget){
-                Node* n=dynamic_cast<Node*>(hudTarget);
-                if (n)  {
-                    deselectButtons(0);
-                    n->remove();
-                }
-            hudTarget=NULL;
-            }
-        }
-
-        //enable physics simulation p
-        /*
-        if (key=='P')                               //pressed s
-          renderer->bUpdatePhysics=!renderer->bUpdatePhysics;
-        */
-
-    //Ctrl-S saves current scene
-    if (key==19)
-        sceneData->saveAll(sceneData->currentScene);
 
     ///Hotkeys
 
@@ -641,119 +733,7 @@ void Input::keyUp(unsigned char key,int x,int y){
             if (sceneData->selectedActors[0])
                 sceneData->selectedActors[0]->trigger(NULL);
 
-        // reload all shaders!
-        if (key=='S'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
 
-               sceneData->loadShaders("shaders/","resources/basic.library");
-               sceneData->loadShaders(sceneData->startProject,sceneData->startProject+"my.project");
-        }
-
-        // reload all textures!
-        if (key=='X'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-               sceneData->loadTextures("resources/icons/","resources/basic.library");
-               sceneData->loadTextures(sceneData->startProject,sceneData->startProject+"my.project");
-        }
-
-        if (key=='v'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            sceneData->controller->myTools[TOOL_SELECT]->myBtn->clickedLeft();
-        }
-
-        /*
-        if (key=='b'){
-            renderer->bUseBlending=!renderer->bUseBlending;
-            cout << "switched blending to: "<<renderer->bUseBlending << endl;
-        }
-        */
-
-        if (key=='x'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            if (((BoneWidget*)sceneData->controller->myTools[TOOL_BONE]->myBtn)->bWidgetOpen){
-                sceneData->controller->switchTool(TOOL_BONE);
-            }else{
-                sceneData->controller->myTools[TOOL_BONE]->myBtn->clickedLeft();
-            }
-        }
-
-        if (key=='z'){
-
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            if (((BoneWidget*)sceneData->controller->myTools[TOOL_SKIN]->myBtn)->bWidgetOpen){
-                sceneData->controller->switchTool(TOOL_SKIN);
-            }else{
-                sceneData->controller->myTools[TOOL_SKIN]->myBtn->clickedLeft();
-            }
-        }
-
-        //switch to grid
-        if (key=='g'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            sceneData->controller->myTools[TOOL_GRID]->myBtn->clickedLeft();
-        }
-
-        if (key=='h'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-            sceneData->grid->bHidden=!sceneData->grid->bHidden;
-        }
-
-        //switch to drawing
-        if (key=='b'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            if (((DrawingWidget*)sceneData->controller->myTools[TOOL_DRAW]->myBtn)->bWidgetOpen){
-                sceneData->controller->switchTool(TOOL_DRAW);
-            }else{
-                sceneData->controller->myTools[TOOL_DRAW]->myBtn->clickedLeft();
-            }
-        }
-
-        //switch fullscreen
-        if (key=='F'){
-                //added for security
-                if (sceneData->controller->bRunning)
-                    return;
-
-            if (renderer->bFullscreen){
-                glutLeaveGameMode();
-            }else{
-                glutEnterGameMode();
-            }
-            renderer->bFullscreen=!renderer->bFullscreen;
-        }
-
-
-    /*
-        //create bone
-        if (key=='k'){
-            BoneActor* bone = new BoneActor;
-            bone->setLocation(sceneData->controller->controlledActor->location);
-            bone->setRotation(sceneData->controller->controlledActor->rotation);
-            sceneData->actorList.push_back(bone);
-        }
-    */
 
 
     ///debug:

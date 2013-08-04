@@ -162,6 +162,9 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("bDrawNormals") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bDrawNormals"],renderer->bDrawNormals);
 
+    if (myShader->uniforms.find("bInvert") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bInvert"],renderer->bInvert);
+
     if (myShader->uniforms.find("focus") != myShader->uniforms.end())
         glUniform1f(myShader->uniforms["focus"],renderer->focus);
 

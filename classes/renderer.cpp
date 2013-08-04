@@ -136,6 +136,9 @@ Renderer::Renderer(){
     bShadowPass=false;
     bDOF=false;
 
+    //TODO: SPECIAL BALDA
+    bInvert=false;
+
 
     bFullscreen=false;
     bUpdatePhysics=false;

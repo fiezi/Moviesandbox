@@ -80,7 +80,7 @@
 
     <Texture textureID="sunset" filename="sunset.tga" bAlpha="0" bWrap="1"/>
     <Texture textureID="background" filename="background.tga" bAlpha="1" bWrap="1"/>
-    <Texture textureID="grey_bkg" filename="grey_bkg.tga" bAlpha="0" bWrap="0"/>
+    <Texture textureID="grey_bkg" filename="grey_bkg.tga" bAlpha="0" bWrap="1"/>
     <Texture textureID="black_bkg" filename="black_bkg.tga" bAlpha="0" bWrap="0"/>
     <Texture textureID="nightTime" filename="nightTime.tga" bAlpha="0" bWrap="0"/>
 
