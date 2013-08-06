@@ -40,9 +40,13 @@ void LoadNode::execute(){
 
     if (fileName!="NULL"){
         LoadButton* lb=(LoadButton*)sceneData->actorInfo["10LoadButton"].actorReference;
-        sceneData->controller->startMovie();
+        //do this manual for mouse cursor hiding reasons...
+        //stop the current scene
+        sceneData->controller->stop();
+        sceneData->controller->bRunning=!sceneData->controller->bRunning;
+        //manually reset camera to make cameraActors freeable!
+        sceneData->controller->controlledActor=sceneData->controller;
         lb->loadFile(fileName,true);
-
     }
 
 }

@@ -57,6 +57,9 @@ public:
             bDrawColor,                 	//draw basic Color image (would be lighting only if false)
             bShadowPass;                    //currently rendering shadows
 
+        //TODO: SPECIAL BALDA
+        bool bInvert;                        //invert colors
+
        int numSamples;                      //number of multisamples
 
        //Physics using ODE

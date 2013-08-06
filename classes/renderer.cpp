@@ -136,6 +136,9 @@ Renderer::Renderer(){
     bShadowPass=false;
     bDOF=false;
 
+    //TODO: SPECIAL BALDA
+    bInvert=false;
+
 
     bFullscreen=false;
     bUpdatePhysics=false;
@@ -931,6 +934,8 @@ void Renderer::draw(){
             /////////////////////////////////////////////////////
             /// Post-Production
             /////////////////////////////////////////////////////
+
+            glColor4f(1,1,1,1);
 
             //for final composite, setup viewport to whole window
             glViewport (0, 0, windowX, windowY);

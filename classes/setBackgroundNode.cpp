@@ -37,8 +37,14 @@ Node::stop();
 
 void SetBackgroundNode::execute(){
 
-    if (texName!="NULL" && sceneData->textureList[texName])
+    if (texName!="NULL" && sceneData->textureList[texName]){
         sceneData->backgroundTex=texName;
+        //TODO: SPECIAL for BALDA
+        if (texName=="black_bkg")
+            renderer->bInvert=true;
+        else
+            renderer->bInvert=false;
+    }
 
     nextNode();
 }

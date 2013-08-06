@@ -23,7 +23,9 @@ void SelectTool::start(){
 
     MsbTool::start();
     myBtn->color=COLOR_RED;
-    glutSetCursor(GLUT_CURSOR_INHERIT);
+
+    if (!sceneData->controller->bRunning)
+        glutSetCursor(GLUT_CURSOR_INHERIT);
 
 }
 

@@ -62,7 +62,9 @@ void DrawTool::start(){
             brush->drawing->bones[i]->bPickable=false;
     }
 
-	glutSetCursor(GLUT_CURSOR_CROSSHAIR);
+    if (!sceneData->controller->bRunning)
+        glutSetCursor(GLUT_CURSOR_CROSSHAIR);
+
     brush->bHidden=false;
 
     if (bPaintMesh)
@@ -100,8 +102,8 @@ void DrawTool::stop(){
 
     //forget our drawing!
     brush->drawing=NULL;
-
-	glutSetCursor(GLUT_CURSOR_INHERIT);
+    if (!sceneData->controller->bRunning)
+        glutSetCursor(GLUT_CURSOR_INHERIT);
 
 }
 

@@ -9,6 +9,7 @@ uniform bool bLighting;
 uniform bool bSmudge;
 uniform bool bDrawNormals;
 uniform bool bDrawColor;
+uniform bool bInvert;
 
 uniform sampler2D tex;
 uniform sampler2D depthTex;
@@ -306,6 +307,8 @@ void main(void){
     ///GreyScale
     float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
     //gl_FragData[0].rgb=vec3(greyValue);
+    //if (bInvert)
+    //    gl_FragData[0].rgb=1.0-gl_FragData[0].rgb;
 
 
     //gl_FragData[0]/=3.0;

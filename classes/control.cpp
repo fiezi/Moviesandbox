@@ -119,9 +119,12 @@ bRunning=!bRunning;
     if (bRunning){
         //always draw nodes when running! Otherwise WaitForTimer won't work!
         renderer->bDrawNodes=true;
+        //hide mouse cursor!
+        glutSetCursor(GLUT_CURSOR_NONE);
         start();
     }
     else{
+        glutSetCursor(GLUT_CURSOR_INHERIT);
         stop();
         sceneData->controller->controlledActor=sceneData->controller;
     }

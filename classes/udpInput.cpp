@@ -239,9 +239,11 @@ void UdpInput::update(double deltaTime){
                 } //end special bone stuff
                 //this is the standard way of assigning properties
                 else{
-                    memberFromString(mID,targetValues[i]);
                     //cout << "yay!" << endl;
                     //cout << targetActors[i]->name << endl;
+                    //cout << targetValues[i] << endl;
+                    //cout << mID << endl;
+                    memberFromString(mID,targetValues[i]);
                 }
         }
     }
