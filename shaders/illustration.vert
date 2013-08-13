@@ -42,9 +42,9 @@ void main(){
   myVertex.w=1.0;
 
   float xC=myVertex.x;
-  myVertex.x+=0.00025*myVertex.y*sin(myVertex.y+0.001* time);
-  myVertex.z+=0.00025*cos(xC+0.008* time);
-  myVertex.y+=0.00025*sin(myVertex.z+0.008* time);
+  myVertex.x+=0.005*myVertex.y*sin(1.0*sin(0.01*myVertex.y+0.0025* time));
+  myVertex.z+=0.0025*cos(xC+0.008* time);
+  myVertex.y+=0.025*sin(myVertex.z+0.008* time);
 
   gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 

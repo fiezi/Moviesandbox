@@ -559,7 +559,7 @@ void Content::createInspectors(){
     ListButton* lbut;
 
     lbut= new PropertyInspector;
-    lbut->location.x=renderer->screenX-30;
+    lbut->location.x=renderer->windowX-30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->location.y=yPos;
@@ -569,7 +569,7 @@ void Content::createInspectors(){
     lbut->setup();
 
     lbut= new BrushInspector;
-    lbut->location.x=renderer->screenX-30;
+    lbut->location.x=renderer->windowX-30;
     lbut->location.y=yPos+30;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
@@ -580,7 +580,7 @@ void Content::createInspectors(){
     lbut->setup();
 
     lbut= new AssetInspector;
-    lbut->location.x=renderer->screenX-30;
+    lbut->location.x=renderer->windowX-30;
     lbut->location.y=yPos+60;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
@@ -591,7 +591,7 @@ void Content::createInspectors(){
     lbut->setup();
 
     lbut= new PrimitivesInspector;
-    lbut->location.x=renderer->screenX-30;
+    lbut->location.x=renderer->windowX-30;
     lbut->location.y=yPos+90;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
@@ -603,7 +603,7 @@ void Content::createInspectors(){
 
 
     lbut= new LayerInspector;
-    lbut->location.x=renderer->screenX-30;
+    lbut->location.x=renderer->windowX-30;
     lbut->location.y=yPos+180;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
@@ -616,7 +616,7 @@ void Content::createInspectors(){
 
     lbut= new TimelineInspector;
     lbut->location.x=100;
-    lbut->location.y=renderer->screenY -lbut->scale.y;
+    lbut->location.y=renderer->windowY -lbut->scale.y;
     lbut->setLocation(lbut->location);
     lbut->color=Vector4f(1.0,0.6,0.1,1.0);
     lbut->setTextureID("icon_timeline");
