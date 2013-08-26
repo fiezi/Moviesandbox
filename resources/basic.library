@@ -140,6 +140,7 @@
     <Shader shaderID="ssNormal" vertexShaderFilename="post/ssNormal.vert" fragmentShaderFilename="post/ssNormal.frag" />
     <Shader shaderID="ssBlur" vertexShaderFilename="post/ssBlur.vert" fragmentShaderFilename="post/ssBlur.frag" />
     <Shader shaderID="shadowBlur" vertexShaderFilename="post/shadowBlur.vert" fragmentShaderFilename="post/shadowBlur.frag" />
+    <Shader shaderID="geom" vertexShaderFilename="box.vert" fragmentShaderFilename="box.frag" geometryShaderFilename="box.geom"/>
 
 
 </Moviesandbox>

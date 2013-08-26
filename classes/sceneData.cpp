@@ -1586,8 +1586,15 @@ void SceneData::loadShaders(std::string path, string fileName){
         string shaderID=element->Attribute("shaderID");
         string vertexFileName=element->Attribute("vertexShaderFilename");
         string fragmentFileName=element->Attribute("fragmentShaderFilename");
+        string geometryFileName="NULL";
+        if (element->Attribute("geometryShaderFilename"))
+            geometryFileName=element->Attribute("geometryShaderFilename");
+
         cout << "loading shader " << shaderID << endl;
-        renderer->loadShader(path+vertexFileName,path+fragmentFileName, shaderID);
+        if (geometryFileName=="NULL")
+            renderer->loadShader(path+vertexFileName,path+fragmentFileName, shaderID);
+        else
+            renderer->loadShader(path+vertexFileName,path+fragmentFileName, shaderID, path+geometryFileName);
         cout << "finished loading shader " << shaderID << "-------------------------------------------------- " << endl;
       }
 }

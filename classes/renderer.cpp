@@ -2737,34 +2737,47 @@ bool Renderer::copyMemoryToTexture( void* originBuffer, string texName, float wi
         return 1;
 }
 
-bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName){
+
+
+bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName, string geometryShaderFileName){
 
     GLuint fragmentShader;
     GLuint vertexShader;
+    GLuint geometryShader;
 
     GLuint shaderProgram;
 
 
     char * vertexShaderFile;               //actually holds the whole file
     char * fragmentShaderFile;             //actually holds the whole file
-
+    char * geometryShaderFile;
     cout << "*************************************************************" << endl;
 
     //setup shader
     vertexShader=glCreateShader(GL_VERTEX_SHADER);
     fragmentShader=glCreateShader(GL_FRAGMENT_SHADER);
 
+    if (geometryShaderFileName!="NULL")
+        geometryShader=glCreateShader(GL_GEOMETRY_SHADER_ARB);
+
     cout << "processing: " << vertexShaderFileName << "\n";
     cout << "processing: " << fragmentShaderFileName << "\n";
+    cout << "processing: " << geometryShaderFileName << "\n";
 
     vertexShaderFile=textFileRead((char*)vertexShaderFileName.c_str());
     fragmentShaderFile=textFileRead((char*)fragmentShaderFileName.c_str());
+    if (geometryShaderFileName!="NULL"){
+        geometryShaderFile=textFileRead((char*)geometryShaderFileName.c_str());
+        cout << " found geometry shader in file: "<< geometryShaderFileName << endl;
+    }
 
     const char* ptrV = vertexShaderFile;
     const char* ptrF = fragmentShaderFile;
+    const char* ptrG = geometryShaderFile;
 
     glShaderSource(vertexShader, 1, &ptrV,NULL);
     glShaderSource(fragmentShader, 1, &ptrF,NULL);
+    glShaderSource(geometryShader, 1, &ptrG,NULL);
 
     glCompileShader(vertexShader);
     if (vertexShader==0){
@@ -2772,17 +2785,34 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
       return false;
     }
 
+    if (geometryShaderFileName!="NULL"){
+        glCompileShader(geometryShader);
+        if (fragmentShader==0){
+          cout << "could not compile geometry shader " << geometryShaderFileName << endl;
+          return false;
+        }
+    }
+
+
     glCompileShader(fragmentShader);
     if (fragmentShader==0){
       cout << "could not compile fragment shader " << fragmentShaderFileName << endl;
       return false;
     }
 
+
     cout << "Info log for " << vertexShaderFileName << endl;
     printShaderInfoLog(vertexShader);
 
+    if (geometryShaderFileName!="NULL"){
+        cout << "Info log for " << geometryShaderFileName << endl;
+        printShaderInfoLog(geometryShader);
+    }
+
+
     cout << "Info log for " << fragmentShaderFileName << endl;
     printShaderInfoLog(fragmentShader);
+
 
     //Link shaders
     shaderProgram=glCreateProgram();
@@ -2792,7 +2822,12 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     }
 
     glAttachShader(shaderProgram,vertexShader);
+
+    if (geometryShaderFileName!="NULL"){
+        glAttachShader(shaderProgram,geometryShader);
+    }
     glAttachShader(shaderProgram,fragmentShader);
+
 
     glLinkProgram(shaderProgram);
 
@@ -2803,11 +2838,15 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     //cleanUp
     free(vertexShaderFile);
     free(fragmentShaderFile);
+    if (geometryShaderFileName!="NULL"){
+        free(geometryShaderFile);
+    }
 
     sceneData->shaderList[shaderProgramName]=new shaderObject;
     sceneData->shaderList[shaderProgramName]->shader=shaderProgram;
     sceneData->shaderList[shaderProgramName]->vertexShaderFilename=vertexShaderFileName;
     sceneData->shaderList[shaderProgramName]->fragmentShaderFilename=fragmentShaderFileName;
+    sceneData->shaderList[shaderProgramName]->geometryShaderFilename=geometryShaderFileName;
     cout << "registered program!" << shaderProgram << "\n";
 
     cout << "*************************************************************" << endl;
@@ -2837,6 +2876,7 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     #endif
     return true;
 }
+
 
 void Renderer::printShaderInfoLog(GLuint obj){
     int infologLength = 0;

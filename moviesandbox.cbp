@@ -826,6 +826,9 @@
 		<Unit filename="resources/scenes/blank.scene" />
 		<Unit filename="shaders/aliveTexture.frag" />
 		<Unit filename="shaders/aliveTexture.vert" />
+		<Unit filename="shaders/box.frag" />
+		<Unit filename="shaders/box.geom" />
+		<Unit filename="shaders/box.vert" />
 		<Unit filename="shaders/buttonColor.frag" />
 		<Unit filename="shaders/buttonColor.vert" />
 		<Unit filename="shaders/buttonTexture.frag" />

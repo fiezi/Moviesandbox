@@ -280,7 +280,7 @@ public:
 
        bool copyMemoryToTexture(void* originBuffer,string texName, float width,float height,bool bHighZRes=false);
 
-       bool loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName);
+       bool loadShader(string vertexShaderFileName, string fragmentShaderFileName, string shaderProgramName, string geometryShaderFileName="NULL");
 
        void printShaderInfoLog(GLuint obj);
        void printProgramInfoLog(GLuint obj);
