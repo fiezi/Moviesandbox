@@ -1,8 +1,43 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
 
-    <Rendersettings
+    <!--
+      WindowSizeX="2560"
+      WindowSizeY="720"
+      ScreenSizeX="1280"
+      ScreenSizeY="720"
+      bRenderStereo="1"
 
+      WindowSizeX="1024"
+      WindowSizeY="768"
+      ScreenSizeX="1024"
+      ScreenSizeY="768"
+      bRenderStereo="0"
+
+      WindowSizeX="3840"
+      WindowSizeY="1024"
+      ScreenSizeX="1280"
+      ScreenSizeY="1024"
+      bRenderStereo="1"
+
+      WindowSizeX="1280"
+      WindowSizeY="960"
+      ScreenSizeX="1280"
+      ScreenSizeY="960"
+      bRenderStereo="0"
+
+      WindowSizeX="1024"
+      WindowSizeY="700"
+      ScreenSizeX="1024"
+      ScreenSizeY="700"
+
+      WindowSizeX="800"
+      WindowSizeY="600"
+      ScreenSizeX="800"
+      ScreenSizeY="600"
+      -->
+
+    <Rendersettings
 
 
       WindowSizeX="1024"
