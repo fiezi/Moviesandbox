@@ -15,6 +15,7 @@
 #define DRAW_SPECIAL        9
 #define DRAW_POINTPATCH     10
 #define DRAW_KINECT         11
+#define DRAW_TRIANGLEPATCH  12
 
 
 #define DRAW_NULL           100

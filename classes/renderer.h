@@ -257,6 +257,7 @@ public:
 
        virtual void drawParticles (Actor* a);
        virtual void drawColladaMesh (Actor* a);
+       virtual void drawTriangleMesh(Actor* a);
 
 
        virtual void createKinectWall( float resolution );

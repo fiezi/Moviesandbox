@@ -120,6 +120,8 @@ void ImportBitmapButton::loadFile(string filename){
 void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int imageHeight, float flip){
 
 
+
+
     sceneData->brush->bMouseControlled=false;
     //go through all of the image
     for (int h=0;h<imageHeight;h++){
@@ -217,6 +219,76 @@ void ImportBitmapButton::assembleImage(FIBITMAP* myBitmap, int imageWidth, int i
     }//outer for loop
 
     sceneData->brush->bMouseControlled=true;
+
+    //convert to triangles
+
+    sceneData->vboList["testTriangle"]=new MeshData;
+    sceneData->vboList["testTriangle"]->meshType=MESH_VBO;
+    sceneData->vboList["testTriangle"]->bIsSkeletal=false;
+    sceneData->vboList["testTriangle"]->bVertexColor=false;
+    sceneData->vboList["testTriangle"]->boneCount=0;
+    int vID=0;
+
+    for (int h=0;h<imageHeight;h++){
+    //reset after every line
+        for (int w=0;w<imageWidth;w++){
+
+            //get color
+            RGBQUAD *myColor=new RGBQUAD;
+            RGBQUAD *myColorTwo=new RGBQUAD;
+            RGBQUAD *myColorThree=new RGBQUAD;
+            RGBQUAD *myColorFour=new RGBQUAD;
+
+            FreeImage_GetPixelColor(myBitmap,w,h,myColor);
+            FreeImage_GetPixelColor(myBitmap,w+1,h,myColorTwo);
+            FreeImage_GetPixelColor(myBitmap,w+1,h+1,myColorThree);
+            FreeImage_GetPixelColor(myBitmap,w,h+1,myColorFour);
+
+            if ((float)myColor->rgbReserved>0.0f && w<imageWidth-2 && h<imageHeight-2){
+
+                vertexData myVData;
+
+                //vertexOne
+                Vector3f bLoc;
+                bLoc.x=10.0 * (float) ((float)imageWidth/2.0 - (float)w)/(float)imageWidth;
+                bLoc.y=10.0 *(float)h/(float)imageHeight;
+                bLoc.z=(float)myColor->rgbReserved/32.0f;
+                //first vertex
+                myVData.location=Vector4f(bLoc.x,bLoc.y,bLoc.z,1.0);
+                //myVData.location=Vector4f(0,1,0,0.0);
+                myVData.vertexID=vID;
+                vID++;
+
+                sceneData->vboList["testTriangle"]->vData.push_back(myVData);
+
+
+                //vertexTwo
+                bLoc.x=10.0 * (float) ((float)imageWidth/2.0 - (float)w+1)/(float)imageWidth;
+                bLoc.y=10.0 *(float)h/(float)imageHeight;
+                bLoc.z=(float)myColorTwo->rgbReserved/32.0f;
+                //first vertex
+                myVData.location=Vector4f(bLoc.x,bLoc.y,bLoc.z,1.0);
+                myVData.vertexID=vID;
+                vID++;
+
+                sceneData->vboList["testTriangle"]->vData.push_back(myVData);
+
+                //vertexThree
+                bLoc.x=10.0 * (float) ((float)imageWidth/2.0 - (float)w)/(float)imageWidth;
+                bLoc.y=10.0 *(float)(h+1.0)/(float)imageHeight;
+                bLoc.z=(float)myColorThree->rgbReserved/32.0f;
+                //first vertex
+                myVData.location=Vector4f(bLoc.x,bLoc.y,bLoc.z,1.0);
+                myVData.vertexID=vID;
+                vID++;
+
+                sceneData->vboList["testTriangle"]->vData.push_back(myVData);
+
+                //if (vID>300)
+                    //return;
+            }                //look for next vertex
+        }
+    }
 }
 
 Vector3f ImportBitmapButton::genNormal(FIBITMAP* myBitmap, int w, int h, int width, int height, float flip){

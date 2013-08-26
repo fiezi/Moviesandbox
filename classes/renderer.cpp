@@ -1568,6 +1568,7 @@ void Renderer::drawButton(BasicButton* b){
         drawColladaMesh(b);
     }
 
+
     glPopMatrix();
 
 }
@@ -1633,7 +1634,9 @@ void Renderer::drawActor(Actor* a){
                                                 a->vboMeshID="kinectWall";
                                                 drawColladaMesh(a);
                                                }
-
+        else if (a->drawType==DRAW_TRIANGLEPATCH){
+                                                drawTriangleMesh(a);
+                                                }
 
     if (!a->bZTest)  glEnable(GL_DEPTH_TEST);
     if (!a->bZWrite) glDepthMask(GL_TRUE);
@@ -2319,6 +2322,17 @@ void Renderer::drawColladaMesh (Actor* a){
 }
 
 
+void Renderer::drawTriangleMesh(Actor* a){
+
+    GLfloat *verts=&sceneData->vboList["testTriangle"]->vData[0].location.x;
+
+    glEnableClientState( GL_VERTEX_ARRAY );
+    glVertexPointer(4, GL_FLOAT, sizeof(sceneData->vboList["testTriangle"]->vData[0]), verts );
+    glDrawArrays( GL_TRIANGLES, 0, sceneData->vboList["testTriangle"]->vData.size() );
+    glDisableClientState( GL_VERTEX_ARRAY );
+
+}
+
 void Renderer::drawSprite(){
 
     glBegin(GL_POINTS);
@@ -2891,3 +2905,4 @@ bool Renderer::checkOpenGLError(string preText, bool bPrint){
             return 0;
     }
 }
+
