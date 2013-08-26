@@ -11,15 +11,9 @@
  <!-- Shaders -->
 
     <Shader shaderID="color" vertexShaderFilename="shaders/color.vert" fragmentShaderFilename="shaders/color.frag" />
-    <Shader shaderID="drawing" vertexShaderFilename="shaders/drawing.vert" fragmentShaderFilename="shaders/drawing.frag" />
     <Shader shaderID="texture" vertexShaderFilename="shaders/texture.vert" fragmentShaderFilename="shaders/texture.frag" />
     <Shader shaderID="heightfield" vertexShaderFilename="shaders/particleHeightFieldRect.vert" fragmentShaderFilename="shaders/particleHeightFieldRect.frag" />
-    <Shader shaderID="skeletal" vertexShaderFilename="shaders/skeletal.vert" fragmentShaderFilename="shaders/skeletal.frag" />
-
-    <Shader shaderID="skinning" vertexShaderFilename="shaders/skinning.vert" fragmentShaderFilename="shaders/skinning.frag" />
-
     <Shader shaderID="font" vertexShaderFilename="shaders/font.vert" fragmentShaderFilename="shaders/font.frag" />
-
     <Shader shaderID="post" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/post.frag" />
     <Shader shaderID="deferredLight" vertexShaderFilename="shaders/post/post.vert" fragmentShaderFilename="shaders/post/deferredLight.frag" />
 
