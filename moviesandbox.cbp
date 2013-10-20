@@ -869,6 +869,8 @@
 		<Unit filename="shaders/skinning.vert" />
 		<Unit filename="shaders/texture.frag" />
 		<Unit filename="shaders/texture.vert" />
+		<Unit filename="shaders/textureTest.frag" />
+		<Unit filename="shaders/textureTest.vert" />
 		<Extensions>
 			<code_completion />
 			<debugger />

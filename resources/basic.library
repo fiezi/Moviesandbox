@@ -3,6 +3,11 @@
 
  <!-- Meshes -->
     <ColladaMesh meshID="camera" meshFilename="cameraMesh.DAE"/>
+    <ColladaMesh meshID="patch320" meshFilename="patch320.dae"/>
+    <ColladaMesh meshID="patch160" meshFilename="patch160.dae"/>
+    <ColladaMesh meshID="patch80" meshFilename="patch80.dae"/>
+    <ColladaMesh meshID="patch40" meshFilename="patch40.dae"/>
+    <ColladaMesh meshID="patch20" meshFilename="patch20.dae"/>
 
     <SpriteMesh meshID="NULL" meshFilename="NULL.spriteMesh" />
     <SpriteMesh meshID="sticky" meshFilename="sticky.spriteMesh"/>
@@ -141,6 +146,7 @@
     <Shader shaderID="ssBlur" vertexShaderFilename="post/ssBlur.vert" fragmentShaderFilename="post/ssBlur.frag" />
     <Shader shaderID="shadowBlur" vertexShaderFilename="post/shadowBlur.vert" fragmentShaderFilename="post/shadowBlur.frag" />
     <Shader shaderID="geom" vertexShaderFilename="box.vert" fragmentShaderFilename="box.frag" geometryShaderFilename="box.geom"/>
+    <Shader shaderID="textureTest" vertexShaderFilename="textureTest.vert" fragmentShaderFilename="textureTest.frag" />
 
 
 </Moviesandbox>

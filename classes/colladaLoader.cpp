@@ -586,6 +586,8 @@ bool ColladaLoader::createVBOs(string meshID, TiXmlElement* sourceElement){
     //Vertex References
     TiXmlElement * referenceElement=sourceElement->NextSiblingElement("triangles");
 
+    if (!referenceElement)
+        referenceElement=sourceElement->NextSiblingElement("polylist");
     //while (referenceElement){
 
 

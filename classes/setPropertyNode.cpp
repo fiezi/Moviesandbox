@@ -51,8 +51,10 @@ Node::stop();
 void SetPropertyNode::execute(){
 
     //make copy of string, so we don't change the original!
-    string s=propValue;
+    string s="string "+propValue;
     replace (s.begin(), s.end(),'_',' ');
+
+    cout << "Setting Property: " << propertyToSet<< " To: " << propValue << endl;
 
     if (propertyToSet!="")
         applyTo->memberFromString(&applyTo->property[propertyToSet],s);
