@@ -37,7 +37,7 @@ float pointSize(){
 
 void main(){
 
-    float oneStep=1.0/40.0;
+    float oneStep=1.0/20.0;
     //texturing
     gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
     gl_TexCoord[0] = gl_TextureMatrix[0] * vec4(gl_Vertex.x*0.5+0.5,gl_Vertex.y *0.5+0.5,0,0);
@@ -55,7 +55,7 @@ void main(){
     vec4 colorDown=texture2D(tex,vec2(gl_Vertex.x*0.5+0.5,gl_Vertex.y *0.5+0.5-oneStep));
 
 
-        myVertex.z=gl_FrontColor.a*8.0;
+        myVertex.z=gl_FrontColor.a*6.0;
 
     float depth=gl_FrontColor.a;
     float thresh=0.1;

@@ -50,8 +50,15 @@ Node::stop();
 
 void SetPropertyNode::execute(){
 
+    //The way this works:
+    //Add the Type to propValue,
+    //but instead of seperating type and value with a ' '
+    //we will use a '_'
+    //e.g.: vec4_1.0,1.0,1.0,1.0
+    //or: string_NewTextureName
+
     //make copy of string, so we don't change the original!
-    string s="string "+propValue;
+    string s=propValue;
     replace (s.begin(), s.end(),'_',' ');
 
     cout << "Setting Property: " << propertyToSet<< " To: " << propValue << endl;
