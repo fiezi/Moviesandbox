@@ -12,6 +12,7 @@ VideoTextureActor::VideoTextureActor(){
     setTextureID("videoTexture");
     drawType = DRAW_PLANE;
     bTextured= true;
+    bReload= false;
     registerProperties();
 
 }
@@ -25,6 +26,7 @@ void VideoTextureActor::registerProperties(){
 
     createMemberID("PLAYSPEED",&playSpeed,this);
     createMemberID("VIDEOINFO",&videoInfo,this);
+    createMemberID("RELOAD",&bReload,this);
     Actor::registerProperties();
 
 }
@@ -34,7 +36,12 @@ void VideoTextureActor::setup(){
 
 player=new ofVideoPlayer;
 loadMovie("resources/"+videoInfo);
-setTextureID(videoInfo);
+string myVidTexName=videoInfo;
+myVidTexName.resize(myVidTexName.size()-4);
+setTextureID(myVidTexName);
+sceneData->textureList[myVidTexName]=new textureObject;
+cout << "Setting Texture ID of VideoTexture Actor to: "<< myVidTexName << endl;
+cout << "Is: "<< textureID << endl;
 player->setSpeed(playSpeed);     //44 to 48 kHz problem...
 Actor::setup();
 //player->setLoopState(OF_LOOP_NONE);
@@ -53,6 +60,12 @@ void VideoTextureActor::trigger(MsbObject* other){
 void VideoTextureActor::update(double deltaTime){
 
     Actor::update(deltaTime);
+
+    if (bReload==true){
+        bReload=false;
+        player->close();
+        setup();
+    }
 
     if (!player){
         cout << "missing player object!" << endl;
@@ -91,6 +104,7 @@ void VideoTextureActor::stop(){
 }
 
 void VideoTextureActor::create(){sceneData->addActor(this);}
+
 
 
 void VideoTextureActor::loadMovie(string fileName){

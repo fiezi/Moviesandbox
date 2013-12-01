@@ -29,6 +29,7 @@ public:
 
     ofVideoPlayer*   player;
     bool            bPlaying;
+    bool            bReload;
 
     float           playSpeed;
     string          videoInfo;              //video.xml location
