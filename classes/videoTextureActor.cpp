@@ -33,6 +33,7 @@ void VideoTextureActor::registerProperties(){
 
 void VideoTextureActor::setup(){
 
+
 player=new ofVideoPlayer;
 loadMovie("resources/"+videoInfo);
 string myVidTexName=videoInfo;
@@ -43,41 +44,29 @@ cout << "Setting Texture ID of VideoTexture Actor to: "<< myVidTexName << endl;
 cout << "Is: "<< textureID << endl;
 player->setSpeed(playSpeed);     //44 to 48 kHz problem...
 Actor::setup();
-player->setLoopState(OF_LOOP_NONE);
-player->play();
-}
-
-void VideoTextureActor::postLoad(){
-
-    Actor::postLoad();
-    setup();
-
+//player->setLoopState(OF_LOOP_NONE);
 }
 
 void VideoTextureActor::trigger(MsbObject* other){
 
     cout << "triggered video!" << endl;
-/*
+
     if(bPlaying ) player->stop();
     else          player->play();
 
     bPlaying = !bPlaying;
-    */
 }
 
 void VideoTextureActor::update(double deltaTime){
 
     Actor::update(deltaTime);
 
-    player->play();
-
-/*
     if (bReload==true){
         bReload=false;
         player->close();
         setup();
     }
-*/
+
     if (!player){
         cout << "missing player object!" << endl;
         return;
