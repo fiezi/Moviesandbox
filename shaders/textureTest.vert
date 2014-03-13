@@ -60,6 +60,7 @@ void main(){
     float depth=gl_FrontColor.a;
     float thresh=0.1;
     gl_FrontColor=vec4(0.5,0.5,0.5,1.0);
+    gl_FrontColor=gl_Color;
 
     if ((depth-colorLeft.a)* 1.0>thresh)
         gl_FrontColor.a=0.0;
@@ -72,12 +73,7 @@ void main(){
 
     if (depth-colorDown.a>thresh)
         gl_FrontColor.a=0.0;
-/*
-    gl_FrontColor.g=(depth-colorLeft.a)*10.0;
-    gl_FrontColor.b=(depth-colorRight.a)*10.0;
-    gl_FrontColor.r=(depth -colorUp.a)*10.0;
-    gl_FrontColor.r+=(depth -colorDown.a)*10.0;
-*/
+
     myVertex.x=myVertex.x*myVertex.z;// + 0.5 * sin (time   *0.001 + myVertex.y);
     myVertex.y=myVertex.y*myVertex.z* 0.35;
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;

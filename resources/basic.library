@@ -87,6 +87,7 @@
     <Texture textureID="background" filename="background.tga" bAlpha="1" bWrap="1"/>
     <Texture textureID="grey_bkg" filename="grey_bkg.tga" bAlpha="0" bWrap="1"/>
     <Texture textureID="black_bkg" filename="black_bkg.tga" bAlpha="0" bWrap="0"/>
+    <Texture textureID="black" filename="black_bkg.tga" bAlpha="0" bWrap="0"/>
     <Texture textureID="nightTime" filename="nightTime.tga" bAlpha="0" bWrap="0"/>
 
     <Texture textureID="icon_gridXY" filename="icon_gridXY.tga" bAlpha="1" bWrap="1"/>
@@ -147,6 +148,7 @@
     <Shader shaderID="shadowBlur" vertexShaderFilename="post/shadowBlur.vert" fragmentShaderFilename="post/shadowBlur.frag" />
     <Shader shaderID="geom" vertexShaderFilename="box.vert" fragmentShaderFilename="box.frag" geometryShaderFilename="box.geom"/>
     <Shader shaderID="textureTest" vertexShaderFilename="textureTest.vert" fragmentShaderFilename="textureTest.frag" />
+    <Shader shaderID="ciln" vertexShaderFilename="ciln.vert" fragmentShaderFilename="ciln.frag" />
 
 
 </Moviesandbox>

@@ -15,6 +15,8 @@ public:
 
     virtual void setup();
 
+    virtual void postLoad();
+
     virtual void trigger(MsbObject* other);
 
     virtual void update(double deltaTime);
@@ -29,6 +31,7 @@ public:
 
     ofVideoPlayer*   player;
     bool            bPlaying;
+    bool            bReload;
 
     float           playSpeed;
     string          videoInfo;              //video.xml location

@@ -528,7 +528,6 @@ void Input::keyUp(unsigned char key,int x,int y){
     if (!bTextInput){
 
     ///W,A,S,D movement Q,E for up/down
-
         if (!sceneData->controller->bRunning){
 
                 if (key=='a' && keyVector.x==-1){
@@ -818,6 +817,15 @@ void Input::specialKeyUp (int key,int x, int y){
 
     if (key==GLUT_KEY_F7){
         renderer->bDOF=!renderer->bDOF;
+        return;
+    }
+
+    if (key==GLUT_KEY_F12){
+        HWND hwnd = ::FindWindowA(0, "Moviesandbox"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
+        //SetWindowPos(hwnd,NULL,3193,-30,1280,800,1);
+        //renderer->monitorNumber=1;
+        SetWindowPos(hwnd,NULL,1913,-30,1280,800,1);
+        ::UpdateWindow(hwnd);
         return;
     }
 
