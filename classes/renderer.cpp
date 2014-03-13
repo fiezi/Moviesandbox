@@ -965,8 +965,9 @@ void Renderer::draw(){
 
             Vector2f src[]={Vector2f(0,0),Vector2f(1280,0),Vector2f(1280,800),Vector2f(0,800)};
 
-            Vector2f dst[]={Vector2f(42,0),Vector2f(1264,55),Vector2f(1224,799),Vector2f(16,748)};
-            //Vector2f dst[]={Vector2f(xP[0],yP[0]),Vector2f(xP[1],yP[1]),Vector2f(xP[2],yP[2]),Vector2f(xP[3],yP[3])};
+            //Berlin:
+            //Vector2f dst[]={Vector2f(42,0),Vector2f(1264,55),Vector2f(1224,799),Vector2f(16,748)};
+            Vector2f dst[]={Vector2f(xP[0],yP[0]),Vector2f(xP[1],yP[1]),Vector2f(xP[2],yP[2]),Vector2f(xP[3],yP[3])};
 
             //Dortmund:
             //Vector2f dst[]={Vector2f(17,10),Vector2f(1036,59),Vector2f(1023,710),Vector2f(24,570)};

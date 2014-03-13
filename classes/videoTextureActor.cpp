@@ -22,6 +22,9 @@ VideoTextureActor::~VideoTextureActor(){
     player->closeMovie();
 }
 
+
+void VideoTextureActor::postLoad(){}
+
 void VideoTextureActor::registerProperties(){
 
     createMemberID("PLAYSPEED",&playSpeed,this);
