@@ -955,6 +955,9 @@ void Renderer::draw(){
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 
+            //Quad Mapping for projectors... disabled because of no interface - for now!
+            /*
+
             float xP[4]={0,1280,1280,0};
             float yP[4]={0,0,800,800};
 
@@ -986,6 +989,7 @@ void Renderer::draw(){
             glMultMatrixf(matrix);
 
 
+            */
 
             drawButton(sceneData->layerList[i]);
 
