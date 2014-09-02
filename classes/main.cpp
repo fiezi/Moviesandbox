@@ -230,7 +230,7 @@ void splashScreenLoop(){
 	drawSplashScreen();
 
     //init renderer
-    renderManager->initWindow(0,0,"Moviesandbox");
+    renderManager->initWindow(10,10,"Moviesandbox");
     glutHideWindow();
     renderManager->setup();
 

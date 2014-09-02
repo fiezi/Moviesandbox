@@ -219,6 +219,20 @@ Renderer::Renderer(){
 	//drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
 	//drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
 
+
+
+    //TODO: quadwarping should become a tool!
+    xP[0]=0;
+    xP[1]=1280;
+    xP[2]=1280;
+    xP[3]=0;
+
+    yP[0]=0;
+    yP[1]=0;
+    yP[2]=800;
+    yP[3]=800;
+
+
 	registerProperties();
 }
 
@@ -956,14 +970,12 @@ void Renderer::draw(){
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 
             //Quad Mapping for projectors... disabled because of no interface - for now!
-            /*
 
-            float xP[4]={0,1280,1280,0};
-            float yP[4]={0,0,800,800};
 
-            xP[3]=input->mouseX;
-            yP[3]=input->mouseY;
-
+            if (input->bQuadWarp){
+                xP[input->qwCurrentPoint]=input->mouseX;
+                yP[input->qwCurrentPoint]=input->mouseY;
+            }
             //cout << input->mouseX << " and " << input->mouseY << endl;
 
             Vector2f src[]={Vector2f(0,0),Vector2f(1280,0),Vector2f(1280,800),Vector2f(0,800)};
@@ -975,21 +987,11 @@ void Renderer::draw(){
             //Dortmund:
             //Vector2f dst[]={Vector2f(17,10),Vector2f(1036,59),Vector2f(1023,710),Vector2f(24,570)};
 
-
-            if (monitorNumber==0){
-                //Vector2f(47,16),Vector2f(1221,0),Vector2f(1227,758),Vector2f(57,743)
-                dst[0]=Vector2f(44,16);
-                dst[1]=Vector2f(1218,0);
-                dst[2]=Vector2f(1222,758);
-                dst[3]=Vector2f(54,743);
-            }
-
             GLfloat matrix[16];
             findHomography(src,dst,matrix);
             glMultMatrixf(matrix);
 
 
-            */
 
             drawButton(sceneData->layerList[i]);
 

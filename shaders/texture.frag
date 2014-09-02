@@ -50,6 +50,9 @@ void main(){
 
     //black if not facing light
 
+    if (color.r<0.2 && color.b<0.2 && color.g>0.8)
+        color.a=0.0;
+
     vec4 objColor=color * gl_Color;
 
     objColor.r=floor(objColor.r*100.0)/100.0 ;

@@ -82,6 +82,10 @@ public:
     float*      upDown;
     float*      leftRight;
 
+    //TODO: quadwarping should become a tool!
+    bool        bQuadWarp;
+    int         qwCurrentPoint;
+
 
 ///******************************
 /// FUNCTIONS

@@ -62,6 +62,11 @@ Input::Input(){
     upDown=NULL;
     leftRight=NULL;
 
+    //TODO: quadwarping should become a tool!
+    bQuadWarp=false;
+    qwCurrentPoint=0;
+
+
     registerProperties();
 }
 

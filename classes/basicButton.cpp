@@ -79,6 +79,7 @@ void BasicButton::update(double deltaTime){
         color=clickedColor;
     else
         color=buttonColor;
+
 }
 
 void BasicButton::drawTooltip(){

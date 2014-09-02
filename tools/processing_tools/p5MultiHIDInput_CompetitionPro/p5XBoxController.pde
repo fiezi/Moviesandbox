@@ -6,8 +6,8 @@ class P5XBoxController{
   float initialY=0.0;
   float initialZ=0.0;
   
-  float multX=0.1;
-  float multY=0.1;
+  float multX=0.01;
+  float multY=0.01;
   float multZ=0.1;
  
   
@@ -19,7 +19,8 @@ class P5XBoxController{
   float multYaw=1.0;
   float multR=1.0;
   
-  boolean bPressedButton;
+  boolean bPressedButtonOne;
+  boolean bPressedButtonTwo;
    
   ControllDevice joypad;
 
@@ -28,7 +29,8 @@ class P5XBoxController{
   ControllSlider slider3;
   ControllSlider slider4;
 
-  ControllButton button;
+  ControllButton buttonOne;
+  ControllButton buttonTwo;
   
   slider vectorX;
   slider vectorY;
@@ -53,29 +55,35 @@ class P5XBoxController{
   slider3=joypad.getSlider(0);
   slider4=joypad.getSlider(1);
   
-  button=joypad.getButton(0);
+  buttonOne=joypad.getButton(0);
+  buttonTwo=joypad.getButton(1);
 
   vectorX=new slider(100,20);
   vectorY=new slider(220,20);
   vectorZ=new slider(340,20);
   vectorW=new slider(460,20);
   
-  bPressedButton=false;
+  bPressedButtonOne=false;
 
   }  
  
  
  void draw(){
  
-  if (button.getValue()>0)
-    bPressedButton=true;
+  if (buttonOne.getValue()>0)
+    bPressedButtonOne=true;
   else
-    bPressedButton=false;
+    bPressedButtonOne=false;
+
+  if (buttonTwo.getValue()>0)
+    bPressedButtonTwo=true;
+  else
+    bPressedButtonTwo=false;
    
-  vectorX.value= (slider1.getValue()+1.0)*50.0;
-  vectorY.value= (slider2.getValue()+1.0)*50.0;
-  vectorZ.value= (slider3.getValue()+1.0)*50.0;
-  vectorW.value= (slider4.getValue()+1.0)*50.0;
+  vectorX.value= (slider1.getValue()+1.0)*20.0;
+  vectorY.value= (slider2.getValue()+1.0)*20.0;
+  vectorZ.value= (slider3.getValue()+1.0)*20.0;
+  vectorW.value= (slider4.getValue()+1.0)*20.0;
 
   if (abs(slider2.getValue())>0.15)
     initialX-=slider2.getValue() * multX;
@@ -120,12 +128,20 @@ class P5XBoxController{
   vectorZ.draw();
   vectorW.draw();
 
-  if (bPressedButton)
+  if (bPressedButtonOne)
     fill(204, 102, 0);
   else  
     fill(255);
   
   rect(10,10,50,50);
+
+  if (bPressedButtonTwo)
+    fill(204, 102, 0);
+  else  
+    fill(255);
+  
+  rect(10,80,50,50);
+
   popMatrix();
  
  }

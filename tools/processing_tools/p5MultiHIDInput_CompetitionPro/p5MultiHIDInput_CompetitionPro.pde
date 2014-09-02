@@ -40,7 +40,7 @@ void setup() {
    * and the port of the remote location address are the same, hence you will
    * send messages back to this sketch.
    */
-  myRemoteLocation = new NetAddress("192.168.0.2",31844);
+  myRemoteLocation = new NetAddress("127.0.0.1",31841);
   
   
   playerOne=new P5XBoxController();
@@ -66,7 +66,7 @@ void draw() {
 
 void sendUDP() {
   /* in the following different ways of creating osc messages are shown by example */
-  OscMessage myMessage = new OscMessage("/pilot/vector3f/vector3f/vector3f/vector3f");
+  OscMessage myMessage = new OscMessage("/pilot/vector3f/vector3f");
   
     myMessage.add(playerOne.initialX); /* add a float to the osc message */
     myMessage.add(playerOne.initialY); /* add a float to the osc message */
@@ -93,12 +93,19 @@ void sendUDP() {
   /* send the message */
   oscP5.send(myMessage, myRemoteLocation); 
   
-  if (playerOne.bPressedButton){
+  if (playerOne.bPressedButtonOne){
     println("sending trigger...");
     myMessage = new OscMessage("/trigger"); 
-    myMessage.add("boxBalda");
+    myMessage.add("essen");
     oscP5.send(myMessage, myRemoteLocation); 
   }
+  if (playerOne.bPressedButtonTwo){
+    println("sending trigger...");
+    myMessage = new OscMessage("/trigger"); 
+    myMessage.add("kacken");
+    oscP5.send(myMessage, myRemoteLocation); 
+  }
+
   /*
   if (playerTwo.bPressedButton){
     println("sending trigger...");
