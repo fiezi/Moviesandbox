@@ -198,6 +198,8 @@ public:
 
         ofTrueTypeFont*   verdana;
 
+        int monitorNumber;
+
 
        Renderer();
        virtual ~Renderer();
@@ -287,6 +289,9 @@ public:
 
        bool checkOpenGLError(string preText=" ", bool bPrint=true);
 
+
+       void findHomography(Vector2f src[4], Vector2f dst[4], float homography[16]);
+       void gaussian_elimination(float *input, int n);
     //has to be static from physics!
       // static void handleCollisionBetween(void * data, dGeomID o0, dGeomID o1);
 

@@ -147,6 +147,7 @@
     <Shader shaderID="shadowBlur" vertexShaderFilename="post/shadowBlur.vert" fragmentShaderFilename="post/shadowBlur.frag" />
     <Shader shaderID="geom" vertexShaderFilename="box.vert" fragmentShaderFilename="box.frag" geometryShaderFilename="box.geom"/>
     <Shader shaderID="textureTest" vertexShaderFilename="textureTest.vert" fragmentShaderFilename="textureTest.frag" />
+    <Shader shaderID="ciln" vertexShaderFilename="ciln.vert" fragmentShaderFilename="ciln.frag" />
 
 
 </Moviesandbox>

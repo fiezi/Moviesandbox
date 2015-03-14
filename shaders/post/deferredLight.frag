@@ -206,8 +206,8 @@ void getPixelLoc(){
 
     pixelPos.z=(1.0-zPos);
     //pixelPos.z=zPos;
-    pixelPos.y=(gl_FragCoord.y/screenY - 0.5) *1.0;
-    pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * 1.2;
+    pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * 720.0/768.0;
+    pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * 1280.0/1024.0;
 
     pixelPos.xy*=pixelPos.z;
 
