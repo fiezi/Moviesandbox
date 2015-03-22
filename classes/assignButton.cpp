@@ -33,11 +33,11 @@ void AssignButton::mouseDrag(){
 
     input->dragButton=this;
     if (bConfineDragX)
-        setLocation(Vector3f(input->mouseX, location.y,0));
+        setLocation(Vector3f(input->mouseX-scale.x/2.0, location.y,0));
     else if (bConfineDragY)
-        setLocation(Vector3f(location.x, input->mouseY,0));
+        setLocation(Vector3f(location.x, input->mouseY-scale.y/2.0,0));
     else
-        setLocation(Vector3f(input->mouseX, input->mouseY,0));
+        setLocation(Vector3f(input->mouseX-scale.x/2.0, input->mouseY-scale.y/2.0,0));
 
     if (bTriggerWhileDragging && parent)
         parent->trigger(this);

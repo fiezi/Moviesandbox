@@ -198,6 +198,9 @@ public:
 
         ofTrueTypeFont*   verdana;
 
+        //TODO: quadwarping should become a tool!
+        float xP[4];
+        float yP[4];
         int monitorNumber;
 
 

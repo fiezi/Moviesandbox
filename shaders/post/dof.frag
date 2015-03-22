@@ -158,7 +158,7 @@ vec4 computeDOF() {
 
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord).rg)*farClip;
 
-    vec4 blurPart=blur(tex, texCoord,1.0);
+    vec4 blurPart=blur(tex, texCoord,2.0);
 
     vec4 sharpPart=  texture2D(tex,texCoord,0.0);
     sharpPart.a=1.0;

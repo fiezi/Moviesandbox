@@ -94,6 +94,22 @@ void SelectTool::keyReleased(int key){
         makeGroup();
     }
 
+    if (key==220){//CTRL-whatever that thing is next to 1
+        input->bQuadWarp=!input->bQuadWarp;
+    }
+    if (key==49){//CTRL-1
+        input->qwCurrentPoint=0;
+    }
+    if (key==50){//CTRL-2
+        input->qwCurrentPoint=1;
+    }
+    if (key==51){//CTRL-3
+        input->qwCurrentPoint=2;
+    }
+    if (key==52){//CTRL-4
+        input->qwCurrentPoint=3;
+    }
+
 }
 
 void SelectTool::mousePressed(int btn){

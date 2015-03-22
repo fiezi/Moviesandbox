@@ -19,9 +19,14 @@ PerformActionNode::PerformActionNode(){
     listProp.push_back("APPLYTO");
     listIcon.push_back("icon_flat");
 
-    listType.push_back("15TextInputButton");
-    listName.push_back("seamless");
+    listType.push_back("10BoolButton");
+    listName.push_back("WaitToFinish");
     listProp.push_back("BWAITTOBEFINISHED");
+    listIcon.push_back("icon_flat");
+
+    listType.push_back("10BoolButton");
+    listName.push_back("Relative");
+    listProp.push_back("BRELATIVE");
     listIcon.push_back("icon_flat");
 
     listType.push_back("15TextInputButton");
@@ -43,6 +48,7 @@ void PerformActionNode::registerProperties(){
     createMemberID("APPLYTO",&applyTo,this);
     createMemberID("MYACTION",&myAction,this);
     createMemberID("BWAITTOBEFINISHED",&bWaitToBeFinished, this);
+    createMemberID("BRELATIVE",&bRelative, this);
 }
 
 void PerformActionNode::start(){
@@ -95,8 +101,15 @@ void PerformActionNode::execute(){
             }
         }
     else{
-        if (bWaitToBeFinished)
+        if (bWaitToBeFinished){
             cout << "should be waiting..." << endl;
+            if (applyTo->movers[0]->bFinished){
+                applyTo->transformMatrix=applyTo->movers[0]->baseMatrix;
+                bPlaying=false;
+                nextNode();
+            }
+            return;
+        }
         bPlaying=false;
         nextNode();
         }

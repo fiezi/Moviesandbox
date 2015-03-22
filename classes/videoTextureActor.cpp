@@ -12,6 +12,7 @@ VideoTextureActor::VideoTextureActor(){
     setTextureID("videoTexture");
     drawType = DRAW_PLANE;
     bTextured= true;
+    bReload= false;
     registerProperties();
 
 }
@@ -21,10 +22,14 @@ VideoTextureActor::~VideoTextureActor(){
     player->closeMovie();
 }
 
+
+void VideoTextureActor::postLoad(){}
+
 void VideoTextureActor::registerProperties(){
 
     createMemberID("PLAYSPEED",&playSpeed,this);
     createMemberID("VIDEOINFO",&videoInfo,this);
+    createMemberID("RELOAD",&bReload,this,true,"10BoolButton");
     Actor::registerProperties();
 
 }
@@ -34,7 +39,21 @@ void VideoTextureActor::setup(){
 
 player=new ofVideoPlayer;
 loadMovie("resources/"+videoInfo);
-setTextureID(videoInfo);
+string myVidTexName=videoInfo;
+myVidTexName.resize(myVidTexName.size()-4);
+GLuint texture;
+glGenTextures( 1, &texture );
+sceneData->textureList[myVidTexName]=new textureObject;
+sceneData->textureList[myVidTexName]=new textureObject;
+sceneData->textureList[myVidTexName]->texture=texture;
+sceneData->textureList[myVidTexName]->bAlpha=false;
+sceneData->textureList[myVidTexName]->bWrap=false;
+sceneData->textureList[myVidTexName]->texFilename="VIDEO";
+sceneData->textureList[myVidTexName]->nextTexture="NULL";
+
+setTextureID(myVidTexName);
+cout << "Setting Texture ID of VideoTexture Actor to: "<< myVidTexName << endl;
+cout << "Is: "<< textureID << endl;
 player->setSpeed(playSpeed);     //44 to 48 kHz problem...
 Actor::setup();
 //player->setLoopState(OF_LOOP_NONE);
@@ -53,6 +72,12 @@ void VideoTextureActor::trigger(MsbObject* other){
 void VideoTextureActor::update(double deltaTime){
 
     Actor::update(deltaTime);
+
+    if (bReload==true){
+        bReload=false;
+        player->close();
+        setup();
+    }
 
     if (!player){
         cout << "missing player object!" << endl;
@@ -93,6 +118,7 @@ void VideoTextureActor::stop(){
 void VideoTextureActor::create(){sceneData->addActor(this);}
 
 
+
 void VideoTextureActor::loadMovie(string fileName){
 
 
@@ -116,4 +142,6 @@ void VideoTextureActor::loadMovie(string fileName){
     cout << "LOADING video file: " << vFileName << endl;
     player->loadMovie(vFileName);
     player->setLoopState(OF_LOOP_NONE);
+    if (bPlaying)
+        player->play();
 }

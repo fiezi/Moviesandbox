@@ -86,7 +86,21 @@ void Content::setup(){
     createBoneWidget(xPos,yPos);
 
     yPos+=40;
-
+/*
+    BasicButton* b =new AssignButton;
+    b->sceneShaderID="texture";
+    b->setScale(Vector3f(800,800,0));
+    b->setLocation(Vector3f(245,2,0));
+    b->bDragable=true;
+    b->bResetAfterDrag=false;
+    b->bScreenOverlay=true;
+    b->name="Overlay";
+    b->textureID="video2";
+    but->level=1;
+    b->bPermanent=true;
+    b->setup();
+    sceneData->buttonList.push_back(b);
+*/
     //createSysMenu(xPos,yPos);
 
     createInspectors();
@@ -95,6 +109,9 @@ void Content::setup(){
     createMenuBar();
 
     createConsole();
+
+
+
 
  }
 

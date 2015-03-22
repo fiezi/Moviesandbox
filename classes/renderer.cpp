@@ -219,6 +219,20 @@ Renderer::Renderer(){
 	//drawBuffers[2] = GL_COLOR_ATTACHMENT2_EXT;
 	//drawBuffers[3] = GL_COLOR_ATTACHMENT3_EXT;
 
+
+
+    //TODO: quadwarping should become a tool!
+    xP[0]=0;
+    xP[1]=1280;
+    xP[2]=1280;
+    xP[3]=0;
+
+    yP[0]=0;
+    yP[1]=0;
+    yP[2]=800;
+    yP[3]=800;
+
+
 	registerProperties();
 }
 
@@ -955,27 +969,24 @@ void Renderer::draw(){
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 
-            float xP[4]={0,1280,1280,0};
-            float yP[4]={0,0,800,800};
+            //Quad Mapping for projectors... disabled because of no interface - for now!
 
-            xP[3]=input->mouseX;
-            yP[3]=input->mouseY;
 
+            if (input->bQuadWarp){
+                xP[input->qwCurrentPoint]=input->mouseX;
+                yP[input->qwCurrentPoint]=input->mouseY;
+            }
             //cout << input->mouseX << " and " << input->mouseY << endl;
 
             Vector2f src[]={Vector2f(0,0),Vector2f(1280,0),Vector2f(1280,800),Vector2f(0,800)};
 
-            //Vector2f dst[]={Vector2f(49,31),Vector2f(1141,46),Vector2f(1135,763),Vector2f(45,632)};
-            Vector2f dst[]={Vector2f(4,15),Vector2f(1278,35),Vector2f(1247,800),Vector2f(0,787)};
+            //Berlin:
+            //Vector2f dst[]={Vector2f(42,0),Vector2f(1264,55),Vector2f(1224,799),Vector2f(16,748)};
+            Vector2f dst[]={Vector2f(xP[0],yP[0]),Vector2f(xP[1],yP[1]),Vector2f(xP[2],yP[2]),Vector2f(xP[3],yP[3])};
 
-/*
-            if (monitorNumber==1){
-                dst[0]=Vector2f(14,57);
-                dst[1]=Vector2f(1249,68);
-                dst[2]=Vector2f(1246,757);
-                dst[3]=Vector2f(20,743);
-            }
-*/
+            //Dortmund:
+            //Vector2f dst[]={Vector2f(17,10),Vector2f(1036,59),Vector2f(1023,710),Vector2f(24,570)};
+
             GLfloat matrix[16];
             findHomography(src,dst,matrix);
             glMultMatrixf(matrix);
@@ -2909,6 +2920,12 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     #ifdef BDEBUGRENDERER
         checkOpenGLError("shader import ");
     #endif
+
+    cout << "*************************************************************" << endl;
+    cout << "////////////////////////////////END SHADER IMPORT" << endl;
+    cout << "*************************************************************" << endl;
+
+
     return true;
 }
 

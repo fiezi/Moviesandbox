@@ -54,6 +54,10 @@ void Pilot::ProcessMessage( const osc::ReceivedMessage& m,const IpEndpointName& 
                 setPropertyForSelected(m,adressPart,partAsString);
 			 }
 
+             if (partAsString=="switchMonitor"){
+                renderer->monitorNumber=1;
+			 }
+
 
 
             ///Control Brush directly!
