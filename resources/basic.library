@@ -130,7 +130,8 @@
     <Shader shaderID="texture" vertexShaderFilename="texture.vert" fragmentShaderFilename="texture.frag" />
     <Shader shaderID="buttonTexture" vertexShaderFilename="buttonTexture.vert" fragmentShaderFilename="buttonTexture.frag" />
     <Shader shaderID="kinectHeightfield" vertexShaderFilename="kinectHeightField.vert" fragmentShaderFilename="kinectHeightField.frag" />
-    <Shader shaderID="heightfield" vertexShaderFilename="particleHeightField.vert" fragmentShaderFilename="particleHeightField.frag" />
+    <Shader shaderID="particleHeightfield" vertexShaderFilename="particleHeightField.vert" fragmentShaderFilename="particleHeightField.frag" />
+    <Shader shaderID="heightfield" vertexShaderFilename="heightField.vert" fragmentShaderFilename="heightField.frag" />
 
     <Shader shaderID="skinning" vertexShaderFilename="skinning.vert" fragmentShaderFilename="skinning.frag" />
 
