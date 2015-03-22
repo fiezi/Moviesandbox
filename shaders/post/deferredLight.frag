@@ -242,6 +242,8 @@ vec4 computeLight(){
     vec4 lightDirection=vec4(1.0,0.0,0.0,0.0);
     lightDirection.xyz=pp.xyz+lightPos.xyz;
     vec3 lightDirectionNormalized=normalize(lightDirection.xyz);
+
+
     float NdotL=max(0.0,  dot(pixelNormal.xyz, lightDirectionNormalized )  );
 
     //lightDirection.z/=10.0;
@@ -252,13 +254,14 @@ vec4 computeLight(){
     //colorLight.xyz= NdotL  *1.0 * lightColor;
 
 
-    if (NdotL>0.0 && specularExp >0){
+    if (NdotL>0.0 && specularExp >0.0){
     vec3 NH = normalize(lightDirectionNormalized - camZ  );
-    colorLight.xyz*=1.0 * lightColor * pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
+    colorLight.xyz*=1.0 * lightColor + pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
     }
 
 
 
+    //return vec4(1.0);
     return colorLight;
 
 
@@ -315,13 +318,13 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
+    //gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
     //gl_FragColor.r=min(1.15,gl_FragColor.r);
     //gl_FragColor.g=min(1.15,gl_FragColor.g);
     //gl_FragColor.b=min(1.15,gl_FragColor.b);
     //gl_FragColor= shadowMapping();
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
-    //gl_FragColor= computeLight();
+    gl_FragColor= computeLight() * shadowMapping();
     //gl_FragColor= vec4(1,0,0,1);
 
 

@@ -21,7 +21,7 @@ void main(){
     gl_Position = ftransform();
     texCoord=gl_MultiTexCoord0.xy;
 
-    lightSpaceMat= lightProjectionMatrix * lightViewMatrix * cameraInverse ;
+   lightSpaceMat= lightProjectionMatrix * lightViewMatrix * cameraInverse ;
    lightColor= gl_LightSource[0].diffuse.rgb;
 
     //light in world space

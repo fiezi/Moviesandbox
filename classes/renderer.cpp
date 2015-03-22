@@ -2920,6 +2920,12 @@ bool Renderer::loadShader(string vertexShaderFileName, string fragmentShaderFile
     #ifdef BDEBUGRENDERER
         checkOpenGLError("shader import ");
     #endif
+
+    cout << "*************************************************************" << endl;
+    cout << "////////////////////////////////END SHADER IMPORT" << endl;
+    cout << "*************************************************************" << endl;
+
+
     return true;
 }
 

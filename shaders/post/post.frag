@@ -49,7 +49,7 @@ varying vec2 texCoord;
 	float circleRes= 8.0;           //samples per circle
     float stepsize = 2.0;          //distance of next point in pixels
 
-	float aoMultiplier=20.0;        //progressive darkening
+	float aoMultiplier=10.0;        //progressive darkening
 	float falloff =1.00015;
 
     float minDepth=0.005;           //minimum distance to take into account
@@ -269,6 +269,8 @@ void main(void){
     ///color map
     if (bDrawColor)
         gl_FragData[0]=texture2D(tex, texCoord);
+
+
     else
     ///lighting only
         gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
@@ -276,12 +278,15 @@ void main(void){
 
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
+
     if (bLighting){// && !bSmudge){
+
         vec4 lightData=texture2D(shadowTex,texCoord,1.0) ;
         //vec4 lightData=blur3(shadowTex,texCoord) ;
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
+
         if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
                 gl_FragData[0]*=1.0*lightData;
     }
@@ -291,7 +296,7 @@ void main(void){
 
     ///Ambient Occlusion
     if (bSSAO)
-       gl_FragData[0].rgb*=computeAO().rgb ;
+       gl_FragData[0].rgb*=computeAO().rgb;
 
    // gl_FragDepth=texture2D(pickTex,texCoord).r;
 
@@ -305,7 +310,7 @@ void main(void){
 */
 
     ///GreyScale
-    float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
+    //float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
     //gl_FragData[0].rgb=vec3(greyValue);
     //if (bInvert)
     //    gl_FragData[0].rgb=1.0-gl_FragData[0].rgb;

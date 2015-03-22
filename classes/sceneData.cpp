@@ -134,7 +134,11 @@
 
 #endif
 
-#define BUF_SIZE 640*480*4*sizeof(unsigned char)
+//Kinect 1.0
+//#define BUF_SIZE 512*424*4*sizeof(unsigned char)
+
+//Kinect 2.0
+#define BUF_SIZE 512*424*4*sizeof(unsigned char)
 
 
 
@@ -964,7 +968,10 @@ int SceneData::readSharedMemory(){
 
    if (pBuf != NULL)
    {
-        renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 640,480,false);
+        //Kinect 1.0
+        //renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 640,480,false);
+        //Kinect 2.0
+        renderer->copyMemoryToTexture((void*)pBuf,"sharedMemory", 512,424,false);
 
         UnmapViewOfFile((void*)pBuf);
         CloseHandle(hMapFile);
