@@ -47,35 +47,29 @@ float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w ;
 void main(){
 
     //texturing
-    gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
+    //gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;
 
     //reset gl_Vertex coordinate or we create weird distortions!
     vec4 myVertex=gl_Vertex;
+
+    gl_TexCoord[0].st = myVertex.xy;// + vec2(1.0,1.0);
+    gl_TexCoord[0] = gl_TextureMatrix[0] * gl_TexCoord[0];
+
     //float pS= myVertex.w;
     myVertex.w=1.0;
 
-    gl_FrontColor=texture2D(tex,gl_TexCoord[0].st * vec2(0.5,1.0)-vec2(-0.25,0.0));
+    gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
 
 
-    myVertex.z=gl_FrontColor.a*16.0;
-    myVertex.x*=(myVertex.z);// + 0.5 * sin (time   *0.001 + myVertex.y);
-    myVertex.y*=(myVertex.z) * 4.0/5.0;
+
+    myVertex.z=gl_FrontColor.a;
+    gl_FrontColor.a=1.0;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
     gl_FrontColor.rgb *= 1.0;// vec3(1.0);
 
-
-    if (gl_FrontColor.a>0.99)
-        gl_PointSize= 0.0;
-    else if (gl_FrontColor.a<0.3)
-        gl_PointSize= 0.0;
-    else
-        gl_PointSize=pointSize();
-        //gl_PointSize=10.0;
-
-    if (gl_FrontColor.r+gl_FrontColor.g+gl_FrontColor.b<0.20)
-        gl_PointSize= 0.0;
+    gl_PointSize=pointSize();
 
     zPos=gl_Position.z/farClip;
     oID= (objectID+100.0) /1024.0;

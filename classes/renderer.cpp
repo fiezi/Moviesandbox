@@ -303,7 +303,7 @@ void Renderer::initWindow(int x, int y, string windowName){
 
       char* gmString  = new char[64];
       // screenX screenY, 32bit pixel depth, 60Hz refresh rate
-      sprintf(gmString," %ix%i:32@60",screenX,screenY);
+      sprintf(gmString," %ix%i:8@60",screenX,screenY);
       glutGameModeString( gmString );
 
     if (bFullscreen)
@@ -1634,9 +1634,11 @@ void Renderer::drawActor(Actor* a){
     //glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
     //if (!bShadowPass)
-    //    glBlendFuncSeparate(a->blendModeOne,a->blendModeOne,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    //    glBlendFuncSeparate(a->blendModeOne,a->blendModeTwo,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     //else
         glBlendFuncSeparate(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+    //cout << "UINT is " << GL_SRC_ALPHA << " and " <<GL_ONE_MINUS_SRC_ALPHA << endl;
 
     #ifdef BDEBUGRENDERER
     checkOpenGLError("drawActor Blending Setup...");

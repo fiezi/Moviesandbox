@@ -59,7 +59,7 @@ void main(){
     objColor.r=max(0.0,objColor.r);
 
    //transparency...
-    if (objColor.a < 0.9){
+    if (objColor.a < 0.7){
         discard;
     }else{
         gl_FragDepth=gl_FragCoord.z;
@@ -75,6 +75,9 @@ void main(){
         //do not do blending between compute and non-compute light!
         objColor.a=1.0;
    }
+
+   if (objColor.a > 0.7)
+        objColor.a=1.0;
 
      gl_FragData[0]=objColor;
      gl_FragData[1].xy=packToVec2(zPos);

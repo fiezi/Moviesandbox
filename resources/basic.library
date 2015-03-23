@@ -132,6 +132,8 @@
     <Shader shaderID="kinectHeightfield" vertexShaderFilename="kinectHeightField.vert" fragmentShaderFilename="kinectHeightField.frag" />
     <Shader shaderID="particleHeightfield" vertexShaderFilename="particleHeightField.vert" fragmentShaderFilename="particleHeightField.frag" />
     <Shader shaderID="heightfield" vertexShaderFilename="heightField.vert" fragmentShaderFilename="heightField.frag" />
+    <Shader shaderID="heightfieldPlanar" vertexShaderFilename="heightField_planar.vert" fragmentShaderFilename="heightField_planar.frag" />
+    <Shader shaderID="ocean" vertexShaderFilename="ocean.vert" fragmentShaderFilename="ocean.frag" />
 
     <Shader shaderID="skinning" vertexShaderFilename="skinning.vert" fragmentShaderFilename="skinning.frag" />
 

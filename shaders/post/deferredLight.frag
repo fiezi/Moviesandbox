@@ -39,7 +39,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 0.0;
+const float specularExp = 00.00;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -294,8 +294,8 @@ vec4 shadowMapping(){
 
         ssShadow=(ssShadow* 0.5) + 0.5;
 
-   // vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
-    vec4 shadowColor=blur3(shadowTex, ssShadow.xy,1.0 );
+    //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
+    vec4 shadowColor=blur3(shadowTex, ssShadow.xy,3.0 );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
@@ -318,13 +318,13 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    //gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
+    gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
     //gl_FragColor.r=min(1.15,gl_FragColor.r);
     //gl_FragColor.g=min(1.15,gl_FragColor.g);
     //gl_FragColor.b=min(1.15,gl_FragColor.b);
     //gl_FragColor= shadowMapping();
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
-    gl_FragColor= computeLight() * shadowMapping();
+    //gl_FragColor= computeLight() * shadowMapping();
     //gl_FragColor= vec4(1,0,0,1);
 
 

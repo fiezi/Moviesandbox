@@ -622,7 +622,7 @@ string MsbObject::writeVecActor(memberID* mID){
         vector<Actor*> * myVec = (vector<Actor*> *)mID->memberReference;
 
 
-        cout << "size of saveable Vector: "<< myVec->size() << endl;
+        //cout << "size of saveable Vector: "<< myVec->size() << endl;
         for (int i=0; i< (int)myVec->size(); i++){
             //create temporary mID
             createMemberID("temp",&((*myVec)[i]), this);

@@ -41,7 +41,8 @@ vec2 packToVec2(float value){
 
 void main(){
 
-    vec4 objColor=gl_Color * postColor;
+    vec4 color = texture2D(tex,gl_TexCoord[0].st);
+    vec4 objColor=color * postColor;
 
 
 
@@ -60,7 +61,6 @@ void main(){
 
 
     gl_FragData[0]=objColor;
-
 
     gl_FragData[0].a=1.0;
 
