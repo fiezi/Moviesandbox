@@ -318,17 +318,17 @@ void main(void){
     ///Black Level
     float lowCutOff=0.15;
     if (greyValue< lowCutOff){
-        gl_FragData[0].rgb*=0.25;
-        gl_FragData[0].b+=0.1;
+        gl_FragData[0].rgb*=0.35;
+        //gl_FragData[0].b+=0.1;
     }
 
     ///Max Level
-    float highCutOff=0.90;
+    float highCutOff=0.85;
     if (greyValue> highCutOff)
         gl_FragData[0].rgb=vec3(1.0);
 
     //if (bInvert)
-    //    gl_FragData[0].rgb=1.0-gl_FragData[0].rgb;
+    //    gl_FragData[0].rgb=1C:\Moviesandbox\config.xml.0-gl_FragData[0].rgb;
 
 
     //gl_FragData[0]/=3.0;

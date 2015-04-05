@@ -160,8 +160,8 @@ Renderer::Renderer(){
     fov=45;
     focus=25.0;
 
-    normalBlur=1;
-    dofBlur=1;
+    normalBlur=0;
+    dofBlur=3;
 
     frustumTop=0.083;
     frustumBottom=-0.083;

@@ -65,6 +65,19 @@ bool SpriteMeshLoader::saveSpriteMesh( string filename, SkeletalActor* myDrawing
 
         texCoords[i]=Vector3f(myMesh->vData[i].texCoord);
         colors[i]=myMesh->vData[i].color;
+
+        if (colors[i].r<0.0)
+            colors[i].r=0.0;
+
+        if (colors[i].g<0.0)
+            colors[i].g=0.0;
+
+        if (colors[i].b<0.0)
+            colors[i].b=0.0;
+
+        if (colors[i].a<0.0)
+            colors[i].a=0.0;
+
         //secondaryColors[i]=myMesh->vData[i].secondaryColor;
 
         vertexWeights[i]=myMesh->vData[i].vertexWeights;

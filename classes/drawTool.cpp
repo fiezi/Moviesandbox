@@ -438,7 +438,7 @@ void DrawTool::mergeDrawings(){
     brush->drawing->base=sceneData->selectedActors[0]->base;
     brush->drawing->particleScale=sceneData->selectedActors[0]->particleScale;
 
-    //calc baseMatrix
+    //calc source baseMatrix
     brush->drawing->baseMatrix=brush->drawing->calcMatrix(brush->drawing);
 
     //merge drawings here...
@@ -450,6 +450,8 @@ void DrawTool::mergeDrawings(){
     ParticleSystem* readPS;
     receivePS=dynamic_cast<ParticleSystem*>(brush->drawing);
     MeshData * receiveMesh = sceneData->vboList[receivePS->vboMeshID];
+
+    //receivePS->particleScale=1.0;
 
     for (int i=0;i<(int)sceneData->selectedActors.size()-1;i++){    //new Drawing is last one on stack!
         readPS=dynamic_cast<ParticleSystem*>(sceneData->selectedActors[i]);
@@ -465,9 +467,15 @@ void DrawTool::mergeDrawings(){
             //taking into account that we encode scale in the 4th location value
             float myScale=readLoc.w;
             readLoc.w=1.0;
-            Vector4f locationOffset= readPS->baseMatrix * receivePS->baseMatrix.inverse() * readLoc;
+            Vector4f locationOffset = receivePS->baseMatrix.inverse() * readPS->baseMatrix * readLoc;
+            //readLoc; //receivePS->baseMatrix * readLoc ;
             receiveMesh->vData[receiveMesh->vData.size()-1].location=locationOffset;
-            receiveMesh->vData[receiveMesh->vData.size()-1].location.w=myScale;
+            //scale must be multiplied by particlescale, and since particlescale is 2.0 by default (why? TODO!) we need to multiply by 0.5
+            receiveMesh->vData[receiveMesh->vData.size()-1].location.w=myScale * readPS->particleScale / receivePS->particleScale;
+            //okay, this is complicated.
+            //if we used color to color our drawing, combine both colors (TODO: this could backfire at some point).
+            receiveMesh->vData[receiveMesh->vData.size()-1].color=readMesh->vData[i].color * readPS->color;
+
         }
     }
 
