@@ -109,7 +109,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
 float unpackToFloat(vec4 value){
 
-	const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
 
 	return dot(value, bitSh);
 }
@@ -281,13 +281,13 @@ void main(void){
 
     if (bLighting){// && !bSmudge){
 
-        vec4 lightData=texture2D(shadowTex,texCoord,1.0) ;
+        vec4 lightData=texture2D(shadowTex,texCoord,0.0) ;
         //vec4 lightData=blur3(shadowTex,texCoord) ;
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
 
-        if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
+        //if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
                 gl_FragData[0]*=1.0*lightData;
     }
 
@@ -310,8 +310,23 @@ void main(void){
 */
 
     ///GreyScale
-    //float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
-    //gl_FragData[0].rgb=vec3(greyValue);
+    ///desaturate
+    float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
+    vec3 desaturate=vec3(greyValue);
+    gl_FragData[0].rgb=0.6* desaturate+ 0.4*gl_FragData[0].rgb;
+
+    ///Black Level
+    float lowCutOff=0.15;
+    if (greyValue< lowCutOff){
+        gl_FragData[0].rgb*=0.25;
+        gl_FragData[0].b+=0.1;
+    }
+
+    ///Max Level
+    float highCutOff=0.90;
+    if (greyValue> highCutOff)
+        gl_FragData[0].rgb=vec3(1.0);
+
     //if (bInvert)
     //    gl_FragData[0].rgb=1.0-gl_FragData[0].rgb;
 
@@ -329,4 +344,7 @@ void main(void){
 
     //gl_FragData[0].r=1.0;
     //gl_FragData[0].a=1.0;
+
+
+
 }

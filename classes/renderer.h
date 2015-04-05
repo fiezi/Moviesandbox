@@ -123,6 +123,8 @@ public:
 
         GLuint  lighting_tx;                 // the lightTexture we read from
         GLuint  lighting_fb;                 // the lightFBO we bind
+        GLuint  lighting_tx_buffer;                 // the lightTexture we read from
+        GLuint  lighting_fb_buffer;                 // the lightFBO we bind
         float     lighting_size;                //resolution for the lighting pass
 
         GLuint  normal_tx;                 // the lightTexture we read from

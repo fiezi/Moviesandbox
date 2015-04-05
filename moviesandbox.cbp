@@ -841,10 +841,16 @@
 		<Unit filename="shaders/drawing.vert" />
 		<Unit filename="shaders/font.frag" />
 		<Unit filename="shaders/font.vert" />
+		<Unit filename="shaders/heightField.frag" />
+		<Unit filename="shaders/heightField.vert" />
+		<Unit filename="shaders/heightField_planar.frag" />
+		<Unit filename="shaders/heightField_planar.vert" />
 		<Unit filename="shaders/illustration.frag" />
 		<Unit filename="shaders/illustration.vert" />
 		<Unit filename="shaders/kinectHeightField.frag" />
 		<Unit filename="shaders/kinectHeightField.vert" />
+		<Unit filename="shaders/ocean.frag" />
+		<Unit filename="shaders/ocean.vert" />
 		<Unit filename="shaders/particleHeightField.frag" />
 		<Unit filename="shaders/particleHeightField.vert" />
 		<Unit filename="shaders/post/deferredLight.frag" />

@@ -11,7 +11,7 @@ BrushInspector::BrushInspector(){
 
 level=0;
 currentSwatch=0;
-numSwatches=5;
+numSwatches=8;
 
 brushViz=0;
 
@@ -104,6 +104,8 @@ void BrushInspector::createInspectorButtons(){
     brushIntensityBtn->slidePointColor=sceneData->scrollBarIndicatorColor;
     sceneData->buttonList.push_back(brushIntensityBtn);
     inspectorButtons.push_back(brushIntensityBtn);
+
+
 
     brushViz = new BasicButton;
     brushViz->name="brushViz";

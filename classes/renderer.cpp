@@ -183,6 +183,8 @@ Renderer::Renderer(){
 
     lighting_tx = 0; // the light texture
     lighting_fb = 0; // the framebuffer object to render to that texture
+    lighting_tx_buffer = 0; // the light texture
+    lighting_fb_buffer = 0; // the framebuffer object to render to that texture
     lighting_size = 1.0;
 
     normal_tx = 0; // the light texture
@@ -239,6 +241,7 @@ Renderer::Renderer(){
 Renderer::~Renderer(){
 
             glDeleteFramebuffersEXT(1, &lighting_fb);
+            glDeleteFramebuffersEXT(1, &lighting_fb_buffer);
             glDeleteFramebuffersEXT(1, &shadow_fb);
 
 
@@ -534,6 +537,7 @@ void Renderer::setupFBOs(){
 
     //framebuffer and texture to store global lighting and shadow information
     createFBO(&lighting_fb, &lighting_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "lighting"); //uses scene_size because it's the final FBO in which we compute everything!
+    createFBO(&lighting_fb_buffer, &lighting_tx_buffer, NULL, screenX/lighting_size, screenY/lighting_size, false, "lightingBuffer"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&normal_fb, &normal_tx, NULL, screenX/lighting_size, screenY/lighting_size, false, "normals"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&normalBlur_fb, &normalBlur_tx, NULL, screenX, screenY, false, "normalsBlurred"); //uses scene_size because it's the final FBO in which we compute everything!
     createFBO(&shadow_fb, &shadow_tx, NULL, screenX/shadow_size,screenY/shadow_size, false, "shadow");
@@ -1205,6 +1209,15 @@ void Renderer::drawDeferredLighting(Layer* layer){
         string oldTextureID=layer->textureID;
 
 
+        //bind lightingBuffer base texture and clear it
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb_buffer);
+
+        glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+        glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
         //bind lighting base texture and clear it
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, lighting_fb);
 
@@ -1264,13 +1277,25 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //draw using lighting_tx as base texture!
 
             //set our textureID to lighting pass
-            layer->setTextureID("lighting");
+            layer->setTextureID("lightingBuffer");
             //set our shader to
             layer->sceneShaderID="deferredLight";
 
             drawButton(layer);
 
             glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
+
+            //generate MipMaps for Lighting
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, lighting_tx);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            //use performshader for blitting
+            performShader(layer,"lighting","lightingBuffer",lighting_fb_buffer,"ssBlur");
+            //performShader(layer,"normals","normalsBlurred",normalBlur_fb,"ssBlur");
+            //performShader(layer,"normalsBlurred","normals",normal_fb,"ssBlur");
+
 
         }             //repeat for every shadowed light!
 

@@ -39,7 +39,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 00.00;
+const float specularExp = 0.00;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -56,7 +56,7 @@ float zPosScreen;
 
 float unpackToFloat(vec4 value){
 
-const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
+const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
 
 return dot(value, bitSh);
 }
@@ -200,20 +200,23 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
+    //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
 
-    //zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
     pixelPos.z=(1.0-zPos);
     //pixelPos.z=zPos;
-    pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * 720.0/768.0;
-    pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * 1280.0/1024.0;
+    //pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * screenY/768;
+    //pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * screenX/1024;
+
+    pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * screenY/1024.0;
+    pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * screenX/1024.0;
 
     pixelPos.xy*=pixelPos.z;
 
 
 
-    pixelPos.z-=1.0;
+    //pixelPos.z-=1.0;
 
 }
 
@@ -224,8 +227,10 @@ vec4 computeLight(){
 
 
     //add all previous lighting calculations (from other lights) here:
-    //vec4 colorLight=0.5*texture2D(tex, texCoord);
-    vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
+    vec4 colorLight=texture2D(tex, texCoord);
+    //vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
+    //vec4 colorLight=vec4(0.0,0.0,0.0,1.0);
+
 
     vec4 pixelNormal=vec4(0,0,0,0);
     pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
@@ -244,21 +249,25 @@ vec4 computeLight(){
     vec3 lightDirectionNormalized=normalize(lightDirection.xyz);
 
 
+
+
     float NdotL=max(0.0,  dot(pixelNormal.xyz, lightDirectionNormalized )  );
 
     //lightDirection.z/=10.0;
     float dist= length(lightDirection);
     float att=max( 0.0 , (gl_LightSource[0].linearAttenuation - dist)/gl_LightSource[0].linearAttenuation );
+    //float att=max( 0.0 , (128.0 - dist)/128.0 );
 
-    colorLight.xyz=att * NdotL  *1.0 * lightColor;
-    //colorLight.xyz= NdotL  *1.0 * lightColor;
+    //TODO: fix!
+    colorLight.xyz+=att * NdotL  *1.0 * lightColor;
+    //colorLight.xyz+= NdotL  *1.0 * lightColor;
+
 
 
     if (NdotL>0.0 && specularExp >0.0){
     vec3 NH = normalize(lightDirectionNormalized - camZ  );
-    colorLight.xyz*=1.0 * lightColor + pow(max(0.0, dot(pixelNormal,NH)),specularExp   );
+    colorLight.xyz*=1.0 * lightColor.xyz + pow(max(0.0, dot(pixelNormal.xyz,NH)),specularExp   );
     }
-
 
 
     //return vec4(1.0);
@@ -272,15 +281,15 @@ vec4 computeLight(){
 vec4 shadowMapping(){
 
 
-    // return(vec4(zPos));
-    //vec4 myLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
-    vec4 myLight=vec4(0.0);
+    //return(vec4(zPos));
+    //vec4 myLight=texture2D(tex, texCoord);
+    vec4 myLight=vec4(0.0,0.0,0.0,1.0);
 
    if (gl_LightSource[0].spotCutoff==0.0){
         myLight+=computeLight( );
+        myLight.a=1.0;
         return myLight;
     }
-
 
     //where do these numbers come from? and what do they want from us?
     vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835 * screenX/screenY, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 ) ;
@@ -289,25 +298,29 @@ vec4 shadowMapping(){
 
     //Matrix transform to light space - our pixel. Matrices are computed once and can be done in CPU or vertex shader
     vec4 shadowCoord = lightSpaceMat*pixelPosition ;
+   //vec2 ssShadow=shadowCoord.xy;
    vec2 ssShadow=shadowCoord.xy/shadowCoord.w;
 
 
         ssShadow=(ssShadow* 0.5) + 0.5;
 
-    //vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
-    vec4 shadowColor=blur3(shadowTex, ssShadow.xy,3.0 );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,4.0 );
+    //vec4 shadowColor=blur3(shadowTex, ssShadow.xy,3.0 );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){
             float falloff = shadowCoord.z - shadowColor.x;
             if (falloff<1.0 ){
                 myLight+= abs( min (1.0,max( 0.0,(1.0 *shadowColor.x-falloff)/(1.0*shadowColor.x) ) ) ) * computeLight( );
-                myLight *=1.0-abs( (ssShadow.x-0.5) * 2.0);
+                //myLight *=1.0-abs( (ssShadow.x-0.5) * 2.0);
                 //myLight *=1.0-abs( (ssShadow.y-0.5) * 2.0);
             }
     }else
             myLight+= 0.0;
-  return myLight;
+
+    myLight.a=1.0;
+
+    return myLight;
 }
 
 
@@ -318,13 +331,14 @@ void main(){
 
     getPixelLoc();
     //add old lighting data
-    gl_FragColor= texture2D(tex, texCoord) + shadowMapping();
+    //gl_FragData[0]= texture2D(tex, texCoord) + shadowMapping();
     //gl_FragColor.r=min(1.15,gl_FragColor.r);
     //gl_FragColor.g=min(1.15,gl_FragColor.g);
     //gl_FragColor.b=min(1.15,gl_FragColor.b);
-    //gl_FragColor= shadowMapping();
+    gl_FragData[0]= shadowMapping();
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
-    //gl_FragColor= computeLight() * shadowMapping();
+    //gl_FragData[0]= computeLight() * shadowMapping();
+    //gl_FragData[0]= computeLight();
     //gl_FragColor= vec4(1,0,0,1);
 
 

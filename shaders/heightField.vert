@@ -58,16 +58,16 @@ void main(){
     //float pS= myVertex.w;
     myVertex.w=1.0;
 
-    gl_FrontColor=texture2D(tex,gl_TexCoord[0].st);
+    vec4 myPos=texture2D(tex,gl_TexCoord[0].st);
 
 
 
-    myVertex.z=gl_FrontColor.a;
-    gl_FrontColor.a=1.0;
+    myVertex.z=myPos.a;
+    //gl_FrontColor.a=1.0;
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
-    gl_FrontColor.rgb *= 1.0;// vec3(1.0);
+    //gl_FrontColor.rgb *= 1.0;// vec3(1.0);
 
     gl_PointSize=pointSize();
 

@@ -52,7 +52,7 @@ float zPosScreen;
 
 float unpackToFloat(vec4 value){
 
-	const vec4 bitSh = vec4(1.0 / (255.0 * 255.0 * 255.0), 1.0 / (255.0 * 255.0), 1.0 / 255.0, 1.0);
+	const vec4 bitSh = vec4(1.0 / (256.0 * 256.0 * 256.0), 1.0 / (256.0 * 256.0), 1.0 / 256.0, 1.0);
 
 	return dot(value, bitSh);
 }
@@ -171,8 +171,9 @@ vec4 blur3(sampler2D myTex, vec2 tc, float bias){
 void getPixelLoc(){
 
     vec2 tc=texCoord;
-    //zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
-    zPos= unpackToFloat(blur3(depthTex,tc,0.0 ).rg) * (farClip);
+    //TODO: how can we make the lookup dependent on drawing/no drawing
+    zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
+    //zPos= unpackToFloat(blur3(depthTex,tc,0.0 ).rg) * (farClip);
     //zPos= unpackToFloat(blur5(depthTex,tc ).rg) * (farClip);
     //zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
     //zPos=1.0/zPosScreen;
@@ -198,7 +199,7 @@ vec4 computeNormals(){
     //return vec4 (dy) * 10.0;
 
     //vec3 pixelNormal=normalize(vec3(dx,dy,fwidth(zPos)* 1.0));
-    vec3 pixelNormal=normalize(vec3(sin(dx * PI),sin(dy * PI),0.1));
+    vec3 pixelNormal=normalize(vec3(sin(dx * PI),sin(dy * PI),0.0));
 
     pixelNormal.x=dx;
     pixelNormal.y=dy;
@@ -214,7 +215,7 @@ vec4 computeNormals(){
     //pixelNormal.y=sin(dy * PI);
     pixelNormal.x=dx;
     pixelNormal.y=dy;
-    pixelNormal.z=-(zPos/512.0);
+    pixelNormal.z=-(zPos/1024.0);
     //pixelNormal.z=-(zPos/32.0);
     pixelNormal=normalize(pixelNormal);
 
