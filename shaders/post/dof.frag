@@ -158,6 +158,7 @@ vec4 computeDOF() {
 
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord,1.0).rg)*farClip;
 
+
     vec4 blurPart=blur(tex, texCoord,3.0);
 
     vec4 sharpPart=  texture2D(tex,texCoord,0.0);
@@ -187,8 +188,16 @@ vec4 computeDOF() {
     vec4 dofColor = combine/focusDepth* blurPart + (1.0-combine/focusDepth) * sharpPart;
      //+ combine * sharpPart ;
     //dofColor=vec4(depthValue.a/100.0);
+    /*
     dofColor.a=1.0;
 
+    float yValue = 0.45;
+
+    float blurAmount = 4.5 * abs(texCoord.y - yValue);
+
+    ///tiltShift
+    dofColor = blurAmount* blurPart + (1.0-blurAmount) * sharpPart;
+    */
     return dofColor;
 }
 

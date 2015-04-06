@@ -309,6 +309,7 @@ void main(void){
         gl_FragData[0].r=1.0;
 */
 
+
     ///GreyScale
     ///desaturate
     float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
@@ -318,7 +319,7 @@ void main(void){
     ///Black Level
     float lowCutOff=0.15;
     if (greyValue< lowCutOff){
-        gl_FragData[0].rgb*=0.35;
+        gl_FragData[0].rgb*=0.45;
         //gl_FragData[0].b+=0.1;
     }
 

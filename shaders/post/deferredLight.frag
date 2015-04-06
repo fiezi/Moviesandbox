@@ -200,9 +200,10 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
-
-    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
+    if (zPos==0.0)
+        zPos=farClip;
+    //zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
     pixelPos.z=(1.0-zPos);
     //pixelPos.z=zPos;
@@ -304,7 +305,7 @@ vec4 shadowMapping(){
 
         ssShadow=(ssShadow* 0.5) + 0.5;
 
-    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,4.0 );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,1.0 );
     //vec4 shadowColor=blur3(shadowTex, ssShadow.xy,3.0 );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 

@@ -820,8 +820,8 @@ void SceneData::createScene(){
 
 void SceneData::update(float deltaTime){
 
-
-    readSharedMemory();           //convert shared memory to a texture...
+    //TODO: shared memory should be a switch
+    //readSharedMemory();           //convert shared memory to a texture...
 
 	//first update Nodes!
 	for (unsigned int i=0;i<buttonList.size();i++){

@@ -172,7 +172,9 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
     //TODO: how can we make the lookup dependent on drawing/no drawing
-    zPos= unpackToFloat(texture2D(depthTex,tc,1.0 ).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc,2.0 ).rg) * (farClip);
+    if (zPos==0.0)
+        zPos=farClip;
     //zPos= unpackToFloat(blur3(depthTex,tc,0.0 ).rg) * (farClip);
     //zPos= unpackToFloat(blur5(depthTex,tc ).rg) * (farClip);
     //zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));
@@ -238,6 +240,7 @@ void main(){
     getPixelLoc();
 
     gl_FragColor=computeNormals();
+    //    gl_FragColor=vec4(1.0);
     gl_FragColor.a=1.0;
 
 }

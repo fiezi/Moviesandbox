@@ -1046,26 +1046,30 @@ void Renderer::draw(){
 
 void Renderer::drawSceneTexture(){
 
+    float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
+
+    for (int i=0;i<(int)sceneData->layerList.size();i++){
+
+    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
+
+    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+
+    drawBackground();
+
     glPushAttrib(GL_VIEWPORT_BIT);
 
     glViewport (0, 0, screenX, screenY);
 
     glMatrixMode(GL_MODELVIEW);
 
-	float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
-
-    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
-
     glDrawBuffers(1,drawBuffers);
 
     //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
-    for (int i=0;i<(int)sceneData->layerList.size();i++){
-
+/*
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
-
+*/
 
         //disable blending for second buffer
 
@@ -1166,7 +1170,7 @@ void Renderer::drawNormals(Layer* layer){
 
         glDrawBuffers(1,drawBuffers);
 
-        glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
+        glClearColor( 0.0f, 0.0f, 1.0f, 1.0f );
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 
