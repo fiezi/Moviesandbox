@@ -116,7 +116,7 @@ vec4 blur(sampler2D myTex,vec2 tc, float bias){
 *   3x3 Kernel Gaussian Blur
 */
 
-vec4 blur3(sampler2D myTex, vec2 tc){
+vec4 blur3(sampler2D myTex, vec2 tc,float bias){
 
       vec4 sample[9];
 
@@ -137,7 +137,7 @@ vec4 blur3(sampler2D myTex, vec2 tc){
 
       for (int i=0 ; i<9 ; i++)
       {
-            sample[i]=texture2D(myTex , tc + tc_offset[i],1.5);
+            sample[i]=texture2D(myTex , tc + tc_offset[i],bias);
       }
 
       vec4 blurredColor=(
@@ -159,7 +159,7 @@ vec4 computeDOF() {
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord,1.0).rg)*farClip;
 
 
-    vec4 blurPart=blur(tex, texCoord,3.0);
+    vec4 blurPart=blur3(tex, texCoord,2.0);
 
     vec4 sharpPart=  texture2D(tex,texCoord,0.0);
     sharpPart.a=1.0;

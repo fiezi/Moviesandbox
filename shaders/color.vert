@@ -19,7 +19,7 @@ varying float oID;
 
 float pointSize(){
 
-  float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w ;
+  float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w *(45.0)/(fov) ;
   //return particleScale;
   //particleScale+=  particleAngleScale * (1.0 - abs(gl_Normal.z));
   //particleScale+=  particleAngleScale * (abs(gl_Normal.y ));
@@ -57,20 +57,20 @@ void main(){
     //myVertex.z+=0.5*sin(10.0*myVertex.x+time*0.0015);
 
     //myVertex.x+=1.0*sin(1.0*20.0+time*0.001);
-    //myVertex.y+=2.0*sin(2.0+time*0.0002);
+    //myVertex.y+=1.0*sin(2.0+time*0.0002);
 
     //myVertex.z+=0.05*sin(20.0*myVertex.y+time*0.0005);
 
     gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * myVertex;
 
                                                     //this here is an approximation
-    gl_PointSize= pointSize() * (45.0*45.0)/(fov*fov);
+    gl_PointSize= pointSize();
 
     //testing for ocean
 
 
     zPos=gl_Position.z/farClip;
-    oID= (objectID+100.0) /1024.0;
+    oID= (objectID+100.0) /2048.0;
 
 }
 

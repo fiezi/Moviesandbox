@@ -7,6 +7,7 @@ uniform float screenY;
 
 uniform float nearClip;
 uniform float farClip;
+uniform float fov;
 
 uniform sampler2D tex; // rendered scene
 uniform sampler2D depthTex; // rendered depth texture
@@ -200,10 +201,8 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
 
-    zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
-    if (zPos==0.0)
-        zPos=farClip;
-    //zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
     pixelPos.z=(1.0-zPos);
     //pixelPos.z=zPos;
@@ -229,6 +228,10 @@ vec4 computeLight(){
 
     //add all previous lighting calculations (from other lights) here:
     vec4 colorLight=texture2D(tex, texCoord);
+
+    //for background separation
+    if (zPos>farClip)
+        return vec4(1.0);
     //vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
     //vec4 colorLight=vec4(0.0,0.0,0.0,1.0);
 
@@ -266,8 +269,9 @@ vec4 computeLight(){
 
 
     if (NdotL>0.0 && specularExp >0.0){
-    vec3 NH = normalize(lightDirectionNormalized - camZ  );
-    colorLight.xyz*=1.0 * lightColor.xyz + pow(max(0.0, dot(pixelNormal.xyz,NH)),specularExp   );
+        vec3 NH = normalize(lightDirectionNormalized - camZ  );
+        vec3 specular=1.0 * lightColor.xyz * pow(max(0.0, dot(pixelNormal.xyz,NH)),specularExp   );
+        colorLight.xyz= 1.0* specular + 1.0*colorLight.xyz;
     }
 
 
@@ -286,6 +290,9 @@ vec4 shadowMapping(){
     //vec4 myLight=texture2D(tex, texCoord);
     vec4 myLight=vec4(0.0,0.0,0.0,1.0);
 
+    if (zPos>farClip-1.0)
+        return vec4(1.0);
+
    if (gl_LightSource[0].spotCutoff==0.0){
         myLight+=computeLight( );
         myLight.a=1.0;
@@ -293,7 +300,7 @@ vec4 shadowMapping(){
     }
 
     //where do these numbers come from? and what do they want from us?
-    vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835 * screenX/screenY, (texCoord.y-0.5)* 0.835, (-zPos) * 1.0, 1.0 ) ;
+    vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835  * screenX/screenY * fov/45.0, (texCoord.y-0.5)* 0.835 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
     pixelPosition.xy*=zPos;
 
 
@@ -305,8 +312,8 @@ vec4 shadowMapping(){
 
         ssShadow=(ssShadow* 0.5) + 0.5;
 
-    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,1.0 );
-    //vec4 shadowColor=blur3(shadowTex, ssShadow.xy,3.0 );
+    vec4 shadowColor=texture2D(shadowTex, ssShadow.xy,0.0 );
+    //vec4 shadowColor=blur3(shadowTex, ssShadow.xy,0.0 );
     shadowColor.x = unpackToFloat(shadowColor.rg) * farClip;
 
     if (ssShadow.x<1.0 && ssShadow.x > 0.0 && ssShadow.y<1.0 && ssShadow.y >0.0){

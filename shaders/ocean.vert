@@ -48,9 +48,9 @@ void main(){
 
     //Ocean vertices
     myVertex.z+=1.0*sin(30.0*myVertex.x+time*0.0015);
-    myVertex.x+=0.02*sin(1.0*myVertex.y*20.0+time*0.001);
-    myVertex.y+=0.1*sin(5.0*myVertex.x*2.0+time*0.0002);
-    myVertex.z+=0.5*sin(20.0*myVertex.y+time*0.0005);
+    myVertex.x+=0.02*sin(2.0*myVertex.y*20.0+time*0.002);
+    myVertex.y+=0.2*sin(5.0*myVertex.x*2.0+time*0.0002);
+    myVertex.z+=0.25*sin(20.0*myVertex.y+time*0.0005);
 
 
 /*
@@ -68,7 +68,7 @@ void main(){
 
 
     zPos=gl_Position.z/farClip;
-    oID= (objectID+100.0) /1024.0;
+    oID= (objectID+100.0) /2048.0;
 
 }
 

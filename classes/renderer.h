@@ -47,7 +47,8 @@ public:
        bool bRenderStereo,                  //render stereoscpic into Framebuffers
             bDrawLighting,                  //include Lights and Shadows in Rendering
             bDrawNormals,                   //draw screen space normals for debugging
-            bDrawSmudge,                  //include Lights and Shadows in Rendering
+            bDrawSmudge,                  //do weird stuff with points
+            bDrawGlitch,                  //drawing very glitchy post renderer
             bDrawNodes,                     //draw nodes
             bDrawMenu,                      //show menu in 3D renderer
             bUseBlending,

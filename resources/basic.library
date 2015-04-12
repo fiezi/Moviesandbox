@@ -122,6 +122,7 @@
 
 
     <Shader shaderID="color" vertexShaderFilename="color.vert" fragmentShaderFilename="color.frag" />
+    <Shader shaderID="background" vertexShaderFilename="background.vert" fragmentShaderFilename="background.frag" />
     <Shader shaderID="buttonColor" vertexShaderFilename="buttonColor.vert" fragmentShaderFilename="buttonColor.frag" />
     <Shader shaderID="colorAlphaID" vertexShaderFilename="colorAlphaID.vert" fragmentShaderFilename="colorAlphaID.frag" />
     <Shader shaderID="aliveTexture" vertexShaderFilename="aliveTexture.vert" fragmentShaderFilename="aliveTexture.frag" />

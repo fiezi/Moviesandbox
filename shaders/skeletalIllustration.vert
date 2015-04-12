@@ -97,7 +97,7 @@ void main(){
 
     //3D positions
     zPos=gl_Position.z/farClip;
-    oID= (objectID+100.0) /1024.0;
+    oID= (objectID+100.0) /2048.0;
 
     gl_FrontColor=gl_Color;
 

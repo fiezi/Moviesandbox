@@ -1,11 +1,16 @@
+
+#extension GL_EXT_gpu_shader4 : enable
+
 uniform float time;
 uniform float lighting_size;
 uniform float farClip;
 uniform float screenX;
 uniform float screenY;
+uniform float fov;
 
 uniform bool bSSAO;
 uniform bool bLighting;
+uniform bool bGlitch;
 uniform bool bSmudge;
 uniform bool bDrawNormals;
 uniform bool bDrawColor;
@@ -56,11 +61,71 @@ varying vec2 texCoord;
     float maxDepth=10000.0;            //maximum distance to take into account
 
 
-    float aspect =45.0;             //field of view ratio
+    float aspect =fov;             //field of view ratio
 
     float objectID=0.0;
 
 
+vec3 mod289(vec3 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec2 mod289(vec2 x) {
+  return x - floor(x * (1.0 / 289.0)) * 289.0;
+}
+
+vec3 permute(vec3 x) {
+  return mod289(((x*34.0)+1.0)*x);
+}
+
+float snoise(vec2 v)
+  {
+  const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+                      0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+                     -0.577350269189626,  // -1.0 + 2.0 * C.x
+                      0.024390243902439); // 1.0 / 41.0
+// First corner
+  vec2 i  = floor(v + dot(v, C.yy) );
+  vec2 x0 = v -   i + dot(i, C.xx);
+
+// Other corners
+  vec2 i1;
+  //i1.x = step( x0.y, x0.x ); // x0.x > x0.y ? 1.0 : 0.0
+  //i1.y = 1.0 - i1.x;
+  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  // x0 = x0 - 0.0 + 0.0 * C.xx ;
+  // x1 = x0 - i1 + 1.0 * C.xx ;
+  // x2 = x0 - 1.0 + 2.0 * C.xx ;
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+
+// Permutations
+  i = mod289(i); // Avoid truncation effects in permutation
+  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+		+ i.x + vec3(0.0, i1.x, 1.0 ));
+
+  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+  m = m*m ;
+  m = m*m ;
+
+// Gradients: 41 points uniformly over a line, mapped onto a diamond.
+// The ring size 17*17 = 289 is close to a multiple of 41 (41*7 = 287)
+
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 ox = floor(x + 0.5);
+  vec3 a0 = x - ox;
+
+// Normalise gradients implicitly by scaling m
+// Approximation of: m *= inversesqrt( a0*a0 + h*h );
+  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+
+// Compute final noise value at P
+  vec3 g;
+  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
+}
 
 
 vec4 blur3(sampler2D myTex, vec2 tc){
@@ -259,9 +324,39 @@ vec4 smudge(vec2 coord){
 		return vec4(1.0);
 }
 
+vec3 glitch(sampler2D glitchTex, vec2 tc, float bias, float amount){
+
+vec3 returnColor=vec3(0.0);
+
+returnColor.r=texture2D(glitchTex, tc   +amount* vec2(0.01 * snoise(vec2(time*0.00001,gl_FragCoord.y*0.00005 + time*0.0001)),
+                                        +0.001 * max(snoise(vec2(time*0.001,gl_FragCoord.y*0.005 + time*0.0001)),0.2)
+                                                * 40.0 * snoise(vec2(time*0.1,time*0.001+ gl_FragCoord.y))
+                                              ),
+                        0.0* amount * max(snoise(vec2(time*0.01,gl_FragCoord.y*0.1+ time*0.001)),0.0)
+                             ).r;
+
+returnColor.g=texture2D(glitchTex, tc   + amount * vec2(0.01*snoise(vec2(time*0.00001,gl_FragCoord.y*0.0005 + time*0.00001)),
+                                        +0.02 * max(snoise(vec2(time*0.000115,gl_FragCoord.y*0.00005 + time*0.001)),-0.2)
+                                                * 1.0 * snoise(vec2(time*0.001,time*0.1+ gl_FragCoord.y))
+                                              ),
+                        0.0* amount * max(snoise(vec2(time*0.0001,gl_FragCoord.y*0.0005 + time*0.00001)),-0.2)
+                             ).g;
+
+returnColor.b=texture2D(glitchTex, tc   + amount * vec2(0.001* snoise(vec2(time*0.0001,gl_FragCoord.y*0.0005 + time*0.001)),
+                                        +0.01 * max(snoise(vec2(time*0.00012,gl_FragCoord.y*0.0005 + time*0.00001)),-0.2)
+                                                * 60.0 * snoise(vec2(0.0,time*0.001+ gl_FragCoord.y))
+                                              ),
+                        0.0* amount* max(snoise(vec2(time*0.01,gl_FragCoord.y*0.1+ time*0.001)),0.0)
+
+                             ).b;
+
+return returnColor;
+}
+
 /*
 *   Main
 */
+
 
 void main(void){
 
@@ -276,20 +371,29 @@ void main(void){
         gl_FragData[0]=vec4(1.0,1.0,1.0,1.0);
 
 
+
     ///regular shadows
     //if we have negative values in our first channel, we are unlit!
 
     if (bLighting){// && !bSmudge){
 
         vec4 lightData=texture2D(shadowTex,texCoord,0.0) ;
+        //vec3 lightData=glitch(shadowTex,texCoord,0.0, 5.0 * snoise(vec2(time * 0.002, time * 0.001))) ;
         //vec4 lightData=blur3(shadowTex,texCoord) ;
 
         //this gives us the opportunity to "hide" data in the rgb channels
         //here, we check if we are lit or not
 
         //if  (  (fract(gl_FragData[0].r*100.0)<0.2 || fract(gl_FragData[0].r*100.0)>0.8 ) )
-                gl_FragData[0]*=1.0*lightData;
+                gl_FragData[0].rgb*=1.0*lightData;
     }
+
+            ///GLITCHING FROM HERE
+    if (bGlitch){
+        gl_FragData[0].rgb=glitch(tex, texCoord, 0.0, 10.0 * snoise(vec2(time * 0.002, time * 0.001))) *
+                           glitch(shadowTex,texCoord,0.0, 30.5 * snoise(vec2(time * 0.002, time * 0.001))) ;
+    }
+
 
     if (bDrawNormals)
         gl_FragData[0]=texture2D(normalTex,texCoord);
@@ -298,7 +402,7 @@ void main(void){
     if (bSSAO)
        gl_FragData[0].rgb*=computeAO().rgb;
 
-   // gl_FragDepth=texture2D(pickTex,texCoord).r;
+    //gl_FragDepth=texture2D(pickTex,texCoord).r;
 
     ///debug stuff
 /*
@@ -314,19 +418,34 @@ void main(void){
     ///desaturate
     float greyValue=(gl_FragData[0].r+gl_FragData[0].g+gl_FragData[0].b)/3.0;
     vec3 desaturate=vec3(greyValue);
-    gl_FragData[0].rgb=0.6* desaturate+ 0.4*gl_FragData[0].rgb;
+    gl_FragData[0].rgb=0.7* desaturate+ 0.3*gl_FragData[0].rgb;
 
     ///Black Level
     float lowCutOff=0.15;
     if (greyValue< lowCutOff){
-        gl_FragData[0].rgb*=0.45;
-        //gl_FragData[0].b+=0.1;
+        gl_FragData[0].b+=0.051;
+        gl_FragData[0].rgb*=0.85;
     }
 
     ///Max Level
-    float highCutOff=0.85;
+    float highCutOff=0.75;
     if (greyValue> highCutOff)
-        gl_FragData[0].rgb=vec3(1.0);
+        gl_FragData[0].rgb*=1.3;
+
+
+    ///Mid Level
+    if (greyValue> lowCutOff && greyValue<highCutOff){
+        gl_FragData[0].g*=1.15;
+        gl_FragData[0].b*=1.15;
+        gl_FragData[0].b+=0.051;
+    }
+
+    ///fog... is done in ocean shader...
+
+
+
+    ///
+    gl_FragData[0]=gl_FragData[0] * 0.4 + gl_FragData[0] * greyValue * 0.6;
 
     //if (bInvert)
     //    gl_FragData[0].rgb=1C:\Moviesandbox\config.xml.0-gl_FragData[0].rgb;
@@ -334,6 +453,7 @@ void main(void){
 
     //gl_FragData[0]/=3.0;
     //gl_FragData[0].rgb=texture2D(shadowTex, texCoord).rgb;
+   // gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).r;
     //gl_FragData[0].g+=0.0001 * texture2D(pickTex, texCoord).g;
     //gl_FragData[0].b+=0.0001 * texture2D(depthTex, texCoord).b;
     //gl_FragData[0].a=1.0;
@@ -345,6 +465,7 @@ void main(void){
 
     //gl_FragData[0].r=1.0;
     //gl_FragData[0].a=1.0;
+    //gl_FragData[0].r=texture2D(pickTex,texCoord).r;
 
 
 

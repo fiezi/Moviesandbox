@@ -61,6 +61,8 @@ vec2 packToVec2(float value){
 
 void main(){
 
+    //if (gl_FragCoord.y>550)
+    //    discard;
 
     //float scal= -1.0 * pSize/screenX;
     //zPos+=abs(gl_FragCoord.x/screenX-(coord.x- pSize/2.0 )  ) * scal;
@@ -75,8 +77,40 @@ void main(){
     //gl_FragDepth=zPos/farClip;
     vec4 objColor=gl_Color * postColor;
 
+    gl_FragData[0]=objColor;
+    gl_FragData[1].xy=packToVec2(zPos);
+    gl_FragData[1].zw=packToVec2(oID);
 
+    //fog between 0.25 and 0.3
+    //nantucket...
+    float minFog=0.25;
+    float maxFog=0.35;
 
+    //once out of nantucket...
+    //float minFog=0.7;
+    //float maxFog=0.85;
+    //fog goes from 0 to 1;
+    float fog=min((zPos-minFog)*1.0/(maxFog-minFog),maxFog);
+    int fogAmountX=int(fog*screenX);
+    int fogAmountY=int(fog*screenY);
+
+    if (zPos>minFog){
+            //gl_FragData[0].rgb=vec3(fogAmount/100.0);
+            //gl_FragData[0].rgb=vec3(gl_FragCoord.x/1280.0);
+            //return;
+            //every pixel should be discarded when fog==100
+
+            //every 100th pixel should be discarded when fog ==0
+
+            if ( int(gl_FragCoord.x)%int(screenX/fogAmountX)<2 && int(gl_FragCoord.y)%int(screenY/fogAmountY)<2){
+              discard;
+            }
+            else{
+                gl_FragData[0].rgb=objColor.rgb+vec3(fog*8.0,fog*0.5,0.0);
+            }
+    }
+
+/*
     objColor.r=floor(objColor.r*100.0)/100.0 ;
     objColor.r=max(0.0,objColor.r);
 
@@ -89,13 +123,12 @@ void main(){
         }
         objColor.a=1.0;
    }
-
-
-    gl_FragData[0]=objColor;
+*/
+    //if (gl_FragCoord.z>0.15)
+    //gl_FragData[0]=objColor;
+    //gl_FragData[0]=objColor;
 
     //gl_FragData[1] =packToVec4(zPos);
-    gl_FragData[1].xy=packToVec2(zPos);
-    gl_FragData[1].zw=packToVec2(oID);
 
 
 }

@@ -153,6 +153,9 @@ void Layer::updateShaders(){
     if (myShader->uniforms.find("bSmudge") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bSmudge"],renderer->bDrawSmudge);
 
+    if (myShader->uniforms.find("bGlitch") != myShader->uniforms.end())
+        glUniform1i(myShader->uniforms["bGlitch"],renderer->bDrawGlitch);
+
     if (myShader->uniforms.find("bSSAO") != myShader->uniforms.end())
         glUniform1i(myShader->uniforms["bSSAO"],renderer->bSSAO);
 

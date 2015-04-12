@@ -820,6 +820,11 @@ void Input::specialKeyUp (int key,int x, int y){
         return;
     }
 
+    if (key==GLUT_KEY_F8){
+        renderer->bDrawGlitch=!renderer->bDrawGlitch;
+        return;
+    }
+
     if (key==GLUT_KEY_F12){
         HWND hwnd = ::FindWindowA(0, "Moviesandbox"); //NOTE, the windowtitle is crucial in order to find the handle, so you have to set it before!!!!
         SetWindowPos(hwnd,NULL,1911,-30,1280,800,1);

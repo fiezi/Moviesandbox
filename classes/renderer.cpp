@@ -126,6 +126,7 @@ Renderer::Renderer(){
     bDrawLighting=true;
     bDrawNormals=false;
     bDrawSmudge=false;
+    bDrawGlitch=false;
     bRenderStereo=true;
     bDrawMenu=true;
     bDrawNodes=true;
@@ -448,9 +449,10 @@ void Renderer::setup(){
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    if (bMultisample)
+    if (bMultisample){
         glEnable(GL_MULTISAMPLE);   //just in case we force multisampling
-
+        //glHint(GL_NV_multisample_filter_hint,GL_NICEST);
+    }
     glEnable(GL_NORMALIZE);
 
     #ifdef BDEBUGRENDERER
@@ -569,7 +571,6 @@ void Renderer::createFBO(GLuint* fbObject, GLuint* fbTexture, GLuint* fbDepth, i
 
             glGenRenderbuffersEXT(1, &multiSample_color);
             glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, multiSample_color);
-
             if (bMultisample)
                 glRenderbufferStorageMultisampleEXT(GL_RENDERBUFFER_EXT, numSamples, depthPrecision, fbSizeX, fbSizeY);
             else
@@ -933,7 +934,7 @@ void Renderer::draw(){
         glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, sceneData->layerList[i]->sceneFBO);
 
         //Draw Background here
-       drawBackground();
+       //drawBackground();
 
         //then, draw our composite
         drawButton(sceneData->layerList[i]);
@@ -1048,36 +1049,39 @@ void Renderer::drawSceneTexture(){
 
     float draw3DTime=glutGet(GLUT_ELAPSED_TIME);
 
+
+
     for (int i=0;i<(int)sceneData->layerList.size();i++){
 
-    glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
+        glBindFramebufferEXT (GL_FRAMEBUFFER_EXT, multiSample_fb);
 
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+        glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
-    drawBackground();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glPushAttrib(GL_VIEWPORT_BIT);
+        glActiveTexture(GL_TEXTURE0);
 
-    glViewport (0, 0, screenX, screenY);
+        //disable blending for second buffer
+        glDisableIndexedEXT(GL_BLEND,1);
 
-    glMatrixMode(GL_MODELVIEW);
 
-    glDrawBuffers(1,drawBuffers);
+        drawBackground();
 
-    //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
+        setupCamera(false);
+
+        glPushAttrib(GL_VIEWPORT_BIT);
+
+        glViewport (0, 0, screenX, screenY);
+
+        glMatrixMode(GL_MODELVIEW);
+
+        //glClearColor( -1.0f, -1.0f, -1.0f, -1.0f );
 
 /*
         glClear( GL_COLOR_BUFFER_BIT |
                  GL_DEPTH_BUFFER_BIT );
 */
 
-        //disable blending for second buffer
-
-        glDisableIndexedEXT(GL_BLEND,1);
-
-        glActiveTexture(GL_TEXTURE0);
-
-		 //drawbuffers are set up here!
         draw3D(sceneData->layerList[i]);
 
 
@@ -1096,7 +1100,7 @@ void Renderer::drawSceneTexture(){
         glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, sceneData->layerList[i]->depthFBO );
         glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 
-        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_NEAREST );
+        glBlitFramebufferEXT( 0, 0, screenX, screenY, 0, 0, screenX, screenY, GL_COLOR_BUFFER_BIT, GL_LINEAR );
 
         //create mipmaps for color and depth
         glActiveTexture(GL_TEXTURE0);
@@ -1130,13 +1134,12 @@ void Renderer::drawBackground(){
     glViewport (0, 0, screenX, screenY);
     setupOrthoCamera(screenX,screenY);
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    glDrawBuffers(2, drawBuffers);
     //only draw Background Texture if we're having one
     if (sceneData->backgroundTex=="NULL")
         return;
 
-    setupShading("buttonTexture");
+    setupShading("background");
 
     //update objectID!
     shaderObject* myShader= sceneData->shaderList[currentShader];
@@ -1154,9 +1157,9 @@ void Renderer::drawBackground(){
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, sceneData->textureList[sceneData->backgroundTex]->texture);
 
-    glDepthMask(GL_FALSE);
+    //glDepthMask(GL_FALSE);
     drawPlane(0,0,screenX,screenY);
-    glDepthMask(GL_TRUE);
+    //glDepthMask(GL_TRUE);
 
 }
 
@@ -1456,7 +1459,7 @@ void Renderer::draw3D(Layer* currentLayer){
 
     glDrawBuffers(2, drawBuffers);
 
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
@@ -2552,7 +2555,8 @@ void Renderer::pick(int x, int y){
 
     Vector2f obj=Vector2f(mousePos[0],mousePos[3]);
 	//float raw = ((obj.y + obj.x/255.0) * 1024.0 -100.0);
-	int ob = floor( (obj.y + obj.x/255.0) * 1024.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
+	//int ob = floor( (obj.y + obj.x/255.0) * 1024.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
+	int ob = floor( (obj.y + obj.x/255.0) * 2048.0 -100.0 +0.5);    //the + 0.5 at the end will make sure that we round!
 
 
     ///Picking

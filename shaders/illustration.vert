@@ -51,7 +51,7 @@ void main(){
   gl_PointSize= pointSize() * (1.15+0.15* sin(0.001* time + objectID +xC+myVertex.y));
 
     zPos=gl_Position.z/farClip;
-    oID= (objectID+100.0) /1024.0;
+    oID= (objectID+100.0) /2048.0;
 
 
 }

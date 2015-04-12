@@ -61,16 +61,16 @@ vec2 packToVec2(float value){
 
 void main(){
 
+/*
+    float scal= -1.0 * pSize/screenX;
+    zPos+=abs(gl_FragCoord.x/screenX-(coord.x- pSize/2.0 )  ) * scal;
+    zPos+=abs(gl_FragCoord.y/screenY-coord.y-pSize/2.0)*scal;
 
-    //float scal= -1.0 * pSize/screenX;
-    //zPos+=abs(gl_FragCoord.x/screenX-(coord.x- pSize/2.0 )  ) * scal;
-    //zPos+=abs(gl_FragCoord.y/screenY-coord.y-pSize/2.0)*scal;
-
-   // if (abs(gl_FragCoord.y/screenY-coord.y)>0.01)
-    //    discard;
-    //if (abs(gl_FragCoord.x/screenX-coord.x)>0.01)
-     //   discard;
-
+    if (abs(gl_FragCoord.y/screenY-coord.y)>0.01)
+        discard;
+    if (abs(gl_FragCoord.x/screenX-coord.x)>0.01)
+        discard;
+*/
 
     //gl_FragDepth=zPos/farClip;
     vec4 objColor=gl_Color * postColor;
