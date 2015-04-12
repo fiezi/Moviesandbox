@@ -93,7 +93,7 @@ void main(){
     float fog=min((zPos-minFog)*1.0/(maxFog-minFog),maxFog);
     int fogAmountX=int(fog*screenX);
     int fogAmountY=int(fog*screenY);
-
+/*
     if (zPos>minFog){
             //gl_FragData[0].rgb=vec3(fogAmount/100.0);
             //gl_FragData[0].rgb=vec3(gl_FragCoord.x/1280.0);
@@ -109,7 +109,7 @@ void main(){
                 gl_FragData[0].rgb=objColor.rgb+vec3(fog*8.0,fog*0.5,0.0);
             }
     }
-
+*/
 /*
     objColor.r=floor(objColor.r*100.0)/100.0 ;
     objColor.r=max(0.0,objColor.r);

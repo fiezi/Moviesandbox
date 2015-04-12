@@ -40,7 +40,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 0.00;
+const float specularExp = 100.00;
 
 //pixel position stuff
 vec4 pixelPos;

@@ -9,6 +9,7 @@ public:
 
     Actor* cameraActor;
     float focus;
+    float fov;
     bool bCameraShake;
 
     int oldTool;

@@ -11,6 +11,7 @@ SwitchCameraNode::SwitchCameraNode(){
     name="SwitchCam";
     cameraActor=NULL;
     focus=15.0;
+    fov=30;
     oldTool=TOOL_SELECT;
     bCameraShake=false;
 
@@ -29,6 +30,11 @@ SwitchCameraNode::SwitchCameraNode(){
     listProp.push_back("BCAMERASHAKE");
     listIcon.push_back("icon_flat");
 
+    listType.push_back("15TextInputButton");
+    listName.push_back("FOV");
+    listProp.push_back("FOV");
+    listIcon.push_back("icon_flat");
+
     color=Vector4f(0.5,0.5,0.5,1.0);
     registerProperties();
     controller=sceneData->controller;
@@ -41,12 +47,15 @@ void SwitchCameraNode::registerProperties(){
 Node::registerProperties();
 createMemberID("CAMERAACTOR",&cameraActor,this);
 createMemberID("FOCUS",&focus,this);
+createMemberID("FOV",&fov,this);
 createMemberID("BCAMERASHAKE",&bCameraShake,this);
 }
 
 void SwitchCameraNode::start(){
 
     if (cameraActor){
+        CameraActor* cA=dynamic_cast<CameraActor*>(cameraActor);
+        cA->fov=fov;
         cameraActor->drawType=DRAW_NULL;
         sceneData->updateView();
         oldTool=controller->tool;
