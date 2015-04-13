@@ -123,6 +123,10 @@ void PrimitivesInspector::PrimitivesTab::assembleList(){
     mine->listProp.push_back("13SkeletalActor");
     mine->listIcon.push_back("icon_pointPatch");
 
+    mine->listName.push_back("ParticleSpray");
+    mine->listProp.push_back("13ParticleSpray");
+    mine->listIcon.push_back("icon_pointPatch");
+
 
 //--- test video actor
 #ifdef TARGET_WIN32
@@ -193,6 +197,14 @@ void PrimitivesInspector::PrimitivesTab::trigger(MsbObject* other){
         a->bTextured=true;
         a->sceneShaderID="heightfield";
         a->particleAngleScale=100;
+    }
+
+if (other->name=="ParticleSpray"){
+        Actor* a=mine->sceneData->actorList.back();
+        a->drawType=DRAW_PARTICLES;
+        a->bTextured=false;
+        a->sceneShaderID="color";
+        a->particleScale=10;
     }
 
     if (other->name=="Sprite"){

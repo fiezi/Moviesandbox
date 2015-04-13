@@ -77,6 +77,7 @@ void main(){
     //gl_FragDepth=zPos/farClip;
     vec4 objColor=gl_Color * postColor;
 
+    objColor.a=gl_Color.a;
     gl_FragData[0]=objColor;
     gl_FragData[1].xy=packToVec2(zPos);
     gl_FragData[1].zw=packToVec2(oID);

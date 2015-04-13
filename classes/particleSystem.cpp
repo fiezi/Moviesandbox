@@ -18,10 +18,10 @@ void ParticleSystem::addParticles(int amount){
 
     for (int i=0;i<amount; i++){
         vertexData myVData;
-        myVData.birth=(0.0);
+        myVData.birth=renderer->frames+i;
         myVData.color=Vector4f(1,1,1,1);
         myVData.secondaryColor=Vector3f(0.0,0.0,0.0);
-
+        myVData.location=Vector4f(1,1,1,1);
         myVData.normal=Vector3f(0,0,1);
         myVData.texCoord=Vector3f(1,1,1);
 
@@ -55,7 +55,7 @@ void ParticleSystem::addRandomParticles(int amount, float diameter){
         myVData.texCoord=Vector3f(myVData.color.r, myVData.color.g, myVData.color.b) ;
 
         myVData.secondaryColor=Vector3f((float)rand()/(float)RAND_MAX,(float)rand()/(float)RAND_MAX,1);
-        myVData.birth=i;
+        myVData.birth=renderer->frames;
 
         sceneData->vboList[vboMeshID]->vData.push_back(myVData);
     }

@@ -12,6 +12,7 @@ uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform mat4 cameraInverse;
 uniform float objectID;
+uniform float fov;
 
 varying float zPos;
 varying float oID;
@@ -25,7 +26,7 @@ float weights[4];
 
 float pointSize(){
 
-  float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w ;
+  float particleScale=  gl_Vertex.w *  particleMultiplier * gl_Position.w * (45.0)/fov;
   particleScale+=  particleAngleScale * (1.0 - abs(gl_Normal.z));
   particleScale+=  particleAngleScale * (abs(gl_Normal.y ));
   return ( (particleScale * 1000.0  ) / (gl_Position.z * gl_Position.z) );

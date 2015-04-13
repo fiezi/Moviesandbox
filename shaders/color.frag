@@ -92,8 +92,11 @@ void main(){
 
 
     gl_FragData[0]=objColor;
-
-    //gl_FragData[1] =packToVec4(zPos);
+    /*
+    gl_FragData[0].r=min(1.0, objColor.r);
+    gl_FragData[0].g=min(1.0, objColor.r);
+    gl_FragData[0].b=min(1.0, objColor.r);
+*/
     gl_FragData[1].xy=packToVec2(zPos);
     gl_FragData[1].zw=packToVec2(oID);
 

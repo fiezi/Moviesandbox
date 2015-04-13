@@ -40,12 +40,14 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 100.00;
+const float specularExp = 256.00;
 
 //pixel position stuff
 vec4 pixelPos;
 float zPos;
 float zPosScreen;
+
+float oID;
 
 
 // blur variables
@@ -202,7 +204,9 @@ void getPixelLoc(){
     vec2 tc=texCoord;
 
     //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
-    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    oID=unpackToFloat(texture2D(depthTex,tc).ba)*2048.0-100.0;
+//oID = unpackToFloat(texture2D(depthTex,tc,0.0).ba) * 2048.0-100.0;
+        zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
     pixelPos.z=(1.0-zPos);
     //pixelPos.z=zPos;
@@ -237,7 +241,11 @@ vec4 computeLight(){
 
 
     vec4 pixelNormal=vec4(0,0,0,0);
-    pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
+
+    if (oID==8.0)
+        pixelNormal.xyz=texture2D(normalTex,texCoord,5.0).xyz;
+    else
+        pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
 
     pixelNormal-=0.5;
     pixelNormal*=2.0;
@@ -300,7 +308,8 @@ vec4 shadowMapping(){
     }
 
     //where do these numbers come from? and what do they want from us?
-    vec4 pixelPosition=vec4((texCoord.x-0.5)* 0.835  * screenX/screenY * fov/45.0, (texCoord.y-0.5)* 0.835 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
+    //vec4 pixelPosition=vec4((texCoord.x-0.5)* 1.0   * fov/45.0, (texCoord.y-0.5)* 0.935 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
+    vec4 pixelPosition=vec4((texCoord.x-0.5)  * 0.835 * screenX/screenY * fov/45.0, (texCoord.y-0.5) * 0.835 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
     pixelPosition.xy*=zPos;
 
 
@@ -344,6 +353,8 @@ void main(){
     //gl_FragColor.g=min(1.15,gl_FragColor.g);
     //gl_FragColor.b=min(1.15,gl_FragColor.b);
     gl_FragData[0]= shadowMapping();
+
+    //gl_FragData[0].r=oID/10.0;
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
     //gl_FragData[0]= computeLight() * shadowMapping();
     //gl_FragData[0]= computeLight();

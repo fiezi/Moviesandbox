@@ -365,6 +365,7 @@ SceneData* SceneData::getInstance(){
 void SceneData::setup(){
 
     ///setup colors
+    //TODO: all of this should be xml?
     selectedToolColor=Vector4f(0.8,0.1,0.1,1.0);
     deselectedToolColor=Vector4f(0.8,0.8,0.8,1.0);
 
@@ -409,7 +410,6 @@ void SceneData::setup(){
 
     inspectorManager=new InspectorManager;
 	controller=new Control;
-	//sceneData->helperList.push_back(controller);
 #ifdef TARGET_LINUX
     initGTK();  //should only be called once, no?
 #endif

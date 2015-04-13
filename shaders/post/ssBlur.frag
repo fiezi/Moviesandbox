@@ -127,6 +127,16 @@ vec4 blur3(sampler2D myTex, vec2 tc, float bias){
 
 
 
+float unpackToFloat(vec2 value){
+
+	const vec2 bitSh = vec2(1.0 / 256.0, 1.0);
+
+	return dot(value, bitSh);
+}
+
+
+
+
 void main(){
 
 
@@ -135,7 +145,18 @@ void main(){
 
 
     //gl_FragData[0]=blur5(tex,gl_TexCoord[0].st,0.0);
-    gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,1.0);
+
+    float oID=unpackToFloat(texture2D(depthTex,gl_TexCoord[0].st).ba)*2048.0-100.0;
+    //whale
+    if (oID>8.5 && oID < 9.5)
+        gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,3.0);
+    //spray
+    else if (oID>11.5 && oID < 25.5)
+        gl_FragData[0]=blur3(tex,gl_TexCoord[0].st,4.0);
+    else if (oID>363.5 && oID < 1405.5)
+        gl_FragData[0]=blur3(tex,gl_TexCoord[0].st,5.0);
+    else
+        gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,0.0);
     //gl_FragData[0]=vec4(1,0,0,1);
 
 }

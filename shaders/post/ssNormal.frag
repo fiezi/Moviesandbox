@@ -41,7 +41,7 @@ const float specularExp = 32.0;
 vec4 pixelPos;
 float zPos;
 float zPosScreen;
-
+float oID;
 
 // blur variables
 
@@ -172,10 +172,11 @@ void getPixelLoc(){
 
     vec2 tc=texCoord;
     //TODO: how can we make the lookup dependent on drawing/no drawing
-    //zPos= unpackToFloat(texture2D(depthTex,tc,0.0).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc,0.0).rg) * (farClip);
+
 
     //zPos= unpackToFloat(blur3(depthTex,tc,(farClip/zPos)*0.01 ).rg) * (farClip);
-    zPos= unpackToFloat(blur3(depthTex,tc,1.0 ).rg) * (farClip);
+    //zPos= unpackToFloat(blur3(depthTex,tc,1.0 ).rg) * (farClip);
     //zPos= unpackToFloat(texture2D(depthTex,tc,(farClip/zPos)*0.01 ).rg) * (farClip);
     //zPos= unpackToFloat(blur5(depthTex,tc ).rg) * (farClip);
     //zPosScreen=farClip/ (farClip - zPos * (farClip- nearClip));

@@ -429,8 +429,8 @@ void Renderer::setup(){
     glGetIntegerv(GL_POINT_SIZE_MAX, &maxPSize);
     cout << "Maximum Point Size:" << maxPSize << endl;
 
-    //enable Blending for everyone!
-    glEnable(GL_BLEND);
+    //enable Blending only for the first rendertarget!
+    glEnablei(GL_BLEND,0);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 
 
@@ -841,8 +841,7 @@ void Renderer::draw(){
 
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-
+    glEnablei(GL_BLEND,0);
 
      setupCamera(true);
 
@@ -1192,6 +1191,10 @@ void Renderer::drawNormals(Layer* layer){
         glBindTexture(GL_TEXTURE_2D, normal_tx);
         glGenerateMipmapEXT(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 0);
+
+
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, layer->depthTex);
 
         for (int i=0;i<normalBlur;i++){
             performShader(layer,"normals","normalsBlurred",normalBlur_fb,"ssBlur");
@@ -1664,6 +1667,7 @@ void Renderer::drawActor(Actor* a){
     //alpha blending
     glBlendFunc(a->blendModeOne,a->blendModeTwo);
     //glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+
 
     //if (!bShadowPass)
     //    glBlendFuncSeparate(a->blendModeOne,a->blendModeTwo,GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -2620,6 +2624,8 @@ void Renderer::pick(int x, int y){
     //int vertexID = (int)ceil(mousePos[2] * 65536.0) + (int)ceil(mousePos[1]);
 
     //cout << "vertexID: " <<vertexID << endl;
+
+    //cout << "currently selectable object:" << ob << endl;
 
 	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT,0);
     glBindTexture(GL_TEXTURE_2D,0);

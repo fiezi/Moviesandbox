@@ -217,7 +217,10 @@ void SelectTool::selectActors(int btn, Actor* other){
 
     if (other)
         cout << "to be selected name:  " << other->name << " ***************************************************" << endl;
-
+    else{
+        cout << "object doesn't exist somehow..." << endl;
+        return;
+    }
     //don't do anything to selection if we're just finishing a move or rotate
     if (input->worldTarget==sceneData->aGizmo->xAxisGizmo)
         return;

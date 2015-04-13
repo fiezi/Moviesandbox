@@ -16,6 +16,8 @@ public:
     float sprayFrequency;
     int maxParticles;
 
+    MeshData*  myData;
+
     ParticleSpray();
     virtual ~ParticleSpray();
 

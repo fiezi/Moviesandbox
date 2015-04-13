@@ -158,11 +158,12 @@ vec4 computeDOF() {
 
     float depthValue= unpackToFloat(texture2D(depthTex, texCoord,1.0).rg)*farClip;
 
-
     vec4 blurPart=blur3(tex, texCoord,2.0);
 
     vec4 sharpPart=  texture2D(tex,texCoord,0.0);
+
     sharpPart.a=1.0;
+
 
     //focus = 150.0+ 150.0 * sin(time * 0.0001);
     //focus=32.0;

@@ -30,6 +30,7 @@ public:
     void loadScene(string args);
     void loadProject(string args);
 
+    void createNewLayer(string args);
 
 
 };

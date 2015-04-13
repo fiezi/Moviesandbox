@@ -31,7 +31,7 @@ Input::Input(){
     startPressRightBtn=0,
 
     bWarpMouse=false;
-
+    bQuadWarp=false;
 
     pressedLeft=false,
     pressedRight=false,

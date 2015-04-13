@@ -32,6 +32,7 @@ functionList["setZero"]=&Console::setZero;
 functionList["teleport"]=&Console::teleport;
 functionList["loadScene"]=&Console::loadScene;
 functionList["loadProject"]=&Console::loadProject;
+functionList["createNewLayer"]=&Console::createNewLayer;
 }
 
 void Console::focusClick(){
@@ -110,5 +111,13 @@ void Console::loadScene(string args){
 }
 
 void Console::loadProject(string args){
+
+}
+
+void Console::createNewLayer(string args){
+
+    //sceneData->selectedActors[0];
+    sceneData->addLayer("testLayer");
+
 
 }

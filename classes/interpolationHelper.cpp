@@ -9,7 +9,9 @@ InterpolationHelper::InterpolationHelper(){
     bRelative=false;
     bAdditive=false;
     bLinear=false;
-    bLooping=false;
+    //TODO: Testing for whale...
+    bLinear=true;
+    bLooping=true;
 
     moveActor=NULL;
     targetActor=NULL;
@@ -347,6 +349,7 @@ void InterpolationHelper::interpolateMatrix(){
 
         //apply rotation
         skel->bones[i]->transformMatrix.setRotation(resultingRotation);
+        skel->bones[i]->transformMatrix=resultingMatrix;
     }
 
 }
