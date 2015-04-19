@@ -5,7 +5,7 @@ uniform float particleMultiplier;
 uniform float particleAngleScale;
 uniform float objectID;
 uniform float farClip;
-
+uniform float fov;
 
 varying float zPos;
 varying float oID;

@@ -390,8 +390,8 @@ void main(void){
 
             ///GLITCHING FROM HERE
     if (bGlitch){
-        gl_FragData[0].rgb=glitch(tex, texCoord, 0.0, 10.0 * snoise(vec2(time * 0.002, time * 0.001))) *
-                           glitch(shadowTex,texCoord,0.0, 30.5 * snoise(vec2(time * 0.002, time * 0.001))) ;
+        gl_FragData[0].rgb=glitch(tex, texCoord, 0.0, 3.0 * snoise(vec2(time * 0.002, time * 0.001))) *
+                           glitch(shadowTex,texCoord,0.0, 8.5 * snoise(vec2(time * 0.002, time * 0.001))) ;
     }
 
 

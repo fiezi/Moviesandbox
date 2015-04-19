@@ -48,38 +48,25 @@ void main(){
 
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
 
-    //black if not facing light
-
-    if (color.r<0.2 && color.b<0.2 && color.g>0.8)
-        color.a=0.0;
 
     vec4 objColor=color * gl_Color;
 
+
     objColor.r=floor(objColor.r*100.0)/100.0 ;
-    objColor.r=max(0.0,objColor.r);
+    objColor.r=min(0.99,max(0.0,objColor.r));
 
-   //transparency...
-    if (objColor.a < 0.7){
-        discard;
-    }else{
-        gl_FragDepth=gl_FragCoord.z;
-    }
+    objColor.g=floor(objColor.g*100.0)/100.0 ;
+    objColor.g=min(0.99,max(0.0,objColor.g));
 
-   if (!bComputeLight){
-        if (objColor.r>0.1){
-            objColor.r-=0.004;
-        }else{
-            objColor.r+=0.004;
-        }
+    objColor.b=floor(objColor.b*100.0)/100.0 ;
+    objColor.b=min(0.99,max(0.0,objColor.b));
 
-        //do not do blending between compute and non-compute light!
-        objColor.a=1.0;
-   }
+    //objColor.a=1.0;
 
-   if (objColor.a > 0.7)
-        objColor.a=1.0;
 
+    //don't light transparency
      gl_FragData[0]=objColor;
      gl_FragData[1].xy=packToVec2(zPos);
      gl_FragData[1].zw=packToVec2(oID);
+
 }

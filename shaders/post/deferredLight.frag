@@ -1,3 +1,6 @@
+#extension GL_EXT_gpu_shader4 : enable
+
+
 uniform float time;
 uniform float screensize;
 uniform float lighting_size;
@@ -9,10 +12,11 @@ uniform float nearClip;
 uniform float farClip;
 uniform float fov;
 
-uniform sampler2D tex; // rendered scene
+uniform sampler2D tex; // previous light scene
 uniform sampler2D depthTex; // rendered depth texture
 uniform sampler2D shadowTex; // rendered shadow textures
 uniform sampler2D normalTex; // rendered normal texture
+uniform sampler2D colorTex; // rendered normal texture
 
 uniform mat4 lightViewMatrix;
 uniform mat4 lightProjectionMatrix;
@@ -31,6 +35,7 @@ uniform vec3 camX;
 uniform vec3 camY;
 uniform vec3 camZ;
 
+//let's try passing light info per objectID
 
 varying vec2 texCoord;
 
@@ -40,7 +45,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-const float specularExp = 256.00;
+float specularExp = 128.00;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -213,8 +218,9 @@ void getPixelLoc(){
     //pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * screenY/768;
     //pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * screenX/1024;
 
-    pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * screenY/1024.0;
-    pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * screenX/1024.0;
+    //TODO:1024 being the rendertexture size!!!
+    pixelPos.x=(gl_FragCoord.x/1024.0 - 0.5) * screenX/1024.0;
+    pixelPos.y=(gl_FragCoord.y/1024.0 - 0.5) * screenY/1024.0;
 
     pixelPos.xy*=pixelPos.z;
 
@@ -242,10 +248,7 @@ vec4 computeLight(){
 
     vec4 pixelNormal=vec4(0,0,0,0);
 
-    if (oID==8.0)
-        pixelNormal.xyz=texture2D(normalTex,texCoord,5.0).xyz;
-    else
-        pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
+    pixelNormal.xyz=texture2D(normalTex,texCoord,0.0).xyz;
 
     pixelNormal-=0.5;
     pixelNormal*=2.0;
@@ -275,15 +278,28 @@ vec4 computeLight(){
     //colorLight.xyz+= NdotL  *1.0 * lightColor;
 
 
+    //specularity is third digit of alpha
+    specularExp=int(texture2D(colorTex,texCoord).g* 1000.0)%10;
 
-    if (NdotL>0.0 && specularExp >0.0){
+    specularExp*=16.0;
+
+
+    if (NdotL>0.0 && specularExp >0.5){
         vec3 NH = normalize(lightDirectionNormalized - camZ  );
         vec3 specular=1.0 * lightColor.xyz * pow(max(0.0, dot(pixelNormal.xyz,NH)),specularExp   );
-        colorLight.xyz= 1.0* specular + 1.0*colorLight.xyz;
+        colorLight.xyz= 0.5* specular + 1.0*colorLight.xyz;
     }
-
-
+    /*
+    colorLight.x=min(colorLight.x,1.0);
+    colorLight.y=min(colorLight.y,1.0);
+    colorLight.z=min(colorLight.z,1.0);
+    */
     //return vec4(1.0);
+
+    float unlit=(int(texture2D(colorTex,texCoord).r* 1000.0)%10);
+    if (unlit>1.0)
+        return (vec4(1.0));
+
     return colorLight;
 
 
@@ -308,8 +324,8 @@ vec4 shadowMapping(){
     }
 
     //where do these numbers come from? and what do they want from us?
-    //vec4 pixelPosition=vec4((texCoord.x-0.5)* 1.0   * fov/45.0, (texCoord.y-0.5)* 0.935 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
-    vec4 pixelPosition=vec4((texCoord.x-0.5)  * 0.835 * screenX/screenY * fov/45.0, (texCoord.y-0.5) * 0.835 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
+    //FINALLY FIXED THEM!
+    vec4 pixelPosition=vec4((texCoord.x-0.5)  * screenX/1024.0 * fov/45.0, (texCoord.y-0.5) * screenY/1024.0 * fov/45.0, (-zPos) * 1.0, 1.0 ) ;
     pixelPosition.xy*=zPos;
 
 
@@ -358,6 +374,12 @@ void main(){
     //gl_FragColor= texture2D(tex, texCoord) + computeLight();
     //gl_FragData[0]= computeLight() * shadowMapping();
     //gl_FragData[0]= computeLight();
+
+    specularExp=int(texture2D(colorTex,texCoord).g* 1000.0)%10;
+
+    //gl_FragData[0].rgb= vec3(specularExp*0.10);
+    //specularity:
+
     //gl_FragColor= vec4(1,0,0,1);
 
 

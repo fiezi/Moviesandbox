@@ -44,11 +44,14 @@ void Layer::setup(){
 
 void Layer::update(double deltaTime){
 
+
+
 }
 
 void Layer::updateShaders(){
 
     shaderObject* myShader= sceneData->shaderList[sceneShaderID];
+
 
     if (myShader->uniforms.find("screenX") != myShader->uniforms.end()){
         glUniform1fARB(myShader->uniforms["screenX"], renderer->screenX);
@@ -107,6 +110,9 @@ void Layer::updateShaders(){
 
     if (myShader->uniforms.find("normalTex") != myShader->uniforms.end())
         glUniform1iARB(myShader->uniforms["normalTex"], 3);
+
+    if (myShader->uniforms.find("colorTex") != myShader->uniforms.end())
+        glUniform1iARB(myShader->uniforms["colorTex"], 4);
 
 
 

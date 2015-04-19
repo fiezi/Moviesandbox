@@ -2,6 +2,8 @@ uniform float time;
 uniform float screenX;
 uniform sampler2D tex;
 uniform sampler2D depthTex; // rendered normals and depth texture
+uniform sampler2D normalTex; // rendered normals and depth texture
+uniform sampler2D colorTex; // rendered normals and depth texture
 
 
 varying vec2 texCoord;
@@ -146,17 +148,13 @@ void main(){
 
     //gl_FragData[0]=blur5(tex,gl_TexCoord[0].st,0.0);
 
-    float oID=unpackToFloat(texture2D(depthTex,gl_TexCoord[0].st).ba)*2048.0-100.0;
-    //whale
-    if (oID>8.5 && oID < 9.5)
-        gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,3.0);
-    //spray
-    else if (oID>11.5 && oID < 25.5)
-        gl_FragData[0]=blur3(tex,gl_TexCoord[0].st,4.0);
-    else if (oID>363.5 && oID < 1405.5)
-        gl_FragData[0]=blur3(tex,gl_TexCoord[0].st,5.0);
+    float normalBlur=int(texture2D(colorTex,gl_TexCoord[0].st).b* 1000.0)%10;
+    if (normalBlur>1.0)
+        gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,normalBlur);
     else
         gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,0.0);
+
+    //gl_FragData[0]=texture2D(colorTex,gl_TexCoord[0].st,4.0);
     //gl_FragData[0]=vec4(1,0,0,1);
 
 }

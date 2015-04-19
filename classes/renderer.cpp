@@ -1196,6 +1196,11 @@ void Renderer::drawNormals(Layer* layer){
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, layer->depthTex);
 
+        //we need this here for per pixel normal blurring
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, layer->colorTex);
+        glGenerateMipmapEXT(GL_TEXTURE_2D);
+
         for (int i=0;i<normalBlur;i++){
             performShader(layer,"normals","normalsBlurred",normalBlur_fb,"ssBlur");
             performShader(layer,"normalsBlurred","normals",normal_fb,"ssBlur");
@@ -1272,6 +1277,16 @@ void Renderer::drawDeferredLighting(Layer* layer){
             //set shadowTexture (might not have one) and generate MipMaps
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, shadow_tx);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
+
+            //bind color Texture just because
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, normal_tx);
+            glGenerateMipmapEXT(GL_TEXTURE_2D);
+
+            //bind color Texture just because
+            glActiveTexture(GL_TEXTURE4);
+            glBindTexture(GL_TEXTURE_2D, layer->colorTex);
             glGenerateMipmapEXT(GL_TEXTURE_2D);
             ///light&shadow rendering
 

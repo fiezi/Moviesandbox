@@ -42,22 +42,26 @@ vec2 packToVec2(float value){
 void main(){
 
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
-    vec4 objColor=color * postColor;
+    //vec4 objColor=color * postColor;
+    vec4 objColor=postColor;
 
 
     objColor.r=floor(objColor.r*100.0)/100.0 ;
-    objColor.r=max(0.0,objColor.r);
+    objColor.r=min(1.0,max(0.0,objColor.r));
 
-   if (!bComputeLight){
-        if (objColor.r>0.1){
-            objColor.r-=0.004;
-        }
-        else{
-            objColor.r+=0.004;
-        }
-        //objColor.a=1.0;
-   }
+    objColor.g=floor(objColor.g*100.0)/100.0 ;
+    objColor.g=min(1.0,max(0.0,objColor.g));
 
+    objColor.b=floor(objColor.b*100.0)/100.0 ;
+    objColor.b=min(1.0,max(0.0,objColor.b));
+
+    objColor.a=1.0;
+
+    //add large amounts of unlitness
+    objColor.r+=0.000;
+
+    //add large amounts of specularity
+    objColor.g+=0.000;
 
     gl_FragData[0]=objColor;
 

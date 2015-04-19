@@ -75,61 +75,34 @@ void main(){
 
 
     //gl_FragDepth=zPos/farClip;
-    vec4 objColor=gl_Color * postColor;
+    //vec4 objColor=gl_Color * postColor;
+    vec4 objColor=postColor;
+
+
+    objColor.r=floor(objColor.r*100.0)/100.0 ;
+    objColor.r=min(0.99,max(0.0,objColor.r));
+
+    objColor.g=floor(objColor.g*100.0)/100.0 ;
+    objColor.g=min(0.99,max(0.0,objColor.g));
+
+    objColor.b=floor(objColor.b*100.0)/100.0 ;
+    objColor.b=min(0.99,max(0.0,objColor.b));
+
+    objColor.a=1.0;
+
+    //add large amounts of unlitness
+    objColor.r+=0.001;
+
+    //add large amounts of specularity
+    objColor.g+=0.003;
+
+    //add large amounts of specularity
+    objColor.b+=0.000;
 
     objColor.a=gl_Color.a;
     gl_FragData[0]=objColor;
     gl_FragData[1].xy=packToVec2(zPos);
     gl_FragData[1].zw=packToVec2(oID);
-
-    //fog between 0.25 and 0.3
-    //nantucket...
-    float minFog=0.25;
-    float maxFog=0.35;
-
-    //once out of nantucket...
-    //float minFog=0.7;
-    //float maxFog=0.85;
-    //fog goes from 0 to 1;
-    float fog=min((zPos-minFog)*1.0/(maxFog-minFog),maxFog);
-    int fogAmountX=int(fog*screenX);
-    int fogAmountY=int(fog*screenY);
-/*
-    if (zPos>minFog){
-            //gl_FragData[0].rgb=vec3(fogAmount/100.0);
-            //gl_FragData[0].rgb=vec3(gl_FragCoord.x/1280.0);
-            //return;
-            //every pixel should be discarded when fog==100
-
-            //every 100th pixel should be discarded when fog ==0
-
-            if ( int(gl_FragCoord.x)%int(screenX/fogAmountX)<2 && int(gl_FragCoord.y)%int(screenY/fogAmountY)<2){
-              discard;
-            }
-            else{
-                gl_FragData[0].rgb=objColor.rgb+vec3(fog*8.0,fog*0.5,0.0);
-            }
-    }
-*/
-/*
-    objColor.r=floor(objColor.r*100.0)/100.0 ;
-    objColor.r=max(0.0,objColor.r);
-
-   if (!bComputeLight){
-        if (objColor.r>0.1){
-            objColor.r-=0.004;
-        }
-        else{
-            objColor.r+=0.004;
-        }
-        objColor.a=1.0;
-   }
-*/
-    //if (gl_FragCoord.z>0.15)
-    //gl_FragData[0]=objColor;
-    //gl_FragData[0]=objColor;
-
-    //gl_FragData[1] =packToVec4(zPos);
 
 
 }
