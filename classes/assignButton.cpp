@@ -45,13 +45,13 @@ void AssignButton::mouseDrag(){
 
 void AssignButton::finishDrag(){
 
+    if (parent)
+      parent->trigger(this);
+
     if (bResetAfterDrag)
         setLocation(initialLocation);
     cout << "setting to: " << initialLocation << endl;
     input->dragButton=NULL;
-
-    if (parent)
-      parent->trigger(this);
 
 }
 

@@ -51,6 +51,7 @@ void LayerInspector::update(double deltaTime){
         if (currentTab==0){
 
            for (int i=0;i<(int)actorButtons.size();i++){
+                actorButtons[i]->bDragable=true;
                 if (sceneData->actorList[i]->bSelected)
                     actorButtons[i]->buttonColor=sceneData->selectedElementColor/2.0;
                 else
@@ -364,10 +365,48 @@ void LayerInspector::trigger(MsbObject* other){
 
     for (int i=0;i<(int)actorButtons.size();i++){
         if (other==actorButtons[i]){
+
+            //give us visual feedback as to what we are hovering over
             input->worldTarget=actorReferences[i];
 
-            sceneData->controller->currentTool->selectActors(MOUSEBTNLEFT,input->worldTarget);
+            //first check our location.
+            //If we have moved, let's reorder instead of select
+
+            //relative list Location
+            //cout << "yo, here: position:" << (actorButtons[i]->location.y-(location.y+4.0*listHeight))/listHeight << " and i:" << i << endl;
+
+            cout << "do we really get a hudTarget? " << input->hudTarget->name << endl;
+            //new location:
+            //relative location in list
+            //we get a hudTarget! So let's find it!
+            for (int x=0;x<(int)actorButtons.size();x++){
+              if (actorButtons[x]==input->hudTarget){
+
+                int newLocation=x;
+                //int newLocation = floor((actorButtons[i]->location.y-(location.y+4.0*listHeight))/listHeight);
+
+                cout << "moved a LayerInspector Button from: " << i << " to: " << newLocation << endl;
+                //ActorListTab
+                sceneData->layerList[0]->actorList.insert(sceneData->layerList[0]->actorList.begin()+newLocation,actorReferences[i]);
+                if (newLocation>i)
+                    sceneData->layerList[0]->actorList.erase(sceneData->layerList[0]->actorList.begin()+i);
+                else
+                    sceneData->layerList[0]->actorList.erase(sceneData->layerList[0]->actorList.begin()+i+1);
+
+                //actorButtons[i]->remove();
+                //actorButtons.erase(actorButtons.begin()+i);
+                assembleList();
+                //first just move the button
+                Inspector::trigger(other);
+                return;
+              }
+
+            }
+
+        sceneData->controller->currentTool->selectActors(MOUSEBTNLEFT,input->worldTarget);
         }
+
+
     }
 
     Inspector::trigger(other);

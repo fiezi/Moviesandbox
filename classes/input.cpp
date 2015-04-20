@@ -133,7 +133,7 @@ void Input::update(double deltaTime){
             continue;
 
         if (mouseX > myButton->location.x && mouseX < myButton->location.x + myButton->scale.x){
-            if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y){
+            if (mouseY > myButton->location.y && mouseY < myButton->location.y + myButton->scale.y && myButton!=dragButton){
                 hudTarget=myButton;
             }
         }
