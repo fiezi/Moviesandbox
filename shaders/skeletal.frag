@@ -1,4 +1,7 @@
 uniform vec4 postColor;
+uniform bool bComputeLight;
+uniform float specularity;
+
 uniform sampler2D sceneTex;
 
 varying float zPos;
@@ -43,16 +46,33 @@ vec2 packToVec2(float value){
 void main(){
 
 
-        vec4 objColor=gl_Color * postColor;
+    vec4 objColor=gl_Color * postColor;
 
-        objColor.r=floor(objColor.r*100.0)/100.0 ;
-        objColor.r=max(0.0,objColor.r);
+    objColor.r=floor(objColor.r*100.0)/100.0 ;
+    objColor.r=min(0.99,max(0.0,objColor.r));
 
+    objColor.g=floor(objColor.g*100.0)/100.0 ;
+    objColor.g=min(0.99,max(0.0,objColor.g));
 
-        gl_FragData[0]=objColor;
+    objColor.b=floor(objColor.b*100.0)/100.0 ;
+    objColor.b=min(0.99,max(0.0,objColor.b));
 
-        gl_FragData[1].xy=packToVec2(zPos);
-        gl_FragData[1].zw=packToVec2(oID);
+    objColor.a=1.0;
+/*
+    if (!bComputeLight)
+        objColor.r+=0.005;
+
+*/
+    //add large amounts of specularity
+    objColor.g+=0.005;//*specularity;
+
+    //add large amounts of normal blur
+    objColor.b+=0.004;
+
+    gl_FragData[0]=objColor;
+
+    gl_FragData[1].xy=packToVec2(zPos);
+    gl_FragData[1].zw=packToVec2(oID);
 
 }
 

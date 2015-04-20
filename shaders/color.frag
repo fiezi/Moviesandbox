@@ -1,5 +1,6 @@
 uniform vec4 postColor;
 uniform bool bComputeLight;
+uniform float specularity;
 
 uniform float objectID;
 uniform float screenX;
@@ -89,11 +90,12 @@ void main(){
 
     objColor.a=1.0;
 
-    //add large amounts of unlitness
-    //objColor.r+=0.002;
+    if (!bComputeLight)
+        objColor.r+=0.005;
+
 
     //add large amounts of specularity
-    objColor.g+=0.008;
+    objColor.g+=0.001*specularity;
 
     //add large amounts of normal blur
     objColor.b+=0.004;

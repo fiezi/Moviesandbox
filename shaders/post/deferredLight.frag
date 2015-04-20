@@ -280,9 +280,7 @@ vec4 computeLight(){
 
     //specularity is third digit of alpha
     specularExp=int(texture2D(colorTex,texCoord).g* 1000.0)%10;
-
     specularExp*=16.0;
-
 
     if (NdotL>0.0 && specularExp >0.5){
         vec3 NH = normalize(lightDirectionNormalized - camZ  );
@@ -295,11 +293,17 @@ vec4 computeLight(){
     colorLight.z=min(colorLight.z,1.0);
     */
     //return vec4(1.0);
-
+    /*
     float unlit=(int(texture2D(colorTex,texCoord).r* 1000.0)%10);
-    if (unlit>1.0)
-        return (vec4(1.0));
+    if (unlit>1.0){
+        unlit=unlit*0.1;
+        vec4 mix= unlit * vec4(1.0) + (1.0-unlit)* colorLight;
+        mix.a=1.0;
+        //return mix;
+        return vec4(1.0);
 
+    }
+    */
     return colorLight;
 
 

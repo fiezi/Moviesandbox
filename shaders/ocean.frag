@@ -88,18 +88,18 @@ void main(){
     objColor.b=floor(objColor.b*100.0)/100.0 ;
     objColor.b=min(0.99,max(0.0,objColor.b));
 
-    objColor.a=1.0;
+    //objColor.a=1.0;
 
-    //add large amounts of unlitness
-    objColor.r+=0.001;
+    if (!bComputeLight)
+        objColor.r+=0.005;
 
     //add large amounts of specularity
     objColor.g+=0.003;
 
-    //add large amounts of specularity
+    //add large amounts of normalBlur?
     objColor.b+=0.000;
 
-    objColor.a=gl_Color.a;
+    //objColor.a=gl_Color.a;
     gl_FragData[0]=objColor;
     gl_FragData[1].xy=packToVec2(zPos);
     gl_FragData[1].zw=packToVec2(oID);

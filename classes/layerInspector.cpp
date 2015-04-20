@@ -53,7 +53,7 @@ void LayerInspector::update(double deltaTime){
 
            for (int i=0;i<(int)actorButtons.size();i++){
                 actorButtons[i]->bDragable=true;
-                if (sceneData->actorList[i]->bSelected)
+                if (sceneData->layerList[0]->actorList[i]->bSelected)
                     actorButtons[i]->buttonColor=sceneData->selectedElementColor/2.0;
                 else
                     actorButtons[i]->buttonColor=sceneData->deselectedElementColor;
@@ -375,7 +375,9 @@ void LayerInspector::trigger(MsbObject* other){
             //relative location in list
             //we get a hudTarget! So let's find it!
             for (int x=0;x<(int)actorButtons.size();x++){
-              if (actorButtons[x]==input->hudTarget){
+
+              //exclude triggered button, otherwise we cannot click anymore!
+              if (actorButtons[x]==input->hudTarget && actorButtons[x]!=other ){
 
                 //int newLocation = floor((actorButtons[i]->location.y-(location.y+4.0*listHeight))/listHeight);
                 cout << "moved a LayerInspector Button from: " << i << " to: " << x << endl;

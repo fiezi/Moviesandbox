@@ -1,6 +1,9 @@
 uniform sampler2D tex;
 uniform vec4 postColor;
 uniform bool bComputeLight;
+uniform float specularity;
+
+
 uniform float farClip;
 
 varying float zPos;
@@ -63,6 +66,14 @@ void main(){
 
     //objColor.a=1.0;
 
+    if (!bComputeLight)
+        objColor.r+=0.009;
+
+    if (objColor.a<0.9){
+        //objColor.a=0.0;
+        //gl_FragDepth=1024.0
+        discard;
+    }
 
     //don't light transparency
      gl_FragData[0]=objColor;
