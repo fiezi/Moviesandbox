@@ -51,20 +51,26 @@ void main(){
     gl_FragDepth=0.9999999;
     vec4 objColor=color;
 
+    objColor.r=(int(objColor.r*1000.0)/10)*0.01 ;
+    objColor.r=min(0.99,max(0.0,objColor.r));
 
-    objColor.r=floor(objColor.r*1000.0)/1000.0 ;
-    objColor.r=min(1.0,max(0.0,objColor.r));
+    objColor.g=(int(objColor.g*1000.0)/10)*0.01 ;
+    objColor.g=min(0.99,max(0.0,objColor.g));
 
-    objColor.g=floor(objColor.g*100.0)/100.0 ;
-    objColor.g=min(1.0,max(0.0,objColor.g));
+    objColor.b=(int(objColor.b*1000.0)/10)*0.01 ;
+    objColor.b=min(0.99,max(0.0,objColor.b));
 
-    objColor.b=floor(objColor.b*1000.0)/1000.0 ;
-    objColor.b=min(1.0,max(0.0,objColor.b));
+    if (!bComputeLight)
+        objColor.r+=0.005;
 
-    objColor.a=1.0;
+    //add large amounts of specularity
+    objColor.g+=0.001;
 
+    //add large amounts of normalBlur?
+    objColor.b+=0.001;
 
-     gl_FragData[0]=objColor;
+    gl_FragData[0]=objColor;
+
      //gl_FragData[0].rgb=vec3(0.0);
      gl_FragData[1].xy=packToVec2(0.9999999);
      gl_FragData[1].zw=packToVec2(oID);

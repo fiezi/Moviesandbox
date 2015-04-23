@@ -54,22 +54,25 @@ void main(){
 
     vec4 objColor=color * gl_Color;
 
+    objColor.r=(int(objColor.r*1000.0)/10)*0.01 ;
+    objColor.r=min(0.90,max(0.0,objColor.r));
 
-    objColor.r=floor(objColor.r*100.0)/100.0 ;
-    objColor.r=min(0.99,max(0.0,objColor.r));
+    objColor.g=(int(objColor.g*1000.0)/10)*0.01 ;
+    objColor.g=min(0.90,max(0.0,objColor.g));
 
-    objColor.g=floor(objColor.g*100.0)/100.0 ;
-    objColor.g=min(0.99,max(0.0,objColor.g));
-
-    objColor.b=floor(objColor.b*100.0)/100.0 ;
-    objColor.b=min(0.99,max(0.0,objColor.b));
-
-    //objColor.a=1.0;
+    objColor.b=(int(objColor.b*1000.0)/10)*0.01 ;
+    objColor.b=min(0.90,max(0.0,objColor.b));
 
     if (!bComputeLight)
-        objColor.r+=0.009;
+        objColor.r+=0.005;
 
-    if (objColor.a<0.9){
+    //add large amounts of specularity
+    objColor.g+=0.009;
+
+    //add large amounts of normalBlur?
+    objColor.b+=0.005;
+
+    if (objColor.a<0.8){
         //objColor.a=0.0;
         //gl_FragDepth=1024.0
         discard;

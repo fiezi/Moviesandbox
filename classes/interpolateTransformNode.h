@@ -1,23 +1,27 @@
-#ifndef H_INTERPOLATENODE
-#define H_INTERPOLATENODE
+#ifndef H_INTERPOLATETRANSFORMNODE
+#define H_INTERPOLATETRANSFORMNODE
 
 #include "node.h"
 #include "interpolationHelper.h"
 
-class InterpolateNode: public Node{
+class InterpolateTransformNode: public Node{
 
 public:
 
     Actor* moveActor;
-    Actor* targetActor;
 
     float moveTime;
+
+    Vector3f loc;
+    Vector3f rot;
+    Vector3f scl;
+
     bool bNeedMover;
     //hack for turning differently...
     bool bTurnOnFly;
 
-    InterpolateNode();
-    ~InterpolateNode();
+    InterpolateTransformNode();
+    ~InterpolateTransformNode();
 
     virtual void registerProperties();
 
@@ -31,4 +35,4 @@ public:
 
     virtual void create();
 };
-#endif // INTERPOLATENODE
+#endif //INTERPOLATETRANSFORMNODE

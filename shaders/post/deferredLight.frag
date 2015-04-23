@@ -45,7 +45,7 @@ varying vec3 lightColor;
 varying vec4 lightPos;
 varying mat4 lightSpaceMat;
 
-float specularExp = 128.00;
+float specularExp = 0.00;
 
 //pixel position stuff
 vec4 pixelPos;
@@ -210,23 +210,15 @@ void getPixelLoc(){
 
     //zPos= unpackToFloat(blur3(depthTex,tc,1.0).rg) * (farClip);
     oID=unpackToFloat(texture2D(depthTex,tc).ba)*2048.0-100.0;
-//oID = unpackToFloat(texture2D(depthTex,tc,0.0).ba) * 2048.0-100.0;
-        zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
+    zPos= unpackToFloat(texture2D(depthTex,tc).rg) * (farClip);
 
     pixelPos.z=(1.0-zPos);
-    //pixelPos.z=zPos;
-    //pixelPos.y=(gl_FragCoord.y/screenY - 0.5) * screenY/768;
-    //pixelPos.x=(gl_FragCoord.x/screenX - 0.5) * screenX/1024;
 
     //TODO:1024 being the rendertexture size!!!
     pixelPos.x=(gl_FragCoord.x/1024.0 - 0.5) * screenX/1024.0;
     pixelPos.y=(gl_FragCoord.y/1024.0 - 0.5) * screenY/1024.0;
 
     pixelPos.xy*=pixelPos.z;
-
-
-
-    //pixelPos.z-=1.0;
 
 }
 
@@ -242,9 +234,6 @@ vec4 computeLight(){
     //for background separation
     if (zPos>farClip)
         return vec4(1.0);
-    //vec4 colorLight=gl_LightSource[0].ambient*texture2D(tex, texCoord);
-    //vec4 colorLight=vec4(0.0,0.0,0.0,1.0);
-
 
     vec4 pixelNormal=vec4(0,0,0,0);
 
@@ -278,32 +267,25 @@ vec4 computeLight(){
     //colorLight.xyz+= NdotL  *1.0 * lightColor;
 
 
-    //specularity is third digit of alpha
+    //specularity is third digit of green
     specularExp=int(texture2D(colorTex,texCoord).g* 1000.0)%10;
-    specularExp*=16.0;
+    if (specularExp>1.0)
+        specularExp*=8;
+    else
+        specularExp*=0;
 
     if (NdotL>0.0 && specularExp >0.5){
         vec3 NH = normalize(lightDirectionNormalized - camZ  );
         vec3 specular=1.0 * lightColor.xyz * pow(max(0.0, dot(pixelNormal.xyz,NH)),specularExp   );
         colorLight.xyz= 0.5* specular + 1.0*colorLight.xyz;
     }
-    /*
-    colorLight.x=min(colorLight.x,1.0);
-    colorLight.y=min(colorLight.y,1.0);
-    colorLight.z=min(colorLight.z,1.0);
-    */
-    //return vec4(1.0);
-    /*
-    float unlit=(int(texture2D(colorTex,texCoord).r* 1000.0)%10);
-    if (unlit>1.0){
-        unlit=unlit*0.1;
-        vec4 mix= unlit * vec4(1.0) + (1.0-unlit)* colorLight;
-        mix.a=1.0;
-        //return mix;
-        return vec4(1.0);
 
+
+    float unlit=int(texture2D(colorTex,texCoord).r* 1000.0)%10;
+    if (unlit>10.0){
+        return vec4(1.0);
     }
-    */
+
     return colorLight;
 
 

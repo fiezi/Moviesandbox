@@ -3,6 +3,7 @@ uniform sampler2D tex;
 
 uniform vec4 postColor;
 uniform bool bComputeLight;
+
 uniform float objectID;
 uniform float farClip;
 
@@ -42,36 +43,36 @@ vec2 packToVec2(float value){
 void main(){
 
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
-    //vec4 objColor=color * postColor;
-    vec4 objColor=postColor;
 
-
-    objColor.r=floor(objColor.r*100.0)/100.0 ;
-    objColor.r=min(1.0,max(0.0,objColor.r));
-
-    objColor.g=floor(objColor.g*100.0)/100.0 ;
-    objColor.g=min(1.0,max(0.0,objColor.g));
-
-    objColor.b=floor(objColor.b*100.0)/100.0 ;
-    objColor.b=min(1.0,max(0.0,objColor.b));
+    vec4 objColor=color * postColor;
 
     objColor.a=1.0;
 
-    //add large amounts of unlitness
-    objColor.r+=0.000;
+    objColor.r=(int(objColor.r*1000.0)/10)*0.01 ;
+    objColor.r=min(0.99,max(0.0,objColor.r));
+
+    objColor.g=(int(objColor.g*1000.0)/10)*0.01 ;
+    objColor.g=min(0.99,max(0.0,objColor.g));
+
+    objColor.b=(int(objColor.b*1000.0)/10)*0.01 ;
+    objColor.b=min(0.99,max(0.0,objColor.b));
+
+    if (!bComputeLight)
+        objColor.r+=0.005;
 
     //add large amounts of specularity
-    objColor.g+=0.000;
+    objColor.g+=0.001;
+
+    //add large amounts of normalBlur?
+    objColor.b+=0.001;
+
 
     gl_FragData[0]=objColor;
 
 //transparency...
-    if (objColor.a < 0.01){
-        discard;
-    }else{
-        gl_FragDepth=gl_FragCoord.z;
-        gl_FragData[0].a=1.0;
-    }
+    //if (objColor.a < 0.2){
+    //    discard;
+    //}
     //gl_FragData[0].a=1.0;
 
      gl_FragData[1].xy=packToVec2(zPos);

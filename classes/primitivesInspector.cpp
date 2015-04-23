@@ -244,6 +244,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
     mine->listName.push_back("TriggerEvent");
     mine->listName.push_back("ConsoleCommand");
     mine->listName.push_back("Interpolate");
+    mine->listName.push_back("InterpolateTransform");
     mine->listName.push_back("SetWalkTarget");
     mine->listName.push_back("SetHidden");
     mine->listName.push_back("TriggerActor");
@@ -265,6 +266,7 @@ void PrimitivesInspector::NodeTab::assembleList(){
     mine->listProp.push_back("16TriggerEventNode");
     mine->listProp.push_back("18ConsoleCommandNode");
     mine->listProp.push_back("15InterpolateNode");
+    mine->listProp.push_back("24InterpolateTransformNode");
     mine->listProp.push_back("17SetWalkTargetNode");
     mine->listProp.push_back("13SetHiddenNode");
     mine->listProp.push_back("16TriggerActorNode");

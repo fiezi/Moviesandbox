@@ -1,3 +1,4 @@
+#extension GL_EXT_gpu_shader4: enable
 uniform float time;
 uniform float screenX;
 uniform sampler2D tex;
@@ -148,9 +149,9 @@ void main(){
 
     //gl_FragData[0]=blur5(tex,gl_TexCoord[0].st,0.0);
 
-    float normalBlur=int(texture2D(colorTex,gl_TexCoord[0].st).b* 1000.0)%10;
-    if (normalBlur>1.0)
-        gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,normalBlur);
+    float normalBlur=(int(texture2D(colorTex,gl_TexCoord[0].st,0.0).b * 1000.0)%10);
+    if (normalBlur>0)
+        gl_FragData[0]=blur5(tex,gl_TexCoord[0].st,normalBlur);
     else
         gl_FragData[0]=texture2D(tex,gl_TexCoord[0].st,0.0);
 

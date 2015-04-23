@@ -61,43 +61,25 @@ vec2 packToVec2(float value){
 
 void main(){
 
-    //if (gl_FragCoord.y>550)
-    //    discard;
+    vec4 objColor=gl_Color * postColor;
 
-    //float scal= -1.0 * pSize/screenX;
-    //zPos+=abs(gl_FragCoord.x/screenX-(coord.x- pSize/2.0 )  ) * scal;
-    //zPos+=abs(gl_FragCoord.y/screenY-coord.y-pSize/2.0)*scal;
-
-   // if (abs(gl_FragCoord.y/screenY-coord.y)>0.01)
-    //    discard;
-    //if (abs(gl_FragCoord.x/screenX-coord.x)>0.01)
-     //   discard;
-
-
-    //gl_FragDepth=zPos/farClip;
-    //vec4 objColor=gl_Color * postColor;
-    vec4 objColor=postColor;
-
-
-    objColor.r=floor(objColor.r*100.0)/100.0 ;
+    objColor.r=(int(objColor.r*1000.0)/10)*0.01 ;
     objColor.r=min(0.99,max(0.0,objColor.r));
 
-    objColor.g=floor(objColor.g*100.0)/100.0 ;
+    objColor.g=(int(objColor.g*1000.0)/10)*0.01 ;
     objColor.g=min(0.99,max(0.0,objColor.g));
 
-    objColor.b=floor(objColor.b*100.0)/100.0 ;
+    objColor.b=(int(objColor.b*1000.0)/10)*0.01 ;
     objColor.b=min(0.99,max(0.0,objColor.b));
-
-    //objColor.a=1.0;
 
     if (!bComputeLight)
         objColor.r+=0.005;
 
     //add large amounts of specularity
-    objColor.g+=0.003;
+    objColor.g+=0.005;
 
     //add large amounts of normalBlur?
-    objColor.b+=0.000;
+    objColor.b+=0.001;
 
     //objColor.a=gl_Color.a;
     gl_FragData[0]=objColor;

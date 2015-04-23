@@ -91,6 +91,7 @@
 #include "rootNode.h"
 #include "waitForTimerNode.h"
 #include "interpolateNode.h"
+#include "interpolateTransformNode.h"
 #include "keyInputNode.h"
 #include "switchCameraNode.h"
 #include "performActionNode.h"
@@ -266,6 +267,7 @@ void SceneData::fillGlobalLists(){
     createActorID(new WaitForTimerNode);
     createActorID(new WalkToNode);
     createActorID(new InterpolateNode);
+    createActorID(new InterpolateTransformNode);
     createActorID(new SwitchCameraNode);
     createActorID(new PerformActionNode);
     createActorID(new SetPropertyNode);

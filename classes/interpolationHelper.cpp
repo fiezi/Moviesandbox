@@ -155,6 +155,7 @@ void InterpolationHelper::interpolateTransform(){
           currentKeyTransform++;
           if (currentKeyTransform+1 >= (int)keyFrames.size()){
             bFinishedTransform=true;
+            cout << "finished interpolateTransform!" << endl;
             return;
             }
           }
@@ -174,15 +175,18 @@ void InterpolationHelper::interpolateTransform(){
         relativeTime=(int)relativeTime/30;
         relativeTime=relativeTime*0.3;
 */
-    if (bAdditive){
-        transformOne=moveActor->transformMatrix;                //
-        relativeTime*=relativeTime;      //
-    }else{
-        transformOne=keyFrames[currentKeyTransform]->transformKey;
-    }
 
 
     transformTwo=keyFrames[currentKeyTransform+1]->transformKey;
+
+
+   if (bAdditive){
+        transformOne=moveActor->transformMatrix;                //
+        //transformOne.identity();                //
+        //relativeTime*=relativeTime;      //
+    }else{
+        transformOne=keyFrames[currentKeyTransform]->transformKey;
+    }
 
        float x=relativeTime*2.0f;
         float y=0.0f;
@@ -211,6 +215,23 @@ void InterpolationHelper::interpolateTransform(){
 	resultingRotation=normalizeRotations(resultingRotation);
 	resultingTransform.setRotation(resultingRotation);
 
+    Vector3f scaleOne=Vector3f(transformOne[0],transformOne[5],transformOne[10]);
+    Vector3f scaleTwo=Vector3f(transformTwo[0],transformTwo[5],transformTwo[10]);
+    if (bAdditive){
+        scaleOne=Vector3f(0,0,0);
+    }
+    Vector3f resultingscale=scaleOne.lerp(y,scaleTwo);
+
+    if (bAdditive){
+    //set Scale in result
+        resultingTransform[0]=transformOne[0]+resultingscale.x;
+        resultingTransform[5]=transformOne[5]+resultingscale.y;
+        resultingTransform[10]=transformOne[0]+resultingscale.z;
+    }else{
+        resultingTransform[0]=resultingscale.x;
+        resultingTransform[5]=resultingscale.y;
+        resultingTransform[10]=resultingscale.z;
+    }
     //apply resulting position
     if (bRelative){
 		//apply rotation
@@ -220,6 +241,9 @@ void InterpolationHelper::interpolateTransform(){
 		//apply rotation
 		moveActor->transformMatrix=resultingTransform;
 	}
+
+
+
 }
 
 void InterpolationHelper::interpolateMatrix(){

@@ -439,13 +439,13 @@ void main(void){
         gl_FragData[0].b*=1.15;
         gl_FragData[0].b+=0.051;
     }
-
     ///fog... is done in ocean shader...
 
 
 
     ///
     gl_FragData[0]=gl_FragData[0] * 0.4 + gl_FragData[0] * greyValue * 0.6;
+
 
     //if (bInvert)
     //    gl_FragData[0].rgb=1C:\Moviesandbox\config.xml.0-gl_FragData[0].rgb;
