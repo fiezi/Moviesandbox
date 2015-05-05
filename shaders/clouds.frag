@@ -93,7 +93,7 @@ void main(){
     objColor.g+=0.000;
 
     //add large amounts of normalBlur?
-    objColor.b+=0.002;
+    objColor.b+=0.006;
 
 
     gl_FragData[0]=objColor;

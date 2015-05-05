@@ -76,7 +76,7 @@ void main(){
         objColor.r+=0.005;
 
     //add large amounts of specularity
-    objColor.g+=0.005;
+    objColor.g+=0.009;
 
     //add large amounts of normalBlur?
     objColor.b+=0.001;

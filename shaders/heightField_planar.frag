@@ -45,6 +45,7 @@ void main(){
     vec4 color = texture2D(tex,gl_TexCoord[0].st);
 
     vec4 objColor=color * postColor;
+    objColor=postColor;
 
     objColor.a=1.0;
 
@@ -61,10 +62,10 @@ void main(){
         objColor.r+=0.005;
 
     //add large amounts of specularity
-    objColor.g+=0.001;
+    objColor.g+=0.000;
 
     //add large amounts of normalBlur?
-    objColor.b+=0.001;
+    objColor.b+=0.000;
 
 
     gl_FragData[0]=objColor;

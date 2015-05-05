@@ -118,10 +118,10 @@ void main(){
     //myVertex.x+=0.02*sin(2.0*myVertex.y*20.0+time*0.002);
     myVertex.y+=0.01*sin(5.0*myVertex.x*2.0+time*0.0002);
     //myVertex.y+=0.015 * snoise(vec2(5.1*myVertex.x+time*0.0001,2.1*myVertex.y+time*0.0001));
-    myVertex.x+=0.025*sin(30.0*myVertex.y+time*0.0015);// *snoise(vec2(10.1*myVertex.y+time*0.001,1.1*myVertex.y+time*0.001));
+    //myVertex.x+=0.025*sin(30.0*myVertex.y+time*0.0015);// *snoise(vec2(10.1*myVertex.y+time*0.001,1.1*myVertex.y+time*0.001));
     //nice ocean
-    myVertex.z=0.25 * sin (120.0*myVertex.x + time*0.0015);
-    myVertex.z+=0.25*sin(60.0*myVertex.y+time*0.0005);
+    myVertex.z=0.5 * sin (120.0*myVertex.x + time*0.0015);
+    myVertex.z+=0.5*sin(60.0*myVertex.y+time*0.0005);
     //noisy ocean
     //myVertex.z+=0.1*snoise(vec2(10.0*myVertex.y+time*0.0006,10.0*myVertex.y+time*0.0006));
     //myVertex.z+=0.1*snoise(vec2(40.0*myVertex.x+time*0.0005,40.0*myVertex.x+time*0.0005));

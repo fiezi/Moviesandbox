@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <Moviesandbox>
-    <Settings WindowSizeX="1280" WindowSizeY="800" ScreenSizeX="1024" ScreenSizeY="1024" bWarpMouse="0" bFullScreen="0" BackgroundTex="background" bDrawLighting="1" bMultisample="1" numSamples="4" ShadowSize="1.0" LightingSize="1.0" SceneSize="1.0" MouseSensitivity="0.08" MoveSpeed="10.0" FOV="45" SceneTemplateName="blank.scene" StartProject="C:/Moviesandbox/projects/mobyDick/" />
+    <Settings WindowSizeX="1280" WindowSizeY="800" ScreenSizeX="1024" ScreenSizeY="1024" bWarpMouse="0" bFullScreen="0" BackgroundTex="background" bDrawLighting="1" bMultisample="1" numSamples="4" ShadowSize="1" LightingSize="1" SceneSize="1" MouseSensitivity="0.1" MoveSpeed="10" FOV="45" SceneTemplateName="blank.scene" StartProject="C:/Moviesandbox/projects/mobyDick/" />
+    <QuadPoints xP="mat4f 47.000000 327.000000 310.000000 48.000000 335.000000 641.000000 636.000000 321.000000 649.000000 987.000000 984.000000 646.000000 0.000000 0.000000 0.000000 1.000000" yP="mat4f 315.000000 175.000000 558.000000 531.000000 177.000000 175.000000 551.000000 546.000000 178.000000 245.000000 521.000000 550.000000 0.000000 0.000000 0.000000 1.000000" />
     <ExternalInput taskName="moviesandbox" filenameWin32="./Moviesandbox.exe" filenameOSX="./Moviesandbox.app/Contents/MacOS/Moviesandbox" filenameLinux="./Moviesandbox" />
     <ExternalInput taskName="kinectInput" filenameWin32="tools/msbKinect/msbKinect.exe" filenameOSX="tools/msbKinect/msbKinect.app/Contents/MacOS/msbKinect" filenameLinux="tools/msbKinect/msbKinect" />
     <ExternalInput taskName="audioInput" filenameWin32="tools/AudioTool.exe" filenameOSX="NULL" filenameLinux="NULL" />

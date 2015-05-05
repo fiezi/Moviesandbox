@@ -135,6 +135,8 @@
     <Shader shaderID="heightfield" vertexShaderFilename="heightField.vert" fragmentShaderFilename="heightField.frag" />
     <Shader shaderID="heightfieldPlanar" vertexShaderFilename="heightField_planar.vert" fragmentShaderFilename="heightField_planar.frag" />
     <Shader shaderID="ocean" vertexShaderFilename="ocean.vert" fragmentShaderFilename="ocean.frag" />
+    <Shader shaderID="clouds" vertexShaderFilename="clouds.vert" fragmentShaderFilename="clouds.frag" />
+    <Shader shaderID="sails" vertexShaderFilename="sails.vert" fragmentShaderFilename="sails.frag" />
 
     <Shader shaderID="skinning" vertexShaderFilename="skinning.vert" fragmentShaderFilename="skinning.frag" />
 

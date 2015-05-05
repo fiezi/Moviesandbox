@@ -304,6 +304,12 @@
 		<Unit filename="classes/interpolateNode.h">
 			<Option virtualFolder="Nodes/" />
 		</Unit>
+		<Unit filename="classes/interpolateTransformNode.cpp">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
+		<Unit filename="classes/interpolateTransformNode.h">
+			<Option virtualFolder="Nodes/" />
+		</Unit>
 		<Unit filename="classes/interpolationHelper.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -835,6 +841,8 @@
 		<Unit filename="shaders/buttonColor.vert" />
 		<Unit filename="shaders/buttonTexture.frag" />
 		<Unit filename="shaders/buttonTexture.vert" />
+		<Unit filename="shaders/clouds.frag" />
+		<Unit filename="shaders/clouds.vert" />
 		<Unit filename="shaders/color.frag" />
 		<Unit filename="shaders/color.vert" />
 		<Unit filename="shaders/colorAlphaID.frag" />
@@ -867,6 +875,8 @@
 		<Unit filename="shaders/post/ssBlur.vert" />
 		<Unit filename="shaders/post/ssNormal.frag" />
 		<Unit filename="shaders/post/ssNormal.vert" />
+		<Unit filename="shaders/sails.frag" />
+		<Unit filename="shaders/sails.vert" />
 		<Unit filename="shaders/skeletal.frag" />
 		<Unit filename="shaders/skeletal.vert" />
 		<Unit filename="shaders/skeletalCab.frag" />

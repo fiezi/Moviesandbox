@@ -325,7 +325,7 @@ SceneData::SceneData(){
     physicsTime=0.0;                 //time for physics step (sometimes deltaTime is too small to advance physics...)
 
         //Control stuff
-    mouseSensitivity=0.005;
+    mouseSensitivity=0.1;
     moveSpeed=0.1;
 
     content=NULL;                   //the list of things we create at program start
@@ -539,6 +539,16 @@ void SceneData::loadPreferences(){
     //setting start scene
     startProject=element->Attribute("StartProject");
 
+    //load Quadwarping
+    element=hRoot.FirstChild( "QuadPoints" ).Element();
+    mStr=element->Attribute("xP");
+    cout << mStr << endl;
+    renderer->memberFromString(&renderer->property["XP"],mStr);
+
+    mStr=element->Attribute("yP");
+    renderer->memberFromString(&renderer->property["YP"],mStr);
+
+
     //setting external Program connections
     element=hRoot.FirstChild( "ExternalInput" ).Element();
     while(element){
@@ -622,6 +632,8 @@ void SceneData::savePreferences(){
 
  cout << "Loading Config file" <<endl;
 
+    switchToExePath();
+
     TiXmlDocument doc( "config.xml" );
     if (!doc.LoadFile()) {
         cout << "Cannot find config file, or config file corrupt. Exiting..." << endl;
@@ -652,8 +664,8 @@ void SceneData::savePreferences(){
 
 
     //windowSize
-    element->SetAttribute("WindowSizeX", renderer->screenX);
-    element->SetAttribute("WindowSizeY", renderer->screenY);
+    //element->SetAttribute("WindowSizeX", renderer->windowX);
+    //element->SetAttribute("WindowSizeY", renderer->windowY);
 
     //renderscreen
     element->SetAttribute("ScreenSizeX", renderer->screenX);
@@ -687,7 +699,7 @@ void SceneData::savePreferences(){
     element->SetAttribute("SceneSize", renderer->scene_size);
 
 
-    element->SetAttribute("MouseSensitivity",mouseSensitivity);
+    //element->SetAttribute("MouseSensitivity",mouseSensitivity);
     element->SetAttribute("MoveSpeed", moveSpeed);
 
     element->SetAttribute("FOV", renderer->fov);
@@ -695,6 +707,12 @@ void SceneData::savePreferences(){
     //setting start scene
     element->SetAttribute("StartProject",startProject);
 
+    //save QuadWarping Points
+    element=hRoot.FirstChild( "QuadPoints" ).Element();
+    element->SetAttribute("xP", memberToString(&renderer->property["XP"]));
+    element->SetAttribute("yP", memberToString(&renderer->property["YP"]));
+
+    doc.SaveFile();
 
     //check for my.project and create if not exists
 
@@ -1704,6 +1722,9 @@ void SceneData::saveScene(std::string sceneName, bool bStart){
 
     saveAll(sceneName);
     currentScene=sceneName;
+
+
+    savePreferences();
 }
 
 void SceneData::loadScene(std::string sceneName, bool bStart){

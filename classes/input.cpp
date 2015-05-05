@@ -32,6 +32,7 @@ Input::Input(){
 
     bWarpMouse=false;
     bQuadWarp=false;
+    qwCurrentPoint=0;
 
     pressedLeft=false,
     pressedRight=false,

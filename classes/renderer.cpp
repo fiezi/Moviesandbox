@@ -235,11 +235,32 @@ Renderer::Renderer(){
     yP[2]=800;
     yP[3]=800;
 
+    xP[4]=0;
+    xP[5]=1280;
+    xP[6]=1280;
+    xP[7]=0;
+
+    yP[4]=0;
+    yP[5]=0;
+    yP[6]=800;
+    yP[7]=800;
+
+    xP[8]=0;
+    xP[9]=1280;
+    xP[10]=1280;
+    xP[11]=0;
+
+    yP[8]=0;
+    yP[9]=0;
+    yP[10]=800;
+    yP[11]=800;
+
 
 	registerProperties();
 }
 
 Renderer::~Renderer(){
+
 
             glDeleteFramebuffersEXT(1, &lighting_fb);
             glDeleteFramebuffersEXT(1, &lighting_fb_buffer);
@@ -298,6 +319,9 @@ void Renderer::registerProperties(){
     createMemberID("SHADOW_SIZE",&shadow_size,this);
 
     createMemberID("SCENE_SIZE",&scene_size,this);
+
+    createMemberID("XP",&xP,this);
+    createMemberID("YP",&yP,this);
 
 }
 
@@ -973,31 +997,119 @@ void Renderer::draw(){
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, sceneData->layerList[i]->depthTex);
 
+
+            //quad warping three times
             //Quad Mapping for projectors... disabled because of no interface - for now!
 
+            Vector2f spread=Vector2f(1040,0);
 
+            /*********************************************************************************************************************************************************************
+            FIRST MONITOR
+            ******************************************************************/
+
+            sceneData->layerList[i]->texScale=Vector3f(1.0/3.0,1.0,1.0);
+            //keep our matrix alive
+            glPushMatrix();
+
+                if (input->bQuadWarp){
+                    xP[input->qwCurrentPoint]=input->mouseX;
+                    yP[input->qwCurrentPoint]=input->mouseY;
+                }
+                //cout << input->mouseX << " and " << input->mouseY << endl;
+                //will be 1280
+                Vector2f src[]={Vector2f(0,0),Vector2f(1024,0),Vector2f(1024,768),Vector2f(0,768)};
+
+                //Berlin:
+                //Vector2f dst[]={Vector2f(0,0),Vector2f(1280.0 *1.0/3.0 -10.0,0),Vector2f(1280.0 *1.0/3.0,800),Vector2f(0,800)};
+                Vector2f dst[]={Vector2f(xP[0],yP[0]),Vector2f(xP[1],yP[1]),Vector2f(xP[2],yP[2]),Vector2f(xP[3],yP[3])};
+
+                GLfloat matrix[16];
+                findHomography(src,dst,matrix);
+                glMultMatrixf(matrix);
+
+
+                drawButton(sceneData->layerList[i]);
+            glPopMatrix();
+
+
+            /*********************************************************************************************************************************************************************
+            SECOND MONITOR
+            ******************************************************************/
+
+            sceneData->layerList[i]->texTranslation=Vector3f(1.0/3.0,0.0,0.0);
+
+            glPushMatrix();
+
+                if (input->bQuadWarp && input->qwCurrentPoint>3 && input->qwCurrentPoint< 8){
+                    xP[input->qwCurrentPoint]=input->mouseX;
+                    yP[input->qwCurrentPoint]=input->mouseY;
+                }
+                //cout << input->mouseX << " and " << input->mouseY << endl;
+                Vector2f src2[]={Vector2f(0,0),Vector2f(1024.0,0),Vector2f(1024.0,768),Vector2f(0.0,768)};
+                //Berlin:
+                //Vector2f dst2[]={Vector2f(0,0),Vector2f(1280.0,0),Vector2f(1280.0,800),Vector2f(0,800)};
+                Vector2f dst2[]={Vector2f(xP[4+0],yP[4+0]),Vector2f(xP[4+1],yP[4+1]),Vector2f(xP[4+2],yP[4+2]),Vector2f(xP[4+3],yP[4+3])};
+                findHomography(src2,dst2,matrix);
+                glMultMatrixf(matrix);
+
+                drawButton(sceneData->layerList[i]);
+            glPopMatrix();
+
+            /*********************************************************************************************************************************************************************
+            THIRD MONITOR
+            ******************************************************************/
+
+            sceneData->layerList[i]->texTranslation+=Vector3f(1.0/3.0,0.0,0.0);
+            glPushMatrix();
+                if (input->bQuadWarp && input->qwCurrentPoint > 8){
+                    xP[input->qwCurrentPoint]=input->mouseX;
+                    yP[input->qwCurrentPoint]=input->mouseY;
+                }
+                Vector2f src3[]={Vector2f(0,0),Vector2f(1024,0),Vector2f(1024,768),Vector2f(0,768)};
+                //Berlin:
+                Vector2f dst3[]={Vector2f(xP[8+0],yP[8+0]),Vector2f(xP[8+1],yP[8+1]),Vector2f(xP[8+2],yP[8+2]),Vector2f(xP[8+3],yP[8+3])};
+                findHomography(src3,dst3,matrix);
+                glMultMatrixf(matrix);
+                drawButton(sceneData->layerList[i]);
+            glPopMatrix();
+
+            /*********************************************************************************************************************************************************************
+            RESET
+            ******************************************************************/
+
+            sceneData->layerList[i]->texTranslation=Vector3f(0.0,0.0,0.0);
+
+            /*
+
+
+            glPopMatrix();
+            glTranslatef(spread.x,spread.y,0.0);
+            glPushMatrix();
+
+            glTranslatef(spread.x,spread.y,0);
+
+            //third one
             if (input->bQuadWarp){
                 xP[input->qwCurrentPoint]=input->mouseX;
                 yP[input->qwCurrentPoint]=input->mouseY;
             }
             //cout << input->mouseX << " and " << input->mouseY << endl;
 
-            Vector2f src[]={Vector2f(0,0),Vector2f(1280,0),Vector2f(1280,800),Vector2f(0,800)};
+            Vector2f src3[]={Vector2f(1280.0 *2.0/3.0,0),Vector2f(1280 *3.0/3.0,0),Vector2f(1280 * 3.0/3.0,800),Vector2f(1280.0 *2.0/3.0,800)};
 
             //Berlin:
-            //Vector2f dst[]={Vector2f(42,0),Vector2f(1264,55),Vector2f(1224,799),Vector2f(16,748)};
-            Vector2f dst[]={Vector2f(xP[0],yP[0]),Vector2f(xP[1],yP[1]),Vector2f(xP[2],yP[2]),Vector2f(xP[3],yP[3])};
+            Vector2f dst3[]={Vector2f(640.0 *2.0/3.0,0)+spread,Vector2f(640.0 *3.0/3.0,0)+spread,Vector2f(640.0 *3.0/3.0,160)+spread,Vector2f(640.0 *2.0/3.0,160)+spread};
+            //Vector2f dst3[]={Vector2f(xP[8+0],yP[8+0]),Vector2f(xP[8+1],yP[8+1]),Vector2f(xP[8+2],yP[8+2]),Vector2f(xP[8+3],yP[8+3])};
 
             //Dortmund:
             //Vector2f dst[]={Vector2f(17,10),Vector2f(1036,59),Vector2f(1023,710),Vector2f(24,570)};
 
-            GLfloat matrix[16];
-            findHomography(src,dst,matrix);
+            findHomography(src3,dst3,matrix);
             glMultMatrixf(matrix);
-
-
-
             drawButton(sceneData->layerList[i]);
+
+            glPopMatrix();
+            */
 
 
     }//end for loop through layers

@@ -95,19 +95,60 @@ void SelectTool::keyReleased(int key){
     }
 
     if (key==220){//CTRL-whatever that thing is next to 1
+        cout << "NOW IN QUAD WARP MODE!!!!!!!" << endl;
         input->bQuadWarp=!input->bQuadWarp;
     }
     if (key==49){//CTRL-1
         input->qwCurrentPoint=0;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
     }
     if (key==50){//CTRL-2
         input->qwCurrentPoint=1;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
     }
     if (key==51){//CTRL-3
         input->qwCurrentPoint=2;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
     }
     if (key==52){//CTRL-4
         input->qwCurrentPoint=3;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+
+    if (key==53){//CTRL-5
+        input->qwCurrentPoint=4;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+    if (key==54){//CTRL-6
+        input->qwCurrentPoint=5;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+    if (key==55){//CTRL-7
+        input->qwCurrentPoint=6;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+    if (key==56){//CTRL-8
+        input->qwCurrentPoint=7;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+
+    if (key==57){//CTRL-9
+        input->qwCurrentPoint=8;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+
+    if (key==48){//CTRL-0
+        input->qwCurrentPoint=9;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+    if (key==219){//CTRL-ß on german keyboard
+        input->qwCurrentPoint=10;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
+    }
+
+    if (key==221){//CTRL-´ on german keyboard
+        input->qwCurrentPoint=11;
+        cout << "SELECTED: " << input->qwCurrentPoint << endl;
     }
 
 }
